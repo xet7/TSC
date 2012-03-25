@@ -76,13 +76,8 @@ cLevel :: cLevel( void )
 	m_background_manager = new cBackground_Manager();
 	m_animation_manager = new cAnimation_Manager();
 
-	/* Initialize a Lua interpreter for this level.
-	 * Each level has its own interpreter instance, because
-	 * otherwise some relicts may persist between levels
-	 * which is not really wanted. */
-	m_lua = luaL_newstate();
-	luaL_openlibs(m_lua);
-	Lua::openlibs(m_lua);
+	// Lua interpreter is initialized in Load().
+	m_lua = NULL;
 
 	// add default gradient layer
 	cBackground *gradient_background = new cBackground( m_sprite_manager );
@@ -99,9 +94,6 @@ cLevel :: ~cLevel( void )
 	delete m_background_manager;
 	delete m_animation_manager;
 	delete m_sprite_manager;
-
-	// Cleanup the Lua interpreter
-	lua_close(m_lua);
 }
 
 bool cLevel :: New( std::string filename )
@@ -189,6 +181,14 @@ bool cLevel :: Load( std::string filename )
 	// new level format
 	if( filename.rfind( ".smclvl" ) != std::string::npos )
 	{
+		/* Initialize a Lua interpreter for this level.
+		 * Each level has its own interpreter instance, because
+		 * otherwise some relicts may persist between levels
+		 * which is not really wanted. */
+		m_lua = luaL_newstate();
+		luaL_openlibs(m_lua);
+		Lua::openlibs(m_lua);
+
 		// No <luascript> tag starting yet
 		m_start_luascript = false;
 		try
@@ -276,6 +276,10 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	m_level_filename.clear();
 
 	Reset_Settings();
+
+	// Shutdown the Lua interpreter
+	lua_close(m_lua);
+	m_lua = NULL;
 
 	/* delete sprites
 	 * do this at last
