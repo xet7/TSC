@@ -189,6 +189,8 @@ bool cLevel :: Load( std::string filename )
 	// new level format
 	if( filename.rfind( ".smclvl" ) != std::string::npos )
 	{
+		// No <luascript> tag starting yet
+		m_start_luascript = false;
 		try
 		{
 		// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
@@ -1121,6 +1123,10 @@ void cLevel :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttri
 	{
 		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
 	}
+	else if ( element == "luascript" )
+	{
+		m_start_luascript = true;
+	}
 }
 
 void cLevel :: elementEnd( const CEGUI::String &element )
@@ -1228,6 +1234,12 @@ void cLevel :: elementEnd( const CEGUI::String &element )
 	{
 		// ignore
 	}
+	else if ( element == "luascript" )
+	{
+		// indicate the <luascript> tag is finished, stops
+		// text() from further appending to m_luascript.
+		m_start_luascript = false;
+	}
 	else if( element.length() )
 	{
 		printf( "Warning : Level Unknown element : %s\n", element.c_str() );
@@ -1239,9 +1251,11 @@ void cLevel :: elementEnd( const CEGUI::String &element )
 
 void cLevel :: text( const CEGUI::String &text )
 {
-	// TODO: Currently we have only this one text node, but if
-	// there are more, this will interpret them _all_ as Lua code...
-	m_luascript = std::string(text.c_str());
+	/* If we’re currently in the <luascript> tag, read its
+	 * text (may be called multiple times for each token,
+	 * so append rather then set directly).*/
+	if (m_start_luascript)
+		m_luascript.append(text.c_str());
 }
 
 cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager )

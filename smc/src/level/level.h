@@ -205,6 +205,9 @@ private:
 
 	// XML element Item Tag list
 	CEGUI::XMLAttributes m_xml_attributes;
+
+	// XML: Indicates whether the <luascript> tag has been opened
+	bool m_start_luascript;
 };
 
 /* Return the Level Object if element name is available else NULL
