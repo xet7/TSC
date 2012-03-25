@@ -58,15 +58,26 @@ namespace SMC
 			return lua_pcall(p_state, 0, 0, 0);
 		}
 
-		int lua_event_register(lua_State* p_state)
+		/**
+		 * This method is the event classes’ register() classmethod
+		 * from Lua. It expects a Lua function as the last argument
+		 * and registers it in the list of handlers for the given
+		 * event class T. T must be a subclass of Event.
+		 */
+		template<typename T>
+		static int lua_event_register(lua_State* p_state)
 		{
 			if (!lua_istable(p_state, 1))
 				return luaL_error(p_state, "No class table given.");
 			if (!lua_isfunction(p_state, -1))
 				return luaL_error(p_state, "No callback function given.");
 
-			lua_pushvalue(p_state, -1); // We don’t want to remove what was given to us
-			luaL_ref(p_state, LUA_REGISTRYINDEX);
+			// Copy the function to the top of the stack
+			// (we don’t want to remove what’s handed to us)
+			lua_pushvalue(p_state, -1);
+
+			// Add the function to the list of registered handlers
+			T::register_handler(luaL_ref(p_state, LUA_REGISTRYINDEX));
 
 			return 0;
 		}
@@ -91,7 +102,7 @@ namespace SMC
 		 * Lua binding
 		 ***************************************/
 
-		int lua_key_down_event_alloc(lua_State* p_state)
+		static int lua_key_down_event_alloc(lua_State* p_state)
 		{
 			if (!lua_istable(p_state, 1))
 				return luaL_error(p_state, "No class table given.");
@@ -105,7 +116,7 @@ namespace SMC
 			return 1;
 		}
 
-		int lua_key_down_get_keyname(lua_State* p_state)
+		static int lua_key_down_get_keyname(lua_State* p_state)
 		{
 			KeyDownEvent* p_event = LuaWrap::to<KeyDownEvent>(p_state);
 			lua_pushstring(p_state, p_event->get_keyname().c_str());
@@ -113,7 +124,7 @@ namespace SMC
 		}
 
 		static luaL_Reg key_down_event_cmethods[] = {
-			{"register", lua_event_register},
+			{"register", lua_event_register<KeyDownEvent>},
 			{NULL, NULL}
 		};
 
