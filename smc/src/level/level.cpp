@@ -533,6 +533,14 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 
 	// reset speed factor
 	pFramerate->Reset();
+
+	// Run the Lua code associated with this level (this sets up
+	// all the event handlers the user wants to register)
+	// (luaL_dostring returns false in case of success, quite confusing)
+	if (luaL_dostring(m_lua, m_luascript.c_str())){
+		printf("Warning: Lua script crashed with: %s", lua_tostring(m_lua, -1));
+		lua_pop(m_lua, -1); // Remove the error message
+	}
 }
 
 void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
