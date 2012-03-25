@@ -30,6 +30,14 @@ AC_CHECK_LIB([boost_thread], [main], ,
 AC_CHECK_LIB([boost_system], [main], ,
 	[AC_MSG_ERROR([Unable to find Boost System library])])
 
+# Check for Lua
+AC_CHECK_LIB([lua], [main], ,
+	[AC_MSG_ERROR([Unable to find Lua library])])
+
+# Check for DL (dependecy of Lua)
+AC_CHECK_LIB([dl], [main], ,
+	[AC_MSG_ERROR([Unable to find dl library])])
+
 # Check for the OpenGL and GLU library
 case "${host}" in
 *darwin*|*macosx*)
@@ -38,6 +46,7 @@ case "${host}" in
 	;;
 *)
 	# Other Unix (Linux)
+	LIBS="$LIBS -llua -ldl"
 	AC_CHECK_LIB([X11], [main], ,
 		[AC_MSG_ERROR([Unable to find libX11])])
 	AC_CHECK_LIB([GL], [main], , [has_gl=no])

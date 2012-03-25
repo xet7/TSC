@@ -1,0 +1,345 @@
+/***************************************
+This file is part of LuaWrap.
+
+Copyright © 2012 Pegasus Alpha
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+***************************************/
+
+#include "luawrap.hpp"
+
+namespace LuaWrap{
+
+  /**
+   * Class method for Lua "classes" created with this library.
+   *
+   * \param[in] p_state The Lua stack to operate on. Must contain the class table
+   *                    and the upvalue needed for this function, so you’re better
+   *                    off not calling it from the C++ side.
+   *
+   * \returns 1, this method places a Lua string on the stack that contains
+   * the name of this class.
+   *
+   * Lua Example:
+   * <pre>
+   *   MyClass:classname() --> "MyClass"
+   * </pre>
+   */
+  int InternalLua::classname(lua_State* p_state)
+  {
+    // Retrieve the class name from the closure upvalues.
+    lua_pushvalue(p_state, lua_upvalueindex(1));
+    return 1;
+  }
+
+  /**
+   * Prints out the Lua stack on standard output. This is done in
+   * reverse order to simplify imagening the processes, i.e.
+   * you’re going to find the element you’d get when popping from
+   * the stack right at the top. It also prints out the absolute
+   * indices of the elements next to the content.
+   *
+   * \param[in] p_state The Lua stack to print out.
+   *
+   * The following function prints out the complete stack it receives
+   * on the standard output. To call it from Lua, you of course
+   * have to bind it via an instance or class method table:
+   * 
+   * \code
+   * int mycoolfunction(lua_State* p_state)
+   * {
+   *   dump_lua_stack(p_state);
+   *   return 0;
+   * }
+   * \endcode
+   *
+   * The output will look something like this:
+   *
+   * \code
+   * === LUA STACK DUMP ===
+   * Total elements in the Lua stack: 3
+   *
+   * [3] Other: function
+   * ----------------------
+   * [2] String: 'classname'
+   * ----------------------
+   * [1] Other: table
+   * ----------------------
+   * ==== END OF STACK ====
+   * \endcode
+   */
+  void InternalC::dump_lua_stack(lua_State* p_state)
+  {
+    using namespace std;
+
+    int total = lua_gettop(p_state);
+    cout << "=== LUA STACK DUMP ===" << endl;
+    cout << "Total elements in the Lua stack: " << total << endl << endl;
+
+    for (int i = total; i > 0; i--){
+      cout << "[" << i << "] ";
+      int t = lua_type(p_state, i);
+      switch (t) {
+      case LUA_TSTRING:
+        cout << "String: '" << lua_tostring(p_state, i) << "'" << endl;
+        break;
+      case LUA_TBOOLEAN:
+        cout << "Boolean: " << (lua_toboolean(p_state, i) ? "true" : "false") << endl;
+        break;
+      case LUA_TNUMBER:
+        cout << "Numeric: " << lua_tonumber(p_state, i) << endl;
+        break;
+      default: // Rest
+        cout << "Other: " << lua_typename(p_state, t) << endl;
+        break;
+      }
+      cout << "----------------------" << endl; // Separator
+    }
+    cout << "==== END OF STACK ====" << endl;
+  }
+
+  /**
+   * Helper method to define the instance method table for a given
+   * object.
+   *
+   * \attention
+   * This method should only be called from a Lua constructor. See
+   * the source of InternalLua::default_new() for an example.
+   *
+   * \param[in] p_state
+   *   The Lua stack to operate on. This method expects the stack
+   *   to contain two elements, the class method table of the
+   *   class to instanciate and the userdata object to set the
+   *   instance method table for, in this order:
+   *   <pre>
+   *   [2] Userdata
+   *   [1] Class method table
+   *   </pre>
+   *
+   * This method keeps the given stack balanced.
+   *
+   * The following example defines a custom allocator and registers it for
+   * the <tt>MyClass</tt> class.
+   * \code
+   * int mycustomallocator(lua_State* p_state)
+   * {
+   *   MyClass* p_class = new lua_newuserdata(p_state, sizeof(MyClass)) MyClass("someparametervalue");
+   *   LuaWrap::InternalC::set_imethod_table(p_state); // Tell LuaWrap to define the proper instance table on the object
+   *   return 1;
+   * }
+   *
+   * // ...
+   *
+   * void luaopen_mylibrary()
+   * {
+   *   // ... (defining gp_lua as the Lua interpeter instance and the method tables)
+   *   LuaWrap::register_class<MyClass>(gp_lua, "MyClass", instance_method_table, class_method_table, mycustomallocator);
+   * }
+   * \endcode
+   */
+  void InternalC::set_imethod_table(lua_State* p_state)
+  {
+    // Ensure we got a class table
+    if (!lua_istable(p_state, 1)){
+      luaL_error(p_state, "No class table given.");
+      return;
+    }
+    // Ensure we got a raw userdata
+    if (!lua_isuserdata(p_state, 2)){
+      luaL_error(p_state, "No userdata given.");
+      return;
+    }
+
+    // Find out the class name
+    lua_pushstring(p_state, "classname");
+    lua_gettable(p_state, -3);
+    lua_call(p_state, 0, 1);
+    std::string classname(lua_tostring(p_state, -1));
+
+    lua_pop(p_state, 1); // Remove the class name from the stack, we don’t need it anymore
+
+    luaL_getmetatable(p_state, (classname + "__instancemethods").c_str());
+    lua_setmetatable(p_state, -2);
+  }
+
+  /**
+   * \internal
+   *
+   * Creates the class method table for the given class,
+   * registers the calss and adds the new() and classname()
+   * methods to the class object.
+   *
+   * \param[in] p_state        The Lua stack to operate on. Should be empty.
+   * \param[in] classname      The Lua class name for the class to register.
+   *                           See LuaWrap::register_class.
+   * \param[in] cmethods       The class methods to register for this class.
+   *                           See LuaWrap::register_class.
+   * \param[in] fp_constructor The pointer to the Lua constructor to
+   *                           register for this object. See LuaWrap::register_class.
+   *
+   * The stack is kept balanced by this method.
+   */
+  void InternalC::create_classtable(lua_State*         p_state,
+                                    const std::string& classname,
+                                    const luaL_Reg     cmethods[],
+                                    lua_CFunction      fp_constructor)
+  {
+    // Create a table for the class methods and if we got some
+    // method definitions, store them in the class method table
+    lua_newtable(p_state);
+    if (cmethods)
+      luaL_setfuncs(p_state, cmethods, 0);
+
+    // Add an entry for the new() method into the class method table
+    lua_pushstring(p_state, "new");
+    lua_pushcfunction(p_state, fp_constructor);
+    lua_settable(p_state, -3);
+
+    // Add an entry for the classname() method
+    lua_pushstring(p_state, "classname");
+    lua_pushstring(p_state, classname.c_str());
+    lua_pushcclosure(p_state, InternalLua::classname, 1); // Removes the class’ name from the stack
+    lua_settable(p_state, -3);
+
+    // Name the class method table after the class, effectively
+    // registering the class.
+    lua_setglobal(p_state, classname.c_str());
+  }
+
+  /**
+   * \internal
+   *
+   * Creates the metatable for the instances of the given class
+   * and adds the __index() and __gc() metamethods to it.
+   * __index() returns a copy of the metatable itself, effectively
+   * making all its contents methods of the object.
+   *
+   * \param[in] p_state      The Lua stack to operate on. Should be empty.
+   * \param[in] classname    The Lua class name for the class to register,
+   *                         used to store the instance method metatable for
+   *                         this class in Lua’s registry.
+   *                         See LuaWrap::register_class.
+   * \param[in] cmethods     The class methods to register for this class.
+   *                         See LuaWrap::register_class.
+   * \param[in] fp_finalizer The pointer to the Lua finalizer (<tt>__gc</tt>) to
+   *                         register for this object. See LuaWrap::register_class.
+   *
+   * This method keeps the stack balanced.
+   */
+  void InternalC::create_instancetable(lua_State*         p_state,
+                            const std::string& classname,
+                            const luaL_Reg     imethods[],
+                            lua_CFunction      fp_finalizer)
+  {
+    // Register a metatable that will be used for the instance methods
+    luaL_newmetatable(p_state, (classname + "__instancemethods").c_str());
+
+    // If we got some instance methods, register them into
+    // the metatable created above (the table is associated
+    // with an object later in the new() class method).
+    if (imethods)
+      luaL_setfuncs(p_state, imethods, 0);
+
+    // Make the instance methods metatable reference itself by
+    // making "__index" point to a copy of iteslf. This will cause
+    // the metatables elements to appear as "instance methods".
+    lua_pushstring(p_state, "__index");
+    lua_pushvalue(p_state, -2); // Copy metatable to the top of the stack
+    lua_settable(p_state, -3);
+
+    // Create the metamethod called when an object gets gc’ed
+    // (the user can explictely disable this by passing NULL).
+    if(fp_finalizer){
+      lua_pushstring(p_state, "__gc");
+      lua_pushcfunction(p_state, fp_finalizer);
+      lua_settable(p_state, -3);
+    }
+
+    // The metatable is already stored in the registry, we don’t
+    // need it anymore. Empty the stack.
+    lua_pop(p_state, 1);
+  }
+
+  /**
+   * Registers a singleton, i.e. a class that has only one instance.
+   * The class exposed to Lua will not have a new() method, you can
+   * directly call the methods on the class object.
+   *
+   * As the underlying C++ object is completely managed by you, this
+   * method doesn’t require any allocators or finalizers, nor does it
+   * expose userdata objects to Lua. The registered singleton is a
+   * plain old Lua table from the Lua point of view.
+   *
+   * \param[in] p_state The Lua state to register the singleton in.
+   * \param     name    The name to register the singleton with in Lua.
+   * \param[in] methods The list of methods to define on the singleton.
+   *
+   * Example:
+   * \code
+   * class Foo
+   * {
+   * public:
+   *   void bar(){std::cout << "This is bar" << std::endl;}
+   * };
+   *
+   * Foo* gp_the_foo; //A global pointer to the only instance
+   * //...setting gp_the_foo somewhere...
+   *
+   * static int lua_bar(lua_State* p_state)
+   * {
+   *   gp_the_foo->bar();
+   *   return 0;
+   * }
+   *
+   * static luaL_Reg foo_methods[] = {
+   *   {"bar", lua_bar},
+   *   {NULL, NULL}
+   * };
+   *
+   * void luaopen_foo(lua_State* p_state)
+   * {
+   *   LuaWrap::register_singleton(p_state, "Foo", foo_methods);
+   * }
+   * \endcode
+   *
+   * From Lua, you’d call it like this:
+   *
+   * \code
+   * Foo:bar()
+   * \endcode
+   *
+   * It also also possible to use the normal dot notation, i.e. <tt>Foo.bar()</tt>,
+   * but note that this is discouraged as it doesn’t pass the receiver to the
+   * underlying Lua C function which may cause errors with other functions.
+   */
+  void register_singleton(lua_State* p_state,
+                          std::string classname,
+                          const luaL_Reg methods[])
+  {
+    lua_newtable(p_state);
+    luaL_setfuncs(p_state, methods, 0);
+    lua_setglobal(p_state, classname.c_str());
+  }
+
+};

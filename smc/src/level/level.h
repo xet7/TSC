@@ -22,6 +22,7 @@
 #include "../objects/level_entry.h"
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
+#include "../lua/lualibs.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
 #include "CEGUIXMLAttributes.h"
@@ -150,6 +151,8 @@ public:
 	std::string m_level_filename;
 	// if a new level should be loaded this is the next level filename
 	std::string m_next_level_filename;
+	// Lua script associated with this level
+	std::string m_luascript;
 
 	// unload the level on the next update
 	bool m_delayed_unload;
@@ -160,6 +163,8 @@ public:
 	cAnimation_Manager *m_animation_manager;
 	// sprite manager
 	cSprite_Manager *m_sprite_manager;
+	// Lua interpreter used for this level
+	lua_State *m_lua;
 
 	/* *** *** *** Settings *** *** *** *** */
 
@@ -195,6 +200,8 @@ private:
 	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
 	// XML element end
 	virtual void elementEnd( const CEGUI::String &element );
+	// XML text element
+	virtual void text( const CEGUI::String &element );
 
 	// XML element Item Tag list
 	CEGUI::XMLAttributes m_xml_attributes;

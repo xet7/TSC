@@ -55,6 +55,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../overworld/world_editor.h"
+#include "../lua/lualibs.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -75,6 +76,14 @@ cLevel :: cLevel( void )
 	m_background_manager = new cBackground_Manager();
 	m_animation_manager = new cAnimation_Manager();
 
+	/* Initialize a Lua interpreter for this level.
+	 * Each level has its own interpreter instance, because
+	 * otherwise some relicts may persist between levels
+	 * which is not really wanted. */
+	m_lua = luaL_newstate();
+	luaL_openlibs(m_lua);
+	Lua::openlibs(m_lua);
+
 	// add default gradient layer
 	cBackground *gradient_background = new cBackground( m_sprite_manager );
 	gradient_background->Set_Type( BG_GR_VER );
@@ -90,6 +99,9 @@ cLevel :: ~cLevel( void )
 	delete m_background_manager;
 	delete m_animation_manager;
 	delete m_sprite_manager;
+
+	// Cleanup the Lua interpreter
+	lua_close(m_lua);
 }
 
 bool cLevel :: New( std::string filename )
@@ -368,6 +380,11 @@ void cLevel :: Save( void )
 		obj->Save_To_XML( stream );
 	}
 
+	// Lua script code
+	stream.openTag( "luascript" )
+		.text(m_luascript)
+		.closeTag();
+
 	// end level
 	stream.closeTag();
 
@@ -404,6 +421,9 @@ void cLevel :: Reset_Settings( void )
 	// camera
 	m_camera_limits = cCamera::m_default_limits;
 	m_fixed_camera_hor_vel = 0.0f;
+
+	// Lua script code
+	m_luascript = std::string();
 }
 
 void cLevel :: Init( void )
@@ -715,6 +735,8 @@ bool cLevel :: Key_Down( const SDLKey key )
 	// Shoot
 	else if( key == pPreferences->m_key_shoot && !editor_enabled )
 	{
+		Lua::KeyDownEvent evt("shoot");
+		evt.fire(m_lua);
 		pLevel_Player->Action_Shoot();
 	}
 	// Jump
@@ -1213,6 +1235,13 @@ void cLevel :: elementEnd( const CEGUI::String &element )
 
 	// clear
 	m_xml_attributes = CEGUI::XMLAttributes();
+}
+
+void cLevel :: text( const CEGUI::String &text )
+{
+	// TODO: Currently we have only this one text node, but if
+	// there are more, this will interpret them _all_ as Lua code...
+	m_luascript = std::string(text.c_str());
 }
 
 cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager )
