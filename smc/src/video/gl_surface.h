@@ -19,6 +19,7 @@
 #include "../core/global_basic.h"
 #include "../core/math/point.h"
 // SDL
+#undef GL_GLEXT_VERSION // Prevent ugly compilation warning
 #include "SDL.h"
 #include "SDL_opengl.h"
 
