@@ -1,6 +1,6 @@
-#include "luawrap.hpp"
-#include "lua_level_player.h"
-#include "../level/level_player.h"
+#include "../luawrap.hpp"
+#include "player.h"
+#include "../../level/level_player.h"
 
 namespace SMC
 {
@@ -21,7 +21,7 @@ namespace SMC
 			{NULL, NULL}
 		};
 
-		void Open_Level_Player(lua_State* p_state)
+		void Open_Player(lua_State* p_state)
 		{
 			LuaWrap::register_singleton(p_state, "Player", Player_Methods);
 		}

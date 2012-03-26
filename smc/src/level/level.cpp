@@ -55,7 +55,8 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../overworld/world_editor.h"
-#include "../script/lualibs.h"
+#include "../script/script.h"
+#include "../script/events/key_down_event.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"

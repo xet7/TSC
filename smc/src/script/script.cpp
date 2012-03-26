@@ -1,7 +1,12 @@
+// Lua + wrapper library
 #include "luawrap.hpp"
-#include "lua_level_player.h"
-#include "events.h"
-#include "lualibs.h"
+// Own header
+#include "script.h"
+// In-game object bindings
+#include "objects/player.h"
+// Events
+#include "events/event.h"
+#include "events/key_down_event.h"
 
 /* SMC embeds Lua as a scripting language the user might
  * find useful to add uncommon features to his levels.
@@ -40,8 +45,11 @@ namespace SMC
 	{
 		void Open_Libs(lua_State* p_state)
 		{
-			Open_Level_Player(p_state);
-			Open_Events(p_state);
+			// In-game object bindings
+			Open_Player(p_state);
+
+			// Events
+			Open_Key_Down_Event(p_state);
 		}
 
 	};

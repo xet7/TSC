@@ -148,14 +148,16 @@ smc_SOURCES = \
 	overworld/world_sprite_manager.h \
 	overworld/world_waypoint.cpp \
 	overworld/world_waypoint.h \
-	script/events.cpp \
-	script/events.h \
-	script/lua_level_player.cpp \
-	script/lua_level_player.h \
-	script/lualibs.cpp \
-	script/lualibs.h \
+	script/events/event.cpp \
+	script/events/event.h \
+	script/events/key_down_event.cpp \
+	script/events/key_down_event.h \
+	script/objects/player.cpp \
+	script/objects/player.h \
 	script/luawrap.cpp \
 	script/luawrap.hpp \
+	script/script.cpp \
+	script/script.h \
 	user/preferences.cpp \
 	user/preferences.h \
 	user/savegame.cpp \
