@@ -31,8 +31,8 @@ AC_CHECK_LIB([boost_system], [main], ,
 	[AC_MSG_ERROR([Unable to find Boost System library])])
 
 # Check for Lua
-AC_CHECK_LIB([lua], [main], ,
-	[AC_MSG_ERROR([Unable to find Lua library])])
+AC_CHECK_LIB([lua], [luaL_setfuncs], ,
+	[AC_MSG_ERROR([Unable to find Lua 5.2 library])])
 
 # Check for DL (dependecy of Lua)
 AC_CHECK_LIB([dl], [main], ,
