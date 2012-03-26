@@ -34,9 +34,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string>
 
 extern "C" {
-#include "../../../lua/src/lua.h"
-#include "../../../lua/src/lualib.h"
-#include "../../../lua/src/lauxlib.h"
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
 }
 
 /***************************************
