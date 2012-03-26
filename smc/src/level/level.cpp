@@ -55,7 +55,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../overworld/world_editor.h"
-#include "../lua/lualibs.h"
+#include "../script/lualibs.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -187,7 +187,7 @@ bool cLevel :: Load( std::string filename )
 		 * which is not really wanted. */
 		m_lua = luaL_newstate();
 		luaL_openlibs(m_lua);
-		Lua::openlibs(m_lua);
+		Script::openlibs(m_lua);
 
 		// No <luascript> tag starting yet
 		m_start_luascript = false;
@@ -749,7 +749,7 @@ bool cLevel :: Key_Down( const SDLKey key )
 	// Shoot
 	else if( key == pPreferences->m_key_shoot && !editor_enabled )
 	{
-		Lua::KeyDownEvent evt("shoot");
+		Script::KeyDownEvent evt("shoot");
 		evt.fire(m_lua);
 		pLevel_Player->Action_Shoot();
 	}

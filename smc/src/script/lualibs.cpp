@@ -36,7 +36,7 @@
 
 namespace SMC
 {
-	namespace Lua
+	namespace Script
 	{
 		void openlibs(lua_State* p_state)
 		{

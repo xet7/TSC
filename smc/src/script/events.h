@@ -5,7 +5,7 @@
 #include "../objects/animated_sprite.h"
 
 namespace SMC{
-	namespace Lua{
+	namespace Script{
 		class Event
 		{
 		public:

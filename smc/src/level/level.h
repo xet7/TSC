@@ -22,7 +22,7 @@
 #include "../objects/level_entry.h"
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
-#include "../lua/lualibs.h"
+#include "../script/lualibs.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
 #include "CEGUIXMLAttributes.h"

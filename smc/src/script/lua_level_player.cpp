@@ -4,7 +4,7 @@
 
 namespace SMC
 {
-	namespace Lua
+	namespace Script
 	{
 
 		static int downgrade(lua_State* p_state)

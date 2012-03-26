@@ -6,7 +6,7 @@
 
 namespace SMC
 {
-	namespace Lua
+	namespace Script
 	{
 		void open_level_player(lua_State* p_state);
 	};

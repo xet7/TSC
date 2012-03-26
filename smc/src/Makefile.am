@@ -102,14 +102,6 @@ smc_SOURCES = \
 	level/level_player.h \
 	level/level_settings.cpp \
 	level/level_settings.h \
-	lua/events.cpp \
-	lua/events.h \
-	lua/lua_level_player.cpp \
-	lua/lua_level_player.h \
-	lua/lualibs.cpp \
-	lua/lualibs.h \
-	lua/luawrap.cpp \
-	lua/luawrap.hpp \
 	objects/animated_sprite.cpp \
 	objects/animated_sprite.h \
 	objects/ball.cpp \
@@ -156,6 +148,14 @@ smc_SOURCES = \
 	overworld/world_sprite_manager.h \
 	overworld/world_waypoint.cpp \
 	overworld/world_waypoint.h \
+	script/events.cpp \
+	script/events.h \
+	script/lua_level_player.cpp \
+	script/lua_level_player.h \
+	script/lualibs.cpp \
+	script/lualibs.h \
+	script/luawrap.cpp \
+	script/luawrap.hpp \
 	user/preferences.cpp \
 	user/preferences.h \
 	user/savegame.cpp \

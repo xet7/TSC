@@ -4,7 +4,7 @@
 
 namespace SMC
 {
-	namespace Lua
+	namespace Script
 	{
 
 		/* *** *** *** *** *** Event *** *** *** *** *** *** *** *** *** *** *** *** */
