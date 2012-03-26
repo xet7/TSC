@@ -6,6 +6,26 @@
 
 namespace SMC{
 	namespace Script{
+
+    /**
+     * Key down event. This is triggered every time the player
+     * presses a key recognized by SMC, i.e. you cannot listen
+     * for keys not listed below.
+     *
+     * The list of keys this event is triggered for is as follows:
+     *
+     * * shoot
+     * * jump
+     * * action
+     * * up
+     * * down
+     * * left
+     * * right
+     * * item
+     *
+     * The event handler gets passed a string representing the
+     * pressed key (see list above).
+     */
 		class cKeyDownEvent: public cEvent
 		{
 		public:

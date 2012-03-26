@@ -757,36 +757,50 @@ bool cLevel :: Key_Down( const SDLKey key )
 	// Jump
 	else if( key == pPreferences->m_key_jump && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("jump");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Jump();
 	}
 	// Action
 	else if( key == pPreferences->m_key_action && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("action");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Interact( INP_ACTION );
 	}
 	// Up
 	else if( key == pPreferences->m_key_up && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("up");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Interact( INP_UP );
 	}
 	// Down
 	else if( key == pPreferences->m_key_down && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("down");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Interact( INP_DOWN );
 	}
 	// Left
 	else if( key == pPreferences->m_key_left && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("left");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Interact( INP_LEFT );
 	}
 	// Right
 	else if( key == pPreferences->m_key_right && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("right");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Interact( INP_RIGHT );
 	}
 	// Request Item
 	else if( key == pPreferences->m_key_item && !editor_enabled )
 	{
+		Script::cKeyDownEvent evt("item");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Interact( INP_ITEM );
 	}
 	// God Mode
