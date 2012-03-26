@@ -11,7 +11,7 @@ namespace SMC
 {
 	namespace Script
 	{
-		void openlibs(lua_State* p_state);
+		void Open_Libs(lua_State* p_state);
 	};
 };
 

@@ -1,3 +1,4 @@
+// -*- c++ -*-
 #ifndef SMC_LUA_EVENTS_H
 #define SMC_LUA_EVENTS_H
 
@@ -6,14 +7,14 @@
 
 namespace SMC{
 	namespace Script{
-		class Event
+		class cEvent
 		{
 		public:
-			static void register_handler(int registryindex);
-			void fire(lua_State* p_state);
+			static void Register_Handler(int registryindex);
+			void Fire(lua_State* p_state);
 		private:
 			static std::vector<int> M_handlers;
-			int run_lua_callback(lua_State* p_state);
+			int Run_Lua_Callback(lua_State* p_state);
 		};
 
 		/*class TouchEvent: public Event
@@ -27,16 +28,16 @@ namespace SMC{
 			cAnimatedSprite* mp_collider2;
 			};*/
 
-		class KeyDownEvent: public Event
+		class cKeyDownEvent: public cEvent
 		{
 		public:
-			KeyDownEvent(std::string keyname);
-			std::string get_keyname();
+			cKeyDownEvent(std::string keyname);
+			std::string Get_Keyname();
 		private:
 			std::string m_keyname;
 		};
 
-		void open_events(lua_State* p_state);
+		void Open_Events(lua_State* p_state);
 	};
 };
 #endif

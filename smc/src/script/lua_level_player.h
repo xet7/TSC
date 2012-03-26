@@ -1,3 +1,4 @@
+// -*- c++ -*_
 #ifndef SMC_LUA_LEVEL_PLAYER_H
 #define SMC_LUA_LEVEL_PLAYER_H
 
@@ -8,7 +9,7 @@ namespace SMC
 {
 	namespace Script
 	{
-		void open_level_player(lua_State* p_state);
+		void Open_Level_Player(lua_State* p_state);
 	};
 };
 

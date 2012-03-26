@@ -187,7 +187,7 @@ bool cLevel :: Load( std::string filename )
 		 * which is not really wanted. */
 		m_lua = luaL_newstate();
 		luaL_openlibs(m_lua);
-		Script::openlibs(m_lua);
+		Script::Open_Libs(m_lua);
 
 		// No <script> tag starting yet
 		m_start_script_tag = false;
@@ -749,8 +749,8 @@ bool cLevel :: Key_Down( const SDLKey key )
 	// Shoot
 	else if( key == pPreferences->m_key_shoot && !editor_enabled )
 	{
-		Script::KeyDownEvent evt("shoot");
-		evt.fire(m_lua);
+		Script::cKeyDownEvent evt("shoot");
+		evt.Fire(m_lua);
 		pLevel_Player->Action_Shoot();
 	}
 	// Jump

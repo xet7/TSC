@@ -38,10 +38,10 @@ namespace SMC
 {
 	namespace Script
 	{
-		void openlibs(lua_State* p_state)
+		void Open_Libs(lua_State* p_state)
 		{
-			open_level_player(p_state);
-			open_events(p_state);
+			Open_Level_Player(p_state);
+			Open_Events(p_state);
 		}
 
 	};

@@ -7,7 +7,7 @@ namespace SMC
 	namespace Script
 	{
 
-		static int downgrade(lua_State* p_state)
+		static int Downgrade(lua_State* p_state)
 		{
 			if (!lua_istable(p_state, 1))
 				return luaL_error(p_state, "No singleton table given.");
@@ -16,14 +16,14 @@ namespace SMC
 			return 0;
 		}
 
-		static luaL_Reg player_methods[] = {
-			{"downgrade", downgrade},
+		static luaL_Reg Player_Methods[] = {
+			{"downgrade", Downgrade},
 			{NULL, NULL}
 		};
 
-		void open_level_player(lua_State* p_state)
+		void Open_Level_Player(lua_State* p_state)
 		{
-			LuaWrap::register_singleton(p_state, "Player", player_methods);
+			LuaWrap::register_singleton(p_state, "Player", Player_Methods);
 		}
 
 	};
