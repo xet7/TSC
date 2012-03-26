@@ -26,7 +26,7 @@ namespace SMC{
 		int lua_event_register(lua_State* p_state)
 		{
 			if (!lua_istable(p_state, 1))
-				return luaL_error(p_state, "No class table given.");
+				return luaL_error(p_state, "No singleton table given.");
 			if (!lua_isfunction(p_state, -1))
 				return luaL_error(p_state, "No callback function given.");
 
