@@ -189,8 +189,8 @@ bool cLevel :: Load( std::string filename )
 		luaL_openlibs(m_lua);
 		Script::openlibs(m_lua);
 
-		// No <luascript> tag starting yet
-		m_start_luascript = false;
+		// No <script> tag starting yet
+		m_start_script_tag = false;
 		try
 		{
 		// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
@@ -387,8 +387,8 @@ void cLevel :: Save( void )
 	}
 
 	// Lua script code
-	stream.openTag( "luascript" )
-		.text(m_luascript)
+	stream.openTag( "script" )
+		.text(m_script)
 		.closeTag();
 
 	// end level
@@ -429,7 +429,7 @@ void cLevel :: Reset_Settings( void )
 	m_fixed_camera_hor_vel = 0.0f;
 
 	// Lua script code
-	m_luascript = std::string();
+	m_script = std::string();
 }
 
 void cLevel :: Init( void )
@@ -537,7 +537,7 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	// Run the Lua code associated with this level (this sets up
 	// all the event handlers the user wants to register)
 	// (luaL_dostring returns false in case of success, quite confusing)
-	if (luaL_dostring(m_lua, m_luascript.c_str())){
+	if (luaL_dostring(m_lua, m_script.c_str())){
 		printf("Warning: Lua script crashed with: %s", lua_tostring(m_lua, -1));
 		lua_pop(m_lua, -1); // Remove the error message
 	}
@@ -1135,9 +1135,9 @@ void cLevel :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttri
 	{
 		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
 	}
-	else if ( element == "luascript" )
+	else if ( element == "script" )
 	{
-		m_start_luascript = true;
+		m_start_script_tag = true;
 	}
 }
 
@@ -1246,11 +1246,11 @@ void cLevel :: elementEnd( const CEGUI::String &element )
 	{
 		// ignore
 	}
-	else if ( element == "luascript" )
+	else if ( element == "script" )
 	{
-		// indicate the <luascript> tag is finished, stops
-		// text() from further appending to m_luascript.
-		m_start_luascript = false;
+		// indicate the <script> tag is finished, stops
+		// text() from further appending to m_script.
+		m_start_script_tag = false;
 	}
 	else if( element.length() )
 	{
@@ -1263,11 +1263,11 @@ void cLevel :: elementEnd( const CEGUI::String &element )
 
 void cLevel :: text( const CEGUI::String &text )
 {
-	/* If we’re currently in the <luascript> tag, read its
+	/* If we’re currently in the <script> tag, read its
 	 * text (may be called multiple times for each token,
 	 * so append rather then set directly).*/
-	if (m_start_luascript)
-		m_luascript.append(text.c_str());
+	if (m_start_script_tag)
+		m_script.append(text.c_str());
 }
 
 cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager )

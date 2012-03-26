@@ -151,8 +151,8 @@ public:
 	std::string m_level_filename;
 	// if a new level should be loaded this is the next level filename
 	std::string m_next_level_filename;
-	// Lua script associated with this level
-	std::string m_luascript;
+	// Lua script code associated with this level
+	std::string m_script;
 
 	// unload the level on the next update
 	bool m_delayed_unload;
@@ -206,8 +206,8 @@ private:
 	// XML element Item Tag list
 	CEGUI::XMLAttributes m_xml_attributes;
 
-	// XML: Indicates whether the <luascript> tag has been opened
-	bool m_start_luascript;
+	// XML: Indicates whether the <script> tag has been opened
+	bool m_start_script_tag;
 };
 
 /* Return the Level Object if element name is available else NULL
