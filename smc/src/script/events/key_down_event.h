@@ -12,6 +12,7 @@ namespace SMC{
 			cKeyDownEvent(std::string keyname);
 			std::string Get_Keyname();
 		private:
+			virtual int Run_Lua_Callback(lua_State* p_state);
 			std::string m_keyname;
 		};
 

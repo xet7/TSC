@@ -20,6 +20,13 @@ namespace SMC{
 			return m_keyname;
 		}
 
+		// Overwrite
+		int cKeyDownEvent::Run_Lua_Callback(lua_State* p_state)
+		{
+			lua_pushstring(p_state, m_keyname.c_str());
+			return lua_pcall(p_state, 1, 0, 0);
+		}
+
 		/***************************************
 		 * Lua binding
 		 ***************************************/

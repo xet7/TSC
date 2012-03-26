@@ -13,7 +13,7 @@ namespace SMC{
 			void Fire(lua_State* p_state);
 		private:
 			static std::vector<int> M_handlers;
-			int Run_Lua_Callback(lua_State* p_state);
+			virtual int Run_Lua_Callback(lua_State* p_state);
 		};
 
 		/**
