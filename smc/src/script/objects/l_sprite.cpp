@@ -174,6 +174,25 @@ static int Lua_Sprite_Hide(lua_State* p_state)
 }
 
 /**
+ * set_uid( uid )
+ *
+ * Set the unique ID of this sprite. If another sprite
+ * already uses this ID, raises an error.
+ */
+static int Lua_Sprite_Set_UID(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	int uid = luaL_checkint(p_state, 2);
+
+	if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
+		return luaL_error(p_state, "UID %d is already used.", uid);
+
+	p_sprite->m_uid = uid;
+
+	return 0;
+}
+
+/**
  * set_massive_type( type )
  *
  * Set the massivity of a sprite. `type' may be one of the
@@ -245,8 +264,9 @@ static luaL_Reg Sprite_Methods[] = {
 	{"on_touch", Lua_Sprite_On_Touch},
 	{"pos",      Lua_Sprite_Pos},
 	{"register", Lua_Sprite_Register},
-  {"set_massive_type", Lua_Sprite_Set_Massive_Type},
-  {"show",     Lua_Sprite_Show},
+	{"set_massive_type", Lua_Sprite_Set_Massive_Type},
+	{"set_uid",  Lua_Sprite_Set_UID},
+	{"show",     Lua_Sprite_Show},
 	{"x",        Lua_Sprite_X},
 	{"y",        Lua_Sprite_Y},
 	{NULL, NULL}
