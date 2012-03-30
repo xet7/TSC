@@ -296,12 +296,12 @@ namespace LuaWrap{
   void InternalC::set_imethod_table(lua_State* p_state)
   {
     // Ensure we got a class table
-    if (!lua_istable(p_state, 1)){
+    if (!lua_istable(p_state, -2)){
       luaL_error(p_state, "No class table given.");
       return;
     }
     // Ensure we got a raw userdata
-    if (!lua_isuserdata(p_state, 2)){
+    if (!lua_isuserdata(p_state, -1)){
       luaL_error(p_state, "No userdata given.");
       return;
     }
