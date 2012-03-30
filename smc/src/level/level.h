@@ -196,11 +196,11 @@ public:
 	float m_fixed_camera_hor_vel;
 
 private:
-	// XML element start
+	// XML element start (called by CEGUI on XML loading)
 	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
+	// XML element end (called by CEGUI on XML loading)
 	virtual void elementEnd( const CEGUI::String &element );
-	// XML text element
+	// XML text element (called by CEGUI on XML loading)
 	virtual void text( const CEGUI::String &element );
 
 	// XML element Item Tag list

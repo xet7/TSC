@@ -54,6 +54,141 @@ namespace LuaWrap{
   }
 
   /**
+   * Class method for Lua "classes" created with this library.
+   *
+   * \param[in] p_state The Lua stack to operate on. Must contain the class table
+   *                    and the upvalue needed for this fucntions, so you’re better
+   *                    off not calling it from the C++ side.
+   *
+   * \returns 1 and places the parent class’ classtable on the stack, or,
+   * if there isn’t a superclass, pushes nil.
+   *
+   * Lua Example:
+   * \code
+   * Foo:superclass():classname() --> "MySuperclass"
+   * \endcode
+   */
+  int InternalLua::superclass(lua_State* p_state)
+  {
+    std::string sclassname = std::string(lua_tostring(p_state, lua_upvalueindex(1)));
+    if (sclassname.empty())
+      lua_pushnil(p_state);
+    else
+      lua_getglobal(p_state, sclassname.c_str());
+    return 1;
+  }
+
+  /**
+   * \internal
+   *
+   * The "__index" metamethod for all instances of classes created
+   * with this library. It looks up the given method name inside
+   * this class’ instance method table, and if it is found, returns
+   * the function object. If not, it loops through all superclasses
+   * until either the function is found (again, returning the
+   * function object) or no superclass is found, in which case
+   * it raises a Lua error.
+   *
+   * This function expects the original classname as an upvalue,
+   * so don’t call this from C++. And don’t call it from Lua either,
+   * this is done automatically.
+   *
+   * \param[in] p_state The Lua stack to operate on. Expects the
+   *                    userdata object and the method name on the
+   *                    stack (methodname at the top, userdata below).
+   */
+  int InternalLua::method_lookup(lua_State* p_state)
+  {
+    if (!lua_isuserdata(p_state, 1))
+      return luaL_error(p_state, "No receiver (userdata) given.");
+
+    // Get the "method name", i.e. the key used by the caller.
+    // Only strings are allowed, otherwise this isn’t a "method call".
+    std::string methodname = luaL_checkstring(p_state, 2);
+    std::string classname = std::string(lua_tostring(p_state, lua_upvalueindex(1)));
+
+    // Get the instance method table for this class and look
+    // the given method name up.
+    luaL_getmetatable(p_state, (classname + "__instancemethods").c_str());
+    lua_pushstring(p_state, methodname.c_str());
+    lua_rawget(p_state, -2); // Pushes nil if not found
+
+    /* If the method name is not found, loop through the
+     * superclasses’ instance tables until we find the
+     * function or error out when no superclasses exist
+     * anymore. This if{} leaves the stack balanced except
+     * that it pushes the found function onto the top if
+     * any (otherwise error out as described). */
+    if (!lua_isfunction(p_state, -1)){
+      // Remove the nil function value, it’s useless
+      lua_pop(p_state, 1);
+      // Original class table onto the top--this will not be
+      // on the stack anymore after the while{} has finished
+      // TODO: When we can define classes outside the global
+      // namespace, obejcts need to have a class() method!
+      lua_getglobal(p_state, classname.c_str());
+      while(true){
+        // Get the superclass() method
+        lua_pushstring(p_state, "superclass");
+        lua_gettable(p_state, -2);
+
+        // Call the superclass() method
+        lua_call(p_state, 0, 1);
+
+        // Get the superclass’ name
+        lua_pushstring(p_state, "classname");
+        lua_gettable(p_state, -2);
+        lua_call(p_state, 0, 1);
+        std::string superclassname = std::string(lua_tostring(p_state, -1));
+        lua_pop(p_state, 1); // Remove the superclass’ name, we don’t need it anymore
+
+        // If there is no superclass, error out as nobody defined
+        // this method.
+        if (superclassname.empty())
+          return luaL_error(p_state, "Undefined method `%s' for this object.", methodname.c_str());
+
+        // Same lookup as before, but now for the superclass instance method table
+        luaL_getmetatable(p_state, (superclassname + "__instancemethods").c_str());
+        lua_pushstring(p_state, methodname.c_str());
+        lua_rawget(p_state, -2); // Pushes nil if not found
+
+        // Put the instance method table onto the top and remove
+        // it as we don’t need it anymore
+        lua_insert(p_state, -2);
+        lua_pop(p_state, 1);
+
+        // If we found a function, leave it on the top and break,
+        // otherwise rety with next superclass
+        if (lua_isfunction(p_state, -1)){
+          // Remove the current and the previous superclass
+          // tables, leave the function on the top, break
+          lua_insert(p_state, -3);
+          lua_pop(p_state, 2);
+          break;
+        }
+        else{
+          // Remove the nil function value, it’s useless
+          lua_pop(p_state, 1);
+          // Remove the class table from the previous run,
+          // we don’t need it anymore (for the first run,
+          // this removes the original class table)
+          lua_insert(p_state, -2);
+          lua_pop(p_state, 1);
+          // Note that now the current superclass table is on
+          // the top of the stack.
+        }
+      }
+    }
+
+    // Move the original instance method table onto the top of
+    // the stack and delete it in order to leave the stack balanced.
+    lua_insert(p_state, -2);
+    lua_pop(p_state, 1);
+
+    return 1;
+  }
+
+  /**
    * Prints out the Lua stack on standard output. This is done in
    * reverse order to simplify imagening the processes, i.e.
    * you’re going to find the element you’d get when popping from
@@ -197,13 +332,18 @@ namespace LuaWrap{
    *                           See LuaWrap::register_class.
    * \param[in] fp_constructor The pointer to the Lua constructor to
    *                           register for this object. See LuaWrap::register_class.
+   *                           If this is NULL, the class cannot be instanciated,
+   *                           making it abstract.
+   * \param     superclassname Name of the superclass, needed for the superclass()
+   *                           Lua method.
    *
    * The stack is kept balanced by this method.
    */
   void InternalC::create_classtable(lua_State*         p_state,
                                     const std::string& classname,
                                     const luaL_Reg     cmethods[],
-                                    lua_CFunction      fp_constructor)
+                                    lua_CFunction      fp_constructor,
+                                    std::string        superclassname)
   {
     // Create a table for the class methods and if we got some
     // method definitions, store them in the class method table
@@ -212,14 +352,22 @@ namespace LuaWrap{
       luaL_setfuncs(p_state, cmethods, 0);
 
     // Add an entry for the new() method into the class method table
-    lua_pushstring(p_state, "new");
-    lua_pushcfunction(p_state, fp_constructor);
-    lua_settable(p_state, -3);
+    if (fp_constructor){
+      lua_pushstring(p_state, "new");
+      lua_pushcfunction(p_state, fp_constructor);
+      lua_settable(p_state, -3);
+    }
 
     // Add an entry for the classname() method
     lua_pushstring(p_state, "classname");
     lua_pushstring(p_state, classname.c_str());
     lua_pushcclosure(p_state, InternalLua::classname, 1); // Removes the class’ name from the stack
+    lua_settable(p_state, -3);
+
+    // Add an entry for the superclass() method
+    lua_pushstring(p_state, "superclass");
+    lua_pushstring(p_state, superclassname.c_str()); // May push an empty string
+    lua_pushcclosure(p_state, InternalLua::superclass, 1); // Removes the superclass’ name from the stack
     lua_settable(p_state, -3);
 
     // Name the class method table after the class, effectively
@@ -247,10 +395,10 @@ namespace LuaWrap{
    *
    * This method keeps the stack balanced.
    */
-  void InternalC::create_instancetable(lua_State*         p_state,
-                            const std::string& classname,
-                            const luaL_Reg     imethods[],
-                            lua_CFunction      fp_finalizer)
+  void InternalC::create_instancetable(lua_State*          p_state,
+                                       const std::string&  classname,
+                                       const luaL_Reg      imethods[],
+                                       lua_CFunction       fp_finalizer)
   {
     // Register a metatable that will be used for the instance methods
     luaL_newmetatable(p_state, (classname + "__instancemethods").c_str());
@@ -261,11 +409,12 @@ namespace LuaWrap{
     if (imethods)
       luaL_setfuncs(p_state, imethods, 0);
 
-    // Make the instance methods metatable reference itself by
-    // making "__index" point to a copy of iteslf. This will cause
-    // the metatables elements to appear as "instance methods".
+    // Give a handler function for non-existing keys. This
+    // will return functions for "method calls".
     lua_pushstring(p_state, "__index");
-    lua_pushvalue(p_state, -2); // Copy metatable to the top of the stack
+    lua_pushstring(p_state, classname.c_str()); // Make classname directly acessible
+    lua_pushcclosure(p_state, InternalLua::method_lookup, 1);
+    //lua_pushvalue(p_state, -2); // Copy metatable to the top of the stack
     lua_settable(p_state, -3);
 
     // Create the metamethod called when an object gets gc’ed
@@ -291,9 +440,9 @@ namespace LuaWrap{
    * expose userdata objects to Lua. The registered singleton is a
    * plain old Lua table from the Lua point of view.
    *
-   * \param[in] p_state The Lua state to register the singleton in.
-   * \param     name    The name to register the singleton with in Lua.
-   * \param[in] methods The list of methods to define on the singleton.
+   * \param[in] p_state   The Lua state to register the singleton in.
+   * \param     classname The name to register the singleton with in Lua.
+   * \param[in] methods   The list of methods to define on the singleton.
    *
    * Example:
    * \code

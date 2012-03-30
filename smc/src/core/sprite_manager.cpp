@@ -19,6 +19,8 @@
 #include "../input/mouse.h"
 #include "../overworld/world_player.h"
 #include <algorithm>
+#include <stdexcept>
+#include <climits>
 
 namespace SMC
 {
@@ -48,6 +50,12 @@ void cSprite_Manager :: Add( cSprite *sprite )
 	}
 
 	Set_Pos_Z( sprite );
+
+	/* If we the sprite already has a UID set, we accept it as-is. This is 
+	 * usually the case when loading a level from the XML file. Otherwise
+	 * we generate a unique id. */
+	if (sprite->m_uid <= 0)
+		sprite->m_uid = Generate_UID(); // TODO: Throw an exception if already in use?
 
 	// Check if an destroyed object can be replaced
 	for( cSprite_List::iterator itr = objects.begin(); itr != objects.end(); ++itr )
@@ -303,6 +311,15 @@ cSprite *cSprite_Manager :: Get_from_Position( int start_pos_x, int start_pos_y,
 	return NULL;
 }
 
+cSprite *cSprite_Manager :: Get_by_UID ( int uid ) const
+{
+	for (cSprite_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr){
+		if ((*itr)->m_uid == uid)
+			return *itr;
+	}
+	return NULL;
+}
+
 void cSprite_Manager :: Get_Objects_sorted( cSprite_List &new_objects, bool editor_sort /* = 0 */, bool with_player /* = 0 */ ) const
 {
 	new_objects = objects;
@@ -395,6 +412,38 @@ unsigned int cSprite_Manager :: Get_Size_Array( const ArrayType sprite_array )
 	}
 
 	return count;
+}
+
+int cSprite_Manager :: Generate_UID()
+{
+	int uid = 1; // 0 is used to signale the invalid UID
+
+	// Count up until we find a free ID (this allows to re-use IDs of deleted
+	// objects which is not the case if we simply increment the IDs).
+	while (uid <= INT_MAX){
+		if (Is_UID_In_Use(uid))
+			uid++;
+		else
+			return uid;
+	};
+
+	// If we get here, the user used quite many objects. Sorry, cannot
+	// help you anymore. Sadly, there’s no way to tell CEGUI’s XML about unsigned ints/longs...
+	throw(std::range_error("Too many sprites, unable to generate further sprite UIDs!"));
+}
+
+bool cSprite_Manager :: Is_UID_In_Use(int uid)
+{
+	// The "invalid UID" always is in use
+	if (uid == 0)
+		return true;
+
+	for (cSprite_List::const_iterator iter = objects.begin(); iter < objects.end(); iter++){
+		if ((*iter)->m_uid == uid)
+			return true;
+	}
+
+	return false;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

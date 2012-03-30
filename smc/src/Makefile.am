@@ -152,6 +152,8 @@ smc_SOURCES = \
 	script/events/event.h \
 	script/events/key_down_event.cpp \
 	script/events/key_down_event.h \
+	script/objects/l_sprite.cpp \
+	script/objects/l_sprite.h \
 	script/objects/player.cpp \
 	script/objects/player.h \
 	script/luawrap.cpp \

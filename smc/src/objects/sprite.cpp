@@ -396,6 +396,8 @@ void cSprite :: Init( void )
 	m_valid_update = 1;
 
 	m_editor_window_name_width = 0.0f;
+
+	m_uid = 0;
 }
 
 cSprite *cSprite :: Copy( void ) const
@@ -414,6 +416,9 @@ cSprite *cSprite :: Copy( void ) const
 	basic_sprite->Set_Shadow_Pos( m_shadow_pos );
 	basic_sprite->Set_Shadow_Color( m_shadow_color );
 	basic_sprite->Set_Spawned( m_spawned );
+
+	basic_sprite->m_uid = 0;
+
 	return basic_sprite;
 }
 
@@ -435,6 +440,8 @@ void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	// position
 	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
 	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+	// UID
+	Write_Property( stream, "uid", m_uid );
 	// image
 	std::string img_filename;
 

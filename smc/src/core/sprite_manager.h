@@ -32,6 +32,8 @@ public:
 	virtual ~cSprite_Manager( void );
 
 	/* Add a sprite
+	 * If the sprite has m_uid set to something greater than 0,
+	 * it will not be touched, otherwise it is assigned a free UID.
 	 */
 	virtual void Add( cSprite *sprite );
 
@@ -67,6 +69,10 @@ public:
 	 * if 2 return object also if found on the normal position
 	*/
 	cSprite *Get_from_Position( int start_pos_x, int start_pos_y, const SpriteType type = TYPE_UNDEFINED, int check_pos = 0 ) const;
+	/* Return the object assigned the given UID. Returns NULL
+	 * if no object has this UID.
+	 */
+	cSprite *Get_by_UID( int uid ) const;
 
 	/* Get a sorted Objects Array
 	 * editor_sort : if set sorts from editor z pos
@@ -126,6 +132,13 @@ public:
 	{
 		return Get_Pointer( identifier );
 	}
+
+	// Generate a new and unused sprite ID. Throws std::range_error if
+	// no IDs can be generated anymore (more than INT_MAX objects are
+	// requested).
+	int Generate_UID();
+	// Returns true if the given UID already exists, false otherwise.
+	bool Is_UID_In_Use(int uid);
 
 	typedef vector<float> ZposList;
 	// biggest type z position

@@ -1765,7 +1765,10 @@ void cMouseCursor :: Editor_Update( void )
 	if( m_hovering_object->m_obj )
 	{
 		// position text
-		std::string info = "X : " + int_to_string( static_cast<int>(m_hovering_object->m_obj->m_start_pos_x) ) + "  Y : " + int_to_string( static_cast<int>(m_hovering_object->m_obj->m_start_pos_y) );
+		std::string info =
+			"X : "		+ int_to_string( static_cast<int>(m_hovering_object->m_obj->m_start_pos_x) )
+			+ " Y : "	+ int_to_string( static_cast<int>(m_hovering_object->m_obj->m_start_pos_y) )
+			+ " UID: "	+ int_to_string(m_hovering_object->m_obj->m_uid);
 		
 		if( game_debug )
 		{

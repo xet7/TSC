@@ -3,6 +3,7 @@
 // Own header
 #include "script.h"
 // In-game object bindings
+#include "objects/l_sprite.h"
 #include "objects/player.h"
 // Events
 #include "events/event.h"
@@ -46,6 +47,7 @@ namespace SMC
 		void Open_Libs(lua_State* p_state)
 		{
 			// In-game object bindings
+			Open_Sprite(p_state);
 			Open_Player(p_state);
 
 			// Events

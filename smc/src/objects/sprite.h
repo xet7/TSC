@@ -16,10 +16,12 @@
 #ifndef SMC_SPRITE_H
 #define SMC_SPRITE_H
 
+#include <map>
 #include "../core/global_game.h"
 #include "../core/math/rect.h"
 #include "../video/video.h"
 #include "../core/collision.h"
+#include "../script/script.h"
 // CEGUI
 #include "CEGUIXMLSerializer.h"
 
@@ -540,6 +542,12 @@ public:
 	Editor_Object_Settings_List m_editor_windows;
 	// width for all name windows based on largest name text width
 	float m_editor_window_name_width;
+
+	// Event handlers associated with this sprite. Format:
+	//	 "event name" => {list, of, lua, function, references, to, call}
+	std::map<const char*, std::vector<int> > m_event_table;
+	// ID to uniquely identify this sprite (Sprite[idhere] uses this)
+	int m_uid;
 
 	// default z positions
 	static const float m_pos_z_passive_start;

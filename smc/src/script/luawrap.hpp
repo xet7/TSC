@@ -58,6 +58,8 @@ namespace LuaWrap{
    */
   namespace InternalLua{
     int classname(lua_State* p_state);
+    int superclass(lua_State* p_state);
+    int method_lookup(lua_State* p_state);
     template<typename WrappedClass> int default_new(lua_State* p_state);
     template<typename WrappedClass> int default_gc(lua_State* p_state);
   };
@@ -77,17 +79,17 @@ namespace LuaWrap{
     void create_classtable(lua_State*         p_state,
                            const std::string& classname,
                            const luaL_Reg     cmethods[],
-                           lua_CFunction      fp_constructor);
+                           lua_CFunction      fp_constructor,
+                           std::string        superclassname = "");
 
     void create_instancetable(lua_State*         p_state,
                               const std::string& classname,
                               const luaL_Reg     imethods[],
                               lua_CFunction      fp_finalizer);
-
   };
 
   template<typename WrappedClass>
-  WrappedClass* to(lua_State* p_state, int index = 1);
+  WrappedClass* check(lua_State* p_state, int index = 1);
 
   template<typename WrappedClass>
   void register_class(lua_State*     p_state,
@@ -96,6 +98,15 @@ namespace LuaWrap{
                       const luaL_Reg cmethods[]     = NULL,
                       lua_CFunction  fp_constructor = InternalLua::default_new<WrappedClass>,
                       lua_CFunction  fp_finalizer   = InternalLua::default_gc<WrappedClass>);
+
+  template<typename WrappedClass>
+  void register_subclass(lua_State*     p_state,
+                         std::string    classname,
+                         std::string    superclassname,
+                         const luaL_Reg imethods[]     = NULL,
+                         const luaL_Reg cmethods[]     = NULL,
+                         lua_CFunction  fp_constructor = InternalLua::default_new<WrappedClass>,
+                         lua_CFunction  fp_finalizer   = InternalLua::default_gc<WrappedClass>);
 
   void register_singleton(lua_State* p_state,
                           std::string classname,
@@ -189,7 +200,8 @@ namespace LuaWrap{
    * throw as well (but note this doesn’t check whether the given
    * pointer actually points to an instance of your expected class).
    *
-   * The name was choosen to resemble Lua’s own lua_to* function names.
+   * The name was choosen to resemble Lua’s own luaL_check* function
+   * names.
    *
    * \tparam WrappedClass The class you want to deal with.
    * \param[in] p_state The Lua stack to check.
@@ -202,14 +214,14 @@ namespace LuaWrap{
    * \code
    * int mycoolfunc(lua_State* p_lua)
    * {
-   *   MyClass* p_class = LuaWrap::to<MyClass>(p_lua);
+   *   MyClass* p_class = LuaWrap::check<MyClass>(p_lua);
    *   // Do something with the pointer...
    *   return 0;
    * }
    * \endcode
    */
   template<typename WrappedClass>
-  WrappedClass* to(lua_State* p_state, int index = 1)
+  WrappedClass* check(lua_State* p_state, int index = 1)
   {
     if (!lua_isuserdata(p_state, index)){
       luaL_error(p_state, "No userdata object given.");
@@ -254,6 +266,11 @@ namespace LuaWrap{
    *                           (either light or full) onto the stack inside this method.
    *                           You most likely want to have a look at how InternalLua::default_new
    *                           handles this in order to know what to do.
+   *                           If this is NULL, LuaWrap won’t define the new() method for this
+   *                           class, making it impossible to instanciate the class from the
+   *                           Lua side. This may be useful for creating abstract classes.
+   *                           Note that for C++-created objects, the finalizer (see below)
+   *                           may still be called.
    * \param[in] fp_finalizer   When defining a custom Lua constructor, you most likely want
    *                           a custom finalizer too. Pass a pointer to a Lua C function
    *                           that will be called as the <tt>__gc</tt> metamethod. Please
@@ -281,6 +298,67 @@ namespace LuaWrap{
     // Create the instancemethods metatable
     InternalC::create_instancetable(p_state, classname, imethods, fp_finalizer);
   }
+
+  /**
+   * Acts the same as register_class(), but allows you to specify
+   * a superclass for your class from which all methods are
+   * inherited.
+   *
+   * \tparam    WrappedClass   The C++ class you want to wrap.
+   * \param[in] p_state        The Lua state to define the class in.
+   * \param     classname      The name the class will have inside Lua. Is not required
+   *                           to match the real C++ class name.
+   * \param     superclassname The *Lua* name of the class you want to subclass.
+   *                           Note the class is not required to exist yet, but you have
+   *                           to create it before calling any method on objects of the
+   *                           subclass, otherwise you’ll get strange errors.
+   * \param     imethods       A C array of luaL_Reg structures that define the instance
+   *                           methods you may call on instances of this class. Note that
+   *                           this array must be stored _permanently_ somewhere as this
+   *                           method doesn’t copy it, i.e. ensure that it doesn’t go out
+   *                           of scope. Also, do *not* create a <tt>__gc</tt> entry,
+   *                           this is done automatically by <tt>register_class</tt>.
+   *                           Instead, use the <tt>fp_finalizer</tt> function pointer.
+   * \param     cmethods       A C array of luaL_Reg structures that define the class
+   *                           methods (aka static member functions) of the Lua class.
+   *                           As with <tt>imethods</tt>, it mustn’t go out of scope.
+   *                           Do not create a <tt>new</tt> entry, this is done automatically.
+   *                           Use <tt>fp_constructor</tt> instead.
+   * \param[in] fp_constructor If you don’t like the default Lua constructor this method
+   *                           creates for your class, pass in a pointer to a Lua C function
+   *                           here that will be used instead. Note _you_ are responsible for
+   *                           allocating the necessary memory and pushing a Lua userdata
+   *                           (either light or full) onto the stack inside this method.
+   *                           You most likely want to have a look at how InternalLua::default_new
+   *                           handles this in order to know what to do.
+   *                           If this is NULL, LuaWrap won’t define the new() method for this
+   *                           class, making it impossible to instanciate the class from the
+   *                           Lua side. This may be useful for creating abstract classes.
+   *                           Note that for C++-created objects, the finalizer (see below)
+   *                           may still be called.
+   * \param[in] fp_finalizer   When defining a custom Lua constructor, you most likely want
+   *                           a custom finalizer too. Pass a pointer to a Lua C function
+   *                           that will be called as the <tt>__gc</tt> metamethod. Please
+   *                           note that if your custom constructor allocates memory using
+   *                           Lua’s full userdata, you cannot use the <tt>delete</tt> operator
+   *                           here as Lua later tries to free this memory itself, most
+   *                           likely causing a segmentation fault.
+   *
+   * This method keeps the stack balanced.
+   */
+  template<typename WrappedClass>
+  void register_subclass(lua_State*     p_state,
+                         std::string    classname,
+                         std::string    superclassname,
+                         const luaL_Reg imethods[]     = NULL,
+                         const luaL_Reg cmethods[]     = NULL,
+                         lua_CFunction  fp_constructor = InternalLua::default_new<WrappedClass>,
+                         lua_CFunction  fp_finalizer   = InternalLua::default_gc<WrappedClass>)
+  {
+    InternalC::create_classtable(p_state, classname, cmethods, fp_constructor, superclassname);
+    InternalC::create_instancetable(p_state, classname, imethods, fp_finalizer);
+  }
+
 
 };
 

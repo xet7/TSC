@@ -1377,6 +1377,10 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 
 		cSprite *sprite = new cSprite( attributes, sprite_manager );
 
+		// Read the UID if there’s one, otherwise generate a new one
+		int uid = attributes.getValueAsInteger("uid");
+		sprite->m_uid = uid; // 0 (= invalid, replaced in cSprite_Manager::Add()) if not set
+
 		// if image not available display its filename
 		if( !sprite->m_start_image )
 		{
