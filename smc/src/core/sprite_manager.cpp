@@ -54,8 +54,8 @@ void cSprite_Manager :: Add( cSprite *sprite )
 	/* If we the sprite already has a UID set, we accept it as-is. This is 
 	 * usually the case when loading a level from the XML file. Otherwise
 	 * we generate a unique id. */
-	if (sprite->m_uid <= 0)
-		sprite->m_uid = Generate_UID(); // TODO: Throw an exception if already in use?
+	if (sprite->m_uid <= 0) // TODO: Throw an exception if already in use?
+		sprite->m_uid = Generate_UID();
 
 	// Check if an destroyed object can be replaced
 	for( cSprite_List::iterator itr = objects.begin(); itr != objects.end(); ++itr )
