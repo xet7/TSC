@@ -52,9 +52,15 @@ static int Lua_Sprite_Allocate(lua_State* p_state)
 	// Default massivity type is front passive
 	p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
 
+	// Hidden by default
+	p_sprite->Set_Active(false);
+
 	// This is a generated object that should neither be saved
 	// nor should it be editable in the editor.
 	p_sprite->Set_Spawned(true);
+
+	// Add to the sprite manager for automatic memory management by SMC
+	pActive_Level->m_sprite_manager->Add(p_sprite);
 
 	return 1;
 }
@@ -141,40 +147,82 @@ static int Lua_Sprite_On_Touch(lua_State* p_state)
  * "Normal" access
  ***************************************/
 
+/**
+ * show()
+ *
+ * Display a sprite.
+ */
 static int Lua_Sprite_Show(lua_State* p_state)
 {
-  cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
-  pActive_Level->m_sprite_manager->Add(p_sprite);
-  return 0;
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	p_sprite->Set_Active(true);
+	return 0;
 }
 
+/**
+ * Hide()
+ *
+ * Hide a sprite. This does NOT remove the object from
+ * the game, so a massive sprite will still be there,
+ * just invisible!
+ */
+static int Lua_Sprite_Hide(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	p_sprite->Set_Active(false);
+	return 0;
+}
+
+/**
+ * set_massive_type( type )
+ *
+ * Set the massivity of a sprite. `type' may be one of the
+ * following strings:
+ * * "passive"
+ * * "front_passive" or "frontpassive"
+ * * "massive"
+ * * "half_massive" or "halfmassive"
+ * * "climbable"
+ *
+ * Invalid types will cause an error.
+ */
 static int Lua_Sprite_Set_Massive_Type(lua_State* p_state)
 {
-  cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
-  std::string type  = luaL_checkstring(p_state, 2);
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	std::string type	= luaL_checkstring(p_state, 2);
 
-  if (type == "passive")
-    p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
-  else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
-    p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
-  else if (type == "massive")
-    p_sprite->Set_Sprite_Type(TYPE_MASSIVE);
-  else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
-    p_sprite->Set_Sprite_Type(TYPE_HALFMASSIVE);
-  else if (type == "climbable")
-    p_sprite->Set_Sprite_Type(TYPE_CLIMBABLE);
-  else // Non-standard types like TYPE_ENEMY are not allowed here
-    return luaL_error(p_state, "Invalid type '%s'.", type.c_str());
+	if (type == "passive")
+		p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+	else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
+		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+	else if (type == "massive")
+		p_sprite->Set_Sprite_Type(TYPE_MASSIVE);
+	else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
+		p_sprite->Set_Sprite_Type(TYPE_HALFMASSIVE);
+	else if (type == "climbable")
+		p_sprite->Set_Sprite_Type(TYPE_CLIMBABLE);
+	else // Non-standard types like TYPE_ENEMY are not allowed here
+		return luaL_error(p_state, "Invalid type '%s'.", type.c_str());
 
-  return 0;
+	return 0;
 }
 
+/**
+ * x() → a_number
+ *
+ * The current X coordinate.
+ */
 static int Lua_Sprite_X(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
 	return 1;
 }
 
+/**
+ * y() → a_number
+ *
+ * The current Y coordinate.
+ */
 static int Lua_Sprite_Y(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_y);
@@ -193,13 +241,14 @@ static int Lua_Sprite_Pos(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Sprite_Methods[] = {
-  {"show",     Lua_Sprite_Show},
+  {"hide",     Lua_Sprite_Hide},
 	{"on_touch", Lua_Sprite_On_Touch},
-	{"pos",			 Lua_Sprite_Pos},
+	{"pos",      Lua_Sprite_Pos},
 	{"register", Lua_Sprite_Register},
   {"set_massive_type", Lua_Sprite_Set_Massive_Type},
-	{"x",				 Lua_Sprite_X},
-	{"y",				 Lua_Sprite_Y},
+  {"show",     Lua_Sprite_Show},
+	{"x",        Lua_Sprite_X},
+	{"y",        Lua_Sprite_Y},
 	{NULL, NULL}
 };
 
