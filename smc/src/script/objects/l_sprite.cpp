@@ -27,21 +27,34 @@ static int Lua_Sprite_Allocate(lua_State* p_state)
 	 * by the SMC core when freeing the SpriteManager the sprite belongs
 	 * to, so it mustn’t be freed by Lua previously what would result
 	 * in a segmentation fault. */
+	lua_pushvalue(p_state, 1); // Needed for attaching the instance methods
 	cSprite** pp_sprite = (cSprite**) lua_newuserdata(p_state, sizeof(cSprite*));
-	*pp_sprite					= new cSprite(pActive_Level->m_sprite_manager);
+	*pp_sprite          = new cSprite(pActive_Level->m_sprite_manager);
+	cSprite* p_sprite   = *pp_sprite;
 
 	// Attach instance methods
 	LuaWrap::InternalC::set_imethod_table(p_state);
 
+	// Remove the duplicated class table
+	lua_insert(p_state, -2);
+	lua_pop(p_state, 1);
+
 	// Handle optional image argument
 	if (lua_isstring(p_state, 2))
-		(*pp_sprite)->Set_Image(pVideo->Get_Surface(lua_tostring(p_state, 2)), true);
+		p_sprite->Set_Image(pVideo->Get_Surface(lua_tostring(p_state, 2)), true);
 	// Handle optional X coordinate argument
 	if (lua_isnumber(p_state, 3))
-		(*pp_sprite)->Set_Pos_X(luaL_checkint(p_state, 3), true);
+		p_sprite->Set_Pos_X(luaL_checkint(p_state, 3), true);
 	// Handle optional Y coordinate argument
 	if (lua_isnumber(p_state, 4))
-		(*pp_sprite)->Set_Pos_Y(luaL_checkint(p_state, 4), true);
+		p_sprite->Set_Pos_Y(luaL_checkint(p_state, 4), true);
+
+	// Default massivity type is front passive
+	p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+
+	// This is a generated object that should neither be saved
+	// nor should it be editable in the editor.
+	p_sprite->Set_Spawned(true);
 
 	return 1;
 }
@@ -128,6 +141,34 @@ static int Lua_Sprite_On_Touch(lua_State* p_state)
  * "Normal" access
  ***************************************/
 
+static int Lua_Sprite_Show(lua_State* p_state)
+{
+  cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+  pActive_Level->m_sprite_manager->Add(p_sprite);
+  return 0;
+}
+
+static int Lua_Sprite_Set_Massive_Type(lua_State* p_state)
+{
+  cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+  std::string type  = luaL_checkstring(p_state, 2);
+
+  if (type == "passive")
+    p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+  else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
+    p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+  else if (type == "massive")
+    p_sprite->Set_Sprite_Type(TYPE_MASSIVE);
+  else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
+    p_sprite->Set_Sprite_Type(TYPE_HALFMASSIVE);
+  else if (type == "climbable")
+    p_sprite->Set_Sprite_Type(TYPE_CLIMBABLE);
+  else // Non-standard types like TYPE_ENEMY are not allowed here
+    return luaL_error(p_state, "Invalid type '%s'.", type.c_str());
+
+  return 0;
+}
+
 static int Lua_Sprite_X(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
@@ -152,11 +193,13 @@ static int Lua_Sprite_Pos(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Sprite_Methods[] = {
-	{"register", Lua_Sprite_Register},
+  {"show",     Lua_Sprite_Show},
 	{"on_touch", Lua_Sprite_On_Touch},
+	{"pos",			 Lua_Sprite_Pos},
+	{"register", Lua_Sprite_Register},
+  {"set_massive_type", Lua_Sprite_Set_Massive_Type},
 	{"x",				 Lua_Sprite_X},
 	{"y",				 Lua_Sprite_Y},
-	{"pos",			 Lua_Sprite_Pos},
 	{NULL, NULL}
 };
 
