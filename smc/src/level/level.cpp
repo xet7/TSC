@@ -77,8 +77,13 @@ cLevel :: cLevel( void )
 	m_background_manager = new cBackground_Manager();
 	m_animation_manager = new cAnimation_Manager();
 
-	// Lua interpreter is initialized in Load().
-	m_lua = NULL;
+	/* Initialize a Lua interpreter for this level.
+	 * Each level has its own interpreter instance, because
+	 * otherwise some relicts may persist between levels
+	 * which is not really wanted. */
+	m_lua = luaL_newstate();
+	luaL_openlibs(m_lua);
+	Script::Open_Libs(m_lua);
 
 	// add default gradient layer
 	cBackground *gradient_background = new cBackground( m_sprite_manager );
@@ -90,6 +95,9 @@ cLevel :: cLevel( void )
 cLevel :: ~cLevel( void )
 {
 	Unload();
+
+	// Shutdown the Lua interpreter
+	lua_close(m_lua);
 
 	// delete
 	delete m_background_manager;
@@ -182,14 +190,6 @@ bool cLevel :: Load( std::string filename )
 	// new level format
 	if( filename.rfind( ".smclvl" ) != std::string::npos )
 	{
-		/* Initialize a Lua interpreter for this level.
-		 * Each level has its own interpreter instance, because
-		 * otherwise some relicts may persist between levels
-		 * which is not really wanted. */
-		m_lua = luaL_newstate();
-		luaL_openlibs(m_lua);
-		Script::Open_Libs(m_lua);
-
 		// No <script> tag starting yet
 		m_start_script_tag = false;
 		try
@@ -277,10 +277,6 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	m_level_filename.clear();
 
 	Reset_Settings();
-
-	// Shutdown the Lua interpreter
-	lua_close(m_lua);
-	m_lua = NULL;
 
 	/* delete sprites
 	 * do this at last
@@ -535,13 +531,13 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	// reset speed factor
 	pFramerate->Reset();
 
-	// Run the Lua code associated with this level (this sets up
-	// all the event handlers the user wants to register)
-	// (luaL_dostring returns false in case of success, quite confusing)
-	if (luaL_dostring(m_lua, m_script.c_str())){
-		printf("Warning: Lua script crashed with: %s", lua_tostring(m_lua, -1));
-		lua_pop(m_lua, -1); // Remove the error message
-	}
+	/* Run the Lua code associated with this level (this sets up
+   * all the event handlers the user wants to register)
+   * (luaL_dostring returns false in case of success, quite confusing).*/
+  if (luaL_dostring(m_lua, m_script.c_str())){
+    printf("Warning: Lua script crashed with: %s", lua_tostring(m_lua, -1));
+    lua_pop(m_lua, -1); // Remove the error message
+  }
 }
 
 void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
