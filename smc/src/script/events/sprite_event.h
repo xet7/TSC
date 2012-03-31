@@ -3,6 +3,7 @@
 #define SMC_SCRIPT_SPRITE_EVENT_H
 #include <string>
 #include "../luawrap.hpp"
+#include "../../objects/sprite.h"
 #include "event.h"
 
 namespace SMC{

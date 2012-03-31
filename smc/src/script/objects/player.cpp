@@ -43,6 +43,23 @@ static int Lua_Player_On_Jump(lua_State* p_state)
 	return 0;
 }
 
+static int Lua_Player_On_Shoot(lua_State* p_state)
+{
+	if (!lua_istable(p_state, 1))
+		return luaL_error(p_state, "No player table given.");
+	if (!lua_isfunction(p_state, 2))
+		return luaL_error(p_state, "No function given.");
+
+	// Get register() function
+	lua_pushstring(p_state, "register");
+	lua_gettable(p_state, 1);
+	// Forward to register()
+	lua_pushvalue(p_state, 1); // self
+	lua_pushstring(p_state, "shoot");
+	lua_pushvalue(p_state, 2); // function
+	lua_call(p_state, 3, 0);
+}
+
 /***************************************
  * "Normal" acces
  ***************************************/
@@ -58,6 +75,21 @@ static int Lua_Player_Downgrade(lua_State* p_state)
 		return luaL_error(p_state, "No singleton table given.");
 
 	pLevel_Player->DownGrade();
+	return 0;
+}
+
+static int Lua_Player_Jump(lua_State* p_state)
+{
+	if (!lua_istable(p_state, 1))
+		return luaL_error(p_state, "No singleton table given.");
+
+	if (lua_isnumber(p_state, 2)){
+		float deaccel = static_cast<float>(lua_tonumber(p_state, 2));
+		pLevel_Player->Start_Jump(deaccel);
+	}
+	else
+		pLevel_Player->Start_Jump();
+
 	return 0;
 }
 
@@ -144,8 +176,10 @@ static int Lua_Player_Warp(lua_State* p_state)
 
 static luaL_Reg Player_Methods[] = {
 	{"downgrade", Lua_Player_Downgrade},
+	{"jump", Lua_Player_Jump},
 	{"kill", Lua_Player_Kill},
 	{"on_jump", Lua_Player_On_Jump},
+	{"on_shoot", Lua_Player_On_Shoot},
 	{"register", Lua_Player_Register},
 	{"set_type", Lua_Player_Set_Type},
 	{"warp", Lua_Player_Warp},

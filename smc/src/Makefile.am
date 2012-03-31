@@ -153,6 +153,8 @@ smc_SOURCES = \
 	script/events/jump_event.h \
 	script/events/key_down_event.cpp \
 	script/events/key_down_event.h \
+	script/events/shoot_event.cpp \
+	script/events/shoot_event.h \
 	script/events/sprite_event.cpp \
 	script/events/sprite_event.h \
 	script/objects/l_sprite.cpp \

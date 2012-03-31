@@ -36,6 +36,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../video/renderer.h"
 #include "../script/events/jump_event.h"
+#include "../script/events/shoot_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
@@ -3625,7 +3626,16 @@ void cLevel_Player :: Action_Shoot( void )
 	{
 		m_shoot_counter = speedfactor_fps;
 		m_throwing_counter = speedfactor_fps * 0.3f;
+
+		// Issue shoot event
+		Script::cShoot_Event evt;
+		if (ball_type == ICEBALL_DEFAULT)
+			evt.Set_Ball_Type("ice");
+		else
+			evt.Set_Ball_Type("fire");
+		evt.Fire(pActive_Level->m_lua, this);
 	}
+
 }
 
 void cLevel_Player :: Action_Stop_Jump( void )
