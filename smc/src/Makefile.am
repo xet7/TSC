@@ -157,6 +157,8 @@ smc_SOURCES = \
 	script/events/shoot_event.h \
 	script/events/sprite_event.cpp \
 	script/events/sprite_event.h \
+	script/events/touch_event.cpp \
+	script/events/touch_event.h \
 	script/objects/l_sprite.cpp \
 	script/objects/l_sprite.h \
 	script/objects/player.cpp \

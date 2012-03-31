@@ -70,7 +70,7 @@ static int Lua_Sprite_Allocate(lua_State* p_state)
  * class table that isn’t there. Used for finding a sprite by its
  * ID:
  *
- *	 mysprite = Sprite["myidentifier"]
+ *	 mysprite = Sprite[33] -- Replace 33 with an ID
  */
 static int Lua_Sprite___index(lua_State* p_state)
 {
@@ -134,14 +134,17 @@ static int Lua_Sprite_On_Touch(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
 		return luaL_error(p_state, "No receiver (userdata) given.");
+	if (!lua_isfunction(p_state, 2))
+		return luaL_error(p_state, "No function given.");
 
 	// Get register() function
 	lua_pushstring(p_state, "register");
 	lua_gettable(p_state, 1);
 	// Forward to register()
+	lua_pushvalue(p_state, 1); // self
 	lua_pushstring(p_state, "touch");
-	lua_pushvalue(p_state, 2);
-	lua_call(p_state, 2, 0);
+	lua_pushvalue(p_state, 2); // function
+	lua_call(p_state, 3, 0);
 
 	return 0;
 }

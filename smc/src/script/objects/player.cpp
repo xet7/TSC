@@ -58,6 +58,28 @@ static int Lua_Player_On_Shoot(lua_State* p_state)
 	lua_pushstring(p_state, "shoot");
 	lua_pushvalue(p_state, 2); // function
 	lua_call(p_state, 3, 0);
+
+	return 0;
+}
+
+static int Lua_Player_On_Touch(lua_State* p_state)
+{
+	if (!lua_istable(p_state, 1))
+		return luaL_error(p_state, "No player table given.");
+	if (!lua_isfunction(p_state, 2))
+		return luaL_error(p_state, "No function given.");
+
+	// Get register() function
+	lua_pushstring(p_state, "register");
+	lua_gettable(p_state, 1);
+	// Forward to register()
+	lua_pushvalue(p_state, 1); // self
+	lua_pushstring(p_state, "touch");
+	lua_pushvalue(p_state, 2); // function
+
+	lua_call(p_state, 3, 0);
+
+	return 0;
 }
 
 /***************************************
@@ -180,6 +202,7 @@ static luaL_Reg Player_Methods[] = {
 	{"kill", Lua_Player_Kill},
 	{"on_jump", Lua_Player_On_Jump},
 	{"on_shoot", Lua_Player_On_Shoot},
+	{"on_touch", Lua_Player_On_Touch},
 	{"register", Lua_Player_Register},
 	{"set_type", Lua_Player_Set_Type},
 	{"warp", Lua_Player_Warp},

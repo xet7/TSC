@@ -13,6 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <iostream>
 #include "../objects/sprite.h"
 #include "../objects/movingsprite.h"
 #include "../core/game_core.h"
@@ -25,6 +26,7 @@
 #include "../core/sprite_manager.h"
 #include "../core/editor.h"
 #include "../core/i18n.h"
+#include "../script/events/touch_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "CEGUIFontManager.h"
@@ -272,6 +274,25 @@ void cCollidingSprite :: Clear_Collisions( void )
 
 void cCollidingSprite :: Handle_Collision( cObjectCollision *collision )
 {
+	/* Issue the touch event, but only if we’re currently in
+	 * a level (remember: Sprites are not only used in levels...)
+	 * Also needed as the Lua interpreter is not initialized before
+	 * Level construction. */
+	if (pActive_Level){
+		/* For whatever reason, CollidingSprite is the superclass
+		 * of Sprite (I’d expect it the other way round), so we have
+		 * first to check whether we got a correct sprite object prior
+		 * to handing it to the event (=> downcast). As all level-relevant
+		 * sprites are real Sprites (rather than bare CollidingSprites),
+		 * this doesn’t exclude important sprites from being listened to
+		 * in Lua. --Marvin Gülker (aka Quintus) */
+		cSprite* p_sprite = dynamic_cast<cSprite*>(this);
+		if (p_sprite){
+			Script::cTouch_Event evt(collision->m_obj);
+			evt.Fire(pActive_Level->m_lua, p_sprite);
+		}
+	}
+
 	// player
 	if( collision->m_array == ARRAY_PLAYER )
 	{
@@ -733,7 +754,7 @@ void cSprite :: Set_Color_Combine( const float red, const float green, const flo
 
 void cSprite :: Update_Rect_Rotation_Z( void )
 {
-	// rotate 270�
+	// rotate 270°
 	if( m_rot_z >= 270.0f )
 	{
 		// rotate collision position
@@ -756,7 +777,7 @@ void cSprite :: Update_Rect_Rotation_Z( void )
 		m_col_pos.m_x = m_rect.m_w - ( m_col_rect.m_w + m_col_pos.m_x );
 		m_col_pos.m_y = m_rect.m_h - ( m_col_rect.m_h + m_col_pos.m_y );
 	}
-	// rotate 90�
+	// rotate 90°
 	else if( m_rot_z >= 0.00001f )
 	{
 		// rotate collision position
