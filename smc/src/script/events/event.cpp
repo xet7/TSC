@@ -57,5 +57,18 @@ namespace SMC{
 			return lua_pcall(p_state, 0, 0, 0);
 		}
 
+		/**
+		 * Returns the name of the event, used for firing the event
+		 * to the correct event handler functions. Subclasses must
+		 * override this with a proper event name. The names returned
+		 * by these functions define the names of the event handlers
+		 * on the Lua side, i.e. the "touch" event corresponds to an
+		 * on_touch() register method.
+		 */
+		std::string cEvent::Event_Name()
+		{
+			return "generic";
+		}
+
 	};
 };

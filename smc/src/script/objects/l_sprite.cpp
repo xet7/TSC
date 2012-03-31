@@ -123,7 +123,8 @@ static int Lua_Sprite_Register(lua_State* p_state)
 	lua_pushvalue(p_state, 3); // Don’t remove the argument (keep the stack balanced)
 	int ref = luaL_ref(p_state, LUA_REGISTRYINDEX);
 
-	// Add the event handler to the list
+	// Add the event handler to the list (if the request event key
+  // doesn’t yet exist, it will automatically be created).
 	p_sprite->m_event_table[str].push_back(ref);
 
 	return 0;
@@ -132,11 +133,13 @@ static int Lua_Sprite_Register(lua_State* p_state)
 static int Lua_Sprite_On_Touch(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
-		return luaL_error(p_state, "No receiver given.");
+		return luaL_error(p_state, "No receiver (userdata) given.");
 
-	// Forward to register()
+	// Get register() function
 	lua_pushstring(p_state, "register");
-	lua_pushstring(p_state, "on_touch");
+	lua_gettable(p_state, 1);
+	// Forward to register()
+	lua_pushstring(p_state, "touch");
 	lua_pushvalue(p_state, 2);
 	lua_call(p_state, 2, 0);
 

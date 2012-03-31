@@ -35,6 +35,7 @@
 #include "../video/gl_surface.h"
 #include "../core/filesystem/filesystem.h"
 #include "../video/renderer.h"
+#include "../script/events/jump_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
@@ -1355,6 +1356,10 @@ void cLevel_Player :: Start_Jump( float deaccel /* = 0.08f */ )
 		{
 			m_jump_power = m_next_jump_power * 0.12f;
 		}
+
+		// Issue jump event
+		Script::cJump_Event evt;
+		evt.Fire(pActive_Level->m_lua, this);
 		
 		m_vely = -m_next_jump_power;
 		Set_Moving_State( STA_JUMP );

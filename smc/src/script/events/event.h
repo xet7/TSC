@@ -1,6 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPT_EVENTS_EVENT_H
 #define SMC_SCRIPT_EVENTS_EVENT_H
+#include <string>
 #include <vector>
 #include "../luawrap.hpp"
 
@@ -11,9 +12,11 @@ namespace SMC{
 		public:
 			static void Register_Handler(int registryindex);
 			void Fire(lua_State* p_state);
+			virtual std::string Event_Name();
+		protected:
+			virtual int Run_Lua_Callback(lua_State* p_state);
 		private:
 			static std::vector<int> M_handlers;
-			virtual int Run_Lua_Callback(lua_State* p_state);
 		};
 
 		/**

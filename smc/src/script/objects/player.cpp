@@ -4,6 +4,49 @@
 
 using namespace SMC;
 
+/***************************************
+ * Event handlers
+ ***************************************/
+
+static int Lua_Player_Register(lua_State* p_state)
+{
+	const char* str = luaL_checkstring(p_state, 2); // Not interested in argument 1, which is the table
+	if (!lua_isfunction(p_state, 3))
+		return luaL_error(p_state, "No function given.");
+
+	lua_pushvalue(p_state, 3); // Don’t remove the argument (keep the stack balanced)
+	int ref = luaL_ref(p_state, LUA_REGISTRYINDEX);
+
+	// Add the event handler to the list (if the request event key
+	// doesn’t yet exist, it will automatically be created).
+	pLevel_Player->m_event_table[str].push_back(ref);
+
+	return 0;
+}
+
+static int Lua_Player_On_Jump(lua_State* p_state)
+{
+	if (!lua_istable(p_state, 1))
+		return luaL_error(p_state, "No player table given.");
+	if (!lua_isfunction(p_state, 2))
+		return luaL_error(p_state, "No function given.");
+
+	// Get register() function
+	lua_pushstring(p_state, "register");
+	lua_gettable(p_state, 1);
+	// Forward to register()
+	lua_pushvalue(p_state, 1); // self
+	lua_pushstring(p_state, "jump");
+	lua_pushvalue(p_state, 2); // function
+	lua_call(p_state, 3, 0);
+
+	return 0;
+}
+
+/***************************************
+ * "Normal" acces
+ ***************************************/
+
 /**
  * downgrade()
  *
@@ -102,6 +145,8 @@ static int Lua_Player_Warp(lua_State* p_state)
 static luaL_Reg Player_Methods[] = {
 	{"downgrade", Lua_Player_Downgrade},
 	{"kill", Lua_Player_Kill},
+	{"on_jump", Lua_Player_On_Jump},
+	{"register", Lua_Player_Register},
 	{"set_type", Lua_Player_Set_Type},
 	{"warp", Lua_Player_Warp},
 	{NULL, NULL}

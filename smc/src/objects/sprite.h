@@ -16,6 +16,7 @@
 #ifndef SMC_SPRITE_H
 #define SMC_SPRITE_H
 
+#include <string>
 #include <map>
 #include "../core/global_game.h"
 #include "../core/math/rect.h"
@@ -545,7 +546,7 @@ public:
 
 	// Event handlers associated with this sprite. Format:
 	//	 "event name" => {list, of, lua, function, references, to, call}
-	std::map<const char*, std::vector<int> > m_event_table;
+	std::map<std::string, std::vector<int> > m_event_table;
 	// ID to uniquely identify this sprite (Sprite[idhere] uses this)
 	int m_uid;
 

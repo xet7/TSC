@@ -150,8 +150,11 @@ smc_SOURCES = \
 	overworld/world_waypoint.h \
 	script/events/event.cpp \
 	script/events/event.h \
+	script/events/jump_event.h \
 	script/events/key_down_event.cpp \
 	script/events/key_down_event.h \
+	script/events/sprite_event.cpp \
+	script/events/sprite_event.h \
 	script/objects/l_sprite.cpp \
 	script/objects/l_sprite.h \
 	script/objects/player.cpp \
