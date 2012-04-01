@@ -101,30 +101,6 @@ static int Lua_Level_Player_Kill(lua_State* p_state)
 	return 0;
 }
 
-/**
- * Warp(new_x, new_y)
- *
- * Warp the player somewhere. Note you are responsible for ensuring the
- * coordinates are valid, this method behaves exactly as a level entry
- * (i.e. doesn’t check coordinate validness).
- *
- * You can easily get the coordinates by moving around the cursor in
- * the SMC level editor.
- */
-static int Lua_Level_Player_Warp(lua_State* p_state)
-{
-	if (!lua_isuserdata(p_state, 1))
-		return luaL_error(p_state, "No receiver (userdata) given.");
-
-	float new_x = static_cast<float>(luaL_checklong(p_state, 2));
-	float new_y = static_cast<float>(luaL_checklong(p_state, 3));
-
-	pLevel_Player->Set_Pos(new_x, new_y);
-	pLevel_Player->Clear_Collisions();
-
-	return 0;
-}
-
 static luaL_Reg Player_Methods[] = {
 	{"downgrade", Lua_Level_Player_Downgrade},
 	{"jump", Lua_Level_Player_Jump},
@@ -132,7 +108,6 @@ static luaL_Reg Player_Methods[] = {
 	{"on_jump", LUA_EVENT_HANDLER(jump)},
 	{"on_shoot", LUA_EVENT_HANDLER(shoot)},
 	{"set_type", Lua_Level_Player_Set_Type},
-	{"warp", Lua_Level_Player_Warp},
 	{NULL, NULL}
 };
 

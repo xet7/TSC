@@ -179,7 +179,7 @@ static int Lua_Sprite_Hide(lua_State* p_state)
  *
  * Returns the UID of the sprite.
  */
-static int Lua_Sprite_UID(lua_State* p_state)
+static int Lua_Sprite_Get_UID(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	lua_pushnumber(p_state, p_sprite->m_uid);
@@ -221,25 +221,51 @@ static int Lua_Sprite_Set_Massive_Type(lua_State* p_state)
 }
 
 /**
- * x() → a_number
+ * get_x() → a_number
  *
  * The current X coordinate.
  */
-static int Lua_Sprite_X(lua_State* p_state)
+static int Lua_Sprite_Get_X(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
 	return 1;
 }
 
 /**
- * y() → a_number
+ * set_x( val )
+ *
+ * Set a new X coordinate.
+ */
+static int Lua_Sprite_Set_X(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	float new_x = static_cast<float>(luaL_checknumber(p_state, 2));
+	p_sprite->Set_Pos_X(new_x);
+	return 0;
+}
+
+/**
+ * get_y() → a_number
  *
  * The current Y coordinate.
  */
-static int Lua_Sprite_Y(lua_State* p_state)
+static int Lua_Sprite_Get_Y(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_y);
 	return 1;
+}
+
+/**
+ * set_y( val )
+ *
+ * Set a new Y coordinate.
+ */
+static int Lua_Sprite_Set_Y(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	float new_y = static_cast<float>(luaL_checknumber(p_state, 2));
+	p_sprite->Set_Pos_Y(new_y);
+	return 0;
 }
 
 static int Lua_Sprite_Pos(lua_State* p_state)
@@ -249,31 +275,57 @@ static int Lua_Sprite_Pos(lua_State* p_state)
 	return 2;
 }
 
+/**
+ * Warp(new_x, new_y)
+ *
+ * Warp the sprite somewhere. Note you are responsible for ensuring the
+ * coordinates are valid, this method behaves exactly as a level entry
+ * (i.e. doesn’t check coordinate validness).
+ *
+ * You can easily get the coordinates by moving around the cursor in
+ * the SMC level editor and hovering over object placed near the
+ * location where you want to warp to.
+ */
+static int Lua_Sprite_Warp(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+
+	float new_x = static_cast<float>(luaL_checknumber(p_state, 2));
+	float new_y = static_cast<float>(luaL_checknumber(p_state, 3));
+
+	p_sprite->Set_Pos(new_x, new_y);
+
+	return 0;
+}
+
 /***************************************
  * Binding
  ***************************************/
 
 static luaL_Reg Sprite_Methods[] = {
-  {"hide",     Lua_Sprite_Hide},
+	{"get_uid",  Lua_Sprite_Get_UID},
+	{"get_x",    Lua_Sprite_Get_X},
+	{"get_y",    Lua_Sprite_Get_Y},
+	{"hide",     Lua_Sprite_Hide},
 	{"on_touch", LUA_EVENT_HANDLER(touch)},
 	{"pos",      Lua_Sprite_Pos},
 	{"register", Lua_Sprite_Register},
 	{"set_massive_type", Lua_Sprite_Set_Massive_Type},
+	{"set_x",    Lua_Sprite_Set_X},
+	{"set_y",    Lua_Sprite_Set_Y},
 	{"show",     Lua_Sprite_Show},
-	{"uid",      Lua_Sprite_UID},
-	{"x",        Lua_Sprite_X},
-	{"y",        Lua_Sprite_Y},
+	{"warp",     Lua_Sprite_Warp},
 	{NULL, NULL}
 };
 
 void Script::Open_Sprite(lua_State* p_state)
 {
 	LuaWrap::register_class<cSprite>(p_state,
-																	 "Sprite",
-																	 Sprite_Methods,
-																	 NULL,
-																	 Lua_Sprite_Allocate,
-																	 NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
+	                                 "Sprite",
+	                                 Sprite_Methods,
+	                                 NULL,
+	                                 Lua_Sprite_Allocate,
+	                                 NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
 
 	// Register the "__index" metamethod for Sprite
 	lua_getglobal(p_state, "Sprite");
