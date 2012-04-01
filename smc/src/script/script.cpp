@@ -4,6 +4,8 @@
 #include "script.h"
 // In-game object bindings
 #include "objects/l_sprite.h"
+#include "objects/l_moving_sprite.h"
+#include "objects/l_animated_sprite.h"
 #include "objects/l_level_player.h"
 // Events
 #include "events/event.h"
@@ -48,6 +50,8 @@ namespace SMC
 		{
 			// In-game object bindings
 			Open_Sprite(p_state);
+			Open_Moving_Sprite(p_state);
+			Open_Animated_Sprite(p_state);
 			Open_Level_Player(p_state);
 
 			// Events

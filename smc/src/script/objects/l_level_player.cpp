@@ -115,7 +115,7 @@ void Script::Open_Level_Player(lua_State* p_state)
 {
 	LuaWrap::register_subclass<cLevel_Player>(p_state,
 																						"LevelPlayer",
-																						"Sprite",
+																						"AnimatedSprite",
 																						Player_Methods,
 																						NULL,
 																						NULL, // Singleton, cannot allocate new one
