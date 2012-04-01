@@ -271,7 +271,7 @@ static luaL_Reg Moving_Sprite_Methods[] = {
 	{"get_velocity_x", Lua_Moving_Sprite_Get_Velocity_X},
 	{"get_velocity_y", Lua_Moving_Sprite_Get_Velocity_Y},
 	{"set_direction",  Lua_Moving_Sprite_Set_Direction},
-	{"set_vel",        Lua_Moving_Sprite_Set_Velocity},
+	{"set_velocity",   Lua_Moving_Sprite_Set_Velocity},
 	{"set_velocity_x", Lua_Moving_Sprite_Set_Velocity_X},
 	{"set_velocity_y", Lua_Moving_Sprite_Set_Velocity_Y},
 	{NULL, NULL}
