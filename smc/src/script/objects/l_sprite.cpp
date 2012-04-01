@@ -11,11 +11,14 @@ using namespace SMC;
  ***************************************/
 
 /**
- * new( [ image_path [, x_pos [, y_pos ] ] ] ) → a_sprite
+ * new( [ image_path [, x_pos [, y_pos [, uid ] ] ] ] ) → a_sprite
  *
  * Sprite:new() in Lua. Creates a new, Lua-memory-managed cSprite
  * object with the given values. image_path is relative to
- * the pixmaps/ directory.
+ * the pixmaps/ directory. If you need to identify your sprite
+ * later in another context, you can specify an UID that will
+ * work the same way the regular UIDs for regular sprites do.
+ * However, specifying a UID already in use will cause an error.
  */
 static int Lua_Sprite_Allocate(lua_State* p_state)
 {
@@ -48,6 +51,14 @@ static int Lua_Sprite_Allocate(lua_State* p_state)
 	// Handle optional Y coordinate argument
 	if (lua_isnumber(p_state, 4))
 		p_sprite->Set_Pos_Y(luaL_checkint(p_state, 4), true);
+	// Handle optional UID argument
+	if (lua_isnumber(p_state, 5)){
+		int uid = static_cast<int>(lua_tonumber(p_state, 5));
+		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
+			return luaL_error(p_state, "UID %d is already used.", uid);
+
+		p_sprite->m_uid = uid;
+	}
 
 	// Default massivity type is front passive
 	p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
@@ -166,7 +177,7 @@ static int Lua_Sprite_Show(lua_State* p_state)
 }
 
 /**
- * Hide()
+ * hide()
  *
  * Hide a sprite. This does NOT remove the object from
  * the game, so a massive sprite will still be there,
@@ -180,22 +191,15 @@ static int Lua_Sprite_Hide(lua_State* p_state)
 }
 
 /**
- * set_uid( uid )
+ * uid()
  *
- * Set the unique ID of this sprite. If another sprite
- * already uses this ID, raises an error.
+ * Returns the UID of the sprite.
  */
-static int Lua_Sprite_Set_UID(lua_State* p_state)
+static int Lua_Sprite_UID(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
-	int uid = luaL_checkint(p_state, 2);
-
-	if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
-		return luaL_error(p_state, "UID %d is already used.", uid);
-
-	p_sprite->m_uid = uid;
-
-	return 0;
+	lua_pushnumber(p_state, p_sprite->m_uid);
+	return 1;
 }
 
 /**
@@ -271,8 +275,8 @@ static luaL_Reg Sprite_Methods[] = {
 	{"pos",      Lua_Sprite_Pos},
 	{"register", Lua_Sprite_Register},
 	{"set_massive_type", Lua_Sprite_Set_Massive_Type},
-	{"set_uid",  Lua_Sprite_Set_UID},
 	{"show",     Lua_Sprite_Show},
+	{"uid",      Lua_Sprite_UID},
 	{"x",        Lua_Sprite_X},
 	{"y",        Lua_Sprite_Y},
 	{NULL, NULL}
