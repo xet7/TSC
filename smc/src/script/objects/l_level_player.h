@@ -9,7 +9,7 @@ namespace SMC
 {
 	namespace Script
 	{
-		void Open_Player(lua_State* p_state);
+		void Open_Level_Player(lua_State* p_state);
 	};
 };
 

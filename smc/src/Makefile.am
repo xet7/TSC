@@ -159,10 +159,10 @@ smc_SOURCES = \
 	script/events/sprite_event.h \
 	script/events/touch_event.cpp \
 	script/events/touch_event.h \
+	script/objects/l_level_player.cpp \
+	script/objects/l_level_player.h \
 	script/objects/l_sprite.cpp \
 	script/objects/l_sprite.h \
-	script/objects/player.cpp \
-	script/objects/player.h \
 	script/luawrap.cpp \
 	script/luawrap.hpp \
 	script/script.cpp \

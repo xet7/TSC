@@ -1,5 +1,5 @@
 #include "../luawrap.hpp"
-#include "player.h"
+#include "l_level_player.h"
 #include "../../level/level_player.h"
 
 using namespace SMC;
@@ -8,7 +8,7 @@ using namespace SMC;
  * Event handlers
  ***************************************/
 
-static int Lua_Player_Register(lua_State* p_state)
+static int Lua_Level_Player_Register(lua_State* p_state)
 {
 	const char* str = luaL_checkstring(p_state, 2); // Not interested in argument 1, which is the table
 	if (!lua_isfunction(p_state, 3))
@@ -24,7 +24,7 @@ static int Lua_Player_Register(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Player_On_Jump(lua_State* p_state)
+static int Lua_Level_Player_On_Jump(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No player table given.");
@@ -43,7 +43,7 @@ static int Lua_Player_On_Jump(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Player_On_Shoot(lua_State* p_state)
+static int Lua_Level_Player_On_Shoot(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No player table given.");
@@ -62,7 +62,7 @@ static int Lua_Player_On_Shoot(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Player_On_Touch(lua_State* p_state)
+static int Lua_Level_Player_On_Touch(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No player table given.");
@@ -91,7 +91,7 @@ static int Lua_Player_On_Touch(lua_State* p_state)
  *
  * Hurt the player. Kills him if he is small.
  */
-static int Lua_Player_Downgrade(lua_State* p_state)
+static int Lua_Level_Player_Downgrade(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No singleton table given.");
@@ -100,7 +100,7 @@ static int Lua_Player_Downgrade(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Player_Jump(lua_State* p_state)
+static int Lua_Level_Player_Jump(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No singleton table given.");
@@ -128,7 +128,7 @@ static int Lua_Player_Jump(lua_State* p_state)
  * "ice"    Apply the ice mushroom.
  * "ghost": Apply the ghost mushroom.
  */
-static int Lua_Player_Set_Type(lua_State* p_state)
+static int Lua_Level_Player_Set_Type(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No singleton table given.");
@@ -163,7 +163,7 @@ static int Lua_Player_Set_Type(lua_State* p_state)
  *
  * Immediately kill the player.
  */
-static int Lua_Player_Kill(lua_State* p_state)
+static int Lua_Level_Player_Kill(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No singleton table given.");
@@ -182,7 +182,7 @@ static int Lua_Player_Kill(lua_State* p_state)
  * You can easily get the coordinates by moving around the cursor in
  * the SMC level editor.
  */
-static int Lua_Player_Warp(lua_State* p_state)
+static int Lua_Level_Player_Warp(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No singleton table given.");
@@ -197,19 +197,19 @@ static int Lua_Player_Warp(lua_State* p_state)
 }
 
 static luaL_Reg Player_Methods[] = {
-	{"downgrade", Lua_Player_Downgrade},
-	{"jump", Lua_Player_Jump},
-	{"kill", Lua_Player_Kill},
-	{"on_jump", Lua_Player_On_Jump},
-	{"on_shoot", Lua_Player_On_Shoot},
-	{"on_touch", Lua_Player_On_Touch},
-	{"register", Lua_Player_Register},
-	{"set_type", Lua_Player_Set_Type},
-	{"warp", Lua_Player_Warp},
+	{"downgrade", Lua_Level_Player_Downgrade},
+	{"jump", Lua_Level_Player_Jump},
+	{"kill", Lua_Level_Player_Kill},
+	{"on_jump", Lua_Level_Player_On_Jump},
+	{"on_shoot", Lua_Level_Player_On_Shoot},
+	{"on_touch", Lua_Level_Player_On_Touch},
+	{"register", Lua_Level_Player_Register},
+	{"set_type", Lua_Level_Player_Set_Type},
+	{"warp", Lua_Level_Player_Warp},
 	{NULL, NULL}
 };
 
-void Script::Open_Player(lua_State* p_state)
+void Script::Open_Level_Player(lua_State* p_state)
 {
 	LuaWrap::register_singleton(p_state, "Player", Player_Methods);
 }

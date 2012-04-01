@@ -4,7 +4,7 @@
 #include "script.h"
 // In-game object bindings
 #include "objects/l_sprite.h"
-#include "objects/player.h"
+#include "objects/l_level_player.h"
 // Events
 #include "events/event.h"
 #include "events/key_down_event.h"
@@ -48,7 +48,7 @@ namespace SMC
 		{
 			// In-game object bindings
 			Open_Sprite(p_state);
-			Open_Player(p_state);
+			Open_Level_Player(p_state);
 
 			// Events
 			Open_Key_Down_Event(p_state);
