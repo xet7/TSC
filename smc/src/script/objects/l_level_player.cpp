@@ -1,50 +1,15 @@
 #include "../luawrap.hpp"
+#include "l_sprite.h"
 #include "l_level_player.h"
 #include "../../level/level_player.h"
-
 using namespace SMC;
 
 /***************************************
  * Event handlers
  ***************************************/
 
-static int Lua_Level_Player_On_Jump(lua_State* p_state)
-{
-	if (!lua_isuserdata(p_state, 1))
-		return luaL_error(p_state, "No receiver (userdata) given.");
-	if (!lua_isfunction(p_state, 2))
-		return luaL_error(p_state, "No function given.");
-
-	// Get register() function
-	lua_pushstring(p_state, "register");
-	lua_gettable(p_state, 1);
-	// Forward to register()
-	lua_pushvalue(p_state, 1); // self
-	lua_pushstring(p_state, "jump");
-	lua_pushvalue(p_state, 2); // function
-	lua_call(p_state, 3, 0);
-
-	return 0;
-}
-
-static int Lua_Level_Player_On_Shoot(lua_State* p_state)
-{
-	if (!lua_isuserdata(p_state, 1))
-		return luaL_error(p_state, "No receiver (userdata) given.");
-	if (!lua_isfunction(p_state, 2))
-		return luaL_error(p_state, "No function given.");
-
-	// Get register() function
-	lua_pushstring(p_state, "register");
-	lua_gettable(p_state, 1);
-	// Forward to register()
-	lua_pushvalue(p_state, 1); // self
-	lua_pushstring(p_state, "shoot");
-	lua_pushvalue(p_state, 2); // function
-	lua_call(p_state, 3, 0);
-
-	return 0;
-}
+LUA_IMPLEMENT_EVENT(jump);
+LUA_IMPLEMENT_EVENT(shoot);
 
 /***************************************
  * "Normal" acces
@@ -164,8 +129,8 @@ static luaL_Reg Player_Methods[] = {
 	{"downgrade", Lua_Level_Player_Downgrade},
 	{"jump", Lua_Level_Player_Jump},
 	{"kill", Lua_Level_Player_Kill},
-	{"on_jump", Lua_Level_Player_On_Jump},
-	{"on_shoot", Lua_Level_Player_On_Shoot},
+	{"on_jump", LUA_EVENT_HANDLER(jump)},
+	{"on_shoot", LUA_EVENT_HANDLER(shoot)},
 	{"set_type", Lua_Level_Player_Set_Type},
 	{"warp", Lua_Level_Player_Warp},
 	{NULL, NULL}

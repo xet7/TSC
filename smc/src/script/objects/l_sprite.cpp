@@ -141,24 +141,8 @@ static int Lua_Sprite_Register(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Sprite_On_Touch(lua_State* p_state)
-{
-	if (!lua_isuserdata(p_state, 1))
-		return luaL_error(p_state, "No receiver (userdata) given.");
-	if (!lua_isfunction(p_state, 2))
-		return luaL_error(p_state, "No function given.");
-
-	// Get register() function
-	lua_pushstring(p_state, "register");
-	lua_gettable(p_state, 1);
-	// Forward to register()
-	lua_pushvalue(p_state, 1); // self
-	lua_pushstring(p_state, "touch");
-	lua_pushvalue(p_state, 2); // function
-	lua_call(p_state, 3, 0);
-
-	return 0;
-}
+// Event definitions
+LUA_IMPLEMENT_EVENT(touch);
 
 /***************************************
  * "Normal" access
@@ -271,7 +255,7 @@ static int Lua_Sprite_Pos(lua_State* p_state)
 
 static luaL_Reg Sprite_Methods[] = {
   {"hide",     Lua_Sprite_Hide},
-	{"on_touch", Lua_Sprite_On_Touch},
+	{"on_touch", LUA_EVENT_HANDLER(touch)},
 	{"pos",      Lua_Sprite_Pos},
 	{"register", Lua_Sprite_Register},
 	{"set_massive_type", Lua_Sprite_Set_Massive_Type},
@@ -299,4 +283,37 @@ void Script::Open_Sprite(lua_State* p_state)
 	lua_settable(p_state, -3);
 	lua_setmetatable(p_state, -2);
 	lua_pop(p_state, 1); // Remove the Sprite class table for balancing
+}
+
+/***************************************
+ * Helper methods
+ ***************************************/
+
+/**
+ * Helper method that just forwards a Lua call to register() with
+ * the given name. Expects the given stack to look like this:
+ *	 [1] Receiver (self, a userdata)
+ *	 [2] The Lua function handler
+ *
+ * The IMPLEMENT_LUA_EVENT macro just defines a function that
+ * calls this function with the argument given to it converted
+ * to a string.
+ */
+int Script::Forward_To_Sprite_Register(lua_State* p_state, std::string event_name)
+{
+	if (!lua_isuserdata(p_state, 1)) // self
+		return luaL_error(p_state, "No receiver (userdata) given.");
+	if (!lua_isfunction(p_state, 2)) // handler function
+		return luaL_error(p_state, "No function given.");
+
+	// Get register() function
+	lua_pushstring(p_state, "register");
+	lua_gettable(p_state, 1);
+	// Forward to register()
+	lua_pushvalue(p_state, 1); // self
+	lua_pushstring(p_state, event_name.c_str());
+	lua_pushvalue(p_state, 2); // function
+	lua_call(p_state, 3, 0);
+
+	return 0;
 }
