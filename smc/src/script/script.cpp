@@ -8,6 +8,7 @@
 #include "objects/l_animated_sprite.h"
 #include "objects/l_level_player.h"
 #include "objects/l_enemy.h"
+#include "objects/l_particle_emitter.h"
 // Events
 #include "events/event.h"
 #include "events/key_down_event.h"
@@ -58,6 +59,9 @@ namespace SMC
 
 			// Events
 			Open_Key_Down_Event(p_state);
+
+			// Other
+			Open_Particle_Emitter(p_state);
 		}
 
 	};
