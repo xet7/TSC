@@ -108,7 +108,7 @@ static int Lua_Sprite___index(lua_State* p_state)
 	}
 
 	return 1; // Either nil or the Lua Sprite object
-}		 
+}
 
 /***************************************
  * Event handlers

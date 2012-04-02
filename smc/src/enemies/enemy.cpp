@@ -20,6 +20,7 @@
 #include "../core/game_core.h"
 #include "../level/level_player.h"
 #include "../level/level_manager.h"
+#include "../script/events/die_event.h"
 
 namespace SMC
 {
@@ -152,6 +153,10 @@ cSave_Level_Object *cEnemy :: Save_To_Savegame( void )
 void cEnemy :: Set_Dead( bool enable /* = 1 */ )
 {
 	m_dead = enable;
+
+	// Issue the die event
+	Script::cDie_Event evt;
+	evt.Fire(pActive_Level->m_lua, this);
 
 	Update_Valid_Update();
 }
