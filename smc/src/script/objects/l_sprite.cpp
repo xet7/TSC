@@ -255,6 +255,40 @@ static int Pos(lua_State* p_state)
 }
 
 /**
+ * get_rect() → x, y, width, height
+ *
+ * Returns the full image rectangle.
+ */
+static int Get_Rect(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+
+	lua_pushnumber(p_state, p_sprite->m_rect.m_h);
+	lua_pushnumber(p_state, p_sprite->m_rect.m_w);
+	lua_pushnumber(p_state, p_sprite->m_rect.m_y);
+	lua_pushnumber(p_state, p_sprite->m_rect.m_x);
+
+	return 4;
+}
+
+/**
+ * get_collision_rect() → x, y, width, height
+ *
+ * Returns the collision rectangle.
+ */
+static int Get_Collision_Rect(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_h);
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_w);
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_y);
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_x);
+
+	return 4;
+}
+
+/**
  * Warp(new_x, new_y)
  *
  * Warp the sprite somewhere. Note you are responsible for ensuring the
@@ -300,6 +334,8 @@ static int Is_Player(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
+	{"get_collision_rect", Get_Collision_Rect},
+	{"get_rect", Get_Rect},
 	{"get_uid",  Get_UID},
 	{"get_x",    Get_X},
 	{"get_y",    Get_Y},
