@@ -10,34 +10,6 @@
 using namespace SMC;
 
 /***************************************
- * Class methods
- ***************************************/
-
-static int Lua_Enemy___index(lua_State* p_state)
-{
-	int uid = static_cast<int>(luaL_checknumber(p_state, 2)); // we’re not interested in parameter 1 which is the table // TODO: unsigned long?
-	cEnemy* p_enemy = dynamic_cast<cEnemy*>(pActive_Level->m_sprite_manager->Get_by_UID(uid));
-
-	if (!p_enemy) // Return nil if no enemy is found
-		lua_pushnil(p_state);
-	else{
-		// Found, wrap the enemy into a Lua object.
-		lua_getglobal(p_state, "Enemy"); // Push up the class table, we don’t have it here
-		cEnemy** pp_enemy = (cEnemy**) lua_newuserdata(p_state, sizeof(cEnemy*));
-		*pp_enemy         = p_enemy;
-
-		// Attach instance methods
-		LuaWrap::InternalC::set_imethod_table(p_state);
-
-		// Remove the table
-		lua_insert(p_state, -2);
-		lua_pop(p_state, 1);
-	}
-
-	return 1; // Either nil or the Lua Enemy object
-}
-
-/***************************************
  * Event handlers
  ***************************************/
 
@@ -213,7 +185,7 @@ void Script::Open_Enemy(lua_State* p_state)
 	lua_getglobal(p_state, "Enemy");
 	lua_newtable(p_state);
 	lua_pushstring(p_state, "__index");
-	lua_pushcfunction(p_state, Lua_Enemy___index);
+	lua_pushcfunction(p_state, Sprite___Index<cEnemy>);
 	lua_settable(p_state, -3);
 	lua_setmetatable(p_state, -2);
 	lua_pop(p_state, 1); // Remove the Sprite class table for balancing

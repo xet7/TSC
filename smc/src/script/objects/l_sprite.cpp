@@ -76,40 +76,6 @@ static int Lua_Sprite_Allocate(lua_State* p_state)
 	return 1;
 }
 
-/**
- * Called when the user wants to access something from the Sprite
- * class table that isn’t there. Used for finding a sprite by its
- * ID:
- *
- *	 mysprite = Sprite[33] -- Replace 33 with an ID
- */
-static int Lua_Sprite___index(lua_State* p_state)
-{
-	unsigned long uid = luaL_checklong(p_state, 2);// we’re not interested in parameter 1 which is the table // TODO: unsigned long?
-	cSprite* p_sprite = pActive_Level->m_sprite_manager->Get_by_UID(uid);
-
-	if (!p_sprite) // Return nil if no sprite is found
-		lua_pushnil(p_state);
-	else{
-		/* Found, wrap the sprite into a Lua object the same
-		 * way the Lua new() allocator function above does.
-		 * Again, note that Lua is just allowed to free the pointer,
-		 * nothing more. */
-		lua_getglobal(p_state, "Sprite"); // Push up the class table, we don’t have it here (see method doc)
-		cSprite** pp_sprite = (cSprite**) lua_newuserdata(p_state, sizeof(cSprite*));
-		*pp_sprite					= p_sprite;
-
-		// Attach instance methods
-		LuaWrap::InternalC::set_imethod_table(p_state);
-
-		// Remove the table
-		lua_insert(p_state, -2);
-		lua_pop(p_state, 1);
-	}
-
-	return 1; // Either nil or the Lua Sprite object
-}
-
 /***************************************
  * Event handlers
  ***************************************/
@@ -331,7 +297,7 @@ void Script::Open_Sprite(lua_State* p_state)
 	lua_getglobal(p_state, "Sprite");
 	lua_newtable(p_state);
 	lua_pushstring(p_state, "__index");
-	lua_pushcfunction(p_state, Lua_Sprite___index);
+	lua_pushcfunction(p_state, Sprite___Index<cSprite>);
 	lua_settable(p_state, -3);
 	lua_setmetatable(p_state, -2);
 	lua_pop(p_state, 1); // Remove the Sprite class table for balancing
