@@ -17,7 +17,7 @@ using namespace SMC;
  * Binding
  ***************************************/
 
-static luaL_Reg Animated_Sprite_Methods[] = {
+static luaL_Reg Methods[] = {
 	{NULL, NULL}
 };
 
@@ -26,7 +26,7 @@ void Script::Open_Animated_Sprite(lua_State* p_state)
 	LuaWrap::register_subclass<cAnimated_Sprite>(p_state,
 	                                            "AnimatedSprite",
 	                                            "MovingSprite",
-	                                            Animated_Sprite_Methods,
+	                                            Methods,
 	                                            NULL,
 	                                            NULL,  // Not intended to be instanciated directly
 	                                            NULL); // Memory managed by SMC

@@ -9,10 +9,10 @@
 // Defines a event handler function that just calls
 // Forward_To_Register with the given argument.
 #define LUA_IMPLEMENT_EVENT(evtname)\
-	static int Lua_Sprite_On_##evtname(lua_State* p_state){return SMC::Script::Forward_To_Sprite_Register(p_state, #evtname);}
+	static int Script_Event_On_##evtname(lua_State* p_state){return SMC::Script::Forward_To_Sprite_Register(p_state, #evtname);}
 // Expands to the name of the function defined
 // by IMPLEMENT_LUA_EVENT.
-#define LUA_EVENT_HANDLER(evtname) Lua_Sprite_On_##evtname
+#define LUA_EVENT_HANDLER(evtname) Script_Event_On_##evtname
 
 namespace SMC{
 	namespace Script{

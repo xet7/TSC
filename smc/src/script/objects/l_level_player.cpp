@@ -20,7 +20,7 @@ LUA_IMPLEMENT_EVENT(shoot);
  *
  * Hurt the player. Kills him if he is small.
  */
-static int Lua_Level_Player_Downgrade(lua_State* p_state)
+static int Downgrade(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
 		return luaL_error(p_state, "No receiver (userdata) given.");
@@ -29,7 +29,7 @@ static int Lua_Level_Player_Downgrade(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Level_Player_Jump(lua_State* p_state)
+static int Jump(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
 		return luaL_error(p_state, "No receiver (userdata) given.");
@@ -57,7 +57,7 @@ static int Lua_Level_Player_Jump(lua_State* p_state)
  * "ice"    Apply the ice mushroom.
  * "ghost": Apply the ghost mushroom.
  */
-static int Lua_Level_Player_Set_Type(lua_State* p_state)
+static int Set_Type(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
 		return luaL_error(p_state, "No receiver (userdata) given.");
@@ -92,7 +92,7 @@ static int Lua_Level_Player_Set_Type(lua_State* p_state)
  *
  * Immediately kill the player.
  */
-static int Lua_Level_Player_Kill(lua_State* p_state)
+static int Kill(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
 		return luaL_error(p_state, "No receiver (userdata) given.");
@@ -101,13 +101,13 @@ static int Lua_Level_Player_Kill(lua_State* p_state)
 	return 0;
 }
 
-static luaL_Reg Player_Methods[] = {
-	{"downgrade", Lua_Level_Player_Downgrade},
-	{"jump", Lua_Level_Player_Jump},
-	{"kill", Lua_Level_Player_Kill},
+static luaL_Reg Methods[] = {
+	{"downgrade", Downgrade},
+	{"jump", Jump},
+	{"kill", Kill},
 	{"on_jump", LUA_EVENT_HANDLER(jump)},
 	{"on_shoot", LUA_EVENT_HANDLER(shoot)},
-	{"set_type", Lua_Level_Player_Set_Type},
+	{"set_type", Set_Type},
 	{NULL, NULL}
 };
 
@@ -116,7 +116,7 @@ void Script::Open_Level_Player(lua_State* p_state)
 	LuaWrap::register_subclass<cLevel_Player>(p_state,
 																						"LevelPlayer",
 																						"AnimatedSprite",
-																						Player_Methods,
+																						Methods,
 																						NULL,
 																						NULL, // Singleton, cannot allocate new one
 																						NULL); // Memory managed by SMC, no finalizer needed

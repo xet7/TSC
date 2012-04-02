@@ -18,7 +18,7 @@ using namespace SMC;
  *
  * Return the current direction as a string.
  */
-static int Lua_Moving_Sprite_Get_Direction(lua_State* p_state)
+static int Get_Direction(lua_State* p_state)
 {
 	cMovingSprite* p_msprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	std::string dir;
@@ -88,7 +88,7 @@ static int Lua_Moving_Sprite_Get_Direction(lua_State* p_state)
  * direction strings you may look up in this function’s
  * sourcecode.
  */
-static int Lua_Moving_Sprite_Set_Direction(lua_State* p_state)
+static int Set_Direction(lua_State* p_state)
 {
 	cMovingSprite* p_msprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	std::string dirstr = luaL_checkstring(p_state, 2);
@@ -141,7 +141,7 @@ static int Lua_Moving_Sprite_Set_Direction(lua_State* p_state)
  *
  * Set the horizontal velocity. `val' may include fractions.
  */
-static int Lua_Moving_Sprite_Set_Velocity_X(lua_State* p_state)
+static int Set_Velocity_X(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	float new_velx = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -155,7 +155,7 @@ static int Lua_Moving_Sprite_Set_Velocity_X(lua_State* p_state)
  *
  * Get the horizontal velocity.
  */
-static int Lua_Moving_Sprite_Get_Velocity_X(lua_State* p_state)
+static int Get_Velocity_X(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	lua_pushnumber(p_state, p_sprite->m_velx);
@@ -167,7 +167,7 @@ static int Lua_Moving_Sprite_Get_Velocity_X(lua_State* p_state)
  *
  * Set the vertical velocity. `val' may include fractions.
  */
-static int Lua_Moving_Sprite_Set_Velocity_Y(lua_State* p_state)
+static int Set_Velocity_Y(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	float new_vely = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -181,7 +181,7 @@ static int Lua_Moving_Sprite_Set_Velocity_Y(lua_State* p_state)
  *
  * Get the vertical velocity.
  */
-static int Lua_Moving_Sprite_Get_Velocity_Y(lua_State* p_state)
+static int Get_Velocity_Y(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	lua_pushnumber(p_state, p_sprite->m_vely);
@@ -194,7 +194,7 @@ static int Lua_Moving_Sprite_Get_Velocity_Y(lua_State* p_state)
  * Set both the horizontal and vertical velocity at once. Both
  * arguments may include fractions.
  */
-static int Lua_Moving_Sprite_Set_Velocity(lua_State* p_state)
+static int Set_Velocity(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	float new_velx = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -204,7 +204,7 @@ static int Lua_Moving_Sprite_Set_Velocity(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Moving_Sprite_Get_Velocity(lua_State* p_state)
+static int Get_Velocity(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	lua_pushnumber(p_state, p_sprite->m_velx);
@@ -218,7 +218,7 @@ static int Lua_Moving_Sprite_Get_Velocity(lua_State* p_state)
  * Add to the current horizontal velocity. `val' may
  * include fractions.
  */
-static int Lua_Moving_Sprite_Accelerate_X(lua_State* p_state)
+static int Accelerate_X(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	float velx = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -233,7 +233,7 @@ static int Lua_Moving_Sprite_Accelerate_X(lua_State* p_state)
  * Add to the current vertical velocity. `val' may
  * include fractions.
  */
-static int Lua_Moving_Sprite_Accelerate_Y(lua_State* p_state)
+static int Accelerate_Y(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	float vely = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -248,7 +248,7 @@ static int Lua_Moving_Sprite_Accelerate_Y(lua_State* p_state)
  * Add to both the horizontal and the vertical velocity at once.
  * Both `xadd' and `yadd' may include fractions.
  */
-static int Lua_Moving_Sprite_Accelerate(lua_State* p_state)
+static int Accelerate(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
 	float velx = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -262,18 +262,18 @@ static int Lua_Moving_Sprite_Accelerate(lua_State* p_state)
  * Binding
  ***************************************/
 
-static luaL_Reg Moving_Sprite_Methods[] = {
-	{"accelerate",     Lua_Moving_Sprite_Accelerate},
-	{"accelerate_x",   Lua_Moving_Sprite_Accelerate_X},
-	{"accelerate_y",   Lua_Moving_Sprite_Accelerate_Y},
-	{"get_direction",  Lua_Moving_Sprite_Get_Direction},
-	{"get_velocity",   Lua_Moving_Sprite_Get_Velocity},
-	{"get_velocity_x", Lua_Moving_Sprite_Get_Velocity_X},
-	{"get_velocity_y", Lua_Moving_Sprite_Get_Velocity_Y},
-	{"set_direction",  Lua_Moving_Sprite_Set_Direction},
-	{"set_velocity",   Lua_Moving_Sprite_Set_Velocity},
-	{"set_velocity_x", Lua_Moving_Sprite_Set_Velocity_X},
-	{"set_velocity_y", Lua_Moving_Sprite_Set_Velocity_Y},
+static luaL_Reg Methods[] = {
+	{"accelerate",     Accelerate},
+	{"accelerate_x",   Accelerate_X},
+	{"accelerate_y",   Accelerate_Y},
+	{"get_direction",  Get_Direction},
+	{"get_velocity",   Get_Velocity},
+	{"get_velocity_x", Get_Velocity_X},
+	{"get_velocity_y", Get_Velocity_Y},
+	{"set_direction",  Set_Direction},
+	{"set_velocity",   Set_Velocity},
+	{"set_velocity_x", Set_Velocity_X},
+	{"set_velocity_y", Set_Velocity_Y},
 	{NULL, NULL}
 };
 
@@ -282,7 +282,7 @@ void Script::Open_Moving_Sprite(lua_State* p_state)
 	LuaWrap::register_subclass<cMovingSprite>(p_state,
 	                                          "MovingSprite",
 	                                          "Sprite",
-	                                          Moving_Sprite_Methods,
+	                                          Methods,
 	                                          NULL,
 	                                          NULL,  // Not intended to be instanciated directly
 	                                          NULL); // Memory managed by SMC

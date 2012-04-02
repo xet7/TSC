@@ -15,7 +15,7 @@ using namespace SMC;
  *
  * Creates a new particle emitter.
  */
-static int Lua_Particle_Emitter_Allocate(lua_State* p_state)
+static int Allocate(lua_State* p_state)
 {
 	// Check required arguments
 	if (!lua_istable(p_state, 1))
@@ -61,7 +61,7 @@ static int Lua_Particle_Emitter_Allocate(lua_State* p_state)
  *
  * Set the Z coordinate.
  */
-static int Lua_Particle_Emitter_Set_Z(lua_State* p_state)
+static int Set_Z(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
 	float z = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -77,7 +77,7 @@ static int Lua_Particle_Emitter_Set_Z(lua_State* p_state)
  * Set the path of the image to emit. Relative to the pixmaps/
  * directory.
  */
-static int Lua_Particle_Emitter_Set_Image(lua_State* p_state)
+static int Set_Image(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
 	std::string path = luaL_checkstring(p_state, 2);
@@ -93,7 +93,7 @@ static int Lua_Particle_Emitter_Set_Image(lua_State* p_state)
  * Set the time this emitter may live, plusminus `rand'. Both
  * values are seconds.
  */
-static int Lua_Particle_Emitter_Set_Time_To_Live(lua_State* p_state)
+static int Set_Time_To_Live(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
 	float time = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -111,7 +111,7 @@ static int Lua_Particle_Emitter_Set_Time_To_Live(lua_State* p_state)
  *
  * Do it! Do it! Emit particles!
  */
-static int Lua_Particle_Emitter_Emit(lua_State* p_state)
+static int Emit(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
 	p_emitter->Emit();
@@ -122,11 +122,11 @@ static int Lua_Particle_Emitter_Emit(lua_State* p_state)
  * Binding
  ***************************************/
 
-static luaL_Reg Particle_Emitter_Methods[] = {
-	{"emit",						 Lua_Particle_Emitter_Emit},
-	{"set_image",				 Lua_Particle_Emitter_Set_Image},
-	{"set_time_to_live", Lua_Particle_Emitter_Set_Time_To_Live},
-	{"set_z",						 Lua_Particle_Emitter_Set_Z},
+static luaL_Reg Methods[] = {
+	{"emit",						 Emit},
+	{"set_image",				 Set_Image},
+	{"set_time_to_live", Set_Time_To_Live},
+	{"set_z",						 Set_Z},
 	{NULL, NULL}
 };
 
@@ -134,8 +134,8 @@ void Script::Open_Particle_Emitter(lua_State* p_state)
 {
 	LuaWrap::register_class<cParticle_Emitter>(p_state,
 	                                           "ParticleEmitter",
-	                                           Particle_Emitter_Methods,
+	                                           Methods,
 	                                           NULL,
-	                                           Lua_Particle_Emitter_Allocate,
+	                                           Allocate,
 	                                           NULL);
 }

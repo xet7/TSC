@@ -25,7 +25,7 @@ LUA_IMPLEMENT_EVENT(die);
  * Returns the number of points the player gains
  * after killing this enemy.
  */
-static int Lua_Enemy_Get_Kill_Points(lua_State* p_state)
+static int Get_Kill_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	lua_pushnumber(p_state, p_enemy->m_kill_points);
@@ -38,7 +38,7 @@ static int Lua_Enemy_Get_Kill_Points(lua_State* p_state)
  * Sets the number of points the player gains after killing
  * this enemy.
  */
-static int Lua_Enemy_Set_Kill_Points(lua_State* p_state)
+static int Set_Kill_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	p_enemy->m_kill_points = static_cast<unsigned int>(luaL_checknumber(p_state, 2));
@@ -51,7 +51,7 @@ static int Lua_Enemy_Set_Kill_Points(lua_State* p_state)
  * Returns the filename of the sound to play when the enemy
  * gets killed.
  */
-static int Lua_Enemy_Get_Kill_Sound(lua_State* p_state)
+static int Get_Kill_Sound(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	lua_pushstring(p_state, p_enemy->m_kill_sound.c_str());
@@ -64,7 +64,7 @@ static int Lua_Enemy_Get_Kill_Sound(lua_State* p_state)
  * Sets the filename of the sound to play when the enemy
  * gets killed. `path' is relative to the sounds/ directory.
  */
-static int Lua_Enemy_Set_Kill_Sound(lua_State* p_state)
+static int Set_Kill_Sound(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	std::string ksound = luaL_checkstring(p_state, 2);
@@ -77,7 +77,7 @@ static int Lua_Enemy_Set_Kill_Sound(lua_State* p_state)
  *
  * Makes this enemy resistant to fire.
  */
-static int Lua_Enemy_Enable_Fire_Resistance(lua_State* p_state)
+static int Enable_Fire_Resistance(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	p_enemy->m_fire_resistant = true;
@@ -89,7 +89,7 @@ static int Lua_Enemy_Enable_Fire_Resistance(lua_State* p_state)
  *
  * Makes this enemy vulnerable to fire.
  */
-static int Lua_Enemy_Disable_Fire_Resistance(lua_State* p_state)
+static int Disable_Fire_Resistance(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	p_enemy->m_fire_resistant = false;
@@ -102,7 +102,7 @@ static int Lua_Enemy_Disable_Fire_Resistance(lua_State* p_state)
  * Checks whether this enemy is resistant to fire, and if so,
  * returns true. Otherwise, returns false.
  */
-static int Lua_Enemy_Is_Fire_Resistant(lua_State* p_state)
+static int Is_Fire_Resistant(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	if (p_enemy->m_fire_resistant)
@@ -124,7 +124,7 @@ static int Lua_Enemy_Is_Fire_Resistant(lua_State* p_state)
  *
  * See also: kill_with_points().
  */
-static int Lua_Enemy_Kill(lua_State* p_state)
+static int Kill(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	p_enemy->Set_Dead(true);
@@ -141,7 +141,7 @@ static int Lua_Enemy_Kill(lua_State* p_state)
  *
  * See also: kill().
  */
-static int Lua_Enemy_Kill_With_Points(lua_State* p_state)
+static int Kill_With_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
 	pHud_Points->Add_Points(p_enemy->m_kill_points,
@@ -157,17 +157,17 @@ static int Lua_Enemy_Kill_With_Points(lua_State* p_state)
  * Binding
  ***************************************/
 
-static luaL_Reg Enemy_Methods[] = {
-	{"disable_fire_resistance", Lua_Enemy_Disable_Fire_Resistance},
-	{"enable_fire_resistance",  Lua_Enemy_Enable_Fire_Resistance},
-	{"get_kill_points",         Lua_Enemy_Get_Kill_Points},
-	{"get_kill_sound",          Lua_Enemy_Get_Kill_Sound},
-	{"is_fire_resistant",       Lua_Enemy_Is_Fire_Resistant},
-	{"kill",                    Lua_Enemy_Kill},
-	{"kill_with_points",        Lua_Enemy_Kill_With_Points},
+static luaL_Reg Methods[] = {
+	{"disable_fire_resistance", Disable_Fire_Resistance},
+	{"enable_fire_resistance",  Enable_Fire_Resistance},
+	{"get_kill_points",         Get_Kill_Points},
+	{"get_kill_sound",          Get_Kill_Sound},
+	{"is_fire_resistant",       Is_Fire_Resistant},
+	{"kill",                    Kill},
+	{"kill_with_points",        Kill_With_Points},
 	{"on_die",                  LUA_EVENT_HANDLER(die)},
-	{"set_kill_points",         Lua_Enemy_Set_Kill_Points},
-	{"set_kill_sound",          Lua_Enemy_Set_Kill_Sound},
+	{"set_kill_points",         Set_Kill_Points},
+	{"set_kill_sound",          Set_Kill_Sound},
 	{NULL, NULL}
 };
 
@@ -176,7 +176,7 @@ void Script::Open_Enemy(lua_State* p_state)
 	LuaWrap::register_subclass<cEnemy>(p_state,
 	                                   "Enemy",
 	                                   "AnimatedSprite",
-	                                   Enemy_Methods,
+	                                   Methods,
 	                                   NULL,
 	                                   NULL,  // Not meant to be instanciated directly (but what about custom enemies?)
 	                                   NULL); // Memory managed by SMC

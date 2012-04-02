@@ -20,7 +20,7 @@ using namespace SMC;
  * work the same way the regular UIDs for regular sprites do.
  * However, specifying a UID already in use will cause an error.
  */
-static int Lua_Sprite_Allocate(lua_State* p_state)
+static int Allocate(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
 		return luaL_error(p_state, "No class table given.");
@@ -90,7 +90,7 @@ static int Lua_Sprite_Allocate(lua_State* p_state)
  * Note you usually don’t want to call this directly,
  * but rather use something along the lines of on_touch().
  */
-static int Lua_Sprite_Register(lua_State* p_state)
+static int Register(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1); // Note dereferencing
 	const char* str = luaL_checkstring(p_state, 2);
@@ -119,7 +119,7 @@ LUA_IMPLEMENT_EVENT(touch);
  *
  * Display a sprite.
  */
-static int Lua_Sprite_Show(lua_State* p_state)
+static int Show(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	p_sprite->Set_Active(true);
@@ -133,7 +133,7 @@ static int Lua_Sprite_Show(lua_State* p_state)
  * the game, so a massive sprite will still be there,
  * just invisible!
  */
-static int Lua_Sprite_Hide(lua_State* p_state)
+static int Hide(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	p_sprite->Set_Active(false);
@@ -145,7 +145,7 @@ static int Lua_Sprite_Hide(lua_State* p_state)
  *
  * Returns the UID of the sprite.
  */
-static int Lua_Sprite_Get_UID(lua_State* p_state)
+static int Get_UID(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	lua_pushnumber(p_state, p_sprite->m_uid);
@@ -165,7 +165,7 @@ static int Lua_Sprite_Get_UID(lua_State* p_state)
  *
  * Invalid types will cause an error.
  */
-static int Lua_Sprite_Set_Massive_Type(lua_State* p_state)
+static int Set_Massive_Type(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	std::string type	= luaL_checkstring(p_state, 2);
@@ -191,7 +191,7 @@ static int Lua_Sprite_Set_Massive_Type(lua_State* p_state)
  *
  * The current X coordinate.
  */
-static int Lua_Sprite_Get_X(lua_State* p_state)
+static int Get_X(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
 	return 1;
@@ -202,7 +202,7 @@ static int Lua_Sprite_Get_X(lua_State* p_state)
  *
  * Set a new X coordinate.
  */
-static int Lua_Sprite_Set_X(lua_State* p_state)
+static int Set_X(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	float new_x = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -215,7 +215,7 @@ static int Lua_Sprite_Set_X(lua_State* p_state)
  *
  * The current Y coordinate.
  */
-static int Lua_Sprite_Get_Y(lua_State* p_state)
+static int Get_Y(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_y);
 	return 1;
@@ -226,7 +226,7 @@ static int Lua_Sprite_Get_Y(lua_State* p_state)
  *
  * Set a new Y coordinate.
  */
-static int Lua_Sprite_Set_Y(lua_State* p_state)
+static int Set_Y(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	float new_y = static_cast<float>(luaL_checknumber(p_state, 2));
@@ -234,7 +234,7 @@ static int Lua_Sprite_Set_Y(lua_State* p_state)
 	return 0;
 }
 
-static int Lua_Sprite_Pos(lua_State* p_state)
+static int Pos(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_y);
@@ -252,7 +252,7 @@ static int Lua_Sprite_Pos(lua_State* p_state)
  * the SMC level editor and hovering over object placed near the
  * location where you want to warp to.
  */
-static int Lua_Sprite_Warp(lua_State* p_state)
+static int Warp(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 
@@ -268,19 +268,19 @@ static int Lua_Sprite_Warp(lua_State* p_state)
  * Binding
  ***************************************/
 
-static luaL_Reg Sprite_Methods[] = {
-	{"get_uid",  Lua_Sprite_Get_UID},
-	{"get_x",    Lua_Sprite_Get_X},
-	{"get_y",    Lua_Sprite_Get_Y},
-	{"hide",     Lua_Sprite_Hide},
+static luaL_Reg Methods[] = {
+	{"get_uid",  Get_UID},
+	{"get_x",    Get_X},
+	{"get_y",    Get_Y},
+	{"hide",     Hide},
 	{"on_touch", LUA_EVENT_HANDLER(touch)},
-	{"pos",      Lua_Sprite_Pos},
-	{"register", Lua_Sprite_Register},
-	{"set_massive_type", Lua_Sprite_Set_Massive_Type},
-	{"set_x",    Lua_Sprite_Set_X},
-	{"set_y",    Lua_Sprite_Set_Y},
-	{"show",     Lua_Sprite_Show},
-	{"warp",     Lua_Sprite_Warp},
+	{"pos",      Pos},
+	{"register", Register},
+	{"set_massive_type", Set_Massive_Type},
+	{"set_x",    Set_X},
+	{"set_y",    Set_Y},
+	{"show",     Show},
+	{"warp",     Warp},
 	{NULL, NULL}
 };
 
@@ -288,9 +288,9 @@ void Script::Open_Sprite(lua_State* p_state)
 {
 	LuaWrap::register_class<cSprite>(p_state,
 	                                 "Sprite",
-	                                 Sprite_Methods,
+	                                 Methods,
 	                                 NULL,
-	                                 Lua_Sprite_Allocate,
+	                                 Allocate,
 	                                 NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
 
 	// Register the "__index" metamethod for Sprite
