@@ -1,6 +1,7 @@
 #include "../luawrap.hpp"
 #include "../../objects/sprite.h"
 #include "../../level/level.h"
+#include "../../level/level_player.h"
 #include "../../core/sprite_manager.h"
 #include "l_sprite.h"
 
@@ -276,6 +277,24 @@ static int Warp(lua_State* p_state)
 	return 0;
 }
 
+/**
+ * is_player() → a_bool
+ *
+ * Checks whether this sprite is the player and if so,
+ * returns true. Otherwise, returns false.
+ */
+static int Is_Player(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+
+	if (p_sprite == pLevel_Player)
+		lua_pushboolean(p_state, 1);
+	else
+		lua_pushboolean(p_state, 0);
+
+	return 1;
+}
+
 /***************************************
  * Binding
  ***************************************/
@@ -286,6 +305,7 @@ static luaL_Reg Methods[] = {
 	{"get_y",    Get_Y},
 	{"get_z",    Get_Z},
 	{"hide",     Hide},
+	{"is_player",Is_Player},
 	{"on_touch", LUA_EVENT_HANDLER(touch)},
 	{"pos",      Pos},
 	{"register", Register},
