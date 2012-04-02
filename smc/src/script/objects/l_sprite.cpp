@@ -234,6 +234,18 @@ static int Set_Y(lua_State* p_state)
 	return 0;
 }
 
+/**
+ * get_z() → a_number
+ *
+ * Returns the current Z coordinate. Note you cannot set the Z
+ * coordinate.
+ */
+static int Get_Z(lua_State* p_state)
+{
+	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_z);
+	return 1;
+}
+
 static int Pos(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
@@ -272,6 +284,7 @@ static luaL_Reg Methods[] = {
 	{"get_uid",  Get_UID},
 	{"get_x",    Get_X},
 	{"get_y",    Get_Y},
+	{"get_z",    Get_Z},
 	{"hide",     Hide},
 	{"on_touch", LUA_EVENT_HANDLER(touch)},
 	{"pos",      Pos},
