@@ -335,9 +335,112 @@ static int Get_Gravity_Y(lua_State* p_state)
 }
 
 /**
+ * get_const_rotation_x() → rotation, rand
+ *
+ * Returns the constant X rotation and its random modifier.
+ */
+static int Get_Const_Rotation_X(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+
+	lua_pushnumber(p_state, p_emitter->m_const_rot_x);
+	lua_pushnumber(p_state, p_emitter->m_const_rot_x_rand);
+
+	return 2;
+}
+
+/**
+ * set_const_rotation_x( rotation [, rand ] )
+ *
+ * Set the constant X rotation.
+ */
+static int Set_Const_Rotation_X(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float rot	 = static_cast<float>(luaL_checknumber(p_state, 2));
+	float rand = 0.0f;
+
+	if (lua_isnumber(p_state, 3))
+		rand = static_cast<float>(lua_tonumber(p_state, 3));
+
+	p_emitter->Set_Const_Rotation_X(rot, rand);
+
+	return 0;
+}
+
+/**
+ * get_const_rotation_y() → rotation, rand
+ *
+ * Returns the constant Y rotation and its random modifier.
+ */
+static int Get_Const_Rotation_Y(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+
+	lua_pushnumber(p_state, p_emitter->m_const_rot_y);
+	lua_pushnumber(p_state, p_emitter->m_const_rot_y_rand);
+
+	return 2;
+}
+
+/**
+ * set_const_rotation_y( rotation [, rand ] )
+ *
+ * Set the constant Y rotation.
+ */
+static int Set_Const_Rotation_Y(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float rot	 = static_cast<float>(luaL_checknumber(p_state, 2));
+	float rand = 0.0f;
+
+	if (lua_isnumber(p_state, 3))
+		rand = static_cast<float>(lua_tonumber(p_state, 3));
+
+	p_emitter->Set_Const_Rotation_Y(rot, rand);
+
+	return 0;
+}
+
+/**
+ * get_const_rotation_z() → rotation, rand
+ *
+ * Returns the constant Z rotation and its random modifier.
+ */
+static int Get_Const_Rotation_Z(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+
+	lua_pushnumber(p_state, p_emitter->m_const_rot_z);
+	lua_pushnumber(p_state, p_emitter->m_const_rot_z_rand);
+
+	return 2;
+}
+
+/**
+ * set_const_rotation_z( rotation [, rand ] )
+ *
+ * Set the constant Z rotation.
+ */
+static int Set_Const_Rotation_Z(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float rot	 = static_cast<float>(luaL_checknumber(p_state, 2));
+	float rand = 0.0f;
+
+	if (lua_isnumber(p_state, 3))
+		rand = static_cast<float>(lua_tonumber(p_state, 3));
+
+	p_emitter->Set_Const_Rotation_Z(rot, rand);
+
+	return 0;
+}
+
+/**
  * emit()
  *
- * Emit a single particle. Usually you want to use
+ * Emit a single particle (or multiple ones if the quota is
+ * set accodingly). Usually you want to use
  * set_emitter_time_to_live() to make it emit particles automatically
  * for a certain period of time instead.
  */
@@ -354,6 +457,9 @@ static int Emit(lua_State* p_state)
 
 static luaL_Reg Methods[] = {
 	{"emit",						   Emit},
+	{"get_const_rotation_x", Get_Const_Rotation_X},
+	{"get_const_rotation_y", Get_Const_Rotation_Y},
+	{"get_const_rotation_z", Get_Const_Rotation_Z},
 	{"get_emitter_time_to_live", Get_Emitter_Time_To_Live},
 	{"get_gravity_x",      Get_Gravity_X},
 	{"get_gravity_y",      Get_Gravity_Y},
@@ -362,6 +468,9 @@ static luaL_Reg Methods[] = {
 	{"get_scale",          Get_Scale},
 	{"get_speed",          Get_Speed},
 	{"get_time_to_live",   Get_Time_To_Live},
+	{"set_const_rotation_x", Set_Const_Rotation_X},
+	{"set_const_rotation_y", Set_Const_Rotation_Y},
+	{"set_const_rotation_z", Set_Const_Rotation_Z},
 	{"set_emitter_time_to_live", Set_Emitter_Time_To_Live},
 	{"set_gravity_x",      Set_Gravity_X},
 	{"set_gravity_y",      Set_Gravity_Y},
