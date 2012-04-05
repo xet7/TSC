@@ -51,8 +51,14 @@ public:
 
 	// maximum downgrades until death
 	void Set_Max_Downgrade_Count( int max_downgrade_count );
+	inline int Get_Max_Downgrade_Count(){return m_max_downgrade_count;}
+
 	// Set if the level ends when killed
 	void Set_Level_Ends_If_Killed( bool level_ends_if_killed );
+	inline bool Level_Ends_If_Killed(){return m_level_ends_if_killed;}
+
+	// Number of times already downgaded
+	inline int Get_Downgrade_Count(){return m_downgrade_count;}
 
 	// Set Direction
 	void Set_Direction( const ObjectDirection dir );

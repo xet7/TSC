@@ -148,7 +148,9 @@ smc_SOURCES = \
 	overworld/world_sprite_manager.h \
 	overworld/world_waypoint.cpp \
 	overworld/world_waypoint.h \
-	script/event/die_event.h \
+	script/events/die_event.h \
+	script/events/downgrade_event.cpp \
+	script/events/downgrade_event.h \
 	script/events/event.cpp \
 	script/events/event.h \
 	script/events/jump_event.h \
@@ -164,6 +166,8 @@ smc_SOURCES = \
 	script/objects/l_animated_sprite.h \
 	script/objects/l_enemy.cpp \
 	script/objects/l_enemy.h \
+	script/objects/l_furball.cpp \
+	script/objects/l_furball.h \
 	script/objects/l_level_player.cpp \
 	script/objects/l_level_player.h \
 	script/objects/l_moving_sprite.cpp \

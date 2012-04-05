@@ -21,6 +21,8 @@
 #include "../video/animation.h"
 #include "../level/level_manager.h"
 #include "../core/sprite_manager.h"
+#include "../level/level.h"
+#include "../script/events/downgrade_event.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIWindowManager.h"
@@ -273,7 +275,12 @@ void cFurball :: DownGrade( bool force /* = 0 */ )
 			return;
 		}
 
+		// Increment number of times hit
 		m_downgrade_count++;
+
+		// Issue the Downgrade event
+		Script::cDowngrade_Event evt(m_downgrade_count, m_max_downgrade_count);
+		evt.Fire(pActive_Level->m_lua, this);
 
 		// die
 		if( m_downgrade_count == m_max_downgrade_count )

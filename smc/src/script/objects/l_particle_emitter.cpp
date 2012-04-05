@@ -51,6 +51,9 @@ static int Allocate(lua_State* p_state)
 	// Initialize the emitter’s default values
 	p_emitter->Set_Emitter_Rect(x, y, width, height);
 
+	// This is a generated object
+	p_emitter->Set_Spawned(true);
+
 	// Let SMC manage the memory
 	pActive_Animation_Manager->Add(p_emitter);
 

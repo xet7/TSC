@@ -8,6 +8,7 @@
 #include "objects/l_animated_sprite.h"
 #include "objects/l_level_player.h"
 #include "objects/l_enemy.h"
+#include "objects/l_furball.h"
 #include "objects/l_particle_emitter.h"
 // Events
 #include "events/event.h"
@@ -56,6 +57,7 @@ namespace SMC
 			Open_Animated_Sprite(p_state);
 			Open_Level_Player(p_state);
 			Open_Enemy(p_state);
+			Open_Furball(p_state);
 
 			// Events
 			Open_Key_Down_Event(p_state);

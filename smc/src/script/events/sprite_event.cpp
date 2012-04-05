@@ -1,6 +1,7 @@
 #include "../luawrap.hpp"
 #include "../../objects/sprite.h"
 #include "sprite_event.h"
+#include <iostream>
 
 namespace SMC{
 	namespace Script{

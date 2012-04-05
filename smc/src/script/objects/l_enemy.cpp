@@ -188,5 +188,5 @@ void Script::Open_Enemy(lua_State* p_state)
 	lua_pushcfunction(p_state, Sprite___Index<cEnemy>);
 	lua_settable(p_state, -3);
 	lua_setmetatable(p_state, -2);
-	lua_pop(p_state, 1); // Remove the Sprite class table for balancing
+	lua_pop(p_state, 1); // Remove the class table for balancing
 }
