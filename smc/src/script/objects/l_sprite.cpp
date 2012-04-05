@@ -247,6 +247,11 @@ static int Get_Z(lua_State* p_state)
 	return 1;
 }
 
+/**
+ * pos() → x, y
+ *
+ * Returns the sprite’s current X and Y coordinates.
+ */
 static int Pos(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
@@ -263,10 +268,10 @@ static int Get_Rect(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 
-	lua_pushnumber(p_state, p_sprite->m_rect.m_h);
-	lua_pushnumber(p_state, p_sprite->m_rect.m_w);
-	lua_pushnumber(p_state, p_sprite->m_rect.m_y);
 	lua_pushnumber(p_state, p_sprite->m_rect.m_x);
+	lua_pushnumber(p_state, p_sprite->m_rect.m_y);
+	lua_pushnumber(p_state, p_sprite->m_rect.m_w);
+	lua_pushnumber(p_state, p_sprite->m_rect.m_h);
 
 	return 4;
 }
@@ -280,10 +285,10 @@ static int Get_Collision_Rect(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 
-	lua_pushnumber(p_state, p_sprite->m_col_rect.m_h);
-	lua_pushnumber(p_state, p_sprite->m_col_rect.m_w);
-	lua_pushnumber(p_state, p_sprite->m_col_rect.m_y);
 	lua_pushnumber(p_state, p_sprite->m_col_rect.m_x);
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_y);
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_w);
+	lua_pushnumber(p_state, p_sprite->m_col_rect.m_h);
 
 	return 4;
 }
