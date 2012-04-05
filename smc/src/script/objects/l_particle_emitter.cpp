@@ -242,6 +242,99 @@ static int Set_Emitter_Time_To_Live(lua_State* p_state)
 }
 
 /**
+ * get_quota() → a_number
+ *
+ * Returns the amount of particles emitted at one time.
+ */
+static int Get_Quota(lua_State* p_state)
+{
+  cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+  lua_pushnumber(p_state, p_emitter->m_emitter_quota);
+  return 1;
+}
+
+/**
+ * set_quota( quota )
+ *
+ * Sets the amount of particles emitted at one time.
+ */
+static int Set_Quota(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	unsigned int quota = static_cast<unsigned int>(luaL_checknumber(p_state, 2));
+
+	p_emitter->Set_Quota(quota);
+
+	return 0;
+}
+
+/**
+ * set_gravity_x( gravity [, rand ] )
+ *
+ * Sets the horizontal gravity for this particle emitter. `rand' will be
+ * added/subtracted to `gravity' on a random base.
+ */
+static int Set_Gravity_X(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float xgravity = static_cast<float>(luaL_checknumber(p_state, 2));
+	float xrand		 = 0.0f;
+
+	if (lua_isnumber(p_state, 3))
+		xrand = static_cast<float>(lua_tonumber(p_state, 3));
+
+	p_emitter->Set_Horizontal_Gravity(xgravity, xrand);
+
+	return 0;
+}
+
+/**
+ * get_gravity_x() → gravity, rand
+ *
+ * Returns the base horizontal gravity and the random variation.
+ */
+static int Get_Gravity_X(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	lua_pushnumber(p_state, p_emitter->m_gravity_x);
+	lua_pushnumber(p_state, p_emitter->m_gravity_x_rand);
+	return 2;
+}
+
+/**
+ * set_gravity_y( gravity [, rand ] )
+ *
+ * Sets the vertical gravity for this particle emitter. `rand' will be
+ * added/subtracted to `gravity' on a random base.
+ */
+static int Set_Gravity_Y(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float ygravity = static_cast<float>(luaL_checknumber(p_state, 2));
+	float yrand		 = 0.0f;
+
+	if (lua_isnumber(p_state, 3))
+		yrand = static_cast<float>(luaL_checknumber(p_state, 3));
+
+	p_emitter->Set_Vertical_Gravity(ygravity, yrand);
+
+	return 0;
+}
+
+/**
+ * get_gravity_y() → gravity, rand
+ *
+ * Returns the base vertical gravity and the random variation.
+ */
+static int Get_Gravity_Y(lua_State* p_state)
+{
+	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	lua_pushnumber(p_state, p_emitter->m_gravity_y);
+	lua_pushnumber(p_state, p_emitter->m_gravity_y_rand);
+	return 2;
+}
+
+/**
  * emit()
  *
  * Emit a single particle. Usually you want to use
@@ -262,12 +355,18 @@ static int Emit(lua_State* p_state)
 static luaL_Reg Methods[] = {
 	{"emit",						   Emit},
 	{"get_emitter_time_to_live", Get_Emitter_Time_To_Live},
+	{"get_gravity_x",      Get_Gravity_X},
+	{"get_gravity_y",      Get_Gravity_Y},
 	{"get_image_filename", Get_Image_Filename},
+	{"get_quota",          Get_Quota},
 	{"get_scale",          Get_Scale},
 	{"get_speed",          Get_Speed},
 	{"get_time_to_live",   Get_Time_To_Live},
 	{"set_emitter_time_to_live", Set_Emitter_Time_To_Live},
+	{"set_gravity_x",      Set_Gravity_X},
+	{"set_gravity_y",      Set_Gravity_Y},
 	{"set_image_filename", Set_Image_Filename},
+	{"set_quota",          Set_Quota},
 	{"set_scale",          Set_Scale},
 	{"set_speed",          Set_Speed},
 	{"set_time_to_live",   Set_Time_To_Live},
