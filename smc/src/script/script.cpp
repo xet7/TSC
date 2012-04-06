@@ -10,6 +10,7 @@
 #include "objects/l_enemy.h"
 #include "objects/l_furball.h"
 #include "objects/l_particle_emitter.h"
+#include "objects/l_audio.h"
 // Events
 #include "events/event.h"
 #include "events/key_down_event.h"
@@ -64,6 +65,7 @@ namespace SMC
 
 			// Other
 			Open_Particle_Emitter(p_state);
+			Open_Audio(p_state);
 		}
 
 	};

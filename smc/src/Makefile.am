@@ -164,6 +164,8 @@ smc_SOURCES = \
 	script/events/touch_event.h \
 	script/objects/l_animated_sprite.cpp \
 	script/objects/l_animated_sprite.h \
+	script/objects/l_audio.cpp \
+	script/objects/l_audio.h \
 	script/objects/l_enemy.cpp \
 	script/objects/l_enemy.h \
 	script/objects/l_furball.cpp \
