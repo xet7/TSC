@@ -16,25 +16,53 @@ AC_PROG_INSTALL
 AC_PROG_MKDIR_P
 PKG_PROG_PKG_CONFIG
 
+### Macro for checking C++ libs ###
+
+dnl SMC_CHECK_CPPLIB( LIBRARY, HEADER, CLASS, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
+dnl
+dnl Checks for C++ library LIBRARY by compiling a test program that includes HEADER
+dnl and instanciates CLASS using its default constructor. If the program compiles,
+dnl executes ACTION-IF-FOUND, otherwise executes ACTION-IF-NOT-FOUND.
+dnl If the check is successful, prepends -l<LIBRARY> to the LIBS variable and defines
+dnl a macro HAVE_LIB<LIBRARY>.
+AC_DEFUN([SMC_CHECK_CPPLIB],[
+    SAVED_LIBS=$LIBS
+    LIBS="-l$1 $LIBS"
+    AC_MSG_CHECKING([for C++ library -l$1])
+    AC_LINK_IFELSE(
+      [AC_LANG_PROGRAM([#include <$2>], [$3 dummy])],
+      [
+        AC_MSG_RESULT([yes])
+        HAVE_LIB$1=1
+        [$4] dnl action-if-found
+      ],
+      [
+        AC_MSG_RESULT([no])
+        LIBS=$SAVED_LIBS
+        [$5] dnl action-if-not-found
+      ]
+    )
+  ]
+)
+
 ### Check for libraries ###
 
-# Check for the Boost Filesystem library
-AC_CHECK_LIB([boost_filesystem], [main], ,
-	[AC_MSG_ERROR([Unable to find Boost Filesystem library])])
+# Check for the Boost System library
+SMC_CHECK_CPPLIB([boost_system], [boost/system/system_error.hpp], [boost::system::error_code], ,
+  AC_MSG_ERROR([Unable to find Boost system library]))
 
 # Check for the Boost Thread library
-AC_CHECK_LIB([boost_thread], [main], ,
-	[AC_MSG_ERROR([Unable to find Boost Thread library])])
+SMC_CHECK_CPPLIB([boost_thread], [boost/thread.hpp], [boost::thread::id], ,
+  AC_MSG_ERROR([Unable to find Boost thread library]))
 
-# Check for the Boost System library
-AC_CHECK_LIB([boost_system], [main], ,
-	[AC_MSG_ERROR([Unable to find Boost System library])])
+SMC_CHECK_CPPLIB([boost_filesystem], [boost/filesystem.hpp], [boost::filesystem::path], ,
+  AC_MSG_ERROR([Unable to find Boost Filesystem library]))
 
-# Check for Lua
+## Check for Lua
 AC_CHECK_LIB([lua], [luaL_setfuncs], ,
 	[AC_MSG_ERROR([Unable to find Lua 5.2 library])])
-
-# Check for DL (dependecy of Lua)
+#
+## Check for DL (dependecy of Lua)
 AC_CHECK_LIB([dl], [main], ,
 	[AC_MSG_ERROR([Unable to find dl library])])
 
