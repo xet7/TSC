@@ -26,45 +26,41 @@ dnl executes ACTION-IF-FOUND, otherwise executes ACTION-IF-NOT-FOUND.
 dnl If the check is successful, prepends -l<LIBRARY> to the LIBS variable and defines
 dnl a macro HAVE_LIB<LIBRARY>.
 AC_DEFUN([SMC_CHECK_CPPLIB],[
-    SAVED_LIBS=$LIBS
-    LIBS="-l$1 $LIBS"
-    AC_MSG_CHECKING([for C++ library -l$1])
-    AC_LINK_IFELSE(
-      [AC_LANG_PROGRAM([#include <$2>], [$3 dummy])],
-      [
-        AC_MSG_RESULT([yes])
-        HAVE_LIB$1=1
-        [$4] dnl action-if-found
-      ],
-      [
-        AC_MSG_RESULT([no])
-        LIBS=$SAVED_LIBS
-        [$5] dnl action-if-not-found
-      ]
-    )
-  ]
+		SAVED_LIBS=$LIBS
+		LIBS="-l$1 $LIBS"
+		AC_MSG_CHECKING([for C++ library -l$1])
+		AC_LINK_IFELSE(
+			[AC_LANG_PROGRAM([#include <$2>], [$3 dummy])],
+			[
+				AC_MSG_RESULT([yes])
+				HAVE_LIB$1=1
+				[$4] dnl action-if-found
+			],
+			[
+				AC_MSG_RESULT([no])
+				LIBS=$SAVED_LIBS
+				[$5] dnl action-if-not-found
+			]
+		)
+	]
 )
 
 ### Check for libraries ###
 
 # Check for the Boost System library
 SMC_CHECK_CPPLIB([boost_system], [boost/system/system_error.hpp], [boost::system::error_code], ,
-  AC_MSG_ERROR([Unable to find Boost system library]))
+	AC_MSG_ERROR([Unable to find Boost system library]))
 
 # Check for the Boost Thread library
 SMC_CHECK_CPPLIB([boost_thread], [boost/thread.hpp], [boost::thread::id], ,
-  AC_MSG_ERROR([Unable to find Boost thread library]))
+	AC_MSG_ERROR([Unable to find Boost thread library]))
 
 SMC_CHECK_CPPLIB([boost_filesystem], [boost/filesystem.hpp], [boost::filesystem::path], ,
-  AC_MSG_ERROR([Unable to find Boost Filesystem library]))
+	AC_MSG_ERROR([Unable to find Boost Filesystem library]))
 
 ## Check for Lua
 AC_CHECK_LIB([lua], [luaL_setfuncs], ,
 	[AC_MSG_ERROR([Unable to find Lua 5.2 library])])
-#
-## Check for DL (dependecy of Lua)
-AC_CHECK_LIB([dl], [main], ,
-	[AC_MSG_ERROR([Unable to find dl library])])
 
 # Check for the OpenGL and GLU library
 case "${host}" in
@@ -72,11 +68,18 @@ case "${host}" in
 	# Mac OS X
 	LIBS="$LIBS -framework OpenGL -framework Carbon -lintl -lboost_system"
 	;;
+*mingw*)
+	LIBS="-lopengl32 -lglu32 $LIBS"
+	;;
 *)
 	# Other Unix (Linux)
-	LIBS="$LIBS -llua -ldl"
+	# Check for DL (dependency of *nix Lua)
+	AC_CHECK_LIB([dl], [main], ,
+		[AC_MSG_ERROR([Unable to find dl library])])
+
 	AC_CHECK_LIB([X11], [main], ,
 		[AC_MSG_ERROR([Unable to find libX11])])
+
 	AC_CHECK_LIB([GL], [main], , [has_gl=no])
 	AC_CHECK_LIB([GLU], [main], , [has_glu=no])
 	if test "x$has_gl" = "xno" -o "x$has_glu" = "xno"; then
@@ -85,14 +88,20 @@ case "${host}" in
 	;;
 esac
 
-# Check for the SDL library
-PKG_CHECK_MODULES([SDL], [sdl >= 1.2.10])
-CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS"
-
 # Check for the libpng library
 AC_CHECK_LIB([png], [png_init_io], ,
 	[AC_MSG_ERROR([libpng library not found])])
+
+# Check for the CEGUI library
+PKG_CHECK_MODULES([CEGUI_OPENGL], [CEGUI-OPENGL >= 0.7.2])
+CPPFLAGS="$CPPFLAGS $CEGUI_OPENGL_CFLAGS"
+LIBS="$LIBS $CEGUI_OPENGL_LIBS"
+# CEGUI 0.7.5 does not install CEGUI-NULL.pc
+#PKG_CHECK_MODULES([CEGUI_NULL], [CEGUI-NULL >= 0.7.2])
+#CPPFLAGS="$CPPFLAGS $CEGUI_NULL_CFLAGS"
+#LIBS="$LIBS $CEGUI_NULL_LIBS"
+AC_CHECK_LIB([CEGUINullRenderer], [main], ,
+	[AC_MSG_ERROR([CEGUINullRenderer library not found - try building CEGUI with --enable-null-renderer])])
 
 # Check for the SDL_image library
 AC_CHECK_LIB([SDL_image], [IMG_LoadPNG_RW], ,
@@ -108,16 +117,10 @@ AC_CHECK_LIB([SDL_mixer], [Mix_OpenAudio], ,
 AC_CHECK_LIB([SDL_ttf], [TTF_Init], ,
 	[AC_MSG_ERROR([SDL_ttf library not found])])
 
-# Check for the CEGUI library
-PKG_CHECK_MODULES([CEGUI_OPENGL], [CEGUI-OPENGL >= 0.7.2])
-CPPFLAGS="$CPPFLAGS $CEGUI_OPENGL_CFLAGS"
-LIBS="$LIBS $CEGUI_OPENGL_LIBS"
-# CEGUI 0.7.5 does not install CEGUI-NULL.pc
-#PKG_CHECK_MODULES([CEGUI_NULL], [CEGUI-NULL >= 0.7.2])
-#CPPFLAGS="$CPPFLAGS $CEGUI_NULL_CFLAGS"
-#LIBS="$LIBS $CEGUI_NULL_LIBS"
-AC_CHECK_LIB([CEGUINullRenderer], [main], ,
-	[AC_MSG_ERROR([CEGUINullRenderer library not found - try building CEGUI with --enable-null-renderer])])
+# Check for the SDL library
+PKG_CHECK_MODULES([SDL], [sdl >= 1.2.10])
+CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
+LIBS="$LIBS $SDL_LIBS"
 
 # Check for the gettext library
 AM_GNU_GETTEXT([external])
