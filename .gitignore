@@ -24,6 +24,7 @@
 /smc/*.manifest
 /smc/stdout.txt
 /smc/stderr.txt
+/smc/docs/scripting/*.html
 Thumbs.db
 
 # Visual Studio

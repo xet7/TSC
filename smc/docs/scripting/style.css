@@ -1,0 +1,78 @@
+body {
+    background-color: #EEEEEE;
+    font-family: sans-serif;
+}
+
+h1 {
+    color: black;
+    border-bottom: 3px solid #444444;
+    font-family: serif;
+}
+
+h2 {
+    font-family: serif;
+    text-align: center;
+}
+
+h3 {
+    border-top: 2px solid #444444;
+    background-color: #BBBBFF;
+}
+
+h4 {
+    font-family: serif;
+    font-variant: small-caps;
+}
+
+table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table td,th {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+table th {
+    background-color: #AAAAAA;
+    padding: 2px;
+}
+
+pre {
+    border: 1px solid black;
+    padding: 4px;
+    background-color: #333333;
+    color: #EEEEEE;
+}
+
+code {
+    border: 1px solid gray;
+    padding: 2px;
+    background-color: white;
+}
+
+pre code {
+    /* Default <code> style inside <pre> elements */
+    border: none;
+    padding: 0px;
+    background-color: #333333;
+}
+
+dl {
+    border: 1px solid #CCCCCC;
+}
+
+dl dt {
+    background-color: #CCCCCC;
+    font-weight: bold;
+}
+
+a {
+    color: green;
+}
+
+a:hover {
+    color: red;
+}

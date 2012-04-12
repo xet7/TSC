@@ -11,16 +11,6 @@ using namespace SMC;
  * Class methods
  ***************************************/
 
-/**
- * new( [ image_path [, x_pos [, y_pos [, uid ] ] ] ] ) → a_sprite
- *
- * Sprite:new() in Lua. Creates a new, Lua-memory-managed cSprite
- * object with the given values. image_path is relative to
- * the pixmaps/ directory. If you need to identify your sprite
- * later in another context, you can specify an UID that will
- * work the same way the regular UIDs for regular sprites do.
- * However, specifying a UID already in use will cause an error.
- */
 static int Allocate(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
@@ -115,11 +105,6 @@ LUA_IMPLEMENT_EVENT(touch);
  * "Normal" access
  ***************************************/
 
-/**
- * show()
- *
- * Display a sprite.
- */
 static int Show(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -127,13 +112,6 @@ static int Show(lua_State* p_state)
 	return 0;
 }
 
-/**
- * hide()
- *
- * Hide a sprite. This does NOT remove the object from
- * the game, so a massive sprite will still be there,
- * just invisible!
- */
 static int Hide(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -141,11 +119,6 @@ static int Hide(lua_State* p_state)
 	return 0;
 }
 
-/**
- * uid()
- *
- * Returns the UID of the sprite.
- */
 static int Get_UID(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -153,19 +126,6 @@ static int Get_UID(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_massive_type( type )
- *
- * Set the massivity of a sprite. `type' may be one of the
- * following strings:
- * * "passive"
- * * "front_passive" or "frontpassive"
- * * "massive"
- * * "half_massive" or "halfmassive"
- * * "climbable"
- *
- * Invalid types will cause an error.
- */
 static int Set_Massive_Type(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -187,22 +147,12 @@ static int Set_Massive_Type(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_x() → a_number
- *
- * The current X coordinate.
- */
 static int Get_X(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
 	return 1;
 }
 
-/**
- * set_x( val )
- *
- * Set a new X coordinate.
- */
 static int Set_X(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -211,22 +161,12 @@ static int Set_X(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_y() → a_number
- *
- * The current Y coordinate.
- */
 static int Get_Y(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_y);
 	return 1;
 }
 
-/**
- * set_y( val )
- *
- * Set a new Y coordinate.
- */
 static int Set_Y(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -235,23 +175,12 @@ static int Set_Y(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_z() → a_number
- *
- * Returns the current Z coordinate. Note you cannot set the Z
- * coordinate.
- */
 static int Get_Z(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_z);
 	return 1;
 }
 
-/**
- * pos() → x, y
- *
- * Returns the sprite’s current X and Y coordinates.
- */
 static int Pos(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
@@ -259,11 +188,6 @@ static int Pos(lua_State* p_state)
 	return 2;
 }
 
-/**
- * get_rect() → x, y, width, height
- *
- * Returns the full image rectangle.
- */
 static int Get_Rect(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -276,11 +200,6 @@ static int Get_Rect(lua_State* p_state)
 	return 4;
 }
 
-/**
- * get_collision_rect() → x, y, width, height
- *
- * Returns the collision rectangle.
- */
 static int Get_Collision_Rect(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -293,17 +212,6 @@ static int Get_Collision_Rect(lua_State* p_state)
 	return 4;
 }
 
-/**
- * Warp(new_x, new_y)
- *
- * Warp the sprite somewhere. Note you are responsible for ensuring the
- * coordinates are valid, this method behaves exactly as a level entry
- * (i.e. doesn’t check coordinate validness).
- *
- * You can easily get the coordinates by moving around the cursor in
- * the SMC level editor and hovering over object placed near the
- * location where you want to warp to.
- */
 static int Warp(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -316,12 +224,6 @@ static int Warp(lua_State* p_state)
 	return 0;
 }
 
-/**
- * is_player() → a_bool
- *
- * Checks whether this sprite is the player and if so,
- * returns true. Otherwise, returns false.
- */
 static int Is_Player(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
