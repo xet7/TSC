@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef LUA_WRAPPER_HPP
 #define LUA_WRAPPER_HPP
+#define LUAWRAP_VERSION "0.0.1-dev"
 
 #include <iostream>
 #include <string>
@@ -221,7 +222,7 @@ namespace LuaWrap{
    * \endcode
    */
   template<typename WrappedClass>
-  WrappedClass* check(lua_State* p_state, int index = 1)
+  WrappedClass* check(lua_State* p_state, int index /* = 1 */)
   {
     if (!lua_isuserdata(p_state, index)){
       luaL_error(p_state, "No userdata object given.");
@@ -288,10 +289,10 @@ namespace LuaWrap{
   template<typename WrappedClass>
   void register_class(lua_State*     p_state,
                       std::string    classname,
-                      const luaL_Reg imethods[]     = NULL,
-                      const luaL_Reg cmethods[]     = NULL,
-                      lua_CFunction  fp_constructor = InternalLua::default_new<WrappedClass>,
-                      lua_CFunction  fp_finalizer   = InternalLua::default_gc<WrappedClass>)
+                      const luaL_Reg imethods[]     /* = NULL */,
+                      const luaL_Reg cmethods[]     /* = NULL */,
+                      lua_CFunction  fp_constructor /* = InternalLua::default_new<WrappedClass> */,
+                      lua_CFunction  fp_finalizer   /* = InternalLua::default_gc<WrappedClass> */)
   {
     // Create the class method table and register the classname for it
     InternalC::create_classtable(p_state, classname, cmethods, fp_constructor);
@@ -350,10 +351,10 @@ namespace LuaWrap{
   void register_subclass(lua_State*     p_state,
                          std::string    classname,
                          std::string    superclassname,
-                         const luaL_Reg imethods[]     = NULL,
-                         const luaL_Reg cmethods[]     = NULL,
-                         lua_CFunction  fp_constructor = InternalLua::default_new<WrappedClass>,
-                         lua_CFunction  fp_finalizer   = InternalLua::default_gc<WrappedClass>)
+                         const luaL_Reg imethods[]     /* = NULL */,
+                         const luaL_Reg cmethods[]     /* = NULL */,
+                         lua_CFunction  fp_constructor /* = InternalLua::default_new<WrappedClass> */,
+                         lua_CFunction  fp_finalizer   /* = InternalLua::default_gc<WrappedClass> */)
   {
     InternalC::create_classtable(p_state, classname, cmethods, fp_constructor, superclassname);
     InternalC::create_instancetable(p_state, classname, imethods, fp_finalizer);
