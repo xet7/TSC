@@ -15,11 +15,6 @@ LUA_IMPLEMENT_EVENT(shoot);
  * "Normal" acces
  ***************************************/
 
-/**
- * downgrade()
- *
- * Hurt the player. Kills him if he is small.
- */
 static int Downgrade(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
@@ -44,19 +39,6 @@ static int Jump(lua_State* p_state)
 	return 0;
 }
 
-/**
- * set_type( type )
- *
- * Apply a powerup to the player (or shrink him). The possible
- * types you can pass are the following strings:
- *
- * "dead":  Please use the kill() method instead.
- * "small": Please use the downgrade() method instead.
- * "big":   Apply the normal mushroom.
- * "fire":  Apply the fireplant.
- * "ice"    Apply the ice mushroom.
- * "ghost": Apply the ghost mushroom.
- */
 static int Set_Type(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))
@@ -87,11 +69,6 @@ static int Set_Type(lua_State* p_state)
 	return 0;
 }
 
-/**
- * Kill()
- *
- * Immediately kill the player.
- */
 static int Kill(lua_State* p_state)
 {
 	if (!lua_isuserdata(p_state, 1))

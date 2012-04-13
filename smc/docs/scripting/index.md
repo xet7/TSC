@@ -151,8 +151,11 @@ List of classes and singletons
 This is an alphabetical list of all classes and singletons exposed to
 the Lua scripting API:
 
+* [AnimatedSprite](animated_sprite.html)
 * [Audio](audio.html)
+* [LevelPlayer](level_player.html)
 * [MovingSprite](moving_sprite.html)
+* Player → [LevelPlayer](level_player.html)
 * [Sprite](sprite.html)
 
 License
