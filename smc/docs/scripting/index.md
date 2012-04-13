@@ -21,7 +21,7 @@ There are three kinds of objects you may interact while scripting SMC:
 Classes
 : These are the main component of the scripting API. You can create
   instances of these classes by calling their `new()` method, which
-  will give you in most cases a special object called a
+  will give you in most cases a special object called a Lua
   _userdata_. You can call the _instance methods_ defined for a given
   class on these objects and they will react accordingly. Classes
   themselves are no userdata objects, just ordinary Lua tables with a
@@ -35,14 +35,13 @@ Userdata
   provided by the userdata objects you can interact with what the
   internal C++ pointer points to.
 
-Singletons
-: There’s a little number of special objects called _singletons_. A
-  singleton looks like a class from the Lua API, but in reality is a
-  userdata object you cannot create instances from. They’re usually
-  used where it doesn’t make sense to create multiple objects of a
-  certain type; examples include the `Player` (there’s only _one_
-  level player) and the `Audio` interface (two Audio instances
-  wouldn’t make any sense at all).
+Singletons : There’s a little number of special objects called
+  _singletons_. A singleton looks like a class from the Lua API, but in
+  reality is a userdata object you cannot create instances from. They’re
+  usually used where it doesn’t make sense to create multiple objects of
+  a certain type; examples include the [Player](player.html) (there’s
+  only _one_ level player) and the [Audio](audio.html) interface (two
+  Audio instances wouldn’t make any sense at all).
 
 About method calling
 --------------------
@@ -153,6 +152,7 @@ This is an alphabetical list of all classes and singletons exposed to
 the Lua scripting API:
 
 * [Audio](audio.html)
+* [MovingSprite](moving_sprite.html)
 * [Sprite](sprite.html)
 
 License

@@ -13,11 +13,6 @@ using namespace SMC;
  * "Normal" access
  ***************************************/
 
-/**
- * get_direction() → a_string
- *
- * Return the current direction as a string.
- */
 static int Get_Direction(lua_State* p_state)
 {
 	cMovingSprite* p_msprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -81,13 +76,6 @@ static int Get_Direction(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_direction( dir )
- *
- * Set the current direciton. `dir' is one of the predefined
- * direction strings you may look up in this function’s
- * sourcecode.
- */
 static int Set_Direction(lua_State* p_state)
 {
 	cMovingSprite* p_msprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -136,11 +124,6 @@ static int Set_Direction(lua_State* p_state)
 	return 0;
 }
 
-/**
- * set_velocity_x( val )
- *
- * Set the horizontal velocity. `val' may include fractions.
- */
 static int Set_Velocity_X(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -150,11 +133,6 @@ static int Set_Velocity_X(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_velocity_x() → a_number
- *
- * Get the horizontal velocity.
- */
 static int Get_Velocity_X(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -162,11 +140,6 @@ static int Get_Velocity_X(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_velocity_y( val )
- *
- * Set the vertical velocity. `val' may include fractions.
- */
 static int Set_Velocity_Y(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -176,11 +149,6 @@ static int Set_Velocity_Y(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_velocity_y() → a_number
- *
- * Get the vertical velocity.
- */
 static int Get_Velocity_Y(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -188,12 +156,6 @@ static int Get_Velocity_Y(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_velocity( xvel, yvel )
- *
- * Set both the horizontal and vertical velocity at once. Both
- * arguments may include fractions.
- */
 static int Set_Velocity(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -212,12 +174,6 @@ static int Get_Velocity(lua_State* p_state)
 	return 2;
 }
 
-/**
- * accelerate_x( val )
- *
- * Add to the current horizontal velocity. `val' may
- * include fractions.
- */
 static int Accelerate_X(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -227,12 +183,6 @@ static int Accelerate_X(lua_State* p_state)
 	return 0;
 }
 
-/**
- * accelerate_y( val )
- *
- * Add to the current vertical velocity. `val' may
- * include fractions.
- */
 static int Accelerate_Y(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
@@ -242,12 +192,6 @@ static int Accelerate_Y(lua_State* p_state)
 	return 0;
 }
 
-/**
- * accelerate( xadd, yadd )
- *
- * Add to both the horizontal and the vertical velocity at once.
- * Both `xadd' and `yadd' may include fractions.
- */
 static int Accelerate(lua_State* p_state)
 {
 	cMovingSprite* p_sprite = *LuaWrap::check<cMovingSprite*>(p_state, 1);
