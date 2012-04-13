@@ -25,7 +25,7 @@ the music file is located. So, assuming your SMC is installed at
 **/usr/local/share/smc/music/game/star.ogg**. To play it, you’d take
 the path relative to **/usr/local/share/smc/music/**,
 i.e. **game/star.ogg**. This is what you pass on to a method such as
-`play_music`:
+[play_music](#playmusic):
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Audio:play_music("game/star.ogg")
@@ -38,12 +38,12 @@ as \ on Windows).
 Singleton methods
 -----------------
 
-### play_sound ###
+### play_sound #################################################################
     play_sound( filename [, volume [, loops [, resid ] ] ] ) → a_bool
 
 Plays a sound.
 
-#### Parameters ####
+#### Parameters
 
 filename
 : Path to the sound file to play, relative to the *sounds/*
@@ -75,19 +75,19 @@ resid (-1)
   Specifying -1 for this parameter allows the given sound to be played
   multiple times.
 
-#### Return value ####
+#### Return value
 
 True on success, false otherwise. Possible failure reasons include
 incorrect filenames or the sound may simply have been muted by
 the user in SMC’s preferences, so you probably shouldn’t give
 too much on this.
 
-### play_music ###
+### play_music #################################################################
     play_music( filename [, loops [, force [, fadein_ms = 0 ] ] ] ) → a_bool
 
 Plays a music (optionally replacing the currently played one, if any).
 
-#### Parameters ####
+#### Parameters
 
 filename
 : Name of the music file to play, relative to the **music/**
@@ -106,7 +106,7 @@ force (true)
 fadein_ms (0)
 : Number of milliseconds to fade the music in.
 
-#### Return value ####
+#### Return value
 
 True on success, false otherwise. Possible failure reasons include
 incorrect filenames or the music may simply have been muted by

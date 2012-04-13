@@ -76,3 +76,8 @@ a {
 a:hover {
     color: red;
 }
+
+p.superclass {
+    font-size: small;
+    color: gray;
+}

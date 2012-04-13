@@ -42,7 +42,7 @@ Touch
 Class methods
 -------------
 
-### (indexing) ###
+### (indexing) #################################################################
     [ index ] → ?
 
 The `Sprite` class overrides the normal Lua `__index` metamethod. In
@@ -58,19 +58,23 @@ if you want an enemy, use `Enemy[<ID>]` to get an instance of class
 `Enemy`. `Sprite[<ID>]` will only give you instances of class
 `Sprite`, probably without the methods you intended to call.
 
-#### Parameters ####
+#### Parameters
 index
 : The index to look up. If it’s a number, behaves as described
   above. Otherwise, behaves like a normal Lua table.
 
+#### Return value
 
-### new ###
+In case of a number passed, a `Sprite` instance or `nil`, otherwise the result
+of a normal Lua table lookup.
+
+### new ########################################################################
     new( [ image_path [, x_pos [, y_pos [, uid ] ] ] ] ) → a_sprite
 
 Creates a new sprite. Note the spride is hidden by default, you need
-to explicitely call `show()` on it.
+to explicitely call [show()](#show) on it.
 
-#### Parameters ####
+#### Parameters
 
 image_path (nil)
 : Path to image for this sprite. Relative to the **pixmaps/**
@@ -87,70 +91,70 @@ uid (nil)
   handler. The sprite is then treated the same way all the other
   sprites are and is available through the `[]` call.
 
+#### Return value
+
+The newly created instance.
+
 Instance methods
 ----------------
 
-### get_uid ###
+### get_uid ####################################################################
     get_uid() → a_number
 
 Returns the UID for the sprite.
 
-#### Return value ###
+#### Return value
 
 The sprite’s UID or -1 if it doesn’t have one assigned.
 
-### get_collision_rect ###
+### get_collision_rect #########################################################
     get_collision_rect() → x, y, width, height
 
-The sprite’s collision rectangle.
+The sprite’s collision rectangle. See also [get_rect()](#getrect)
 
-### get_rect ###
+### get_rect ###################################################################
     get_rect() → x, y, width, height
 
-The sprite’s full image rectangle. See also [get_collision_rect()].
+The sprite’s full image rectangle. See also [get_collision_rect()](#getcollisionrect).
 
-### get_x ###
+### get_x ######################################################################
     get_x() → a_number
 
 The current X coordinate.
 
-
-### get_y ###
+### get_y ######################################################################
     get_y() → a_number
 
 The current Y coordinate.
 
 
-### get_z ###
+### get_z ######################################################################
     get_z() → a_number
 
 Returns the current Z coordinate. Note you cannot set the Z
 coordinate.
 
-### Hide ###
+### hide #######################################################################
     hide()
 
-Makes a sprite invisible. See also [show()].
+Makes a sprite invisible. See also [show()](#show).
 
-
-### is_player ###
+### is_player ##################################################################
     is_player() → a_bool
 
 Checks whether this sprite is the player.
 
-#### Return value ####
+#### Return value
 
 If this sprite is the player, returns `true`. Otherwise, returns
 `false`.
 
-
-### pos ###
+### pos ########################################################################
     pos() → x, y
 
 Returns the sprite’s current X and Y coordinates.
 
-
-### register ###
+### register ###################################################################
     register( evtname, handler )
 
 Generic event handler registration, useful if you cannot provide the
@@ -158,7 +162,7 @@ name of the event you want to register for statically. Usually you
 won’t need this method, it’s called internally whenever you call one
 of the `on_*` methods.
 
-#### Parameters ####
+#### Parameters
 
 evtname
 : The name of the event to register for, downcased. For example, if
@@ -167,13 +171,12 @@ handler
 : The event handler, i.e. the function to write that shall be called
   when the event is triggered.
 
-
-### set_massive_type ###
+### set_massive_type ###########################################################
     set_massive_type( type )
 
 Set the massivity of a sprite.
 
-#### Parameters ####
+#### Parameters
 type
 : One of the following strings. Their meaning is identical to the one
   in the SMC editor.
@@ -187,24 +190,24 @@ type
   Invalid types will cause an error.
 
 
-### set_x ###
+### set_x ######################################################################
     set_x( val )
 
 Sets a new X coordinate.
 
-### set_y ###
+### set_y ######################################################################
     set_y( val )
 
 Sets a new Y coordinate.
 
 
-### show ###
+### show #######################################################################
     show()
 
-Makes a sprite visible. See also [hide()].
+Makes a sprite visible. See also [hide()](#hide).
 
 
-### wrap ###
+### wrap #######################################################################
     warp( new_x, new_y )
 
 Warp the sprite somewhere. Note you are responsible for ensuring the
@@ -215,7 +218,7 @@ You can easily get the coordinates by moving around the cursor in
 the SMC level editor and hovering over object placed near the
 location where you want to warp to.
 
-#### Parameters ####
+#### Parameters
 x
 : The new X coordinate.
 
