@@ -170,8 +170,9 @@ of the `on_*` methods.
 evtname
 : The name of the event to register for, downcased. For example, if
   you want to register for the Touch event, pass `"touch"`.
+
 handler
-: The event handler, i.e. the function to write that shall be called
+: The event handler, i.e. the function that shall be called
   when the event is triggered.
 
 ### set_massive_type ###########################################################
