@@ -81,3 +81,32 @@ p.superclass {
     font-size: small;
     color: gray;
 }
+
+ul#markdown-toc {
+    border: 1px solid black;
+    padding: 20px;
+    float: right;
+    background-color: white;
+    font-size: small;
+}
+
+ul#markdown-toc a {
+    color: #00AAAA;
+}
+
+ul#markdown-toc a:hover {
+    color: red;
+}
+
+div#header {
+    border-bottom: 2px dashed gray;
+    font-size: small;
+    color: gray;
+}
+
+div#footer {
+    border-top: 2px dashed gray;
+    text-align: right;
+    font-size: small;
+    color: gray;
+}

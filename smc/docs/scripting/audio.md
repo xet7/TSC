@@ -1,6 +1,9 @@
 Singleton: Audio
 ================
 
+* This is the
+{:toc}
+
 The `Audio` singleton allows you to interact with SMC’s sound
 system. You can play any sound from SMC’s sound collection and any
 music that could also be used as a background music in a

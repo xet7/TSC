@@ -1,6 +1,9 @@
 Class: Sprite
 =============
 
+* This is the
+{:toc}
+
 A _Sprite_ is the most generic object available in the Lua
 API. Anything shown on the screen is somehow a sprite, and the methods
 defined in this class are therefore available to nearly all objects

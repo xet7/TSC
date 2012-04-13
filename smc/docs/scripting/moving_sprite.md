@@ -3,6 +3,9 @@ Class: MovingSprite
 Parent: [Sprite](sprite.html)
 {: .superclass}
 
+* This is the
+{:toc}
+
 Everything that is moving on the screen is considered by SMC to be a
 _MovingSprite_. It is the superclass of most on-screen objects and as
 such the methods defined here are available to most other objects,
