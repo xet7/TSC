@@ -19,12 +19,6 @@ LUA_IMPLEMENT_EVENT(die);
  * "Normal" access
  ***************************************/
 
-/**
- * get_kill_points() → a_number
- *
- * Returns the number of points the player gains
- * after killing this enemy.
- */
 static int Get_Kill_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -32,12 +26,6 @@ static int Get_Kill_Points(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_kill_points( points )
- *
- * Sets the number of points the player gains after killing
- * this enemy.
- */
 static int Set_Kill_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -45,12 +33,6 @@ static int Set_Kill_Points(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_kill_sound() → a_string
- *
- * Returns the filename of the sound to play when the enemy
- * gets killed.
- */
 static int Get_Kill_Sound(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -58,12 +40,6 @@ static int Get_Kill_Sound(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_kill_sound( path )
- *
- * Sets the filename of the sound to play when the enemy
- * gets killed. `path' is relative to the sounds/ directory.
- */
 static int Set_Kill_Sound(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -72,11 +48,6 @@ static int Set_Kill_Sound(lua_State* p_state)
 	return 0;
 }
 
-/**
- * enable_fire_resistance()
- *
- * Makes this enemy resistant to fire.
- */
 static int Enable_Fire_Resistance(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -84,11 +55,6 @@ static int Enable_Fire_Resistance(lua_State* p_state)
 	return 0;
 }
 
-/**
- * disable_fire_resistance()
- *
- * Makes this enemy vulnerable to fire.
- */
 static int Disable_Fire_Resistance(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -96,12 +62,6 @@ static int Disable_Fire_Resistance(lua_State* p_state)
 	return 0;
 }
 
-/**
- * is_fire_resistant() → a_bool
- *
- * Checks whether this enemy is resistant to fire, and if so,
- * returns true. Otherwise, returns false.
- */
 static int Is_Fire_Resistant(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -113,17 +73,6 @@ static int Is_Fire_Resistant(lua_State* p_state)
 	return 1;
 }
 
-/**
- * kill()
- *
- * Immediately kills this enemy. No points are given to
- * the player (i.e. it is as if the enemy fell into an abyss
- * or something like that).
- *
- * Causes a subsequent Die event.
- *
- * See also: kill_with_points().
- */
 static int Kill(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
@@ -131,16 +80,6 @@ static int Kill(lua_State* p_state)
 	return 0;
 }
 
-/**
- * kill_with_points()
- *
- * Immediately kills this enemy. Points are given to the
- * player. Also plays the dying sound for this enemy.
- *
- * Causes a subsequent Die event.
- *
- * See also: kill().
- */
 static int Kill_With_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
