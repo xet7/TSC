@@ -155,6 +155,7 @@ the Lua scripting API:
 * [Audio](audio.html)
 * [LevelPlayer](level_player.html)
 * [MovingSprite](moving_sprite.html)
+* [ParticleEmitter](particle_emitter.html)
 * Player → [LevelPlayer](level_player.html)
 * [Sprite](sprite.html)
 

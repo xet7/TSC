@@ -10,16 +10,6 @@ using namespace SMC;
  * Class methods
  ***************************************/
 
-/**
- * new( x, y [, width [, height ] ] ) → a_particle_emitter
- *
- * Creates a new particle emitter. It won’t emit particles by default,
- * you first have to adjust the emitter with the various set_* methods,
- * and when you’ve done this you can either call emit() which will
- * gives you absolute control over each emitted particle, or use
- * set_emitter_time_to_live() to make the emitter emit particles
- * automatically.
- */
 static int Allocate(lua_State* p_state)
 {
 	// Check required arguments
@@ -64,12 +54,6 @@ static int Allocate(lua_State* p_state)
  * Instance methods
  ***************************************/
 
-/**
- * set_z( val )
- *
- * Set the Z coordinate. Note get_z() is implemented directly
- * in Sprite.
- */
 static int Set_Z(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -80,12 +64,6 @@ static int Set_Z(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_image_filename() → a_string
- *
- * Returns the path to the currently emitted particle’s
- * image file, relative to the pixmaps/ directory.
- */
 static int Get_Image_Filename(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -93,12 +71,6 @@ static int Get_Image_Filename(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_image_filename( path )
- *
- * Set the path of the image to emit. Relative to the pixmaps/
- * directory.
- */
 static int Set_Image_Filename(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -123,12 +95,6 @@ static int Get_Time_To_Live(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_time_to_live( time [, rand ] )
- *
- * Set the time the particles may live, plusminus `rand'. Both
- * values are seconds.
- */
 static int Set_Time_To_Live(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -142,14 +108,6 @@ static int Set_Time_To_Live(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_scale() → a_number, another_number
- *
- * Returns the scaling information. `a_number' is the main
- * scalation (0.5 = half, 1 = original, 2 = double, anything
- * in between accordingly), `another_number' is the random
- * scalation variation.
- */
 static int Get_Scale(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -158,14 +116,6 @@ static int Get_Scale(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_scale( scale [, rand ] )
- *
- * Set the scale of the emitted particles. 1 means original size,
- * 0.5 is half the original size and 2 is the double size.
- * `rand' may be used to vary the emitted particles’ sizes.
- * `scale' has to be between 0 and 100.
- */
 static int Set_Scale(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -179,12 +129,6 @@ static int Set_Scale(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_speed() → a_number, another_number
- *
- * Return the current emitting speed (`a_number') and the
- * random speed variation (`another_number').
- */
 static int Get_Speed(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -193,12 +137,6 @@ static int Get_Speed(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_speed( speed [, rand ] )
- *
- * Set the emitting speed (in seconds), plusminus a random
- * variation.
- */
 static int Set_Speed(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -212,13 +150,6 @@ static int Set_Speed(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_emitter_time_to_live() → a_number
- *
- * Returns the number of seconds the whole emitter may live.
- * Don’t confuse with get_time_to_live(), which is for particles.
- * -1 means live forever.
- */
 static int Get_Emitter_Time_To_Live(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -226,14 +157,6 @@ static int Get_Emitter_Time_To_Live(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_emitter_time_to_live( time )
- *
- * Set the time the whole emitter may live (don’t confuse
- * this with set_time_to_live(), which is for the particles).
- * `time' is in seconds, and -1 means to make the emitter
- * stay forever.
- */
 static int Set_Emitter_Time_To_Live(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -244,11 +167,6 @@ static int Set_Emitter_Time_To_Live(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_quota() → a_number
- *
- * Returns the amount of particles emitted at one time.
- */
 static int Get_Quota(lua_State* p_state)
 {
   cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -256,11 +174,6 @@ static int Get_Quota(lua_State* p_state)
   return 1;
 }
 
-/**
- * set_quota( quota )
- *
- * Sets the amount of particles emitted at one time.
- */
 static int Set_Quota(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -271,12 +184,6 @@ static int Set_Quota(lua_State* p_state)
 	return 0;
 }
 
-/**
- * set_gravity_x( gravity [, rand ] )
- *
- * Sets the horizontal gravity for this particle emitter. `rand' will be
- * added/subtracted to `gravity' on a random base.
- */
 static int Set_Gravity_X(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -291,11 +198,6 @@ static int Set_Gravity_X(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_gravity_x() → gravity, rand
- *
- * Returns the base horizontal gravity and the random variation.
- */
 static int Get_Gravity_X(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -304,12 +206,6 @@ static int Get_Gravity_X(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_gravity_y( gravity [, rand ] )
- *
- * Sets the vertical gravity for this particle emitter. `rand' will be
- * added/subtracted to `gravity' on a random base.
- */
 static int Set_Gravity_Y(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -324,11 +220,6 @@ static int Set_Gravity_Y(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_gravity_y() → gravity, rand
- *
- * Returns the base vertical gravity and the random variation.
- */
 static int Get_Gravity_Y(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -337,11 +228,6 @@ static int Get_Gravity_Y(lua_State* p_state)
 	return 2;
 }
 
-/**
- * get_const_rotation_x() → rotation, rand
- *
- * Returns the constant X rotation and its random modifier.
- */
 static int Get_Const_Rotation_X(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -352,11 +238,6 @@ static int Get_Const_Rotation_X(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_const_rotation_x( rotation [, rand ] )
- *
- * Set the constant X rotation.
- */
 static int Set_Const_Rotation_X(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -371,11 +252,6 @@ static int Set_Const_Rotation_X(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_const_rotation_y() → rotation, rand
- *
- * Returns the constant Y rotation and its random modifier.
- */
 static int Get_Const_Rotation_Y(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -386,11 +262,6 @@ static int Get_Const_Rotation_Y(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_const_rotation_y( rotation [, rand ] )
- *
- * Set the constant Y rotation.
- */
 static int Set_Const_Rotation_Y(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -405,11 +276,6 @@ static int Set_Const_Rotation_Y(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_const_rotation_z() → rotation, rand
- *
- * Returns the constant Z rotation and its random modifier.
- */
 static int Get_Const_Rotation_Z(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -420,11 +286,6 @@ static int Get_Const_Rotation_Z(lua_State* p_state)
 	return 2;
 }
 
-/**
- * set_const_rotation_z( rotation [, rand ] )
- *
- * Set the constant Z rotation.
- */
 static int Set_Const_Rotation_Z(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -439,14 +300,6 @@ static int Set_Const_Rotation_Z(lua_State* p_state)
 	return 0;
 }
 
-/**
- * emit()
- *
- * Emit a single particle (or multiple ones if the quota is
- * set accodingly). Usually you want to use
- * set_emitter_time_to_live() to make it emit particles automatically
- * for a certain period of time instead.
- */
 static int Emit(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
