@@ -82,6 +82,12 @@ p.superclass {
     color: gray;
 }
 
+img.enemyimg {
+    margin-right: 4px;
+    width: 64px;
+    float: left;
+}
+
 ul#markdown-toc {
     border: 1px solid black;
     padding: 20px;
@@ -91,6 +97,7 @@ ul#markdown-toc {
 }
 
 ul#markdown-toc a {
+    margin-left: 4px;
     color: #00AAAA;
 }
 

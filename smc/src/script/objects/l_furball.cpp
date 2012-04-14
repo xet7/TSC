@@ -12,16 +12,6 @@ using namespace SMC;
  * Class methods
  ***************************************/
 
-/**
- * new( direction [, color = "brown"] ) → a_furball
- *
- * Creates a new Furball. `direction' is either "left"
- * or "right", `color' may be one of:
- *
- * * "brown": Normal furball.
- * * "blue": More ice-resistant furball.
- * * "black": Furball boss.
- */
 static int Allocate(lua_State* p_state)
 {
 	// Get required arguments
@@ -87,12 +77,6 @@ LUA_IMPLEMENT_EVENT(downgrade);
  * "Normal" access
  ***************************************/
 
-/**
- * get_color() → a_string.
- *
- * Returns the furball’s current appeareance. See set_color()
- * for a list of possible strings returned.
- */
 static int Get_Color(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -115,16 +99,6 @@ static int Get_Color(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_color( color )
- *
- * Change a furball’s appeareance. Note calling this also resets
- * any damage made to this enemy. `color' may be one of:
- *
- * * "brown": The normal furball.
- * * "blue":	The more ice-resistant furball.
- * * "black": The giant furball boss.
- */
 static int Set_Color(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -142,13 +116,6 @@ static int Set_Color(lua_State* p_state)
 	return 0;
 }
 
-/**
- * enable_level_ends_if_killed()
- *
- * Activates automatic level ending when this furball
- * is killed. If you call this on a furball that isn’t
- * a boss (i.e. its color is "black"), raises an error.
- */
 static int Enable_Level_Ends_If_Killed(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -159,13 +126,6 @@ static int Enable_Level_Ends_If_Killed(lua_State* p_state)
 	return 0;
 }
 
-/**
- * disable_level_ends_if_killed()
- *
- * Deactivates automatic level ending when this furball
- * is killed. If you call this on a furball that isn’t
- * a boss (i.e. its color is "black"), raises an error.
- */
 static int Disable_Level_Ends_If_Killed(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -176,14 +136,6 @@ static int Disable_Level_Ends_If_Killed(lua_State* p_state)
 	return 0;
 }
 
-/**
- * does_level_end_if_killed() → a_bool
- *
- * For a normal, i.e. non-black, furball always returns false.
- * Otherwise, checks if defeating this boss furball causes
- * the level to end and if so, returns true, else returns
- * false.
- */
 static int Does_Level_End_If_Killed(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -197,13 +149,6 @@ static int Does_Level_End_If_Killed(lua_State* p_state)
 	return 1;
 }
 
-/**
- * set_max_downgrade_count( count )
- *
- * Sets the number of downgrades Maryo has to give this
- * furball boss before it dies. If this is not a furball
- * boss, raises an error.
- */
 static int Set_Max_Downgrade_Count(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -217,14 +162,6 @@ static int Set_Max_Downgrade_Count(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_max_downgrade_count() → a_number
- *
- * Returns the maximum number of times this furball boss
- * needs to be hit before it dies (excluding higher forces
- * such as abysses). If this isn’t a furball boss, the
- * returned value is meaningless and most probably zero.
- */
 static int Get_Max_Downgrade_Count(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -234,13 +171,6 @@ static int Get_Max_Downgrade_Count(lua_State* p_state)
 	return 1;
 }
 
-/**
- * get_downgrade_count() → a_number
- *
- * Returns the number of times this furball boss has already
- * been downgraded. If this is not a furball boss, raises
- * an error.
- */
 static int Get_Downgrade_Count(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
@@ -253,14 +183,6 @@ static int Get_Downgrade_Count(lua_State* p_state)
 	return 1;
 }
 
-/**
- * is_boss() → a_boolean
- *
- * Checks whether this furball is the giant, black and
- * incredibly horrible FURBALL BOSS!
- *
- * ...if so, hurries to return true, otherwise returns false.
- */
 static int Is_Boss(lua_State* p_state)
 {
 	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
