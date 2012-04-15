@@ -9,6 +9,7 @@
 #include "objects/l_level_player.h"
 #include "objects/l_enemy.h"
 #include "objects/l_furball.h"
+#include "objects/l_eato.h"
 #include "objects/l_particle_emitter.h"
 #include "objects/l_audio.h"
 // Events
@@ -59,6 +60,7 @@ namespace SMC
 			Open_Level_Player(p_state);
 			Open_Enemy(p_state);
 			Open_Furball(p_state);
+			Open_Eato(p_state);
 
 			// Events
 			Open_Key_Down_Event(p_state);

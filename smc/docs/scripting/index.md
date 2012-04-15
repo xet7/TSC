@@ -153,6 +153,7 @@ the Lua scripting API:
 
 * [AnimatedSprite](animated_sprite.html)
 * [Audio](audio.html)
+* [Eato](eato.html)
 * [Enemy](enemy.html)
 * [Furball](furball.html)
 * [LevelPlayer](level_player.html)

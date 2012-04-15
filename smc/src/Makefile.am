@@ -166,6 +166,8 @@ smc_SOURCES = \
 	script/objects/l_animated_sprite.h \
 	script/objects/l_audio.cpp \
 	script/objects/l_audio.h \
+	script/objects/l_eato.cpp \
+	script/objects/l_eato.h \
 	script/objects/l_enemy.cpp \
 	script/objects/l_enemy.h \
 	script/objects/l_furball.cpp \
