@@ -121,8 +121,8 @@ static int Set_Scale(lua_State* p_state)
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
 	float scale = static_cast<float>(luaL_checknumber(p_state, 2));
 	float rand = 0.0f;
-	if (lua_isnumber(p_state, 3));
-	rand = static_cast<float>(lua_tonumber(p_state, 3));
+	if (lua_isnumber(p_state, 3))
+		rand = static_cast<float>(lua_tonumber(p_state, 3));
 
 	p_emitter->Set_Scale(scale, rand);
 

@@ -38,7 +38,7 @@ static int Play_Music(lua_State* p_state)
 	if (lua_isnumber(p_state, 3))
 		loops = static_cast<int>(lua_tonumber(p_state, 3));
 	if (lua_isboolean(p_state, 4))
-		force = lua_toboolean(p_state, 4);
+		force = static_cast<bool>(lua_toboolean(p_state, 4));
 	if (lua_isnumber(p_state, 5))
 		fadein_ms = static_cast<unsigned int>(lua_tonumber(p_state, 5));
 
