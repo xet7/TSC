@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../objects/animated_sprite.h"
 #include "l_sprite.h"
@@ -23,11 +24,11 @@ static luaL_Reg Methods[] = {
 
 void Script::Open_Animated_Sprite(lua_State* p_state)
 {
-	LuaWrap::register_subclass<cAnimated_Sprite>(p_state,
-	                                            "AnimatedSprite",
-	                                            "MovingSprite",
-	                                            Methods,
-	                                            NULL,
-	                                            NULL,  // Not intended to be instanciated directly
-	                                            NULL); // Memory managed by SMC
+	LuaWrap::register_subclass<cAnimated_Sprite>(	p_state,
+													"AnimatedSprite",
+													"MovingSprite",
+													Methods,
+													NULL,
+													NULL,	// Not intended to be instanciated directly
+													NULL);	// Memory managed by SMC
 }

@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../audio/audio.h"
 #include "l_audio.h"
@@ -10,10 +11,10 @@ using namespace SMC;
 
 static int Play_Sound(lua_State* p_state)
 {
-	std::string filename = luaL_checkstring(p_state, 2);
-	int volume					 = -1;
-	int loops						 = 0;
-	int resid						 = -1;
+	std::string filename	= luaL_checkstring(p_state, 2);
+	int volume				= -1;
+	int loops				= 0;
+	int resid				= -1;
 
 	if (lua_isnumber(p_state, 3))
 		volume = static_cast<int>(lua_tonumber(p_state, 3));
@@ -30,10 +31,10 @@ static int Play_Sound(lua_State* p_state)
 
 static int Play_Music(lua_State* p_state)
 {
-	std::string filename = luaL_checkstring(p_state, 2);
-	int loops						 = 0;
-	bool force					 = true;
-	int fadein_ms				 = 0;
+	std::string filename	= luaL_checkstring(p_state, 2);
+	int loops				= 0;
+	bool force				= true;
+	int fadein_ms			= 0;
 
 	if (lua_isnumber(p_state, 3))
 		loops = static_cast<int>(lua_tonumber(p_state, 3));
@@ -53,8 +54,8 @@ static int Play_Music(lua_State* p_state)
  ***************************************/
 
 luaL_Reg Methods[] = {
-	{"play_music", Play_Music},
-	{"play_sound", Play_Sound},
+	{"play_music",	Play_Music},
+	{"play_sound",	Play_Sound},
 	{NULL, NULL}
 };
 

@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../objects/sprite.h"
 #include "../../level/level.h"
@@ -22,9 +23,9 @@ static int Allocate(lua_State* p_state)
 	 * to, so it mustn’t be freed by Lua previously what would result
 	 * in a segmentation fault. */
 	lua_pushvalue(p_state, 1); // Needed for attaching the instance methods
-	cSprite** pp_sprite = (cSprite**) lua_newuserdata(p_state, sizeof(cSprite*));
-	*pp_sprite          = new cSprite(pActive_Level->m_sprite_manager);
-	cSprite* p_sprite   = *pp_sprite;
+	cSprite** pp_sprite	= (cSprite**) lua_newuserdata(p_state, sizeof(cSprite*));
+	*pp_sprite			= new cSprite(pActive_Level->m_sprite_manager);
+	cSprite* p_sprite	= *pp_sprite;
 
 	// Attach instance methods
 	LuaWrap::InternalC::set_imethod_table(p_state);
@@ -128,7 +129,7 @@ static int Get_UID(lua_State* p_state)
 
 static int Set_Massive_Type(lua_State* p_state)
 {
-	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	cSprite* p_sprite	= *LuaWrap::check<cSprite*>(p_state, 1);
 	std::string type	= luaL_checkstring(p_state, 2);
 
 	if (type == "passive")
@@ -241,33 +242,33 @@ static int Is_Player(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
-	{"get_collision_rect", Get_Collision_Rect},
-	{"get_rect", Get_Rect},
-	{"get_uid",  Get_UID},
-	{"get_x",    Get_X},
-	{"get_y",    Get_Y},
-	{"get_z",    Get_Z},
-	{"hide",     Hide},
-	{"is_player",Is_Player},
-	{"on_touch", LUA_EVENT_HANDLER(touch)},
-	{"pos",      Pos},
-	{"register", Register},
-	{"set_massive_type", Set_Massive_Type},
-	{"set_x",    Set_X},
-	{"set_y",    Set_Y},
-	{"show",     Show},
-	{"warp",     Warp},
+	{"get_collision_rect",	Get_Collision_Rect},
+	{"get_rect",			Get_Rect},
+	{"get_uid",				Get_UID},
+	{"get_x",				Get_X},
+	{"get_y",				Get_Y},
+	{"get_z",				Get_Z},
+	{"hide",				Hide},
+	{"is_player",			Is_Player},
+	{"on_touch",			LUA_EVENT_HANDLER(touch)},
+	{"pos",					Pos},
+	{"register",			Register},
+	{"set_massive_type",	Set_Massive_Type},
+	{"set_x",				Set_X},
+	{"set_y",				Set_Y},
+	{"show",				Show},
+	{"warp",				Warp},
 	{NULL, NULL}
 };
 
 void Script::Open_Sprite(lua_State* p_state)
 {
-	LuaWrap::register_class<cSprite>(p_state,
-	                                 "Sprite",
-	                                 Methods,
-	                                 NULL,
-	                                 Allocate,
-	                                 NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
+	LuaWrap::register_class<cSprite>(	p_state,
+										"Sprite",
+										Methods,
+										NULL,
+										Allocate,
+										NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
 
 	// Register the "__index" metamethod for Sprite
 	lua_getglobal(p_state, "Sprite");

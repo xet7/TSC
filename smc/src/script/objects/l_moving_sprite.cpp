@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../objects/movingsprite.h"
 #include "l_sprite.h"
@@ -207,27 +208,27 @@ static int Accelerate(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
-	{"accelerate",     Accelerate},
-	{"accelerate_x",   Accelerate_X},
-	{"accelerate_y",   Accelerate_Y},
-	{"get_direction",  Get_Direction},
-	{"get_velocity",   Get_Velocity},
-	{"get_velocity_x", Get_Velocity_X},
-	{"get_velocity_y", Get_Velocity_Y},
-	{"set_direction",  Set_Direction},
-	{"set_velocity",   Set_Velocity},
-	{"set_velocity_x", Set_Velocity_X},
-	{"set_velocity_y", Set_Velocity_Y},
+	{"accelerate",		Accelerate},
+	{"accelerate_x",	Accelerate_X},
+	{"accelerate_y",	Accelerate_Y},
+	{"get_direction",	Get_Direction},
+	{"get_velocity",	Get_Velocity},
+	{"get_velocity_x",	Get_Velocity_X},
+	{"get_velocity_y",	Get_Velocity_Y},
+	{"set_direction",	Set_Direction},
+	{"set_velocity",	Set_Velocity},
+	{"set_velocity_x",	Set_Velocity_X},
+	{"set_velocity_y",	Set_Velocity_Y},
 	{NULL, NULL}
 };
 
 void Script::Open_Moving_Sprite(lua_State* p_state)
 {
-	LuaWrap::register_subclass<cMovingSprite>(p_state,
-	                                          "MovingSprite",
-	                                          "Sprite",
-	                                          Methods,
-	                                          NULL,
-	                                          NULL,  // Not intended to be instanciated directly
-	                                          NULL); // Memory managed by SMC
+	LuaWrap::register_subclass<cMovingSprite>(	p_state,
+												"MovingSprite",
+												"Sprite",
+												Methods,
+												NULL,
+												NULL,	// Not intended to be instanciated directly
+												NULL);	// Memory managed by SMC
 }

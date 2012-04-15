@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "l_sprite.h"
 #include "l_level_player.h"
@@ -127,13 +128,13 @@ static luaL_Reg Methods[] = {
 
 void Script::Open_Level_Player(lua_State* p_state)
 {
-	LuaWrap::register_subclass<cLevel_Player>(p_state,
-																						"LevelPlayer",
-																						"AnimatedSprite",
-																						Methods,
-																						NULL,
-																						NULL, // Singleton, cannot allocate new one
-																						NULL); // Memory managed by SMC, no finalizer needed
+	LuaWrap::register_subclass<cLevel_Player>(	p_state,
+												"LevelPlayer",
+												"AnimatedSprite",
+												Methods,
+												NULL,
+												NULL,	// Singleton, cannot allocate new one
+												NULL);	// Memory managed by SMC, no finalizer needed
 
 	// Make the global variable Player point to the sole instance
 	// of the LevelPlayer class.

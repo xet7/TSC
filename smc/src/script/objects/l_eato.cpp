@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../enemies/eato.h"
 #include "../../level/level.h"
@@ -27,8 +28,8 @@ static int Allocate(lua_State* p_state)
 		dir = DIR_UP_RIGHT;
 	else if (sdir == "left_up")
 		dir = DIR_LEFT_UP;
-  else if (sdir == "left_down")
-    dir = DIR_LEFT_DOWN;
+	else if (sdir == "left_down")
+		dir = DIR_LEFT_DOWN;
 	else if (sdir == "right_up")
 		dir = DIR_RIGHT_UP;
 	else if (sdir == "right_down")
@@ -47,9 +48,9 @@ static int Allocate(lua_State* p_state)
 
 	// Create the userdata
 	lua_pushvalue(p_state, 1); // Needed for set_imethod_table()
-	cEato** pp_eato = (cEato**) lua_newuserdata(p_state, sizeof(cEato*));
+	cEato** pp_eato	= (cEato**) lua_newuserdata(p_state, sizeof(cEato*));
 	cEato*	p_eato	= new cEato(pActive_Level->m_sprite_manager);
-	*pp_eato				= p_eato;
+	*pp_eato		= p_eato;
 
 	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
 	// Remove the duplicated class table
@@ -93,20 +94,20 @@ static int Set_Image_Dir(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
-	{"get_image_dir", Get_Image_Dir},
-	{"set_image_dir", Set_Image_Dir},
+	{"get_image_dir",	Get_Image_Dir},
+	{"set_image_dir",	Set_Image_Dir},
 	{NULL, NULL}
 };
 
 void Script::Open_Eato(lua_State* p_state)
 {
-	LuaWrap::register_subclass<cEato>(p_state,
-																		"Eato",
-																		"Enemy",
-																		Methods,
-																		NULL,
-																		Allocate,
-																		NULL); // Memory managed by SMC
+	LuaWrap::register_subclass<cEato>	(p_state,
+										"Eato",
+										"Enemy",
+										Methods,
+										NULL,
+										Allocate,
+										NULL); // Memory managed by SMC
 
 	// Register the "__index" metamethod for Eato
 	lua_getglobal(p_state, "Eato");

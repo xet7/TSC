@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../enemies/furball.h"
 #include "../../level/level.h"
@@ -44,9 +45,9 @@ static int Allocate(lua_State* p_state)
 
 	// Create the userdata
 	lua_pushvalue(p_state, 1); // Needed for set_imethod_table()
-	cFurball** pp_furball = (cFurball**) lua_newuserdata(p_state, sizeof(cFurball*));
+	cFurball** pp_furball	= (cFurball**) lua_newuserdata(p_state, sizeof(cFurball*));
 	cFurball*	 p_furball	= new cFurball(pActive_Level->m_sprite_manager);
-	*pp_furball						= p_furball;
+	*pp_furball				= p_furball;
 
 	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
 
@@ -101,8 +102,8 @@ static int Get_Color(lua_State* p_state)
 
 static int Set_Color(lua_State* p_state)
 {
-	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
-	std::string color		= luaL_checkstring(p_state, 2);
+	cFurball* p_furball	= *LuaWrap::check<cFurball*>(p_state, 1);
+	std::string color	= luaL_checkstring(p_state, 2);
 
 	if (color == "brown")
 		p_furball->Set_Color(COL_BROWN);
@@ -151,8 +152,8 @@ static int Does_Level_End_If_Killed(lua_State* p_state)
 
 static int Set_Max_Downgrade_Count(lua_State* p_state)
 {
-	cFurball* p_furball = *LuaWrap::check<cFurball*>(p_state, 1);
-	int count						= luaL_checkint(p_state, 2);
+	cFurball* p_furball	= *LuaWrap::check<cFurball*>(p_state, 1);
+	int count			= luaL_checkint(p_state, 2);
 
 	if (p_furball->m_type != TYPE_FURBALL_BOSS)
 		return luaL_error(p_state, "This is not a furball boss.");
@@ -200,28 +201,28 @@ static int Is_Boss(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
-	{"disable_level_ends_if_killed", Disable_Level_Ends_If_Killed},
-	{"does_level_end_if_killed",     Does_Level_End_If_Killed},
-	{"enable_level_ends_if_killed",  Enable_Level_Ends_If_Killed},
-	{"get_color",                    Get_Color},
-	{"get_downgrade_count",          Get_Downgrade_Count},
-	{"get_max_downgrade_count",      Get_Max_Downgrade_Count},
-	{"is_boss",                      Is_Boss},
-	{"on_downgrade",                 LUA_EVENT_HANDLER(downgrade)},
-	{"set_color",                    Set_Color},
-	{"set_max_downgrade_count",      Set_Max_Downgrade_Count},
+	{"disable_level_ends_if_killed",	Disable_Level_Ends_If_Killed},
+	{"does_level_end_if_killed",		Does_Level_End_If_Killed},
+	{"enable_level_ends_if_killed",		Enable_Level_Ends_If_Killed},
+	{"get_color",						Get_Color},
+	{"get_downgrade_count",				Get_Downgrade_Count},
+	{"get_max_downgrade_count",			Get_Max_Downgrade_Count},
+	{"is_boss",							Is_Boss},
+	{"on_downgrade",					LUA_EVENT_HANDLER(downgrade)},
+	{"set_color",						Set_Color},
+	{"set_max_downgrade_count",			Set_Max_Downgrade_Count},
 	{NULL, NULL}
 };
 
 void Script::Open_Furball(lua_State* p_state)
 {
-	LuaWrap::register_subclass<cFurball>(p_state,
-	                                   "Furball",
-	                                   "Enemy",
-	                                   Methods,
-	                                   NULL,
-	                                   Allocate,
-	                                   NULL); // Memory managed by SMC
+	LuaWrap::register_subclass<cFurball>(	p_state,
+											"Furball",
+											"Enemy",
+											Methods,
+											NULL,
+											Allocate,
+											NULL); // Memory managed by SMC
 
 	// Register the "__index" metamethod for Furball
 	lua_getglobal(p_state, "Furball");

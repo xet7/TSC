@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../enemies/enemy.h"
 #include "../../level/level.h"
@@ -83,9 +84,9 @@ static int Kill(lua_State* p_state)
 static int Kill_With_Points(lua_State* p_state)
 {
 	cEnemy* p_enemy = *LuaWrap::check<cEnemy*>(p_state, 1);
-	pHud_Points->Add_Points(p_enemy->m_kill_points,
-	                        p_enemy->m_pos_x,
-	                        p_enemy->m_pos_y - 5.0f);
+	pHud_Points->Add_Points(	p_enemy->m_kill_points,
+								p_enemy->m_pos_x,
+								p_enemy->m_pos_y - 5.0f);
 	pAudio->Play_Sound(p_enemy->m_kill_sound);
 	p_enemy->Set_Dead(true);
 
@@ -97,28 +98,28 @@ static int Kill_With_Points(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
-	{"disable_fire_resistance", Disable_Fire_Resistance},
-	{"enable_fire_resistance",  Enable_Fire_Resistance},
-	{"get_kill_points",         Get_Kill_Points},
-	{"get_kill_sound",          Get_Kill_Sound},
-	{"is_fire_resistant",       Is_Fire_Resistant},
-	{"kill",                    Kill},
-	{"kill_with_points",        Kill_With_Points},
-	{"on_die",                  LUA_EVENT_HANDLER(die)},
-	{"set_kill_points",         Set_Kill_Points},
-	{"set_kill_sound",          Set_Kill_Sound},
+	{"disable_fire_resistance",	Disable_Fire_Resistance},
+	{"enable_fire_resistance",	Enable_Fire_Resistance},
+	{"get_kill_points",			Get_Kill_Points},
+	{"get_kill_sound",			Get_Kill_Sound},
+	{"is_fire_resistant",		Is_Fire_Resistant},
+	{"kill",					Kill},
+	{"kill_with_points",		Kill_With_Points},
+	{"on_die",					LUA_EVENT_HANDLER(die)},
+	{"set_kill_points",			Set_Kill_Points},
+	{"set_kill_sound",			Set_Kill_Sound},
 	{NULL, NULL}
 };
 
 void Script::Open_Enemy(lua_State* p_state)
 {
-	LuaWrap::register_subclass<cEnemy>(p_state,
-	                                   "Enemy",
-	                                   "AnimatedSprite",
-	                                   Methods,
-	                                   NULL,
-	                                   NULL,  // Not meant to be instanciated directly (but what about custom enemies?)
-	                                   NULL); // Memory managed by SMC
+	LuaWrap::register_subclass<cEnemy>(	p_state,
+										"Enemy",
+										"AnimatedSprite",
+										Methods,
+										NULL,
+										NULL,	// Not meant to be instanciated directly (but what about custom enemies?)
+										NULL);	// Memory managed by SMC
 
 	// Register the "__index" metamethod for Enemy
 	lua_getglobal(p_state, "Enemy");

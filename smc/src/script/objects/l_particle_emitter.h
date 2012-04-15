@@ -1,4 +1,4 @@
-// -*- c++ -*-
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #ifndef SMC_SCRIPT_PARTICLE_EMITTER_H
 #define SMC_SCRIPT_PARTICLE_EMITTER_H
 #include "../luawrap.hpp"

@@ -1,4 +1,4 @@
-// -*- c++ -*-
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #ifndef SMC_SCRIPT_SPRITE_H
 #define SMC_SCRIPT_SPRITE_H
 #include <string>
@@ -40,8 +40,8 @@ namespace SMC{
 			else{
 				// Found, wrap the T into a Lua object
 				lua_pushvalue(p_state, 1); // argument 1 is the class table
-				T** pp_t = (T**) lua_newuserdata(p_state, sizeof(T*));
-				*pp_t		 = p_t;
+				T** pp_t	= (T**) lua_newuserdata(p_state, sizeof(T*));
+				*pp_t		= p_t;
 
 				// Attach instance methods
 				LuaWrap::InternalC::set_imethod_table(p_state);

@@ -1,3 +1,4 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../luawrap.hpp"
 #include "../../level/level.h"
 #include "../../video/animation.h"
@@ -28,9 +29,9 @@ static int Allocate(lua_State* p_state)
 
 	// Create the userdata
 	lua_pushvalue(p_state, 1); // Need the class table for attaching instance methods
-	cParticle_Emitter** pp_emitter = (cParticle_Emitter**) lua_newuserdata(p_state, sizeof(cParticle_Emitter*));
-	cParticle_Emitter* p_emitter	 = new cParticle_Emitter(pActive_Level->m_sprite_manager);
-	*pp_emitter										 = p_emitter;
+	cParticle_Emitter** pp_emitter	= (cParticle_Emitter**) lua_newuserdata(p_state, sizeof(cParticle_Emitter*));
+	cParticle_Emitter* p_emitter	= new cParticle_Emitter(pActive_Level->m_sprite_manager);
+	*pp_emitter						= p_emitter;
 
 	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
 
@@ -81,12 +82,6 @@ static int Set_Image_Filename(lua_State* p_state)
 	return 0;
 }
 
-/**
- * get_time_to_live() → a_number, another_number
- *
- * Return the TTL of this particle emitter’s particles. The second value
- * returned is the random time addition (see set_time_to_live()).
- */
 static int Get_Time_To_Live(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
@@ -187,8 +182,8 @@ static int Set_Quota(lua_State* p_state)
 static int Set_Gravity_X(lua_State* p_state)
 {
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
-	float xgravity = static_cast<float>(luaL_checknumber(p_state, 2));
-	float xrand		 = 0.0f;
+	float xgravity	= static_cast<float>(luaL_checknumber(p_state, 2));
+	float xrand		= 0.0f;
 
 	if (lua_isnumber(p_state, 3))
 		xrand = static_cast<float>(lua_tonumber(p_state, 3));
@@ -208,9 +203,9 @@ static int Get_Gravity_X(lua_State* p_state)
 
 static int Set_Gravity_Y(lua_State* p_state)
 {
-	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
-	float ygravity = static_cast<float>(luaL_checknumber(p_state, 2));
-	float yrand		 = 0.0f;
+	cParticle_Emitter* p_emitter	= *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float ygravity					= static_cast<float>(luaL_checknumber(p_state, 2));
+	float yrand						= 0.0f;
 
 	if (lua_isnumber(p_state, 3))
 		yrand = static_cast<float>(luaL_checknumber(p_state, 3));
@@ -240,9 +235,9 @@ static int Get_Const_Rotation_X(lua_State* p_state)
 
 static int Set_Const_Rotation_X(lua_State* p_state)
 {
-	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
-	float rot	 = static_cast<float>(luaL_checknumber(p_state, 2));
-	float rand = 0.0f;
+	cParticle_Emitter* p_emitter	= *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float rot						= static_cast<float>(luaL_checknumber(p_state, 2));
+	float rand						= 0.0f;
 
 	if (lua_isnumber(p_state, 3))
 		rand = static_cast<float>(lua_tonumber(p_state, 3));
@@ -264,9 +259,9 @@ static int Get_Const_Rotation_Y(lua_State* p_state)
 
 static int Set_Const_Rotation_Y(lua_State* p_state)
 {
-	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
-	float rot	 = static_cast<float>(luaL_checknumber(p_state, 2));
-	float rand = 0.0f;
+	cParticle_Emitter* p_emitter	= *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
+	float rot						= static_cast<float>(luaL_checknumber(p_state, 2));
+	float rand						= 0.0f;
 
 	if (lua_isnumber(p_state, 3))
 		rand = static_cast<float>(lua_tonumber(p_state, 3));
@@ -312,39 +307,39 @@ static int Emit(lua_State* p_state)
  ***************************************/
 
 static luaL_Reg Methods[] = {
-	{"emit",						   Emit},
-	{"get_const_rotation_x", Get_Const_Rotation_X},
-	{"get_const_rotation_y", Get_Const_Rotation_Y},
-	{"get_const_rotation_z", Get_Const_Rotation_Z},
-	{"get_emitter_time_to_live", Get_Emitter_Time_To_Live},
-	{"get_gravity_x",      Get_Gravity_X},
-	{"get_gravity_y",      Get_Gravity_Y},
-	{"get_image_filename", Get_Image_Filename},
-	{"get_quota",          Get_Quota},
-	{"get_scale",          Get_Scale},
-	{"get_speed",          Get_Speed},
-	{"get_time_to_live",   Get_Time_To_Live},
-	{"set_const_rotation_x", Set_Const_Rotation_X},
-	{"set_const_rotation_y", Set_Const_Rotation_Y},
-	{"set_const_rotation_z", Set_Const_Rotation_Z},
-	{"set_emitter_time_to_live", Set_Emitter_Time_To_Live},
-	{"set_gravity_x",      Set_Gravity_X},
-	{"set_gravity_y",      Set_Gravity_Y},
-	{"set_image_filename", Set_Image_Filename},
-	{"set_quota",          Set_Quota},
-	{"set_scale",          Set_Scale},
-	{"set_speed",          Set_Speed},
-	{"set_time_to_live",   Set_Time_To_Live},
-	{"set_z",						   Set_Z},
+	{"emit",						Emit},
+	{"get_const_rotation_x",		Get_Const_Rotation_X},
+	{"get_const_rotation_y",		Get_Const_Rotation_Y},
+	{"get_const_rotation_z",		Get_Const_Rotation_Z},
+	{"get_emitter_time_to_live",	Get_Emitter_Time_To_Live},
+	{"get_gravity_x",				Get_Gravity_X},
+	{"get_gravity_y",				Get_Gravity_Y},
+	{"get_image_filename",			Get_Image_Filename},
+	{"get_quota",					Get_Quota},
+	{"get_scale",					Get_Scale},
+	{"get_speed",					Get_Speed},
+	{"get_time_to_live",			Get_Time_To_Live},
+	{"set_const_rotation_x",		Set_Const_Rotation_X},
+	{"set_const_rotation_y",		Set_Const_Rotation_Y},
+	{"set_const_rotation_z",		Set_Const_Rotation_Z},
+	{"set_emitter_time_to_live",	Set_Emitter_Time_To_Live},
+	{"set_gravity_x",				Set_Gravity_X},
+	{"set_gravity_y",				Set_Gravity_Y},
+	{"set_image_filename",			Set_Image_Filename},
+	{"set_quota",					Set_Quota},
+	{"set_scale",					Set_Scale},
+	{"set_speed",					Set_Speed},
+	{"set_time_to_live",			Set_Time_To_Live},
+	{"set_z",						Set_Z},
 	{NULL, NULL}
 };
 
 void Script::Open_Particle_Emitter(lua_State* p_state)
 {
-	LuaWrap::register_class<cParticle_Emitter>(p_state,
-	                                           "ParticleEmitter",
-	                                           Methods,
-	                                           NULL,
-	                                           Allocate,
-	                                           NULL);
+	LuaWrap::register_class<cParticle_Emitter>(	p_state,
+												"ParticleEmitter",
+												Methods,
+												NULL,
+												Allocate,
+												NULL);
 }
