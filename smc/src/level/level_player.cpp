@@ -37,6 +37,7 @@
 #include "../video/renderer.h"
 #include "../script/events/jump_event.h"
 #include "../script/events/shoot_event.h"
+#include "../script/events/downgrade_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
@@ -231,7 +232,11 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 		m_invincible_mod = 0.0f;
 
 		pHud_Itembox->Request_Item();
-		
+
+		// Issue the Downgrade event
+		Script::cDowngrade_Event evt(1, 2); // downgrades = 1, max. downgrades = 2
+		evt.Fire(pActive_Level->m_lua, this);
+
 		return;
 	}
 

@@ -31,6 +31,14 @@ Player
 Events
 ------
 
+Downgrade
+: Whenever Maryo gets hit (but not killed), this event is triggered.
+  The event handler gets passed Maryo’s current downgrade count
+  (which is always 1) and Maryo’s maximum downgrade count (which
+  is always 2). As you can see, the arguments passed are not really
+  useful and are just there for symmetry with some enemies’
+  _Downgrade_ event handlers.
+
 Jump
 : This event is issued when the Maryo does a valid jump, i.e. the
   player presses the _Jump_ key and Maryo is currently in a state that
@@ -53,6 +61,12 @@ Instance methods
     downgrade()
 
 Hurts Maryo. Kills him if he is small.
+
+### get_type ###################################################################
+    get_type() → a_string
+
+Returns Maryo’s current type. See [set_type()](#settype) for a list of
+possible strings to be returned.
 
 ### jump #######################################################################
     jump( deaccel )

@@ -8,6 +8,7 @@ using namespace SMC;
  * Event handlers
  ***************************************/
 
+LUA_IMPLEMENT_EVENT(downgrade);
 LUA_IMPLEMENT_EVENT(jump);
 LUA_IMPLEMENT_EVENT(shoot);
 
@@ -37,6 +38,40 @@ static int Jump(lua_State* p_state)
 		pLevel_Player->Start_Jump();
 
 	return 0;
+}
+
+static int Get_Type(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "Argument #0 is no receiver (userdata)");
+
+	switch(pLevel_Player->m_maryo_type){
+	case MARYO_DEAD:
+		lua_pushstring(p_state, "dead");
+		break;
+	case MARYO_SMALL:
+		lua_pushstring(p_state, "small");
+		break;
+	case MARYO_BIG:
+		lua_pushstring(p_state, "big");
+		break;
+	case MARYO_FIRE:
+		lua_pushstring(p_state, "fire");
+		break;
+	case MARYO_ICE:
+		lua_pushstring(p_state, "ice");
+	//case MARYO_CAPE:
+		//lua_pushstring(p_state, "cape"); // Not implemented officially in SMC
+		//break;
+	case MARYO_GHOST:
+		lua_pushstring(p_state, "ghost");
+		break;
+	default:
+		lua_pushstring(p_state, "invalid");
+		break;
+	}
+
+	return 1;
 }
 
 static int Set_Type(lua_State* p_state)
@@ -80,8 +115,10 @@ static int Kill(lua_State* p_state)
 
 static luaL_Reg Methods[] = {
 	{"downgrade", Downgrade},
+	{"get_type", Get_Type},
 	{"jump", Jump},
 	{"kill", Kill},
+	{"on_downgrade", LUA_EVENT_HANDLER(downgrade)},
 	{"on_jump", LUA_EVENT_HANDLER(jump)},
 	{"on_shoot", LUA_EVENT_HANDLER(shoot)},
 	{"set_type", Set_Type},
