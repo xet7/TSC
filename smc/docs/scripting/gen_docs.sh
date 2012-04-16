@@ -8,6 +8,7 @@ echo -n "Copying graphics... "
 cp "../../data/icon/window_32.png" "html/graphics"
 cp "../../data/pixmaps/enemy/furball/brown/turn.png" "html/graphics/furball.png"
 cp "../../data/pixmaps/enemy/eato/brown/3.png" "html/graphics/eato.png"
+cp "../../data/pixmaps/enemy/flyon/orange/open_1.png" "html/graphics/flyon.png"
 echo "Done."
 
 echo "Converting Markdown files with kramdown."

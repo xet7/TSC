@@ -155,6 +155,7 @@ the Lua scripting API:
 * [Audio](audio.html)
 * [Eato](eato.html)
 * [Enemy](enemy.html)
+* [Flyon](flyon.html)
 * [Furball](furball.html)
 * [LevelPlayer](level_player.html)
 * [MovingSprite](moving_sprite.html)

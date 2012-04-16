@@ -154,11 +154,25 @@ static int Get_X(lua_State* p_state)
 	return 1;
 }
 
+static int Get_Start_X(lua_State* p_state)
+{
+	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_start_pos_x);
+	return 1;
+}
+
 static int Set_X(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	float new_x = static_cast<float>(luaL_checknumber(p_state, 2));
 	p_sprite->Set_Pos_X(new_x);
+	return 0;
+}
+
+static int Set_Start_X(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	float new_x = static_cast<float>(luaL_checknumber(p_state, 2));
+	p_sprite->Set_Pos_X(new_x, true);
 	return 0;
 }
 
@@ -168,11 +182,25 @@ static int Get_Y(lua_State* p_state)
 	return 1;
 }
 
+static int Get_Start_Y(lua_State* p_state)
+{
+	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_start_pos_y);
+	return 1;
+}
+
 static int Set_Y(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
 	float new_y = static_cast<float>(luaL_checknumber(p_state, 2));
 	p_sprite->Set_Pos_Y(new_y);
+	return 0;
+}
+
+static int Set_Start_Y(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+	float new_y = static_cast<float>(luaL_checknumber(p_state, 2));
+	p_sprite->Set_Pos_Y(new_y, true);
 	return 0;
 }
 
@@ -186,6 +214,13 @@ static int Pos(lua_State* p_state)
 {
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_x);
 	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_pos_y);
+	return 2;
+}
+
+static int Start_Pos(lua_State* p_state)
+{
+	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_start_pos_x);
+	lua_pushnumber(p_state, (*LuaWrap::check<cSprite*>(p_state, 1))->m_start_pos_y);
 	return 2;
 }
 
@@ -225,6 +260,18 @@ static int Warp(lua_State* p_state)
 	return 0;
 }
 
+static int Start_At(lua_State* p_state)
+{
+	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
+
+	float new_x = static_cast<float>(luaL_checknumber(p_state, 2));
+	float new_y = static_cast<float>(luaL_checknumber(p_state, 3));
+
+	p_sprite->Set_Pos(new_x, new_y, true);
+
+	return 0;
+}
+
 static int Is_Player(lua_State* p_state)
 {
 	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1);
@@ -244,6 +291,8 @@ static int Is_Player(lua_State* p_state)
 static luaL_Reg Methods[] = {
 	{"get_collision_rect",	Get_Collision_Rect},
 	{"get_rect",			Get_Rect},
+	{"get_start_x",			Get_Start_X},
+	{"get_start_y",			Get_Start_Y},
 	{"get_uid",				Get_UID},
 	{"get_x",				Get_X},
 	{"get_y",				Get_Y},
@@ -254,9 +303,13 @@ static luaL_Reg Methods[] = {
 	{"pos",					Pos},
 	{"register",			Register},
 	{"set_massive_type",	Set_Massive_Type},
+	{"set_start_x",			Set_Start_X},
+	{"set_start_y",			Set_Start_Y},
 	{"set_x",				Set_X},
 	{"set_y",				Set_Y},
 	{"show",				Show},
+	{"start_at",			Start_At},
+	{"start_pos",			Start_Pos},
 	{"warp",				Warp},
 	{NULL, NULL}
 };

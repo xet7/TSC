@@ -29,6 +29,17 @@ coordinate like this:
 
     Sprite[38]:get_x()
 
+About coordinates
+-----------------
+
+Instances of `Sprite` and its subclasses have two kinds of
+coordinates, the normal ones (usually called just "coordinates") and
+the starting position’s coordinates (usually called "initial
+coordinates"). Most sprites don’t really care about the initial
+coordinates, but some instances of subclasses of `Sprite` do, e.g. the
+[flyon](flyon.html) remembers its starting position, i.e. where to
+return after jumping out, in its initial coordinates.
+
 Events
 ------
 
@@ -120,6 +131,16 @@ The sprite’s collision rectangle. See also [get_rect()](#getrect)
 
 The sprite’s full image rectangle. See also [get_collision_rect()](#getcollisionrect).
 
+### get_start_x ################################################################
+    get_start_x() → a_number
+
+Returns the sprite’s initial X coordinate.
+
+### get_start_y ################################################################
+    get_start_y() → a_number
+
+Returns the sprite’s initial Y coordinate.
+
 ### get_x ######################################################################
     get_x() → a_number
 
@@ -193,6 +214,23 @@ type
 
   Invalid types will cause an error.
 
+### set_start_x ################################################################
+    set_start_x( val )
+
+Sets the sprite’s initial X coordinate.
+
+#### Parameter
+val
+: The X coordinate in pixels.
+
+### set_start_y ################################################################
+    set_start_y( val )
+
+Sets the sprite’s initial Y coordinate.
+
+#### Parameter
+val
+: The Y coordinate in pixels.
 
 ### set_x ######################################################################
     set_x( val )
@@ -204,14 +242,33 @@ Sets a new X coordinate.
 
 Sets a new Y coordinate.
 
-
 ### show #######################################################################
     show()
 
 Makes a sprite visible. See also [hide()](#hide).
 
+### start_at ###################################################################
+    start_at( xpos, ypos )
 
-### wrap #######################################################################
+Sets both the initial X and Y coordinates at once.
+
+#### Parameters
+xpos
+: The initial X coordinate in pixels.
+
+ypos
+: The initial Y coordinate in pixels.
+
+### start_pos ##################################################################
+    start_pos() → xpos, ypos
+
+Returns the initial coordinates for this sprite.
+
+#### Return value
+
+The initial coordinates, both in pixels.
+
+### warp #######################################################################
     warp( new_x, new_y )
 
 Warp the sprite somewhere. Note you are responsible for ensuring the

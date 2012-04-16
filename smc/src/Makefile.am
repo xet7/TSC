@@ -170,6 +170,8 @@ smc_SOURCES = \
 	script/objects/l_eato.h \
 	script/objects/l_enemy.cpp \
 	script/objects/l_enemy.h \
+	script/objects/l_flyon.cpp \
+	script/objects/l_flyon.h \
 	script/objects/l_furball.cpp \
 	script/objects/l_furball.h \
 	script/objects/l_level_player.cpp \
