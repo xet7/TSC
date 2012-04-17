@@ -83,7 +83,7 @@ In case of a number passed, a `Sprite` instance or `nil`, otherwise the result
 of a normal Lua table lookup.
 
 ### new ########################################################################
-    new( [ image_path [, x_pos [, y_pos [, uid ] ] ] ] ) → a_sprite
+    new( [ image_path [, uid ] ] ) → a_sprite
 
 Creates a new sprite. Note the spride is hidden by default, you need
 to explicitely call [show()](#show) on it.
@@ -94,10 +94,6 @@ image_path (nil)
 : Path to image for this sprite. Relative to the **pixmaps/**
   directory.
 
-x_pos (nil)
-: X position to place the sprite at.
-y_pos (nil)
-: Y position to place the sprite at.
 uid (nil)
 : The UID for this sprite. This is useful if you want to reference
   your sprite in another context, e.g. when you create a sprite in a

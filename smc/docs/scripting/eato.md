@@ -21,7 +21,7 @@ Class methods
 -------------
 
 ### new ########################################################################
-    new( direction [, image_directory ] ) → an_eato
+    new( direction [, image_directory [, uid ] ] ) → an_eato
 
 Creates a new eato.
 
@@ -52,6 +52,9 @@ image_directory (`"enemy/eato/brown/"`)
   the `pixmaps/` directory directly as this is what SMC itself
   expects. Note the argument should terminate with a trailing slash
   (to indicate it’s a directory).
+
+uid (nil)
+: UID to assign to this sprite. UIDs already in use cause an error.
 
 #### Return value
 

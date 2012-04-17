@@ -41,11 +41,6 @@ static int Allocate(lua_State* p_state)
 	else
 		return luaL_error(p_state, "Argument #1 '%s' is not a valid eato direction.", sdir.c_str());
 
-	// Optional arguments
-	std::string directory = "enemy/eato/brown/";
-	if (lua_isstring(p_state, 3))
-		directory = lua_tostring(p_state, 3);
-
 	// Create the userdata
 	lua_pushvalue(p_state, 1); // Needed for set_imethod_table()
 	cEato** pp_eato	= (cEato**) lua_newuserdata(p_state, sizeof(cEato*));
@@ -60,9 +55,18 @@ static int Allocate(lua_State* p_state)
 	// This is a generated object
 	p_eato->Set_Spawned(true);
 
-	// Initialization
+	// Required arguments
 	p_eato->Set_Direction(dir);
-	p_eato->Set_Image_Dir(directory);
+
+	//Optional arguments
+	if (lua_isstring(p_state, 3))
+		p_eato->Set_Image_Dir(lua_tostring(p_state, 3));
+	if (lua_isnumber(p_state, 4)){
+		int uid = static_cast<int>(lua_tonumber(p_state, 4));
+		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
+			return luaL_error(p_state, "UID %d is already in use.");
+		p_eato->m_uid = uid;
+	}
 
 	// Let SMC manage the memory
 	pActive_Level->m_sprite_manager->Add(p_eato);

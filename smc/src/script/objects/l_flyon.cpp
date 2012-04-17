@@ -53,6 +53,12 @@ static int Allocate(lua_State* p_state)
 	// Optional arguments
 	if (lua_isstring(p_state, 3))
 		p_flyon->Set_Image_Dir(lua_tostring(p_state, 3));
+	if (lua_isnumber(p_state, 4)){
+		int uid = static_cast<int>(lua_tonumber(p_state, 4));
+		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
+			return luaL_error(p_state, "UID %d is already in use.", uid);
+		p_flyon->m_uid = uid;
+	}
 
 	// Let SMC manage the memory
 	pActive_Level->m_sprite_manager->Add(p_flyon);

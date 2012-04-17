@@ -34,7 +34,7 @@ Class methods
 -------------
 
 ### new ########################################################################
-    new( direction [, image_directory ] ) → a_flyon
+    new( direction [, image_directory [, uid ] ] ) → a_flyon
 
 Creates a new flyon.
 
@@ -52,6 +52,9 @@ image_directory (`"enemy/flyon/orange/"`)
 : The path to the flyon’s graphics directory, relative to the
   `pixmaps/` directory. Should terminate with a slash `/` as it’s a
   directory name.
+
+uid (nil)
+: UID for this sprite. UIDs already in use cause an error.
 
 #### Return value
 

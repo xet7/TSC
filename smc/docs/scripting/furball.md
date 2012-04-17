@@ -32,7 +32,7 @@ Class methods
 -------------
 
 ### new ########################################################################
-    new( direction [, color = "brown" ] ) → a_furball
+    new( direction [, color [, uid ] ] ) → a_furball
 
 Creates a new Furball.
 
@@ -40,7 +40,7 @@ Creates a new Furball.
 direction
 : The direction to look into, either `"left"` or `"right"`.
 
-color ("brown")
+color (`"brown"`)
 : One of the following three strings:
 
   `"brown"`
@@ -53,6 +53,9 @@ color ("brown")
   : Furball Boss.
 
   Passing an invalid color causes an error.
+
+uid (nil)
+: UID for this sprite. Causes an error if already in use.
 
 #### Return value
 

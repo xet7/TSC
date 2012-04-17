@@ -37,14 +37,8 @@ static int Allocate(lua_State* p_state)
 	// Handle optional image argument
 	if (lua_isstring(p_state, 2))
 		p_sprite->Set_Image(pVideo->Get_Surface(lua_tostring(p_state, 2)), true);
-	// Handle optional X coordinate argument
-	if (lua_isnumber(p_state, 3))
-		p_sprite->Set_Pos_X(luaL_checkint(p_state, 3), true);
-	// Handle optional Y coordinate argument
-	if (lua_isnumber(p_state, 4))
-		p_sprite->Set_Pos_Y(luaL_checkint(p_state, 4), true);
 	// Handle optional UID argument
-	if (lua_isnumber(p_state, 5)){
+	if (lua_isnumber(p_state, 3)){
 		int uid = static_cast<int>(lua_tonumber(p_state, 5));
 		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
 			return luaL_error(p_state, "UID %d is already used.", uid);
