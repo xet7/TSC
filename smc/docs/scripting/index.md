@@ -158,6 +158,7 @@ the Lua scripting API:
 * [Flyon](flyon.html)
 * [Furball](furball.html)
 * [LevelPlayer](level_player.html)
+* [Message](message.html)
 * [MovingSprite](moving_sprite.html)
 * [ParticleEmitter](particle_emitter.html)
 * Player → [LevelPlayer](level_player.html)

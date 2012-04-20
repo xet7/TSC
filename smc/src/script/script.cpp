@@ -14,6 +14,7 @@
 #include "objects/l_flyon.h"
 #include "objects/l_particle_emitter.h"
 #include "objects/l_audio.h"
+#include "objects/l_message.h"
 // Events
 #include "events/event.h"
 #include "events/key_down_event.h"
@@ -71,6 +72,7 @@ namespace SMC
 			// Other
 			Open_Particle_Emitter(p_state);
 			Open_Audio(p_state);
+			Open_Message(p_state);
 		}
 
 	};

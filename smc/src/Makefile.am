@@ -176,6 +176,8 @@ smc_SOURCES = \
 	script/objects/l_furball.h \
 	script/objects/l_level_player.cpp \
 	script/objects/l_level_player.h \
+	script/objects/l_message.cpp \
+	script/objects/l_message.h \
 	script/objects/l_moving_sprite.cpp \
 	script/objects/l_moving_sprite.h \
 	script/objects/l_particle_emitter.cpp \
