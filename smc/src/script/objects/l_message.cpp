@@ -49,15 +49,12 @@ static int Allocate(lua_State* p_state)
 	id++;
 	wintitle.append(int_to_string(id));
 
-	lua_pushvalue(p_state, 1); // Needed for attaching the instance methods
 	CEGUI::WindowManager& wm			= CEGUI::WindowManager::getSingleton();
 	CEGUI::MultiLineEditbox** pp_edit	= (CEGUI::MultiLineEditbox**) lua_newuserdata(p_state, sizeof(CEGUI::MultiLineEditbox*));
 	CEGUI::MultiLineEditbox* p_edit		= static_cast<CEGUI::MultiLineEditbox*>(wm.createWindow("TaharezLook/MultiLineEditbox", wintitle));
 	*pp_edit							= p_edit;
 
-	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
-	lua_insert(p_state, -2);	// Remove the...
-	lua_pop(p_state, 1);		//...duplicated class table
+	LuaWrap::InternalC::set_imethod_table(p_state, 1); // Attach instance methods
 
 	// Add to main window
 	pGuiSystem->getGUISheet()->addChildWindow(p_edit);

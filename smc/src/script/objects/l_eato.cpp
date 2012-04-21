@@ -42,15 +42,11 @@ static int Allocate(lua_State* p_state)
 		return luaL_error(p_state, "Argument #1 '%s' is not a valid eato direction.", sdir.c_str());
 
 	// Create the userdata
-	lua_pushvalue(p_state, 1); // Needed for set_imethod_table()
 	cEato** pp_eato	= (cEato**) lua_newuserdata(p_state, sizeof(cEato*));
 	cEato*	p_eato	= new cEato(pActive_Level->m_sprite_manager);
 	*pp_eato		= p_eato;
 
-	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
-	// Remove the duplicated class table
-	lua_insert(p_state, -2);
-	lua_pop(p_state, 1);
+	LuaWrap::InternalC::set_imethod_table(p_state, 1); // Attach instance methods
 
 	// This is a generated object
 	p_eato->Set_Spawned(true);

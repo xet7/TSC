@@ -28,7 +28,7 @@ namespace SMC{
 			cSprite** pp_sprite = (cSprite**) lua_newuserdata(p_state, sizeof(cSprite*));
 			*pp_sprite					= mp_collided;
 			// Attach the instance method table
-			LuaWrap::InternalC::set_imethod_table(p_state);
+			LuaWrap::InternalC::set_imethod_table(p_state, -2);
 			// Remove the class table
 			lua_insert(p_state, -2);
 			lua_pop(p_state, 1);

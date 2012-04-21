@@ -28,16 +28,11 @@ static int Allocate(lua_State* p_state)
 		height = static_cast<float>(lua_tonumber(p_state, 5));
 
 	// Create the userdata
-	lua_pushvalue(p_state, 1); // Need the class table for attaching instance methods
 	cParticle_Emitter** pp_emitter	= (cParticle_Emitter**) lua_newuserdata(p_state, sizeof(cParticle_Emitter*));
 	cParticle_Emitter* p_emitter	= new cParticle_Emitter(pActive_Level->m_sprite_manager);
 	*pp_emitter						= p_emitter;
 
-	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
-
-	// Remove the duplicated class table
-	lua_insert(p_state, -2);
-	lua_pop(p_state, 1);
+	LuaWrap::InternalC::set_imethod_table(p_state, 1); // Attach instance methods
 
 	// Initialize the emitter’s default values
 	p_emitter->Set_Emitter_Rect(x, y, width, height);

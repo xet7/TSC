@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef LUA_WRAPPER_HPP
 #define LUA_WRAPPER_HPP
-#define LUAWRAP_VERSION "0.0.1-dev"
 
 #include <iostream>
 #include <string>
@@ -53,13 +52,22 @@ extern "C" {
 namespace LuaWrap{
 
   /**
+   * Version number as a string.
+   */
+  inline std::string version(){return "0.0.1-dev";}
+
+  /**
    * Internal functions to be called from the Lua side are defined in this
    * namespace. This means that you are not supposed to call this methods
    * directly as they’re bound to Lua userdata objects at runtime.
    */
   namespace InternalLua{
-    int classname(lua_State* p_state);
+    // Class methods
+    int name(lua_State* p_state);
     int superclass(lua_State* p_state);
+
+    // Instance methods
+    int klass(lua_State* p_state);
     int method_lookup(lua_State* p_state);
     template<typename WrappedClass> int default_new(lua_State* p_state);
     template<typename WrappedClass> int default_gc(lua_State* p_state);
@@ -74,8 +82,11 @@ namespace LuaWrap{
    * when debugging what’s wrong with your Lua stack.
    */
   namespace InternalC{
+    /// \internal Lua classname + this suffix = name of instance method table in Lua registry
+    inline std::string itable_suffix(){return "__instancemethods";}
+
     void dump_lua_stack(lua_State* p_state);
-    void set_imethod_table(lua_State* p_state);
+    void set_imethod_table(lua_State* p_state, int index);
 
     void create_classtable(lua_State*         p_state,
                            const std::string& classname,
@@ -159,7 +170,7 @@ namespace LuaWrap{
       if (!p_wrapped)
         return luaL_error(p_state, "Failed to allocate an instance!");
 
-      InternalC::set_imethod_table(p_state);
+      InternalC::set_imethod_table(p_state, -2);
 
       return 1;
     }

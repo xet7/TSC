@@ -141,7 +141,7 @@ void Script::Open_Level_Player(lua_State* p_state)
 	lua_getglobal(p_state, "LevelPlayer"); // Class table needed for instanciation further below
 	cLevel_Player** pp_player = (cLevel_Player**) lua_newuserdata(p_state, sizeof(cLevel_Player*));
 	*pp_player = pLevel_Player;
-	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
+	LuaWrap::InternalC::set_imethod_table(p_state, -2); // Attach instance methods
 	// Cleanup the stack, remove the class table
 	lua_insert(p_state, -2);
 	lua_pop(p_state, 1);

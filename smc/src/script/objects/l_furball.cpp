@@ -30,16 +30,11 @@ static int Allocate(lua_State* p_state)
 		return luaL_error(p_state, "Argument #1 '%s' is not a valid furball direction.", sdir.c_str());
 
 	// Create the userdata
-	lua_pushvalue(p_state, 1); // Needed for set_imethod_table()
 	cFurball** pp_furball	= (cFurball**) lua_newuserdata(p_state, sizeof(cFurball*));
 	cFurball*	 p_furball	= new cFurball(pActive_Level->m_sprite_manager);
 	*pp_furball				= p_furball;
 
-	LuaWrap::InternalC::set_imethod_table(p_state); // Attach instance methods
-
-	// Remove the duplicated class table
-	lua_insert(p_state, -2);
-	lua_pop(p_state, 1);
+	LuaWrap::InternalC::set_imethod_table(p_state, 1); // Attach instance methods
 
 	// This is a generated object
 	p_furball->Set_Spawned(true);

@@ -39,16 +39,10 @@ namespace SMC{
 				lua_pushnil(p_state);
 			else{
 				// Found, wrap the T into a Lua object
-				lua_pushvalue(p_state, 1); // argument 1 is the class table
 				T** pp_t	= (T**) lua_newuserdata(p_state, sizeof(T*));
 				*pp_t		= p_t;
 
-				// Attach instance methods
-				LuaWrap::InternalC::set_imethod_table(p_state);
-
-				// Remove the table
-				lua_insert(p_state, -2);
-				lua_pop(p_state, 1);
+				LuaWrap::InternalC::set_imethod_table(p_state, 1); // Attach instance methods
 			}
 
 			return 1; // Either nil or the Lua T object

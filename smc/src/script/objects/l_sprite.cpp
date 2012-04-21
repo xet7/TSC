@@ -22,17 +22,11 @@ static int Allocate(lua_State* p_state)
 	 * by the SMC core when freeing the SpriteManager the sprite belongs
 	 * to, so it mustn’t be freed by Lua previously what would result
 	 * in a segmentation fault. */
-	lua_pushvalue(p_state, 1); // Needed for attaching the instance methods
 	cSprite** pp_sprite	= (cSprite**) lua_newuserdata(p_state, sizeof(cSprite*));
 	*pp_sprite			= new cSprite(pActive_Level->m_sprite_manager);
 	cSprite* p_sprite	= *pp_sprite;
 
-	// Attach instance methods
-	LuaWrap::InternalC::set_imethod_table(p_state);
-
-	// Remove the duplicated class table
-	lua_insert(p_state, -2);
-	lua_pop(p_state, 1);
+	LuaWrap::InternalC::set_imethod_table(p_state, 1); // Attach instance methods
 
 	// Handle optional image argument
 	if (lua_isstring(p_state, 2))
