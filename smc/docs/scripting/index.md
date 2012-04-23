@@ -35,11 +35,12 @@ Userdata
   provided by the userdata objects you can interact with what the
   internal C++ pointer points to.
 
-Singletons : There’s a little number of special objects called
-  _singletons_. A singleton looks like a class from the Lua API, but in
-  reality is a userdata object you cannot create instances from. They’re
-  usually used where it doesn’t make sense to create multiple objects of
-  a certain type; examples include the [Player](player.html) (there’s
+Singletons
+: There’s a little number of special objects called _singletons_. A
+  singleton looks like a class from the Lua API, but in reality is a
+  userdata object you cannot create instances from. They’re usually
+  used where it doesn’t make sense to create multiple objects of a
+  certain type; examples include the [Player](player.html) (there’s
   only _one_ level player) and the [Audio](audio.html) interface (two
   Audio instances wouldn’t make any sense at all).
 
