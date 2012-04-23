@@ -27,7 +27,10 @@ with UIDs are available anywhere in the Lua script by indexing the
 if you have a sprite with UID 38 in the editor, you can find out its X
 coordinate like this:
 
-    Sprite[38]:get_x()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sprite[38]:get_x()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 About coordinates
 -----------------

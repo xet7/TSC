@@ -55,12 +55,18 @@ be possible to call a singleton’s method without a receiver (because
 they internally use a special SMC global pointer instead of whatever
 is stored inside the userdata). So, this is an error:
 
-    Audio.play_sound("waterdrop_1.ogg")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Audio.play_sound("waterdrop_1.ogg")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 _Always_ use the colon syntax, regardless of what you call methods
 on.
 
-    Audio:play_sound("waterdrop_1.ogg")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Audio:play_sound("waterdrop_1.ogg")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 Events
 ------
@@ -91,6 +97,7 @@ end
 
 Sprite[38]:on_touch(myhandler)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 Furthermore, events are inherited. This allows you for example to
 register for the Touch event of a Furball, which somewhere up the

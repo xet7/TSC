@@ -33,6 +33,7 @@ i.e. **game/star.ogg**. This is what you pass on to a method such as
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Audio:play_music("game/star.ogg")
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 Note that path elements are always separated with a forward slash /,
 even if the native path separation on some platforms is another (such

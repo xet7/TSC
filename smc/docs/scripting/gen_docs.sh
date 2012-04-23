@@ -15,11 +15,12 @@ echo "Converting Markdown files with kramdown."
 for sourcefile in `ls *.md`; do
     targetfile=`echo $sourcefile | sed s/\.md/\.html/`
     echo "$sourcefile -> html/$targetfile"
-    kramdown --toc-levels 2..3 --template template.html.erb $sourcefile > html/$targetfile
+    kramdown --toc-levels 2..3 --template template.html.erb --coderay-line-numbers table --coderay-css class $sourcefile > html/$targetfile
 done
 echo "Done."
 
-echo -n "Copying stylesheet... "
+echo -n "Copying stylesheets... "
+cp coderay.css html
 cp style.css html
 echo "Done."
 

@@ -31,13 +31,19 @@ the [set_time_to_live()](#settimetolive) method allows you to define
 the lifespan of particles emitted at a time. By default, the `rand`
 modification is 0, i.e. the value is taken as-is. So, if you call
 
-    e:set_time_to_live(10)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+e:set_time_to_live(10)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 (where `e` is a `ParticleEmitter` instance), all particles will have
 the same lifespan of 10 seconds. However, if you pass a second
 parameter, as in
 
-    e:set_time_to_live(10, 2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+e:set_time_to_live(10, 2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
 
 then this argument will be taken as a random modifier of the
 operation. This means that in the above example all particles will
