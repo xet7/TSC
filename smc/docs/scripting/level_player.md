@@ -57,16 +57,76 @@ Shoot
 Instance methods
 ----------------
 
+### add_gold ###################################################################
+    add_gold( num )    → a_number
+    add_waffles( num ) → a_number
+
+Add to the player’s current amount of gold/waffles.
+
+#### Parameter
+num
+: The number of gold pieces/waffles to add. If Maryo’s resulting
+  amount of gold pieces/waffles (i.e. the current amount plus `num`)
+  is greater than 100, Maryo gains a life and 100 is subtractacted
+  from the resulting amount. This process is repeated until the total
+  resulting amount of gold pieces/waffles is not greater than 100.
+
+#### Return value
+The new amount of gold pieces/waffles (after the 100-rule described
+above has been applied as often as necessary).
+
+### add_lives ##################################################################
+    add_lives( lives ) → a_number
+
+Add to the player’s current number of lives.
+
+#### Parameter
+lives
+: The lives to add. This number may be negative, but note that setting
+  lives to 0 or less doesn’t kill the player immediately as this
+  number is only checked when the player gets killed by some other
+  force.
+
+### add_points #################################################################
+    add_points( points ) → a_number
+
+Adds more points to the amount of points the player already has.
+
+#### Parameter
+points
+: The number of points to add.
+
+#### Return value
+The new number of points.
+
+### add_waffles ################################################################
+_Alias for [add_gold()](#addgold)._
+
 ### downgrade ##################################################################
     downgrade()
 
 Hurts Maryo. Kills him if he is small.
+
+### get_gold ###################################################################
+    get_gold()  → a_number
+    get_waffles → a_number
+
+The current amount of gold pieces/waffles Maryo has collected so
+far. This is always smaller than 100.
+
+### get_points #################################################################
+    get_points() → a_number
+
+Returns the number of points the player currently has.
 
 ### get_type ###################################################################
     get_type() → a_string
 
 Returns Maryo’s current type. See [set_type()](#settype) for a list of
 possible strings to be returned.
+
+### get_waffles ################################################################
+_Alias for [get_gold()](#getgold)._
 
 ### jump #######################################################################
     jump( deaccel )
@@ -83,6 +143,39 @@ deaccel
     kill()
 
 Immediately sends Maryo to heaven (or to hell; it depends).
+
+### set_gold ###################################################################
+    set_gold( num )
+    set_waffles( num )
+
+Reset the number of collected gold pieces/waffles to the given value.
+
+#### Parameter
+num
+: The new number of gold pieces/waffles. This value obeys the same
+  100-rule as the parameter to [add_gold()](#addgold).
+
+### set_lives ##################################################################
+    set_lives( lives )
+
+Reset Maryo’s number of lives to the given value.
+
+#### Parameter
+lives
+: The new number of lives. This number may be negative, but note that
+  setting lives to 0 or less doesn’t kill the player immediately as
+  this number is only checked when the player gets killed by some other
+  force.
+
+### set_points #################################################################
+    set_points( points )
+
+Reset the player’s points to the given value. You probably don’t want
+to do this.
+
+#### Parameter
+points
+: The new number of points.
 
 ### set_type ###################################################################
     set_type( type )
@@ -120,3 +213,6 @@ type
   : Apply the ghost mushroom.
 
   Specifying an invalid type causes an error.
+
+### set_waffles ################################################################
+_Alias for [set_gold()](#setgold)._

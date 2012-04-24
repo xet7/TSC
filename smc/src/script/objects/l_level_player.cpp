@@ -3,6 +3,7 @@
 #include "l_sprite.h"
 #include "l_level_player.h"
 #include "../../level/level_player.h"
+#include "../../gui/hud.h"
 using namespace SMC;
 
 /***************************************
@@ -114,15 +115,129 @@ static int Kill(lua_State* p_state)
 	return 0;
 }
 
+static int Get_Points(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (userdata) given.");
+
+	lua_pushnumber(p_state, pLevel_Player->m_points);
+	
+	return 1;
+}
+
+static int Set_Points(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (userdata) given.");
+	long points = luaL_checklong(p_state, 2);
+
+	pHud_Points->Set_Points(points);
+
+	return 0;
+}
+
+static int Add_Points(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (userdata) given.");
+	unsigned int points = static_cast<unsigned int>(luaL_checkunsigned(p_state, 2));
+
+	/* X and Y positions, multipliers, etc. are intended to be used
+	 * with enemies, not direct point increasing, so I don’t provide
+	 * Lua bindings for those parameters here. */
+	pHud_Points->Add_Points(points);
+	lua_pushnumber(p_state, pLevel_Player->m_points);
+
+	return 1;
+}
+
+static int Get_Gold(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (useradata) given.");
+
+	lua_pushnumber(p_state, pLevel_Player->m_goldpieces);
+
+	return 1;
+}
+
+static int Set_Gold(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (useradata) given.");
+	int gold = luaL_checkint(p_state, 2);
+
+	pHud_Goldpieces->Set_Gold(gold);
+
+	return 0;
+}
+
+static int Add_Gold(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (useradata) given.");
+	int gold = luaL_checkint(p_state, 2);
+
+	pHud_Goldpieces->Add_Gold(gold);
+	lua_pushnumber(p_state, pLevel_Player->m_goldpieces);
+
+	return 1;
+}
+
+static int Get_Lives(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (useradata) given.");
+
+	lua_pushnumber(p_state, pLevel_Player->m_lives);
+
+	return 1;
+}
+
+static int Set_Lives(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (useradata) given.");
+	int lives = luaL_checkint(p_state, 2);
+
+	pHud_Lives->Set_Lives(lives);
+
+	return 0;
+}
+
+static int Add_Lives(lua_State* p_state)
+{
+	if (!lua_isuserdata(p_state, 1))
+		return luaL_error(p_state, "No receiver (useradata) given.");
+	int lives = luaL_checkint(p_state, 2);
+
+	pHud_Lives->Add_Lives(lives);
+	lua_pushnumber(p_state, pLevel_Player->m_lives);
+
+	return 1;
+}
+
 static luaL_Reg Methods[] = {
+	{"add_gold", Add_Gold},
+	{"add_lives", Add_Lives},
+	{"add_points", Add_Points},
+	{"add_waffles", Add_Gold}, // Alias
 	{"downgrade", Downgrade},
+	{"get_gold", Get_Gold},
+	{"get_lives", Get_Lives},
+	{"get_points", Get_Points},
+	{"get_waffles", Get_Gold}, // Alias
 	{"get_type", Get_Type},
 	{"jump", Jump},
 	{"kill", Kill},
 	{"on_downgrade", LUA_EVENT_HANDLER(downgrade)},
 	{"on_jump", LUA_EVENT_HANDLER(jump)},
 	{"on_shoot", LUA_EVENT_HANDLER(shoot)},
+	{"set_gold", Set_Gold},
+	{"set_lives", Set_Lives},
+	{"set_points", Set_Points},
 	{"set_type", Set_Type},
+	{"set_waffles", Set_Gold}, // Alias
 	{NULL, NULL}
 };
 
