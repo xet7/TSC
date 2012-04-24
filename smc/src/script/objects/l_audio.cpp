@@ -61,5 +61,22 @@ luaL_Reg Methods[] = {
 
 void Script::Open_Audio(lua_State* p_state)
 {
-	LuaWrap::register_singleton(p_state, "Audio", Methods);
+	LuaWrap::register_class<cAudio>(	p_state,
+										"AudioClass",
+										Methods,
+										NULL,
+										NULL,	// Singleton, can’t be instanciated
+										NULL);	// Memory managed by SMC
+
+	// Make the global variable Audio point to the sole instance
+	// of the AudioClass class.
+	lua_getglobal(p_state, "AudioClass"); // Class table needed for the instance methods
+	cAudio** pp_audio = (cAudio**) lua_newuserdata(p_state, sizeof(cAudio*));
+	*pp_audio = pAudio;
+	LuaWrap::InternalC::set_imethod_table(p_state, -2); // Attach instance methods
+	// Cleanup the stack, remove the class table
+	lua_insert(p_state, -2);
+	lua_pop(p_state, 1);
+	// Make the global variable
+	lua_setglobal(p_state, "Audio");
 }

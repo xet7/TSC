@@ -36,13 +36,11 @@ Userdata
   internal C++ pointer points to.
 
 Singletons
-: There’s a little number of special objects called _singletons_. A
-  singleton looks like a class from the Lua API, but in reality is a
-  userdata object you cannot create instances from. They’re usually
-  used where it doesn’t make sense to create multiple objects of a
-  certain type; examples include the [Player](player.html) (there’s
-  only _one_ level player) and the [Audio](audio.html) interface (two
-  Audio instances wouldn’t make any sense at all).
+: There’s a little number of special objects called _singletons_.
+  You can treat them mostly like normal userdata objects, but the
+  class these singletons belong to is not instanciatable from the
+  Lua side, e.g. the `Audio` singleton is the one and only instance
+  of the [AudioClass](audio_class.html) class.
 
 About method calling
 --------------------
@@ -79,7 +77,7 @@ especially regarding the information they pass in form of arguments to
 their event handlers, but the process of registering for an event is
 always the same.
 
-1. You want to listen for a specific event, e.g. the Touch event.
+1. You want to listen for a specific event, e.g. the _Touch_ event.
 2. You write an event handler accepting the parameters the event will
    hand to you (e.g. the other sprite in case of the Touch event).
 3. You register the handler by calling the object’s `on_<eventname>`
@@ -119,8 +117,6 @@ the list of events and then a list of methods:
    class object, without having to create an instance of that class.
 2. The instance methods. These are methods you can call on instances
    of the respective class.
-3. The singleton methods. These are similar to class methods, except
-   you cannot call `new()` on singletons.
 
 Each method is introduced using its name, followed by a list of one or
 more possible call sequences. A call sequence may look like this:
@@ -160,7 +156,8 @@ This is an alphabetical list of all classes and singletons exposed to
 the Lua scripting API:
 
 * [AnimatedSprite](animated_sprite.html)
-* [Audio](audio.html)
+* Audio → [AudioClass](audio_class.html)
+* [AudioClass](audio_class.html)
 * [Eato](eato.html)
 * [Enemy](enemy.html)
 * [Flyon](flyon.html)

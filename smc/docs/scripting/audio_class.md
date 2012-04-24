@@ -1,16 +1,16 @@
-Singleton: Audio
-================
+Class: AudioClass
+=================
 
 * This is the
 {:toc}
 
-The `Audio` singleton allows you to interact with SMC’s sound
-system. You can play any sound from SMC’s sound collection and any
-music that could also be used as a background music in a
-level. Namely, paths to sound files are relative to the SMC **sounds/**
-directory and music paths relative to the SMC **music/**
-directory. The following table lists some examples (of course you have
-to adapt the paths to your local setup):
+The `Audio` singleton, which is the sole instance of `AudioClass`,
+allows you to interact with SMC’s sound system. You can play any sound
+from SMC’s sound collection and any music that could also be used as a
+background music in a level. Namely, paths to sound files are relative
+to the SMC **sounds/** directory and music paths relative to the SMC
+**music/** directory. The following table lists some examples (of
+course you have to adapt the paths to your local setup):
 
 |-----------------------+---------------------------------------+--------------------------------------|
 | SMC installation path | Sound path                            | Music path                           |
@@ -39,8 +39,8 @@ Note that path elements are always separated with a forward slash /,
 even if the native path separation on some platforms is another (such
 as \ on Windows).
 
-Singleton methods
------------------
+Instance methods
+----------------
 
 ### play_sound #################################################################
     play_sound( filename [, volume [, loops [, resid ] ] ] ) → a_bool
