@@ -11,6 +11,7 @@ using namespace SMC;
  ***************************************/
 
 LUA_IMPLEMENT_EVENT(downgrade);
+LUA_IMPLEMENT_EVENT(gold_100);
 LUA_IMPLEMENT_EVENT(jump);
 LUA_IMPLEMENT_EVENT(shoot);
 
@@ -231,8 +232,10 @@ static luaL_Reg Methods[] = {
 	{"jump", Jump},
 	{"kill", Kill},
 	{"on_downgrade", LUA_EVENT_HANDLER(downgrade)},
+	{"on_gold_100", LUA_EVENT_HANDLER(gold_100)},
 	{"on_jump", LUA_EVENT_HANDLER(jump)},
 	{"on_shoot", LUA_EVENT_HANDLER(shoot)},
+	{"on_waffles_100", LUA_EVENT_HANDLER(gold_100)}, // Alias
 	{"set_gold", Set_Gold},
 	{"set_lives", Set_Lives},
 	{"set_points", Set_Points},

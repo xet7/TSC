@@ -39,6 +39,16 @@ Downgrade
   useful and are just there for symmetry with some enemies’
   _Downgrade_ event handlers.
 
+Gold_100
+: After Maryo has collected 100 gold pieces/waffles, this event
+  is triggered. The event handler isn’t passed anything, but note
+  that it is highly discouraged to alter Maryo’s amount of gold from
+  within the event handler; this may lead to unexpected behaviour
+  such as Maryo having more than 100 gold pieces after all operations
+  regarding the amount of gold/waffles have finished or even endless
+  loops as altering the gold/waffle amount may cause subsequent events
+  of this type to be triggered.
+
 Jump
 : This event is issued when the Maryo does a valid jump, i.e. the
   player presses the _Jump_ key and Maryo is currently in a state that
@@ -54,6 +64,9 @@ Shoot
   string `"ice"` when the player fired an iceball, or `"fire"` when it
   was a fireball.
 
+Waffles_100
+: Synonym for the `Gold_100` event.
+
 Instance methods
 ----------------
 
@@ -61,7 +74,8 @@ Instance methods
     add_gold( num )    → a_number
     add_waffles( num ) → a_number
 
-Add to the player’s current amount of gold/waffles.
+Add to the player’s current amount of gold/waffles. If the number of
+gold passes 100, a `Gold_100` event is triggered.
 
 #### Parameter
 num
@@ -148,7 +162,9 @@ Immediately sends Maryo to heaven (or to hell; it depends).
     set_gold( num )
     set_waffles( num )
 
-Reset the number of collected gold pieces/waffles to the given value.
+Reset the number of collected gold pieces/waffles to the given
+value. If you set a value greater than 100, a `Gold_100` event is
+triggered.
 
 #### Parameter
 num
