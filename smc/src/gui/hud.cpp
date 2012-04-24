@@ -523,7 +523,7 @@ void cGoldDisplay :: Draw( cSurface_Request *request /* = NULL */ )
 
 void cGoldDisplay :: Set_Gold( int gold )
 {
-	if( gold >= 100 )
+  while ( gold >= 100 )
 	{
 		gold -= 100;
 		pAudio->Play_Sound( "item/live_up_2.ogg", RID_1UP_MUSHROOM );	
