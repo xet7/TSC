@@ -162,6 +162,7 @@ the Lua scripting API:
 * [Enemy](enemy.html)
 * [Flyon](flyon.html)
 * [Furball](furball.html)
+* [Gee](gee.html)
 * [LevelPlayer](level_player.html)
 * [Message](message.html)
 * [MovingSprite](moving_sprite.html)
