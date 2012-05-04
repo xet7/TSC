@@ -61,6 +61,29 @@
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
 
+/* Function call order on level (un)loading
+ * ========================================
+ *
+ * The following table gives a brief overview over which functions are
+ * called when creating a level and which ones when loading or destroying
+ * one.
+ *
+ * New level       | Loaded level
+ * ================+================
+ * operator new    | operator new
+ * New()           | Load()
+ * Init()          | Init()
+ * - - - - - - - - + - - - - - - - -
+ * Unload()        | Unload()
+ * operator delete | operator delete
+ *
+ * The loading functions are called from the main event loop at core/game_core.cpp
+ * in Handle_Generic_Game_Events() (events "new_level" and "load_level"). Note
+ * that loading of the XML elements happens in Load(), so on adding features
+ * to the level startup that happen for both new and loaded levels you want
+ * to hook into Init(), otherwise choose the apropriate methods.
+ */
+
 namespace SMC
 {
 
@@ -72,18 +95,11 @@ cLevel :: cLevel( void )
 	Reset_Settings();
 
 	m_delayed_unload = 0;
+	m_lua = NULL; // Initialized in Init()
 
 	m_sprite_manager = new cSprite_Manager();
 	m_background_manager = new cBackground_Manager();
 	m_animation_manager = new cAnimation_Manager();
-
-	/* Initialize a Lua interpreter for this level.
-	 * Each level has its own interpreter instance, because
-	 * otherwise some relicts may persist between levels
-	 * which is not really wanted. */
-	m_lua = luaL_newstate();
-	luaL_openlibs(m_lua);
-	Script::Open_Libs(m_lua);
 
 	// add default gradient layer
 	cBackground *gradient_background = new cBackground( m_sprite_manager );
@@ -95,9 +111,6 @@ cLevel :: cLevel( void )
 cLevel :: ~cLevel( void )
 {
 	Unload();
-
-	// Shutdown the Lua interpreter
-	lua_close(m_lua);
 
 	// delete
 	delete m_background_manager;
@@ -171,6 +184,7 @@ bool cLevel :: New( std::string filename )
 
 	// level already exists
 	ifs.close();
+
 	return 0;
 }
 
@@ -277,6 +291,13 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	m_level_filename.clear();
 
 	Reset_Settings();
+
+	/* Shutdown the Lua interpreter. The menu level (the one shown on the
+	 * startup screen) has not been Init()ialized and hence has no Lua
+	 * interpreter attached. Therefore we need to check the existance
+	 * of the Lua interpreter here. */
+	if (m_lua)
+		Script::Cleanup_Lua_State(m_lua);
 
 	/* delete sprites
 	 * do this at last
@@ -455,6 +476,18 @@ void cLevel :: Init( void )
 			emitter->Pre_Update();
 		}
 	}
+
+	// Initialize a Lua interpreter for this level. Each levle has its own Lua
+	// interpreter to prevent unintended object exchange between levels.
+	m_lua = Script::New_Lua_State(this);
+
+	/* Run the Lua code associated with this level (this sets up
+	 * all the event handlers the user wants to register)
+	 * (luaL_dostring returns false in case of success, quite confusing).*/
+	if (luaL_dostring(m_lua, m_script.c_str())){
+		printf("Warning: Lua script crashed with: %s\n", lua_tostring(m_lua, -1));
+		lua_pop(m_lua, -1); // Remove the error message
+	}
 }
 
 void cLevel :: Set_Sprite_Manager( void )
@@ -530,14 +563,6 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 
 	// reset speed factor
 	pFramerate->Reset();
-
-	/* Run the Lua code associated with this level (this sets up
-   * all the event handlers the user wants to register)
-   * (luaL_dostring returns false in case of success, quite confusing).*/
-  if (luaL_dostring(m_lua, m_script.c_str())){
-    printf("Warning: Lua script crashed with: %s", lua_tostring(m_lua, -1));
-    lua_pop(m_lua, -1); // Remove the error message
-  }
 }
 
 void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )

@@ -1,5 +1,5 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
 #include "../../enemies/flyon.h"

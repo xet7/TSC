@@ -1,9 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #ifndef SMC_SCRIPT_PLAYER_H
 #define SMC_SCRIPT_PLAYER_H
-
-#include "../luawrap.hpp"
-#include "../../level/level_player.h"
+#include "../script.h"
 
 namespace SMC{
 	namespace Script{

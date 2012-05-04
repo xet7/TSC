@@ -1,6 +1,5 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
-#include "../../objects/animated_sprite.h"
+#include "../script.h"
 #include "l_sprite.h"
 #include "l_animated_sprite.h"
 

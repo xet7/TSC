@@ -1,8 +1,8 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
-#include "../../enemies/gee.h"
+#include "../script.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
+#include "../../enemies/gee.h"
 #include "l_sprite.h"
 #include "l_enemy.h"
 #include "l_gee.h"

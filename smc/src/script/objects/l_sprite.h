@@ -2,7 +2,7 @@
 #ifndef SMC_SCRIPT_SPRITE_H
 #define SMC_SCRIPT_SPRITE_H
 #include <string>
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
 
