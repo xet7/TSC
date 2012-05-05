@@ -164,7 +164,7 @@ public:
 	// sprite manager
 	cSprite_Manager *m_sprite_manager;
 	// Lua interpreter used for this level
-	lua_State *m_lua;
+	Script::cLua_Interpreter *m_lua;
 
 	/* *** *** *** Settings *** *** *** *** */
 

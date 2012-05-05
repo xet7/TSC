@@ -1,4 +1,5 @@
-#include "../luawrap.hpp"
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
+#include "../script.h"
 #include "shoot_event.h"
 
 namespace SMC{
@@ -19,8 +20,10 @@ namespace SMC{
 			return "shoot";
 		}
 
-		int cShoot_Event::Run_Lua_Callback(lua_State* p_state)
+		int cShoot_Event::Run_Lua_Callback(cLua_Interpreter* p_lua)
 		{
+      lua_State* p_state = p_lua->Get_Lua_State();
+
 			lua_pushstring(p_state, m_ball_type.c_str());
 			return lua_pcall(p_state, 1, 0, 0);
 		}

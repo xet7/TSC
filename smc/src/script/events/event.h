@@ -1,9 +1,9 @@
-// -*- c++ -*-
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #ifndef SMC_SCRIPT_EVENTS_EVENT_H
 #define SMC_SCRIPT_EVENTS_EVENT_H
 #include <string>
 #include <vector>
-#include "../luawrap.hpp"
+#include "../script.h"
 
 namespace SMC{
 	namespace Script{
@@ -11,10 +11,10 @@ namespace SMC{
 		{
 		public:
 			static void Register_Handler(int registryindex);
-			void Fire(lua_State* p_state);
+			void Fire(cLua_Interpreter* p_lua);
 			virtual std::string Event_Name();
 		protected:
-			virtual int Run_Lua_Callback(lua_State* p_state);
+			virtual int Run_Lua_Callback(cLua_Interpreter* p_lua);
 		private:
 			static std::vector<int> M_handlers;
 		};

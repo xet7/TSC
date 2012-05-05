@@ -2,7 +2,7 @@
 #ifndef SMC_SCRIPT_DIE_H
 #define SMC_SCRIPT_DIE_H
 #include <string>
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "sprite_event.h"
 namespace SMC{
 	namespace Script{

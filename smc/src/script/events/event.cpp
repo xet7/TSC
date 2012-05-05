@@ -1,6 +1,7 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include <iostream>
 #include <vector>
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "event.h"
 
 namespace SMC{
@@ -31,12 +32,18 @@ namespace SMC{
 		 * For subclasses, you usually don’t want to overwrite Fire(),
 		 * but rather Run_Lua_Callback().
 		 */
-		void cEvent::Fire(lua_State* p_state)
+		void cEvent::Fire(cLua_Interpreter* p_lua)
 		{
+			// Menu level has no Lua interpreter
+			if (!p_lua)
+				return;
+
+			lua_State* p_state = p_lua->Get_Lua_State();
+
 			for(std::vector<int>::iterator iter = M_handlers.begin(); iter < M_handlers.end(); iter++){
 				lua_rawgeti(p_state, LUA_REGISTRYINDEX, *iter);
-				if (Run_Lua_Callback(p_state) != LUA_OK){
-					std::cerr << "Error running Lua handler: " << lua_tostring(p_state, -1);
+				if (Run_Lua_Callback(p_lua) != LUA_OK){
+					std::cerr << "Error running Lua handler: " << lua_tostring(p_state, -1) << std::endl;
 					lua_pop(p_state, 1); // Remove the error message from the stack
 				}
 			}
@@ -52,9 +59,9 @@ namespace SMC{
 		 * The default implementation in the cEvent class just calls
 		 * the function without any arguments.
 		 */
-		int cEvent::Run_Lua_Callback(lua_State* p_state)
+		int cEvent::Run_Lua_Callback(cLua_Interpreter* p_lua)
 		{
-			return lua_pcall(p_state, 0, 0, 0);
+			return lua_pcall(p_lua->Get_Lua_State(), 0, 0, 0);
 		}
 
 		/**

@@ -297,7 +297,7 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	 * interpreter attached. Therefore we need to check the existance
 	 * of the Lua interpreter here. */
 	if (m_lua)
-		Script::Cleanup_Lua_State(m_lua);
+		delete m_lua;
 
 	/* delete sprites
 	 * do this at last
@@ -477,17 +477,15 @@ void cLevel :: Init( void )
 		}
 	}
 
-	// Initialize a Lua interpreter for this level. Each levle has its own Lua
+	// Initialize a Lua interpreter for this level. Each level has its own Lua
 	// interpreter to prevent unintended object exchange between levels.
-	m_lua = Script::New_Lua_State(this);
+	m_lua = new Script::cLua_Interpreter(this);
 
-	/* Run the Lua code associated with this level (this sets up
-	 * all the event handlers the user wants to register)
-	 * (luaL_dostring returns false in case of success, quite confusing).*/
-	if (luaL_dostring(m_lua, m_script.c_str())){
-		printf("Warning: Lua script crashed with: %s\n", lua_tostring(m_lua, -1));
-		lua_pop(m_lua, -1); // Remove the error message
-	}
+	// Run the Lua code associated with this level (this sets up
+	// all the event handlers the user wants to register)
+	std::string errmsg;
+	if (!m_lua->Run_Code(m_script, errmsg))
+		std::cerr << "Warning: Lua script crashed with: " << errmsg << std::endl;
 }
 
 void cLevel :: Set_Sprite_Manager( void )

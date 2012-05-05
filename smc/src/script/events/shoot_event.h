@@ -1,8 +1,8 @@
-// -*- c++ -*-
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #ifndef SMC_SCRIPT_SHOOT_EVENT_H
 #define SMC_SCRIPT_SHOOT_EVENT_H
 #include <string>
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "sprite_event.h"
 
 namespace SMC{
@@ -16,7 +16,7 @@ namespace SMC{
 			std::string Get_Ball_Type();
 			void Set_Ball_Type(std::string ball_type);
 		protected:
-			virtual int Run_Lua_Callback(lua_State* p_state);
+			virtual int Run_Lua_Callback(cLua_Interpreter* p_lua);
 		private:
 			std::string m_ball_type;
 		};
