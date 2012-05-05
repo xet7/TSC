@@ -309,15 +309,6 @@ void Script::Open_Sprite(lua_State* p_state)
 										NULL,
 										Allocate,
 										NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
-
-	// Register the "__index" metamethod for Sprite
-	lua_getglobal(p_state, "Sprite");
-	lua_newtable(p_state);
-	lua_pushstring(p_state, "__index");
-	lua_pushcfunction(p_state, Sprite___Index<cSprite>);
-	lua_settable(p_state, -3);
-	lua_setmetatable(p_state, -2);
-	lua_pop(p_state, 1); // Remove the Sprite class table for balancing
 }
 
 /***************************************

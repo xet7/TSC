@@ -222,13 +222,4 @@ void Script::Open_Furball(lua_State* p_state)
 											NULL,
 											Allocate,
 											NULL); // Memory managed by SMC
-
-	// Register the "__index" metamethod for Furball
-	lua_getglobal(p_state, "Furball");
-	lua_newtable(p_state);
-	lua_pushstring(p_state, "__index");
-	lua_pushcfunction(p_state, Sprite___Index<cFurball>);
-	lua_settable(p_state, -3);
-	lua_setmetatable(p_state, -2);
-	lua_pop(p_state, 1); // Remove the class table for balancing
 }

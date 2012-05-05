@@ -146,7 +146,7 @@ namespace SMC
 				// Remove the class table (we don’t need it anymore)
 				lua_pop(p_state, 1);
 			}
-			lua_setglobal(p_state, "UID"); // Make the table globally available
+			lua_setglobal(p_state, "UIDS"); // Make the table globally available
 
 			// Return the Lua instance
 			return p_state;
