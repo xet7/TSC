@@ -1,8 +1,17 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-// Lua + wrapper library
-#include "luawrap.hpp"
+#include "../level/level.h"
+#include "../core/sprite_manager.h"
 // Own header
 #include "script.h"
+// Used classes
+#include "../audio/audio.h"
+#include "../enemies/eato.h"
+#include "../enemies/enemy.h"
+#include "../enemies/flyon.h"
+#include "../enemies/furball.h"
+#include "../enemies/gee.h"
+#include "../level/level_player.h"
+#include "../objects/sprite.h"
 // In-game object bindings
 #include "objects/l_sprite.h"
 #include "objects/l_moving_sprite.h"
@@ -48,31 +57,166 @@
  * out for the run_lua_callback() method you can overwrite
  * in your Event subclasses. See the already defined event
  * classes for examples.
+ *
+ * For an easy dynamic mapping of Lua to C++ classnames and
+ * vice-versa, the class2type and type2class hash tables
+ * (std::maps) are used. They map the internal C++ class names
+ * (obtained via `typeid'; as the names are only used internally
+ * within one compilation, the different names across different
+ * compilers and compiler versions don’t matter) to the identifiers
+ * given to the Lua classes whose instances wrap instances of these
+ * C++ classes. Or simply think of a 1:1 mapping, although this
+ * is not 100% accurate.
  */
 
 namespace SMC
 {
 	namespace Script
 	{
-		void Open_Libs(lua_State* p_state)
+		/* *** *** *** *** *** cLua_Interpreter *** *** *** *** *** *** *** *** *** *** *** *** */
+
+		cLua_Interpreter::cLua_Interpreter(cLevel* p_level)
+		{
+			// Shorthand
+			cSprite_List& objs = p_level->m_sprite_manager->objects;
+
+			// Set member variables
+			mp_level = p_level;
+			mp_lua = luaL_newstate(); // Create a new Lua instance
+
+			// Load the Lua main libraries and the SMC libraries
+			luaL_openlibs(mp_lua);
+			Open_SMC_Libs();
+
+			// Build up the UID table
+			cSprite_List::iterator iter;
+			lua_newtable(mp_lua); // This is going to be the UID table
+			for (iter = objs.begin(); iter != objs.end(); iter++){
+				cSprite* p_sprite = *iter;
+
+				// Get the UID we want to register in the UID table.
+				lua_pushnumber(mp_lua, p_sprite->m_uid);
+
+				// Create the Lua full userdata object for the sprite
+				Wrap_Lua_Object_Around_Sprite(*p_sprite);
+
+				// Add the UID table entry
+				lua_settable(mp_lua, -3);
+			}
+			lua_setglobal(mp_lua, UID_TABLE_NAME.c_str()); // Make the table globally available
+		}
+
+		cLua_Interpreter::~cLua_Interpreter()
+		{
+			lua_close(mp_lua);
+		}
+
+		lua_State* cLua_Interpreter::Get_Lua_State()
+		{
+			return mp_lua;
+		}
+
+		cLevel* cLua_Interpreter::Get_Level()
+		{
+			return mp_level;
+		}
+
+		bool cLua_Interpreter::Run_Code(const std::string& code, std::string& errormsg)
+		{
+			// luaL_dostring returns false in case of success, quite confusing)
+			if (luaL_dostring(mp_lua, code.c_str())){
+				errormsg = std::string(lua_tostring(mp_lua, -1));
+				lua_pop(mp_lua, -1); // Remove the error message
+				return false;
+			}
+
+			return true;
+		}
+
+		void cLua_Interpreter::Add_To_UID_Table(cSprite& sprite)
+		{
+			// TODO: Throw error when UID already in use?
+
+			lua_getglobal(mp_lua, UID_TABLE_NAME.c_str());
+			lua_pushnumber(mp_lua, sprite.m_uid);
+			Wrap_Lua_Object_Around_Sprite(sprite);
+			lua_settable(mp_lua, -3);
+			lua_pop(mp_lua, 1); // Remove the UID table from the stack
+
+		}
+
+		void cLua_Interpreter::Open_SMC_Libs()
 		{
 			// In-game object bindings
-			Open_Sprite(p_state);
-			Open_Moving_Sprite(p_state);
-			Open_Animated_Sprite(p_state);
-			Open_Level_Player(p_state);
-			Open_Enemy(p_state);
-			Open_Furball(p_state);
-			Open_Eato(p_state);
-			Open_Flyon(p_state);
+			Open_Sprite(mp_lua);
+			Open_Moving_Sprite(mp_lua);
+			Open_Animated_Sprite(mp_lua);
+			Open_Level_Player(mp_lua);
+			Open_Enemy(mp_lua);
+			Open_Furball(mp_lua);
+			Open_Eato(mp_lua);
+			Open_Flyon(mp_lua);
 
 			// Events
-			Open_Key_Down_Event(p_state);
+			Open_Key_Down_Event(mp_lua);
 
 			// Other
-			Open_Particle_Emitter(p_state);
-			Open_Audio(p_state);
-			Open_Message(p_state);
+			Open_Particle_Emitter(mp_lua);
+			Open_Audio(mp_lua);
+			Open_Message(mp_lua);
+		}
+
+		void cLua_Interpreter::Wrap_Lua_Object_Around_Sprite(cSprite& sprite)
+		{
+			/* Get the class table of the class this object shall be an
+			 * instance of (needed for attaching the correct instance method
+			 * table). If the object type hasn’t been bridged to Lua yet,
+			 * fall back to `Sprite'. */
+			std::string cpptypename = typeid(sprite).name();
+			if (type2class.count(cpptypename) > 0)
+				lua_getglobal(mp_lua, type2class[cpptypename].c_str());
+			else
+				lua_getglobal(mp_lua, "Sprite");
+
+			/* All pointers have the same size, therefore it’s unimportant
+			 * what pointer’s size we pass to Lua. It is not important to
+			 * know what it is when packaging the object, but when unwrapping
+			 * it. */
+			cSprite** pp_sprite	= (cSprite**) lua_newuserdata(mp_lua, sizeof(char*));
+			*pp_sprite			= &sprite;
+			LuaWrap::InternalC::set_imethod_table(mp_lua, -2); // Attach instance methods
+
+			// Remove the class table
+			lua_insert(mp_lua, -2);
+			lua_pop(mp_lua, 1);
+		}
+
+		/* *** *** *** *** *** Namespace members  *** *** *** *** *** *** *** *** *** *** *** *** */
+
+		ClassMap type2class; // extern
+		ClassMap class2type; // extern
+
+		void Initialize_Scripting()
+		{
+			/* List of classes available in the SMC scripting interface.
+			 * TODO: Any easier way to create this list beside manually
+			 * modifying it? */
+			type2class[typeid(cAnimated_Sprite).name()]		= "AnimatedSprite";
+			type2class[typeid(cAudio).name()]				= "AudioClass";
+			type2class[typeid(cEato).name()]				= "Eato";
+			type2class[typeid(cEnemy).name()]				= "Enemy";
+			type2class[typeid(cFlyon).name()]				= "Flyon";
+			type2class[typeid(cFurball).name()]				= "Furball";
+			type2class[typeid(cGee).name()]					= "Gee";
+			type2class[typeid(cLevel_Player).name()]		= "LevelPlayer";
+			// Message has no C++ SMC counterpart
+			type2class[typeid(cMovingSprite).name()]		= "MovingSprite";
+			type2class[typeid(cParticle_Emitter).name()]	= "ParticleEmitter";
+			type2class[typeid(cSprite).name()]				= "Sprite";
+
+			// Invert the type2class table
+			for (ClassMap::const_iterator iter = type2class.begin(); iter != type2class.end(); iter++)
+				class2type[(*iter).second] = (*iter).first;
 		}
 
 	};

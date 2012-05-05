@@ -1,8 +1,8 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
-#include "../../enemies/gee.h"
+#include "../script.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
+#include "../../enemies/gee.h"
 #include "l_sprite.h"
 #include "l_enemy.h"
 #include "l_gee.h"
@@ -241,14 +241,4 @@ void Script::Open_Gee(lua_State* p_state)
 										NULL,
 										Allocate,
 										NULL); // Memory managed by SMC
-
-	// Register the "__index" metamethod for Gee
-	lua_getglobal(p_state, "Gee");
-	lua_newtable(p_state);
-	lua_pushstring(p_state, "__index");
-	lua_pushcfunction(p_state, Sprite___Index<cGee>);
-	lua_settable(p_state, -3);
-	lua_setmetatable(p_state, -2);
-	lua_pop(p_state, 1); // Remove the table for balancing
-
 }

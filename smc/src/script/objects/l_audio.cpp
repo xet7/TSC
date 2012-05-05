@@ -1,5 +1,5 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "../../audio/audio.h"
 #include "l_audio.h"
 

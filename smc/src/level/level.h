@@ -55,13 +55,13 @@ public:
 	// Reset settings data
 	void Reset_Settings( void );
 
-	// Init
+	// Initialize level elements on level creation/loading
 	void Init( void );
 	// Set this sprite manager active
 	void Set_Sprite_Manager( void );
-	// Enter
+	// Enter level mode (not the level itself, see Init())
 	void Enter( const GameMode old_mode = MODE_NOTHING );
-	// Leave
+	// Leave level mode (e.g. for showing the menu), level not necessarily unloaded
 	void Leave( const GameMode next_mode = MODE_NOTHING );
 
 	// update level
@@ -164,7 +164,7 @@ public:
 	// sprite manager
 	cSprite_Manager *m_sprite_manager;
 	// Lua interpreter used for this level
-	lua_State *m_lua;
+	Script::cLua_Interpreter *m_lua;
 
 	/* *** *** *** Settings *** *** *** *** */
 

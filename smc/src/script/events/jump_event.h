@@ -1,8 +1,8 @@
-// -*- c++ -*-
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #ifndef SMC_SCRIPT_JUMP_EVENT_H
 #define SMC_SCRIPT_JUMP_EVENT_H
 #include <string>
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "sprite_event.h"
 
 namespace SMC{

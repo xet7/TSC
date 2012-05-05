@@ -2,17 +2,16 @@
 #include <CEGUIWindowManager.h>
 #include <elements/CEGUIMultiLineEditbox.h>
 #include <elements/CEGUIScrollbar.h>
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "../../core/main.h"
+#include "../../core/property_helper.h"
 #include "../../core/game_core.h"
 #include "../../core/framerate.h"
-#include "../../video/video.h"
 #include "../../level/level_player.h"
-#include "../../user/preferences.h"
 #include "../../input/keyboard.h"
 #include "../../input/joystick.h"
+#include "../../user/preferences.h"
 #include "../../audio/audio.h"
-#include "../../core/property_helper.h"
 #include "l_sprite.h"
 #include "l_message.h"
 

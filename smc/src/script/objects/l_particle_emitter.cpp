@@ -1,8 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
+#include "../script.h"
 #include "../../level/level.h"
-#include "../../video/animation.h"
-#include "../../video/video.h"
+#include "../../core/sprite_manager.h"
 #include "l_particle_emitter.h"
 
 using namespace SMC;

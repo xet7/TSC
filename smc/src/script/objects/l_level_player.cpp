@@ -1,9 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../luawrap.hpp"
-#include "l_sprite.h"
-#include "l_level_player.h"
+#include "../script.h"
 #include "../../level/level_player.h"
 #include "../../gui/hud.h"
+#include "l_sprite.h"
+#include "l_level_player.h"
 using namespace SMC;
 
 /***************************************
