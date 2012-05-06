@@ -9,23 +9,10 @@ API. Anything shown on the screen is somehow a sprite, and the methods
 defined in this class are therefore available to nearly all objects
 exposed to the Lua API.
 
-The scripting API makes use of two different kinds of sprites (which
-both are represented by the `Sprite` class), _externally_ created
-sprites and _internally_ created ones. The latter are those you create
-from inside the Lua code (by calling the `new()` method of the
-`Sprite` class or one of its subclasses). The former are those created
-by regular use of the SMC editor, i.e. anything already available
-before even the first piece of your Lua script has been run. These
-sprites are automatically assigned a so-called "unique identifier",
-UID for short, that (as the name implies) uniquely identifies a
-certain sprite from all the others. The UID is displayed inside the
-SMC editor when hovering the mouse cursor over an object. Internally
-created sprites are not assigned an UID automatically, but you can do
-so by passing a value you choose to the `new()` method. All sprites
-with UIDs are available anywhere in the Lua script by indexing the
-`Sprite` class table (or any subclass class table) with the UID. So,
-if you have a sprite with UID 38 in the editor, you can find out its X
-coordinate like this:
+All sprites created by the regular SMC editor can be references by
+indexing the global `UIDS` table, see
+[Unique Identifiers](index.html#unique-identifiers-uids) for more
+information on this topic.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sprite[38]:get_x()
@@ -53,37 +40,11 @@ Touch
   use a long `if-elseif-elseif-elseif...` construct inside an event
   handler choosing an action depending on the collided sprite.
 
-  The event handler gets passed an instance of this class representing
-  the other collision "partner".
+  The event handler gets passed an instance of this class (or one of
+  its subclasses) representing the other collision "partner".
 
 Class methods
 -------------
-
-### (indexing) #################################################################
-    [ index ] → ?
-
-The `Sprite` class overrides the normal Lua `__index` metamethod. In
-addition to doing normal lookups, it allows you to reference a Sprite
-instance by just knowing it’s UID. So, if you index the `Sprite` table
-with a number, you’ll get back an instance of class `Sprite` (or `nil`
-if there is no sprite with this UID); otherwise, the table will behave
-as any other ordinary Lua table.
-
-Note that the `Sprite` subclasses behave likewise, but `Sprite` won’t
-automatically wrap the object into the necessary subclass. Therefore,
-if you want an enemy, use `Enemy[<ID>]` to get an instance of class
-`Enemy`. `Sprite[<ID>]` will only give you instances of class
-`Sprite`, probably without the methods you intended to call.
-
-#### Parameters
-index
-: The index to look up. If it’s a number, behaves as described
-  above. Otherwise, behaves like a normal Lua table.
-
-#### Return value
-
-In case of a number passed, a `Sprite` instance or `nil`, otherwise the result
-of a normal Lua table lookup.
 
 ### new ########################################################################
     new( [ image_path [, uid ] ] ) → a_sprite
@@ -100,9 +61,9 @@ image_path (nil)
 uid (nil)
 : The UID for this sprite. This is useful if you want to reference
   your sprite in another context, e.g. when you create a sprite in a
-  signal handler and want to reference it in another signal
+  event handler and want to reference it in another event
   handler. The sprite is then treated the same way all the other
-  sprites are and is available through the `[]` call.
+  sprites are and is available through the `UIDS` table.
 
 #### Return value
 

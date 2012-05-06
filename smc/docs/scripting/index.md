@@ -67,6 +67,50 @@ Audio:play_sound("waterdrop_1.ogg")
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {:lang="lua"}
 
+Unique Identifiers (UIDs)
+-------------------------
+
+Each sprite created via the regular SMC editor (a so-called _internal_
+sprite) is assigned an identifier that is unique for the whole of the
+current level, hence it is called _unique identifier_, or short
+_UID_. You can determine an internal sprite’s UID by loading your
+level into the SMC editor and hover the cursor over the object whose
+UID you want to know; there the UID is displayed next to the
+coordinates of the object. These UIDs are guaranteed to stay the same
+between multiple level loads and even level editing (however, deleting
+an object in the editor will release its UID and make it available to
+other sprites). SMC maintains a global Lua variable called `UIDS` that
+references a table which maps all known UIDs to specific instances of
+class [Sprite](sprite.html) or one of its subclasses. This makes it
+easy to refer to a specific sprite and interact with it. For example,
+if you wanted to move a block with UID 38 away (e.g. for unblocking a
+path):
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Note that (-100|100) is outside the visible area,
+-- therefore it looks as if the block "disappeared".
+UIDS[38].warp(-100, 100)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
+
+Sprites created via the scripting interface (so-called _external_
+sprites) do not have an UID assigned to them automatically, therefore
+they won’t show up in the global `UIDS` table. The
+[Sprite](sprite.html) class’ [new()](sprite.html#new) method (and the
+`new()` methods of its subclasses) however support an optional last
+`uid` parameter that allows you to specify a UID for external
+sprites. Note that specifying an already used UID will cause an error,
+therefore you probably want to either use UIDs surely not used
+(something above 10000, as levels with that many elements are
+extraordinarily rare) or query the length of the current UID table
+(which ideally has no gaps, but that cannot be guaranteed) and adding
+to it dynamically:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local mysprite = Sprite:new("path/to/pic", #UIDS + 1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{:lang="lua"}
+
 Events
 ------
 
