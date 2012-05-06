@@ -21,6 +21,7 @@
 #include "objects/l_furball.h"
 #include "objects/l_eato.h"
 #include "objects/l_flyon.h"
+#include "objects/l_gee.h"
 #include "objects/l_particle_emitter.h"
 #include "objects/l_audio.h"
 #include "objects/l_message.h"
@@ -156,6 +157,7 @@ namespace SMC
 			Open_Furball(mp_lua);
 			Open_Eato(mp_lua);
 			Open_Flyon(mp_lua);
+			Open_Gee(mp_lua);
 
 			// Events
 			Open_Key_Down_Event(mp_lua);
