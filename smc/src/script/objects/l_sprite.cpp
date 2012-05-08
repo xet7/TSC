@@ -80,7 +80,7 @@ static int Register(lua_State* p_state)
 	int ref = luaL_ref(p_state, LUA_REGISTRYINDEX);
 
 	// Add the event handler to the list (if the request event key
-  // doesn’t yet exist, it will automatically be created).
+	// doesn’t yet exist, it will automatically be created).
 	p_sprite->m_event_table[str].push_back(ref);
 
 	return 0;

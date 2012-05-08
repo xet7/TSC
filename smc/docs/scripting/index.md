@@ -207,6 +207,8 @@ the Lua scripting API:
 * [Flyon](flyon.html)
 * [Furball](furball.html)
 * [Gee](gee.html)
+* Input → [InputClass](input_class.html)
+* [InputClass](input_class.html)
 * [LevelPlayer](level_player.html)
 * [Message](message.html)
 * [MovingSprite](moving_sprite.html)

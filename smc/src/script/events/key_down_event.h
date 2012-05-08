@@ -35,8 +35,6 @@ namespace SMC{
 			virtual int Run_Lua_Callback(cLua_Interpreter* p_lua);
 			std::string m_keyname;
 		};
-
-		void Open_Key_Down_Event(lua_State* p_state);
 	};
 };
 

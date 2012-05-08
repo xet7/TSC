@@ -24,6 +24,7 @@
 #include "objects/l_gee.h"
 #include "objects/l_particle_emitter.h"
 #include "objects/l_audio.h"
+#include "objects/l_input.h"
 #include "objects/l_message.h"
 // Events
 #include "events/event.h"
@@ -148,7 +149,7 @@ namespace SMC
 
 		void cLua_Interpreter::Open_SMC_Libs()
 		{
-			// In-game object bindings
+			// Sprites
 			Open_Sprite(mp_lua);
 			Open_Moving_Sprite(mp_lua);
 			Open_Animated_Sprite(mp_lua);
@@ -159,12 +160,10 @@ namespace SMC
 			Open_Flyon(mp_lua);
 			Open_Gee(mp_lua);
 
-			// Events
-			Open_Key_Down_Event(mp_lua);
-
 			// Other
 			Open_Particle_Emitter(mp_lua);
 			Open_Audio(mp_lua);
+			Open_Input(mp_lua);
 			Open_Message(mp_lua);
 		}
 
@@ -210,6 +209,7 @@ namespace SMC
 			type2class[typeid(cFlyon).name()]				= "Flyon";
 			type2class[typeid(cFurball).name()]				= "Furball";
 			type2class[typeid(cGee).name()]					= "Gee";
+			// Input has multiple C++ counterparts
 			type2class[typeid(cLevel_Player).name()]		= "LevelPlayer";
 			// Message has no C++ SMC counterpart
 			type2class[typeid(cMovingSprite).name()]		= "MovingSprite";

@@ -176,6 +176,8 @@ smc_SOURCES = \
 	script/objects/l_furball.h \
 	script/objects/l_gee.cpp \
 	script/objects/l_gee.h \
+	script/objects/l_input.cpp \
+	script/objects/l_input.h \
 	script/objects/l_level_player.cpp \
 	script/objects/l_level_player.h \
 	script/objects/l_message.cpp \
