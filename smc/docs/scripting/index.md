@@ -135,7 +135,9 @@ collides with the object with UID 38, you’d do:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function myhandler(other)
-  Player:kill()
+  if other:is_player() then
+    Player:kill()
+  end
 end
 
 Sprite[38]:on_touch(myhandler)
