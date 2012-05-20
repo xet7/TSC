@@ -105,7 +105,12 @@ namespace SMC
 				// Add the UID table entry
 				lua_settable(mp_lua, -3);
 			}
-			lua_setglobal(mp_lua, UID_TABLE_NAME.c_str()); // Make the table globally available
+			// UID 0 is the player
+			lua_pushnumber(mp_lua, 0);
+			Wrap_Lua_Object_Around_Sprite(*pLevel_Player);
+			lua_settable(mp_lua, -3);
+			// Make the table globally available
+			lua_setglobal(mp_lua, UID_TABLE_NAME.c_str());
 		}
 
 		cLua_Interpreter::~cLua_Interpreter()
