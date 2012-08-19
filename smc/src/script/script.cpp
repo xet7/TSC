@@ -16,6 +16,7 @@
 #include "objects/l_sprite.h"
 #include "objects/l_moving_sprite.h"
 #include "objects/l_animated_sprite.h"
+#include "objects/l_level.h"
 #include "objects/l_level_player.h"
 #include "objects/l_enemy.h"
 #include "objects/l_furball.h"
@@ -158,6 +159,7 @@ namespace SMC
 			Open_Sprite(mp_lua);
 			Open_Moving_Sprite(mp_lua);
 			Open_Animated_Sprite(mp_lua);
+			Open_Level(mp_lua);
 			Open_Level_Player(mp_lua);
 			Open_Enemy(mp_lua);
 			Open_Furball(mp_lua);
@@ -215,6 +217,7 @@ namespace SMC
 			type2class[typeid(cFurball).name()]				= "Furball";
 			type2class[typeid(cGee).name()]					= "Gee";
 			// Input has multiple C++ counterparts
+			type2class[typeid(cLevel).name()]				= "LevelClass";
 			type2class[typeid(cLevel_Player).name()]		= "LevelPlayer";
 			// Message has no C++ SMC counterpart
 			type2class[typeid(cMovingSprite).name()]		= "MovingSprite";

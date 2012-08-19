@@ -53,7 +53,7 @@ static int Play_Music(lua_State* p_state)
  * Binding
  ***************************************/
 
-luaL_Reg Methods[] = {
+static luaL_Reg Methods[] = {
 	{"play_music",	Play_Music},
 	{"play_sound",	Play_Sound},
 	{NULL, NULL}

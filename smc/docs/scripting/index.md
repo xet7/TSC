@@ -211,6 +211,8 @@ the Lua scripting API:
 * [Gee](gee.html)
 * Input → [InputClass](input_class.html)
 * [InputClass](input_class.html)
+* Level → [LevelClass](level_class.html)
+* [LevelClass](level_class.html)
 * [LevelPlayer](level_player.html)
 * [Message](message.html)
 * [MovingSprite](moving_sprite.html)
