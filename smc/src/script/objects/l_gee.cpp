@@ -16,7 +16,7 @@ using namespace SMC;
 static int Allocate(lua_State* p_state)
 {
 	if (!lua_istable(p_state, 1))
-		return luaL_error(p_state, "Argument #0 is not a class table");
+		return luaL_error(p_state, "No class table given.");
 	std::string sdir = luaL_checkstring(p_state, 2);
 
 	// Get required arguments

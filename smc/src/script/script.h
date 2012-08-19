@@ -43,7 +43,7 @@ namespace SMC{
 		const std::string UID_TABLE_NAME = "UIDS";
 
 		// Set up basic things needed for any scripting
-		void		Initialize_Scripting();
+		void Initialize_Scripting();
 
 		// This table maps C++ class names (type_info.name()) to Lua class names.
 		typedef std::map<std::string, std::string> ClassMap;

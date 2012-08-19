@@ -37,7 +37,7 @@ static void Show_Message_Exclusively(CEGUI::MultiLineEditbox* p_edit);
 static int Allocate(lua_State* p_state)
 {	
 	if (!lua_istable(p_state, 1))
-		return luaL_error(p_state, "Argument #0 is not a class table.");
+		return luaL_error(p_state, "No class table given.");
 	std::string text = luaL_checkstring(p_state, 2);
 
 	/* Generate unique window titles (a new window may be created while the

@@ -17,7 +17,7 @@ static int Allocate(lua_State* p_state)
 {
 	// Get required arguments
 	if (!lua_istable(p_state, 1))
-		return luaL_error(p_state, "Argument #0 is not a class table.");
+		return luaL_error(p_state, "No class table given.");
 	std::string sdir = luaL_checkstring(p_state, 2);
 
 	// Check required arguments
@@ -27,7 +27,7 @@ static int Allocate(lua_State* p_state)
 	else if (sdir == "left")
 		dir = DIR_LEFT;
 	else
-		return luaL_error(p_state, "Argument #1 '%s' is not a valid furball direction.", sdir.c_str());
+		return luaL_error(p_state, "Argument #2 '%s' is not a valid furball direction.", sdir.c_str());
 
 	// Create the userdata
 	cFurball** pp_furball	= (cFurball**) lua_newuserdata(p_state, sizeof(cFurball*));
