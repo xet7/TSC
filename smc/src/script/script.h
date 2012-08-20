@@ -34,7 +34,7 @@ namespace SMC{
 			// this Lua state aware that it has to wait on
 			// these timers to finish before closing
 			// (periodic timers are halted).
-			void Register_Timer(cPeriodic_Timer* p_timer);
+			void Register_Timer(cTimer* p_timer);
 			// Runs all callbacks whose timers have fired.
 			// This method is threadsafe.
 			void Evaluate_Timer_Callbacks();
@@ -44,7 +44,7 @@ namespace SMC{
 			// The level this interpreter is attached to.
 			cLevel* Get_Level();
 		private:
-			typedef std::vector<cPeriodic_Timer*> TimerList;
+			typedef std::vector<cTimer*> TimerList;
 
 			lua_State*			mp_lua;
 			cLevel*				mp_level;

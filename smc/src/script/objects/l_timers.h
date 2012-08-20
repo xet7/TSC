@@ -14,28 +14,41 @@ namespace SMC{
 		class cLua_Interpreter;
 
 		// C++ side of the Lua PeriodicTimer class.
-		class cPeriodic_Timer
+		class cTimer
 		{
 		public:
 			/* Constructor. Pass the Lua interpreter state to register
 			 * the timer for, the time you want the timer
 			 * to fire (in milliseconds) and the Lua registry
-			 * index of the intended callback to register for firing. */
-			cPeriodic_Timer(cLua_Interpreter* p_lua, unsigned int interval, int reg_index);
-			~cPeriodic_Timer();
+			 * index of the intended callback to register for firing.
+			 * If `is_periodic' is true, the timer loops instead of
+			 * just waiting a single time. */
+			cTimer(cLua_Interpreter* p_lua, unsigned int interval, int reg_index, bool is_periodic = false);
+			~cTimer();
 
-			// Start ticking. The timer does nothing until
-			// you call this.
+			// Start ticking, the timer does nothing until
+			// you call this. You can start a timer again
+			// after you called Stop() (this applies to
+			// periodic timers as well). Does nothing if the
+			// timer is already running.
 			void Start();
 			// Stop ticking to the next possible time. The
 			// callback may be run a final time after calling
-			// this; blocks until the timer has stopped.
+			// this; blocks until the timer has stopped. Does
+			// nothing if the timer has already been stopped.
 			void Stop();
 			// Returns true if the timer shall terminate
 			// as soon as possible.
 			bool Shall_Halt();
+			// Returns true if the timer is running, i.e.
+			// Start() has been called, but not Stop(). Note
+			// this also returns true if a one-shot timer
+			// has already finished, but Stop() has not been
+			// called on it.
+			bool Is_Active();
 
 			// Attribute getters
+			bool				Is_Periodic();
 			unsigned int		Get_Interval();
 			boost::thread*		Get_Thread();
 			int             	Get_Index();
@@ -46,8 +59,10 @@ namespace SMC{
 			// and registering. Note one cannot use non-static
 			// members as the thread body, hence this static-with-`this'-pointer
 			// construct.
-			static void Threading_Function(cPeriodic_Timer* timer);
+			static void Threading_Function(cTimer* timer);
 
+			// True if this is a repeating timer.
+			bool			m_is_periodic;
 			// Time interval.
 			unsigned int	m_interval;
 			// The index to register.

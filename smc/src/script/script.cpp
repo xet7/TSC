@@ -210,7 +210,7 @@ namespace SMC
 			mp_callback_indices->clear();
 		}
 
-		void cLua_Interpreter::Register_Timer(cPeriodic_Timer* p_timer)
+		void cLua_Interpreter::Register_Timer(cTimer* p_timer)
 		{
 			mp_timers->push_back(p_timer);
 		}
@@ -285,8 +285,8 @@ namespace SMC
 			// Message has no C++ SMC counterpart
 			type2class[typeid(cMovingSprite).name()]		= "MovingSprite";
 			type2class[typeid(cParticle_Emitter).name()]	= "ParticleEmitter";
-			type2class[typeid(cPeriodic_Timer).name()]		= "PeriodicTimer";
 			type2class[typeid(cSprite).name()]				= "Sprite";
+			type2class[typeid(cTimer).name()]				= "Timer";
 
 			// Invert the type2class table
 			for (ClassMap::const_iterator iter = type2class.begin(); iter != type2class.end(); iter++)

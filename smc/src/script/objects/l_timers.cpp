@@ -10,12 +10,12 @@ using namespace SMC::Script;
 
 /**** How the timers and their callbacks work ****
  * Creating an active timer is a two-step process. The first
- * step is to instanciate the respective timer class, which
- * remembers the values needed for adjusting the timer --
- * most importantly the waiting time and the callback. The
+ * step is to instanciate the Timer class, which remembers
+ * the values needed for adjusting the timer -- most
+ * importantly the waiting time and the callback. The
  * callback is a Lua function which is copied into the
  * Lua registry to easily reference it from anywhere; the
- * resulting index is then stored by the timer instance.
+ * resulting index is then stored by the Timer instance.
  * 
  * You then call the timer’s Start() method which creates a
  * new thread (boost::thread) that waits the time specified
@@ -65,16 +65,17 @@ using namespace SMC::Script;
  * C++ part
  ***************************************/
 
-Script::cPeriodic_Timer::cPeriodic_Timer(cLua_Interpreter* p_lua, unsigned int interval, int reg_index)
+Script::cTimer::cTimer(cLua_Interpreter* p_lua, unsigned int interval, int reg_index, bool is_periodic /* = false */)
 {
 	mp_lua				= p_lua;
 	m_interval			= interval;
+	m_is_periodic		= is_periodic;
 	m_registry_index	= reg_index;
-	m_halt				= true;
+	m_halt				= false;
 	mp_thread			= NULL;
 }
 
-Script::cPeriodic_Timer::~cPeriodic_Timer()
+Script::cTimer::~cTimer()
 {
 	// If the timer is ticking currently, stop it.
 	// This automatically deletes the thread.
@@ -82,9 +83,8 @@ Script::cPeriodic_Timer::~cPeriodic_Timer()
 		Stop();
 }
 
-void Script::cPeriodic_Timer::Start()
+void Script::cTimer::Start()
 {
-	// TODO: Throw an exception if already started
 	if (mp_thread)
 		return;
 
@@ -92,9 +92,8 @@ void Script::cPeriodic_Timer::Start()
 	mp_thread = new boost::thread(Threading_Function, this);
 }
 
-void Script::cPeriodic_Timer::Stop()
+void Script::cTimer::Stop()
 {
-	// TODO: Throw an exception if not started
 	if (!mp_thread)
 		return;
 
@@ -103,40 +102,61 @@ void Script::cPeriodic_Timer::Stop()
 	delete mp_thread;
 }
 
-bool Script::cPeriodic_Timer::Shall_Halt()
+bool Script::cTimer::Shall_Halt()
 {
 	return m_halt;
 }
 
-unsigned int Script::cPeriodic_Timer::Get_Interval()
+bool Script::cTimer::Is_Active()
+{
+	return !!mp_thread;
+}
+
+bool Script::cTimer::Is_Periodic()
+{
+	return m_is_periodic;
+}
+
+unsigned int Script::cTimer::Get_Interval()
 {
 	return m_interval;
 }
 
-boost::thread* Script::cPeriodic_Timer::Get_Thread()
+boost::thread* Script::cTimer::Get_Thread()
 {
 	return mp_thread;
 }
 
-int Script::cPeriodic_Timer::Get_Index()
+int Script::cTimer::Get_Index()
 {
 	return m_registry_index;
 }
 
-cLua_Interpreter* Script::cPeriodic_Timer::Get_Lua_Interpreter()
+cLua_Interpreter* Script::cTimer::Get_Lua_Interpreter()
 {
 	return mp_lua;
 }
 
-void Script::cPeriodic_Timer::Threading_Function(Script::cPeriodic_Timer* timer)
+void Script::cTimer::Threading_Function(Script::cTimer* timer)
 {
-	while (true){
-		// End the timer if requested
-		if (timer->Shall_Halt())
-			break;
+	if (timer->Is_Periodic()){
+		while (true){
+			// End the timer if requested
+			if (timer->Shall_Halt())
+				break;
 
+			boost::this_thread::sleep_for(boost::chrono::milliseconds(timer->Get_Interval()));
+			timer->Get_Lua_Interpreter()->Register_Callback_Index(timer->Get_Index()); // This method is threadsafe
+		}
+	}
+	else{ // One-shot timer
 		boost::this_thread::sleep_for(boost::chrono::milliseconds(timer->Get_Interval()));
-		timer->Get_Lua_Interpreter()->Register_Callback_Index(timer->Get_Index()); // This method is threadsafe
+
+		// Don’t execute the callback anymore if halting was requested
+		if (timer->Shall_Halt())
+			return;
+
+		timer->Get_Lua_Interpreter()->Register_Callback_Index(timer->Get_Index());
 	}
 }
 
@@ -150,7 +170,8 @@ static int Allocate(lua_State* p_state)
 		return luaL_error(p_state, "No class table given.");
 	if (!lua_isfunction(p_state, 3))
 		return luaL_error(p_state, "Argument #3 is not a function.");
-	unsigned int interval = static_cast<unsigned int>(luaL_checkunsigned(p_state, 2));
+	unsigned int interval	= static_cast<unsigned int>(luaL_checkunsigned(p_state, 2));
+	bool is_periodic		= lua_toboolean(p_state, 4);
 
 	/* Copy the function to the top of the stack
 	 * (we don’t want to remove what’s handed to us)
@@ -159,9 +180,9 @@ static int Allocate(lua_State* p_state)
 	lua_pushvalue(p_state, 3);
 	int index = luaL_ref(p_state, LUA_REGISTRYINDEX);
 
-	cPeriodic_Timer**	pp_timer	= (cPeriodic_Timer**) lua_newuserdata(p_state, sizeof(cPeriodic_Timer*));
-	cPeriodic_Timer*	p_timer		= new cPeriodic_Timer(pActive_Level->m_lua, interval, index); // Needs the Lua_Interpreter class
-	*pp_timer						= p_timer;
+	cTimer** pp_timer	= (cTimer**) lua_newuserdata(p_state, sizeof(cTimer*));
+	cTimer*	 p_timer	= new cTimer(pActive_Level->m_lua, interval, index, is_periodic); // Needs the Lua_Interpreter class
+	*pp_timer			= p_timer;
 
 	/* Note that the periodic timer created here isn’t deleted
 	 * from the Lua side of things (i.e. garbage collection).
@@ -175,24 +196,69 @@ static int Allocate(lua_State* p_state)
 	return 1;
 }
 
+static int After(lua_State* p_state)
+{
+	if (!lua_istable(p_state, 1))
+		return luaL_error(p_state, "No class table given.");
+
+	// Get the new() function
+	lua_pushstring(p_state, "new");
+	lua_gettable(p_state, 1);
+
+	// Call new() with is_periodic set to false
+	lua_pushvalue(p_state, 1); // receiver
+	lua_pushvalue(p_state, 2); // interval
+	lua_pushvalue(p_state, 3); // callback function
+	lua_pushboolean(p_state, false); // non-periodic
+	lua_call(p_state, 4, 1);
+
+	return 1;
+}
+
+static int Every(lua_State* p_state)
+{
+	if (!lua_istable(p_state, 1))
+		return luaL_error(p_state, "No class table given.");
+
+	// Get the new() function
+	lua_pushstring(p_state, "new");
+	lua_gettable(p_state, 1);
+
+	// Call new() with is_periodic set to false
+	lua_pushvalue(p_state, 1); // receiver
+	lua_pushvalue(p_state, 2); // interval
+	lua_pushvalue(p_state, 3); // callback function
+	lua_pushboolean(p_state, true); // periodic
+	lua_call(p_state, 4, 1);
+
+	return 1;
+}
+
 static int Start(lua_State* p_state)
 {
-	cPeriodic_Timer* p_timer = *LuaWrap::check<cPeriodic_Timer*>(p_state, 1);
+	cTimer* p_timer = *LuaWrap::check<cTimer*>(p_state, 1);
 	p_timer->Start();
 	return 0;
 }
 
 static int Stop(lua_State* p_state)
 {
-	cPeriodic_Timer* p_timer = *LuaWrap::check<cPeriodic_Timer*>(p_state, 1);
+	cTimer* p_timer = *LuaWrap::check<cTimer*>(p_state, 1);
 	p_timer->Stop();
 	return 0;
 }
 
 static int Get_Interval(lua_State* p_state)
 {
-	cPeriodic_Timer* p_timer = *LuaWrap::check<cPeriodic_Timer*>(p_state, 1);
+	cTimer* p_timer = *LuaWrap::check<cTimer*>(p_state, 1);
 	lua_pushnumber(p_state, p_timer->Get_Interval());
+	return 1;
+}
+
+static int Is_Active(lua_State* p_state)
+{
+	cTimer* p_timer = *LuaWrap::check<cTimer*>(p_state, 1);
+	lua_pushboolean(p_state, p_timer->Is_Active());
 	return 1;
 }
 
@@ -200,19 +266,26 @@ static int Get_Interval(lua_State* p_state)
  * Binding
  ***************************************/
 
+static luaL_Reg CMethods[] = {
+	{"after",	After},
+	{"every",	Every},
+	{NULL, NULL}
+};
+
 static luaL_Reg Methods[] = {
 	{"start",			Start},
 	{"stop",			Stop},
 	{"get_interval",	Get_Interval},
+	{"is_active",		Is_Active},
 	{NULL, NULL}
 };
 
 void Script::Open_Timers(lua_State* p_state)
 {
-	LuaWrap::register_class<cPeriodic_Timer>(	p_state,
-												"PeriodicTimer",
-												Methods,
-												NULL,
-												Allocate,
-												NULL);
+	LuaWrap::register_class<cTimer>(	p_state,
+										"Timer",
+										Methods,
+										CMethods,
+										Allocate,
+										NULL);
 }

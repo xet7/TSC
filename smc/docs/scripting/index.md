@@ -219,6 +219,7 @@ the Lua scripting API:
 * [ParticleEmitter](particle_emitter.html)
 * Player → [LevelPlayer](level_player.html)
 * [Sprite](sprite.html)
+* [Timer](timer.html)
 
 License
 -------
