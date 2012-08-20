@@ -2,9 +2,12 @@
 #ifndef SMC_SCRIPT_H
 #define SMC_SCRIPT_H
 #include <typeinfo>
+#include <vector>
 #include <string>
 #include <map>
+#include <boost/thread/thread.hpp>
 #include "luawrap.hpp"
+#include "objects/l_timers.h"
 #include "../core/global_game.h"
 
 namespace SMC{
@@ -21,14 +24,33 @@ namespace SMC{
 			// Wrap `sprite' in a Lua object and add it to the Lua-global
 			// UID table.
 			void Add_To_UID_Table(cSprite& sprite);
+			// Registers a Lua callback to be called on the next
+			// call to Evaluate_Timer_Callbacks(). `registryindex'
+			// is the index of the callback function in the Lua
+			// registry (so you have to store it there previously).
+			// This method is threadsafe.
+			void Register_Callback_Index(int registryindex);
+			// Registers a timer. This is necessary to make
+			// this Lua state aware that it has to wait on
+			// these timers to finish before closing
+			// (periodic timers are halted).
+			void Register_Timer(cPeriodic_Timer* p_timer);
+			// Runs all callbacks whose timers have fired.
+			// This method is threadsafe.
+			void Evaluate_Timer_Callbacks();
 
 			// The underlying lua_State* provided by the Lua library.
 			lua_State* Get_Lua_State();
 			// The level this interpreter is attached to.
 			cLevel* Get_Level();
 		private:
-			lua_State*	mp_lua;
-			cLevel*		mp_level;
+			typedef std::vector<cPeriodic_Timer*> TimerList;
+
+			lua_State*			mp_lua;
+			cLevel*				mp_level;
+			boost::mutex*		mp_callback_indices_mutex;
+			std::vector<int>*	mp_callback_indices;
+			TimerList*			mp_timers;
 
 			// Loads the SMC-specific Lua libraries into mp_lua.
 			void Open_SMC_Libs();

@@ -27,6 +27,7 @@
 #include "objects/l_audio.h"
 #include "objects/l_input.h"
 #include "objects/l_message.h"
+#include "objects/l_timers.h"
 // Events
 #include "events/event.h"
 #include "events/key_down_event.h"
@@ -84,8 +85,11 @@ namespace SMC
 			cSprite_List& objs = p_level->m_sprite_manager->objects;
 
 			// Set member variables
-			mp_level = p_level;
-			mp_lua = luaL_newstate(); // Create a new Lua instance
+			mp_level					= p_level;
+			mp_lua						= luaL_newstate(); // Create a new Lua instance
+			mp_callback_indices_mutex	= new boost::mutex;
+			mp_callback_indices			= new std::vector<int>;
+			mp_timers					= new TimerList;
 
 			// Load the Lua main libraries and the SMC libraries
 			luaL_openlibs(mp_lua);
@@ -116,6 +120,15 @@ namespace SMC
 
 		cLua_Interpreter::~cLua_Interpreter()
 		{
+			// Stop all ticking timers and wait for them
+			// to finish.
+			TimerList::iterator iter;
+			for(iter = mp_timers->begin(); iter != mp_timers->end(); iter++)
+				(*iter)->Stop();
+
+			delete mp_timers;
+			delete mp_callback_indices_mutex;
+			delete mp_callback_indices;
 			lua_close(mp_lua);
 		}
 
@@ -153,6 +166,55 @@ namespace SMC
 
 		}
 
+		void cLua_Interpreter::Register_Callback_Index(int registryindex)
+		{
+			// Note we need to lock the access to the list of
+			// callbacks to prevent race conditions.
+			boost::lock_guard<boost::mutex> _lock(*mp_callback_indices_mutex);
+			mp_callback_indices->push_back(registryindex);
+		}
+
+		void cLua_Interpreter::Evaluate_Timer_Callbacks()
+		{
+			// Note we need to lock the access to the list of
+			// callbacks to prevent race conditions.
+			boost::lock_guard<boost::mutex> _lock(*mp_callback_indices_mutex);
+			std::vector<int>::iterator iter;
+
+			// Iterate through the list of registered callbacks
+			// and evaluate each one
+			for(iter = mp_callback_indices->begin(); iter != mp_callback_indices->end(); iter++){
+				// Push a copy of the callback onto the stack
+				lua_rawgeti(mp_lua, LUA_REGISTRYINDEX, *iter);
+
+				// Execute it!
+				switch(lua_pcall(mp_lua, 0, 0, 0)){
+				case LUA_OK:
+					break;
+				case LUA_ERRMEM:
+					// Memory errors are severe and cannot be ignored.
+					// Immediately end SMC.
+					std::cerr << "FATAL: Memory error when evaluating Lua callback!" << std::endl;
+					exit(-1);
+				case LUA_ERRRUN:	// Fallthrough
+				case LUA_ERRGCMM:	// Fallthrough
+				default:
+					std::string errmsg = lua_tostring(mp_lua, -1);
+					lua_pop(mp_lua, -1); // Remove the error message
+					std::cerr << "Warning: Lua Error running callback: " << errmsg << std::endl;
+				}
+			}
+
+			// Empty the list of registered callbacks. The timers
+			// will add to it again when necessary.
+			mp_callback_indices->clear();
+		}
+
+		void cLua_Interpreter::Register_Timer(cPeriodic_Timer* p_timer)
+		{
+			mp_timers->push_back(p_timer);
+		}
+
 		void cLua_Interpreter::Open_SMC_Libs()
 		{
 			// Sprites
@@ -172,6 +234,7 @@ namespace SMC
 			Open_Audio(mp_lua);
 			Open_Input(mp_lua);
 			Open_Message(mp_lua);
+			Open_Timers(mp_lua);
 		}
 
 		void cLua_Interpreter::Wrap_Lua_Object_Around_Sprite(cSprite& sprite)
@@ -222,6 +285,7 @@ namespace SMC
 			// Message has no C++ SMC counterpart
 			type2class[typeid(cMovingSprite).name()]		= "MovingSprite";
 			type2class[typeid(cParticle_Emitter).name()]	= "ParticleEmitter";
+			type2class[typeid(cPeriodic_Timer).name()]		= "PeriodicTimer";
 			type2class[typeid(cSprite).name()]				= "Sprite";
 
 			// Invert the type2class table

@@ -190,6 +190,8 @@ smc_SOURCES = \
 	script/objects/l_particle_emitter.h \
 	script/objects/l_sprite.cpp \
 	script/objects/l_sprite.h \
+	script/objects/l_timers.cpp \
+	script/objects/l_timers.h \
 	script/luawrap.cpp \
 	script/luawrap.hpp \
 	script/script.cpp \

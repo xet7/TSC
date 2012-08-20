@@ -628,6 +628,9 @@ void cLevel :: Update( void )
 		m_sprite_manager->Update_Items();
 		// animations
 		m_animation_manager->Update();
+		// Scripted timers (if a Lua interpreter is there)
+		if (m_lua)
+			m_lua->Evaluate_Timer_Callbacks();
 	}
 	// if level-editor enabled
 	else
