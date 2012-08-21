@@ -128,8 +128,10 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
+	// save to stream. Subclasses should override
+	// Do_XML_Saving() and Get_XML_Type_Name (see
+	// further below) instead.
+	void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object ) {};
@@ -147,8 +149,6 @@ public:
 
 	// Set the sprite type
 	void Set_Sprite_Type( SpriteType type );
-	// Returns the sprite type as string
-	std::string Get_Sprite_Type_String( void ) const;
 
 	/* Set if the camera should be ignored
 	 * default : disabled
@@ -555,6 +555,17 @@ public:
 	static const float m_pos_z_massive_start;
 	static const float m_pos_z_front_passive_start;
 	static const float m_pos_z_halfmassive_start;
+
+protected:
+	// Saves the actual object attributes to the stream.
+	// Called from Save_To_XML(). Override in subclasses
+	// and call the parent method.
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	// Returns the string to use for the XML `type' property of
+	// the sprite. Override in subclasses and do not call
+	// the parent method. Returning an empty string causes
+	// no `type' property to be written.
+	virtual std::string Get_XML_Type_Name();
 };
 
 typedef vector<cSprite *> cSprite_List;

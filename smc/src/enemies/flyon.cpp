@@ -104,16 +104,15 @@ void cFlyon :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
 }
 
-void cFlyon :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cFlyon :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "flyon";
+}
 
-	// name
-	Write_Property( stream, "type", "flyon" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cFlyon :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 	// image directory
@@ -122,9 +121,6 @@ void cFlyon :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
 	// speed
 	Write_Property( stream, "speed", m_speed );
-
-	// end
-	stream.closeTag();
 }
 
 void cFlyon :: Load_From_Savegame( cSave_Level_Object *save_object )

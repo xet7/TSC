@@ -78,21 +78,17 @@ void cSpika :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
 }
 
-void cSpika :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cSpika :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "spika";
+}
 
-	// name
-	Write_Property( stream, "type", "spika" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cSpika :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// color
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cSpika :: Set_Color( DefaultColor col )

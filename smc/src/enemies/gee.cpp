@@ -106,16 +106,15 @@ void cGee :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
 }
 
-void cGee :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cGee :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "gee";
+}
 
-	// name
-	Write_Property( stream, "type", "gee" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cGee :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 	// max distance
@@ -128,9 +127,6 @@ void cGee :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "fly_distance", static_cast<int>(m_fly_distance) );
 	// color
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cGee :: Load_From_Savegame( cSave_Level_Object *save_object )

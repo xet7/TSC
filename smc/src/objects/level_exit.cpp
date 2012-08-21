@@ -124,16 +124,15 @@ void cLevel_Exit :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	}
 }
 
-void cLevel_Exit :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cLevel_Exit :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return int_to_string(m_exit_type);
+}
 
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-	// type
-	Write_Property( stream, "type", m_exit_type );
+void cLevel_Exit :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
 	// camera motion
 	Write_Property( stream, "camera_motion", m_exit_motion );
 
@@ -164,9 +163,6 @@ void cLevel_Exit :: Save_To_XML( CEGUI::XMLSerializer &stream )
 		// direction
 		Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 	}
-
-	// end
-	stream.closeTag();
 }
 
 void cLevel_Exit :: Set_Direction( const ObjectDirection dir )

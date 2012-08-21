@@ -76,8 +76,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Set the Mushroom Type
 	void Set_Type( SpriteType new_type );
@@ -97,6 +95,11 @@ public:
 
 	// glim animation modifier
 	bool m_glim_mod;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+  virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** cFirePlant *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -118,8 +121,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Activates the item
 	virtual void Activate( void );
@@ -131,6 +132,11 @@ public:
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_particle_counter;
+
+protected:
+	// save to stream
+	// stream saving inherited
+  virtual std::string Get_XML_Type_Name(){return "fireplant";}
 };
 
 /* *** *** *** *** *** cMoon *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -152,8 +158,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Activates the item
 	virtual void Activate( void );
@@ -165,6 +169,11 @@ public:
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_particle_counter;
+
+protected:
+	// save to stream
+	// stream saving inherited
+	virtual std::string Get_XML_Type_Name(){return "moon";}
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

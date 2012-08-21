@@ -41,8 +41,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Activate the star
 	void Activate( void );
@@ -67,6 +65,11 @@ public:
 	bool m_glim_mod;
 	// glim animation counter
 	float m_glim_counter;
+
+protected:
+	// save to stream
+	// stream saving inherited
+	virtual std::string Get_XML_Type_Name(){return "jstar";}
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

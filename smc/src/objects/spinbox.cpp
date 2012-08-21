@@ -75,15 +75,9 @@ void cSpinBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	cBaseBox::Load_From_XML( attributes );
 }
 
-void cSpinBox :: Save_To_XML( CEGUI::XMLSerializer &stream )
+void cSpinBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 {
-	// begin
-	stream.openTag( m_type_name );
-
-	cBaseBox::Save_To_XML( stream );
-
-	// end
-	stream.closeTag();
+	cBaseBox::Do_XML_Saving( stream );
 }
 
 void cSpinBox :: Activate( void )

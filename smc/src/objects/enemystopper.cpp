@@ -73,19 +73,6 @@ void cEnemyStopper :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 }
 
-void cEnemyStopper :: Save_To_XML( CEGUI::XMLSerializer &stream )
-{
-	// begin
-	stream.openTag( m_type_name );
-
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-
-	// end
-	stream.closeTag();
-}
-
 void cEnemyStopper :: Draw( cSurface_Request *request /* = NULL */ )
 {
 	if( !m_valid_draw )

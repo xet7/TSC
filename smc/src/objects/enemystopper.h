@@ -41,8 +41,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );
@@ -52,6 +50,10 @@ public:
 
 	// editor color
 	Color m_editor_color;
+
+protected:
+	// save to stream inherited
+	virtual std::string Get_XML_Type_Name(){return "";}
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

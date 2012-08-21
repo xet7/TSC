@@ -54,8 +54,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// maximum hits until downgrade
 	void Set_Max_Hits( int nmax_hits );
@@ -163,6 +161,10 @@ protected:
 	float m_run_time_counter;
 	// if the level ends when killed
 	bool m_level_ends_if_killed;
+
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

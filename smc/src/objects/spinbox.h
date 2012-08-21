@@ -42,8 +42,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Activate the Spinning
 	virtual void Activate( void );
@@ -60,6 +58,11 @@ public:
 
 	// if spinning
 	bool m_spin;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	// typename inherited
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

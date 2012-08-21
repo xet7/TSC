@@ -89,24 +89,19 @@ void cEato :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
 }
 
-void cEato :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cEato :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "eato";
+}
 
-	// name
-	Write_Property( stream, "type", "eato" );
+void cEato :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
 
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
 	// image directory
 	Write_Property( stream, "image_dir", m_img_dir );
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cEato :: Set_Image_Dir( std::string dir )

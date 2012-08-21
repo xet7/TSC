@@ -51,8 +51,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Update
 	virtual void Update( void );
@@ -110,6 +108,11 @@ public:
 	cGL_Surface *m_arrow_forward;
 	// arrow backward
 	cGL_Surface *m_arrow_backward;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

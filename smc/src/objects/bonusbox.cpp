@@ -101,12 +101,9 @@ void cBonusBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	}
 }
 
-void cBonusBox :: Save_To_XML( CEGUI::XMLSerializer &stream )
+void cBonusBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 {
-	// begin
-	stream.openTag( m_type_name );
-
-	cBaseBox::Save_To_XML( stream );
+	cBaseBox::Do_XML_Saving( stream );
 
 	// force best possible item
 	Write_Property( stream, "force_best_item", m_force_best_item );
@@ -115,9 +112,6 @@ void cBonusBox :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	{
 		Write_Property( stream, "gold_color", Get_Color_Name( m_gold_color ) );
 	}
-
-	// end
-	stream.closeTag();
 }
 
 void cBonusBox :: Set_Useable_Count( int count, bool new_startcount /* = 0 */ )

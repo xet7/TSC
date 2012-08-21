@@ -153,8 +153,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -224,6 +222,11 @@ public:
 	// linked path states
 	typedef vector<cPath_State *> PathStateList;
 	PathStateList m_linked_path_states;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	// editor color

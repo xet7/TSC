@@ -38,8 +38,6 @@ public:
 	void Init( void );
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// copy
 	virtual cGoldpiece *Copy( void ) const;
@@ -68,6 +66,11 @@ public:
 
 	// gold color
 	DefaultColor m_color_type;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** cJGoldpiece *** *** *** *** *** *** *** *** *** *** *** *** */

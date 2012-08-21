@@ -88,18 +88,12 @@ void cText_Box :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Text( xml_string_to_string( attributes.getValueAsString( "text" ).c_str() ) );
 }
 
-void cText_Box :: Save_To_XML( CEGUI::XMLSerializer &stream )
+void cText_Box :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 {
-	// begin
-	stream.openTag( m_type_name );
-
-	cBaseBox::Save_To_XML( stream );
+	cBaseBox::Do_XML_Saving( stream );
 
 	// text
 	Write_Property( stream, "text", m_text );
-
-	// end
-	stream.closeTag();
 }
 
 void cText_Box :: Activate( void )

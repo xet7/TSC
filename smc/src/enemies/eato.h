@@ -42,8 +42,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Set the image directory
 	void Set_Image_Dir( std::string dir );
@@ -81,6 +79,11 @@ public:
 
 	// image directory
 	std::string m_img_dir;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	// Create the Name from the current settings

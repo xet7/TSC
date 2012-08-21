@@ -128,14 +128,15 @@ void cWaypoint :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Access( attributes.getValueAsBool( "access", 1 ), 1 );
 }
 
-void cWaypoint :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cWaypoint :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return int_to_string(m_waypoint_type);
+}
 
-	// position
-	Write_Property( stream, "x", static_cast<int>(m_start_pos_x) );
-	Write_Property( stream, "y", static_cast<int>(m_start_pos_y) );
+void cWaypoint :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cSprite::Do_XML_Saving(stream);
+
 	// image
 	/*if( start_image )
 	{
@@ -149,8 +150,6 @@ void cWaypoint :: Save_To_XML( CEGUI::XMLSerializer &stream )
 
 		Write_Property( stream, "image", img_filename );
 	}*/
-	// type
-	Write_Property( stream, "type", static_cast<int>(m_waypoint_type) );
 	// destination
 	Write_Property( stream, "destination", m_destination );
 	// direction backward
@@ -159,9 +158,6 @@ void cWaypoint :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "direction_forward", Get_Direction_Name( m_direction_forward ) );
 	// access
 	Write_Property( stream, "access", m_access_default );
-
-	// end
-	stream.closeTag();
 }
 
 void cWaypoint :: Update( void )

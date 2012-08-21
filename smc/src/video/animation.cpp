@@ -628,8 +628,8 @@ cParticle_Emitter *cParticle_Emitter :: Copy( void ) const
 
 void cParticle_Emitter :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 {
-	// filename
-	Set_Image_Filename( attributes.getValueAsString( "image" ).c_str() );
+	// Particle image filename
+	Set_Image_Filename( attributes.getValueAsString( "particle_image" ).c_str() );
 	// position z
 	Set_Pos_Z( attributes.getValueAsFloat( "pos_z", m_pos_z ), attributes.getValueAsFloat( "pos_z_rand", m_pos_z_rand ) );
 	// emitter based on camera pos
@@ -671,13 +671,17 @@ void cParticle_Emitter :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Clip_Mode( static_cast<ParticleClipMode>(attributes.getValueAsInteger( "clip_mode", m_clip_mode )) );
 }
 
-void cParticle_Emitter :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cParticle_Emitter :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "";
+}
 
-	// filename
-	Write_Property( stream, "image", m_image_filename );
+void cParticle_Emitter :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimation::Do_XML_Saving(stream);
+
+	// particle image filename
+	Write_Property( stream, "particle_image", m_image_filename );
 	// position z
 	Write_Property( stream, "pos_z", m_pos_z );
 	Write_Property( stream, "pos_z_rand", m_pos_z_rand );
@@ -685,9 +689,7 @@ void cParticle_Emitter :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "emitter_based_on_camera_pos", m_emitter_based_on_camera_pos );
 	// particle based on emitter pos
 	Write_Property( stream, "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos );
-	// emitter rect
-	Write_Property( stream, "pos_x", static_cast<int>(m_start_pos_x) );
-	Write_Property( stream, "pos_y", static_cast<int>(m_start_pos_y) );
+	// emitter rect (X and Y positions are saved by cSprite::Do_XML_Saving())
 	Write_Property( stream, "size_x", static_cast<int>(m_start_rect.m_w) );
 	Write_Property( stream, "size_y", static_cast<int>(m_start_rect.m_h) );
 	// emitter time to live
@@ -735,9 +737,6 @@ void cParticle_Emitter :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "clip_h", static_cast<int>(m_clip_rect.m_h) );
 	// clip mode
 	Write_Property( stream, "clip_mode", m_clip_mode );
-
-	// end
-	stream.closeTag();
 }
 
 void cParticle_Emitter :: Pre_Update( void )

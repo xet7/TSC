@@ -106,16 +106,15 @@ void cLevel_Entry :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
 }
 
-void cLevel_Entry :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cLevel_Entry :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return int_to_string(m_entry_type);
+}
 
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-	// type
-	Write_Property( stream, "type", m_entry_type );
+void cLevel_Entry :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
 	if( m_entry_type == LEVEL_ENTRY_WARP )
 	{
 		// direction
@@ -126,9 +125,6 @@ void cLevel_Entry :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	{
 		Write_Property( stream, "name", m_entry_name );
 	}
-
-	// end
-	stream.closeTag();
 }
 
 void cLevel_Entry :: Set_Direction( const ObjectDirection dir )

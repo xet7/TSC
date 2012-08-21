@@ -94,14 +94,15 @@ void cBall :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Ball_Type( static_cast<ball_effect>(attributes.getValueAsInteger( "ball_type" )) );
 }
 
-void cBall :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cBall :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "";
+}
 
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cBall :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
 	// direction
 	Write_Property( stream, "direction", m_direction );
 	// origin array and type
@@ -109,9 +110,6 @@ void cBall :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "origin_type", m_origin_type );
 	// type
 	Write_Property( stream, "ball_type", m_ball_type );
-
-	// end
-	stream.closeTag();
 }
 
 void cBall :: Load_From_Savegame( cSave_Level_Object *save_object )

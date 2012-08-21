@@ -164,16 +164,15 @@ void cMoving_Platform :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Image_Top_Right( pVideo->Get_Surface( attributes.getValueAsString( "image_top_right", m_images[2].m_image->Get_Filename() ).c_str() ) );
 }
 
-void cMoving_Platform :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cMoving_Platform :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return int_to_string(m_move_type);
+}
 
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-	// move type
-	Write_Property( stream, "move_type", m_move_type );
+void cMoving_Platform :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
 	// massive type
 	Write_Property( stream, "massive_type", Get_Massive_Type_Name( m_massive_type ) );
 
@@ -209,9 +208,6 @@ void cMoving_Platform :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "image_top_middle", m_images[1].m_image->Get_Filename( 1 ) );
 	// image top right
 	Write_Property( stream, "image_top_right", m_images[2].m_image->Get_Filename( 1 ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cMoving_Platform :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )

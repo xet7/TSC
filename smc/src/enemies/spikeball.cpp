@@ -86,23 +86,19 @@ void cSpikeball :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
 }
 
-void cSpikeball :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cSpikeball :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "spikeball";
+}
 
-	// name
-	Write_Property( stream, "type", "spikeball" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cSpikeball :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// color
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cSpikeball :: Load_From_Savegame( cSave_Level_Object *save_object )

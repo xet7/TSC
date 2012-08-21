@@ -41,8 +41,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Set filename
 	void Set_Filename( const std::string &str );
@@ -112,6 +110,11 @@ public:
 	bool Editor_Volume_Reduction_Begin_Text_Changed( const CEGUI::EventArgs &event );
 	// editor volume reduction end text changed event
 	bool Editor_Volume_Reduction_End_Text_Changed( const CEGUI::EventArgs &event );
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	// the audio filename to play

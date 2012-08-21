@@ -100,23 +100,19 @@ void cRokko :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
 }
 
-void cRokko :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cRokko :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+  return "rokko";
+}
 
-	// name
-	Write_Property( stream, "type", "rokko" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cRokko :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+  cEnemy::Do_XML_Saving(stream);
+
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 	// speed
 	Write_Property( stream, "speed", m_speed );
-
-	// end
-	stream.closeTag();
 }
 
 void cRokko :: Load_From_Savegame( cSave_Level_Object *save_object )

@@ -543,14 +543,15 @@ void cPath :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	}
 }
 
-void cPath :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cPath :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "";
+}
 
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cPath :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cSprite::Do_XML_Saving(stream);
+
 	// identifier
 	Write_Property( stream, "identifier", m_identifier );
 	// show line
@@ -570,9 +571,6 @@ void cPath :: Save_To_XML( CEGUI::XMLSerializer &stream )
 		Write_Property( stream, "segment_" + str_pos + "_x2", m_segments[pos].m_x2 );
 		Write_Property( stream, "segment_" + str_pos + "_y2", m_segments[pos].m_y2 );
 	}
-
-	// end
-	stream.closeTag();
 }
 
 void cPath :: Load_From_Savegame( cSave_Level_Object *save_object )

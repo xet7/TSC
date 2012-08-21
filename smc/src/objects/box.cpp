@@ -12,7 +12,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
- 
+
 #include "../objects/box.h"
 #include "../audio/audio.h"
 #include "../core/camera.h"
@@ -85,23 +85,25 @@ void cBaseBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Useable_Count( attributes.getValueAsInteger( "useable_count", m_start_useable_count ), 1 );
 }
 
-void cBaseBox :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cBaseBox :: Get_XML_Type_Name()
 {
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-	// type
-	if( box_type == TYPE_SPIN_BOX )
-	{
-		Write_Property( stream, "type", "spin" );
+	// return is just as good as break here
+	switch(box_type){
+	case TYPE_SPIN_BOX:
+		return "spin";
+	case TYPE_TEXT_BOX:
+		return "text";
+	default:
+		return "bonus";
 	}
-	else if( box_type == TYPE_TEXT_BOX )
+}
+
+void cBaseBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
+	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX)
 	{
-		Write_Property( stream, "type", "text" );
-	}
-	else
-	{
-		Write_Property( stream, "type", "bonus" );
 		// animation type
 		Write_Property( stream, "animation", m_anim_type );
 		// best possible item

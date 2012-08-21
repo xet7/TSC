@@ -92,7 +92,7 @@ void cStaticEnemy :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// rotation speed
 	Set_Rotation_Speed( static_cast<float>( attributes.getValueAsFloat( "rotation_speed", -7.5f ) ) );
 	// image
-	Set_Static_Image( attributes.getValueAsString( "image", "enemy/static/saw/default.png" ).c_str() );
+	Set_Static_Image( attributes.getValueAsString( "static_image", "enemy/static/saw/default.png" ).c_str() );
     // path
     Set_Path_Identifier( attributes.getValueAsString( "path", "" ).c_str() );
     // movement speed
@@ -103,31 +103,27 @@ void cStaticEnemy :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	m_ice_resistance = static_cast<float>( attributes.getValueAsFloat( "ice_resistance", m_ice_resistance ) );
 }
 
-void cStaticEnemy :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cStaticEnemy :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "static";
+}
 
-	// name
-	Write_Property( stream, "type", "static" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cStaticEnemy :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// rotation speed
 	Write_Property( stream, "rotation_speed", m_rotation_speed );
 	// image
-	Write_Property( stream, "image", m_img_filename );
-    // path
-	Write_Property( stream, "path", m_path_state.m_path_identifier );
-    // speed
-    Write_Property( stream, "speed", m_speed );
+	Write_Property( stream, "static_image", m_img_filename );
+	// path
+		Write_Property( stream, "path", m_path_state.m_path_identifier );
+		// speed
+		Write_Property( stream, "speed", m_speed );
 	// fire resistant
 	Write_Property( stream, "fire_resistant", m_fire_resistant );
 	// ice resistance
 	Write_Property( stream, "ice_resistance", m_ice_resistance );
-
-	// end
-	stream.closeTag();
 }
 
 void cStaticEnemy :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )

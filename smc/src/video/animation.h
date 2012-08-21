@@ -179,8 +179,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// pre-update animation
 	void Pre_Update( void );
@@ -313,7 +311,7 @@ public:
 	typedef vector<cParticle *> ParticleList;
 	ParticleList m_objects;
 
-	// filename of the particle
+	// filename of the particle image
 	std::string m_image_filename;
 	// if emitter position is based on the camera position
 	bool m_emitter_based_on_camera_pos;
@@ -363,6 +361,11 @@ public:
 	GL_rect m_clip_rect;
 	// clip mode
 	ParticleClipMode m_clip_mode;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	// time alive

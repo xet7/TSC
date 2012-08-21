@@ -43,8 +43,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// sets the count this object can be activated
 	virtual void Set_Useable_Count( int count, bool new_startcount = 0 );
@@ -102,6 +100,11 @@ public:
 	MovingSpriteList m_active_items;
 	// Goldpiece color
 	DefaultColor m_gold_color;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	// typename inherited
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -114,16 +114,15 @@ void cTurtleBoss :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Level_Ends_If_Killed( attributes.getValueAsBool( "level_ends_if_killed", m_level_ends_if_killed ) );
 }
 
-void cTurtleBoss :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cTurtleBoss :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "turtleboss";
+}
 
-	// name
-	Write_Property( stream, "type", "turtleboss" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cTurtleBoss :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// color
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 	// direction
@@ -136,9 +135,6 @@ void cTurtleBoss :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "shell_time", m_shell_time );
 	// level ends if killed
 	Write_Property( stream, "level_ends_if_killed", m_level_ends_if_killed );
-
-	// end
-	stream.closeTag();
 }
 
 void cTurtleBoss :: Set_Max_Hits( int nmax_hits )

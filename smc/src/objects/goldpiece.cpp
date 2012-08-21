@@ -74,21 +74,17 @@ void cGoldpiece :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Gold_Color( Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() ) );
 }
 
-void cGoldpiece :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cGoldpiece :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "goldpiece";
+}
 
-	// type
-	Write_Property( stream, "type", "goldpiece" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cGoldpiece :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
 	// color
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cGoldpiece :: Load_From_Savegame( cSave_Level_Object *save_object )

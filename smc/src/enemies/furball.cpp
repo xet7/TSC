@@ -104,16 +104,15 @@ void cFurball :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	}
 }
 
-void cFurball :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cFurball :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "furball";
+}
 
-	// name
-	Write_Property( stream, "type", "furball" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cFurball :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// color
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 	// direction
@@ -125,9 +124,6 @@ void cFurball :: Save_To_XML( CEGUI::XMLSerializer &stream )
 		// level ends if killed
 		Write_Property( stream, "level_ends_if_killed", m_level_ends_if_killed );
 	}
-
-	// end
-	stream.closeTag();
 }
 
 void cFurball :: Load_From_Savegame( cSave_Level_Object *save_object )

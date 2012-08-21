@@ -458,11 +458,8 @@ void cSprite :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Sprite_Type( Get_Sprite_Type_Id( attributes.getValueAsString( "type" ).c_str() ) );
 }
 
-void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
+void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 {
-	// begin
-	stream.openTag( m_type_name );
-
 	// position
 	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
 	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
@@ -481,7 +478,7 @@ void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	}
 	else
 	{
-		printf( "Warning: cSprite::Save_To_XML no image from type %d\n", m_type );
+		printf( "Warning: cSprite::Do_XML_Saving() no image from type %d\n", m_type );
 	}
 
 	// remove pixmaps directory from string
@@ -490,10 +487,23 @@ void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
 		img_filename.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
 	}
 	Write_Property( stream, "image", img_filename );
-	// type
-	Write_Property( stream, "type", Get_Sprite_Type_String() );
+	// type (only if Get_XML_Type_Name() returns something
+	// meaningful)
+	std::string type = Get_XML_Type_Name();
+	if (!type.empty())
+		Write_Property( stream, "type", type );
+}
 
-	// end
+void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
+{
+	// m_type_name is set by subclasses, so the main opening
+	// tag is detected automatically.
+	stream.openTag( m_type_name );
+
+	// Main saving. Subclasses add to this method.
+	Do_XML_Saving(stream);
+
+	// End tag
 	stream.closeTag();
 }
 
@@ -633,7 +643,7 @@ void cSprite :: Set_Sprite_Type( SpriteType type )
 	}
 }
 
-std::string cSprite :: Get_Sprite_Type_String( void ) const
+std::string cSprite :: Get_XML_Type_Name()
 {
 	if( m_sprite_array == ARRAY_UNDEFINED )
 	{

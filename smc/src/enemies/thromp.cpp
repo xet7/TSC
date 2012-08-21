@@ -104,16 +104,15 @@ void cThromp :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
 }
 
-void cThromp :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cThromp :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "thromp";
+}
 
-	// name
-	Write_Property( stream, "type", "thromp" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+void cThromp :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// image directory
 	Write_Property( stream, "image_dir", m_img_dir );
 	// direction
@@ -122,9 +121,6 @@ void cThromp :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
 	// speed
 	Write_Property( stream, "speed", m_speed );
-
-	// end
-	stream.closeTag();
 }
 
 void cThromp :: Load_From_Savegame( cSave_Level_Object *save_object )

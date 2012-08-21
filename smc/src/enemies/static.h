@@ -46,8 +46,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// Set the parent sprite manager
 	virtual void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
@@ -116,6 +114,12 @@ public:
 
 	// path state if linked to a path
 	cPath_State m_path_state;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
+
 private:
 	// Create the Name from the current settings
 	void Create_Name( void );

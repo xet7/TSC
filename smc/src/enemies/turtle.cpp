@@ -89,13 +89,15 @@ void cTurtle :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
 }
 
-void cTurtle :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cTurtle :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "turtle";
+}
 
-	// name
-	Write_Property( stream, "type", "turtle" );
+void cTurtle :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cEnemy::Do_XML_Saving(stream);
+
 	// position
 	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
 	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );

@@ -254,21 +254,17 @@ void cMushroom :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Type( static_cast<SpriteType>(attributes.getValueAsInteger( "mushroom_type", TYPE_MUSHROOM_DEFAULT )) );
 }
 
-void cMushroom :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cMushroom :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "mushroom";
+}
 
-	// type
-	Write_Property( stream, "type", "mushroom" );
+void cMushroom :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cAnimated_Sprite::Do_XML_Saving(stream);
+
 	// mushroom type
 	Write_Property( stream, "mushroom_type", m_type );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cMushroom :: Set_Type( SpriteType new_type )
@@ -570,21 +566,6 @@ void cFirePlant :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 }
 
-void cFirePlant :: Save_To_XML( CEGUI::XMLSerializer &stream )
-{
-	// begin
-	stream.openTag( m_type_name );
-
-	// type
-	Write_Property( stream, "type", "fireplant" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-
-	// end
-	stream.closeTag();
-}
-
 void cFirePlant :: Activate( void )
 {
 	if( !m_active )
@@ -728,21 +709,6 @@ void cMoon :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 {
 	// position
 	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )) );
-}
-
-void cMoon :: Save_To_XML( CEGUI::XMLSerializer &stream )
-{
-	// begin
-	stream.openTag( m_type_name );
-
-	// type
-	Write_Property( stream, "type", "moon" );
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cMoon :: Activate( void )

@@ -53,8 +53,7 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
+
 	// Set direction
 	void Set_Direction( const ObjectDirection dir );
 
@@ -114,6 +113,11 @@ public:
 	Color m_editor_color;
 	// editor entry name text
 	cGL_Surface *m_editor_entry_name;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	void Create_Name( void );

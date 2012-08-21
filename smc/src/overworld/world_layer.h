@@ -40,7 +40,7 @@ public:
 	virtual ~cLayer_Line_Point( void );
 
 	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream ) {};
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream ) {cSprite::Do_XML_Saving(stream);};
 
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );

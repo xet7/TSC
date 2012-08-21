@@ -40,8 +40,6 @@ public:
 	virtual cBall *Copy( void ) const;
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -97,6 +95,11 @@ public:
 	float m_glim_counter;
 	// fire particle counter
 	float m_fire_counter;
+
+protected:
+	// save to stream
+	virtual std::string Get_XML_Type_Name();
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

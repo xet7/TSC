@@ -118,16 +118,17 @@ void cRandom_Sound :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Volume_Reduction_End( attributes.getValueAsFloat( "volume_reduction_end", m_volume_reduction_end ) );
 }
 
-void cRandom_Sound :: Save_To_XML( CEGUI::XMLSerializer &stream )
+std::string cRandom_Sound :: Get_XML_Type_Name()
 {
-	// begin
-	stream.openTag( m_type_name );
+	return "";
+}
+
+void cRandom_Sound :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+{
+	cSprite::Do_XML_Saving(stream);
 
 	// filename
 	Write_Property( stream, "file", m_filename.c_str() );
-	// position
-	Write_Property( stream, "pos_x", static_cast<int>(m_start_pos_x) );
-	Write_Property( stream, "pos_y", static_cast<int>(m_start_pos_y) );
 	// continuous
 	Write_Property( stream, "continuous", m_continuous );
 	// delay
@@ -139,9 +140,6 @@ void cRandom_Sound :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	// volume reduction
 	Write_Property( stream, "volume_reduction_begin", m_volume_reduction_begin );
 	Write_Property( stream, "volume_reduction_end", m_volume_reduction_end );
-
-	// end
-	stream.closeTag();
 }
 
 void cRandom_Sound :: Set_Filename( const std::string &str )

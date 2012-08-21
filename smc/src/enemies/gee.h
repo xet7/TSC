@@ -22,7 +22,7 @@ namespace SMC
 {
 
 /* *** *** *** *** *** cGee *** *** *** *** *** *** *** *** *** *** *** *** */
-/* Shocks you with Electro, Lava or Gift
+/* Shocks you with Electro, Lava or Venom
 */
 class cGee : public cEnemy
 {
@@ -41,8 +41,6 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream
-	virtual void Save_To_XML( CEGUI::XMLSerializer &stream );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -134,6 +132,11 @@ public:
 	float m_fly_distance_counter;
 	// clouds particle counter
 	float m_clouds_counter;
+
+protected:
+	// save to stream
+	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	// Create the Name from the current settings
