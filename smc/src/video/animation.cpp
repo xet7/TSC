@@ -637,7 +637,7 @@ void cParticle_Emitter :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// particle based on emitter pos
 	Set_Particle_Based_On_Emitter_Pos( attributes.getValueAsFloat( "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos ) );
 	// emitter rect
-	Set_Emitter_Rect( static_cast<float>(attributes.getValueAsInteger( "pos_x", static_cast<int>(m_pos_x) )), static_cast<float>(attributes.getValueAsInteger( "pos_y", static_cast<int>(m_pos_y) )), static_cast<float>(attributes.getValueAsInteger( "size_x", static_cast<int>(m_start_rect.m_w) )), static_cast<float>(attributes.getValueAsInteger( "size_y", static_cast<int>(m_start_rect.m_h) )) );
+	Set_Emitter_Rect( static_cast<float>(attributes.getValueAsInteger( "posx", static_cast<int>(m_pos_x) )), static_cast<float>(attributes.getValueAsInteger( "posy", static_cast<int>(m_pos_y) )), static_cast<float>(attributes.getValueAsInteger( "sizex", static_cast<int>(m_start_rect.m_w) )), static_cast<float>(attributes.getValueAsInteger( "sizey", static_cast<int>(m_start_rect.m_h) )) );
 	// emitter time to live
 	Set_Emitter_Time_to_Live( attributes.getValueAsFloat( "emitter_time_to_live", m_emitter_time_to_live ) );
 	// emitter interval
@@ -690,8 +690,8 @@ void cParticle_Emitter :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	// particle based on emitter pos
 	Write_Property( stream, "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos );
 	// emitter rect (X and Y positions are saved by cSprite::Do_XML_Saving())
-	Write_Property( stream, "size_x", static_cast<int>(m_start_rect.m_w) );
-	Write_Property( stream, "size_y", static_cast<int>(m_start_rect.m_h) );
+	Write_Property( stream, "sizex", static_cast<int>(m_start_rect.m_w) );
+	Write_Property( stream, "sizey", static_cast<int>(m_start_rect.m_h) );
 	// emitter time to live
 	Write_Property( stream, "emitter_time_to_live", m_emitter_time_to_live );
 	// emitter interval
