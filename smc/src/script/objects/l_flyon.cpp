@@ -3,8 +3,7 @@
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
 #include "../../enemies/flyon.h"
-#include "l_sprite.h"
-#include "l_enemy.h"
+#include "../events/event.h"
 #include "l_flyon.h"
 
 using namespace SMC;

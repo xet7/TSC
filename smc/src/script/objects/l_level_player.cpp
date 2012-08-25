@@ -2,7 +2,7 @@
 #include "../script.h"
 #include "../../level/level_player.h"
 #include "../../gui/hud.h"
-#include "l_sprite.h"
+#include "../events/event.h"
 #include "l_level_player.h"
 using namespace SMC;
 

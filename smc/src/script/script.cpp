@@ -12,7 +12,9 @@
 #include "../enemies/gee.h"
 #include "../level/level_player.h"
 #include "../objects/sprite.h"
+#include "scriptable_object.h"
 // In-game object bindings
+#include "objects/l_object.h"
 #include "objects/l_sprite.h"
 #include "objects/l_moving_sprite.h"
 #include "objects/l_animated_sprite.h"
@@ -217,6 +219,8 @@ namespace SMC
 
 		void cLua_Interpreter::Open_SMC_Libs()
 		{
+			// Toplevel class (almost ;-)
+			Open_Object(mp_lua);
 			// Sprites
 			Open_Sprite(mp_lua);
 			Open_Moving_Sprite(mp_lua);
@@ -284,6 +288,7 @@ namespace SMC
 			type2class[typeid(cLevel_Player).name()]		= "LevelPlayer";
 			// Message has no C++ SMC counterpart
 			type2class[typeid(cMovingSprite).name()]		= "MovingSprite";
+			type2class[typeid(cScriptable_Object).name()]	= "Object";
 			type2class[typeid(cParticle_Emitter).name()]	= "ParticleEmitter";
 			type2class[typeid(cSprite).name()]				= "Sprite";
 			type2class[typeid(cTimer).name()]				= "Timer";

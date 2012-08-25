@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.h"
 #include "../core/global_game.h"
+#include "../script/scriptable_object.h"
 // SDL
 #include "SDL.h"
 
@@ -26,7 +27,7 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** *** cKeyboard *** *** *** *** *** *** *** *** *** */
 
-class cKeyboard
+class cKeyboard: public Script::cScriptable_Object
 {
 public:
 	cKeyboard( void );

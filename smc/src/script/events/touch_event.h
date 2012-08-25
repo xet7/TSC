@@ -4,12 +4,12 @@
 #include <string>
 #include "../script.h"
 #include "../../objects/sprite.h"
-#include "sprite_event.h"
+#include "event.h"
 
 namespace SMC{
 	namespace Script{
 
-		class cTouch_Event: public cSprite_Event
+		class cTouch_Event: public cEvent
 		{
 		public:
 			cTouch_Event(cSprite* p_collided);

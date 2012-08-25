@@ -3,11 +3,11 @@
 #define SMC_SCRIPT_JUMP_EVENT_H
 #include <string>
 #include "../script.h"
-#include "sprite_event.h"
+#include "event.h"
 
 namespace SMC{
 	namespace Script{
-		class cJump_Event: public cSprite_Event
+		class cJump_Event: public cEvent
 		{
 		public:
 			virtual std::string Event_Name(){return "jump";}

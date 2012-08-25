@@ -3,6 +3,7 @@
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
 #include "../../level/level_player.h"
+#include "../events/event.h"
 #include "l_sprite.h"
 
 using namespace SMC;
@@ -58,33 +59,6 @@ static int Allocate(lua_State* p_state)
 /***************************************
  * Event handlers
  ***************************************/
-
-/**
- * Generic event handler registration. Takes the name of
- * the event you want to register for and the Lua function
- * to register. Call from Lua like this:
- *
- * your_sprite:register("touch", yourfunction)
- *
- * Note you usually don’t want to call this directly,
- * but rather use something along the lines of on_touch().
- */
-static int Register(lua_State* p_state)
-{
-	cSprite* p_sprite = *LuaWrap::check<cSprite*>(p_state, 1); // Note dereferencing
-	const char* str = luaL_checkstring(p_state, 2);
-	if (!lua_isfunction(p_state, 3))
-		return luaL_error(p_state, "No function given.");
-
-	lua_pushvalue(p_state, 3); // Don’t remove the argument (keep the stack balanced)
-	int ref = luaL_ref(p_state, LUA_REGISTRYINDEX);
-
-	// Add the event handler to the list (if the request event key
-	// doesn’t yet exist, it will automatically be created).
-	p_sprite->m_event_table[str].push_back(ref);
-
-	return 0;
-}
 
 // Event definitions
 LUA_IMPLEMENT_EVENT(touch);
@@ -288,7 +262,6 @@ static luaL_Reg Methods[] = {
 	{"is_player",			Is_Player},
 	{"on_touch",			LUA_EVENT_HANDLER(touch)},
 	{"pos",					Pos},
-	{"register",			Register},
 	{"set_massive_type",	Set_Massive_Type},
 	{"set_start_x",			Set_Start_X},
 	{"set_start_y",			Set_Start_Y},
@@ -303,43 +276,12 @@ static luaL_Reg Methods[] = {
 
 void Script::Open_Sprite(lua_State* p_state)
 {
-	LuaWrap::register_class<cSprite>(	p_state,
-										"Sprite",
-										Methods,
-										NULL,
-										Allocate,
-										NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
+	LuaWrap::register_subclass<cSprite>(	p_state,
+											"Sprite",
+											"Object",
+											Methods,
+											NULL,
+											Allocate,
+											NULL); // Memory managed by SMC (Sprite) and Lua (pointer to Sprite)
 }
 
-/***************************************
- * Helper methods
- ***************************************/
-
-/**
- * Helper method that just forwards a Lua call to register() with
- * the given name. Expects the given stack to look like this:
- *	 [1] Receiver (self, a userdata)
- *	 [2] The Lua function handler
- *
- * The IMPLEMENT_LUA_EVENT macro just defines a function that
- * calls this function with the argument given to it converted
- * to a string.
- */
-int Script::Forward_To_Sprite_Register(lua_State* p_state, std::string event_name)
-{
-	if (!lua_isuserdata(p_state, 1)) // self
-		return luaL_error(p_state, "No receiver (userdata) given.");
-	if (!lua_isfunction(p_state, 2)) // handler function
-		return luaL_error(p_state, "No function given.");
-
-	// Get register() function
-	lua_pushstring(p_state, "register");
-	lua_gettable(p_state, 1);
-	// Forward to register()
-	lua_pushvalue(p_state, 1); // self
-	lua_pushstring(p_state, event_name.c_str());
-	lua_pushvalue(p_state, 2); // function
-	lua_call(p_state, 3, 0);
-
-	return 0;
-}

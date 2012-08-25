@@ -1,12 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#ifndef SMC_SCRIPT_SPRITE_H
-#define SMC_SCRIPT_SPRITE_H
-#include "../script.h"
-
+#ifndef SMC_SCRIPT_OBJECT_H
+#define SMC_SCRIPT_OBJECT_H
 namespace SMC{
 	namespace Script{
-		void Open_Sprite(lua_State* p_state);
+		void Open_Object(lua_State* p_state);
 	};
 };
-
 #endif

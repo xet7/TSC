@@ -3,10 +3,10 @@
 #define SMC_SCRIPT_DIE_H
 #include <string>
 #include "../script.h"
-#include "sprite_event.h"
+#include "event.h"
 namespace SMC{
 	namespace Script{
-		class cGold_100_Event: public cSprite_Event
+		class cGold_100_Event: public cEvent
 		{
 		public:
 			virtual std::string Event_Name(){return "gold_100";}

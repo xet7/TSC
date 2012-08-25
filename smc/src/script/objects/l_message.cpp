@@ -12,7 +12,7 @@
 #include "../../input/joystick.h"
 #include "../../user/preferences.h"
 #include "../../audio/audio.h"
-#include "l_sprite.h"
+#include "../events/event.h"
 #include "l_message.h"
 
 /************************************************

@@ -4,7 +4,7 @@
 #include "../../core/sprite_manager.h"
 #include "../../enemies/enemy.h"
 #include "../../gui/hud.h"
-#include "l_sprite.h"
+#include "../events/event.h"
 #include "l_enemy.h"
 
 using namespace SMC;

@@ -158,8 +158,6 @@ smc_SOURCES = \
 	script/events/key_down_event.h \
 	script/events/shoot_event.cpp \
 	script/events/shoot_event.h \
-	script/events/sprite_event.cpp \
-	script/events/sprite_event.h \
 	script/events/touch_event.cpp \
 	script/events/touch_event.h \
 	script/objects/l_animated_sprite.cpp \
@@ -186,6 +184,8 @@ smc_SOURCES = \
 	script/objects/l_message.h \
 	script/objects/l_moving_sprite.cpp \
 	script/objects/l_moving_sprite.h \
+	script/objects/l_object.cpp \
+	script/objects/l_object.h \
 	script/objects/l_particle_emitter.cpp \
 	script/objects/l_particle_emitter.h \
 	script/objects/l_sprite.cpp \
@@ -196,6 +196,8 @@ smc_SOURCES = \
 	script/luawrap.hpp \
 	script/script.cpp \
 	script/script.h \
+	script/scriptable_object.cpp \
+	script/scriptable_object.h \
 	user/preferences.cpp \
 	user/preferences.h \
 	user/savegame.cpp \

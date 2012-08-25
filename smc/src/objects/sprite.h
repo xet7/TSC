@@ -23,6 +23,7 @@
 #include "../video/video.h"
 #include "../core/collision.h"
 #include "../script/script.h"
+#include "../script/scriptable_object.h"
 // CEGUI
 #include "CEGUIXMLSerializer.h"
 
@@ -31,7 +32,7 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cCollidingSprite *** *** *** *** *** *** *** *** *** *** */
 
-class cCollidingSprite
+  class cCollidingSprite: public Script::cScriptable_Object
 {
 public:
 	cCollidingSprite( cSprite_Manager *sprite_manager );
@@ -544,10 +545,7 @@ public:
 	// width for all name windows based on largest name text width
 	float m_editor_window_name_width;
 
-	// Event handlers associated with this sprite. Format:
-	//	 "event name" => {list, of, lua, function, references, to, call}
-	std::map<std::string, std::vector<int> > m_event_table;
-	// ID to uniquely identify this sprite (Sprite[idhere] uses this)
+	// ID to uniquely identify this sprite (UIDS[idhere] uses this)
 	int m_uid;
 
 	// default z positions

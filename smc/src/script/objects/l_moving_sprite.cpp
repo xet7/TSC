@@ -1,6 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../script.h"
-#include "l_sprite.h"
+#include "../events/event.h"
+#include "../../objects/movingsprite.h"
 #include "l_moving_sprite.h"
 
 using namespace SMC;

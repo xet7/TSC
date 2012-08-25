@@ -2,26 +2,13 @@
 #include <iostream>
 #include <vector>
 #include "../script.h"
+#include "../scriptable_object.h"
 #include "event.h"
 
 namespace SMC{
 	namespace Script{
 
 		/* *** *** *** *** *** cEvent *** *** *** *** *** *** *** *** *** *** *** *** */
-
-		// Static member definition
-		std::vector<int>cEvent::M_handlers;
-
-		/**
-		 * Registers a Lua callback function for this event.
-		 * registryindex is the index of the function in the
-		 * Lua registry which is created in the function
-		 * binding this function to Lua.
-		 */
-		void cEvent::Register_Handler(int registryindex)
-		{
-			M_handlers.push_back(registryindex);
-		}
 
 		/**
 		 * Cycles through all registered event handlers and
@@ -32,16 +19,22 @@ namespace SMC{
 		 * For subclasses, you usually don’t want to overwrite Fire(),
 		 * but rather Run_Lua_Callback().
 		 */
-		void cEvent::Fire(cLua_Interpreter* p_lua)
+		void cEvent::Fire(cLua_Interpreter* p_lua, cScriptable_Object* p_obj)
 		{
 			// Menu level has no Lua interpreter
 			if (!p_lua)
 				return;
 
+			// Get the Lua state and the list of callback function
+			// indices
 			lua_State* p_state = p_lua->Get_Lua_State();
+			std::vector<int> handlers = p_obj->m_event_table[Event_Name()];
+			std::vector<int>::iterator iter;
 
-			for(std::vector<int>::iterator iter = M_handlers.begin(); iter < M_handlers.end(); iter++){
-				lua_rawgeti(p_state, LUA_REGISTRYINDEX, *iter);
+			// Iterate through the list of registered callback indices
+			// and call their corresponding functions.
+			for(iter = handlers.begin(); iter != handlers.end(); iter++){
+				lua_rawgeti(p_state, LUA_REGISTRYINDEX, *iter); // Push the function onto the stack
 				if (Run_Lua_Callback(p_lua) != LUA_OK){
 					std::cerr << "Error running Lua handler: " << lua_tostring(p_state, -1) << std::endl;
 					lua_pop(p_state, 1); // Remove the error message from the stack
@@ -78,4 +71,33 @@ namespace SMC{
 		}
 
 	};
+
+	/**
+	 * Helper method that just forwards a Lua call to register() with
+	 * the given name. Expects the given stack to look like this:
+	 *	 [1] Receiver (self, a userdata)
+	 *	 [2] The Lua function handler
+	 *
+	 * The IMPLEMENT_LUA_EVENT macro just defines a function that
+	 * calls this function with the argument given to it converted
+	 * to a string.
+	 */
+	int SMC::Script::Forward_To_Register(lua_State* p_state, std::string event_name)
+	{
+		if (!lua_isuserdata(p_state, 1)) // self
+			return luaL_error(p_state, "No receiver (userdata) given.");
+		if (!lua_isfunction(p_state, 2)) // handler function
+			return luaL_error(p_state, "No function given.");
+
+		// Get the register() function
+		lua_pushstring(p_state, "register");
+		lua_gettable(p_state, 1);
+		// Forward to register()
+		lua_pushvalue(p_state, 1); // self
+		lua_pushstring(p_state, event_name.c_str());
+		lua_pushvalue(p_state, 2); // function
+		lua_call(p_state, 3, 0);
+
+		return 0;
+	}
 };

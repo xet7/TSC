@@ -3,11 +3,11 @@
 #define SMC_SCRIPT_DOWNGRADE_EVENT_H
 #include <string>
 #include "../script.h"
-#include "sprite_event.h"
+#include "event.h"
 
 namespace SMC{
 	namespace Script{
-		class cDowngrade_Event: public cSprite_Event
+		class cDowngrade_Event: public cEvent
 		{
 		public:
 			cDowngrade_Event(int downgrades, int max_downgrades);

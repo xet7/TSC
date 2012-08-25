@@ -3,11 +3,11 @@
 #define SMC_SCRIPT_SHOOT_EVENT_H
 #include <string>
 #include "../script.h"
-#include "sprite_event.h"
+#include "event.h"
 
 namespace SMC{
 	namespace Script{
-		class cShoot_Event: public cSprite_Event
+		class cShoot_Event: public cEvent
 		{
 		public:
 			cShoot_Event();
