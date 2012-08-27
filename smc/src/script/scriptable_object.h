@@ -16,6 +16,8 @@ namespace SMC{
 		class cScriptable_Object
 		{
 		public:
+			cScriptable_Object(){}
+			virtual ~cScriptable_Object(){}
 			// Event handlers associated with this object. Format:
 			//	 "event name" => {list, of, lua, function, references, to, call}
 			std::map<std::string, std::vector<int> > m_event_table;

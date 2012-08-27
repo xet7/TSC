@@ -28,6 +28,7 @@ void Script::Open_Input(lua_State* p_state)
 											"InputClass",
 											"Object",
 											Methods,
+											NULL,
 											NULL, // Singleton, can’t be instanciated
 											NULL); // Memory managed by SMC
 

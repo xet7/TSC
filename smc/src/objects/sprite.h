@@ -32,7 +32,7 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cCollidingSprite *** *** *** *** *** *** *** *** *** *** */
 
-  class cCollidingSprite: public Script::cScriptable_Object
+class cCollidingSprite: public Script::cScriptable_Object
 {
 public:
 	cCollidingSprite( cSprite_Manager *sprite_manager );

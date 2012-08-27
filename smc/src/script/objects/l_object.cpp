@@ -53,7 +53,6 @@ static int Register(lua_State* p_state)
 
 	// Add the event handler to the list (if the request event key
 	// doesn’t yet exist, it will automatically be created).
-	std::cout << str << std::endl;
 	p_obj->m_event_table[str].push_back(ref);
 
 	return 0;
