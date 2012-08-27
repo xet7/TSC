@@ -57,6 +57,7 @@
 #include "../overworld/world_editor.h"
 #include "../script/script.h"
 #include "../script/events/key_down_event.h"
+#include "../script/events/level_save_event.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"

@@ -24,6 +24,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../script/events/level_save_event.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -446,11 +447,18 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 
 			save_level->m_name = Trim_Filename( level->m_level_filename, 0, 0 );
 			
-			// save position if active level
+			// save position and script data if active level
 			if( pActive_Level == level )
 			{
+				// Position.
 				save_level->m_level_pos_x = pLevel_Player->m_pos_x;
 				save_level->m_level_pos_y = pLevel_Player->m_pos_y - 5.0f;
+
+				// Custom data a script writer wants to store in the
+				// savegame (pSavegame holds the event table for the
+				// level saving events). Populates save_level.m_lua_data.
+				Script::cLevel_Save_Event evt(&(save_level->m_lua_data));
+				evt.Fire(pActive_Level->m_lua, pSavegame);
 			}
 
 			// spawned objects
@@ -646,11 +654,23 @@ int cSavegame :: Save( unsigned int save_slot, cSave *savegame )
 
 		// name
 		Write_Property( stream, "level_name", level->m_name );
-		// save position if active level
+		// position is only set when saving the active level
 		if( !Is_Float_Equal( level->m_level_pos_x, 0.0f ) && !Is_Float_Equal( level->m_level_pos_y, 0.0f ) )
 		{
 			Write_Property( stream, "player_posx", level->m_level_pos_x );
 			Write_Property( stream, "player_posy", level->m_level_pos_y );
+		}
+		// lua data is only set when saving the active level and
+		// the script writer added something to it
+		if (!level->m_lua_data.empty()){
+			Lua_Save_Data::iterator iter;
+			stream.openTag("lua_data");
+			// Iterate through the converted (from Lua to C++) table
+			// and translate the content to XML.
+			for(iter = level->m_lua_data.begin(); iter != level->m_lua_data.end(); iter++)
+				Write_Property(stream, (*iter).first, (*iter).second);
+
+			stream.closeTag();
 		}
 
 		// begin

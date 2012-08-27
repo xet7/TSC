@@ -1,9 +1,18 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../script.h"
 #include "../../level/level.h"
+#include "../../user/savegame.h"
+#include "../events/event.h"
 #include "l_level.h"
 
 using namespace SMC;
+
+/***************************************
+ * Events
+ ***************************************/
+
+LUA_IMPLEMENT_EVENT(save)
+LUA_IMPLEMENT_EVENT(load)
 
 /***************************************
  * Methods
@@ -96,13 +105,16 @@ static luaL_Reg Methods[] = {
 	{"get_next_level_filename", Get_Next_Level_Filename},
 	{"get_script",				Get_Script},
 	{"finish",					Finish},
+	{"on_load",					LUA_EVENT_HANDLER(load)},
+	{"on_save",					LUA_EVENT_HANDLER(save)},
 	{NULL, NULL}
 };
 
 void Script::Open_Level(lua_State* p_state)
 {
-	LuaWrap::register_class<cLevel>(	p_state,
+	LuaWrap::register_subclass<cLevel>(	p_state,
 										"LevelClass",
+										"Object",
 										Methods,
 										NULL,
 										NULL, // Singleton, can’t be instanciated
@@ -111,8 +123,12 @@ void Script::Open_Level(lua_State* p_state)
 	// Make the global variable Level point to the
 	// sole instance of the LevelClass class.
 	lua_getglobal(p_state, "LevelClass"); // Class table needed
-	cLevel** pp_level = (cLevel**) lua_newuserdata(p_state, sizeof(cLevel*));
-	*pp_level = pActive_Level;
+	// The Lua `Level' variable actually points to pSavegame instead
+	// of pActiveLevel, because that one holds the event table
+	// for the level events, which needs to be easily accessible
+	// when saving/loading a game.
+	cSavegame** pp_savegame = (cSavegame**) lua_newuserdata(p_state, sizeof(cSavegame*));
+	*pp_savegame = pSavegame;
 	LuaWrap::InternalC::set_imethod_table(p_state, -2); // Attach instance method table
 	// Cleanup the stack, remove the class table
 	lua_insert(p_state, -2);

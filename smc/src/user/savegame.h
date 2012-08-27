@@ -17,6 +17,7 @@
 #define SMC_SAVEGAME_H
 
 #include "../objects/sprite.h"
+#include "../script/scriptable_object.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
 #include "CEGUIXMLAttributes.h"
@@ -94,6 +95,7 @@ public:
 };
 
 typedef vector<cSave_Level_Object *> Save_Level_ObjectList;
+typedef std::map<std::string, std::string> Lua_Save_Data;
 
 /* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
 // Level save data
@@ -112,6 +114,9 @@ public:
 	Save_Level_ObjectList m_level_objects;
 	// spawned objects
 	cSprite_List m_spawned_objects;
+
+	// Data a script writer wants to store
+	Lua_Save_Data m_lua_data;
 };
 
 typedef vector<cSave_Level *> Save_LevelList;
@@ -169,7 +174,7 @@ public:
 
 /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
 
-class cSavegame
+class cSavegame: public Script::cScriptable_Object
 {
 public:
 	cSavegame( void );
