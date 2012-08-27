@@ -43,4 +43,8 @@ void Script::Open_Input(lua_State* p_state)
 	lua_pop(p_state, 1);
 	// Make the global variable
 	lua_setglobal(p_state, "Input");
+
+	//TODO: Does it make sense to have a "Input" variable that
+	// wraps a "Keyboard" object? Doesn’t "Input" imply "Mouse"
+	// and such stuff also?
 }

@@ -31,6 +31,7 @@ namespace SMC{
 		public:
 			cKeyDownEvent(std::string keyname);
 			std::string Get_Keyname();
+			virtual std::string Event_Name();
 		private:
 			virtual int Run_Lua_Callback(cLua_Interpreter* p_lua);
 			std::string m_keyname;

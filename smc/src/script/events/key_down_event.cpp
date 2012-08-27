@@ -14,6 +14,11 @@ namespace SMC{
 			return m_keyname;
 		}
 
+		std::string cKeyDownEvent::Event_Name()
+		{
+			return "key_down";
+		}
+
 		// Overwrite
 		int cKeyDownEvent::Run_Lua_Callback(cLua_Interpreter* p_lua)
 		{
