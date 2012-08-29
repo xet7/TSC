@@ -156,6 +156,8 @@ smc_SOURCES = \
 	script/events/jump_event.h \
 	script/events/key_down_event.cpp \
 	script/events/key_down_event.h \
+	script/events/level_load_event.cpp \
+	script/events/level_load_event.h \
 	script/events/level_save_event.cpp \
 	script/events/level_save_event.h \
 	script/events/shoot_event.cpp \

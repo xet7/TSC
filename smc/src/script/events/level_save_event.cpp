@@ -40,13 +40,13 @@ int Script::cLevel_Save_Event::Run_Lua_Callback(cLua_Interpreter* p_lua)
 	// Otherwise, translate the Lua table into a C++ one.
 	lua_pushnil(p_state); // First key
 	while (lua_next(p_state, -2)){
-		/* Check if we *really* got a string. lua_isstring() returns
+		/* Check if we *really* got a string key. lua_isstring() returns
 		 * true for numbers as well, but we are not allowed to call
-		 * lua_tostring within a lua_next() loop with a number. Doing
+		 * lua_tostring within a lua_next() loop with a non-string key. Doing
 		 * this on the value is not a problem. See the Lua documentation
 		 * of lua_next(). */
-		if (lua_isstring(p_state, -1) && !(lua_isnumber(p_state, -1)))
-			(*mp_data)[lua_tostring(p_state, -1)] = lua_tostring(p_state, -2);
+		if (lua_isstring(p_state, -2) && !(lua_isnumber(p_state, -2)))
+			(*mp_data)[lua_tostring(p_state, -2)] = luaL_checkstring(p_state, -1);
 
 		// Remove the value from the stack,
 		// keep the key for lua_next()
