@@ -210,6 +210,8 @@ public:
 
 /* *** *** *** *** *** *** *** cSavegame_XML_Handler *** *** *** *** *** *** *** *** *** *** */
 
+// Note this class only does the XML *loading*, the
+// saving is done in cSavegame directly.
 class cSavegame_XML_Handler : public CEGUI::XMLHandler
 {
 public:
@@ -246,9 +248,13 @@ public:
 	Save_Level_ObjectList m_level_objects;
 	// level spawned objects for parsing
 	cSprite_List m_level_spawned_objects;
+	// things saved by the save event for parsing
+	Lua_Save_Data m_lua_saved_data;
 
 	// object we are constructing
 	cSave *m_savegame;
+private:
+	bool m_parsing_lua_data;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
