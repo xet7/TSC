@@ -45,6 +45,13 @@ include_directories(
 add_subdirectory(lua ${SMC_BINARY_DIR}/lua)
 include_directories(${SMC_SOURCE_DIR}/lua/lua-5.2.1/src)
 
+# Extra flags for debugging SMC, additional to those
+# already added by CMake itself when doing a debug
+# build (e.g. -g is added for GCC by CMake).
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DEBUG=1")
+endif()
+
 # For now, just assume ALL cpp files to be requisites
 # of SMC. It would be WAY better to split this up into
 # smaller pieces using recursive cmake without globbing
