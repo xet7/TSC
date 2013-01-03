@@ -52,6 +52,11 @@ if(${CMAKE_BUILD_TYPE} MATCHES Debug)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DEBUG=1")
 endif()
 
+# Some more macros we use in SMC
+add_definitions(
+  "-DDATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/smc\""
+  )
+
 # For now, just assume ALL cpp files to be requisites
 # of SMC. It would be WAY better to split this up into
 # smaller pieces using recursive cmake without globbing
