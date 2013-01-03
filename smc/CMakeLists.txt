@@ -69,3 +69,9 @@ target_link_libraries(smc
   ${Boost_LIBRARIES}
   lua
   )
+
+# Installation instructions
+install(TARGETS smc
+  DESTINATION bin)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/" # Note trailing slash for content copy
+  DESTINATION share/smc)
