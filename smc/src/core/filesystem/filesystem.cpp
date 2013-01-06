@@ -74,7 +74,7 @@ bool Delete_File( const std::string &filename )
 {
 // fixme : boost should use a codecvt_facet but for now we convert to UCS-2
 #ifdef _WIN32
-	return DeleteFile( utf8_to_ucs2( filename ).c_str() ) != 0;
+	return DeleteFileW( utf8_to_ucs2( filename ).c_str() ) != 0;
 #else
 	return remove( filename.c_str() ) == 0;
 #endif
@@ -84,7 +84,7 @@ bool Delete_Dir( const std::string &dir )
 {
 // fixme : boost should use a codecvt_facet but for now we convert to UCS-2
 #ifdef _WIN32
-	return RemoveDirectory( utf8_to_ucs2( dir ).c_str() ) != 0;
+	return RemoveDirectoryW( utf8_to_ucs2( dir ).c_str() ) != 0;
 #else
 	return rmdir( dir.c_str() ) == 0;
 #endif
@@ -104,7 +104,7 @@ bool Rename_File( const std::string &old_filename, const std::string &new_filena
 {
 // fixme : boost should use a codecvt_facet but for now we convert to UCS-2
 #ifdef _WIN32
-	return MoveFileEx( utf8_to_ucs2( old_filename ).c_str(), utf8_to_ucs2( new_filename ).c_str(), MOVEFILE_REPLACE_EXISTING ) != 0;
+	return MoveFileExW( utf8_to_ucs2( old_filename ).c_str(), utf8_to_ucs2( new_filename ).c_str(), MOVEFILE_REPLACE_EXISTING ) != 0;
 #else
 	return rename( old_filename.c_str(), new_filename.c_str() ) == 0;
 #endif
@@ -119,7 +119,7 @@ bool Create_Directory( const std::string &dir )
 
 // fixme : boost should use a codecvt_facet but for now we convert to UCS-2
 #ifdef _WIN32
-	return CreateDirectory( utf8_to_ucs2( dir ).c_str(), NULL ) != 0;
+	return CreateDirectoryW( utf8_to_ucs2( dir ).c_str(), NULL ) != 0;
 #else
 	return fs::create_directory( fs::path( dir ) );
 #endif
@@ -229,7 +229,7 @@ std::string Get_Temp_Directory( void )
 #ifdef _WIN32
 	TCHAR path[MAX_PATH];
 
-	DWORD retval = GetTempPath( MAX_PATH, path );
+	DWORD retval = GetTempPathW( MAX_PATH, path );
 
 	if( retval > MAX_PATH || retval == 0 )
 	{
@@ -251,7 +251,7 @@ std::string Get_User_Directory( void )
 #ifdef _WIN32
 	TCHAR path_appdata[MAX_PATH + 1];
 
-	if( FAILED( SHGetFolderPath( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
+	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
 	{
 		printf( "Error : Couldn't get Windows user data directory. Defaulting to the Application directory.\n" );
 		return "";
