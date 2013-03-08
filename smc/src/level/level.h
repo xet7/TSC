@@ -23,6 +23,7 @@
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
 #include "../script/script.h"
+#include "../scripting/scripting.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
 #include "CEGUIXMLAttributes.h"
@@ -151,7 +152,7 @@ public:
 	std::string m_level_filename;
 	// if a new level should be loaded this is the next level filename
 	std::string m_next_level_filename;
-	// Lua script code associated with this level
+	// MRuby script code associated with this level
 	std::string m_script;
 
 	// unload the level on the next update
@@ -165,6 +166,8 @@ public:
 	cSprite_Manager *m_sprite_manager;
 	// Lua interpreter used for this level
 	Script::cLua_Interpreter *m_lua;
+	// MRuby interpreter used for this level
+	Scripting::cMRuby_Interpreter *m_mruby;
 
 	/* *** *** *** Settings *** *** *** *** */
 

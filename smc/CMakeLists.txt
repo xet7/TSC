@@ -19,6 +19,7 @@ find_package(SDL_image REQUIRED)
 find_package(SDL_mixer REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
+find_package(PCRE REQUIRED)
 find_package(Boost 1.50.0
   COMPONENTS filesystem chrono thread system
   REQUIRED)
@@ -40,6 +41,22 @@ include_directories(
   ${CEGUI_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   )
+
+# Tell CMake how to compile mruby
+set(MRUBY_ROOT_DIR ${SMC_SOURCE_DIR}/../mruby/mruby)
+include(ExternalProject)
+ExternalProject_Add(
+  mruby
+  PREFIX "${SMC_BINARY_DIR}/mruby"
+  DOWNLOAD_COMMAND ""
+  UPDATE_COMMAND ""
+  SOURCE_DIR "${MRUBY_ROOT_DIR}"
+  BUILD_IN_SOURCE 1
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND ${RUBY_EXECUTABLE} -S rake MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb
+  INSTALL_COMMAND ""
+)
+include_directories(${MRUBY_ROOT_DIR}/include)
 
 # Recurse for Lua and place the resulting
 # liblua.a next to us.
@@ -69,24 +86,10 @@ file(GLOB_RECURSE smc_sources
   "src/*.h"
   )
 
-# Tell CMake how to compile mruby
-set(MRUBY_ROOT_DIR ${SMC_SOURCE_DIR}/../mruby)
-include(ExternalProject)
-ExternalProject_Add(
-  mruby
-  PREFIX "${SMC_BINARY_DIR}/mruby"
-  DOWNLOAD_COMMAND ""
-  UPDATE_COMMAND ""
-  SOURCE_DIR "${MRUBY_ROOT_DIR}"
-  BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${RUBY_EXECUTABLE} -S rake MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb
-  INSTALL_COMMAND ""
-)
-
 # Now add our build targets and their dependencies.
 add_executable(smc ${smc_sources})
 add_dependencies(smc mruby)
+# TODO: Make the mruby config automatically include the correct path to the PCRE library
 target_link_libraries(smc
   ${OPENGL_LIBRARIES}
   ${PNG_LIBRARIES}
@@ -95,6 +98,7 @@ target_link_libraries(smc
   ${SDL_MIXER_LIBRARIES}
   ${SDL_TTF_LIBRARIES}
   ${CEGUI_LIBRARY}
+  ${PCRE_LIBRARIES}
   ${Boost_LIBRARIES}
   ${MRUBY_ROOT_DIR}/build/host/lib/libmruby.a
   ${MRUBY_ROOT_DIR}/build/host/lib/libmruby_core.a

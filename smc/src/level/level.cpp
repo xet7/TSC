@@ -96,7 +96,8 @@ cLevel :: cLevel( void )
 	Reset_Settings();
 
 	m_delayed_unload = 0;
-	m_lua = NULL; // Initialized in Init()
+	m_lua   = NULL; // Initialized in Init()
+	m_mruby = NULL; // Initialized in Init()
 
 	m_sprite_manager = new cSprite_Manager();
 	m_background_manager = new cBackground_Manager();
@@ -299,6 +300,8 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	 * of the Lua interpreter here. */
 	if (m_lua)
 		delete m_lua;
+	if (m_mruby)
+		delete m_mruby;
 
 	/* delete sprites
 	 * do this at last
@@ -405,7 +408,7 @@ void cLevel :: Save( void )
 		obj->Save_To_XML( stream );
 	}
 
-	// Lua script code
+	// MRuby script code
 	stream.openTag( "script" )
 		.text(m_script)
 		.closeTag();
@@ -447,7 +450,7 @@ void cLevel :: Reset_Settings( void )
 	m_camera_limits = cCamera::m_default_limits;
 	m_fixed_camera_hor_vel = 0.0f;
 
-	// Lua script code
+	// MRuby script code
 	m_script = std::string();
 }
 
@@ -481,12 +484,16 @@ void cLevel :: Init( void )
 	// Initialize a Lua interpreter for this level. Each level has its own Lua
 	// interpreter to prevent unintended object exchange between levels.
 	m_lua = new Script::cLua_Interpreter(this);
+	m_mruby = new Scripting::cMRuby_Interpreter(this);
 
 	// Run the Lua code associated with this level (this sets up
 	// all the event handlers the user wants to register)
+	//std::string errmsg;
+	//if (!m_lua->Run_Code(m_script, errmsg))
+	//	std::cerr << "Warning: Lua script crashed with: " << errmsg << std::endl;
 	std::string errmsg;
-	if (!m_lua->Run_Code(m_script, errmsg))
-		std::cerr << "Warning: Lua script crashed with: " << errmsg << std::endl;
+	if (!m_mruby->Run_Code(m_script, errmsg))
+		std::cerr << "Warning: MRuby script crashed: " << errmsg << std::endl;
 }
 
 void cLevel :: Set_Sprite_Manager( void )
