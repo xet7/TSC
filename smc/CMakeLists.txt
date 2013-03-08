@@ -11,6 +11,7 @@ set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
 # Check for the actual libraries.
+find_package(Ruby 1.9 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(PNG REQUIRED)
 find_package(SDL REQUIRED)
@@ -19,7 +20,7 @@ find_package(SDL_mixer REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(Boost 1.50.0
-  COMPONENTS filesystem thread system
+  COMPONENTS filesystem chrono thread system
   REQUIRED)
 find_package(Gettext)
 
@@ -68,8 +69,24 @@ file(GLOB_RECURSE smc_sources
   "src/*.h"
   )
 
+# Tell CMake how to compile mruby
+set(MRUBY_ROOT_DIR ${SMC_SOURCE_DIR}/../mruby)
+include(ExternalProject)
+ExternalProject_Add(
+  mruby
+  PREFIX "${SMC_BINARY_DIR}/mruby"
+  DOWNLOAD_COMMAND ""
+  UPDATE_COMMAND ""
+  SOURCE_DIR "${MRUBY_ROOT_DIR}"
+  BUILD_IN_SOURCE 1
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND ${RUBY_EXECUTABLE} ./minirake
+  INSTALL_COMMAND ""
+)
+
 # Now add our build targets and their dependencies.
 add_executable(smc ${smc_sources})
+add_dependencies(smc mruby)
 target_link_libraries(smc
   ${OPENGL_LIBRARIES}
   ${PNG_LIBRARIES}
@@ -79,6 +96,8 @@ target_link_libraries(smc
   ${SDL_TTF_LIBRARIES}
   ${CEGUI_LIBRARY}
   ${Boost_LIBRARIES}
+  ${MRUBY_ROOT_DIR}/build/host/lib/libmruby.a
+  ${MRUBY_ROOT_DIR}/build/host/lib/libmruby_core.a
   lua
   )
 
