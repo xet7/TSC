@@ -3,6 +3,10 @@
 #define SMC_SCRIPTING_HPP
 #include <string>
 #include <mruby.h>
+#include <mruby/compile.h>
+#include <mruby/string.h>
+#include <mruby/hash.h>
+
 #include "../core/global_game.h"
 
 namespace SMC {

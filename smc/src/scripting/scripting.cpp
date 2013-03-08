@@ -1,13 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include <mruby.h>
-#include <mruby/compile.h>
-#include <mruby/string.h>
-#include <mruby/hash.h>
-
+#include "scripting.h"
 #include "../level/level.h"
 #include "../core/sprite_manager.h"
 
-#include "scripting.h"
+#include "objects/mrb_sprite.h"
 
 namespace SMC
 {
@@ -61,7 +57,7 @@ namespace SMC
 
 		void cMRuby_Interpreter::Init_SMC_Libs()
 		{
-
+			Init_Sprite(mp_mruby);
 		}
 
 	};
