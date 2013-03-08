@@ -1,3 +1,7 @@
+# Absolute path to the directory this file resides in,
+# independent of any PWD or invocation stuff.
+THIS_DIR = File.expand_path(File.dirname(__FILE__))
+
 MRuby::Build.new do |conf|
   # load specific toolchain settings
   toolchain :gcc
@@ -19,10 +23,10 @@ MRuby::Build.new do |conf|
   conf.gem 'mrbgems/mruby-string-ext' # More string stuff
 
   # Additional things
-  conf.gem :git => 'git://github.com/matsumoto-r/mruby-sleep.git' # Sleep
-  conf.gem :git => 'git://github.com/mattn/mruby-pcre-regexp.git' # PCRE Regular Expressions
-  conf.gem :git => 'git://github.com/iij/mruby-simple-random.git' # #rand, #srand
-  conf.gem :git => 'git://github.com/mattn/mruby-md5.git'         # MD5
+  conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-sleep"         # Sleep
+  conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-pcre-regexp"   # PCRE Regular Expressions
+  conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-simple-random" # #rand, #srand
+  conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-md5"           # MD5
 
   # Generate binaries
   # conf.bins = %w(mrbc mruby mirb)
