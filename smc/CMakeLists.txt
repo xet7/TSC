@@ -10,8 +10,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-# Check for the actual libraries.
+# Check for the actual libraries and programs.
 find_package(Ruby 1.9 REQUIRED)
+find_package(Git REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(PNG REQUIRED)
 find_package(SDL REQUIRED)
@@ -80,7 +81,7 @@ ExternalProject_Add(
   SOURCE_DIR "${MRUBY_ROOT_DIR}"
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${RUBY_EXECUTABLE} ./minirake
+  BUILD_COMMAND ${RUBY_EXECUTABLE} -S rake MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb
   INSTALL_COMMAND ""
 )
 
