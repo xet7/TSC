@@ -6,8 +6,13 @@
 #include <mruby/compile.h>
 #include <mruby/string.h>
 #include <mruby/hash.h>
+#include <mruby/class.h>
+#include <mruby/data.h>
 
 #include "../core/global_game.h"
+
+// Some defines to ease use of mruby
+#define MRB_ARGUMENT_ERROR(mrb) (mrb_class_obj_get(mrb, "ArgumentError"))
 
 namespace SMC {
 	namespace Scripting {
