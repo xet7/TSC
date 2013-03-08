@@ -12,7 +12,6 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 # Check for the actual libraries and programs.
 find_package(Ruby 1.9 REQUIRED)
-find_package(Git REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(PNG REQUIRED)
 find_package(SDL REQUIRED)
