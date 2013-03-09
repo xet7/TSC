@@ -5,6 +5,9 @@
 
 namespace SMC {
 	namespace Scripting {
+		extern struct RClass* p_rcSprite;
+		extern struct mrb_data_type rtSprite;
+
 		void Init_Sprite(mrb_state* p_state);
 	}
 }

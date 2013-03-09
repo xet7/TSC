@@ -307,6 +307,7 @@ void Init_Game( void )
 	pLevel_Player->Set_Sprite_Manager( pActive_Level->m_sprite_manager );
   // Initialize scripting
   Script::Initialize_Scripting();
+  Scripting::Initialize_Scripting();
 
 	// apply preferences
 	pPreferences->Apply();

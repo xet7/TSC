@@ -6,8 +6,11 @@
 #include "../../level/level_player.h"
 
 using namespace SMC;
+using namespace SMC::Scripting;
 
-static struct mrb_data_type sp_mruby_sprite_type_info = {"Sprite", NULL};
+// Extern
+struct RClass* SMC::Scripting::p_rcSprite     = NULL;
+struct mrb_data_type SMC::Scripting::rtSprite = {"Sprite", NULL};
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
@@ -18,7 +21,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 	// Insert a new sprite instance into the MRuby object
 	cSprite* p_sprite = new cSprite(pActive_Level->m_sprite_manager);
 	DATA_PTR(self) = p_sprite;
-	DATA_TYPE(self) = &sp_mruby_sprite_type_info;
+	DATA_TYPE(self) = &rtSprite;
 
 	// Arguments
 	if (path)
@@ -46,10 +49,55 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 	return self;
 }
 
-void Scripting::Init_Sprite(mrb_state* p_state)
+mrb_value Show(mrb_state* p_state, mrb_value self)
 {
-	struct RClass* p_Sprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
-	MRB_SET_INSTANCE_TT(p_Sprite, MRB_TT_DATA);
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	p_sprite->Set_Active(true);
+	return mrb_nil_value();
+}
 
-	mrb_define_method(p_state, p_Sprite, "initialize", Initialize, ARGS_OPT(2));
+mrb_value Hide(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	p_sprite->Set_Active(false);
+	return mrb_nil_value();
+}
+
+mrb_value Get_UID(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	return mrb_fixnum_value(p_sprite->m_uid);
+}
+
+mrb_value Get_X(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	return mrb_fixnum_value(p_sprite->m_pos_x);
+}
+
+mrb_value Get_Y(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	return mrb_fixnum_value(p_sprite->m_pos_y);
+}
+
+void SMC::Scripting::Init_Sprite(mrb_state* p_state)
+{
+	p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
+	MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
+
+	mrb_define_method(p_state, p_rcSprite, "initialize", Initialize, ARGS_OPT(2));
+	mrb_define_method(p_state, p_rcSprite, "show", Show, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "hide", Hide, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "x", Get_X, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "y", Get_Y, ARGS_NONE());
 }
