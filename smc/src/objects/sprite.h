@@ -337,6 +337,14 @@ public:
 	// Set this sprite on top of the given one
 	void Set_On_Top( const cSprite *sprite, bool optimize_hor_pos = 1 );
 
+	// Return the object that will be placed in the UIDS hash
+	// for this sprite. Be sure to override in relevant subclasses.
+	// See mrb_uids.cpp for a lengthy explanation.
+	virtual mruby_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return Data_Wrap_Struct(p_state, p_rcSprite, &rtSprite, this);
+	}
+
 	/* Move this object
 	 * real : if set the speedfactor is not used
 	*/

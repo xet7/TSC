@@ -38,10 +38,6 @@ namespace SMC {
 
 			bool Run_Code(const std::string& code, std::string& errormsg);
 
-			/* see scripting.cpp for comments on these
-			void Register_Sprite(cSprite* p_sprite);
-			void Unregister_Sprite(cSprite* p_sprite); */
-
 			mrb_state* Get_MRuby_State();
 			cLevel* Get_Level();
 		private:
