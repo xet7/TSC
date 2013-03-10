@@ -9,6 +9,7 @@
 #include <mruby/hash.h>
 #include <mruby/class.h>
 #include <mruby/data.h>
+#include <mruby/variable.h>
 
 #include "../core/global_game.h"
 
@@ -17,19 +18,6 @@
 
 namespace SMC {
 	namespace Scripting {
-
-		// This table maps C++ class names (type_info.name()) to Ruby class names.
-		typedef std::map<std::string, std::string> ClassMap;
-		// Name of the global hash mapping the UIDs to
-		// objects of Sprite and its subclasses.
-		const std::string UID_TABLE_NAME = "UIDS";
-
-		// Maps C++ class names to MRuby class names
-		extern ClassMap type2class;
-		// Maps Ruby class names to C++ class names.
-		extern ClassMap class2type;
-
-		void Initialize_Scripting();
 
 		class cMRuby_Interpreter {
 		public:
@@ -43,10 +31,8 @@ namespace SMC {
 		private:
 			mrb_state* mp_mruby;
 			cLevel* mp_level;
-			mrb_value m_uid_table;
 
 			void Init_SMC_Libs();
-			mrb_value Wrap_MRuby_Object_Around_Sprite(cSprite* p_sprite);
 		};
 	};
 };

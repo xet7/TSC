@@ -1,7 +1,8 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include <map>
-#include "mrb_sprite.h"
+#include "mrb_uids.h"
 #include "../../level/level.h"
+#include "../../objects/sprite.h"
+#include "../../core/sprite_manager.h"
 
 /*****************************************************************************
  Sprite management
@@ -43,6 +44,8 @@ causing a segfault. Sttoring the MRuby instances in the global constat
 
 *****************************************************************************/
 
+using namespace SMC;
+
 // Static
 static std::map<int,mrb_value> s_uids_cache;
 
@@ -51,7 +54,7 @@ struct RClass* SMC::Scripting::p_rmUIDS = NULL;
 
 static mrb_value Index(mrb_state* p_state, mrb_value self)
 {
-	mrb_int uid;
+    mrb_int uid;
 	mrb_get_args(p_state, "i", &uid);
 
 	// If we already have an object for this UID in the
@@ -61,7 +64,7 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 
 	// Otherwise, allocate a new MRuby object for it and store
 	// that new object in the cache.
-	cSprite_List objs = pActive_Level->mm_sprite_manager->objects; // Shorthand
+	cSprite_List objs = pActive_Level->m_sprite_manager->objects; // Shorthand
 	for(cSprite_List::const_iterator iter = objs.begin(); iter != objs.end(); iter++){
 		if ((*iter)->m_uid == uid) {
 			// Ask the sprite to create the correct type of MRuby object
@@ -86,5 +89,8 @@ void SMC::Scripting::Init_UIDS(mrb_state* p_state)
 {
 	p_rmUIDS = mrb_define_module(p_state, "UIDS");
 
-	mrb_define_singleton_method(p_state, p_rmUIDS, "[]", Index, ARGS_REQ(1));
+	// UID 0 is always the player
+	s_uids_cache[0] = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern(p_state, "Player"));
+
+	mrb_define_class_method(p_state, p_rmUIDS, "[]", Index, ARGS_REQ(1));
 }

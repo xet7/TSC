@@ -24,6 +24,8 @@
 #include "../core/collision.h"
 #include "../script/script.h"
 #include "../script/scriptable_object.h"
+#include "../scripting/scripting.h"
+#include "../scripting/objects/mrb_sprite.h"
 // CEGUI
 #include "CEGUIXMLSerializer.h"
 
@@ -340,9 +342,9 @@ public:
 	// Return the object that will be placed in the UIDS hash
 	// for this sprite. Be sure to override in relevant subclasses.
 	// See mrb_uids.cpp for a lengthy explanation.
-	virtual mruby_value Create_MRuby_Object(mrb_state* p_state)
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return Data_Wrap_Struct(p_state, p_rcSprite, &rtSprite, this);
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcSprite, &Scripting::rtSprite, this));
 	}
 
 	/* Move this object
