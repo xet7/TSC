@@ -17,6 +17,7 @@
 #define SMC_ANIMATED_SPRITE_H
 
 #include "../objects/movingsprite.h"
+#include "../scripting/objects/mrb_animated_sprite.h"
 
 namespace SMC
 {
@@ -101,6 +102,12 @@ public:
 			m_anim_mod = 0.0f;
 		}
 	};
+
+	// Create the MRuby instance for this object.
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcAnimated_Sprite, &Scripting::rtAnimated_Sprite, this));
+	}
 
 	// currently set image array number
 	int m_curr_img;

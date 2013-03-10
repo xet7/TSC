@@ -75,9 +75,8 @@ public:
 	void Hold( void );
 
 	// Create the MRuby object for this
-	virtual mrb_value Create_Mruby_Object(mrb_state* p_state)
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-    std::cout << "*************PLAYER*************" << std::endl;
 		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLevel_Player, &Scripting::rtLevel_Player, this));
 	}
 

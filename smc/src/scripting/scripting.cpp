@@ -5,6 +5,8 @@
 #include "../core/sprite_manager.h"
 
 #include "objects/mrb_sprite.h"
+#include "objects/mrb_moving_sprite.h"
+#include "objects/mrb_animated_sprite.h"
 #include "objects/mrb_level_player.h"
 #include "objects/mrb_uids.h"
 
@@ -57,6 +59,8 @@ namespace SMC
 		void cMRuby_Interpreter::Init_SMC_Libs()
 		{
 			Init_Sprite(mp_mruby);
+			Init_Moving_Sprite(mp_mruby);
+			Init_Animated_Sprite(mp_mruby);
 			Init_Level_Player(mp_mruby);
 			Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined
 		}

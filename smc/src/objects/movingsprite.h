@@ -17,6 +17,7 @@
 #define SMC_MOVINGSPRITE_H
 
 #include "../objects/sprite.h"
+#include "../scripting/objects/mrb_moving_sprite.h"
 
 namespace SMC
 {
@@ -70,6 +71,12 @@ public:
 	void Init( void );
 	// copy this object
 	virtual cMovingSprite *Copy( void ) const;
+
+	// Create the MRuby instance for this object.
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcMoving_Sprite, &Scripting::rtMoving_Sprite, this));
+	}
 
 	/* Sets the image for drawing
 	 * if new_start_image is set the default start_image will be set to the given image
