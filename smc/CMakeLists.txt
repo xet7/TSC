@@ -10,8 +10,18 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
+###############################################
 # Check for the actual libraries and programs.
-find_package(Ruby 1.9 REQUIRED)
+
+# Rake, for building mruby
+find_program(RAKE_EXECUTABLE rake)
+if(RAKE_EXECUTABLE)
+  message(STATUS "Found rake: ${RAKE_EXECUTABLE}")
+else()
+  message(ERROR "Cannot find a rake executable")
+endif()
+
+# Several libraries we depend on
 find_package(OpenGL REQUIRED)
 find_package(PNG REQUIRED)
 find_package(SDL REQUIRED)
@@ -20,10 +30,13 @@ find_package(SDL_mixer REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(PCRE REQUIRED)
+find_package(Gettext)
 find_package(Boost 1.50.0
   COMPONENTS filesystem chrono thread system
   REQUIRED)
-find_package(Gettext)
+
+###############################################
+# Definitions etc.
 
 # Add any definitiony required by libraries
 add_definitions(
@@ -42,6 +55,9 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   )
 
+###############################################
+# mruby / Lua
+
 # Tell CMake how to compile mruby
 set(MRUBY_ROOT_DIR ${SMC_SOURCE_DIR}/../mruby/mruby)
 include(ExternalProject)
@@ -53,7 +69,7 @@ ExternalProject_Add(
   SOURCE_DIR "${MRUBY_ROOT_DIR}"
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${RUBY_EXECUTABLE} -S rake MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb
+  BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb
   INSTALL_COMMAND ""
 )
 include_directories(${MRUBY_ROOT_DIR}/include)
@@ -62,6 +78,9 @@ include_directories(${MRUBY_ROOT_DIR}/include)
 # liblua.a next to us.
 add_subdirectory(lua ${SMC_BINARY_DIR}/lua)
 include_directories(${SMC_SOURCE_DIR}/lua/lua-5.2.1/src)
+
+###############################################
+# Extra flags
 
 # Extra flags for debugging SMC, additional to those
 # already added by CMake itself when doing a debug
@@ -75,6 +94,9 @@ add_definitions(
   "-DDATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/smc\""
   )
 
+###############################################
+# Source files
+
 # For now, just assume ALL cpp files to be requisites
 # of SMC. It would be WAY better to split this up into
 # smaller pieces using recursive cmake without globbing
@@ -85,6 +107,9 @@ file(GLOB_RECURSE smc_sources
   "src/*.hpp"
   "src/*.h"
   )
+
+###############################################
+# Targets
 
 # Now add our build targets and their dependencies.
 add_executable(smc ${smc_sources})
