@@ -15,10 +15,16 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 # Rake, for building mruby
 find_program(RAKE_EXECUTABLE rake)
+find_program(GPERF_EXECUTABLE gperf)
 if(RAKE_EXECUTABLE)
   message(STATUS "Found rake: ${RAKE_EXECUTABLE}")
 else()
   message(ERROR "Cannot find a rake executable")
+endif()
+if(GPERF_EXECUTABLE)
+  message(STATUS "Found gperf: ${GPERF_EXECUTABLE}")
+else()
+  message(ERROR "Cannot find a gperf executable")
 endif()
 
 # Several libraries we depend on
@@ -31,6 +37,7 @@ find_package(SDL_ttf REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(PCRE REQUIRED)
 find_package(Gettext)
+find_package(BISON REQUIRED)
 find_package(Boost 1.50.0
   COMPONENTS filesystem chrono thread system
   REQUIRED)
