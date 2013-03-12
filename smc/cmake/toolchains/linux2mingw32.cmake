@@ -7,10 +7,10 @@ set(CMAKE_SYSTEM_NAME Windows)
 # CUSTOMIZE SECTION
 ########################################
 
-# Replace these with the actual names of your crosscompilers.
-set(CMAKE_C_COMPILER i686-pc-mingw32-gcc)
-set(CMAKE_CXX_COMPILER i686-pc-mingw32-g++)
-set(CMAKE_RC_COMPILER i686-pc-mingw32-windres)
+# Replace this with the actual host triplet of
+# your cross-compilation toolchain. The compiler
+# name etc. will automatically be appended to this.
+set(TOOLCHAIN_PREFIX i686-pc-mingw32)
 
 # Replace this with the root path(s) of your cross-compilation
 # environment. I recommend MXE (http://mxe.cc) for setting up one.
@@ -24,6 +24,10 @@ set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/win32/mxe/usr/i686-pc-mingw32")
 ########################################
 # END OF CUSTOMIZE SECTION
 ########################################
+
+set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++)
+set(CMAKE_RC_COMPILER ${TOOLCHAIN_PREFIX}-windres)
 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)

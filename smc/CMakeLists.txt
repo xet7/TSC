@@ -10,6 +10,13 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
+########################################
+# Cross-compilation
+
+if (TOOLCHAIN_PREFIX)
+  message(STATUS "Cross-compilation detected: ${TOOLCHAIN_PREFIX}")
+endif()
+
 ###############################################
 # Check for the actual libraries and programs.
 
@@ -67,6 +74,7 @@ include_directories(
 
 # Tell CMake how to compile mruby
 set(MRUBY_ROOT_DIR ${SMC_SOURCE_DIR}/../mruby/mruby)
+
 include(ExternalProject)
 ExternalProject_Add(
   mruby
@@ -76,7 +84,7 @@ ExternalProject_Add(
   SOURCE_DIR "${MRUBY_ROOT_DIR}"
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb
+  BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb CROSSCOMPILE_TARGET=${TOOLCHAIN_PREFIX}
   INSTALL_COMMAND ""
 )
 include_directories(${MRUBY_ROOT_DIR}/include)
