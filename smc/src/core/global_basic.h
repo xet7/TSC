@@ -16,8 +16,10 @@
 #ifndef SMC_GLOBAL_BASIC_H
 #define SMC_GLOBAL_BASIC_H
 
+#ifdef _WIN32
 // We use some features from IE 5, sadly.
 #define _WIN32_IE 0x0500
+#endif
 
 /* uncomment to enable experimental rendering in a thread
 * still randomly crashes because gl functions are called while the render thread is active
