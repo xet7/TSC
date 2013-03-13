@@ -22,8 +22,8 @@ namespace fs = boost::filesystem;
 #include <sys/stat.h>
 #include <sys/types.h>
 #if _WIN32
-	// needed to get the user directory (SHGetFolderPath)
-	#include <shlobj.h>
+// needed to get the user directory (SHGetFolderPath)
+#include <shlobj.h>
 #endif
 
 namespace SMC
@@ -224,32 +224,16 @@ vector<std::string> Get_Directory_Files( const std::string &dir, const std::stri
 	return valid_files;
 }
 
-std::string Get_Temp_Directory( void )
+boost::filesystem::path Get_Temp_Directory( void )
 {
-#ifdef _WIN32
-	TCHAR path[MAX_PATH];
-
-	DWORD retval = GetTempPathW( MAX_PATH, path );
-
-	if( retval > MAX_PATH || retval == 0 )
-	{
-		printf( "Error : Couldn't get Windows temp directory.\n" );
-		return "";
-	}
-
-	std::string str_path = ucs2_to_utf8( path );
-	Convert_Path_Separators( str_path );
-
-	return str_path;
-#else
-	return fs::temp_directory_path().generic_string();
-#endif
+	return boost::filesystem::temp_directory_path();
 }
 
+// FIXME: This should return a boost::filesystem::path!
 std::string Get_User_Directory( void )
 {
 #ifdef _WIN32
-	TCHAR path_appdata[MAX_PATH + 1];
+	wchar_t path_appdata[MAX_PATH + 1];
 
 	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
 	{

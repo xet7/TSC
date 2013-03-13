@@ -97,9 +97,11 @@ void cVideo :: Init_CEGUI_Fake( void ) const
 		rp->setResourceGroupDirectory( "schemas", DATA_DIR "/" GAME_SCHEMA_DIR "/" );
 	}
 	// get a directory to dump the CEGUI log
+	boost::filesystem::path logdir = Get_Temp_Directory() / "cegui.log";
 #ifdef _WIN32
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	CEGUI::String log_dump_dir = (const CEGUI::utf8*)((Get_Temp_Directory() + "cegui.log").c_str());
+	std::string logdir_str = logdir.generic_string();
+	CEGUI::String log_dump_dir = (const CEGUI::utf8*) logdir_str.c_str();
 #else
 	CEGUI::String log_dump_dir = "/dev/null";
 #endif

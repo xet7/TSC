@@ -22,6 +22,8 @@
 #include <algorithm>
 // CEGUI
 #include "CEGUIString.h"
+// Boost
+#include <boost/filesystem.hpp>
 
 namespace SMC
 {
@@ -84,9 +86,14 @@ std::string xml_string_to_string( std::string str );
 #ifdef _WIN32
 // Return it as UTF-8 string
 std::string ucs2_to_utf8( const std::wstring &str );
-// Return it as UCS-2 string
+// Return it as UTF-16 (formerly UCS-2) string
 std::wstring utf8_to_ucs2( const std::string &str );
 #endif
+// Return it as platform-independent boost::filesystem::path.
+// This function does the conversion of `str' to UTF-16 on
+// Windows automatically, and does no conversion of str on
+// other platforms.
+boost::filesystem::path utf8_to_path( const std::string &str );
 
 // Return the given time as string
 std::string Time_to_String( time_t t, const char *format );

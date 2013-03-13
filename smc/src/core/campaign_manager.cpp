@@ -22,6 +22,9 @@
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
+// Boost
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 namespace SMC
 {
@@ -41,14 +44,8 @@ cCampaign :: ~cCampaign( void )
 
 bool cCampaign :: Save( const std::string &filename )
 {
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( filename.c_str(), ios::out | ios::trunc );
-#endif
+	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
 
-	
 	if( !file.is_open() )
 	{
 		printf( "Error : Couldn't open campaign file for saving. Is the file read-only ?" );

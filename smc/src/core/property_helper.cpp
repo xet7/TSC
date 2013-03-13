@@ -413,6 +413,38 @@ std::wstring utf8_to_ucs2( const std::string& utf8 )
 }
 #endif
 
+/**
+ * For Windows, we have to use wide strings, otherwise the files will
+ * have gibberish and incorrect names. However, the standard C++ library
+ * does not provide a way to pass pathes as wide strings, and using normal
+ * UTF-8-encoded strings, as said, will cause incorrect filenames. MSVC offers a
+ * nonstandard extension to the C++ standard library that allows to pass wide strings
+ * to STL functions, but the MinGW project’s g++ doesn’t support this MS-specificum.
+ * However, boost::filesystem::path, a class for managing pathes, supports wide
+ * strings on Windows and normal strings on *nix, hence we can use this a
+ * uniform interface to the filesystem. Note that boost::filesystem::path however
+ * does *not* itself carry out the conversion of a normal UTF-8 string to a wide
+ * UTF-16 string, so we do this ourselves by using the Windows API directly in the
+ * utf8_to_ucs2() function, which is, if used correctly, independent from the
+ * system locale and returns a proper UTF-16LE string. It just carries round UCS-2
+ * (the predecissor of UTF-16) in its name due to historical reasons.
+ *
+ * The utf8_to_path() function is defined differently according to the platform,
+ * allowing us to map platform-specific conversion to the uniform interface
+ * of a boost::filesystem::path instance.
+ */
+#ifdef _WIN32
+boost::filesystem::path utf8_to_path(const std::string& utf8)
+{
+  return boost::filesystem::path(utf8_to_ucs2(utf8));
+}
+#else
+boost::filesystem::path utf8_to_path(const std::string& utf8)
+{
+  return boost::filesystem::path(utf8);
+}
+#endif
+
 std::string Time_to_String( time_t t, const char *format )
 {
 	char str_time[60];

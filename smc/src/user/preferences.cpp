@@ -26,6 +26,9 @@
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
+// Boost
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 namespace SMC
 {
@@ -167,12 +170,7 @@ void cPreferences :: Save( void )
 {
 	Update();
 
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( m_config_filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( m_config_filename.c_str(), ios::out | ios::trunc );
-#endif
+	boost::filesystem::ofstream file(utf8_to_path(m_config_filename), ios::out | ios::trunc);
 
 	if( !file.is_open() )
 	{

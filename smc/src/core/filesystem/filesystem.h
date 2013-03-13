@@ -76,8 +76,9 @@ void Convert_Path_Separators( std::string &str );
 vector<std::string> Get_Directory_Files( const std::string &dir, const std::string &file_type = "", bool with_directories = 0, bool search_in_sub_directories = 1 );
 
 // Return the operating system temporary files directory
-std::string Get_Temp_Directory( void );
+boost::filesystem::path Get_Temp_Directory( void );
 // Return the default smc user directory in the operating system application/home directory
+// FIXME: This should return a boost::filesystem::path
 std::string Get_User_Directory( void );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

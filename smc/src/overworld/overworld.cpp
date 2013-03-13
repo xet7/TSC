@@ -34,6 +34,9 @@
 #include "CEGUIXMLParser.h"
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIExceptions.h"
+// Boost
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 namespace SMC
 {
@@ -80,13 +83,7 @@ void cOverworld_description :: Save( void )
 	std::string save_dir = pResource_Manager->user_data_dir + USER_WORLD_DIR + "/" + m_path;
 	std::string filename = save_dir + "/description.xml";
 
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( filename.c_str(), ios::out | ios::trunc );
-#endif
-
+	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
 
 	if( !file )
 	{
@@ -318,13 +315,7 @@ void cOverworld :: Save( void )
 
 	std::string filename = save_dir + "/world.xml";
 
-// fixme : Check if there is a more portable way f.e. with imbue()
-#ifdef _WIN32
-	ofstream file( utf8_to_ucs2( filename ).c_str(), ios::out | ios::trunc );
-#else
-	ofstream file( filename.c_str(), ios::out | ios::trunc );
-#endif
-
+	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
 
 	if( !file )
 	{
