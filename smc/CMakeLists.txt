@@ -41,9 +41,17 @@ find_package(OpenGL REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
-find_package(Boost 1.50.0
-  COMPONENTS filesystem chrono thread system
-  REQUIRED)
+
+if (WIN32)
+  find_package(Boost 1.50.0
+    COMPONENTS filesystem chrono thread_win32 system
+    REQUIRED)
+  add_definitions(-DBOOST_THREAD_USE_LIB)
+else()
+  find_package(Boost 1.50.0
+    COMPONENTS filesystem chrono thread system
+    REQUIRED)
+endif()
 
 # pkg-config is really the better way to check for libs.
 # Unfortunetly, the above libraries don’t support it
@@ -53,6 +61,7 @@ pkg_check_modules(SDL REQUIRED sdl)
 pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
 pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
+pkg_check_modules(FREEIMAGE REQUIRED freeimage)
 pkg_check_modules(PCRE REQUIRED libpcre)
 
 ###############################################
@@ -73,6 +82,7 @@ include_directories(
   ${SDL_IMAGE_INCLUDE_DIRS}
   ${SDL_MIXER_INCLUDE_DIRS}
   ${SDL_TTF_INCLUDE_DIRS}
+  ${FREEIMAGE_INCLUDE_DIRS}
   ${PCRE_INCLUDE_DIRS}
   )
 
@@ -153,6 +163,7 @@ if (WIN32)
     ${SDL_IMAGE_STATIC_LIBRARIES}
     ${SDL_MIXER_STATIC_LIBRARIES}
     ${SDL_TTF_STATIC_LIBRARIES}
+    ${FREEIMAGE_STATIC_LIBRARIES}
     ${PCRE_STATIC_LIBRARIES}
     ${MRuby_LIBRARIES}
     lua
@@ -172,6 +183,7 @@ else()
     ${SDL_MIXER_LIBRARIES}
     ${SDL_TTF_LIBRARIES}
     ${PCRE_LIBRARIES}
+    ${FREEIMAGE_LIBRARIES}
     ${MRuby_LIBRARIES}
     lua
     )
