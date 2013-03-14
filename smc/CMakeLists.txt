@@ -35,19 +35,25 @@ else()
 endif()
 
 # Several libraries we depend on
+# FIXME: Detect CEGUI via pkg-config when the NullRenderer dependency is gone
+find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(PNG REQUIRED)
-find_package(SDL REQUIRED)
-find_package(SDL_image REQUIRED)
-find_package(SDL_mixer REQUIRED)
-find_package(SDL_ttf REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
-find_package(PCRE REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
 find_package(Boost 1.50.0
   COMPONENTS filesystem chrono thread system
   REQUIRED)
+
+# pkg-config is really the better way to check for libs.
+# Unfortunetly, the above libraries don’t support it
+# properly.
+pkg_check_modules(PNG REQUIRED libpng)
+pkg_check_modules(SDL REQUIRED sdl)
+pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
+pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
+pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
+pkg_check_modules(PCRE REQUIRED libpcre)
 
 ###############################################
 # Definitions etc.
@@ -60,13 +66,14 @@ add_definitions(
 # Add all our libraries to our -I-nclude path
 include_directories(
   ${OPENGL_INCLUDE_DIR}
+  ${CEGUI_INCLUDE_DIR}
+  ${Boost_INCLUDE_DIRS}
   ${PNG_INCLUDE_DIRS}
-  ${SDL_INCLUDE_DIR}
+  ${SDL_INCLUDE_DIRS}
   ${SDL_IMAGE_INCLUDE_DIRS}
   ${SDL_MIXER_INCLUDE_DIRS}
   ${SDL_TTF_INCLUDE_DIRS}
-  ${CEGUI_INCLUDE_DIR}
-  ${Boost_INCLUDE_DIRS}
+  ${PCRE_INCLUDE_DIRS}
   )
 
 ###############################################
@@ -88,6 +95,12 @@ ExternalProject_Add(
   INSTALL_COMMAND ""
 )
 include_directories(${MRUBY_ROOT_DIR}/include)
+
+if(TOOLCHAIN_PREFIX)
+  set(MRuby_LIBRARIES "${MRUBY_ROOT_DIR}/build/${TOOLCHAIN_PREFIX}/lib/libmruby.a" "${MRUBY_ROOT_DIR}/build/${TOOLCHAIN_PREFIX}/lib/libmruby_core.a")
+else()
+  set(MRuby_LIBRARIES "${MRUBY_ROOT_DIR}/build/host/lib/libmruby.a" "${MRUBY_ROOT_DIR}/build/host/lib/libmruby_core.a")
+endif()
 
 # Recurse for Lua and place the resulting
 # liblua.a next to us.
@@ -130,20 +143,39 @@ file(GLOB_RECURSE smc_sources
 add_executable(smc ${smc_sources})
 add_dependencies(smc mruby)
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
-target_link_libraries(smc
-  ${OPENGL_LIBRARIES}
-  ${PNG_LIBRARIES}
-  ${SDL_LIBRARY}
-  ${SDL_IMAGE_LIBRARIES}
-  ${SDL_MIXER_LIBRARIES}
-  ${SDL_TTF_LIBRARIES}
-  ${CEGUI_LIBRARY}
-  ${PCRE_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${MRUBY_ROOT_DIR}/build/host/lib/libmruby.a
-  ${MRUBY_ROOT_DIR}/build/host/lib/libmruby_core.a
-  lua
-  )
+if (WIN32)
+  target_link_libraries(smc
+    ${OPENGL_LIBRARIES}
+    ${CEGUI_LIBRARY}
+    ${Boost_LIBRARIES}
+    ${PNG_STATIC_LIBRARIES}
+    ${SDL_STATIC_LIBRARIES}
+    ${SDL_IMAGE_STATIC_LIBRARIES}
+    ${SDL_MIXER_STATIC_LIBRARIES}
+    ${SDL_TTF_STATIC_LIBRARIES}
+    ${PCRE_STATIC_LIBRARIES}
+    ${MRuby_LIBRARIES}
+    lua
+    intl
+    )
+  # For some unknown reason, nobody knows how to properly detect libintl?
+  # However, as we already require Gettext anyway, linking libintl in directly
+  # should be safe.
+else()
+  target_link_libraries(smc
+    ${OPENGL_LIBRARIES}
+    ${CEGUI_LIBRARY}
+    ${Boost_LIBRARIES}
+    ${PNG_LIBRARIES}
+    ${SDL_LIBRARIES}
+    ${SDL_IMAGE_LIBRARIES}
+    ${SDL_MIXER_LIBRARIES}
+    ${SDL_TTF_LIBRARIES}
+    ${PCRE_LIBRARIES}
+    ${MRuby_LIBRARIES}
+    lua
+    )
+endif()
 
 # Installation instructions
 install(TARGETS smc
