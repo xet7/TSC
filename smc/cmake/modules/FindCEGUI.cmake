@@ -13,6 +13,7 @@
 # Selecting no render as COMPONENT will create a error massage!
 #
 # 2011-07-21 Created by Frederik vom Hofe using the findSFML.cmake versions from David Guthrie with code from Robert Osfield.
+# 2013-03-15 Slight modifications by Marvin Gülker to find more components
 
 SET(CEGUI_FOUND "YES")
 SET(CEGUI_LIBRARY "")
@@ -136,13 +137,15 @@ MACRO(FIND_LIBRARY_HELPER FILENAME DIR)
    ENDIF()
 ENDMACRO()
 
-FIND_LIBRARY_HELPER( CEGUIBase CEGUI_LIBRARY_SEARCH_DIR )
-
 FOREACH(COMPONENT ${CEGUI_FIND_COMPONENTS})
    HELPER_GET_CASE_FROM_LIST( ${COMPONENT} RENDER_NAME COMPONENT_CASE)
    MESSAGE("Looking for lib: CEGUI${COMPONENT_CASE}Renderer")
    FIND_LIBRARY_HELPER( CEGUI${COMPONENT_CASE}Renderer "CEGUI_LIBRARY_SEARCH_DIR" CEGUI)
 ENDFOREACH(COMPONENT)
+
+FIND_LIBRARY_HELPER( CEGUIBase CEGUI_LIBRARY_SEARCH_DIR )
+FIND_LIBRARY_HELPER( CEGUITinyXMLParser CEGUI_LIBRARY_SEARCH_DIR )
+FIND_LIBRARY_HELPER( CEGUIFreeImageImageCodec CEGUI_LIBRARY_SEARCH_DIR )
 
 #********** And we are done ********** ********** ********** ********** ********** ********** ********** **********
 
