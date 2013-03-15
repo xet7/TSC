@@ -155,17 +155,17 @@ add_dependencies(smc mruby)
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
 if (WIN32)
   target_link_libraries(smc
-    ${OPENGL_LIBRARIES}
     ${CEGUI_LIBRARY}
-    ${Boost_LIBRARIES}
-    ${PNG_STATIC_LIBRARIES}
+    ${OPENGL_LIBRARIES}
     ${SDL_STATIC_LIBRARIES}
     ${SDL_IMAGE_STATIC_LIBRARIES}
     ${SDL_MIXER_STATIC_LIBRARIES}
     ${SDL_TTF_STATIC_LIBRARIES}
+    ${Boost_LIBRARIES}
     ${FREEIMAGE_STATIC_LIBRARIES}
-    ${PCRE_STATIC_LIBRARIES}
     ${MRuby_LIBRARIES}
+    ${PCRE_STATIC_LIBRARIES}
+    ${PNG_STATIC_LIBRARIES}
     lua
     intl
     )
@@ -174,17 +174,17 @@ if (WIN32)
   # should be safe.
 else()
   target_link_libraries(smc
-    ${OPENGL_LIBRARIES}
     ${CEGUI_LIBRARY}
-    ${Boost_LIBRARIES}
-    ${PNG_LIBRARIES}
+    ${OPENGL_LIBRARIES}
     ${SDL_LIBRARIES}
     ${SDL_IMAGE_LIBRARIES}
     ${SDL_MIXER_LIBRARIES}
     ${SDL_TTF_LIBRARIES}
-    ${PCRE_LIBRARIES}
+    ${Boost_LIBRARIES}
     ${FREEIMAGE_LIBRARIES}
     ${MRuby_LIBRARIES}
+    ${PCRE_LIBRARIES}
+    ${PNG_LIBRARIES}
     lua
     )
 endif()
