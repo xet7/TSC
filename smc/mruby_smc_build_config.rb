@@ -6,11 +6,12 @@ THIS_DIR = File.expand_path(File.dirname(__FILE__))
 
 config = lambda do |conf|
   # Some standard things included with mruby
-  conf.gem 'mrbgems/mruby-math' # Math
-  conf.gem 'mrbgems/mruby-time' # Time
-  conf.gem 'mrbgems/mruby-struct' # Struct
-  conf.gem 'mrbgems/mruby-sprintf' # #sprintf
-  conf.gem 'mrbgems/mruby-string-ext' # More string stuff
+  conf.gem '#{root}/mrbgems/mruby-math' # Math
+  conf.gem '#{root}/mrbgems/mruby-time' # Time
+  conf.gem '#{root}/mrbgems/mruby-struct' # Struct
+  conf.gem '#{root}/mrbgems/mruby-sprintf' # #sprintf
+  conf.gem '#{root}/mrbgems/mruby-string-ext' # More string stuff
+  conf.gem "#{root}/mrbgems/mruby-array-ext" # Arrays
 
   # Additional things
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-sleep"         # Sleep
