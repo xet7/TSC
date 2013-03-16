@@ -3,15 +3,17 @@
 # Absolute path to the directory this file resides in,
 # independent of any PWD or invocation stuff.
 THIS_DIR = File.expand_path(File.dirname(__FILE__))
+# Absolute path mruby resides in
+MRUBY_DIR = File.join(THIS_DIR, "..", "mruby", "mruby")
 
 config = lambda do |conf|
   # Some standard things included with mruby
-  conf.gem '#{root}/mrbgems/mruby-math' # Math
-  conf.gem '#{root}/mrbgems/mruby-time' # Time
-  conf.gem '#{root}/mrbgems/mruby-struct' # Struct
-  conf.gem '#{root}/mrbgems/mruby-sprintf' # #sprintf
-  conf.gem '#{root}/mrbgems/mruby-string-ext' # More string stuff
-  conf.gem "#{root}/mrbgems/mruby-array-ext" # Arrays
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-math" # Math
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-time" # Time
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-struct" # Struct
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-sprintf" # #sprintf
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-string-ext" # More string stuff
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-array-ext" # Arrays
 
   # Additional things
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-sleep"         # Sleep
