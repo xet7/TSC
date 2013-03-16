@@ -2,6 +2,7 @@
 #include "mrb_level_player.h"
 #include "mrb_animated_sprite.h"
 #include "../../level/level_player.h"
+#include "../../gui/hud.h"
 
 using namespace SMC;
 
@@ -13,6 +14,15 @@ static mrb_value Kill(mrb_state* p_state, mrb_value self)
 {
 	pLevel_Player->DownGrade(true);
 	return mrb_nil_value();
+}
+
+static mrb_value Add_Lives(mrb_state* p_state, mrb_value self)
+{
+	mrb_int lives;
+	mrb_get_args(p_state, "i", &lives);
+
+	pHud_Lives->Add_Lives(lives);
+	return mrb_fixnum_value(pLevel_Player->m_lives);
 }
 
 void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
@@ -28,4 +38,5 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 
 	// Normal methods
 	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, ARGS_REQ(1));
 }
