@@ -5,79 +5,55 @@
 #include "../core/sprite_manager.h"
 #include "../core/property_helper.h"
 
-#include "objects/mrb_sprite.h"
-#include "objects/mrb_moving_sprite.h"
-#include "objects/mrb_animated_sprite.h"
-#include "objects/mrb_level_player.h"
-#include "objects/mrb_uids.h"
+#include "objects/mrb_smc.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
-// The path to the directory containing the global scripts.
-static boost::filesystem::path s_scripting_dir(SMC::utf8_to_path(DATA_DIR) / "scripting");
+/*****************************************************************************
+ Scripting organisation
 
-/**
- * Reads in `file' completely. Does not call close().
- */
-static std::string readfile(boost::filesystem::ifstream& file)
-{
-	std::string content;
-	std::string line;
-	while(!file.eof()) {
-		std::getline(file, line);
-		content.append(line);
-		content.append("\n");
-	}
+Yeah, scripting! SMC embeds mruby (https://github.com/mruby/mruby), a minimal
+Ruby implementation for boosting your level design. The cMRubyInterpreter class
+wraps the mruby_state struct in a more convenient way and also initialises it for
+use with SMC. Each time a level is loaded, a new clean instance of this class
+is created (and of course destroyed on level ending).
 
-	return content;
-}
+After the setup is done, the constructor calls the Load_Scripts()
+private member which in turn feeds the "main.rb" file in the scripting/ directory
+of your SMC installation into the mruby interpreter. This script, which may
+be added by users if they want to provide additional functionality globally,
+has access to a very minimalistic version of #require, which just allows for
+loading scripts relative to the scripting/ directory and also has some quirks,
+such as the inability to define toplevel constants without an explicit :: at
+the beginning, e.g.
 
-/**
- * The #require method for scripting.
- */
-static mrb_value smc_require(mrb_state* p_state, mrb_value self)
-{
-	using namespace SMC;
+  module Foo
+  end
 
-	// Get the path argument
-	char* cpath = NULL;
-	mrb_get_args(p_state, "z", &cpath);
+will not work, but
 
-	// Append ".rb" and convert to a platform-independent boost path
-	std::string spath(cpath);
-	spath.append(".rb");
-	boost::filesystem::path path = utf8_to_path(spath);
+  module ::Foo
+  end
 
-	// Disallow absolute pathes, we don’t want load external files
-	// accidentally
-	if (path.is_absolute())
-		mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Absolute paths are not allowed.");
+will. The default main.rb file only contains the bare minimum needed to
+correctly initialise the scripting functionality and users are advised to
+not remove this code. Removing e.g. the Eventable module will have very bad
+effects, but on the other hand this gives you the full power of Ruby to
+hook in everything you want to. Finally, the main.rb script is required to
+call the SMC::setup method, which loads all the C++ wrapper classes (i.e.
+Sprite, LevelPlayer, etc.) into the interpreter.
 
-	// Open the MRuby file for reading
-	boost::filesystem::path scriptfile = s_scripting_dir / path;
-	boost::filesystem::ifstream file(scriptfile);
-	debug_print("require: Loading '%s'\n", scriptfile.generic_string().c_str());
-	if (!file.is_open())
-		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Cannot open file '%s' for reading", scriptfile.generic_string().c_str());
-
-	// Compile and run the MRuby code
-	mrb_load_string(p_state, readfile(file).c_str());
-
-	// Cleanup
-	file.close();
-	if (p_state->exc)
-		mrb_exc_raise(p_state, mrb_obj_value(p_state->exc));
-
-	// Finish
-	return mrb_nil_value();
-}
+*****************************************************************************/
 
 namespace SMC
 {
 
 	namespace Scripting
 	{
+
+		// The path to the directory containing the global scripts.
+		boost::filesystem::path scripting_dir = SMC::utf8_to_path(DATA_DIR) / "scripting";
 
 		cMRuby_Interpreter::cMRuby_Interpreter(cLevel* p_level)
 		{
@@ -86,7 +62,7 @@ namespace SMC
 			mp_mruby = mrb_open();
 
 			// Load our extensions into mruby
-			Init_SMC_Libs();
+			Load_Scripts();
 		}
 
 		cMRuby_Interpreter::~cMRuby_Interpreter()
@@ -119,17 +95,19 @@ namespace SMC
 				return true;
 		}
 
-		void cMRuby_Interpreter::Init_SMC_Libs()
+		void cMRuby_Interpreter::Load_Scripts()
 		{
-			// Define the #require method
-			mrb_define_method(mp_mruby, mp_mruby->kernel_module, "require", smc_require, ARGS_REQ(1));
+			// Create the SMC module
+			Init_SMC(mp_mruby);
 
-			// Load the main scripting file
-			boost::filesystem::path mainfile = s_scripting_dir / "main.mrb";
+			// Load the main scripting file. This file is required to call
+			// SMC::setup, which loads all of the wrapper classes into
+			// the interpreter.
+			boost::filesystem::path mainfile = scripting_dir / "main.rb";
 			boost::filesystem::ifstream file(mainfile);
 			if (!file.is_open()) {
 				std::cerr << "Failed to open main scripting file '" << mainfile.generic_string().c_str() << "' for reading." << std::endl;
-				std::cerr << "Scripting will not be available." << std::endl;
+				std::cerr << "Scripting will not work correctly." << std::endl;
 				return;
 			}
 			else {
@@ -142,11 +120,7 @@ namespace SMC
 				file.close();
 			}
 
-			Init_Sprite(mp_mruby);
-			Init_Moving_Sprite(mp_mruby);
-			Init_Animated_Sprite(mp_mruby);
-			Init_Level_Player(mp_mruby);
-			Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined
+
 		}
 
 	};

@@ -952,6 +952,19 @@ std::string Get_Difficulty_Name( Uint8 difficulty )
 	return "Ultimate";
 }
 
+std::string readfile(boost::filesystem::ifstream& file)
+{
+	std::string content;
+	std::string line;
+	while(!file.eof()) {
+		std::getline(file, line);
+		content.append(line);
+		content.append("\n");
+	}
+
+	return content;
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

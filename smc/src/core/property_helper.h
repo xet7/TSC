@@ -24,6 +24,7 @@
 #include "CEGUIString.h"
 // Boost
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 namespace SMC
 {
@@ -136,6 +137,10 @@ DefaultColor Get_Color_Id( const std::string &str_color );
 
 // Return the Difficulty name
 std::string Get_Difficulty_Name( Uint8 difficulty );
+
+// Returns the entire content of the nonbinary file `file'.
+// This function does not call close() on `file'.
+std::string readfile(boost::filesystem::ifstream& file);
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

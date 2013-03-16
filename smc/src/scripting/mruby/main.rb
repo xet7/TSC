@@ -6,7 +6,12 @@
 # globally available in *all* levels. If you want, you can add
 # your own code here, but please don’t remove anything.
 #
-# You have access to a minimal #require method that is just
-# able to load files below the directory this file resides in.
+# You have access to a minimal SMC::require method that is just
+# able to load files below the scripting/ directory of SMC.
 
-require "eventable"
+SMC.require "eventable"
+
+# Don’t touch this if you don’t know exactly what you’re doing.
+# It loads all the SMC wrapper classes into the running MRuby
+# intereter instance. It should be last in this file.
+SMC.setup
