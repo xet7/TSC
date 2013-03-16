@@ -46,7 +46,10 @@ if (WIN32)
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread_win32 system
     REQUIRED)
-  add_definitions(-DBOOST_THREAD_USE_LIB)
+
+  # Boost-thread and CEGUI need to be explicitely told that they’re
+  # linked in statically on Windows.
+  add_definitions(-DBOOST_THREAD_USE_LIB -DCEGUI_STATIC)
 else()
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread system
