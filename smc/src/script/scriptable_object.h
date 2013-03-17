@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <mruby.h>
 
 namespace SMC{
 	namespace Script{
@@ -21,6 +22,8 @@ namespace SMC{
 			// Event handlers associated with this object. Format:
 			//	 "event name" => {list, of, lua, function, references, to, call}
 			std::map<std::string, std::vector<int> > m_event_table;
+
+			std::map<std::string, std::vector<mrb_value> > m_callbacks;
 		};
 	};
 };

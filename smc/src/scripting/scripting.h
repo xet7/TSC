@@ -11,9 +11,12 @@
 #include <mruby/data.h>
 #include <mruby/variable.h>
 #include <mruby/proc.h>
+#include <mruby/array.h>
 #include <boost/filesystem.hpp>
 
 #include "../core/global_game.h"
+
+#include "objects/mrb_smc.h"
 
 // Some defines to ease use of mruby
 #define MRB_ARGUMENT_ERROR(mrb) (mrb_class_obj_get(mrb, "ArgumentError"))

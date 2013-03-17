@@ -9,7 +9,8 @@
 # You have access to a minimal SMC::require method that is just
 # able to load files below the scripting/ directory of SMC.
 
-SMC.require "eventable"
+#SMC.require "yourfile"
+#SMC.require "yourotherfile"
 
 # Don’t touch this if you don’t know exactly what you’re doing.
 # It loads all the SMC wrapper classes into the running MRuby

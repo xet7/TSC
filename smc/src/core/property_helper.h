@@ -25,6 +25,8 @@
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+// MRuby
+#include <mruby.h>
 
 namespace SMC
 {
@@ -141,6 +143,10 @@ std::string Get_Difficulty_Name( Uint8 difficulty );
 // Returns the entire content of the nonbinary file `file'.
 // This function does not call close() on `file'.
 std::string readfile(boost::filesystem::ifstream& file);
+
+// Takes an mruby exception object and returns a human-readable exception
+// string for it, ready to be printed to cerr.
+std::string format_mruby_error(mrb_state* p_state, struct RObject* exception);
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

@@ -1,6 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../scripting.h"
 #include "mrb_sprite.h"
+#include "mrb_eventable.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
 #include "../../level/level_player.h"
@@ -92,6 +93,7 @@ mrb_value Get_Y(mrb_state* p_state, mrb_value self)
 void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 {
 	p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
+	mrb_include_module(p_state, p_rcSprite, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcSprite, "initialize", Initialize, ARGS_OPT(2));

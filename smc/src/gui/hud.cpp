@@ -26,6 +26,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../script/events/gold_100_event.h"
+#include "../scripting/events/gold_100_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "CEGUIFontManager.h"
@@ -533,8 +534,10 @@ void cGoldDisplay :: Set_Gold( int gold )
 		pHud_Points->Add_Points( 0, pLevel_Player->m_pos_x + pLevel_Player->m_image->m_w/3, pLevel_Player->m_pos_y + 5, "1UP", lightred );
 
 		// Fire the Gold100 event
-		Script::cGold_100_Event evt;
-		evt.Fire(pActive_Level->m_lua, pLevel_Player);
+		//Script::cGold_100_Event evt;
+		//evt.Fire(pActive_Level->m_lua, pLevel_Player);
+		Scripting::cGold_100_Event evt;
+		evt.Fire(pActive_Level->m_mruby, pLevel_Player);
 	}
 	
 	pLevel_Player->m_goldpieces = gold;

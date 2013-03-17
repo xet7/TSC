@@ -2,6 +2,7 @@
 #include "mrb_smc.h"
 #include "../../core/property_helper.h"
 
+#include "mrb_eventable.h"
 #include "mrb_sprite.h"
 #include "mrb_moving_sprite.h"
 #include "mrb_animated_sprite.h"
@@ -67,6 +68,7 @@ static mrb_value Setup(mrb_state* p_state, mrb_value self)
 {
 	using namespace SMC::Scripting;
 
+	Init_Eventable(p_state);
 	Init_Sprite(p_state);
 	Init_Moving_Sprite(p_state);
 	Init_Animated_Sprite(p_state);

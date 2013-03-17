@@ -3,12 +3,23 @@
 #include "mrb_animated_sprite.h"
 #include "../../level/level_player.h"
 #include "../../gui/hud.h"
+#include "../events/event.h"
 
 using namespace SMC;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcLevel_Player     = NULL;
 struct mrb_data_type SMC::Scripting::rtLevel_Player = {"LevelPlayer", NULL};
+
+/***************************************
+ * Events
+ ***************************************/
+
+MRUBY_IMPLEMENT_EVENT(gold_100);
+
+/***************************************
+ * Methods
+ ***************************************/
 
 static mrb_value Kill(mrb_state* p_state, mrb_value self)
 {
@@ -25,6 +36,10 @@ static mrb_value Add_Lives(mrb_state* p_state, mrb_value self)
 	return mrb_fixnum_value(pLevel_Player->m_lives);
 }
 
+/***************************************
+ * Entry point
+ ***************************************/
+
 void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 {
 	p_rcLevel_Player = mrb_define_class(p_state, "LevelPlayer", p_rcAnimated_Sprite);
@@ -39,4 +54,7 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	// Normal methods
 	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, ARGS_REQ(1));
+
+	// Event handlers
+	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), ARGS_BLOCK());
 }

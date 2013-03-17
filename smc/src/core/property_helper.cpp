@@ -965,6 +965,15 @@ std::string readfile(boost::filesystem::ifstream& file)
 	return content;
 }
 
+std::string format_mruby_error(mrb_state* p_state, struct RObject* exception)
+{
+  std::string errormsg(mrb_string_value_ptr(p_state, mrb_funcall(p_state, mrb_obj_value(exception), "message", 0)));
+  errormsg.append(" (");
+  errormsg.append(mrb_obj_classname(p_state, mrb_obj_value(exception)));
+  errormsg.append(")");
+  return errormsg;
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC
