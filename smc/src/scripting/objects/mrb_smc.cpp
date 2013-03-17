@@ -2,13 +2,6 @@
 #include "mrb_smc.h"
 #include "../../core/property_helper.h"
 
-#include "mrb_eventable.h"
-#include "mrb_sprite.h"
-#include "mrb_moving_sprite.h"
-#include "mrb_animated_sprite.h"
-#include "mrb_level_player.h"
-#include "mrb_uids.h"
-
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
@@ -66,14 +59,11 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Setup(mrb_state* p_state, mrb_value self)
 {
-	using namespace SMC::Scripting;
+	// Note that pActive_Level is not yet set when this
+	// method is called.
 
-	Init_Eventable(p_state);
-	Init_Sprite(p_state);
-	Init_Moving_Sprite(p_state);
-	Init_Animated_Sprite(p_state);
-	Init_Level_Player(p_state);
-	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
+	SMC::Scripting::Load_Wrappers(p_state);
+	return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_SMC(mrb_state* p_state)

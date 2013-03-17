@@ -27,6 +27,11 @@ namespace SMC {
 
 		extern boost::filesystem::path scripting_dir;
 
+		// Load all MRuby wrapper classes for the C++ classes
+		// into the given mruby state. Called by SMC::setup
+		// in mruby land.
+		void Load_Wrappers(mrb_state* p_state);
+
 		class cMRuby_Interpreter {
 		public:
 			// Create a new MRuby instance for the given level.
@@ -39,7 +44,6 @@ namespace SMC {
 			// contain a human-readable description and
 			// false is returned, true otherwise.
 			bool Run_Code(const std::string& code, std::string& errormsg);
-
 			// Returns the underlying mrb_state*.
 			mrb_state* Get_MRuby_State();
 			// Returns the cLevel* we’re associated with.
