@@ -84,11 +84,7 @@ namespace SMC
 		{
 			mrb_load_string(mp_mruby, code.c_str());
 			if (mp_mruby->exc){
-				// Format an exception method like this: Message (exception class)
-				errormsg = std::string(mrb_string_value_ptr(mp_mruby, mrb_funcall(mp_mruby, mrb_obj_value(mp_mruby->exc), "message", 0)));
-				errormsg.append(" (");
-				errormsg.append(mrb_obj_classname(mp_mruby, mrb_obj_value(mp_mruby->exc)));
-				errormsg.append(")");
+				errormsg = format_mruby_error(mp_mruby, mp_mruby->exc);
 				return false;
 			}
 			else
@@ -114,7 +110,7 @@ namespace SMC
 				mrb_load_string(mp_mruby, readfile(file).c_str());
 				if (mp_mruby->exc){
 					std::cerr << "Warning: Error loading main script: ";
-					std::cerr << mrb_string_value_ptr(mp_mruby, mrb_funcall(mp_mruby, mrb_obj_value(mp_mruby->exc), "message", 0));
+					std::cerr << format_mruby_error(mp_mruby, mp_mruby->exc);
 					std::cerr << std::endl;
 				}
 				file.close();
