@@ -174,9 +174,12 @@ class Parser
 
   # Output a nice summary of what we found.
   def print_summary
+    puts
+    puts
     puts "=== SUMMARY ==="
     puts "Classes: #{@classes.count}"
     puts "Methods: #{@methods.count}"
+    puts
     puts
   end
 
@@ -184,16 +187,25 @@ end
 
 class KramdownGenerator
 
-  def initialize(targetdir, templatefile, classes, methods)
+  def initialize(targetdir, templatefile, indexfile, classes, methods)
     @targetdir    = Pathname.new(targetdir).expand_path
     @templatefile = Pathname.new(templatefile).expand_path
+    @indexfile    = Pathname.new(indexfile).expand_path
     @classes      = classes
     @methods      = methods
   end
 
   def generate!
+    # Generate the HTML files for all the classes
+    puts "Generating classes..."
     @classes.each do |klass|
       generate_class(klass)
+    end
+
+    # Last but not least convert the index file
+    puts "Generating index.html..."
+    @targetdir.join("index.html").open("w") do |file|
+      file.write(kramdown(@indexfile.read))
     end
   end
 
@@ -234,13 +246,8 @@ class KramdownGenerator
     end
 
     # Let kramdown transform it to HTML
-    doc = Kramdown::Document.new(result,
-                                 toc_levels: "2..3",
-                                 template: @templatefile.to_s,
-                                 coderay_line_numbers: :table,
-                                 coderay_css: :class)
     @targetdir.join("#{klass.name.downcase.gsub("::", "_")}.html").open("w") do |file|
-      file.write(doc.to_html)
+      file.write(kramdown(result))
     end
   end
 
@@ -263,6 +270,15 @@ class KramdownGenerator
     result
   end
 
+  # Takes markdown string and returns the corresponding HTML.
+  def kramdown(str)
+    Kramdown::Document.new(str,
+                           toc_levels: "2..3",
+                           template: @templatefile.to_s,
+                           coderay_line_numbers: :table,
+                           coderay_css: :class).to_html
+  end
+
 end
 
 if $0 == __FILE__
@@ -270,6 +286,7 @@ if $0 == __FILE__
 
   this_dir      = Pathname.new(__FILE__).dirname.expand_path
   template_file = this_dir + "template.html.erb"
+  index_file    = this_dir + "index.md"
   target_dir    = this_dir + "html"
   source_dir    = this_dir + ".." + ".." + "src" + "scripting"
 
@@ -294,9 +311,9 @@ if $0 == __FILE__
   puts "Parsing scripting source files."
   ARGV.unshift(source_dir) if ARGV.empty?
   parser = Parser.new(*ARGV)
-  parser.debug = true
+  # parser.debug = true
   parser.parse!
-  gen = KramdownGenerator.new(target_dir, template_file, parser.classes, parser.methods)
+  gen = KramdownGenerator.new(target_dir, template_file, index_file, parser.classes, parser.methods)
   gen.generate!
 
   puts "Finished."
