@@ -275,6 +275,7 @@ class KramdownGenerator
     Kramdown::Document.new(str,
                            toc_levels: "2..3",
                            template: @templatefile.to_s,
+                           enable_coderay: true,
                            coderay_line_numbers: :table,
                            coderay_css: :class).to_html
   end
