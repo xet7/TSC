@@ -14,5 +14,5 @@
 
 # Don’t touch this if you don’t know exactly what you’re doing.
 # It loads all the SMC wrapper classes into the running MRuby
-# intereter instance. It should be last in this file.
+# interpeter instance.
 SMC.setup
