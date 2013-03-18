@@ -239,7 +239,7 @@ class KramdownGenerator
                                  template: @templatefile.to_s,
                                  coderay_line_numbers: :table,
                                  coderay_css: :class)
-    @targetdir.join("#{klass.name.downcase}.html").open("w") do |file|
+    @targetdir.join("#{klass.name.downcase.gsub("::", "_")}.html").open("w") do |file|
       file.write(doc.to_html)
     end
   end
