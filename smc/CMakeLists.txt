@@ -40,10 +40,10 @@ find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(Gettext)
-find_package(LibIntl REQUIRED)
 find_package(BISON REQUIRED)
 
 if (WIN32)
+  find_package(LibIntl REQUIRED)
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread_win32 system
     REQUIRED)
