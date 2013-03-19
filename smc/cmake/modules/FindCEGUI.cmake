@@ -4,6 +4,7 @@
 # CEGUI_FOUND, if false, do not try to link to CEGUI
 # CEGUI_LIBRARY, where to find the librarys
 # CEGUI_INCLUDE_DIR, where to find the headers
+# CEGUI_DEFINITIONS, what to include in C(XX)FLAGS
 #
 # $CEGUIDIR is an environment variable that would
 # correspond to the ./configure --prefix=$CEGUIDIR
@@ -14,6 +15,8 @@
 #
 # 2011-07-21 Created by Frederik vom Hofe using the findSFML.cmake versions from David Guthrie with code from Robert Osfield.
 # 2013-03-15 Slight modifications by Marvin Gülker to find more components
+
+FIND_PACKAGE(PkgConfig)
 
 SET(CEGUI_FOUND "YES")
 SET(CEGUI_LIBRARY "")
@@ -50,8 +53,12 @@ MACRO(HELPER_GET_CASE_FROM_LIST SEARCHSTR LOOKUPLIST RESULTSTR)
    ENDFOREACH()
 ENDMACRO()
 
-#********** First we locate the include directorys ********** ********** ********** **********
+#********** First we ask pkg-config ********** ********** ********** **********
+pkg_check_modules(PC_CEGUI QUIET CEGUI)
+
+#********** Now we locate the include directorys ********** ********** ********** **********
 SET( CEGUI_INCLUDE_SEARCH_DIR
+   ${PC_CEGUI_INCLUDE_DIRS}
    ${CEGUIDIR}/include
    ${CEGUIDIR}/cegui/include
    ~/Library/Frameworks
@@ -111,7 +118,8 @@ ENDIF()
 
 #********** Then we locate the Librarys ********** ********** ********** **********
 SET( CEGUI_LIBRARY_SEARCH_DIR
-   ${CEGUIDIR}/lib
+        ${PC_CEGUI_LIBRARY_DIRS}
+        ${CEGUIDIR}/lib
         ${CEGUIDIR}
         ~/Library/Frameworks
         /Library/Frameworks
@@ -147,6 +155,9 @@ FIND_LIBRARY_HELPER( CEGUIBase CEGUI_LIBRARY_SEARCH_DIR )
 FIND_LIBRARY_HELPER( CEGUIFalagardWRBase CEGUI_LIBRARY_SEARCH_DIR )
 FIND_LIBRARY_HELPER( CEGUIFreeImageImageCodec CEGUI_LIBRARY_SEARCH_DIR )
 FIND_LIBRARY_HELPER( CEGUITinyXMLParser CEGUI_LIBRARY_SEARCH_DIR )
+
+#********** Don't forget the flags ********** ********** ********** ********** ********** ********** ********** **********
+set(CEGUI_DEFINITIONS ${PC_CEGUI_CFLAGS})
 
 #********** And we are done ********** ********** ********** ********** ********** ********** ********** **********
 

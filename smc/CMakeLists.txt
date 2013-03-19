@@ -40,6 +40,7 @@ find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(Gettext)
+find_package(LibIntl REQUIRED)
 find_package(BISON REQUIRED)
 
 if (WIN32)
@@ -49,7 +50,7 @@ if (WIN32)
 
   # Boost-thread and CEGUI need to be explicitely told that they’re
   # linked in statically on Windows.
-  add_definitions(-DBOOST_THREAD_USE_LIB -DCEGUI_STATIC)
+  add_definitions(-DBOOST_THREAD_USE_LIB)
 else()
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread system
@@ -59,7 +60,7 @@ endif()
 # pkg-config is really the better way to check for libs.
 # Unfortunetly, the above libraries don’t support it
 # properly.
-pkg_check_modules(PNG REQUIRED libpng)
+pkg_check_modules(PNG REQUIRED libpng<=1.5.14) # SDL doesn’t like libpng 1.6 yet as it seems
 pkg_check_modules(SDL REQUIRED sdl)
 pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
@@ -72,6 +73,7 @@ pkg_check_modules(PCRE REQUIRED libpcre)
 
 # Add any definitiony required by libraries
 add_definitions(
+  ${CEGUI_DEFINITIONS}
   ${PNG_DEFINITIONS}
   )
 
