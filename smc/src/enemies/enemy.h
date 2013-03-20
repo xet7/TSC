@@ -19,6 +19,7 @@
 #include "../objects/animated_sprite.h"
 #include "../core/framerate.h"
 #include "../audio/audio.h"
+#include "../scripting/objects/mrb_enemy.h"
 
 namespace SMC
 {
@@ -37,6 +38,12 @@ public:
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 	// save to savegame
 	virtual cSave_Level_Object *Save_To_Savegame( void );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcEnemy, &Scripting::rtEnemy, this));
+	}
 
 	// Set Dead
 	virtual void Set_Dead( bool enable = 1 );
