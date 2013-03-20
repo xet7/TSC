@@ -534,8 +534,6 @@ void cGoldDisplay :: Set_Gold( int gold )
 		pHud_Points->Add_Points( 0, pLevel_Player->m_pos_x + pLevel_Player->m_image->m_w/3, pLevel_Player->m_pos_y + 5, "1UP", lightred );
 
 		// Fire the Gold100 event
-		//Script::cGold_100_Event evt;
-		//evt.Fire(pActive_Level->m_lua, pLevel_Player);
 		Scripting::cGold_100_Event evt;
 		evt.Fire(pActive_Level->m_mruby, pLevel_Player);
 	}

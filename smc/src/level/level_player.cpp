@@ -35,9 +35,9 @@
 #include "../video/gl_surface.h"
 #include "../core/filesystem/filesystem.h"
 #include "../video/renderer.h"
-#include "../script/events/jump_event.h"
-#include "../script/events/shoot_event.h"
-#include "../script/events/downgrade_event.h"
+#include "../scripting/events/jump_event.h"
+#include "../scripting/events/shoot_event.h"
+#include "../scripting/events/downgrade_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
@@ -234,8 +234,8 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 		pHud_Itembox->Request_Item();
 
 		// Issue the Downgrade event
-		Script::cDowngrade_Event evt(1, 2); // downgrades = 1, max. downgrades = 2
-		evt.Fire(pActive_Level->m_lua, this);
+		Scripting::cDowngrade_Event evt(1, 2); // downgrades = 1, max. downgrades = 2
+		evt.Fire(pActive_Level->m_mruby, this);
 
 		return;
 	}
@@ -1364,9 +1364,9 @@ void cLevel_Player :: Start_Jump( float deaccel /* = 0.08f */ )
 		}
 
 		// Issue jump event
-		Script::cJump_Event evt;
-		evt.Fire(pActive_Level->m_lua, this);
-		
+		Scripting::cJump_Event evt;
+		evt.Fire(pActive_Level->m_mruby, this);
+
 		m_vely = -m_next_jump_power;
 		Set_Moving_State( STA_JUMP );
 	}
@@ -3633,12 +3633,8 @@ void cLevel_Player :: Action_Shoot( void )
 		m_throwing_counter = speedfactor_fps * 0.3f;
 
 		// Issue shoot event
-		Script::cShoot_Event evt;
-		if (ball_type == ICEBALL_DEFAULT)
-			evt.Set_Ball_Type("ice");
-		else
-			evt.Set_Ball_Type("fire");
-		evt.Fire(pActive_Level->m_lua, this);
+		Scripting::cShoot_Event evt(ball_type == ICEBALL_DEFAULT ? "ice" : "fire");
+		evt.Fire(pActive_Level->m_mruby, this);
 	}
 
 }

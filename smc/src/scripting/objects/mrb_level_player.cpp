@@ -82,6 +82,9 @@ struct mrb_data_type SMC::Scripting::rtLevel_Player = {"LevelPlayer", NULL};
  ***************************************/
 
 MRUBY_IMPLEMENT_EVENT(gold_100);
+MRUBY_IMPLEMENT_EVENT(downgrade);
+MRUBY_IMPLEMENT_EVENT(jump);
+MRUBY_IMPLEMENT_EVENT(shoot);
 
 /***************************************
  * Methods
@@ -483,11 +486,15 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, ARGS_REQ(1));
 
+	// Event handlers
+	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_downgrade", MRUBY_EVENT_HANDLER(downgrade), ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_jump", MRUBY_EVENT_HANDLER(jump), ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_shoot", MRUBY_EVENT_HANDLER(shoot), ARGS_BLOCK());
+
 	// Aliases
 	mrb_define_alias(p_state, p_rcLevel_Player, "waffles", "gold");
 	mrb_define_alias(p_state, p_rcLevel_Player, "waffles=", "gold=");
 	mrb_define_alias(p_state, p_rcLevel_Player, "add_waffles", "add_gold");
-
-	// Event handlers
-	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), ARGS_BLOCK());
+	mrb_define_alias(p_state, p_rcLevel_Player, "on_waffles_100", "on_gold_100");
 }
