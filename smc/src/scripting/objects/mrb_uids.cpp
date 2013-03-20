@@ -51,13 +51,13 @@ struct RClass* SMC::Scripting::p_rmUIDS = NULL;
 
 static mrb_value Index(mrb_state* p_state, mrb_value self)
 {
-	mrb_value index;
-	mrb_get_args(p_state, "o", &index);
-	mrb_int uid = mrb_fixnum(index);
+	mrb_value ruid;
+	mrb_get_args(p_state, "o", &ruid);
+	mrb_int uid = mrb_fixnum(ruid);
 
 	// Try to retrieve the sprite from the cache
 	mrb_value cache  = mrb_iv_get(p_state, self, mrb_intern(p_state, "cache"));
-	mrb_value sprite = mrb_hash_get(p_state, cache, index);
+	mrb_value sprite = mrb_hash_get(p_state, cache, ruid);
 
 	// If we already have an object for this UID in the
 	// cache, return it.
@@ -72,7 +72,7 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 			// Ask the sprite to create the correct type of MRuby object
 			// so we don’t have to maintain a static C++/MRuby type mapping table
 			mrb_value obj = (*iter)->Create_MRuby_Object(p_state);
-			mrb_hash_set(p_state, cache, index, obj);
+			mrb_hash_set(p_state, cache, ruid, obj);
 
 			return obj;
 		}

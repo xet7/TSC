@@ -2,6 +2,7 @@
 #include "../scripting.h"
 #include "mrb_sprite.h"
 #include "mrb_eventable.h"
+#include "../events/event.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
 #include "../../level/level_player.h"
@@ -12,6 +13,8 @@ using namespace SMC::Scripting;
 // Extern
 struct RClass* SMC::Scripting::p_rcSprite     = NULL;
 struct mrb_data_type SMC::Scripting::rtSprite = {"Sprite", NULL};
+
+MRUBY_IMPLEMENT_EVENT(touch);
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
@@ -102,4 +105,6 @@ void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "x", Get_X, ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "y", Get_Y, ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcSprite, "on_touch", MRUBY_EVENT_HANDLER(touch), ARGS_NONE());
 }

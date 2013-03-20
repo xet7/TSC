@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.h"
 #include "../core/editor.h"
 #include "../core/i18n.h"
-#include "../script/events/touch_event.h"
+#include "../scripting/events/touch_event.h"
 #include "../level/level_editor.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
@@ -278,7 +278,7 @@ void cCollidingSprite :: Handle_Collision( cObjectCollision *collision )
 	/* Issue the touch event, but only if we’re currently in
 	 * a level (remember: Sprites are not only used in levels...)
 	 * and that level is not being edited at the moment.
-	 * Also needed as the Lua interpreter is not initialized before
+	 * Also needed as the MRuby interpreter is not initialized before
 	 * Level construction. */
 	if (pActive_Level && !pLevel_Editor->m_enabled){
 		/* For whatever reason, CollidingSprite is the superclass
@@ -287,14 +287,14 @@ void cCollidingSprite :: Handle_Collision( cObjectCollision *collision )
 		 * to handing it to the event (=> downcast). As all level-relevant
 		 * sprites are real Sprites (rather than bare CollidingSprites),
 		 * this doesn’t exclude important sprites from being listened to
-		 * in Lua. --Marvin Gülker (aka Quintus) */
+		 * in MRuby. --Marvin Gülker (aka Quintus) */
 		cSprite* p_sprite = dynamic_cast<cSprite*>(this);
 		if (p_sprite){
 			// Fire the event for both objects, eases registering
-			Script::cTouch_Event evt1(collision->m_obj);
-			Script::cTouch_Event evt2(p_sprite);
-			evt1.Fire(pActive_Level->m_lua, p_sprite);
-			evt2.Fire(pActive_Level->m_lua, collision->m_obj);
+			Scripting::cTouch_Event evt1(collision->m_obj);
+			Scripting::cTouch_Event evt2(p_sprite);
+			evt1.Fire(pActive_Level->m_mruby, p_sprite);
+			evt2.Fire(pActive_Level->m_mruby, collision->m_obj);
 		}
 	}
 
