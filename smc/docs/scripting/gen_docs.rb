@@ -9,6 +9,8 @@ class Parser
 
   # Represents a documented class.
   ClassDoc = Struct.new(:name, :documentation)
+  # Represents a documented module.
+  ModuleDoc = Struct.new(:name, :documentation)
   # Represents a documented method.
   MethodDoc = Struct.new(:name, :classname, :is_instance_method, :call_seqs, :documentation)
 
@@ -19,6 +21,8 @@ class Parser
   attr_reader :sources
   # After the call to #parse! a sorted array of ClassDoc instances.
   attr_reader :classes
+  # After the call to #parse! a sorted array of ModuleDoc instances.
+  attr_reader :modules
   # After the call to #ptase! a sorted array of MethodDoc instances.
   attr_reader :methods
 
@@ -29,6 +33,7 @@ class Parser
     @sources = sources.map{|s| Pathname.new(s).expand_path}
     @debug   = false
     @classes = []
+    @modules = []
     @methods = []
     @document_block_open = false
     @doctext = ""
@@ -50,6 +55,7 @@ class Parser
     end
 
     @classes.sort_by!(&:name)
+    @modules.sort_by!(&:name)
     @methods.sort_by!(&:name)
 
     print_summary
@@ -124,6 +130,21 @@ class Parser
     @classes << ClassDoc.new(classname, @doctext.lines.drop(1).join)
   end
 
+  # Parse a module documentation block, which must be of the following
+  # form:
+  #
+  #   /**
+  #    * Module: MyModuleName
+  #    *
+  #    * Module documentation goes here, probably
+  #    * multiline.
+  #    */
+  def parse_doctype_module(modname)
+    debug "> Detected module '#{modname}'"
+
+    @modules << ModuleDoc.new(modname, @doctext.lines.drop(1).join)
+  end
+
   # Prase a method documentation block, which must be of the following
   # form (use :: instead of # for class methods):
   #
@@ -178,6 +199,7 @@ class Parser
     puts
     puts "=== SUMMARY ==="
     puts "Classes: #{@classes.count}"
+    puts "Modules: #{@modules.count}"
     puts "Methods: #{@methods.count}"
     puts
     puts
@@ -187,11 +209,12 @@ end
 
 class KramdownGenerator
 
-  def initialize(targetdir, templatefile, indexfile, classes, methods)
+  def initialize(targetdir, templatefile, indexfile, classes, modules, methods)
     @targetdir    = Pathname.new(targetdir).expand_path
     @templatefile = Pathname.new(templatefile).expand_path
     @indexfile    = Pathname.new(indexfile).expand_path
     @classes      = classes
+    @modules      = modules
     @methods      = methods
   end
 
@@ -200,6 +223,12 @@ class KramdownGenerator
     puts "Generating classes..."
     @classes.each do |klass|
       generate_class(klass)
+    end
+
+    # Go for the modules
+    puts "Generating modules..."
+    @modules.each do |mod|
+      generate_module(mod)
     end
 
     # Last but not least convert the index file
@@ -211,43 +240,45 @@ class KramdownGenerator
 
   private
 
-  def generate_class(klass)
-    result = ""
+  [:class, :module].each do |sym|
+    define_method(:"generate_#{sym}") do |klassmod|
+      result = ""
 
-    # Site header
-    result << "Class: " << klass.name << "\n"
-    result << "=" * (result.chars.count - 1) << "\n"
+      # Site header
+      result << "#{sym.capitalize} " << klassmod.name << "\n"
+      result << "=" * (result.chars.count - 1) << "\n"
 
-    # Advise kramdown to create a ToC
-    result << "\n* This is the\n{:toc}\n\n"
+      # Advise kramdown to create a ToC
+      result << "\n* This is the\n{:toc}\n\n"
 
-    # Add the real class docs
-    result << klass.documentation
+      # Add the real class docs
+      result << klassmod.documentation
 
-    # Find the methods we need for us
-    methods  = @methods.select{|m| m.classname == klass.name}
-    imethods = @methods.select(&:is_instance_method)
-    cmethods = @methods.reject(&:is_instance_method)
+      # Find the methods we need for us
+      methods  = @methods.select{|m| m.classname == klassmod.name}
+      imethods = @methods.select(&:is_instance_method)
+      cmethods = @methods.reject(&:is_instance_method)
 
-    # Now for the class methods
-    unless cmethods.empty?
-      result << "\n\nClass methods\n"
-      result << "-" * "Class methods".chars.count << "\n\n"
+      # Now for the class methods
+      unless cmethods.empty?
+        result << "\n\nClass methods\n"
+        result << "-" * "Class methods".chars.count << "\n\n"
 
-      cmethods.each{|cm| result << generate_method(cm) << "\n"}
-    end
+        cmethods.each{|cm| result << generate_method(cm) << "\n"}
+      end
 
-    # Same for the instance methods
-    unless imethods.empty?
-      result << "\n\nInstance methods\n"
-      result << "-" * "Instance methods".chars.count << "\n\n"
+      # Same for the instance methods
+      unless imethods.empty?
+        result << "\n\nInstance methods\n"
+        result << "-" * "Instance methods".chars.count << "\n\n"
 
-      imethods.each{|im| result << generate_method(im) << "\n"}
-    end
+        imethods.each{|im| result << generate_method(im) << "\n"}
+      end
 
-    # Let kramdown transform it to HTML
-    @targetdir.join("#{klass.name.downcase.gsub("::", "_")}.html").open("w") do |file|
-      file.write(kramdown(result))
+      # Let kramdown transform it to HTML
+      @targetdir.join("#{klassmod.name.downcase.gsub("::", "_")}.html").open("w") do |file|
+        file.write(kramdown(result))
+      end
     end
   end
 
@@ -314,7 +345,7 @@ if $0 == __FILE__
   parser = Parser.new(*ARGV)
   # parser.debug = true
   parser.parse!
-  gen = KramdownGenerator.new(target_dir, template_file, index_file, parser.classes, parser.methods)
+  gen = KramdownGenerator.new(target_dir, template_file, index_file, parser.classes, parser.modules, parser.methods)
   gen.generate!
 
   puts "Finished."
