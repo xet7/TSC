@@ -3,6 +3,17 @@
 #include "mrb_moving_sprite.h"
 #include "mrb_animated_sprite.h"
 
+/**
+ * Class: AnimatedSprite
+ *
+ * Parent: [MovingSprite](movingsprite.html)
+ * {: .superclass}
+ *
+ * Currently there are no objects exposed to the MRuby API
+ * that are _AnimatedSprites_ without being an instance
+ * of [MovingSprite](movingsprite.html).
+ */
+
 using namespace SMC;
 using namespace SMC::Scripting;
 

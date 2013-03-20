@@ -3,6 +3,21 @@
 #include "../../script/scriptable_object.h"
 #include "../../core/global_basic.h"
 
+/**
+ * Module: Eventable
+ *
+ * Mixin module that allows objects to receive events from SMC.
+ * Mixing in this module on the MRuby side of things is quite
+ * useless as you may then receive events, but nobody actually
+ * _fires_ those for you.
+ *
+ * This module however is included by default by all classes
+ * that can receive events from the C++ side and its methods
+ * are therefore available to instances of those classes. It
+ * is also used internally heavily in the implementation of
+ * the `on_*` methods.
+ */
+
 using namespace SMC;
 using namespace SMC::Scripting;
 
@@ -10,9 +25,11 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rmEventable = NULL;
 
 /**
- * bind(evtname){|evtname, *args| ...} → nil
+ * Method: Eventable#bind
  *
- * Listen for the event +evtname+ and register the block as the
+ *   bind(evtname){|evtname, *args| ...} → nil
+ *
+ * Listen for the event `evtname` and register the block as the
  * event handler. It gets passed the name of the event as the
  * first argument, followed by any additional arguments specific
  * to the event.

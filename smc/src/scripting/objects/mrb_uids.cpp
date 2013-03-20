@@ -15,7 +15,7 @@ However, as soon as the user starts to index the global `UIDS' object, things
 change: Each call to UIDS::[] with a not-yet encountered valid UID (i.e. a
 UID actually belonging to an active sprite) will create an MRuby object
 wrapping the specific cSprite instance and return it. Additionally, this
-MRuby object is cached in an internal cache `s_uids_cache' below so
+MRuby object is cached in an internal `cache' module instance variable so
 that further calls to UIDS::[] with the same UID will actually return
 the same object (this is very important for event handling). The MRuby
 object will continue to exist until the sprite goes inactive, i.e. is
@@ -39,16 +39,60 @@ creating a circular reference between the two) is a bad idea, because
 MRuby’s GC won’t know about the C++-side reference. It would just see
 an object referenced from nowhere in the Ruby environment, and collect
 it. When later the user requests this object, it will not be there,
-causing a segfault. Sttoring the MRuby instances in the global constat
+causing a segfault. Sttoring the MRuby instances in the global constant
 `UIDS' ensures that the GC knows about them and won’t collect them.
 
 *****************************************************************************/
+
+/**
+ * Module: UIDS
+ *
+ * The `UIDS` module (yes, really, it’s a module) is a simple way to
+ * refer to existing instances of class `Sprite` and its subclasses.
+ * It basically just offers the module method `[]` that allows you
+ * to retrieve any sprite you wish from the level, identified by its
+ * unique identifier (UID):
+ *
+ * ~~~~ ruby
+ * # Move the sprite with the UID 25 away
+ * UIDS[25].warp(-100, 0)
+ * ~~~~
+ *
+ * The `UIDS` module maintains a cache for the sprite objects so that it
+ * doesn’t have to create MRuby objects for all the sprites right at the
+ * beginning of a level, but rather when you first access them. This means
+ * that while level loading is fast, referencing a bunch of not-yet-seen
+ * sprites will probably cause a noticable pause in the gameplay, so be
+ * careful when doing this. After a sprite has first been mapped to MRuby
+ * land, referencing it will just cause a lookup in the internal cache
+ * and therefore is quite fast.
+ */
 
 using namespace SMC;
 
 // Extern
 struct RClass* SMC::Scripting::p_rmUIDS = NULL;
 
+/**
+ * Method: UIDS::[]
+ *
+ *   [uid] → a_sprite
+ *
+ * Retrieve an MRuby object for the sprite with the unique identifier
+ * `uid`. The first time you call this method with a given UID, it
+ * will cycle through _all_ sprite objects in the level, so it will
+ * take relatively long. The sprite object is then cached internally,
+ * causing later lookups to be fast.
+ *
+ * #### Parameter
+ * uid
+ * : The unique identifier of the sprite you want to retrieve. You can
+ *   look this up in the SMC editor.
+ *
+ * #### Return value
+ * Returns an instance of class `Sprite` or one of its subclasses, as
+ * required. If the requested UID can’t be found, returns `nil`.
+ */
 static mrb_value Index(mrb_state* p_state, mrb_value self)
 {
 	mrb_value ruid;

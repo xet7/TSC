@@ -7,6 +7,48 @@
 #include "../../core/sprite_manager.h"
 #include "../../level/level_player.h"
 
+/**
+ * Class: Sprite
+ *
+ * A _Sprite_ is one of the most generic objects available in the MRuby
+ * API. Anything shown on the screen is somehow a sprite, and the methods
+ * defined in this class are therefore available to nearly all objects
+ * exposed to the MRuby API.
+ *
+ * All sprites created by the regular SMC editor can be references by
+ * indexing the global `UIDS` table, see
+ * [Unique Identifiers](index.html#unique-identifiers-uids) for more
+ * information on this topic.
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
+ * UIDS[38].x
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ * About coordinates
+ * -----------------
+ *
+ * Instances of `Sprite` and its subclasses have two kinds of
+ * coordinates, the normal ones (usually called just "coordinates") and
+ * the starting position’s coordinates (usually called "initial
+ * coordinates"). Most sprites don’t really care about the initial
+ * coordinates, but some instances of subclasses of `Sprite` do, e.g. the
+ * [flyon](flyon.html) remembers its starting position, i.e. where to
+ * return after jumping out, in its initial coordinates.
+ *
+ * Events
+ * ------
+ *
+ * Touch
+ * : This event is fired when the sprite collides with another
+ *   sprite. Note that such a collision actually creates two Touch
+ *   events, one for each sprite. This may be useful if you don’t want to
+ *   use a long `if-elsif-elsif-elsif...` construct inside an event
+ *   handler choosing an action depending on the collided sprite.
+ *
+ *   The event handler gets passed an instance of this class (or one of
+ *   its subclasses) representing the other collision "partner".
+ */
+
 using namespace SMC;
 using namespace SMC::Scripting;
 
@@ -53,6 +95,13 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 	return self;
 }
 
+/**
+ * Method: Sprite#show
+ *
+ *   show()
+ *
+ * Makes a sprite visible. See also [hide()](#hide).
+ */
 mrb_value Show(mrb_state* p_state, mrb_value self)
 {
 	cSprite* p_sprite = NULL;
@@ -61,6 +110,13 @@ mrb_value Show(mrb_state* p_state, mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ * Method: Sprite#hide
+ *
+ *   hide()
+ *
+ * Makes a sprite invisible. See also [show()](#show).
+ */
 mrb_value Hide(mrb_state* p_state, mrb_value self)
 {
 	cSprite* p_sprite = NULL;
@@ -69,6 +125,13 @@ mrb_value Hide(mrb_state* p_state, mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ * Method: Sprite#uid
+ *
+ *   uid() → an_integer
+ *
+ * Returns the UID for the sprite.
+ */
 mrb_value Get_UID(mrb_state* p_state, mrb_value self)
 {
 	cSprite* p_sprite = NULL;
@@ -77,6 +140,13 @@ mrb_value Get_UID(mrb_state* p_state, mrb_value self)
 	return mrb_fixnum_value(p_sprite->m_uid);
 }
 
+/**
+ * Method: Sprite#x
+ *
+ *   x() → an_integer
+ *
+ * The current X coordinate.
+ */
 mrb_value Get_X(mrb_state* p_state, mrb_value self)
 {
 	cSprite* p_sprite = NULL;
@@ -85,6 +155,13 @@ mrb_value Get_X(mrb_state* p_state, mrb_value self)
 	return mrb_fixnum_value(p_sprite->m_pos_x);
 }
 
+/**
+ * Method: Sprite#y
+ *
+ *   y() → an_integer
+ *
+ * The current Y coordinate.
+ */
 mrb_value Get_Y(mrb_state* p_state, mrb_value self)
 {
 	cSprite* p_sprite = NULL;

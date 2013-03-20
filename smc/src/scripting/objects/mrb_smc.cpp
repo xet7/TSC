@@ -5,15 +5,28 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+/**
+ * Module: SMC
+ *
+ * Module encapsulating stuff related to the game itself.
+ */
+
 using namespace SMC;
 
 // Extern
 struct RClass* SMC::Scripting::p_rmSMC = NULL;
 
 /**
+ * Method: SMC::require
+ *
+ *   require( path )
+ *
  * Minimalistic file loading capability. Loads a file
  * relative to SMC’s scripting/ directory into the running
  * MRuby instance.
+ *
+ * Using this outside of the initialisation sequence doesn’t
+ * make much sense.
  */
 static mrb_value Require(mrb_state* p_state, mrb_value self)
 {
@@ -53,8 +66,12 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::setup
+ *
+ *   setup()
+ *
  * Main setup method. This method *must* be called during the
- * initialisation sequence, otherwise scripting will badly
+ * initialisation sequence in `main.rb`, otherwise scripting will badly
  * malfunction.
  */
 static mrb_value Setup(mrb_state* p_state, mrb_value self)

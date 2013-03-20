@@ -3,6 +3,20 @@
 #include "mrb_sprite.h"
 #include "mrb_moving_sprite.h"
 
+/**
+ * Class: MovingSprite
+ *
+ * Parent: [Sprite](sprite.html)
+ * {: .superclass}
+ *
+ * Everything that is moving on the screen is considered by SMC to be a
+ * _MovingSprite_. It is the superclass of most on-screen objects and as
+ * such the methods defined here are available to most other objects,
+ * e.g. the [Player](player.html) or [enemies](enemy.html).
+ *
+ * This class may not be instanciated directly.
+ */
+
 using namespace SMC;
 using namespace SMC::Scripting;
 

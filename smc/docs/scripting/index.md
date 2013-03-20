@@ -181,10 +181,10 @@ And finally, if you’re lucky the method’s documentation may contain
 some usage examples of the method. But again, this may not be the case
 for all methods.
 
-List of classes and singletons
-------------------------------
+List of classes, modules, and singletons
+----------------------------------------
 
-This is an alphabetical list of all classes and singletons exposed to
+This is an alphabetical list of all classes, modules, and singletons exposed to
 the MRuby scripting API:
 
 * [AnimatedSprite](animatedsprite.html)
@@ -192,6 +192,7 @@ the MRuby scripting API:
 * [AudioClass](audioclass.html)
 * [Eato](eato.html)
 * [Enemy](enemy.html)
+* [Eventable](eventable.html)
 * [Flyon](flyon.html)
 * [Furball](furball.html)
 * [Gee](gee.html)
@@ -204,8 +205,10 @@ the MRuby scripting API:
 * [MovingSprite](movingsprite.html)
 * [ParticleEmitter](particleemitter.html)
 * Player → [LevelPlayer](level_layer.html)
+* [SMC](smc.html)
 * [Sprite](sprite.html)
 * [Timer](timer.html)
+* [UIDS](uids.html)
 
 License
 -------
