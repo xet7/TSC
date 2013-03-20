@@ -31,6 +31,9 @@ namespace SMC {
 		// into the given mruby state. Called by SMC::setup
 		// in mruby land.
 		void Load_Wrappers(mrb_state* p_state);
+		// Takes a C(++) string and directly returns an MRuby
+		// symbol object (not an mrb_sym!) for it.
+		inline mrb_value str2sym(mrb_state* mrb, std::string str){ return mrb_symbol_value(mrb_intern(mrb, str.c_str())); }
 
 		class cMRuby_Interpreter {
 		public:

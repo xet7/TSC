@@ -6,6 +6,7 @@
 #include "../events/event.h"
 
 using namespace SMC;
+using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcLevel_Player     = NULL;
@@ -87,6 +88,203 @@ MRUBY_IMPLEMENT_EVENT(gold_100);
  ***************************************/
 
 /**
+ * Method: LevelPlayer#downgrade
+ *
+ *   downgrade()
+ *
+ * Hurts Maryo. Kills him if he is small.
+ */
+static mrb_value Downgrade(mrb_state* p_state,  mrb_value self)
+{
+	pLevel_Player->DownGrade();
+	return mrb_nil_value();
+}
+
+/**
+ * Method: LevelPlayer#jump
+ *
+ *   jump( [ deaccel ] )
+ *
+ * Makes Maryo jump.
+ *
+ * #### Parameter
+ * deaccel
+ * : Negative acceleration to apply, i.e. defines how high Maryo will
+ *   jump. Note that this isn’t necessarily the height in pixels as the
+ *   force of gravity will be applied to the value while jumping.
+ */
+static mrb_value Jump(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int deaccel = -1;
+	mrb_get_args(p_state, "|i", &deaccel);
+
+	if (deaccel > 0)
+		pLevel_Player->Start_Jump(deaccel);
+	else
+		pLevel_Player->Start_Jump();
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: LevelPlayer#type
+ *
+ *   type() → a_symbol or nil
+ *
+ * Returns Maryo’s current type. See [#type=](#type-1) for a list of
+ * possible symbols to be returned. Returns nil if Maryo’s state can’t
+ * be detected for some reason (and prints a warning on stderr).
+ */
+static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
+{
+	switch(pLevel_Player->m_maryo_type){
+	case MARYO_DEAD:
+		return str2sym(p_state, "dead");
+	case MARYO_SMALL:
+		return str2sym(p_state, "small");
+	case MARYO_BIG:
+		return str2sym(p_state, "big");
+	case MARYO_FIRE:
+		return str2sym(p_state, "fire");
+	case MARYO_ICE:
+		return str2sym(p_state, "ice");
+	//case MARYO_CAPE:
+	//	return str2sym(p_state, "cape"); // Not implemented officially in SMC
+	case MARYO_GHOST:
+		return str2sym(p_state, "ghost");
+	default:
+		std::cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << std::endl;
+		return mrb_nil_value();
+	}
+}
+
+/**
+ * Method: LevelPlayer#type=
+ *
+ *   type=(type)
+ *
+ * Forcibly applies a powerup/powerdown to the level player. Note this method
+ * bypasses any Maryo state checks, i.e. you can directly apply `:ice` to
+ * small Maryo or force Fire Maryo back to Normal Big Maryo by applying
+ * `:big`. This check bypassing is the reason why you shouldn’t use this
+ * method for downgrading or killing the player; there might however be
+ * situations in which calling this method is more appropriate.
+ *
+ * Using this method never affects the rescue item (that one shown on top
+ * of the screen in the box).
+ *
+ * #### Parameter
+ * type
+ * : The powerup or powerdown to apply. One of the following symbols:
+ *
+ *   `:dead`
+ *    : Please use the [kill()](#kill) method instead.
+ *
+ *   `:small`
+ *    : Please use the [downgrade()](#downgrade) method instead.
+ *
+ *   `:big`
+ *   : Apply the normal mushroom.
+ *
+ *   `:fire`
+ *   : Apply the fireplant.
+ *
+ *   `:ice`
+ *   : Apply the ice mushroom.
+ *
+ *   `:ghost`
+ *   : Apply the ghost mushroom.
+ *
+ *   Specifying an invalid type causes an error.
+ * 
+ */
+static mrb_value Set_Type(mrb_state* p_state,  mrb_value self)
+{
+	mrb_sym sym;
+	mrb_get_args(p_state, "n", &sym);
+	const char* typestr = mrb_sym2name(p_state, sym);
+	Maryo_type type;
+
+	if (typestr == "dead")
+		type = MARYO_DEAD;
+	else if (typestr == "small")
+		type = MARYO_SMALL;
+	else if (typestr == "big")
+		type = MARYO_BIG;
+	else if (typestr == "fire")
+		type = MARYO_FIRE;
+	else if (typestr == "ice")
+		type = MARYO_ICE;
+	//else if (typestr == "cape") // Not implemented officially by SMC
+	//	type = MARYO_CAPE;
+	else if (typestr == "ghost")
+		type = MARYO_GHOST;
+	else {
+		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Maryo type '%s'.", typestr);
+		return mrb_nil_value();
+	}
+
+	pLevel_Player->Set_Type(type);
+	return mrb_symbol_value(sym);
+}
+
+/**
+ * Method: LevelPlayer#get_points
+ *
+ *   points() → an_integer
+ *
+ * Returns the number of points the player currently has.
+ */
+static mrb_value Get_Points(mrb_state* p_state,  mrb_value self)
+{
+	return mrb_fixnum_value(pLevel_Player->m_points);
+}
+
+/**
+ * Method: LevelPlayer#set_points
+ *
+ *   points=(points)
+ *
+ * Reset the player’s points to the given value. You probably don’t want
+ * to do this.
+ */
+static mrb_value Set_Points(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int points;
+	mrb_get_args(p_state, "i", &points);
+
+	pHud_Points->Set_Points(points);
+	return mrb_fixnum_value(points);
+}
+
+/**
+ * Method: LevelPlayer#add_points
+ *
+ *   add_points( points ) → an_integer
+ *
+ * Adds more points to the amount of points the player already has.
+ *
+ * #### Parameter
+ * points
+ * : The number of points to add.
+ *
+ * #### Return value
+ * The new number of points.
+ */
+static mrb_value Add_Points(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int points;
+	mrb_get_args(p_state, "i", &points);
+
+	/* X and Y positions, multipliers, etc. are intended to be used
+	 * with enemies, not direct point increasing, so I don’t provide
+	 * MRuby bindings for those parameters here. */
+	pHud_Points->Add_Points(points);
+	return mrb_fixnum_value(pLevel_Player->m_points);
+}
+
+
+/**
  * Method: LevelPlayer#kill
  *
  *   kill!()
@@ -141,6 +339,12 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	mrb_undef_class_method(p_state, p_rcLevel_Player, "new");
 
 	// Normal methods
+	mrb_define_method(p_state, p_rcLevel_Player, "downgrade", Downgrade, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, ARGS_REQ(1));
 
