@@ -298,6 +298,136 @@ static mrb_value Kill(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: LevelPlayer#gold
+ *
+ *   gold() → an_integer
+ *   waffles() an_integer
+ *
+ * The current amount of gold pieces/waffles Maryo has collected so
+ * far. This is always smaller than 100.
+ */
+/**
+ * Method: LevelPlayer#waffles
+ *
+ *   gold() → an_integer
+ *   waffles() an_integer
+ *
+ * Alias for [#gold](#gold).
+ */
+static mrb_value Get_Gold(mrb_state* p_state,  mrb_value self)
+{
+	return mrb_fixnum_value(pLevel_Player->m_goldpieces);
+}
+
+/**
+ * Method: LevelPlayer#gold=
+ *
+ *   gold=(num)
+ *   waffles=(num)
+ *
+ * Reset the number of collected gold pieces/waffles to the given
+ * value. If you set a value greater than 100, a `Gold_100` event is
+ * triggered.
+ *
+ * #### Parameter
+ * num
+ * : The new number of gold pieces/waffles. This value obeys the same
+ *   100-rule as the parameter to [add_gold()](#addgold).
+ */
+/**
+ * Method: LevelPlayer#waffles=
+ *
+ *   gold=(num)
+ *   waffles=(num)
+ *
+ * Alias for [#gold=](#gold-1).
+ */
+static mrb_value Set_Gold(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int gold;
+	mrb_get_args(p_state, "i", &gold);
+
+	pHud_Goldpieces->Set_Gold(gold);
+	return mrb_fixnum_value(gold);
+}
+
+/**
+ * Method: LevelPlayer#add_gold
+ *
+ *   add_gold(num)    → an_integer
+ *   add_waffles(num) → an_integer
+ *
+ * Add to the player’s current amount of gold/waffles. If the number of
+ * gold passes 100, a `Gold_100` event is triggered.
+ *
+ * #### Parameter
+ * num
+ * : The number of gold pieces/waffles to add. If Maryo’s resulting
+ *   amount of gold pieces/waffles (i.e. the current amount plus `num`)
+ *   is greater than 99, Maryo gains a life and 100 is subtracted
+ *   from the resulting amount. This process is repeated until the total
+ *   resulting amount of gold pieces/waffles is not greater than 99.
+ *
+ * #### Return value
+ * The new amount of gold pieces/waffles (after the 100-rule described
+ * above has been applied as often as necessary).
+ */
+/**
+ * Method:  LevelPlayer#add_waffles
+ *
+ *   add_gold(num)    → an_integer
+ *   add_waffles(num) → an_integer
+ *
+ * Alias for [#add_gold](#addgold)
+ */
+static mrb_value Add_Gold(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int gold;
+	mrb_get_args(p_state, "i", &gold);
+
+	pHud_Goldpieces->Add_Gold(gold);
+	return mrb_fixnum_value(pLevel_Player->m_goldpieces);
+}
+
+/**
+ * Method: LevelPlayer#lives
+ *
+ *   lives() → an_integer
+ *
+ * Returns the number of lives the player has. Note this may
+ * be zero.
+ */
+static mrb_value Get_Lives(mrb_state* p_state,  mrb_value self)
+{
+	return mrb_fixnum_value(pLevel_Player->m_lives);
+}
+
+/**
+ * Method: LevelPlayer#lives=
+ *
+ *   lives=(lives)
+ *
+ * Reset Maryo’s number of lives to the given value.
+ *
+ * #### Parameter
+ * lives
+ * : The new number of lives. This number may be negative, but note that
+ *   setting lives to 0 or less doesn’t kill the player immediately as
+ *   this number is only checked when the player gets killed by some other
+ *   force.
+ */
+static mrb_value Set_Lives(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int lives;
+	mrb_get_args(p_state, "i", &lives);
+
+	pHud_Lives->Set_Lives(lives);
+
+	return mrb_fixnum_value(lives);
+}
+
+
+/**
  * Method: LevelPlayer#add_lives
  *
  *   add_lives( lives ) → an_integer
@@ -346,7 +476,17 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "lives", Get_Lives, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, ARGS_REQ(1));
+
+	// Aliases
+	mrb_define_alias(p_state, p_rcLevel_Player, "waffles", "gold");
+	mrb_define_alias(p_state, p_rcLevel_Player, "waffles=", "gold=");
+	mrb_define_alias(p_state, p_rcLevel_Player, "add_waffles", "add_gold");
 
 	// Event handlers
 	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), ARGS_BLOCK());
