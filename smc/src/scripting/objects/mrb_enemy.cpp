@@ -1,6 +1,5 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_enemy.h"
-#include "mrb_smc.h"
 #include "mrb_animated_sprite.h"
 #include "../../enemies/enemy.h"
 
@@ -8,8 +7,7 @@ using namespace SMC;
 using namespace SMC::Scripting;
 
 // Extern
-struct RClass* SMC::Scripting::p_rcEnemy  
-   = NULL;
+struct RClass* SMC::Scripting::p_rcEnemy     = NULL;
 struct mrb_data_type SMC::Scripting::rtEnemy = {"Enemy", NULL};
 
 /**
@@ -31,7 +29,7 @@ static mrb_value Kill(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Enemy(mrb_state* p_state)
 {
-	p_rcEnemy = mrb_define_class_under(p_state, p_rmSMC, "Enemy", p_rcAnimated_Sprite);
+	p_rcEnemy = mrb_define_class(p_state, "Enemy", p_rcAnimated_Sprite);
 	MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);
 
 	// For now, forbid creating generic enemies
