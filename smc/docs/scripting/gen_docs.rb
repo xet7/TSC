@@ -245,7 +245,7 @@ class KramdownGenerator
       result = ""
 
       # Site header
-      result << "#{sym.capitalize} " << klassmod.name << "\n"
+      result << "#{sym.to_s.capitalize} " << klassmod.name << "\n"
       result << "=" * (result.chars.count - 1) << "\n"
 
       # Advise kramdown to create a ToC
@@ -256,13 +256,13 @@ class KramdownGenerator
 
       # Find the methods we need for us
       methods  = @methods.select{|m| m.classname == klassmod.name}
-      imethods = @methods.select(&:is_instance_method)
-      cmethods = @methods.reject(&:is_instance_method)
+      imethods = methods.select(&:is_instance_method)
+      cmethods = methods.reject(&:is_instance_method)
 
       # Now for the class methods
       unless cmethods.empty?
-        result << "\n\nClass methods\n"
-        result << "-" * "Class methods".chars.count << "\n\n"
+        result << "\n\n#{sym.to_s.capitalize} methods\n"
+        result << "-" * "#{sym.to_s.capitalize} methods".chars.count << "\n\n"
 
         cmethods.each{|cm| result << generate_method(cm) << "\n"}
       end
