@@ -16,10 +16,19 @@
  * every enemy, regardless of its type.
  *
  * Currently, this class is not instanciatable.
-*/
+ *
+ * Events
+ * ------
+ *
+ * Die
+ * : This event gets triggered when the enemy dies. The event handler
+ *   doesn’t get passed any argument.
+ */
 
 using namespace SMC;
 using namespace SMC::Scripting;
+
+MRUBY_IMPLEMENT_EVENT(die);
 
 // Extern
 struct RClass* SMC::Scripting::p_rcEnemy     = NULL;
@@ -199,4 +208,6 @@ void SMC::Scripting::Init_Enemy(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcEnemy, "fire_resistant?", Is_Fire_Resistant, ARGS_NONE());
 	mrb_define_method(p_state, p_rcEnemy, "kill!", Kill, ARGS_NONE());
 	mrb_define_method(p_state, p_rcEnemy, "kill_with_points!", Kill_With_Points, ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcEnemy, "on_die", MRUBY_EVENT_HANDLER(die), ARGS_NONE());
 }

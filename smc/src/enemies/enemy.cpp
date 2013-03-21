@@ -154,9 +154,11 @@ void cEnemy :: Set_Dead( bool enable /* = 1 */ )
 {
 	m_dead = enable;
 
-	// Issue the die event
-	Script::cDie_Event evt;
-	evt.Fire(pActive_Level->m_lua, this);
+	if (m_dead) {
+		// Issue the die event
+		Scripting::cDie_Event evt;
+		evt.Fire(pActive_Level->m_mruby, this);
+	}
 
 	Update_Valid_Update();
 }
