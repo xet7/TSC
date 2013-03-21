@@ -141,6 +141,51 @@ mrb_value Get_UID(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: Sprite#massive_type=
+ *
+ *   massive_type=( type )
+ *
+ * Set the massivity of a sprite.
+ *
+ * #### Parameters
+ * type
+ * : One of the following symbols. Their meaning is identical to the one
+ *   in the SMC editor.
+ *
+ *   * `:passive`
+ *   * `:front_passive` or `:frontpassive`
+ *   * `:massive`
+ *   * `:half_massive` or `:halfmassive`
+ *   * `:climbable`
+ *
+ *   Invalid types will cause an error.
+ */
+static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_sym typesym;
+	std::string type;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "n", &typesym);
+	type = mrb_sym2name(p_state, typesym);
+
+	if (type == "passive")
+		p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+	else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
+		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+	else if (type == "massive")
+		p_sprite->Set_Sprite_Type(TYPE_MASSIVE);
+	else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
+		p_sprite->Set_Sprite_Type(TYPE_HALFMASSIVE);
+	else if (type == "climbable")
+		p_sprite->Set_Sprite_Type(TYPE_CLIMBABLE);
+	else // Non-standard types like TYPE_ENEMY are not allowed here
+		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid massive type '%s'.", type.c_str());
+
+	return mrb_symbol_value(typesym);
+}
+
+/**
  * Method: Sprite#x
  *
  *   x() → an_integer
@@ -170,6 +215,300 @@ mrb_value Get_Y(mrb_state* p_state, mrb_value self)
 	return mrb_fixnum_value(p_sprite->m_pos_y);
 }
 
+/**
+ * Method: Sprite#x=
+ *
+ *   x=( val )
+ *
+ * Sets a new X coordinate.
+ */
+mrb_value Set_X(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_int x;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "i", &x);
+
+	p_sprite->Set_Pos_X(x);
+
+	return mrb_fixnum_value(x);
+}
+
+/**
+ * Method: Sprite#y=
+ *
+ *   y=( val )
+ *
+ * Sets a new Y coordinate.
+ */
+mrb_value Set_Y(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_int y;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "i", &y);
+
+	p_sprite->Set_Pos_Y(y);
+
+	return mrb_fixnum_value(y);
+}
+
+/**
+ * Method: Sprite#start_x
+ *
+ *   start_x()
+ *
+ * Returns the sprite’s initial X coordinate.
+ */
+static mrb_value Get_Start_X(mrb_state* p_state,  mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	return mrb_fixnum_value(p_sprite->m_start_pos_x);
+}
+
+/**
+ * Method: Sprite#start_y
+ *
+ *   start_y()
+ *
+ * Returns the sprite’s initial Y coordinate.
+ */
+static mrb_value Get_Start_Y(mrb_state* p_state,  mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	return mrb_fixnum_value(p_sprite->m_start_pos_y);
+}
+
+/**
+ * Method: Sprite#start_x=
+ *
+ *   start_x=( val )
+ *
+ * Sets the sprite’s initial X coordinate.
+ */
+static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_int start_x;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "i", &start_x);
+
+	p_sprite->Set_Pos_X(start_x, true);
+
+	return mrb_fixnum_value(start_x);
+}
+
+/**
+ * Method: Sprite#start_y=
+ *
+ *   start_y=( val )
+ *
+ * Sets the sprite’s initial Y coordinate.
+ */
+static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_int start_y;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "i", &start_y);
+
+	p_sprite->Set_Pos_X(start_y, true);
+
+	return mrb_fixnum_value(start_y);
+}
+
+/**
+ * Method: Sprite#z
+ *
+ *   z() → an_integer
+ *
+ * Returns the current Z coordinate. Note you cannot set the Z
+ * coordinate.
+ */
+static mrb_value Get_Z(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	return mrb_fixnum_value(p_sprite->m_pos_z);
+}
+
+/**
+ * Method: Sprite#pos
+ *
+ *   pos() → [an_integer, another_integer]
+ *
+ * Returns the sprite’s current X and Y coordinates.
+ *
+ * #### Return value
+ *
+ * An array of the current coordinates, both in pixels.
+ */
+static mrb_value Pos(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	mrb_value result = mrb_ary_new(p_state);
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_x));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_y));
+
+	return result;
+}
+
+/**
+ * Method: Sprite#start_pos
+ *
+ *   start_pos() → [an_integer, another_integer]
+ *
+ * Returns the initial coordinates for this sprite.
+ *
+ * #### Return value
+ *
+ * An array of the initial coordinates, both in pixels.
+ */
+static mrb_value Start_Pos(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	mrb_value result = mrb_ary_new(p_state);
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_x));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_y));
+
+	return result;
+}
+
+/**
+ * Method: Sprite#rect
+ *
+ *   rect() → [an_integer, another_integer, yetanother_integer, andafourthinteger]
+ *
+ * The sprite’s full image rectangle. See also [collision_rect()](#collisionrect).
+ */
+static mrb_value Rect(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	mrb_value result = mrb_ary_new(p_state);
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_x));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_y));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_w));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_h));
+
+	return result;
+}
+
+/**
+ * Method: Sprite#collision_rect
+ *
+ *   collision_rect() → [an_integer, another_integer, yetanother_integer, andafourthinteger]
+ *
+ * The sprite’s collision rectangle. See also [rect()](#rect)
+ */
+static mrb_value Collision_Rect(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	mrb_value result = mrb_ary_new(p_state);
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_x));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_y));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_w));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_h));
+
+	return result;
+}
+
+/**
+ * Method: Sprite#warp
+ *
+ *   warp( new_x , new_y )
+ *
+ * Warp the sprite somewhere. Note you are responsible for ensuring the
+ * coordinates are valid, this method behaves exactly as a level entry
+ * (i.e. doesn’t check coordinate validness).
+ *
+ * You can easily get the coordinates by moving around the cursor in
+ * the SMC level editor and hovering over objects placed near the
+ * location where you want to warp to.
+ *
+ * #### Parameters
+ * x
+ * : The new X coordinate.
+ *
+ * y
+ * : The new Y coordinate.
+ */
+static mrb_value Warp(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_int x;
+	mrb_int y;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "ii", &x, &y);
+
+	p_sprite->Set_Pos(x, y);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: Sprite#start_at
+ *
+ *   start_at( xpos, ypos )
+ *
+ * Sets both the initial X and Y coordinates at once.
+ *
+ * #### Parameters
+ * xpos
+ * : The initial X coordinate in pixels.
+ *
+ * ypos
+ * : The initial Y coordinate in pixels.
+ */
+static mrb_value Start_At(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	mrb_int start_x;
+	mrb_int start_y;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	mrb_get_args(p_state, "ii", &start_x, &start_y);
+
+	p_sprite->Set_Pos(start_x, start_y, true);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: Sprite#player?
+ *
+ *   player?() → a_boolean
+ *
+ * Checks whether this sprite is the player.
+ *
+ * #### Return value
+ *
+ * If this sprite is the player, returns `true`. Otherwise, returns
+ * `false`.
+ */
+static mrb_value Is_Player(mrb_state* p_state,  mrb_value self)
+{
+	cSprite* p_sprite = NULL;
+	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+
+	if (p_sprite == pLevel_Player)
+		return mrb_true_value();
+	else
+		return mrb_false_value();
+}
+
+
 void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 {
 	p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
@@ -180,8 +519,23 @@ void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcSprite, "show", Show, ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "hide", Hide, ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "massive_type=", Set_Massive_Type, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcSprite, "x", Get_X, ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "y", Get_Y, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "x=", Set_X, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "y=", Set_Y, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "z", Get_Z, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "start_x", Get_Start_X, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "start_y", Get_Start_Y, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "start_x=", Set_Start_X, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "start_y=", Set_Start_Y, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "pos", Pos, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "start_pos", Start_Pos, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "rect", Rect, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "collision_rect", Collision_Rect, ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "warp", Warp, ARGS_REQ(2));
+	mrb_define_method(p_state, p_rcSprite, "start_at", Start_At, ARGS_REQ(2));
+	mrb_define_method(p_state, p_rcSprite, "player?", Is_Player, ARGS_NONE());
 
 	mrb_define_method(p_state, p_rcSprite, "on_touch", MRUBY_EVENT_HANDLER(touch), ARGS_NONE());
 }
