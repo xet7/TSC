@@ -104,8 +104,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 mrb_value Show(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	p_sprite->Set_Active(true);
 	return mrb_nil_value();
 }
@@ -119,8 +118,7 @@ mrb_value Show(mrb_state* p_state, mrb_value self)
  */
 mrb_value Hide(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	p_sprite->Set_Active(false);
 	return mrb_nil_value();
 }
@@ -134,8 +132,7 @@ mrb_value Hide(mrb_state* p_state, mrb_value self)
  */
 mrb_value Get_UID(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	return mrb_fixnum_value(p_sprite->m_uid);
 }
@@ -162,10 +159,9 @@ mrb_value Get_UID(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_sym typesym;
 	std::string type;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "n", &typesym);
 	type = mrb_sym2name(p_state, typesym);
 
@@ -194,8 +190,7 @@ static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
  */
 mrb_value Get_X(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	return mrb_fixnum_value(p_sprite->m_pos_x);
 }
@@ -209,8 +204,7 @@ mrb_value Get_X(mrb_state* p_state, mrb_value self)
  */
 mrb_value Get_Y(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	return mrb_fixnum_value(p_sprite->m_pos_y);
 }
@@ -224,9 +218,8 @@ mrb_value Get_Y(mrb_state* p_state, mrb_value self)
  */
 mrb_value Set_X(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_int x;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "i", &x);
 
 	p_sprite->Set_Pos_X(x);
@@ -243,9 +236,8 @@ mrb_value Set_X(mrb_state* p_state, mrb_value self)
  */
 mrb_value Set_Y(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_int y;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "i", &y);
 
 	p_sprite->Set_Pos_Y(y);
@@ -262,8 +254,7 @@ mrb_value Set_Y(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Start_X(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	return mrb_fixnum_value(p_sprite->m_start_pos_x);
 }
@@ -277,8 +268,7 @@ static mrb_value Get_Start_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Start_Y(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	return mrb_fixnum_value(p_sprite->m_start_pos_y);
 }
@@ -292,9 +282,8 @@ static mrb_value Get_Start_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_int start_x;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "i", &start_x);
 
 	p_sprite->Set_Pos_X(start_x, true);
@@ -311,9 +300,8 @@ static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_int start_y;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "i", &start_y);
 
 	p_sprite->Set_Pos_X(start_y, true);
@@ -331,8 +319,7 @@ static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Z(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	return mrb_fixnum_value(p_sprite->m_pos_z);
 }
@@ -350,8 +337,7 @@ static mrb_value Get_Z(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Pos(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	mrb_value result = mrb_ary_new(p_state);
 	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_x));
@@ -373,8 +359,7 @@ static mrb_value Pos(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Start_Pos(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	mrb_value result = mrb_ary_new(p_state);
 	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_x));
@@ -392,8 +377,7 @@ static mrb_value Start_Pos(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Rect(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	mrb_value result = mrb_ary_new(p_state);
 	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_x));
@@ -413,8 +397,7 @@ static mrb_value Rect(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Collision_Rect(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	mrb_value result = mrb_ary_new(p_state);
 	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_x));
@@ -447,10 +430,9 @@ static mrb_value Collision_Rect(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Warp(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_int x;
 	mrb_int y;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "ii", &x, &y);
 
 	p_sprite->Set_Pos(x, y);
@@ -474,10 +456,9 @@ static mrb_value Warp(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Start_At(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = NULL;
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_int start_x;
 	mrb_int start_y;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
 	mrb_get_args(p_state, "ii", &start_x, &start_y);
 
 	p_sprite->Set_Pos(start_x, start_y, true);
@@ -499,8 +480,7 @@ static mrb_value Start_At(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Player(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = NULL;
-	Data_Get_Struct(p_state, self, &rtSprite, p_sprite);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
 	if (p_sprite == pLevel_Player)
 		return mrb_true_value();
