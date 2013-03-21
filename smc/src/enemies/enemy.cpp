@@ -20,7 +20,7 @@
 #include "../core/game_core.h"
 #include "../level/level_player.h"
 #include "../level/level_manager.h"
-#include "../script/events/die_event.h"
+#include "../scripting/events/die_event.h"
 
 namespace SMC
 {

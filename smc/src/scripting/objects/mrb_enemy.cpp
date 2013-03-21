@@ -3,6 +3,7 @@
 #include "mrb_animated_sprite.h"
 #include "../../enemies/enemy.h"
 #include "../../gui/hud.h"
+#include "../events/event.h"
 
 /**
  * Class: Enemy
