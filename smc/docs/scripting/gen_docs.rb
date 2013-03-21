@@ -69,7 +69,7 @@ class Parser
   end
 
   def parse_file(path)
-    print "\rExamining #{path.relative_path_from(Pathname.pwd)}"
+    puts "Examining #{path.relative_path_from(Pathname.pwd)}..."
     path.open do |file|
       file.each_line.with_index do |line, lino|
         if @document_block_open
