@@ -21,6 +21,7 @@
 // Some defines to ease use of mruby
 #define MRB_ARGUMENT_ERROR(mrb) (mrb_class_obj_get(mrb, "ArgumentError"))
 #define MRB_RUNTIME_ERROR(mrb) (mrb_class_obj_get(mrb, "RuntimeError"))
+#define MRB_TYPE_ERROR(mrb) (mrb_class_obj_get(mrb, "TypeError"))
 
 namespace SMC {
 	namespace Scripting {
@@ -34,6 +35,27 @@ namespace SMC {
 		// Takes a C(++) string and directly returns an MRuby
 		// symbol object (not an mrb_sym!) for it.
 		inline mrb_value str2sym(mrb_state* mrb, std::string str){ return mrb_symbol_value(mrb_intern(mrb, str.c_str())); }
+
+		// More permissive version of MRuby’s Data_Get_Struct(). This
+		// function doesn’t check the type pointer, which is totally
+		// useless for wrapping C++ class hierarchies, because MRuby
+		// doesn’t recgonize a pointer can actually be valid for the
+		// the parent type and just throws an exception. This function
+		// just checks if 'obj` doesn’t contain an entirely invalid
+		// pointer and raises a TypeError if so. Otherwise returns
+		// the pointer. Use MRuby’s RDATA_PTR() directly if you don’t
+		// want an exception in this case.
+		template<typename T>
+		T* Get_Data_Ptr(mrb_state* p_state, mrb_value obj)
+		{
+			T* p_result = (T*) DATA_PTR(obj);
+			if (!p_result) {
+				mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Unexpected NULL pointer. This is most likely an SMC bug.");
+				return NULL; // Not reached
+			}
+
+			return p_result;
+		}
 
 		class cMRuby_Interpreter {
 		public:

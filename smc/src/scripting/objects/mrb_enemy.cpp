@@ -19,8 +19,7 @@ struct mrb_data_type SMC::Scripting::rtEnemy = {"Enemy", NULL};
  */
 static mrb_value Kill(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = NULL;
-	Data_Get_Struct(p_state, self, &rtEnemy, p_enemy);
+	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
 
 	p_enemy->Set_Dead(true);
 	return mrb_nil_value();
