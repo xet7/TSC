@@ -7,9 +7,6 @@
 [submodule "mruby/mgems/mruby-pcre-regexp"]
 	path = mruby/mgems/mruby-pcre-regexp
 	url = git://github.com/mattn/mruby-pcre-regexp.git
-[submodule "mruby/mgems/mruby-simple-random"]
-	path = mruby/mgems/mruby-simple-random
-	url = git://github.com/iij/mruby-simple-random.git
 [submodule "mruby/mgems/mruby-md5"]
 	path = mruby/mgems/mruby-md5
 	url = git://github.com/mattn/mruby-md5.git
