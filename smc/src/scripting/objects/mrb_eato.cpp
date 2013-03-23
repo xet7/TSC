@@ -9,7 +9,7 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcEato     = NULL;
-struct mrb_data_type SMC::Scripting::rtEato = {"Enemy", NULL};
+struct mrb_data_type SMC::Scripting::rtEato = {"Eato", NULL};
 
 /**
  * Method: Eato::new
