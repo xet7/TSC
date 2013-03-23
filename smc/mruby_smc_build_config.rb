@@ -8,17 +8,21 @@ MRUBY_DIR = File.join(THIS_DIR, "..", "mruby", "mruby")
 
 config = lambda do |conf|
   # Some standard things included with mruby
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-print" # #p, #puts, #print
   conf.gem "#{MRUBY_DIR}/mrbgems/mruby-math" # Math
   conf.gem "#{MRUBY_DIR}/mrbgems/mruby-time" # Time
   conf.gem "#{MRUBY_DIR}/mrbgems/mruby-struct" # Struct
   conf.gem "#{MRUBY_DIR}/mrbgems/mruby-sprintf" # #sprintf
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-string-ext" # More string stuff
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-enum-ext" # Enumerable
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-string-ext" # Strings
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-numeric-ext" # Numbers
   conf.gem "#{MRUBY_DIR}/mrbgems/mruby-array-ext" # Arrays
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-hash-ext" # Hashes
+  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-random" # Random
 
   # Additional things
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-sleep"         # Sleep
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-pcre-regexp"   # PCRE Regular Expressions
-  #conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-simple-random" # #rand, #srand # Does not work on Windows
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-md5"           # MD5
 end
 
