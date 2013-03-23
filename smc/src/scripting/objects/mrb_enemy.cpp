@@ -35,6 +35,12 @@ MRUBY_IMPLEMENT_EVENT(die);
 struct RClass* SMC::Scripting::p_rcEnemy     = NULL;
 struct mrb_data_type SMC::Scripting::rtEnemy = {"Enemy", NULL};
 
+static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
+{
+	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+	return self; // Not reached
+}
+
 /**
  * Method: Enemy#kill!
  *
@@ -198,9 +204,7 @@ void SMC::Scripting::Init_Enemy(mrb_state* p_state)
 	p_rcEnemy = mrb_define_class(p_state, "Enemy", p_rcAnimated_Sprite);
 	MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);
 
-	// For now, forbid creating generic enemies
-	mrb_undef_class_method(p_state, p_rcEnemy, "new");
-
+	mrb_define_method(p_state, p_rcEnemy, "initialize", Initialize, ARGS_NONE());
 	mrb_define_method(p_state, p_rcEnemy, "kill_points", Get_Kill_Points, ARGS_NONE());
 	mrb_define_method(p_state, p_rcEnemy, "kill_points=", Set_Kill_Points, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcEnemy, "kill_sound", Get_Kill_Sound, ARGS_NONE());

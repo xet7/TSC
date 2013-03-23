@@ -21,7 +21,15 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rcAnimated_Sprite = NULL;
 struct mrb_data_type SMC::Scripting::rtAnimated_Sprite = {"AnimatedSprite", NULL};
 
+static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
+{
+	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+	return self; // Not reached
+}
+
 void SMC::Scripting::Init_Animated_Sprite(mrb_state* p_state)
 {
 	p_rcAnimated_Sprite = mrb_define_class(p_state, "AnimatedSprite", p_rcMoving_Sprite);
+
+	mrb_define_method(p_state, p_rcAnimated_Sprite, "initialize", Initialize, ARGS_NONE());
 }

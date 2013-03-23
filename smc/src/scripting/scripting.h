@@ -22,6 +22,7 @@
 #define MRB_ARGUMENT_ERROR(mrb) (mrb_class_obj_get(mrb, "ArgumentError"))
 #define MRB_RUNTIME_ERROR(mrb) (mrb_class_obj_get(mrb, "RuntimeError"))
 #define MRB_TYPE_ERROR(mrb) (mrb_class_obj_get(mrb, "TypeError"))
+#define MRB_NOTIMP_ERROR(mrb) (mrb_class_obj_get(mrb, "NotImplementedError"))
 
 namespace SMC {
 	namespace Scripting {

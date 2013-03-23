@@ -74,6 +74,13 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rcMoving_Sprite = NULL;
 struct mrb_data_type SMC::Scripting::rtMoving_Sprite = {"MovingSprite", NULL};
 
+static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
+{
+	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+	return self; // Not reached
+}
+
+
 /**
  * Method: MovingSprite#accelerate!
  *
@@ -449,6 +456,7 @@ void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
 	p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", p_rcSprite);
 
+	mrb_define_method(p_state, p_rcMoving_Sprite, "initialize", Initialize, ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_x!", Accelerate_X, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_y!", Accelerate_Y, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate!", Accelerate, ARGS_REQ(2));
