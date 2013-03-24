@@ -24,6 +24,7 @@ config = lambda do |conf|
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-sleep"         # Sleep
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-pcre-regexp"   # PCRE Regular Expressions
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-md5"           # MD5
+  conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-json"          # JSON
 end
 
 MRuby::Build.new do |conf|
