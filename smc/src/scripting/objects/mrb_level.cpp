@@ -1,4 +1,8 @@
+// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../../level/level.h"
+#include "../../user/savegame.h"
+#include "../events/event.h"
+#include "mrb_eventable.h"
 #include "mrb_level.h"
 
 /**
@@ -40,7 +44,7 @@
  * # causing the respective entry in the
  * # global `switches' table to change.
  * UIDS[114].on_touch do |collidor|
- *   switches[:red] = true if collidor:player?
+ *   switches[:red] = true if collidor.player?
  * end
  *
  * # Now, if the player jumps on your switch and
@@ -48,14 +52,18 @@
  * # gets lost. To prevent this, we define handlers
  * # for the `save' and `load' events that persist
  * # the state of the global `switches' table.
- * # See below to see why we cannot dump the booleans
+ * # See below to see why we don’t dump the symbols
  * # into the savegame.
- * Level.on_save do |hsh|
- *   hsh.replace(switches)
+ * Level.on_save do |store|
+ *   store["blue"]  = switches[:blue]
+ *   store["red"]   = switches[:red]
+ *   store["green"] = switches[:green]
  * end
  *
- * Level.on_load do |hsh|
- *   switches.replace(hsh)
+ * Level.on_load do |store|
+ *   switches[:blue]  = store["blue"]
+ *   switches[:red]   = store["red"]
+ *   switches[:green] = store["green"]
  * end
  *
  * # This way the switches will remain in their
@@ -65,17 +73,23 @@
  * # in your event handlers, though.
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
- * Please note that the complexity of the table to be stored inside the
- * savegame is fairly limited. You can store an aribtrary number of
- * entries inside it (as long as you don’t overfill the user’s hard
- * drive), but they *keys have to be strings*. No other type is allowed
- * for the sake of an easy internal handling in the C++ code. Likewise,
- * the table’s values must be *convertible* to strings, i.e. although they
- * don’t have to be strings itself, they have to be easily convertible
- * into strings. Numbers and of course strings are fine for
- * this. Nested tables are not allowed either. Furthermore, after
- * restoring the table from the savegame, both the keys *and* the values
- * will be strings.
+ * Please note that the hash yielded to the block of the `save` event
+ * gets converted to JSON for persistency. This comes with a major
+ * limitation: You can’t store arbitrary MRuby objects in this hash,
+ * and if you do, they will be autoconverted to strings, which is
+ * most likely not what you want. So please stick with the primitive
+ * types JSON supports, especially with regard to symbols (as keys
+ * and values), which are converted to strings and therefore will
+ * show up as strings in the parameter of the `load` event’s callback.
+ *
+ * You are advised to not register more than one event handler for
+ * the `save` and `load` events, respectively. While this is possible,
+ * it has several drawbacks:
+ *
+ * * For the `save` event, the lastly called event handler decides
+ *   which data to store. The other’s data gets skipped.
+ * * For the `load` event, the JSON data gets parsed once per callback,
+ *   putting unnecessary strain on the game and delaying level loading.
  *
  * Internal note
  * -------------
@@ -84,28 +98,31 @@
  * singleton actually doesn’t wrap SMC’s notion of the currently running
  * level, `pActive_Level`, but rather the pointer to the savegame
  * mechanism, `pSavegame`. This facilitates the handling of the event
- * table for levels.
+ * table for levels. Also, it is more intuitively to have the `Save`
+ * and `Load` events defined on the Level rather than on a separate
+ * Savegame object.
  *
  * Events
  * ------
  *
  * Load
  * : Called when the user loads a savegame containing this level. The
- *   event handler gets passed a Lua table containing any values
- *   requested in the **save** event’s handler, but note both the keys
- *   and values are strings now. Do not assume your level is active when
- *   this is called, the player may be in a sublevel (however, usually
+ *   event handler gets passed a hash containing any values
+ *   requested in the **save** event’s handler, but note it was
+ *   deserialised from a JSON representation and hence subject to its
+ *   limits. Do not assume your level is active when this is called,
+ *   the player may be in a sublevel (however, usually
  *   this has no impact on what you want to restore, but don’t try to
  *   warp the player or things like that, it will result in undefined
  *   behaviour probably leading SMC to crash).
  *
  * Save
- * : Called when the users saves a game. The event handler should return
- *   a table containing all the values you want to preserve between level
- *   loading and saving, but please see the explanations further above
- *   regarding the limitations of this table. Do not assume your level is
- *   active when this is called, because the player may be in a sublevel
- *   (however, usually this has no impact on what you want to save).
+ * : Called when the users saves a game. The event handler should store
+ *   all values you want to preserve between level loading in saving
+ *   in the hash it receives as a parameter, but please see the explanations
+ *   further above regarding the limitations of this hash. Do not assume your
+ *   level is active when this is called, because the player may be in a
+ *   sublevel (however, usually this has no impact on what you want to save).
  */
 
 using namespace SMC;
@@ -116,10 +133,17 @@ struct RClass* SMC::Scripting::p_rcLevel     = NULL;
 struct mrb_data_type SMC::Scripting::rtLevel = {"Level", NULL};
 
 /***************************************
+ * Events
+ ***************************************/
+
+MRUBY_IMPLEMENT_EVENT(load);
+MRUBY_IMPLEMENT_EVENT(save);
+
+/***************************************
  * Methods
  ***************************************/
 
-static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
+static mrb_value Initialize(mrb_state* p_state,	 mrb_value self)
 {
 	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
 	return self; // Not reached
@@ -132,15 +156,23 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  *
  * Returns the content of the level’s *Author* info field.
  */
-static mrb_value Get_Author(mrb_state* p_state,  mrb_value self)
+static mrb_value Get_Author(mrb_state* p_state,	 mrb_value self)
 {
 	return mrb_str_new_cstr(p_state, pActive_Level->m_author.c_str());
 }
 
 void SMC::Scripting::Init_Level(mrb_state* p_state)
 {
-  p_rcLevel = mrb_define_class(p_state, "Level", p_state->object_class);
+	p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
+	mrb_include_module(p_state, p_rcLevel, p_rmEventable);
+	MRB_SET_INSTANCE_TT(p_rcLevel, MRB_TT_DATA);
 
-  mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, ARGS_NONE());
-  mrb_define_method(p_state, p_rcLevel, "author", Get_Author, ARGS_NONE());
+	// Make the Level constant the only instance of LevelClass
+	mrb_define_const(p_state, p_state->object_class, "Level", pSavegame->Create_MRuby_Object(p_state));
+
+	mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "author", Get_Author, ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), ARGS_NONE());
 }

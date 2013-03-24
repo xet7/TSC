@@ -24,8 +24,8 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
-#include "../script/events/level_load_event.h"
-#include "../script/events/level_save_event.h"
+#include "../scripting/events/level_load_event.h"
+#include "../scripting/events/level_save_event.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -403,8 +403,8 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 			// Feed the data stored by the save event back
 			// to the load event. pSavegame holds the event
 			// table required for this.
-			Script::cLevel_Load_Event event(&(save_level->m_lua_data));
-			event.Fire(level->m_lua, pSavegame);
+			Scripting::cLevel_Load_Event evt(save_level->m_mruby_data);
+			evt.Fire(level->m_mruby, pSavegame);
 		}
 	}
 
@@ -466,9 +466,10 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 
 				// Custom data a script writer wants to store in the
 				// savegame (pSavegame holds the event table for the
-				// level saving events). Populates save_level.m_lua_data.
-				Script::cLevel_Save_Event evt(&(save_level->m_lua_data));
-				evt.Fire(pActive_Level->m_lua, pSavegame);
+				// level saving events).
+				Scripting::cLevel_Save_Event evt;
+				evt.Fire(pActive_Level->m_mruby, pSavegame);
+				save_level->m_mruby_data = evt.Get_Save_Data();
 			}
 
 			// spawned objects
@@ -664,17 +665,10 @@ int cSavegame :: Save( unsigned int save_slot, cSave *savegame )
 			Write_Property( stream, "player_posx", level->m_level_pos_x );
 			Write_Property( stream, "player_posy", level->m_level_pos_y );
 		}
-		// lua data is only set when saving the active level and
-		// the script writer added something to it
-		if (!level->m_lua_data.empty()){
-			Lua_Save_Data::iterator iter;
-			stream.openTag("lua_data");
-			// Iterate through the converted (from Lua to C++) table
-			// and translate the content to XML.
-			for(iter = level->m_lua_data.begin(); iter != level->m_lua_data.end(); iter++)
-				Write_Property(stream, (*iter).first, (*iter).second);
-
-			stream.closeTag();
+		// mruby data is only set when saving the active level and
+		// the script writer added something to it.
+		if (!level->m_mruby_data.empty()){
+			Write_Property(stream, "mruby_data", level->m_mruby_data);
 		}
 
 		// begin
@@ -846,7 +840,6 @@ cSavegame_XML_Handler :: cSavegame_XML_Handler( const std::string &filename )
 	}
 
 	m_savegame = new cSave();
-	m_parsing_lua_data = false;
 
 	std::string xsd_name;
 	if( m_old_format )
@@ -899,25 +892,11 @@ cSave *cSavegame_XML_Handler :: Acquire_Savegame( void )
 // Called by CEGUI for an opening XML tag of any level.
 void cSavegame_XML_Handler :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
 {
-	if (m_parsing_lua_data){
-		// If we’re currently in an opened lua_data tag,
-		// collect any found properties into a separate table.
-		if (element == "property")
-			m_lua_saved_data[attributes.getValueAsString("name").c_str()] = attributes.getValueAsString("value").c_str();
-		else if (element == "Property")
-			m_lua_saved_data[attributes.getValueAsString("Name").c_str()] = attributes.getValueAsString("Value").c_str();
-	}
-	else{
-		// Otherwise, collect the properties into the main
-    // table and if we find an opening lua_data tag,
-    // swap to lua data collecting mode (see above).
-		if( element == "property" )
-			m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-		else if( element == "Property" )
-			m_xml_attributes.add( attributes.getValueAsString( "Name" ), attributes.getValueAsString( "Value" ) );
-    else if ( element == "lua_data" || element == "Lua_Data" )
-      m_parsing_lua_data = true;
-	}
+	// Collect the properties into the main table
+	if( element == "property" )
+		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
+	else if( element == "Property" )
+		m_xml_attributes.add( attributes.getValueAsString( "Name" ), attributes.getValueAsString( "Value" ) );
 }
 
 // Called by CEGUI for a closing XML tag of any level.
@@ -925,11 +904,6 @@ void cSavegame_XML_Handler :: elementEnd( const CEGUI::String &element )
 {
 	if( element == "property" || element == "Property" )
 	{ // Properties are completely handled in elementStart()
-		return;
-	}
-	else if (element == "lua_data" || element == "Lua_Data")
-	{ // Stop lua data collecting mode in elementStart()
-		m_parsing_lua_data = false;
 		return;
 	}
 
@@ -1005,6 +979,7 @@ void cSavegame_XML_Handler :: Handle_Level( const CEGUI::XMLAttributes &attribut
 	save_level->m_name = m_xml_attributes.getValueAsString( "level_name" ).c_str();
 	save_level->m_level_pos_x = m_xml_attributes.getValueAsFloat( "player_posx" );
 	save_level->m_level_pos_y = m_xml_attributes.getValueAsFloat( "player_posy" );
+	save_level->m_mruby_data  = m_xml_attributes.getValueAsString( "mruby_data" ).c_str();
 
 	/* Restore object lists. Note the lists in `save_level' are
 	 * currently empty (it’s a new object) and hence swapping
@@ -1014,8 +989,6 @@ void cSavegame_XML_Handler :: Handle_Level( const CEGUI::XMLAttributes &attribut
 	save_level->m_level_objects.swap( m_level_objects );
 	// set level spawned objects
 	save_level->m_spawned_objects.swap( m_level_spawned_objects );
-	// set data saved via the save event
-	save_level->m_lua_data.swap( m_lua_saved_data );
 
 	// Add this level to the list of levels for this
 	// savegame.
@@ -1046,7 +1019,7 @@ void cSavegame_XML_Handler :: Handle_Level_Object( const CEGUI::XMLAttributes &a
 		std::string property_name = m_xml_attributes.getName( i ).c_str();
 
 		// ignore level attributes
-		if( property_name.compare( "level_name" ) == 0 || property_name.compare( "player_posx" ) == 0 || property_name.compare( "player_posy" ) == 0 )
+		if( property_name.compare( "level_name" ) == 0 || property_name.compare( "player_posx" ) == 0 || property_name.compare( "player_posy" ) == 0 || property_name.compare( "mruby_data" ) == 0)
 		{
 			continue;
 		}

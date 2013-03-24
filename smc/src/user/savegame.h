@@ -18,6 +18,7 @@
 
 #include "../objects/sprite.h"
 #include "../script/scriptable_object.h"
+#include "../scripting/objects/mrb_level.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
 #include "CEGUIXMLAttributes.h"
@@ -116,7 +117,7 @@ public:
 	cSprite_List m_spawned_objects;
 
 	// Data a script writer wants to store
-	Lua_Save_Data m_lua_data;
+	std::string m_mruby_data;
 };
 
 typedef vector<cSave_Level *> Save_LevelList;
@@ -198,6 +199,14 @@ public:
 	// Save a Save
 	int Save( unsigned int save_slot, cSave *savegame );
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		// See docs in mrb_level.cpp for why we associate ourself
+		// with the Level class here instead of a savegame class.
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLevel, &Scripting::rtLevel, this));
+	}
+
 	// Returns only the Savegame description
 	std::string Get_Description( unsigned int save_slot, bool only_description = 0 );
 
@@ -253,8 +262,6 @@ public:
 
 	// object we are constructing
 	cSave *m_savegame;
-private:
-	bool m_parsing_lua_data;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
