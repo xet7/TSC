@@ -12,6 +12,7 @@
 #include "objects/mrb_animated_sprite.h"
 #include "objects/mrb_level.h"
 #include "objects/mrb_level_player.h"
+#include "objects/mrb_audio.h"
 #include "objects/mrb_uids.h"
 #include "objects/mrb_enemy.h"
 #include "objects/mrb_eato.h"
@@ -142,6 +143,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Animated_Sprite(p_state);
 	Init_Level(p_state);
 	Init_Level_Player(p_state);
+	Init_Audio(p_state);
 	Init_Enemy(p_state);
 	Init_Eato(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined

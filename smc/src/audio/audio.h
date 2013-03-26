@@ -18,6 +18,8 @@
 
 #include "../core/global_basic.h"
 #include "../audio/sound_manager.h"
+#include "../script/scriptable_object.h"
+#include "../scripting/objects/mrb_audio.h"
 
 namespace SMC
 {
@@ -83,7 +85,7 @@ typedef vector<cAudio_Sound *> AudioSoundList;
 
 /* *** *** *** *** *** *** *** Audio class *** *** *** *** *** *** *** *** *** *** */
 
-class cAudio
+class cAudio: public Script::cScriptable_Object
 {
 public:
 	cAudio( void );
@@ -93,6 +95,14 @@ public:
 	bool Init( void );
 	// De-initializes Audio Engine
 	void Close( void );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		// See docs in mrb_level.cpp for why we associate ourself
+		// with the Level class here instead of a savegame class.
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcAudio, &Scripting::rtAudio, this));
+	}
 
 	// Set the maximum number of sounds playable at once
 	void Set_Max_Sounds( unsigned int limit = 10 );
