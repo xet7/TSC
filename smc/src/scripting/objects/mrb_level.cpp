@@ -161,6 +161,150 @@ static mrb_value Get_Author(mrb_state* p_state,	 mrb_value self)
 	return mrb_str_new_cstr(p_state, pActive_Level->m_author.c_str());
 }
 
+/**
+ * Method: Level#description
+ *
+ *   description() → a_string
+ *
+ * Returns the content of the level’s *Description* info field.
+ */
+static mrb_value Get_Description(mrb_state* p_state, mrb_value self)
+{
+	return mrb_str_new_cstr(p_state, pActive_Level->m_description.c_str());
+}
+
+/**
+ * Method: Level#difficulty
+ *
+ *   difficulty() → an_integer
+ *
+ * Returns the content of the level’s *Difficulty* info field.
+ * This reaches from 0 (undefined) over 1 (very easy) to 100
+ * ((mostly) uncompletable),
+ */
+static mrb_value Get_Difficulty(mrb_state* p_state, mrb_value self)
+{
+	return mrb_fixnum_value(pActive_Level->m_difficulty);
+}
+
+/**
+ * Method: Level#engine_version
+ *
+ *   engine_version() → an_integer
+ *
+ * Returns the SMC engine version used to create the level.
+ */
+static mrb_value Get_Engine_Version(mrb_state* p_state, mrb_value self)
+{
+	return mrb_fixnum_value(pActive_Level->m_engine_version);
+}
+
+/**
+ * Method: Level#filename
+ *
+ *   filename() → a_string
+ *
+ * Returns the level’s filename.
+ */
+static mrb_value Get_Filename(mrb_state* p_state, mrb_value self)
+{
+	return mrb_str_new_cstr(p_state, pActive_Level->m_level_filename.c_str());
+}
+
+/**
+ * Method: Level#music_filename
+ *
+ *   music_filename( [ format [, with_ext ] ] ) → a_string
+ *
+ * Returns the default level music’s filename.
+ *
+ * #### Parameters
+ *
+ * format (:remove_nothing)
+ * : Specifies the format of the path string
+ *   returned. :remove_complete_dir returns only the bare filename,
+ *   :remove_music_dir returns a path relative to the `music/` directory
+ *   and :remove_nothing returns an absolute path.
+ *
+ * with_ext (false)
+ * : If set, the returned path will not have a file extension.
+ */
+static mrb_value Get_Music_Filename(mrb_state* p_state, mrb_value self)
+{
+	mrb_sym sym;
+	mrb_value with_ext;
+	int argc = mrb_get_args(p_state, "|no", &sym, &with_ext);
+
+	std::string format;
+	if (argc > 0)
+		format = mrb_sym2name(p_state, sym);
+	else
+		format = "remove_nothing";
+
+	std::string result;
+	if (format == "remove_complete_dir")
+		result = pActive_Level->Get_Music_Filename(0, mrb_test(with_ext));
+	else if (format == "remove_music_dir")
+		result = pActive_Level->Get_Music_Filename(1, mrb_test(with_ext));
+	else if (format == "remove_nothing")
+		result = pActive_Level->Get_Music_Filename(2, mrb_test(with_ext));
+	else
+		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid directory format specifier '%s'", mrb_sym2name(p_state, sym));
+
+	return mrb_str_new_cstr(p_state, result.c_str());
+}
+
+/**
+ * Method: Level#script
+ *
+ *   script() → a_string
+ *
+ * Returns the MRuby code associated with this level.
+ */
+static mrb_value Get_Script(mrb_state* p_state, mrb_value self)
+{
+	return mrb_str_new_cstr(p_state, pActive_Level->m_script.c_str());
+}
+
+/**
+ * Method: Level#next_level_filename
+ *
+ *   next_level_filename() → a_string
+ *
+ * If a new level shall automatically be loaded when this level
+ * completes, this returns the filename of the target level. Otherwise
+ * the return value is undefined, but most likely an empty string.
+ */
+static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
+{
+	return mrb_str_new_cstr(p_state, pActive_Level->m_next_level_filename.c_str());
+}
+
+/**
+ * Method: Level#finish
+ *
+ *   finish( [ win_music ] )
+ *
+ * The player immediately wins the level and the game resumes to the
+ * world overview, advancing to the next level point. If the level was
+ * loaded using the level menu directly (and hence there is no
+ * overworld), returns to the level menu.
+ *
+ * #### Parameters
+ *
+ * win_music (false)
+ * : If set, plays the level win music.
+ */
+static mrb_value Finish(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "|o", &obj);
+
+	pLevel_Manager->Finish_Level(mrb_test(obj));
+	return mrb_nil_value();
+}
+
+
 void SMC::Scripting::Init_Level(mrb_state* p_state)
 {
 	p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
@@ -172,6 +316,14 @@ void SMC::Scripting::Init_Level(mrb_state* p_state)
 
 	mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "author", Get_Author, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "description", Get_Description, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "difficulty", Get_Difficulty, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "engine_version", Get_Engine_Version, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "filename", Get_Filename, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, ARGS_OPT(2));
+	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "finish", Finish, ARGS_OPT(1));
 
 	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), ARGS_NONE());
