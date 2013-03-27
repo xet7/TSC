@@ -68,8 +68,11 @@ namespace SMC {
 			bool m_halt;
 		};
 
+		extern struct RClass* p_rcTimer;
+		extern mrb_data_type rtTimer;
+
 		// Usual function for initialising the binding
-		void Init_Timers(mrb_state* p_state);
+		void Init_Timer(mrb_state* p_state);
 	}
 }
 

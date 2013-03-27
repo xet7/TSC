@@ -14,6 +14,7 @@
 #include "objects/mrb_level_player.h"
 #include "objects/mrb_audio.h"
 #include "objects/mrb_input.h"
+#include "objects/mrb_timer.h"
 #include "objects/mrb_uids.h"
 #include "objects/mrb_enemy.h"
 #include "objects/mrb_eato.h"
@@ -132,7 +133,7 @@ namespace SMC
 		{
 			// Note we need to lock the access to the list of callbacks
 			// to prevent race conditions.
-			boost::lock_guard<boost::mutex> _lock(*mp_callback_mutex);
+			boost::lock_guard<boost::mutex> _lock(m_callback_mutex);
 			m_callbacks.push_back(callback);
 		}
 
@@ -140,7 +141,12 @@ namespace SMC
 		{
 			// Note we need to lock the access to the list of callbacks
 			// to prevent race conditions.
-			boost::lock_guard<boost::mutex> _lock(*mp_callback_mutex);
+			boost::lock_guard<boost::mutex> _lock(m_callback_mutex);
+
+			// Don’t put unnecessary strain in the mainloop (this method
+			// is called once a frame!) if no timers are there.
+			if (m_callbacks.empty())
+				return;
 
 			// Iterate through the list of registered callbacks
 			// and evaluate each one
@@ -175,6 +181,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Level_Player(p_state);
 	Init_Input(p_state);
 	Init_Audio(p_state);
+	Init_Timer(p_state);
 	Init_Enemy(p_state);
 	Init_Eato(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined

@@ -13,6 +13,7 @@
 #include <mruby/proc.h>
 #include <mruby/array.h>
 #include <boost/filesystem.hpp>
+#include <boost/thread/thread.hpp>
 
 #include "../core/global_game.h"
 
