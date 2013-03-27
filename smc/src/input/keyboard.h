@@ -19,6 +19,7 @@
 #include "../core/global_basic.h"
 #include "../core/global_game.h"
 #include "../script/scriptable_object.h"
+#include "../scripting/objects/mrb_input.h"
 // SDL
 #include "SDL.h"
 
@@ -32,6 +33,14 @@ class cKeyboard: public Script::cScriptable_Object
 public:
 	cKeyboard( void );
 	~cKeyboard( void );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		// Someone needs to hold the event table, hence I decided
+		// pKeyboard should do this.
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcInput, &Scripting::rtInput, this));
+	}
 
 	// Reset all keys
 	void Reset_Keys( void );

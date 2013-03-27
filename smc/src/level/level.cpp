@@ -55,9 +55,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../overworld/world_editor.h"
-#include "../script/script.h"
-#include "../script/events/key_down_event.h"
-#include "../script/events/level_save_event.h"
+#include "../scripting/events/key_down_event.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIExceptions.h"
@@ -777,57 +775,57 @@ bool cLevel :: Key_Down( const SDLKey key )
 	// Shoot
 	else if( key == pPreferences->m_key_shoot && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("shoot");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("shoot");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Shoot();
 	}
 	// Jump
 	else if( key == pPreferences->m_key_jump && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("jump");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("jump");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Jump();
 	}
 	// Action
 	else if( key == pPreferences->m_key_action && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("action");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("action");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Interact( INP_ACTION );
 	}
 	// Up
 	else if( key == pPreferences->m_key_up && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("up");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("up");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Interact( INP_UP );
 	}
 	// Down
 	else if( key == pPreferences->m_key_down && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("down");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("down");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Interact( INP_DOWN );
 	}
 	// Left
 	else if( key == pPreferences->m_key_left && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("left");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("left");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Interact( INP_LEFT );
 	}
 	// Right
 	else if( key == pPreferences->m_key_right && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("right");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("right");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Interact( INP_RIGHT );
 	}
 	// Request Item
 	else if( key == pPreferences->m_key_item && !editor_enabled )
 	{
-		Script::cKeyDownEvent evt("item");
-		evt.Fire(m_lua, pKeyboard);
+		Scripting::cKeyDown_Event evt("item");
+		evt.Fire(m_mruby, pKeyboard);
 		pLevel_Player->Action_Interact( INP_ITEM );
 	}
 	// God Mode

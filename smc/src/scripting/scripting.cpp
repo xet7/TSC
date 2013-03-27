@@ -13,6 +13,7 @@
 #include "objects/mrb_level.h"
 #include "objects/mrb_level_player.h"
 #include "objects/mrb_audio.h"
+#include "objects/mrb_input.h"
 #include "objects/mrb_uids.h"
 #include "objects/mrb_enemy.h"
 #include "objects/mrb_eato.h"
@@ -143,6 +144,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Animated_Sprite(p_state);
 	Init_Level(p_state);
 	Init_Level_Player(p_state);
+	Init_Input(p_state);
 	Init_Audio(p_state);
 	Init_Enemy(p_state);
 	Init_Eato(p_state);
