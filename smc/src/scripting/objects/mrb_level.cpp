@@ -150,7 +150,7 @@ static mrb_value Initialize(mrb_state* p_state,	 mrb_value self)
 }
 
 /**
- * Method: Level#author
+ * Method: LevelClass#author
  *
  *   author() → a_string
  *
@@ -162,7 +162,7 @@ static mrb_value Get_Author(mrb_state* p_state,	 mrb_value self)
 }
 
 /**
- * Method: Level#description
+ * Method: LevelClass#description
  *
  *   description() → a_string
  *
@@ -174,7 +174,7 @@ static mrb_value Get_Description(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#difficulty
+ * Method: LevelClass#difficulty
  *
  *   difficulty() → an_integer
  *
@@ -188,7 +188,7 @@ static mrb_value Get_Difficulty(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#engine_version
+ * Method: LevelClass#engine_version
  *
  *   engine_version() → an_integer
  *
@@ -200,7 +200,7 @@ static mrb_value Get_Engine_Version(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#filename
+ * Method: LevelClass#filename
  *
  *   filename() → a_string
  *
@@ -212,7 +212,7 @@ static mrb_value Get_Filename(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#music_filename
+ * Method: LevelClass#music_filename
  *
  *   music_filename( [ format [, with_ext ] ] ) → a_string
  *
@@ -255,7 +255,7 @@ static mrb_value Get_Music_Filename(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#script
+ * Method: LevelClass#script
  *
  *   script() → a_string
  *
@@ -267,7 +267,7 @@ static mrb_value Get_Script(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#next_level_filename
+ * Method: LevelClass#next_level_filename
  *
  *   next_level_filename() → a_string
  *
@@ -281,7 +281,7 @@ static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Level#finish
+ * Method: LevelClass#finish
  *
  *   finish( [ win_music ] )
  *
