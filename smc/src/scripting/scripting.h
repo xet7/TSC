@@ -70,6 +70,14 @@ namespace SMC {
 			// contain a human-readable description and
 			// false is returned, true otherwise.
 			bool Run_Code(const std::string& code, std::string& errormsg);
+			// Registers an MRuby callback to be called on the next
+			// call to Evaluate_Timer_Callbacks(). `callback'
+			// is an MRuby proc.
+			// This method is threadsafe.
+			void Register_Callback(mrb_value callback);
+			// Runs all callbacks whose timers have fired.
+			// This method is threadsafe.
+			void Evaluate_Timer_Callbacks();
 			// Returns the underlying mrb_state*.
 			mrb_state* Get_MRuby_State();
 			// Returns the cLevel* we’re associated with.
@@ -77,6 +85,8 @@ namespace SMC {
 		private:
 			mrb_state* mp_mruby;
 			cLevel* mp_level;
+			std::vector<mrb_value> m_callbacks;
+			boost::mutex m_callback_mutex;
 
 			// Does basic setup and then executes the main.rb file.
 			void Load_Scripts();

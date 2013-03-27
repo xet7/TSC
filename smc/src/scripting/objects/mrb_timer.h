@@ -1,28 +1,22 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#ifndef SMC_SCRIPT_TIMER_H
-#define SMC_SCRIPT_TIMER_H
-#include <vector>
+#ifndef SMC_SCRIPTING_TIMER_H
+#define SMC_SCRIPTING_TIMER_H
 #include <boost/thread/thread.hpp>
-#include "../script.h"
-namespace SMC{
-	namespace Script{
+#include "../scripting.h"
 
-		/* HACK: script.h, which defines cLua_Interpreter, needs
-		 * this header and vice-versa. Add this prototype to
-		 * make the compiler not complain about cLua_Interpreter
-		 * being undefined due to the circular include. */
-		class cLua_Interpreter;
-		// C++ side of the Lua PeriodicTimer class.
+namespace SMC {
+	namespace Scripting {
+
+		// C++ side of the MRuby Timer class.
 		class cTimer
 		{
 		public:
-			/* Constructor. Pass the Lua interpreter state to register
+			/* Constructor. Pass the MRuby interpreter state to register
 			 * the timer for, the time you want the timer
-			 * to fire (in milliseconds) and the Lua registry
-			 * index of the intended callback to register for firing.
+			 * to fire (in milliseconds) and the callback to register for firing.
 			 * If `is_periodic' is true, the timer loops instead of
 			 * just waiting a single time. */
-			cTimer(cLua_Interpreter* p_lua, unsigned int interval, int reg_index, bool is_periodic = false);
+			cTimer(cMRuby_Interpreter* p_mruby, unsigned int interval, mrb_value callback, bool is_periodic = false);
 			~cTimer();
 
 			// Start ticking, the timer does nothing until
@@ -50,8 +44,8 @@ namespace SMC{
 			bool				Is_Periodic();
 			unsigned int		Get_Interval();
 			boost::thread*		Get_Thread();
-			int             	Get_Index();
-			cLua_Interpreter*	Get_Lua_Interpreter();
+			mrb_value			Get_Callback();
+			cMRuby_Interpreter*	Get_MRuby_Interpreter();
 		private:
 			// This is the body of the thread used by the
 			// timer. Contains an endless loop for waiting
@@ -64,19 +58,19 @@ namespace SMC{
 			bool			m_is_periodic;
 			// Time interval.
 			unsigned int	m_interval;
-			// The index to register.
-			int				m_registry_index;
+			// The callback to register.
+			mrb_value		m_callback;
 			// The thread. Only set after calling start().
 			boost::thread*	mp_thread;
-			// The Lua instance we’re attaching the callbacks to.
-			cLua_Interpreter* mp_lua;
-			// If set, stops the timmer as soon as possible.
+			// The MRuby instance we’re attaching the callbacks to.
+			cMRuby_Interpreter* mp_mruby;
+			// If set, stops the timer as soon as possible.
 			bool m_halt;
 		};
 
+		// Usual function for initialising the binding
+		void Init_Timers(mrb_state* p_state);
+	}
+}
 
-		// Usual function for opening the Lua binding.
-		void Open_Timers(lua_State* p_state);
-	};
-};
 #endif

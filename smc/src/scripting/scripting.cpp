@@ -126,8 +126,37 @@ namespace SMC
 				}
 				file.close();
 			}
+		}
 
+		void cMRuby_Interpreter::Register_Callback(mrb_value callback)
+		{
+			// Note we need to lock the access to the list of callbacks
+			// to prevent race conditions.
+			boost::lock_guard<boost::mutex> _lock(*mp_callback_mutex);
+			m_callbacks.push_back(callback);
+		}
 
+		void cMRuby_Interpreter::Evaluate_Timer_Callbacks()
+		{
+			// Note we need to lock the access to the list of callbacks
+			// to prevent race conditions.
+			boost::lock_guard<boost::mutex> _lock(*mp_callback_mutex);
+
+			// Iterate through the list of registered callbacks
+			// and evaluate each one
+			std::vector<mrb_value>::iterator iter;
+			for(iter = m_callbacks.begin(); iter != m_callbacks.end(); iter++) {
+				mrb_funcall(mp_mruby, *iter, "call", 0);
+				if (mp_mruby->exc) {
+					std::cerr << "Warning: Error running timer callback: ";
+					std::cerr << format_mruby_error(mp_mruby, mp_mruby->exc);
+					std::cerr << std::endl;
+				}
+			}
+
+			// Empty the list of registered callbacks. The timers
+			// will add  to it again when necessary.
+			m_callbacks.clear();
 		}
 
 	}
