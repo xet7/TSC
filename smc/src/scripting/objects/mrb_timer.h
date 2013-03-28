@@ -26,19 +26,21 @@ namespace SMC {
 			// timer is already running.
 			void Start();
 			// Stop ticking to the next possible time. The
-			// callback may be run a final time after calling
-			// this; blocks until the timer has stopped. Does
+			// callback; blocks until the timer has stopped. Does
 			// nothing if the timer has already been stopped.
+			// You must call this for a oneshot-timer even if
+			// it already fired if you want to restart it.
 			void Stop();
 			// Returns true if the timer shall terminate
 			// as soon as possible.
 			bool Shall_Halt();
-			// Returns true if the timer is running, i.e.
-			// Start() has been called, but not Stop(). Note
-			// this also returns true if a one-shot timer
-			// has already finished, but Stop() has not been
-			// called on it.
+			// Returns true if the timer is running currently.
+			// This may still return true if a call to Stop()
+			// has not yet been honoured.
 			bool Is_Active();
+			// Marks the timer as stopped. This is private API,
+			// don’t use this.
+			void Set_Stopped();
 
 			// Attribute getters
 			bool				Is_Periodic();
@@ -66,6 +68,8 @@ namespace SMC {
 			cMRuby_Interpreter* mp_mruby;
 			// If set, stops the timer as soon as possible.
 			bool m_halt;
+			// If set, the auxiliary thread is not running.
+			bool m_stopped;
 		};
 
 		extern struct RClass* p_rcTimer;
