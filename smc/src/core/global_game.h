@@ -15,14 +15,10 @@
 
 #ifndef SMC_GLOBAL_GAME_H
 #define SMC_GLOBAL_GAME_H
+#include "config.h"
 
 namespace SMC
 {
-
-// For non-Windows platforms
-#ifdef HAVE_CONFIG_H
-	#include "config.h"
-#endif
 
 /* Turns the version numbers into a numeric value:
  * (1,2,3) -> (10203)
@@ -34,10 +30,7 @@ namespace SMC
 
 // Caption
 #define CAPTION "Secret Maryo Chronicles"
-// Version
-#define SMC_VERSION_MAJOR 2
-#define SMC_VERSION_MINOR 0
-#define SMC_VERSION_PATCH 0
+
 static const unsigned int smc_version = SMC_VERSION_NUM(SMC_VERSION_MAJOR, SMC_VERSION_MINOR, SMC_VERSION_PATCH);
 
 /* *** *** *** *** *** *** *** Object Direction *** *** *** *** *** *** *** *** *** *** */

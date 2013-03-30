@@ -476,6 +476,7 @@ void cLevel :: Init( void )
 		}
 	}
 
+#ifdef ENABLE_MRUBY
 	// Initialize a Lua interpreter for this level. Each level has its own Lua
 	// interpreter to prevent unintended object exchange between levels.
 	m_lua = new Script::cLua_Interpreter(this);
@@ -489,6 +490,7 @@ void cLevel :: Init( void )
 	std::string errmsg;
 	if (!m_mruby->Run_Code(m_script, errmsg))
 		std::cerr << "Warning: MRuby script crashed: " << errmsg << std::endl;
+#endif
 }
 
 void cLevel :: Set_Sprite_Manager( void )
