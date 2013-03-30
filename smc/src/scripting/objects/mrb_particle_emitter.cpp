@@ -161,13 +161,57 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 	return mrb_str_new_cstr(p_state, str);
 }
 
+/**
+ * Method: ParticleEmitter#time_to_live
+ *
+ *   time_to_live() → an_array
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+
+	mrb_value result = mrb_ary_new(p_state);
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_emitter->m_time_to_live));
+	mrb_ary_push(p_state, result, mrb_fixnum_value(p_emitter->m_time_to_live_rand));
+
+	return result;
+}
+
+/**
+ * Method: ParticleEmitter#set_time_to_live
+ *
+ *   time_to_live=( ttl )
+ *   set_time_to_live ( ttl [, rand ] )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
+{
+	mrb_float time;
+	mrb_float rand = 0.0f;
+	mrb_get_args(p_state, "f|f", &time, &rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Time_to_Live(time, rand);
+
+	return mrb_nil_value();
+}
+
 void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 {
 	p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_state->object_class);
 	MRB_SET_INSTANCE_TT(p_rcParticleEmitter, MRB_TT_DATA);
 
+	// Methods
 	mrb_define_method(p_state, p_rcParticleEmitter, "initialize", Initialize, ARGS_REQ(2) | ARGS_OPT(2));
 	mrb_define_method(p_state, p_rcParticleEmitter, "z=", Set_Z, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename", Get_Image_Filename, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename=", Set_Image_Filename, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live", Get_Time_to_Live, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "set_time_to_live", Set_Time_to_Live, ARGS_REQ(1) | ARGS_OPT(1));
+
+	// Aliases
+	mrb_define_alias(p_state, p_rcParticleEmitter, "time_to_live=", "set_time_to_live");
 }
