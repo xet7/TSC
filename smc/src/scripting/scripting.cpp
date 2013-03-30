@@ -18,6 +18,7 @@
 #include "objects/mrb_uids.h"
 #include "objects/mrb_enemy.h"
 #include "objects/mrb_eato.h"
+#include "objects/mrb_particle_emitter.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -184,5 +185,6 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Timer(p_state);
 	Init_Enemy(p_state);
 	Init_Eato(p_state);
+	Init_ParticleEmitter(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }
