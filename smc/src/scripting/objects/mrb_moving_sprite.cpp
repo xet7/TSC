@@ -103,6 +103,8 @@ static mrb_value Accelerate(mrb_state* p_state,  mrb_value self)
 	mrb_get_args(p_state, "ff", &velx, &vely);
 
 	p_sprite->Add_Velocity(velx, vely);
+
+	return mrb_nil_value();
 }
 
 /**
