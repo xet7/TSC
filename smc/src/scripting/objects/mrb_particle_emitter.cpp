@@ -230,7 +230,7 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 /**
  * Method: ParticleEmitter#time_to_live
  *
- *   time_to_live() → an_array
+ *   time_to_live() → a_range
  *
  * TODO: Docs.
  */
@@ -243,7 +243,7 @@ static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
 /**
  * Method: ParticleEmitter#set_time_to_live
  *
- *   time_to_live=( ttl )
+ *   time_to_live=( range )
  *
  * TODO: Docs.
  */
@@ -261,6 +261,110 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ * Method: ParticleEmitter#scale
+ *
+ *   scale() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Scale(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_size_scale, p_emitter->m_size_scale_rand);
+}
+
+/**
+ * Method: ParticleEmitter#speed
+ *
+ *   speed() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Speed(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_vel, p_emitter->m_vel_rand);
+}
+
+/**
+ * Method: ParticleEmitter#emitter_time_to_live
+ *
+ *   emitter_time_to_live() → a_float
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return mrb_float_value(p_emitter->m_emitter_time_to_live);
+}
+
+/**
+ * Method: ParticleEmitter#quota
+ *
+ *   quota() → an_integer
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Quota(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return mrb_fixnum_value(p_emitter->m_emitter_quota);
+}
+
+/**
+ * Method: ParticleEmitter#gravity_x
+ *
+ *   gravity_x() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Gravity_X(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_gravity_x, p_emitter->m_gravity_x_rand);
+}
+
+/**
+ * Method: ParticleEmitter#gravity_y
+ *
+ *   gravity_y() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Gravity_Y(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_gravity_y, p_emitter->m_gravity_y_rand);
+}
+
+/**
+ * Method: ParticleEmitter#inspect
+ *
+ *   inspect() → a_string
+ *
+ * Human-readable description.
+ */
+static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	char buffer[256];
+
+	int num = sprintf(	buffer,
+						"#<%s pos=(%.2f|%.2f) ETTL=%.2fs>",
+						mrb_obj_classname(p_state, self),
+						p_emitter->m_pos_x,
+						p_emitter->m_pos_y,
+						p_emitter->m_emitter_time_to_live);
+
+	if (num < 0)
+		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Couldn't format string, sprintf() returned %d", num);
+
+	return mrb_str_new(p_state, buffer, num);
+}
+
+
 /***************************************
  * Binding
  ***************************************/
@@ -272,9 +376,16 @@ void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 
 	// Methods
 	mrb_define_method(p_state, p_rcParticleEmitter, "initialize", Initialize, ARGS_REQ(2) | ARGS_OPT(2));
+	mrb_define_method(p_state, p_rcParticleEmitter, "inspect", Inspect, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "z=", Set_Z, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename", Get_Image_Filename, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename=", Set_Image_Filename, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live", Get_Time_to_Live, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live=", Set_Time_to_Live, ARGS_REQ(1) | ARGS_OPT(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "scale", Get_Scale, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "speed", Get_Speed, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live", Get_Emitter_Time_To_Live, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "quota", Get_Quota, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x", Get_Gravity_X, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y", Get_Gravity_Y, ARGS_NONE());
 }
