@@ -64,7 +64,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  * #### Parameters
  *
  * filename
- * : Path to the sound file to play, relative to the *sounds/*
+ * : Path to the sound file to play, relative to the `sounds/`
  *   directory.
  *
  * volume (-1)
@@ -128,7 +128,7 @@ static mrb_value Play_Sound(mrb_state* p_state,  mrb_value self)
  * #### Parameters
  *
  * filename
- * : Name of the music file to play, relative to the **music/**
+ * : Name of the music file to play, relative to the `music/`
  *   directory.
  *
  * loops (0)
