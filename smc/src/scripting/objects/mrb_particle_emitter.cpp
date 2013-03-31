@@ -73,6 +73,54 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rcParticleEmitter = NULL;
 struct mrb_data_type SMC::Scripting::rtParticleEmitter = {"ParticleEmitter", NULL};
 
+/*
+ * Takes an MRuby Fixnum or Float and returns a C float for this.
+ */
+static mrb_float mrbnum2float(mrb_state* p_state, mrb_value obj)
+{
+	switch(mrb_type(obj)) {
+	case MRB_TT_FIXNUM:
+		return mrb_fixnum(obj); // Promote to float
+	case MRB_TT_FLOAT:
+		return mrb_float(obj);
+	default:
+		mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Expected Fixnum or Float, got %s", mrb_obj_class(p_state, obj));
+		return 0.0; // Not reached
+	}
+}
+
+/*
+ * Takes an MRuby Range, calculates a value plus its randomisation
+ * parameter from a range that describes the entire numeric area
+ * in which the main value shall differ. */
+static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& value, mrb_float& rand)
+{
+	RRange* p_range = NULL;
+	mrb_float beg, end;
+
+	switch(mrb_type(obj)) {
+	case MRB_TT_RANGE:
+		p_range = mrb_range_ptr(obj);
+		beg = mrbnum2float(p_state, p_range->edges->beg);
+		end = mrbnum2float(p_state, p_range->edges->end);
+
+		value = (end + beg) / 2.0; // mean
+		rand = end - value;
+		break;
+	case MRB_TT_FIXNUM:
+		value = mrb_fixnum(obj); // Promote to float
+		rand = 0;
+		break;
+	case MRB_TT_FLOAT:
+		value = mrb_float(obj);
+		rand = 0;
+		break;
+	default:
+		mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Expected Numeric or Range, got %s", mrb_obj_classname(p_state, obj));
+		return; // Not reached
+	}
+}
+
 /**
  * Method: ParticleEmitter#initialize
  *
@@ -183,15 +231,16 @@ static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
  * Method: ParticleEmitter#set_time_to_live
  *
  *   time_to_live=( ttl )
- *   set_time_to_live ( ttl [, rand ] )
  *
  * TODO: Docs.
  */
 static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
 {
-	mrb_float time;
-	mrb_float rand = 0.0f;
-	mrb_get_args(p_state, "f|f", &time, &rand);
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float time, rand;
+	calculate_rand_values(p_state, obj, time, rand);
 
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
 	p_emitter->Set_Time_to_Live(time, rand);
@@ -210,8 +259,5 @@ void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename", Get_Image_Filename, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename=", Set_Image_Filename, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live", Get_Time_to_Live, ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "set_time_to_live", Set_Time_to_Live, ARGS_REQ(1) | ARGS_OPT(1));
-
-	// Aliases
-	mrb_define_alias(p_state, p_rcParticleEmitter, "time_to_live=", "set_time_to_live");
+	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live=", Set_Time_to_Live, ARGS_REQ(1) | ARGS_OPT(1));
 }

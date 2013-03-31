@@ -12,6 +12,7 @@
 #include <mruby/variable.h>
 #include <mruby/proc.h>
 #include <mruby/array.h>
+#include <mruby/range.h>
 #include <boost/filesystem.hpp>
 #include <boost/thread/thread.hpp>
 
