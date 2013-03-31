@@ -326,6 +326,8 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	mrb_value klass = mrb_obj_value(mrb_obj_class(p_state, self));
 	mrb_ary_push(p_state, mrb_iv_get(p_state, klass, mrb_intern(p_state, "instances")), self);
 	mrb_iv_set(p_state, self, mrb_intern(p_state, "callback"), block);
+
+	return self;
 }
 
 static void Free_Timer(mrb_state* p_state, void* ptr)
@@ -531,4 +533,5 @@ void SMC::Scripting::Init_Timer(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcTimer, "inspect", Inspect, ARGS_NONE());
 	mrb_define_method(p_state, p_rcTimer, "shall_halt?", Shall_Halt, ARGS_NONE());
 	mrb_define_method(p_state, p_rcTimer, "interval", Get_Interval, ARGS_NONE());
+	mrb_define_method(p_state, p_rcTimer, "active?", Is_Active, ARGS_NONE());
 }
