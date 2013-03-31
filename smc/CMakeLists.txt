@@ -14,6 +14,11 @@ include(ExternalProject)
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
 #FIXME: Actually use ENABLE_MRUBY
 
+# Verbose compilation for better code quality
+if(CMAKE_COMPILER_IS_GNUCC)
+  add_definitions("-Wall")
+endif()
+
 # Extra flags for debugging SMC, additional to those
 # already added by CMake itself when doing a debug
 # build (e.g. -g is added for GCC by CMake).
