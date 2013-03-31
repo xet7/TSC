@@ -208,19 +208,19 @@ static mrb_value Set_Type(mrb_state* p_state,  mrb_value self)
 	const char* typestr = mrb_sym2name(p_state, sym);
 	Maryo_type type;
 
-	if (typestr == "dead")
+	if (strcmp(typestr, "dead") == 0)
 		type = MARYO_DEAD;
-	else if (typestr == "small")
+	else if (strcmp(typestr, "small") == 0)
 		type = MARYO_SMALL;
-	else if (typestr == "big")
+	else if (strcmp(typestr, "big") == 0)
 		type = MARYO_BIG;
-	else if (typestr == "fire")
+	else if (strcmp(typestr, "fire") == 0)
 		type = MARYO_FIRE;
-	else if (typestr == "ice")
+	else if (strcmp(typestr, "ice") == 0)
 		type = MARYO_ICE;
-	//else if (typestr == "cape") // Not implemented officially by SMC
+	//else if (strcmp(typestr, "cape") == 0) // Not implemented officially by SMC
 	//	type = MARYO_CAPE;
-	else if (typestr == "ghost")
+	else if (strcmp(typestr, "ghost") == 0)
 		type = MARYO_GHOST;
 	else {
 		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Maryo type '%s'.", typestr);
@@ -474,6 +474,7 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	// Normal methods
 	mrb_define_method(p_state, p_rcLevel_Player, "downgrade", Downgrade, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "jump", Jump, ARGS_OPT(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, ARGS_REQ(1));
