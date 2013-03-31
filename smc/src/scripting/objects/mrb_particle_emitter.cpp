@@ -73,6 +73,10 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rcParticleEmitter = NULL;
 struct mrb_data_type SMC::Scripting::rtParticleEmitter = {"ParticleEmitter", NULL};
 
+/***************************************
+ * Helpers
+ ***************************************/
+
 /*
  * Takes an MRuby Fixnum or Float and returns a C float for this.
  */
@@ -90,9 +94,19 @@ static mrb_float mrbnum2float(mrb_state* p_state, mrb_value obj)
 }
 
 /*
- * Takes an MRuby Range, calculates a value plus its randomisation
- * parameter from a range that describes the entire numeric area
- * in which the main value shall differ. */
+ * Takes two floats and builds an MRuby range from them.
+ */
+static mrb_value range_from_rand_values(mrb_state* p_state, mrb_float middle, mrb_float rand)
+{
+	mrb_value beg = mrb_float_value(middle - rand);
+	mrb_value end = mrb_float_value(middle + rand);
+
+	return mrb_range_new(p_state, beg, end, 0); // beg..end (incl.)
+}
+
+/* Takes either a Fixnum, Float, or Range and calculates a
+ * main parameter plus randomisation value from it.
+ */
 static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& value, mrb_float& rand)
 {
 	RRange* p_range = NULL;
@@ -120,6 +134,10 @@ static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& 
 		return; // Not reached
 	}
 }
+
+/***************************************
+ * Methods
+ ***************************************/
 
 /**
  * Method: ParticleEmitter#initialize
@@ -219,12 +237,7 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
 {
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-
-	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_emitter->m_time_to_live));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_emitter->m_time_to_live_rand));
-
-	return result;
+	return range_from_rand_values(p_state, p_emitter->m_time_to_live, p_emitter->m_time_to_live_rand);
 }
 
 /**
@@ -247,6 +260,10 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
 
 	return mrb_nil_value();
 }
+
+/***************************************
+ * Binding
+ ***************************************/
 
 void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 {
