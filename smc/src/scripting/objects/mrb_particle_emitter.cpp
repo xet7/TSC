@@ -223,7 +223,7 @@ static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
 }
 
 /**
- * Method: ParticleEmitter#set_time_to_live
+ * Method: ParticleEmitter#time_to_live=
  *
  *   time_to_live=( range )
  *
@@ -385,6 +385,206 @@ static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
 	return mrb_str_new(p_state, buffer, num);
 }
 
+/**
+ * Method: ParticleEmitter#scale=
+ *
+ *   scale=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Scale(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Scale(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#speed=
+ *
+ *   speed=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Speed(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Speed(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#emitter_time_to_live=
+ *
+ *   emitter_time_to_live=( value )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
+{
+	mrb_int value;
+	mrb_get_args(p_state, "i", &value);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Emitter_Time_to_Live(value);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#quota=
+ *
+ *   quota=( value )
+ *
+ * Sets the number of particles emitted at one time.
+ */
+static mrb_value Set_Quota(mrb_state* p_state, mrb_value self)
+{
+	mrb_int quota;
+	mrb_get_args(p_state, "i", &quota);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Quota(quota);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#gravity_x=
+ *
+ *   gravity_x=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Gravity_X(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Horizontal_Gravity(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#gravity_y=
+ *
+ *   gravity_y=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Gravity_Y(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Vertical_Gravity(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#const_rotation_x=
+ *
+ *   const_rotation_x=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Const_Rotation_X(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Const_Rotation_X(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#const_rotation_y=
+ *
+ *   const_rotation_y=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Const_Rotation_Y(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Const_Rotation_Y(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#const_rotation_z=
+ *
+ *   const_rotation_z=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Const_Rotation_Z(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float value, rand;
+	calculate_rand_values(p_state, obj, value, rand);
+
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Set_Const_Rotation_Z(value, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: ParticleEmitter#emit
+ *
+ *   emit()
+ *
+ * Emit a single particle (or multiple ones if the [#quota](#quota) is
+ * set accordingly). Usually you want to use
+ * [#emitter_time_to_live=](#emittertimetolive1) to make the
+ * emitter act automatically, but this method allows to retain full
+ * control about the particle emitter.
+*/
+static mrb_value Emit(mrb_state* p_state, mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	p_emitter->Emit();
+	return mrb_nil_value();
+}
 
 /***************************************
  * Binding
@@ -412,4 +612,14 @@ void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x", Get_Const_Rotation_X, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y", Get_Const_Rotation_Y, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_Z", Get_Const_Rotation_Z, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "scale=", Set_Scale, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "speed=", Set_Speed, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live=", Set_Emitter_Time_To_Live, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "quota=", Set_Quota, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x=", Set_Gravity_X, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y=", Set_Gravity_Y, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x=", Set_Const_Rotation_X, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y=", Set_Const_Rotation_Y, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_z=", Set_Const_Rotation_Z, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcParticleEmitter, "emit", Emit, ARGS_NONE());
 }
