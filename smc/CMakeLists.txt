@@ -88,6 +88,7 @@ if (WIN32)
   # linked in statically on Windows.
   add_definitions(-DBOOST_THREAD_USE_LIB)
 else()
+  set(Boost_USE_STATIC_LIBS OFF)
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread system
     REQUIRED)
@@ -96,7 +97,7 @@ endif()
 # pkg-config is really the better way to check for libs.
 # Unfortunetly, the above libraries don’t support it
 # properly.
-pkg_check_modules(PNG REQUIRED libpng<=1.5.14) # SDL doesn’t like libpng 1.6 yet as it seems
+pkg_check_modules(PNG REQUIRED libpng<=1.5.15) # SDL doesn’t like libpng 1.6 yet as it seems
 pkg_check_modules(SDL REQUIRED sdl)
 pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
