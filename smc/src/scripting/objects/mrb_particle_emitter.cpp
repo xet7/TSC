@@ -28,33 +28,15 @@
  * method will cause the particle emitter to exactly once emit particles
  * according to its configuration.
  *
- * A good number of setter methods accepts a parameter named `rand` that
- * allows to randomise an otherwise statically set value. For instance,
- * the [#time_to_live=](#timetolive-1) method allows you to define
- * the lifespan of particles emitted at a time. By default, the `rand`
- * modification is 0, i.e. the value is taken as-is. So, if you call
- *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
- * e.set_time_to_live(10)
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * (where `e` is a `ParticleEmitter` instance), all particles will have
- * the same lifespan of 10 seconds. However, if you pass a second
- * parameter, as in
- *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
- * e.set_time_to_live(10, 2)
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * then this argument will be taken as a random modifier of the
- * operation. This means that in the above example all particles will
- * have a lifespan of
- *
- *     8 <= l <= 12
- *
- * , where `l` is a single particle’s lifespan. This randomisation is
- * done for all particles, allowing you to create more vidid particle
- * emitters that create particles that don’t all behave the same way.
+ * A good number of setter methods accept a Range instead of a singular
+ * fixed parameter, which allows you to specify a range of valid values
+ * for a given option. For instance, the [#time_to_live=](#timetolive=)
+ * methods allows you to define the ilfespan of particles emitted at a
+ * time. Instead of setting this to a single, definite value (which you
+ * can do if you want to), you can configure it to a Range like 1..2,
+ * which means that the TTL will regularyly be 1.5, but at minimum 1.0
+ * and at maximum 2.0, so that the particles emitted all are a little
+ * different.
  *
  * Note that, in contrast to all other objects in SMC, it is possible to
  * set a particle emitter’s [Z coordinate](#z), making it possible to
@@ -340,6 +322,45 @@ static mrb_value Get_Gravity_Y(mrb_state* p_state,  mrb_value self)
 }
 
 /**
+ * Method: ParticleEmitter#const_rotation_x
+ *
+ *   const_rotation_x() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Const_Rotation_X(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_const_rot_x, p_emitter->m_const_rot_x_rand);
+}
+
+/**
+ * Method: ParticleEmitter#const_rotation_y
+ *
+ *   const_rotation_y() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Const_Rotation_Y(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_const_rot_y, p_emitter->m_const_rot_y_rand);
+}
+
+/**
+ * Method: ParticleEmitter#const_rotation_z
+ *
+ *   const_rotation_z() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Const_Rotation_Z(mrb_state* p_state,  mrb_value self)
+{
+	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+	return range_from_rand_values(p_state, p_emitter->m_const_rot_z, p_emitter->m_const_rot_z_rand);
+}
+
+/**
  * Method: ParticleEmitter#inspect
  *
  *   inspect() → a_string
@@ -388,4 +409,7 @@ void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcParticleEmitter, "quota", Get_Quota, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x", Get_Gravity_X, ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y", Get_Gravity_Y, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x", Get_Const_Rotation_X, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y", Get_Const_Rotation_Y, ARGS_NONE());
+	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_Z", Get_Const_Rotation_Z, ARGS_NONE());
 }
