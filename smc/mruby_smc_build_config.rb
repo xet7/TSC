@@ -6,19 +6,26 @@ THIS_DIR = File.expand_path(File.dirname(__FILE__))
 # Absolute path mruby resides in
 MRUBY_DIR = File.join(THIS_DIR, "..", "mruby", "mruby")
 
-config = lambda do |conf|
+config = lambda do |conf, root|
   # Some standard things included with mruby
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-print" # #p, #puts, #print
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-math" # Math
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-time" # Time
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-struct" # Struct
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-sprintf" # #sprintf
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-enum-ext" # Enumerable
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-string-ext" # Strings
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-numeric-ext" # Numbers
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-array-ext" # Arrays
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-hash-ext" # Hashes
-  conf.gem "#{MRUBY_DIR}/mrbgems/mruby-random" # Random
+  conf.gem "#{root}/mrbgems/mruby-sprintf"
+  conf.gem "#{root}/mrbgems/mruby-print"
+  conf.gem "#{root}/mrbgems/mruby-math"
+  conf.gem "#{root}/mrbgems/mruby-time"
+  conf.gem "#{root}/mrbgems/mruby-struct"
+  conf.gem "#{root}/mrbgems/mruby-enum-ext"
+  conf.gem "#{root}/mrbgems/mruby-string-ext"
+  conf.gem "#{root}/mrbgems/mruby-numeric-ext"
+  conf.gem "#{root}/mrbgems/mruby-array-ext"
+  conf.gem "#{root}/mrbgems/mruby-hash-ext"
+  conf.gem "#{root}/mrbgems/mruby-range-ext"
+  conf.gem "#{root}/mrbgems/mruby-proc-ext"
+  conf.gem "#{root}/mrbgems/mruby-symbol-ext"
+  conf.gem "#{root}/mrbgems/mruby-random"
+  # conf.gem "#{root}/mrbgems/mruby-eval"
+
+  # Generate mirb command
+  conf.gem "#{root}/mrbgems/mruby-bin-mirb"
 
   # Additional things
   conf.gem "#{THIS_DIR}/../mruby/mgems/mruby-sleep"         # Sleep
@@ -29,7 +36,7 @@ end
 
 MRuby::Build.new do |conf|
   toolchain :gcc
-  config.call(conf)
+  config.call(conf, root)
 end
 
 if ENV["CROSSCOMPILE_TARGET"] and !ENV["CROSSCOMPILE_TARGET"].empty?
@@ -50,6 +57,6 @@ if ENV["CROSSCOMPILE_TARGET"] and !ENV["CROSSCOMPILE_TARGET"].empty?
       archiver.command = ENV["AR"] || "#{prefix}-ar"
     end
 
-    config.call(conf)
+    config.call(conf, root)
   end
 end
