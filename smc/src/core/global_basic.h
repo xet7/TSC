@@ -28,14 +28,9 @@
 
 /* *** *** *** *** *** *** *** Debugging *** *** *** *** *** *** *** *** *** *** */
 
-#ifdef _WIN32
-	#ifndef __WIN32__
-		#define __WIN32__
-	#endif
-	#ifdef _DEBUG
+#if defined(_MSC_VER) && defined(_DEBUG)
 		// disable possible loss of data
 		#pragma warning ( disable : 4267 )
-	#endif
 #endif
 
 // debug printf macro
