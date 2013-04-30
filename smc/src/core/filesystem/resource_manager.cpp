@@ -13,9 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../../core/filesystem/resource_manager.h"
-#include "../../core/filesystem/filesystem.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include <boost/filesystem/path.hpp>
+
+#include "resource_manager.h"
+#include "filesystem.h"
+#include "../property_helper.h"
 
 using namespace boost::filesystem;
 
@@ -89,10 +94,10 @@ path cResource_Manager :: Get_Data_Directory( void )
 #ifdef _WIN32
   wchar_t path_data[MAX_PATH + 1];
 
-  if (GetModuleFileNameW(NULL, path_appdata, MAX_PATH) == 0)
+  if (GetModuleFileNameW(NULL, path_data, MAX_PATH) == 0)
     throw "Failed to retrieve the executable's path from the Win32API!";
 
-  std::string utf8path = ucs2_to_utf8(path_data);
+  std::string utf8_path = ucs2_to_utf8(path_data);
   Convert_Path_Separators(utf8_path);
 
   return utf8_to_path(utf8_path);
