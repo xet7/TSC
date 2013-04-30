@@ -30,7 +30,7 @@
  *
  * A good number of setter methods accept a Range instead of a singular
  * fixed parameter, which allows you to specify a range of valid values
- * for a given option. For instance, the [#time_to_live=](#timetolive=)
+ * for a given option. For instance, the [#time_to_live=](#timetolive-1)
  * methods allows you to define the ilfespan of particles emitted at a
  * time. Instead of setting this to a single, definite value (which you
  * can do if you want to), you can configure it to a Range like 1..2,
@@ -122,11 +122,16 @@ static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& 
  ***************************************/
 
 /**
- * Method: ParticleEmitter#initialize
+ * Method: ParticleEmitter::new
  *
  *   new( x, y [, width [, height ] ] ) → a_particle_emitter
  *
- * TODO: Docs.
+ * Creates a new particle emitter. It won’t emit particles by default,
+ * you first have to adjust the emitter with the various setter methods,
+ * and when you’ve done this you can either call [#emit](#emit) which will
+ * gives you absolute control over each emitted particle, or use
+ * [#emitter_time_to_live=](#emittertimetolive-1) to make the emitter
+ * emit particles automatically.
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
@@ -205,6 +210,8 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
 	p_emitter->Set_Image_Filename(str);
+
+	std::cout << "Path: " << p_emitter->m_image_filename << std::endl;
 
 	return mrb_str_new_cstr(p_state, str);
 }

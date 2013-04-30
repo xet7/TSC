@@ -12,6 +12,8 @@ include(ExternalProject)
 # Flags & Options
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
+set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having SMC determine it dynamically.")
+
 #FIXME: Actually use ENABLE_MRUBY
 
 # Verbose compilation for better code quality

@@ -19,7 +19,7 @@ set(TOOLCHAIN_PREFIX i686-pc-mingw32)
 #   set(CMAKE_FIND_ROOT_PATH "/opt/crossenv")
 #   set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/crossenv" "$ENV{HOME}/otherstuffhere")
 #   set(CMAKE_FIND_ROOT_PATH "/opt/crossenvs/i686-mingw32")
-set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/win32/mxe/usr/i686-pc-mingw32")
+set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/repos/privat/projekte/mxe-deps/usr/i686-pc-mingw32")
 
 ########################################
 # END OF CUSTOMIZE SECTION
