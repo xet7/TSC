@@ -24,8 +24,6 @@ namespace fs = boost::filesystem;
 #if _WIN32
 // needed to get the user directory (SHGetFolderPath)
 #include <shlobj.h>
-#elif __linux
-#include <unistd.h>
 #endif
 
 namespace SMC

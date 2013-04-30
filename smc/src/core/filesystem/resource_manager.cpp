@@ -13,8 +13,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifdef _WIN32
+#if defined(_WIN32)
 #include <windows.h>
+#elif defined(__linux)
+#include <limits.h>
 #endif
 #include <boost/filesystem/path.hpp>
 
