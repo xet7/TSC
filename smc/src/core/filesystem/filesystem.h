@@ -77,10 +77,6 @@ vector<std::string> Get_Directory_Files( const std::string &dir, const std::stri
 
 // Return the operating system temporary files directory
 boost::filesystem::path Get_Temp_Directory( void );
-// Return the path to the root directory containing graphics, music, etc.
-// This path is normally determined relatively to the `smc' executable,
-// but you can force a specific path at compile time by defining FIXED_DATA_DIR.
-boost::filesystem::path Get_Data_Directory( void );
 // Return the default smc user directory in the operating system application/home directory
 // FIXME: This should return a boost::filesystem::path
 std::string Get_User_Directory( void );

@@ -37,6 +37,11 @@ public:
 
 	// user data directory
 	std::string user_data_dir;
+
+  // Return the path to the root directory containing graphics, music, etc.
+  // This path is normally determined relatively to the `smc' executable,
+  // but you can force a specific path at compile time by defining FIXED_DATA_DIR.
+  boost::filesystem::path Get_Data_Directory( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

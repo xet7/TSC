@@ -231,44 +231,6 @@ boost::filesystem::path Get_Temp_Directory( void )
 	return boost::filesystem::temp_directory_path();
 }
 
-boost::filesystem::path Get_Data_Directory( void )
-{
-#ifdef FIXED_DATA_DIR
-  return utf8_to_path(FIXED_DATA_DIR);
-#else
-#ifdef _WIN32
-  wchar_t path_data[MAX_PATH + 1];
-
-  if (GetModuleFileNameW(NULL, path_appdata, MAX_PATH) == 0)
-    throw "Failed to retrieve the executable's path from the Win32API!";
-
-  std::string utf8path = ucs2_to_utf8(path_data);
-  Convert_Path_Separators(utf8_path);
-
-  return utf8_to_path(utf8_path);
-#elif __linux
-  char path_data[PATH_MAX];
-
-  if (readlink("/proc/self/exe", path_data, PATH_MAX) < 0)
-    throw "Failed to retrieve the executable's path from /proc/self/exe!";
-
-  return utf8_to_path(path_data);
-#elif __APPLE__
-  char path_data[PATH_MAX];
-  uint32_t size = sizeof(path_data);
-  int count;
-
-  if (_NSGetExecutablePath(path_data, &size) == 0)
-    throw "Faileod to retrieve the executable's path from Mac OS!");
-
-  return utf8_to_path(path_data);
-#else
-  std::cerr << "Warning: Don't know how to determine path to the current executable. Using './data'." << std::endl;
-  return boost::filesystem::current_path() / "data";
-#endif
-#endif
-}
-
 // FIXME: This should return a boost::filesystem::path!
 std::string Get_User_Directory( void )
 {
