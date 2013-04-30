@@ -124,6 +124,16 @@ path cResource_Manager :: Get_Data_Directory( void )
 #endif
 }
 
+path cResource_Manager :: Get_Game_Pixmaps_Dir()
+{
+  return Get_Data_Directory() / utf8_to_path(GAME_PIXMAPS_DIR);
+}
+
+path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
+{
+  return Get_Game_Pixmaps_Dir() / utf8_to_path(pixmap);
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cResource_Manager *pResource_Manager = NULL;

@@ -42,6 +42,10 @@ public:
   // This path is normally determined relatively to the `smc' executable,
   // but you can force a specific path at compile time by defining FIXED_DATA_DIR.
   boost::filesystem::path Get_Data_Directory( void );
+
+  // Get pixmaps from the uncached game data directory.
+  boost::filesystem::path Get_Game_Pixmaps_Dir();
+  boost::filesystem::path Get_Game_Pixmap(std::string pixmap);
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
