@@ -35,7 +35,7 @@ public:
 	virtual ~cPreferences( void );
 	
 	// Load the preferences from a file
-	bool Load( const std::string &filename = "" );
+	bool Load( const boost::filesystem::path &filename = boost::filesystem::path() );
 	// Save the preferences to a file
 	void Save( void );
 
@@ -68,7 +68,7 @@ public:
 	// menu level name to load
 	std::string m_menu_level;
 	// force the given user data directory
-	std::string m_force_user_data_dir;
+	boost::filesystem::path m_force_user_data_dir;
 	// smart camera speed
 	float m_camera_hor_speed;
 	float m_camera_ver_speed;
@@ -142,7 +142,7 @@ public:
 	/* *** *** *** *** *** *** *** */
 
 	// configuration filename
-	std::string m_config_filename;
+	boost::filesystem::path m_config_filename;
 
 	/* *** *** *** defaults *** *** *** *** */
 	// Game
