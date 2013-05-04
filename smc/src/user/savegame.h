@@ -214,7 +214,7 @@ public:
 	bool Is_Valid( unsigned int save_slot ) const;
 
 	// savegame directory
-	std::string m_savegame_dir;
+	boost::filesystem::path m_savegame_dir;
 };
 
 /* *** *** *** *** *** *** *** cSavegame_XML_Handler *** *** *** *** *** *** *** *** *** *** */
