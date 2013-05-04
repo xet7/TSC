@@ -449,7 +449,7 @@ animation_end:
 	{
 		Game_Action = GA_ENTER_MENU;
 		Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_START ) );
-		Game_Action_Data_Middle.add( "menu_start_current_level", Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) );
+		Game_Action_Data_Middle.add( "menu_start_current_level", path_to_utf8(Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) ));
 		// reset saved data
 		Game_Action_Data_Middle.add( "reset_save", "1" );
 	}
@@ -3599,7 +3599,7 @@ void cLevel_Player :: Action_Interact( input_identifier key_type )
 		if( Game_Mode_Type == MODE_TYPE_LEVEL_CUSTOM )
 		{
 			Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_START ) );
-			Game_Action_Data_Middle.add( "menu_start_current_level", Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) );
+			Game_Action_Data_Middle.add( "menu_start_current_level", path_to_utf8(Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) ));
 		}
 		else
 		{
