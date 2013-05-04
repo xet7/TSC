@@ -42,9 +42,9 @@ public:
 	/* Create a new level
 	 * returns true if successful
 	*/
-	bool New( std::string filename );
+	bool New( boost::filesystem::path filename );
 	// Load
-	bool Load( std::string filename );
+	bool Load( boost::filesystem::path filename );
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
 	*/
@@ -116,7 +116,7 @@ public:
 	/* Set the filename
 	 * rename_old : if set also rename the level file in the user folder
 	*/
-	void Set_Filename( std::string filename, bool rename_old = 1 );
+	void Set_Filename( boost::filesystem::path filename, bool rename_old = true );
 	// Set the level author
 	void Set_Author( const std::string &name );
 	// Set the level version
@@ -149,9 +149,9 @@ public:
 	};
 
 	// level filename
-	std::string m_level_filename;
+	boost::filesystem::path m_level_filename;
 	// if a new level should be loaded this is the next level filename
-	std::string m_next_level_filename;
+	boost::filesystem::path	 m_next_level_filename;
 	// MRuby script code associated with this level
 	std::string m_script;
 
