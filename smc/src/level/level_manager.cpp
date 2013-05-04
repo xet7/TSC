@@ -25,6 +25,8 @@
 #include "../core/filesystem/resource_manager.h"
 #include "../input/mouse.h"
 
+namespace fs = boost::filesystem;
+
 namespace SMC
 {
 
@@ -92,7 +94,7 @@ void cLevel_Manager :: Unload( void )
 	pActive_Level->Unload();
 }
 
-cLevel *cLevel_Manager :: New( std::string filename )
+cLevel *cLevel_Manager :: New( fs::path filename )
 {
 	// if it already exists
 	if( Get_Path( filename, 1 ) )
@@ -112,7 +114,7 @@ cLevel *cLevel_Manager :: New( std::string filename )
 	return level;
 }
 
-cLevel *cLevel_Manager :: Load( std::string filename )
+cLevel *cLevel_Manager :: Load( fs::path filename )
 {
 	cLevel *level = Get( filename );
 	// already loaded
@@ -140,7 +142,7 @@ bool cLevel_Manager :: Set_Active( cLevel *level )
 	return 1;
 }
 
-cLevel *cLevel_Manager :: Get( const std::string &str )
+cLevel *cLevel_Manager :: Get( const fs::path &str )
 {
 	for( vector<cLevel *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
@@ -155,68 +157,62 @@ cLevel *cLevel_Manager :: Get( const std::string &str )
 	return NULL;
 }
 
-bool cLevel_Manager :: Get_Path( std::string &filename, bool check_only_user_dir /* = 0 */ ) const
+bool cLevel_Manager :: Get_Path( fs::path &filename, bool check_only_user_dir /* = 0 */ ) const
 {
+	// Strip off directories and file extension. Note `filename' is a reference;
+	// if we don’t find the file below, the caller’s `filename' is intentionally
+	// the result of this call.
 	filename = Trim_Filename( filename, 0, 0 );
 
 	// user level directory as default
-	filename.insert( 0, pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" );
+	fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
 	// use new file type as default
-	filename.insert( filename.length(), ".smclvl" );
+	user_filename.replace_extension(".smclvl");
 
-	if( File_Exists( filename ) )
+	if( File_Exists( user_filename ) )
 	{
 		// found
-		return 1;
+		filename = user_filename;
+		return true;
 	}
 
 	// use old file type
-	filename.erase( filename.rfind( "." ) );
-	filename.insert( filename.length(), ".txt" );
+	user_filename.replace_extension(".txt");
 
-	if( File_Exists( filename ) )
+	if( File_Exists( user_filename ) )
 	{
 		// found
-		return 1;
+		filename = user_filename;
+		return true;
 	}
 
 	if( !check_only_user_dir )
 	{
+		fs::path game_filename = fs::absolute(filename, pResource_Manager->Get_Game_Level_Directory());
+
 		// use new file type
-		filename.erase( filename.rfind( "." ) );
-		filename.insert( filename.length(), ".smclvl" );
+		game_filename.replace_extension(".smclvl");
 
-		// erase user level directory
-		filename.erase( 0, pResource_Manager->user_data_dir.length() + strlen( USER_LEVEL_DIR "/" ) );
-
-		// game level directory
-		if( filename.find( DATA_DIR "/" GAME_LEVEL_DIR "/" ) == std::string::npos )
-		{
-			filename.insert( 0, DATA_DIR "/" GAME_LEVEL_DIR "/" );
-		}
-
-		if( File_Exists( filename ) )
+		if( File_Exists( game_filename ) )
 		{
 			// found
-			return 1;
+			filename = game_filename;
+			return true;
 		}
 
 		// use old file type
-		filename.erase( filename.rfind( "." ) );
-		filename.insert( filename.length(), ".txt" );
+		game_filename.replace_extension(".txt");
 
-		if( File_Exists( filename ) )
+		if( File_Exists( game_filename ) )
 		{
 			// found
-			return 1;
+			filename = game_filename;
+			return true;
 		}
 	}
 
-	// erase file type and directory
-	filename = Trim_Filename( filename, 0, 0 );
-
 	// not found
-	return 0;
+	return false;
 }
 
 void cLevel_Manager :: Update( void )
@@ -331,7 +327,7 @@ void cLevel_Manager :: Finish_Level( bool win_music /* = 0 */ )
 		Game_Action = GA_ENTER_MENU;
 		Game_Action_Data_Start.add( "screen_fadeout_speed", "1.5" );
 		Game_Action_Data_Middle.add( "load_menu", int_to_string( MENU_MAIN ) );
-		Game_Action_Data_Middle.add( "menu_start_current_level", Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) );
+		Game_Action_Data_Middle.add( "menu_start_current_level", path_to_utf8(Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) ));
 		Game_Action_Data_End.add( "screen_fadein_speed", "1.5" );
 	}
 	// normal level
@@ -359,11 +355,11 @@ void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string 
 	// if empty use same level
 	if( str_level.empty() )
 	{
-		str_level = Trim_Filename( pActive_Level->m_level_filename, 0, 0 );
+		str_level = path_to_utf8(Trim_Filename( pActive_Level->m_level_filename, 0, 0 ));
 	}
 
 	// same level
-	if( str_level.compare( Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) ) == 0 )
+	if( str_level.compare( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) ) ) == 0 )
 	{
 		pLevel_Player->Release_Item( 1, 1 );
 		// fixme: reset does not release active_object correctly
