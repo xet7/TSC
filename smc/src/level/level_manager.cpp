@@ -94,17 +94,17 @@ void cLevel_Manager :: Unload( void )
 	pActive_Level->Unload();
 }
 
-cLevel *cLevel_Manager :: New( fs::path filename )
+cLevel *cLevel_Manager :: New( std::string levelname )
 {
 	// if it already exists
-	if( Get_Path( filename, 1 ) )
+	if( !Get_Path( levelname, true ).empty() )
 	{
 		return NULL;
 	}
 	
 	cLevel *level = new cLevel();
 	// if failed to create
-	if( !level->New( filename ) )
+	if( !level->New( levelname ) )
 	{
 		delete level;
 		return NULL;
@@ -114,9 +114,9 @@ cLevel *cLevel_Manager :: New( fs::path filename )
 	return level;
 }
 
-cLevel *cLevel_Manager :: Load( fs::path filename )
+cLevel *cLevel_Manager :: Load( std::string levelname )
 {
-	cLevel *level = Get( filename );
+	cLevel *level = Get( levelname );
 	// already loaded
 	if( level )
 	{
@@ -125,7 +125,7 @@ cLevel *cLevel_Manager :: Load( fs::path filename )
 	
 	// load
 	level = new cLevel();
-	level->Load( filename );
+	level->Load( levelname );
 	Add( level );
 	return level;
 }
@@ -142,13 +142,13 @@ bool cLevel_Manager :: Set_Active( cLevel *level )
 	return 1;
 }
 
-cLevel *cLevel_Manager :: Get( const fs::path &str )
+cLevel *cLevel_Manager :: Get( const std::string &levelname )
 {
 	for( vector<cLevel *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
 		cLevel *obj = (*itr);
 
-		if( Trim_Filename( obj->m_level_filename, 0, 0 ).compare( str ) == 0 )
+		if( obj->Get_Level_Name().compare( levelname ) == 0 )
 		{
 			return obj;
 		}
@@ -157,12 +157,11 @@ cLevel *cLevel_Manager :: Get( const fs::path &str )
 	return NULL;
 }
 
-bool cLevel_Manager :: Get_Path( fs::path &filename, bool check_only_user_dir /* = 0 */ ) const
+fs::path cLevel_Manager :: Get_Path( const std::string &levelname, bool check_only_user_dir /* = false */ )
 {
-	// Strip off directories and file extension. Note `filename' is a reference;
-	// if we don’t find the file below, the caller’s `filename' is intentionally
-	// the result of this call.
-	filename = Trim_Filename( filename, 0, 0 );
+	// Strip off directories and file extension (although we should
+	// only receive the plain level name here).
+	fs::path filename = Trim_Filename(utf8_to_path(levelname));
 
 	// user level directory as default
 	fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
@@ -172,8 +171,7 @@ bool cLevel_Manager :: Get_Path( fs::path &filename, bool check_only_user_dir /*
 	if( File_Exists( user_filename ) )
 	{
 		// found
-		filename = user_filename;
-		return true;
+		return user_filename;
 	}
 
 	// use old file type
@@ -182,8 +180,7 @@ bool cLevel_Manager :: Get_Path( fs::path &filename, bool check_only_user_dir /*
 	if( File_Exists( user_filename ) )
 	{
 		// found
-		filename = user_filename;
-		return true;
+		return user_filename;
 	}
 
 	if( !check_only_user_dir )
@@ -196,8 +193,7 @@ bool cLevel_Manager :: Get_Path( fs::path &filename, bool check_only_user_dir /*
 		if( File_Exists( game_filename ) )
 		{
 			// found
-			filename = game_filename;
-			return true;
+			return game_filename;
 		}
 
 		// use old file type
@@ -206,13 +202,12 @@ bool cLevel_Manager :: Get_Path( fs::path &filename, bool check_only_user_dir /*
 		if( File_Exists( game_filename ) )
 		{
 			// found
-			filename = game_filename;
-			return true;
+			return game_filename;
 		}
 	}
 
 	// not found
-	return false;
+	return fs::path();
 }
 
 void cLevel_Manager :: Update( void )

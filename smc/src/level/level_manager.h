@@ -44,20 +44,21 @@ public:
 	/* Create a level and returns it if doesn't already exists
 	 * The new level is not set active.
 	*/
-	cLevel *New( boost::filesystem::path filename );
+	cLevel *New( std::string levelname );
 	/* Load level and returns it if successful
 	 * If the level is already loaded it is returned but not reloaded.
 	 * The loaded level is not set active.
 	*/
-	cLevel *Load( boost::filesystem::path filename );
+	cLevel *Load( std::string levelname );
 	// Set active level
 	bool Set_Active( cLevel *level );
 	// Get level pointer
-	cLevel *Get( const boost::filesystem::path &str );
-	/* Return the level path if level is valid else empty
-	* check_only_user_dir : only check user directory for the level
-	*/
-	bool Get_Path( boost::filesystem::path &filename, bool check_only_user_dir = 0 ) const;
+	cLevel *Get( const std::string& levelname );
+	/* Return the level path if level is valid else empty().
+	 * check_only_user_dir : only check user directory for the level and
+	 * skip levels included in the game.
+	 */
+	boost::filesystem::path Get_Path( const std::string& levelname, bool check_only_user_dir = false );
 	// update
 	void Update( void );
 	// draw
