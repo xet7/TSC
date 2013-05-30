@@ -89,6 +89,7 @@ bool cCampaign :: Save( const std::string &filename )
 
 cCampaign_Manager :: cCampaign_Manager( void )
 {
+	debug_print("Loading campaigns\n");
 	Load();
 }
 

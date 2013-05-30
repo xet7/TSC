@@ -102,14 +102,16 @@ fs::path cResource_Manager :: Get_Data_Directory( void )
   std::string utf8_path = ucs2_to_utf8(path_data);
   Convert_Path_Separators(utf8_path);
 
-  return utf8_to_path(utf8_path);
+  return utf8_to_path(utf8_path).parent_path().parent_path() / "share" / "smc";
 #elif __linux
-  char path_data[PATH_MAX];
+	char path_data[PATH_MAX];
+	int count;
 
-  if (readlink("/proc/self/exe", path_data, PATH_MAX) < 0)
-    throw "Failed to retrieve the executable's path from /proc/self/exe!";
+	count = readlink("/proc/self/exe", path_data, PATH_MAX);
+	if (count < 0)
+		throw "Failed to retrieve the executable's path from /proc/self/exe!";
 
-  return utf8_to_path(path_data);
+	return utf8_to_path(std::string(path_data, count)).parent_path().parent_path() / "share" / "smc";
 #elif __APPLE__
   char path_data[PATH_MAX];
   uint32_t size = sizeof(path_data);
@@ -118,7 +120,7 @@ fs::path cResource_Manager :: Get_Data_Directory( void )
   if (_NSGetExecutablePath(path_data, &size) == 0)
     throw "Faileod to retrieve the executable's path from Mac OS!");
 
-  return utf8_to_path(path_data);
+  return utf8_to_path(path_data).parent_path().parent_path() / "share" / "smc";
 #else
   std::cerr << "Warning: Don't know how to determine path to the current executable. Using './data'." << std::endl;
   return boost::filesystem::current_path() / "data";

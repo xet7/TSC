@@ -178,16 +178,8 @@ int main( int argc, char **argv )
 		}
 	}
 
-	try
-	{
-		// initialize everything
-		Init_Game();
-	}
-	catch( const std::exception &e )
-	{
-		printf( "Initialization: Exception raised: %s\n", e.what() );
-		return EXIT_FAILURE;
-	}
+	// initialize everything
+	Init_Game();
 
 	// command line level entering
 	if( argc > 2 && ( arguments[1] == "--level" || arguments[1] == "-l" ) && !arguments[2].empty() )
