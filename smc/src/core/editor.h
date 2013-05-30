@@ -175,7 +175,7 @@ public:
 	 */
 	void Add_Item_Object( cSprite *sprite, std::string new_name = "", cGL_Surface *image = NULL );
 	// Loads all Image Items
-	void Load_Image_Items( std::string dir );
+	void Load_Image_Items( boost::filesystem::path dir );
 	// Active Item Entry
 	virtual void Activate_Item( cEditor_Item_Object *entry );
 	// return the sprite object

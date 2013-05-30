@@ -40,6 +40,10 @@
 #include "elements/CEGUITabControl.h"
 #include "elements/CEGUIScrollbar.h"
 #include "CEGUIGeometryBuffer.h"
+// Boost
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -1312,15 +1316,15 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	m_listbox_items->addItem( new_item );
 }
 
-void cEditor :: Load_Image_Items( std::string dir )
+void cEditor :: Load_Image_Items( fs::path dir )
 {
-	vector<std::string> image_files = Get_Directory_Files( dir, ".settings" );
+	vector<fs::path> image_files = Get_Directory_Files( dir, ".settings" );
 
 	// load all available objects
-	for( vector<std::string>::const_iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
+	for( vector<fs::path>::const_iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
 	{
 		// get filename
-		std::string filename = (*itr);
+		fs::path filename = (*itr);
 
 		// load settings
 		cImage_Settings_Data *settings = pSettingsParser->Get( filename );
@@ -1631,7 +1635,7 @@ void cEditor :: Replace_Sprites( void )
 		return;
 	}
 
-	std::string image_filename = Box_Text_Input( pMouseCursor->m_selected_objects[0]->m_obj->m_start_image->m_filename, _("Change selected Sprite(s) image to"), 0 );
+	std::string image_filename = Box_Text_Input( path_to_utf8(pMouseCursor->m_selected_objects[0]->m_obj->m_start_image->m_path), _("Change selected Sprite(s) image to"), 0 );
 
 	// aborted/invalid
 	if( image_filename.empty() )
