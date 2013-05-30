@@ -309,7 +309,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 
 			if( m_load_base )
 			{
-				fs::path settings_file = m_settings_temp->m_base;
+				fs::path settings_file = data_file.parent_path() / m_settings_temp->m_base;
 
 				// if settings file exists
 				while( !settings_file.empty() )

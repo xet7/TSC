@@ -44,9 +44,10 @@ cResource_Manager :: ~cResource_Manager( void )
 void cResource_Manager :: Init_User_Directory( void )
 {
 	// Create user directory
-	if( fs::exists( user_data_dir ) )
+	if( !Dir_Exists( user_data_dir ) )
 	{
 		// first run if not available
+		debug_print("Creating user directory at '%s'\n", user_data_dir.c_str());
 		fs::create_directory( user_data_dir );
 	}
 	// Create savegame directory

@@ -787,7 +787,7 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
     fs::path filename = (*itr);
 
 		// remove data dir
-    fs::path cache_filename = imgcache_dir_active / fs::relative(filename, pResource_Manager->Get_Data_Directory());
+    fs::path cache_filename = imgcache_dir_active / fs::relative(pResource_Manager->Get_Data_Directory(), filename);
 
 		// if directory
     if ( fs::is_directory(filename) ) {
@@ -1157,10 +1157,10 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 		if (settings_file.extension() != fs::path(".settings"))
 			settings_file.replace_extension(".settings");
 
-		if (exists(settings_file) && is_regular_file(settings_file)) {
+		if (fs::exists(settings_file) && fs::is_regular_file(settings_file)) {
 			settings = pSettingsParser->Get( settings_file );
 
-			fs::path img_filename_cache = m_imgcache_dir / fs::relative(settings_file, pResource_Manager->Get_Data_Directory()); // Why add .png here? Should be in the return value of fs::relative() anyway.
+			fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Data_Directory(), settings_file); // Why add .png here? Should be in the return value of fs::relative() anyway.
 			// check if image cache file exists
 			if (fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
 				sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
