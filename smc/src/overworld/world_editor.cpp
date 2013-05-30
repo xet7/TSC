@@ -242,7 +242,7 @@ void cEditor_World :: Function_Load( void )
 void cEditor_World :: Function_Save( bool with_dialog /* = 0 */ )
 {
 	// if denied
-	if( with_dialog && !Box_Question( _("Save ") + Trim_Filename( m_overworld->m_description->m_name, 0, 0 ) + " ?" ) )
+	if( with_dialog && !Box_Question( _("Save ") + m_overworld->m_description->m_name + " ?" ) )
 	{
 		return;
 	}

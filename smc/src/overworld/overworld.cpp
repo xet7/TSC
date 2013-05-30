@@ -38,6 +38,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+namespace fs = boost::filesystem;
+
 namespace SMC
 {
 
@@ -60,40 +62,38 @@ cOverworld_description :: ~cOverworld_description( void )
 
 void cOverworld_description :: Load( void )
 {
-	std::string filename = Get_Full_Path() + "/description.xml";
+	fs::path filename = m_path / utf8_to_path("description.xml");
 
 	// filename not valid
 	if( !File_Exists( filename ) )
 	{
-		printf( "Error : Couldn't open World description file : %s\n", filename.c_str() );
+		std::cerr << "Error : Couldn't open World description file : " << path_to_utf8(filename) << std::endl;
 		return;
 	}
 
 	// Load Description
 // fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 #ifdef _WIN32
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/World/Description.xsd", "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Description.xsd")), "" );
 #else
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/World/Description.xsd", "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Description.xsd")), "" );
 #endif
 }
 
 void cOverworld_description :: Save( void )
 {
-	std::string save_dir = pResource_Manager->user_data_dir + USER_WORLD_DIR + "/" + m_path;
-	std::string filename = save_dir + "/description.xml";
-
-	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
+	fs::path filename = pResource_Manager->Get_User_World_Directory() / m_path / utf8_to_path("description.xml");
+	fs::ofstream file(filename, ios::out | ios::trunc);
 
 	if( !file )
 	{
-		pHud_Debug->Set_Text( _("Couldn't save world description ") + filename, speedfactor_fps * 5.0f );
+		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return;
 	}
 
 	CEGUI::XMLSerializer stream( file );
 
-	// begin 
+	// begin
 	stream.openTag( "description" );
 
 	// begin
@@ -110,18 +110,6 @@ void cOverworld_description :: Save( void )
 	stream.closeTag();
 
 	file.close();
-}
-
-std::string cOverworld_description :: Get_Full_Path( void ) const
-{
-	// return user world if available
-	if( File_Exists( pResource_Manager->user_data_dir + USER_WORLD_DIR + "/" + m_path + "/description.xml" ) )
-	{
-		return pResource_Manager->user_data_dir + USER_WORLD_DIR + "/" + m_path;
-	}
-
-	// return game world
-	return DATA_DIR "/" GAME_OVERWORLD_DIR "/" + m_path;
 }
 
 void cOverworld_description :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
@@ -164,6 +152,11 @@ void cOverworld_description :: handle_world( const CEGUI::XMLAttributes &attribu
 {
 	m_name = xml_string_to_string( attributes.getValueAsString( "name", m_name.c_str() ).c_str() );
 	m_visible = attributes.getValueAsBool( "visible", 1 );
+}
+
+fs::path cOverworld_description :: Get_Path()
+{
+	return m_path;
 }
 
 /* *** *** *** *** *** *** *** *** cOverworld *** *** *** *** *** *** *** *** *** */
@@ -232,11 +225,11 @@ bool cOverworld :: Load( void )
 	m_description->Load();
 
 	// world
-	std::string world_filename = m_description->Get_Full_Path() + "/world.xml";
+	fs::path world_filename = m_description->Get_Path() / "/world.xml";
 
 	if( !File_Exists( world_filename ) )
 	{
-		printf( "Couldn't find World file : %s from %s\n", world_filename.c_str(), m_description->m_path.c_str() );
+		std::cerr << "Couldn't find World file " << path_to_utf8(world_filename) << std::endl;
 		return 0;
 	}
 
@@ -245,15 +238,15 @@ bool cOverworld :: Load( void )
 		// parse overworld
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)world_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/World/World.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(world_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("/World/World.xsd")), "" );
 	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, world_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/World/World.xsd", "" );	
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(world_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("/World/World.xsd")), "" );
 	#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "Loading World %s CEGUI Exception %s\n", world_filename.c_str(), ex.getMessage().c_str() );
+		std::cerr << "Loading World " << path_to_utf8(world_filename) << "failed with CEGUI exception: " << ex.getMessage() << std::endl;
 		pHud_Debug->Set_Text( _("World Loading failed : ") + (const std::string)ex.getMessage().c_str() );
 	}
 
@@ -264,11 +257,11 @@ bool cOverworld :: Load( void )
 	}
 
 	// layer
-	std::string layer_filename = m_description->Get_Full_Path() + "/layer.xml";
+  fs::path layer_filename = m_description->Get_Path() / "/layer.xml";
 
 	if( !File_Exists( layer_filename ) )
 	{
-		printf( "Couldn't find World Layer file : %s from %s\n", layer_filename.c_str(), m_description->m_path.c_str() );
+		std::cerr << "Couldn't find World Layer file " << path_to_utf8(layer_filename) << std::endl;
 		return 0;
 	}
 
@@ -306,21 +299,25 @@ void cOverworld :: Save( void )
 {
 	pAudio->Play_Sound( "editor/save.ogg" );
 
-	std::string save_dir = pResource_Manager->user_data_dir + USER_WORLD_DIR + "/" + m_description->m_path;
+	// Ensure we save in the user world dir (the user may take a game world to edit
+	// and then save; in that case we want to save in the user dir, because the game
+	// dir most likely is not writable at all.
+	fs::path save_dir = pResource_Manager->Get_User_World_Directory() / m_description->m_path.filename();
+
 	// Create directory if new world
 	if( !Dir_Exists( save_dir ) )
 	{
-		Create_Directory( save_dir );
+		fs::create_directories( save_dir );
 	}
 
-	std::string filename = save_dir + "/world.xml";
+	fs::path filename = save_dir / utf8_to_path("world.xml");
 
-	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
+	fs::ofstream file(filename, ios::out | ios::trunc);
 
 	if( !file )
 	{
-		printf( "Error : Couldn't open world file for saving. Is the file read-only ?" );
-		pHud_Debug->Set_Text( _("Couldn't save world ") + filename, speedfactor_fps * 5.0f );
+		std::cerr << "Error : Couldn't open world file " << path_to_utf8(filename) << " for saving. Is the file read-only ?" << std::endl;
+		pHud_Debug->Set_Text( _("Couldn't save world ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return;
 	}
 
@@ -387,7 +384,7 @@ void cOverworld :: Save( void )
 	file.close();
 
 	// save layer
-	m_layer->Save( save_dir + "/layer.xml" );
+	m_layer->Save( save_dir / utf8_to_path("/layer.xml") );
 	// save description
 	m_description->Save();
 
@@ -1174,7 +1171,7 @@ cSprite *Create_World_Object_From_XML( const CEGUI::String &element, CEGUI::XMLA
 			// if V.1.9 and lower : change old bridge to bridge 1 vertical
 			if( engine_version < 3 )
 			{
-				if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "world/objects/bridge/bridge_1_ver_start.png" ) == 0 )
+				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("world/objects/bridge/bridge_1_ver_start.png")) == 0 )
 				{
 					// move a bit to the left
 					sprite->Move( -7.0f, 0.0f, 1 );

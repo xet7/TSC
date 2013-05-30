@@ -44,11 +44,11 @@ public:
 	// Save
 	void Save( void );
 
-	// returns the full path
-	std::string Get_Full_Path( void ) const;
+	// Full path to the world file
+	boost::filesystem::path Get_Path();
 
-	// directory name
-	std::string m_path;
+	// Full path to the world file
+	boost::filesystem::path m_path;
 	// world name
 	std::string m_name;
 	// is visible on selection
