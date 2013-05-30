@@ -45,11 +45,16 @@
 #include "elements/CEGUISpinner.h"
 #include "elements/CEGUIMultiLineEditbox.h"
 #include "elements/CEGUISlider.h"
+// Boost
+#include <boost/filesystem.hpp>
+
 // unix hackfix : undef None from SDL_syswm.h
 #ifdef None
 	#undef None
 #endif
 #include "elements/CEGUIMultiColumnList.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -480,9 +485,9 @@ void cMenu_Start :: Init_GUI( void )
 	listbox_levels->setSortingEnabled( 1 );
 
 	// get game level
-	Get_Levels( DATA_DIR "/" GAME_LEVEL_DIR, CEGUI::colour( 1, 0.8f, 0.6f ) );
+	Get_Levels( pResource_Manager->Get_Game_Level_Directory(), CEGUI::colour( 1, 0.8f, 0.6f ) );
 	// get user level
-	Get_Levels( pResource_Manager->user_data_dir + USER_LEVEL_DIR, CEGUI::colour( 0.8f, 1, 0.6f ) );
+	Get_Levels( pResource_Manager->Get_User_Level_Directory(), CEGUI::colour( 0.8f, 1, 0.6f ) );
 
 	// events
 	listbox_levels->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Level_Select, this ) );
@@ -555,37 +560,32 @@ void cMenu_Start :: Draw( void )
 	Draw_End();
 }
 
-void cMenu_Start :: Get_Levels( std::string dir, CEGUI::colour color )
+void cMenu_Start :: Get_Levels( fs::path dir, CEGUI::colour color )
 {
 	// Level Listbox
 	CEGUI::Listbox *listbox_levels = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_levels" ));
 
-	// get directory length for erasing
-	int dir_length = dir.length() + 1;
 	// get all files
-	vector<std::string> lvl_files = Get_Directory_Files( dir, "smclvl", 0, 0 );
+	vector<fs::path> lvl_files = Get_Directory_Files( dir, ".smclvl", false, false );
 
 	// list all available levels
-	for( vector<std::string>::iterator itr = lvl_files.begin(); itr != lvl_files.end(); ++itr )
+	for( vector<fs::path>::iterator itr = lvl_files.begin(); itr != lvl_files.end(); ++itr )
 	{
-		// get filename
-		std::string lvl_name = (*itr);
-		// remove base directory
-		lvl_name.erase( 0, dir_length );
+		// get filename without base directory
+		fs::path lvl_path = (*itr).filename();
 
-		// erase file type only if smclvl
-		if( lvl_name.rfind( ".smclvl" ) != std::string::npos )
-		{
-			lvl_name.erase( lvl_name.rfind( ".smclvl" ) );
-		}
+		// erase file extension only if smclvl
+		if (lvl_path.extension() == fs::path(".smclvl"))
+			lvl_path = lvl_path.stem();
 
 		// create listbox item
+		std::string lvl_name = path_to_utf8(lvl_path);
 		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(lvl_name.c_str()) );
 		item->setTextColours( color );
 
 		// check if item with the same name already exists
 		CEGUI::ListboxTextItem *item_old = static_cast<CEGUI::ListboxTextItem *>(listbox_levels->findItemWithText( lvl_name, NULL ));
-		
+
 		if( item_old )
 		{
 			// mix colors
@@ -745,7 +745,8 @@ bool cMenu_Start :: Load_Level( std::string level_name )
 	}
 
 	// if not available
-	if( !pLevel_Manager->Get_Path( level_name ) )
+	boost::filesystem::path level_path = pLevel_Manager->Get_Path(level_name);
+	if( level_path.empty() )
 	{
 		pAudio->Play_Sound( "error.ogg" );
 		pHud_Debug->Set_Text( _("Couldn't load level ") + level_name, static_cast<float>(speedfactor_fps) );
@@ -1147,9 +1148,10 @@ bool cMenu_Start :: Button_Level_Delete_Clicked( const CEGUI::EventArgs &event )
 		}
 
 		// only user directory
-		if( pLevel_Manager->Get_Path( filename, 1 ) )
+		fs::path filepath = pLevel_Manager->Get_Path( filename, true );
+		if( !filepath.empty() )
 		{
-			Delete_File( filename );
+			fs::remove( filename );
 			listbox_levels->removeItem( item );
 		}
 	}
@@ -1306,25 +1308,20 @@ void cMenu_Options :: Init_GUI_Game( void )
 	m_game_combo_language->addItem( item );
 
 	// get available languages
-	vector<std::string> language_files = Get_Directory_Files( DATA_DIR "/" GAME_TRANSLATION_DIR, ".none", 1, 0 );
+	vector<fs::path> language_files = Get_Directory_Files( pResource_Manager->Get_Game_Translation_Directory(), ".none", true, false );
 	// add english as it is the base language and not in the translation directory
-	language_files.push_back( DATA_DIR "/" GAME_TRANSLATION_DIR "/" "en" );
+	language_files.push_back( pResource_Manager->Get_Game_Translation("en") );
 
-	for( vector<std::string>::iterator itr = language_files.begin(); itr != language_files.end(); ++itr )
+	for( vector<fs::path>::iterator itr = language_files.begin(); itr != language_files.end(); ++itr )
 	{
 		// get filename
-		std::string filename = (*itr);
+		fs::path this_path = (*itr);
 
 		// if not directory
-		if( filename.rfind( "." ) != std::string::npos )
-		{
+		if (!fs::is_directory(this_path))
 			continue;
-		}
 
-		// remove data dir
-		filename.erase( 0, strlen( DATA_DIR "/" GAME_TRANSLATION_DIR "/" ) );
-
-		item = new CEGUI::ListboxTextItem( filename );
+		item = new CEGUI::ListboxTextItem( path_to_utf8( this_path.filename() ) );
 		item->setTextColours( CEGUI::colour( 0, 0, 1 ) );
 		m_game_combo_language->addItem( item );
 	}
