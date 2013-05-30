@@ -299,7 +299,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 			return 0;
 		}
 
-		m_settings_temp->m_base = data_file.filename() / utf8_to_path(parts[1]);
+		m_settings_temp->m_base = utf8_to_path(parts[1]);
 		//m_settings_temp->m_base = data_file.substr( 0, data_file.rfind( "/" ) + 1 ) + parts[1];
 
 		// with settings option

@@ -1141,8 +1141,6 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 
 	cVideo::cSoftware_Image cVideo :: Load_Image( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */ ) const
 {
-	using namespace boost::filesystem;
-
 	// pixmaps dir must be given
 	filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 
@@ -1153,24 +1151,24 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 	// load settings if available
 	if( load_settings )
 	{
-		path settings_file = filename;
-		//std::string settings_file_str = path_to_utf8(filename);
+		fs::path settings_file = fs::path(filename);
 
 		// If not already set
-		if (settings_file.extension() != path(".settings"))
+		if (settings_file.extension() != fs::path(".settings"))
 			settings_file.replace_extension(".settings");
 
 		if (exists(settings_file) && is_regular_file(settings_file)) {
 			settings = pSettingsParser->Get( settings_file );
 
-			path img_filename_cache = m_imgcache_dir / fs::relative(settings_file, pResource_Manager->Get_Data_Directory()); // Why add .png here? Should be in the return value of fs::relative() anyway.
+			fs::path img_filename_cache = m_imgcache_dir / fs::relative(settings_file, pResource_Manager->Get_Data_Directory()); // Why add .png here? Should be in the return value of fs::relative() anyway.
 			// check if image cache file exists
-			if (exists(img_filename_cache) && is_regular_file(img_filename_cache))
+			if (fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
 				sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
 			// image given in base settings
 			else if (!settings->m_base.empty()) {
 				// use current directory
-				path img_filename = filename.parent_path() / settings->m_base;
+				fs::path img_filename = filename.parent_path() / settings->m_base;
+
 				if (!exists(img_filename)) {
 					// use data dir
 					img_filename = settings->m_base;
@@ -1251,7 +1249,7 @@ cGL_Surface *cVideo :: Load_GL_Surface( boost::filesystem::path filename, bool u
 	// print error
 	else if( print_errors )
 	{
-		std::cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+		std::cerr << "Error loading GL surface image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
 	}
 
 	return image;
