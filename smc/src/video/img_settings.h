@@ -40,7 +40,7 @@ public:
 	void Apply_Base( const cImage_Settings_Data *base_settings_data );
 
 	// base image/settings path
-	std::string m_base;
+  boost::filesystem::path m_base;
 	// inherit base settings
 	bool m_base_settings;
 
@@ -84,7 +84,7 @@ public:
 	 * load_base_settings : if set will overwrite settings with all base settings if available
 	 * The returned settings data should be deleted if not used anymore
 	*/
-	cImage_Settings_Data *Get( const std::string &filename, bool load_base_settings = 1 );
+	cImage_Settings_Data *Get( const boost::filesystem::path &filename, bool load_base_settings = 1 );
 
 	// Handle one tokenized line
 	virtual bool HandleMessage( const std::string *parts, unsigned int count, unsigned int line );

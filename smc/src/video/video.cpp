@@ -43,11 +43,16 @@
 #include "falagard/CEGUIFalWidgetLookManager.h"
 #include "elements/CEGUIProgressBar.h"
 #include "RendererModules/Null/CEGUINullRenderer.h"
+// boost
+#include <boost/filesystem.hpp>
+#include "../core/filesystem/boost_relative.h"
 // png
 #include <png.h>
 #ifndef PNG_COLOR_TYPE_RGBA
 	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
 #endif
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -172,9 +177,9 @@ void cVideo :: Init_CEGUI( void ) const
 	{
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	#ifdef _WIN32
-		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", (const CEGUI::utf8*)((pResource_Manager->user_data_dir + "cegui.log").c_str()) );
+		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", (const CEGUI::utf8*)(path_to_utf8((pResource_Manager->Get_User_Data_Directory() / "cegui.log")).c_str()) );
 	#else
-		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", pResource_Manager->user_data_dir + "cegui.log" );
+		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", path_to_utf8(pResource_Manager->Get_User_Data_Directory() / "cegui.log" ));
 	#endif
 	}
 	// catch CEGUI Exceptions
@@ -705,8 +710,8 @@ void cVideo :: Init_Resolution_Scale( void ) const
 
 void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 */ )
 {
-	m_imgcache_dir = pResource_Manager->user_data_dir + USER_IMGCACHE_DIR;
-	std::string imgcache_dir_active = m_imgcache_dir + "/" + int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
+	m_imgcache_dir = pResource_Manager->Get_User_Imgcache_Directory();
+  fs::path imgcache_dir_active = m_imgcache_dir / utf8_to_path( int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h ) );
 
 	// if cache is disabled
 	if( !pPreferences->m_image_cache_enabled )
@@ -722,7 +727,7 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 		{
 			try
 			{
-				Delete_Dir_And_Content( m_imgcache_dir );
+        fs::remove_all(m_imgcache_dir);
 			}
 			// could happen if a file is locked or we have no write rights
 			catch( const std::exception &ex )
@@ -737,14 +742,14 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 				}
 			}
 		}
-		
-		Create_Directory( m_imgcache_dir );
+
+    fs::create_directories( m_imgcache_dir );
 	}
 
 	// no cache available
 	if( !Dir_Exists( imgcache_dir_active ) )
 	{
-		Create_Directories( imgcache_dir_active + "/" GAME_PIXMAPS_DIR );
+    fs::create_directories( imgcache_dir_active / utf8_to_path(GAME_PIXMAPS_DIR) );
 	}
 	// cache available
 	else
@@ -770,41 +775,37 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 	}
 
 	// get all files
-	vector<std::string> image_files = Get_Directory_Files( DATA_DIR "/" GAME_PIXMAPS_DIR, ".settings", 1 );
+	vector<fs::path> image_files = Get_Directory_Files( pResource_Manager->Get_Game_Pixmaps_Directory(), ".settings", true );
 
 	unsigned int loaded_files = 0;
 	unsigned int file_count = image_files.size();
 
 	// create directories, load images and save to cache
-	for( vector<std::string>::iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
+	for( vector<fs::path>::iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
 	{
 		// get filename
-		std::string filename = (*itr);
+    fs::path filename = (*itr);
 
 		// remove data dir
-		std::string cache_filename = filename.substr( strlen( DATA_DIR "/" ) );
+    fs::path cache_filename = imgcache_dir_active / fs::relative(filename, pResource_Manager->Get_Data_Directory());
 
 		// if directory
-		if( filename.rfind( "." ) == std::string::npos )
-		{
-			if( !Dir_Exists( imgcache_dir_active + "/" + cache_filename ) )
-			{
-				Create_Directory( imgcache_dir_active + "/" + cache_filename );
-			}
+    if ( fs::is_directory(filename) ) {
+      if (!fs::is_directory(cache_filename)) {
+        fs::create_directory(cache_filename);
+      }
 
-			loaded_files++;
-			continue;
-		}
+      loaded_files++;
+      continue;
+    }
 
-		bool settings_file = 0;
+		bool settings_file = false;
 
 		// Don't use .settings file type directly for image loading
-		if( filename.rfind( ".settings" ) != std::string::npos )
-		{
-			settings_file = 1;
-			filename.erase( filename.rfind( ".settings" ) );
-			filename.insert( filename.length(), ".png" );
-		}
+    if ( filename.extension() == fs::path(".settings") ) {
+      settings_file = true;
+      filename.replace_extension(".png");
+    }
 
 		// load software image
 		cSoftware_Image software_image = Load_Image( filename );
@@ -871,11 +872,11 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 			// save as png
 			if( settings_file )
 			{
-				cache_filename.insert( cache_filename.length(), ".png" );
+        cache_filename.replace_extension(".png");
 			}
 
 			// save image
-			Save_Surface( imgcache_dir_active + "/" + cache_filename, image_downsampled, new_width, new_height, image_bpp );
+			Save_Surface( cache_filename, image_downsampled, new_width, new_height, image_bpp );
 		}
 
 		delete[] image_downsampled;
@@ -891,7 +892,7 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 
 		#ifdef _DEBUG
 			// update filename
-			cGL_Surface *surface_filename = pFont->Render_Text( pFont->m_font_small, filename, white );
+			cGL_Surface *surface_filename = pFont->Render_Text( pFont->m_font_small, path_to_utf8(filename), white );
 			// draw filename
 			surface_filename->Blit( game_res_w * 0.2f, game_res_h * 0.8f, 0.1f );
 		#endif
@@ -1109,23 +1110,18 @@ void cVideo :: Toggle_Fullscreen( void )
 	glClearColor( clear_color[0], clear_color[1], clear_color[2], clear_color[3] );
 }
 
-cGL_Surface *cVideo :: Get_Surface( std::string filename, bool print_errors /* = 1 */ )
+cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = true */ )
 {
 	// .settings file type can't be used directly
-	if( filename.find( ".settings" ) != std::string::npos )
-	{
-		filename.erase( filename.find( ".settings" ) );
-		filename.insert( filename.length(), ".png" );
-	}
+	if (filename.extension() == fs::path(".settings"))
+		filename.replace_extension(".png");
 
 	// pixmaps dir must be given
-	if( filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == std::string::npos )
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_PIXMAPS_DIR "/" );
-	}
+  if (!filename.is_absolute())
+    filename = pResource_Manager->Get_Game_Pixmaps_Directory() / filename;
 
 	// check if already loaded
-	cGL_Surface *image = pImage_Manager->Get_Pointer( filename );
+	cGL_Surface *image = pImage_Manager->Get_Pointer( path_to_utf8(filename) );
 	// already loaded
 	if( image )
 	{
@@ -1133,7 +1129,7 @@ cGL_Surface *cVideo :: Get_Surface( std::string filename, bool print_errors /* =
 	}
 
 	// load new image
-	image = Load_GL_Surface( filename, 1, print_errors );
+	image = Load_GL_Surface( path_to_utf8(filename), 1, print_errors );
 	// add new image
 	if( image )
 	{
@@ -1143,13 +1139,12 @@ cGL_Surface *cVideo :: Get_Surface( std::string filename, bool print_errors /* =
 	return image;
 }
 
-cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */ ) const
+	cVideo::cSoftware_Image cVideo :: Load_Image( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */ ) const
 {
+	using namespace boost::filesystem;
+
 	// pixmaps dir must be given
-	if( filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == std::string::npos ) 
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_PIXMAPS_DIR "/" );
-	}
+	filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 
 	cSoftware_Image software_image = cSoftware_Image();
 	SDL_Surface *sdl_surface = NULL;
@@ -1158,56 +1153,41 @@ cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_se
 	// load settings if available
 	if( load_settings )
 	{
-		std::string settings_file = filename;
+		path settings_file = filename;
+		//std::string settings_file_str = path_to_utf8(filename);
 
-		// if not already set
-		if( settings_file.rfind( ".settings" ) == std::string::npos )
-		{
-			settings_file.erase( settings_file.rfind( "." ) + 1 );
-			settings_file.insert( settings_file.rfind( "." ) + 1, "settings" );
-		}
+		// If not already set
+		if (settings_file.extension() != path(".settings"))
+			settings_file.replace_extension(".settings");
 
-		// if a settings file exists
-		if( File_Exists( settings_file ) )
-		{
+		if (exists(settings_file) && is_regular_file(settings_file)) {
 			settings = pSettingsParser->Get( settings_file );
 
-			// add cache dir and remove data dir
-			std::string img_filename_cache = m_imgcache_dir + "/" + settings_file.substr( strlen( DATA_DIR "/" ) ) + ".png";
-
+			path img_filename_cache = m_imgcache_dir / fs::relative(settings_file, pResource_Manager->Get_Data_Directory()); // Why add .png here? Should be in the return value of fs::relative() anyway.
 			// check if image cache file exists
-			if( File_Exists( img_filename_cache ) )
-			{
-				sdl_surface = IMG_Load( img_filename_cache.c_str() );
-			}
+			if (exists(img_filename_cache) && is_regular_file(img_filename_cache))
+				sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
 			// image given in base settings
-			else if( !settings->m_base.empty() )
-			{
+			else if (!settings->m_base.empty()) {
 				// use current directory
-				std::string img_filename = filename.substr( 0, filename.rfind( "/" ) + 1 ) + settings->m_base;
-
-				// not found
-				if( !File_Exists( img_filename ) )
-				{
+				path img_filename = filename.parent_path() / settings->m_base;
+				if (!exists(img_filename)) {
 					// use data dir
 					img_filename = settings->m_base;
 
 					// pixmaps dir must be given
-					if( img_filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == std::string::npos )
-					{
-						img_filename.insert( 0, DATA_DIR "/" GAME_PIXMAPS_DIR "/" );
-					}
+					img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 				}
 
-				sdl_surface = IMG_Load( img_filename.c_str() );
+				sdl_surface = IMG_Load(path_to_utf8(img_filename).c_str());
 			}
 		}
 	}
 
 	// if not set in image settings and file exists
-	if( !sdl_surface && File_Exists( filename ) && ( !settings || settings->m_base.empty() ) )
+	if( !sdl_surface && exists( filename ) && ( !settings || settings->m_base.empty() ) )
 	{
-		sdl_surface = IMG_Load( filename.c_str() );
+		sdl_surface = IMG_Load( path_to_utf8(filename).c_str() );
 	}
 
 	if( !sdl_surface )
@@ -1220,7 +1200,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_se
 
 		if( print_errors )
 		{
-			printf( "Error loading image : %s\nReason : %s\n", filename.c_str(), SDL_GetError() );
+      std::cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
 		}
 
 		return software_image;
@@ -1231,13 +1211,12 @@ cVideo::cSoftware_Image cVideo :: Load_Image( std::string filename, bool load_se
 	return software_image;
 }
 
-cGL_Surface *cVideo :: Load_GL_Surface( std::string filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */ )
+cGL_Surface *cVideo :: Load_GL_Surface( boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */ )
 {
+	using namespace boost::filesystem;
+
 	// pixmaps dir must be given
-	if( filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == std::string::npos ) 
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_PIXMAPS_DIR "/" );
-	}
+	filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 
 	// load software image
 	cSoftware_Image software_image = Load_Image( filename, use_settings, print_errors );
@@ -1267,12 +1246,12 @@ cGL_Surface *cVideo :: Load_GL_Surface( std::string filename, bool use_settings 
 	// set filename
 	if( image )
 	{
-		image->m_filename = filename;
+		image->m_path = filename;
 	}
 	// print error
 	else if( print_errors )
 	{
-		printf( "Error loading image : %s\nReason : %s\n", filename.c_str(), SDL_GetError() );
+		std::cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
 	}
 
 	return image;
@@ -1790,11 +1769,11 @@ void cVideo :: Save_Screenshot( void )
 {
 	Render_Finish();
 
-	std::string filename;
-	
+	fs::path filename;
+
 	for( unsigned int i = 1; i < 1000; i++ )
 	{
-		filename = pResource_Manager->user_data_dir + USER_SCREENSHOT_DIR "/" + int_to_string( i ) + ".png";
+		filename = pResource_Manager->Get_User_Screenshot_Directory() / utf8_to_path(int_to_string(i) + ".png");
 
 		if( !File_Exists( filename ) )
 		{
@@ -1816,20 +1795,25 @@ void cVideo :: Save_Screenshot( void )
 	}
 }
 
-void cVideo :: Save_Surface( const std::string &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp /* = 4 */, bool reverse_data /* = 0 */ ) const
+void cVideo :: Save_Surface( const fs::path &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp /* = 4 */, bool reverse_data /* = 0 */ ) const
 {
 	FILE *fp = NULL;
 
-	// fixme : Check if there is a more portable way f.e. with imbue()
-	#ifdef _WIN32
-		fp = _wfopen( utf8_to_ucs2( filename ).c_str(), L"wb" );
-	#else
-		fp = fopen( filename.c_str(), "wb" );
-	#endif
+	// This is bad. libpng directly wants a FILE pointer and there’s no way
+	// to use boost’s much better fs::ofstream. So we have to resort to getting
+	// the underlying platform-specific representation of `filename' (which is
+	// an UTF-16 string on Windows and UTF-8 everywhere else) and then call the
+	// platform-specific function to open a unicode-filename file with that platform-
+	// specific string. Uah.
+#ifdef _WIN32
+	fp = _wfopen( filename.native().c_str(), L"wb" );
+#else
+	fp = fopen( filename.native().c_str(), "wb" );
+#endif
 
 	if( !fp )
 	{
-		printf( "Warning: cVideo :: Save_Surface : Could not create file for writing\n" );
+		std::cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << std::endl;
 		return;
 	}
 

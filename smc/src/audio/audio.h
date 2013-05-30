@@ -110,7 +110,7 @@ public:
 	/* Check if the sound was already loaded and returns a pointer to it else it will be loaded.
 	 * The returned sound should not be deleted or modified.
 	 */
-	cSound *Get_Sound_File( std::string filename ) const;
+	cSound *Get_Sound_File( boost::filesystem::path filename ) const;
 
 	// Play the given sound
 	bool Play_Sound( std::string filename, int res_id = -1, int volume = -1, int loops = 0 );

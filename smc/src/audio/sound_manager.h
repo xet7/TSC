@@ -32,14 +32,14 @@ class cSound
 public:
 	cSound( void );
 	virtual ~cSound( void );
-	
+
 	// Load the data
-	bool Load( const std::string &filename );
+	bool Load( const boost::filesystem::path &filename );
 	// Free the data
 	void Free( void );
 
 	// filename
-	std::string m_filename;
+	boost::filesystem::path m_filename;
 	// data if loaded else null
 	Mix_Chunk *m_chunk;
 };
@@ -61,7 +61,7 @@ public:
 	virtual ~cSound_Manager( void );
 
 	// Return the Sound from Path
-	virtual cSound *Get_Pointer( const std::string &path ) const;
+	virtual cSound *Get_Pointer( const boost::filesystem::path &path ) const;
 
 	/* Add a Sound
 	 * Should always have the path set

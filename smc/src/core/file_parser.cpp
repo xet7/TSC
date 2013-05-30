@@ -13,10 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+
 #include "../core/global_basic.h"
 #include "../core/file_parser.h"
 #include "../core/game_core.h"
 #include <cstdio>
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -33,13 +38,13 @@ cFile_parser :: ~cFile_parser( void )
 	//
 }
 
-bool cFile_parser :: Parse( const std::string &filename )
+bool cFile_parser :: Parse( const fs::path &filename )
 {
-	ifstream ifs( filename.c_str(), ios::in );
-	
+	fs::ifstream ifs( filename, ios::in );
+
 	if( !ifs )
 	{
-		printf( "Could not load data file : %s\n", filename.c_str() );
+		std::cerr << "Could not load data file : " << path_to_utf8(filename) << std::endl;
 		return 0;
 	}
 

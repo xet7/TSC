@@ -32,6 +32,10 @@
 #include "elements/CEGUIEditbox.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
+// Boost
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -137,7 +141,7 @@ void cLevel_Exit :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "camera_motion", m_exit_motion );
 
 	// destination level name
-	std::string str_level = Get_Level( 0, 0 );
+	std::string str_level = Get_Level();
 	if( !str_level.empty() )
 	{
 		Write_Property( stream, "level_name", str_level );
@@ -381,19 +385,17 @@ void cLevel_Exit :: Set_Level( std::string filename )
 	m_editor_color = lila;
 	m_editor_color.alpha = 128;
 
-	// erase file type and directory if set
-	m_dest_level = Trim_Filename( filename, 0, 0 );
+	m_dest_level = filename;
 }
 
-std::string cLevel_Exit :: Get_Level( bool with_dir /* = 1 */, bool with_end /* = 1 */ ) const
+std::string cLevel_Exit :: Get_Level() const
 {
-	std::string name = m_dest_level;
+  return m_dest_level;
+}
 
-	// Get level path
-	pLevel_Manager->Get_Path( name );
-
-	// return
-	return Trim_Filename( name, with_dir, with_end );
+fs::path cLevel_Exit :: Get_Level_Path()
+{
+  return pLevel_Manager->Get_Path(m_dest_level);
 }
 
 void cLevel_Exit :: Set_Entry( const std::string &entry_name )
@@ -491,7 +493,7 @@ void cLevel_Exit :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "level_exit_destination_level" ));
 	Editor_Add( UTF8_("Destination Level"), UTF8_("Name of the level that should be entered. If empty uses the current level."), editbox, 150 );
 
-	editbox->setText( Get_Level( 0, 0 ) );
+	editbox->setText( Get_Level() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Destination_Level_Text_Changed, this ) );
 
 	// destination entry

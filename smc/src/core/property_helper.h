@@ -97,7 +97,11 @@ std::wstring utf8_to_ucs2( const std::string &str );
 // Windows automatically, and does no conversion of str on
 // other platforms.
 boost::filesystem::path utf8_to_path( const std::string &str );
-
+// Convert a path created by utf8_to_path() platform-independently
+// back to a UTF-8 std::string. On Windows, `path' is automatically
+// converted back to UTF-8 from UTF-16, on other platforms no
+// conversion is performed.
+std::string path_to_utf8(const boost::filesystem::path& path);
 // Return the given time as string
 std::string Time_to_String( time_t t, const char *format );
 

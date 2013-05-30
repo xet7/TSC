@@ -204,8 +204,7 @@ std::string cSave :: Get_Active_Level( void )
 	{
 		cSave_Level *save_level = (*itr);
 
-		fs::path filename = utf8_to_path(save_level->m_name);
-		if( !pLevel_Manager->Get_Path( filename ) )
+		if( pLevel_Manager->Get_Path( save_level->m_name ).empty() )
 		{
 			continue;
 		}

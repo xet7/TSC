@@ -22,6 +22,8 @@
 #undef GL_GLEXT_VERSION // Prevent ugly compilation warning
 #include "SDL.h"
 #include "SDL_opengl.h"
+// Boost
+#include <boost/filesystem/path.hpp>
 
 namespace SMC
 {
@@ -61,6 +63,10 @@ public:
 	void Load_Software_Texture( cSaved_Texture *soft_tex );
 
 	// Return the filename
+	// FIXME: Legacy method mixing up name handling (std::string) and
+	// path handling (boost::filesystem::path). This always returns
+	// std::string instances. If you want a boost::filesystem::path
+	// use utf8_to_path().
 	std::string Get_Filename( int with_dir = 2, bool with_end = 1 ) const;
 	// Set a function called on destruction
 	void Set_Destruction_Function( void ( *nfunction )( cGL_Surface * ) );
@@ -89,7 +95,7 @@ public:
 	float m_col_h;
 
 	// origin if created from a file
-	std::string m_filename;
+	boost::filesystem::path m_path;
 	// should the image be deleted
 	bool m_auto_del_img;
 	// if managed over the image manager

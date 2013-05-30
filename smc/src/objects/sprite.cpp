@@ -28,6 +28,8 @@
 #include "../core/i18n.h"
 #include "../scripting/events/touch_event.h"
 #include "../level/level_editor.h"
+#include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "CEGUIFontManager.h"
@@ -466,15 +468,15 @@ void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	// UID
 	Write_Property( stream, "uid", m_uid );
 	// image
-	std::string img_filename;
+	boost::filesystem::path img_filename;
 
 	if( m_start_image )
 	{
-		img_filename = m_start_image->m_filename;
+		img_filename = m_start_image->m_path;
 	}
 	else if( m_image )
 	{
-		img_filename = m_image->m_filename;
+		img_filename = m_image->m_path;
 	}
 	else
 	{
@@ -482,11 +484,10 @@ void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 
 	// remove pixmaps directory from string
-	if( img_filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == 0 )
-	{
-		img_filename.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
-	Write_Property( stream, "image", img_filename );
+	if (img_filename.is_absolute())
+		img_filename = boost::filesystem::relative(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+
+	Write_Property( stream, "image", img_filename.native() );
 	// type (only if Get_XML_Type_Name() returns something
 	// meaningful)
 	std::string type = Get_XML_Type_Name();

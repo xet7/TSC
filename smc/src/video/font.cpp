@@ -15,6 +15,7 @@
  
 #include "../video/font.h"
 #include "../video/gl_surface.h"
+#include "../core/property_helper.h"
 
 namespace SMC
 {
@@ -129,7 +130,7 @@ cGL_Surface *cFont_Manager :: Render_Text( TTF_Font *font, const std::string &te
 		return NULL;
 	}
 
-	surface->m_filename = text;
+	surface->m_path = utf8_to_path(text);
 
 	// set function if font gets deleted
 	surface->Set_Destruction_Function( &Font_Delete_Ref );

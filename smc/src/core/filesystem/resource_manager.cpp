@@ -24,7 +24,7 @@
 #include "filesystem.h"
 #include "../property_helper.h"
 
-using namespace boost::filesystem;
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -33,7 +33,7 @@ namespace SMC
 
 cResource_Manager :: cResource_Manager( void )
 {
-	user_data_dir = "";
+	user_data_dir = fs::path();
 }
 
 cResource_Manager :: ~cResource_Manager( void )
@@ -44,51 +44,51 @@ cResource_Manager :: ~cResource_Manager( void )
 void cResource_Manager :: Init_User_Directory( void )
 {
 	// Create user directory
-	if( !Dir_Exists( user_data_dir ) )
+	if( fs::exists( user_data_dir ) )
 	{
 		// first run if not available
-		Create_Directory( user_data_dir );
+		fs::create_directory( user_data_dir );
 	}
 	// Create savegame directory
-	if( !Dir_Exists( user_data_dir + USER_SAVEGAME_DIR ) )
+	if( !Dir_Exists( Get_User_Savegame_Directory() ))
 	{
-		Create_Directory( user_data_dir + USER_SAVEGAME_DIR );
+		fs::create_directory( Get_User_Savegame_Directory() );
 	}
 	// Create screenshot directory
-	if( !Dir_Exists( user_data_dir + USER_SCREENSHOT_DIR ) )
+	if( !Dir_Exists( Get_User_Screenshot_Directory() ) )
 	{
-		Create_Directory( user_data_dir + USER_SCREENSHOT_DIR );
+		fs::create_directory( Get_User_Screenshot_Directory() );
 	}
 	// Create level directory
-	if( !Dir_Exists( user_data_dir + USER_LEVEL_DIR ) )
+	if( !Dir_Exists( Get_User_Level_Directory() ) )
 	{
-		Create_Directory( user_data_dir + USER_LEVEL_DIR );
+		fs::create_directory( Get_User_Level_Directory() );
 	}
 	// Create world directory
-	if( !Dir_Exists( user_data_dir + USER_WORLD_DIR ) )
+	if( !Dir_Exists( Get_User_World_Directory() ) )
 	{
-		Create_Directory( user_data_dir + USER_WORLD_DIR );
+		fs::create_directory( Get_User_World_Directory() );
 	}
 	// Create campaign directory
-	if( !Dir_Exists( user_data_dir + USER_CAMPAIGN_DIR ) )
+	if( !Dir_Exists( Get_User_Campaign_Directory() ) )
 	{
-		Create_Directory( user_data_dir + USER_CAMPAIGN_DIR );
+		fs::create_directory( Get_User_Campaign_Directory() );
 	}
 	// Create cache directory
-	if( !Dir_Exists( user_data_dir + USER_IMGCACHE_DIR ) )
+	if( !Dir_Exists( Get_User_Imgcache_Directory() ) )
 	{
-		Create_Directory( user_data_dir + USER_IMGCACHE_DIR );
+		fs::create_directory( Get_User_Imgcache_Directory() );
 	}
 }
 
-bool cResource_Manager :: Set_User_Directory( const std::string &dir )
+bool cResource_Manager :: Set_User_Directory( const fs::path &dir )
 {
 	user_data_dir = dir;
 
 	return 1;
 }
 
-path cResource_Manager :: Get_Data_Directory( void )
+fs::path cResource_Manager :: Get_Data_Directory( void )
 {
 #ifdef FIXED_DATA_DIR
   return utf8_to_path(FIXED_DATA_DIR);
@@ -126,14 +126,114 @@ path cResource_Manager :: Get_Data_Directory( void )
 #endif
 }
 
-path cResource_Manager :: Get_Game_Pixmaps_Dir()
+fs::path cResource_Manager :: Get_Game_Pixmaps_Directory()
 {
   return Get_Data_Directory() / utf8_to_path(GAME_PIXMAPS_DIR);
 }
 
-path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
+fs::path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
 {
-  return Get_Game_Pixmaps_Dir() / utf8_to_path(pixmap);
+  return Get_Game_Pixmaps_Directory() / utf8_to_path(pixmap);
+}
+
+fs::path cResource_Manager :: Get_User_Data_Directory()
+{
+  return user_data_dir;
+}
+
+fs::path cResource_Manager :: Get_User_Level_Directory()
+{
+  return Get_User_Data_Directory() / utf8_to_path(USER_LEVEL_DIR);
+}
+
+fs::path cResource_Manager :: Get_User_Level(std::string filename)
+{
+  return Get_User_Level_Directory() / utf8_to_path(filename);
+}
+
+fs::path cResource_Manager :: Get_User_Savegame_Directory()
+{
+  return Get_User_Data_Directory() / utf8_to_path(USER_SAVEGAME_DIR);
+}
+
+fs::path cResource_Manager :: Get_User_Screenshot_Directory()
+{
+  return Get_User_Data_Directory() / utf8_to_path(USER_SCREENSHOT_DIR);
+}
+
+fs::path cResource_Manager :: Get_User_World_Directory()
+{
+  return Get_User_Data_Directory() / utf8_to_path(USER_WORLD_DIR);
+}
+
+fs::path cResource_Manager :: Get_User_Campaign_Directory()
+{
+  return Get_User_Data_Directory() / utf8_to_path(USER_CAMPAIGN_DIR);
+}
+
+fs::path cResource_Manager :: Get_User_Imgcache_Directory()
+{
+  return Get_User_Data_Directory() / utf8_to_path(USER_IMGCACHE_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Schema_Directory()
+{
+  return Get_Data_Directory() / utf8_to_path(GAME_SCHEMA_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Schema(std::string schema)
+{
+  return Get_Game_Schema_Directory() / utf8_to_path(schema);
+}
+
+fs::path cResource_Manager :: Get_Game_Level_Directory()
+{
+  return Get_Data_Directory() / utf8_to_path(GAME_LEVEL_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Level(std::string level)
+{
+  return Get_Game_Level_Directory() / utf8_to_path(level);
+}
+
+fs::path cResource_Manager :: Get_Game_Translation_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_TRANSLATION_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Translation(std::string transname)
+{
+	return Get_Game_Translation_Directory() / utf8_to_path(transname);
+}
+
+fs::path cResource_Manager :: Get_Game_Sounds_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_SOUNDS_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Sound(std::string sound)
+{
+	return Get_Game_Sounds_Directory() / utf8_to_path(sound);
+}
+
+fs::path cResource_Manager :: Get_Game_Campaign_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_CAMPAIGN_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Campaign(std::string campaign)
+{
+	return Get_Game_Campaign_Directory() / utf8_to_path(campaign);
+}
+
+fs::path cResource_Manager :: Get_Game_Overworld_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_OVERWORLD_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Overworld(std::string overworld)
+{
+	return Get_Game_Overworld_Directory() / utf8_to_path(overworld);
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

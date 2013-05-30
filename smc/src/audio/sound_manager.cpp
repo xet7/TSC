@@ -13,7 +13,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "../core/property_helper.h"
 #include "../audio/sound_manager.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -30,11 +33,11 @@ cSound :: ~cSound( void )
 	Free();
 }
 
-bool cSound :: Load( const std::string &filename )
+bool cSound :: Load( const fs::path &filename )
 {
 	Free();
 	
-	m_chunk = Mix_LoadWAV( filename.c_str() );
+	m_chunk = Mix_LoadWAV( path_to_utf8(filename).c_str() );
 
 	if( m_chunk )
 	{
@@ -70,7 +73,7 @@ cSound_Manager :: ~cSound_Manager( void )
 	cSound_Manager::Delete_All();
 }
 
-cSound *cSound_Manager :: Get_Pointer( const std::string &path ) const
+cSound *cSound_Manager :: Get_Pointer( const fs::path &path ) const
 {
 	for( SoundList::const_iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
