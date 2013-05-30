@@ -39,12 +39,14 @@ public:
 	cLevel( void );
 	virtual ~cLevel( void );
 
-	/* Create a new level
+	/* Create a new level with the given name (file extension and user
+   * level directory are automatically added).
 	 * returns true if successful
 	*/
-	bool New( boost::filesystem::path filename );
-	// Load
-	bool Load( boost::filesystem::path filename );
+	bool New( std::string levelname );
+	// Load an existing level by name (file extension and user or
+  // game directory are automatically added).
+	bool Load( std::string levelname );
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
 	*/
@@ -64,6 +66,11 @@ public:
 	void Enter( const GameMode old_mode = MODE_NOTHING );
 	// Leave level mode (e.g. for showing the menu), level not necessarily unloaded
 	void Leave( const GameMode next_mode = MODE_NOTHING );
+
+	// Return the level’s name, derived from the filename.
+	// If you don’t need the full absolute path of the level file,
+	// use this method rather than accessing m_level_filename.
+	std::string Get_Level_Name();
 
 	// update level
 	void Update( void );

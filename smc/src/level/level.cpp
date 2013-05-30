@@ -122,13 +122,12 @@ cLevel :: ~cLevel( void )
 	delete m_sprite_manager;
 }
 
-bool cLevel :: New( fs::path filename )
+  bool cLevel :: New( std::string levelname )
 {
 	Unload();
 
-	std::string filenamestr = path_to_utf8(filename);
-	string_trim( filenamestr, ' ' );
-	filename = utf8_to_path(filenamestr);
+	string_trim( levelname, ' ' );
+	fs::path filename = utf8_to_path(levelname);
 
 	fs::ifstream ifs;
 
@@ -190,14 +189,15 @@ bool cLevel :: New( fs::path filename )
 	return 0;
 }
 
-bool cLevel :: Load( fs::path filename )
+bool cLevel :: Load( std::string levelname )
 {
 	m_next_level_filename.clear();
 
-	if( !pLevel_Manager->Get_Path( filename ) )
+	fs::path filename = pLevel_Manager->Get_Path( levelname );
+	if( filename.empty() )
 	{
 		// show error without directory and file type
-		std::cerr << "Couldn't load level : " << path_to_utf8(filename) << std::endl;
+		std::cerr << "Couldn't load level : " << levelname << std::endl;
 		return 0;
 	}
 
@@ -220,7 +220,7 @@ bool cLevel :: Load( fs::path filename )
 		// catch CEGUI Exceptions
 		catch( CEGUI::Exception &ex )
 		{
-			std::cerr << "Loading Level “" << filename << "” resulted in CEGUI exception: " << ex.getMessage() << std::endl;
+			std::cerr << "Loading Level “" << path_to_utf8(filename) << "” resulted in CEGUI exception: " << ex.getMessage() << std::endl;
 			pHud_Debug->Set_Text( _("Loading Level failed : ") + (const std::string)ex.getMessage().c_str() );
 			return 0;
 		}
@@ -492,6 +492,11 @@ void cLevel :: Init( void )
 #endif
 }
 
+std::string cLevel :: Get_Level_Name()
+{
+	return path_to_utf8(Trim_Filename(m_level_filename, false, false));
+}
+
 void cLevel :: Set_Sprite_Manager( void )
 {
 	pHud_Manager->Set_Sprite_Manager( m_sprite_manager );
@@ -616,7 +621,7 @@ void cLevel :: Update( void )
 
 	if( !m_next_level_filename.empty() )
 	{
-		Load( m_next_level_filename );
+		Load( path_to_utf8(m_next_level_filename) );
 	}
 
 	// if level-editor is not active
