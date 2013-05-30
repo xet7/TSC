@@ -39,12 +39,14 @@ public:
 	cLevel( void );
 	virtual ~cLevel( void );
 
-	/* Create a new level
+	/* Create a new level with the given name (file extension and user
+   * level directory are automatically added).
 	 * returns true if successful
 	*/
-	bool New( std::string filename );
-	// Load
-	bool Load( std::string filename );
+	bool New( std::string levelname );
+	// Load an existing level by name (file extension and user or
+  // game directory are automatically added).
+	bool Load( std::string levelname );
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
 	*/
@@ -64,6 +66,11 @@ public:
 	void Enter( const GameMode old_mode = MODE_NOTHING );
 	// Leave level mode (e.g. for showing the menu), level not necessarily unloaded
 	void Leave( const GameMode next_mode = MODE_NOTHING );
+
+	// Return the level’s name, derived from the filename.
+	// If you don’t need the full absolute path of the level file,
+	// use this method rather than accessing m_level_filename.
+	std::string Get_Level_Name();
 
 	// update level
 	void Update( void );
@@ -116,7 +123,7 @@ public:
 	/* Set the filename
 	 * rename_old : if set also rename the level file in the user folder
 	*/
-	void Set_Filename( std::string filename, bool rename_old = 1 );
+	void Set_Filename( boost::filesystem::path filename, bool rename_old = true );
 	// Set the level author
 	void Set_Author( const std::string &name );
 	// Set the level version
@@ -149,9 +156,9 @@ public:
 	};
 
 	// level filename
-	std::string m_level_filename;
+	boost::filesystem::path m_level_filename;
 	// if a new level should be loaded this is the next level filename
-	std::string m_next_level_filename;
+	boost::filesystem::path	 m_next_level_filename;
 	// MRuby script code associated with this level
 	std::string m_script;
 

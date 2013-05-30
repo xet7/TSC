@@ -23,6 +23,10 @@
 #include "../video/animation.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
+// Boost
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -80,23 +84,23 @@ void cOverworld_Manager :: Init( void )
 	}
 
 	// Load Worlds
-	Load_Dir( pResource_Manager->user_data_dir + USER_WORLD_DIR, 1 );
-	Load_Dir( DATA_DIR "/" GAME_OVERWORLD_DIR );
+	Load_Dir( pResource_Manager->Get_User_World_Directory(), true );
+	Load_Dir( pResource_Manager->Get_Game_Overworld_Directory() );
 }
 
-void cOverworld_Manager :: Load_Dir( const std::string &dir, bool user_dir /* = 0 */ ) 
+void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = false */ )
 {
 	// set world directory
-	vector<std::string> subdirs = Get_Directory_Files( dir, "", 1, 0 );
+	vector<fs::path> subdirs = Get_Directory_Files( dir, "", true, false );
 
-	for( vector<std::string>::iterator curdir = subdirs.begin(); curdir != subdirs.end(); ++curdir )
+	for( vector<fs::path>::iterator curdir = subdirs.begin(); curdir != subdirs.end(); ++curdir )
 	{
 		try
 		{
-			std::string current_dir = *curdir;
+			fs::path current_dir = *curdir;
 
 			// only directories with an existing description
-			if( File_Exists( current_dir + "/description.xml" ) )
+			if( File_Exists( current_dir / "description.xml" ) )
 			{
 				cOverworld *overworld = Get_from_Path( current_dir );
 
@@ -109,13 +113,10 @@ void cOverworld_Manager :: Load_Dir( const std::string &dir, bool user_dir /* = 
 
 				overworld = new cOverworld();
 
-				// get relative path
-				std::string relative_path( current_dir, current_dir.rfind( '/' ) );
-
-				// set relative path
-				overworld->m_description->m_path = relative_path;
+				// set directory path
+				overworld->m_description->m_path = fs::path(current_dir);
 				// default name is the path
-				overworld->m_description->m_name = relative_path;
+				overworld->m_description->m_name = path_to_utf8(current_dir.filename());
 				// set user
 				overworld->m_description->m_user = user_dir;
 
@@ -191,16 +192,16 @@ cOverworld *cOverworld_Manager :: Get( const std::string &str )
 		return world;
 	}
 
-	return Get_from_Path( str );
+	return Get_from_Path( utf8_to_path( str ) );
 }
 
-cOverworld *cOverworld_Manager :: Get_from_Path( const std::string &path )
+cOverworld *cOverworld_Manager :: Get_from_Path( const fs::path &path )
 {
 	for( vector<cOverworld *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
 		cOverworld *obj = (*itr);
 
-		if( obj->m_description->m_path.compare( path ) == 0 )
+		if( obj->m_description->m_path.compare( path ) == 0 || obj->m_description->m_path.filename().compare( path ))
 		{
 			return obj;
 		}

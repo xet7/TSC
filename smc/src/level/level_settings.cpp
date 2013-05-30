@@ -243,7 +243,7 @@ void cLevel_Settings :: Leave( void )
 	if( level_filename.length() > 1 && Trim_Filename( m_level->m_level_filename, 0, 0 ).compare( level_filename ) != 0 )
 	{
 		m_level->Set_Filename( level_filename );
-		if( Box_Question( _("Save ") + Trim_Filename( level_filename, 0, 0 ) + " ?" ) )
+		if( Box_Question( _("Save ") + path_to_utf8(Trim_Filename( level_filename, false, false )) + " ?" ) )
 		{
 			m_level->Save();
 		}

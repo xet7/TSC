@@ -70,8 +70,10 @@ public:
 
 	// Set the destination level
 	void Set_Level( std::string filename );
-	// Return the destination level
-	std::string Get_Level( bool with_dir = 1, bool with_end = 1 ) const;
+	// Return the destination level name
+	std::string Get_Level() const;
+	// Return the destination level's file path
+	boost::filesystem::path Get_Level_Path();
 
 	// Set the destination entry
 	void Set_Entry( const std::string &entry_name );
@@ -102,7 +104,7 @@ public:
 	Level_Exit_type m_exit_type;
 	// motion type
 	Camera_movement m_exit_motion;
-	// destination level
+	// destination level name (not path)
 	std::string m_dest_level;
 	// destination entry ( only used if in same level )
 	std::string m_dest_entry;

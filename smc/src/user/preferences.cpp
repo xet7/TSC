@@ -29,6 +29,7 @@
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -109,12 +110,12 @@ cPreferences :: ~cPreferences( void )
 	//
 }
 
-bool cPreferences :: Load( const std::string &filename /* = "" */ )
+bool cPreferences :: Load( const fs::path &filename /* = fs::path() */ )
 {
 	Reset_All();
 	
 	// if config file is given
-	if( filename.length() )
+	if( !filename.empty() )
 	{
 		m_config_filename = filename;
 	}
@@ -122,12 +123,12 @@ bool cPreferences :: Load( const std::string &filename /* = "" */ )
 	// prefer local config file
 	if( File_Exists( m_config_filename ) )
 	{
-		printf( "Using local preferences file : %s\n", m_config_filename.c_str() );
+		std::cout << "Using local preferences file : " << m_config_filename << std::endl;
 	}
 	// user dir
 	else
 	{
-		m_config_filename.insert( 0, pResource_Manager->user_data_dir );
+		m_config_filename = fs::absolute(m_config_filename, pResource_Manager->Get_User_Data_Directory());
 
 		// does not exist in user dir
 		if( !File_Exists( m_config_filename ) )
@@ -135,7 +136,7 @@ bool cPreferences :: Load( const std::string &filename /* = "" */ )
 			// only print warning if file is given
 			if( !filename.empty() )
 			{
-				printf( "Couldn't open preferences file : %s\n", m_config_filename.c_str() );
+				std::cerr << "Couldn't open preferences file “" << m_config_filename << "”" << std::endl;
 			}
 			return 0;
 		}
@@ -145,9 +146,9 @@ bool cPreferences :: Load( const std::string &filename /* = "" */ )
 	{
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)m_config_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Config.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(m_config_filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Config.xsd")), "" );
 	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_config_filename, DATA_DIR "/" GAME_SCHEMA_DIR "/Config.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_config_filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Config.xsd")), "" );
 	#endif
 	}
 	// catch CEGUI Exceptions
@@ -170,11 +171,11 @@ void cPreferences :: Save( void )
 {
 	Update();
 
-	boost::filesystem::ofstream file(utf8_to_path(m_config_filename), ios::out | ios::trunc);
+	fs::ofstream file(m_config_filename, ios::out | ios::trunc);
 
 	if( !file.is_open() )
 	{
-		printf( "Error : couldn't open config %s for saving. Is the file read-only ?\n", m_config_filename.c_str() );
+		std::cerr << "Error : couldn't open config “" << m_config_filename << "” for saving. Is the file read-only ?" << std::endl;
 		return;
 	}
 
@@ -187,7 +188,7 @@ void cPreferences :: Save( void )
 	Write_Property( stream, "game_language", m_language );
 	Write_Property( stream, "game_always_run", m_always_run );
 	Write_Property( stream, "game_menu_level", m_menu_level );
-	Write_Property( stream, "game_user_data_dir", m_force_user_data_dir );
+	Write_Property( stream, "game_user_data_dir", path_to_utf8(m_force_user_data_dir) );
 	Write_Property( stream, "game_camera_hor_speed", m_camera_hor_speed );
 	Write_Property( stream, "game_camera_ver_speed", m_camera_ver_speed );
 	// Video
@@ -483,19 +484,9 @@ void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
 	}
 	else if( name.compare( "game_user_data_dir" ) == 0 || name.compare( "user_data_dir" ) == 0 )
 	{
-		m_force_user_data_dir = attributes.getValueAsString( "value" ).c_str();
-
-		// if user data dir is set
-		if( !m_force_user_data_dir.empty() ) 
-		{
-			Convert_Path_Separators( m_force_user_data_dir );
-
-			// add trailing slash if missing
-			if( *(m_force_user_data_dir.end() - 1) != '/' )
-			{
-				m_force_user_data_dir.insert( m_force_user_data_dir.length(), "/" );
-			}
-		}
+		std::string str = attributes.getValueAsString( "value" ).c_str();
+		Convert_Path_Separators(str);
+		m_force_user_data_dir = utf8_to_path(str);
 	}
 	else if( name.compare( "game_camera_hor_speed" ) == 0 || name.compare( "camera_hor_speed" ) == 0 )
 	{

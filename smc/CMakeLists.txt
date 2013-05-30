@@ -99,7 +99,7 @@ endif()
 # pkg-config is really the better way to check for libs.
 # Unfortunetly, the above libraries don’t support it
 # properly.
-pkg_check_modules(PNG REQUIRED libpng<=1.5.15) # SDL doesn’t like libpng 1.6 yet as it seems
+pkg_check_modules(PNG REQUIRED libpng)
 pkg_check_modules(SDL REQUIRED sdl)
 pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)

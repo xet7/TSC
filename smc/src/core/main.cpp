@@ -178,16 +178,8 @@ int main( int argc, char **argv )
 		}
 	}
 
-	try
-	{
-		// initialize everything
-		Init_Game();
-	}
-	catch( const std::exception &e )
-	{
-		printf( "Initialization: Exception raised: %s\n", e.what() );
-		return EXIT_FAILURE;
-	}
+	// initialize everything
+	Init_Game();
 
 	// command line level entering
 	if( argc > 2 && ( arguments[1] == "--level" || arguments[1] == "-l" ) && !arguments[2].empty() )
@@ -263,6 +255,7 @@ void Init_Game( void )
 	/* Set default user directory
 	 * can get overridden later from the preferences
 	*/
+	debug_print("Setting user directory to '%s'\n", Get_User_Directory().c_str());
 	pResource_Manager->Set_User_Directory( Get_User_Directory() );
 	/* Initialize the fake CEGUI renderer and system for the pPreferences XMLParser,
 	 * because CEGUI creates the system normally with the OpenGL-Renderer and OpenGL calls may 
@@ -295,20 +288,28 @@ void Init_Game( void )
 	// audio init
 	pAudio->Init();
 
+	debug_print("Loading campaigns\n");
 	pCampaign_Manager = new cCampaign_Manager();
+
+	debug_print("Setting up level player\n");
 	pLevel_Player = new cLevel_Player( NULL );
 	pLevel_Player->m_disallow_managed_delete = 1;
 	// set the first active player available
 	pActive_Player = pLevel_Player;
+
+	debug_print("Loading levels\n");
 	pLevel_Manager = new cLevel_Manager();
 	// set the first animation manager available
 	pActive_Animation_Manager = pActive_Level->m_animation_manager;
 	// set the first active sprite manager available
 	pLevel_Player->Set_Sprite_Manager( pActive_Level->m_sprite_manager );
+
   // Initialize scripting
+	debug_print("Initializing mruby scripting engine\n");
   Script::Initialize_Scripting();
 
 	// apply preferences
+	debug_print("Applying preferences\n");
 	pPreferences->Apply();
 
 	// draw generic loading screen
@@ -340,8 +341,10 @@ void Init_Game( void )
 	pSavegame = new cSavegame();
 
 	// cache
+	debug_print("Preloading images and sounds...\n");
 	Preload_Images( 1 );
 	Preload_Sounds( 1 );
+	debug_print("Done preloading images and sounds.\n");
 	Loading_Screen_Exit();
 }
 

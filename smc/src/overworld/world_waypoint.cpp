@@ -24,6 +24,7 @@
 #include "../core/i18n.h"
 #include "../video/gl_surface.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
@@ -372,41 +373,28 @@ void cWaypoint :: Set_Access( bool enabled, bool new_start_access /* = 0 */ )
 	}
 }
 
-void cWaypoint :: Set_Destination( std::string str )
+void cWaypoint :: Set_Destination( std::string level_or_worldname )
 {
-	// normal waypoint
-	if( m_waypoint_type == WAYPOINT_NORMAL )
-	{
-		// erase file type and directory  if set
-		str = Trim_Filename( str, 0, 0 );
-	}
-	// world waypoint
-	else if( m_waypoint_type == WAYPOINT_WORLD_LINK && str.find( DATA_DIR "/" GAME_OVERWORLD_DIR "/" ) != std::string::npos )
-	{
-		str.erase( 0, strlen( DATA_DIR "/" GAME_OVERWORLD_DIR "/" ) );
-	}
-
-	m_destination = str;
+	m_destination = level_or_worldname;
 }
 
-std::string cWaypoint :: Get_Destination( bool with_dir /* = 0 */, bool with_end /* = 0 */ ) const
+std::string cWaypoint :: Get_Destination() const
 {
-	std::string name = m_destination;
+	return m_destination;
+}
 
-	if( m_waypoint_type == WAYPOINT_NORMAL )
-	{
-		pLevel_Manager->Get_Path( name );
-		name = Trim_Filename( name, with_dir, with_end );
+boost::filesystem::path cWaypoint :: Get_Destination_Path()
+{
+	switch(m_waypoint_type) {
+	case WAYPOINT_NORMAL:
+		return pLevel_Manager->Get_Path(m_destination);
+	case WAYPOINT_WORLD_LINK:
+		return pResource_Manager->Get_Game_Overworld(m_destination);
+	default:
+		// FIXME: Throw an exception
+		std::cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;
+		return boost::filesystem::path();
 	}
-	else if( m_waypoint_type == WAYPOINT_WORLD_LINK )
-	{
-		if( with_dir && name.find( DATA_DIR "/" GAME_OVERWORLD_DIR "/" ) == std::string::npos )
-		{
-			name.insert( 0, DATA_DIR "/" GAME_OVERWORLD_DIR "/" );
-		}
-	}
-
-	return name;
 }
 
 void cWaypoint :: Editor_Activate( void )

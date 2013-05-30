@@ -31,7 +31,7 @@ public:
 	virtual ~cFile_parser( void );
 
 	// Parses the given file
-	bool Parse( const std::string &filename );
+	bool Parse( const boost::filesystem::path &filename );
 
 	// Tokenize a line
 	bool Parse_Line( std::string str_line, int line_num );
@@ -40,7 +40,7 @@ public:
 	virtual bool HandleMessage( const std::string *parts, unsigned int count, unsigned int line );
 
 	// data filename
-	std::string data_file;
+	boost::filesystem::path data_file;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

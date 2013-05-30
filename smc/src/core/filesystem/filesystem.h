@@ -16,6 +16,7 @@
 #ifndef SMC_FILESYSTEM_H
 #define SMC_FILESYSTEM_H
 
+#include <boost/filesystem.hpp>
 #include "../../core/global_basic.h"
 
 namespace SMC
@@ -24,40 +25,18 @@ namespace SMC
 /* *** *** *** *** *** filesystem functions *** *** *** *** *** *** *** *** *** *** *** *** */
 
 // Return the trimmed filename with the given options
-std::string Trim_Filename( std::string filename, bool keep_dir = 1, bool keep_end = 1 );
+boost::filesystem::path Trim_Filename( boost::filesystem::path filename, bool keep_dir = true, bool keep_end = true );
 
 // Check if the file exists
-bool File_Exists( const std::string &filename );
+bool File_Exists( const boost::filesystem::path &filename );
 // Check if the directory exists
-bool Dir_Exists( const std::string &dir );
-/* Deletes the given file.
- * Use with caution.
- * Returns true on success
-*/
-bool Delete_File( const std::string &filename );
+bool Dir_Exists( const boost::filesystem::path &dir );
+
 /* Deletes the given directory, which must be empty.
  * Use with caution.
  * Returns true on success
 */
 bool Delete_Dir( const std::string &dir );
-/* Deletes the given directory including the contents.
- * Use with caution.
- * Returns true on success
-*/
-bool Delete_Dir_And_Content( const std::string &dir );
-/* Rename the given file
- * Returns true on success
-*/
-bool Rename_File( const std::string &old_filename, const std::string &new_filename );
-
-/* Create directory.
-* Returns 1 if a new directory was created, otherwise 0
-*/
-bool Create_Directory( const std::string &dir );
-/* Create all needed directories.
-* Returns 1 if the directories were created, otherwise 0
-*/
-bool Create_Directories( const std::string &dir );
 
 /* Get the file size in bytes.
 * returns 0 if the file does not exist
@@ -69,11 +48,11 @@ void Convert_Path_Separators( std::string &str );
 
 /* Get all files from the directory.
  * dir : the directory to scan
- * file_type : if set only this file type is returned
+ * file_type : if set only this files with this file extension (with dot) are returned
  * with_directories : if set adds directories to the returned objects
  * search_in_sub_directories : searches in every sub-directory
 */
-vector<std::string> Get_Directory_Files( const std::string &dir, const std::string &file_type = "", bool with_directories = 0, bool search_in_sub_directories = 1 );
+vector<boost::filesystem::path> Get_Directory_Files( const boost::filesystem::path &dir, const std::string &file_type = "", bool with_directories = false, bool search_in_sub_directories = true );
 
 // Return the operating system temporary files directory
 boost::filesystem::path Get_Temp_Directory( void );

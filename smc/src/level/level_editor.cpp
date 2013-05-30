@@ -362,7 +362,7 @@ bool cEditor_Level :: Function_New( void )
 	}
 
 	// if it already exists
-	if( pLevel_Manager->Get_Path( level_name, 1 ) )
+	if( !pLevel_Manager->Get_Path( level_name, true ).empty() )
 	{
 		pHud_Debug->Set_Text( _("Level ") + level_name + _(" already exists") );
 		return 0;
@@ -396,7 +396,8 @@ void cEditor_Level :: Function_Load( void )
 		}
 
 		// if available
-		if( pLevel_Manager->Get_Path( level_name ) )
+    boost::filesystem::path level_path = pLevel_Manager->Get_Path(level_name);
+		if( !level_path.empty() )
 		{
 			Game_Action = GA_ENTER_LEVEL;
 			Game_Mode_Type = MODE_TYPE_LEVEL_CUSTOM;
@@ -407,7 +408,7 @@ void cEditor_Level :: Function_Load( void )
 			Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 			Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 
-			pHud_Debug->Set_Text( _("Loaded ") + Trim_Filename( level_name, 0, 0 ) );
+			pHud_Debug->Set_Text( _("Loaded ") + path_to_utf8( Trim_Filename( level_path, 0, 0 ) ) );
 
 			break;
 		}
@@ -428,7 +429,7 @@ void cEditor_Level :: Function_Save( bool with_dialog /* = 0 */ )
 	}
 
 	// if denied
-	if( with_dialog && !Box_Question( _("Save ") + Trim_Filename( pActive_Level->m_level_filename, 0, 0 ) + " ?" ) )
+	if( with_dialog && !Box_Question( _("Save ") + pActive_Level->Get_Level_Name() + " ?" ) )
 	{
 		return;
 	}
@@ -452,15 +453,15 @@ void cEditor_Level :: Function_Save_as( void )
 
 void cEditor_Level :: Function_Delete( void )
 {
-	std::string filename = pActive_Level->m_level_filename;
-	if( !pLevel_Manager->Get_Path( filename, 1 ) )
+  std::string levelname = pActive_Level->Get_Level_Name();
+	if( pLevel_Manager->Get_Path( levelname, true ).empty() )
 	{
 		pHud_Debug->Set_Text( _("Level was not yet saved") );
 		return;
 	}
 
 	// if denied
-	if( !Box_Question( _("Delete and Unload ") + Trim_Filename( filename, 0, 0 ) + " ?" ) )
+	if( !Box_Question( _("Delete and Unload ") + levelname + " ?" ) )
 	{
 		return;
 	}
@@ -489,7 +490,7 @@ void cEditor_Level :: Function_Reload( void )
 		return;
 	}
 
-	if( pActive_Level->Load( Trim_Filename( pActive_Level->m_level_filename, 0 ) ) )
+	if( pActive_Level->Load( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, false ) ) ) )
 	{
 		pActive_Level->Init();
 	}

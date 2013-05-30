@@ -431,18 +431,33 @@ std::wstring utf8_to_ucs2( const std::string& utf8 )
  *
  * The utf8_to_path() function is defined differently according to the platform,
  * allowing us to map platform-specific conversion to the uniform interface
- * of a boost::filesystem::path instance.
+ * of a boost::filesystem::path instance. The same goes vice-versa for the
+ * path_to_utf8() function.
  */
 #ifdef _WIN32
+
 boost::filesystem::path utf8_to_path(const std::string& utf8)
 {
   return boost::filesystem::path(utf8_to_ucs2(utf8));
 }
+
+std::string path_to_utf8(const boost::filesystem::path& path)
+{
+  return ucs2_to_utf8(path.native());
+}
+
 #else
+
 boost::filesystem::path utf8_to_path(const std::string& utf8)
 {
   return boost::filesystem::path(utf8);
 }
+
+std::string path_to_utf8(const boost::filesystem::path& path)
+{
+  return std::string(path.native()); // Copy
+}
+
 #endif
 
 std::string Time_to_String( time_t t, const char *format )

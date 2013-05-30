@@ -64,10 +64,12 @@ public:
 	// Set Access
 	void Set_Access( bool enabled, bool new_start_access = 0 );
 
-	// Set the Destination
-	void Set_Destination( std::string str );
-	// Returns the Destination
-	std::string Get_Destination( bool with_dir = 0, bool with_end = 0 ) const;
+	// Set the Destination, either a level or world name (NOT a path!)
+	void Set_Destination( std::string level_or_worldname );
+	// Returns the Destination's level or world name (no path)
+	std::string Get_Destination() const;
+	// Returns the Destination’s full filename (world or level file).
+	boost::filesystem::path Get_Destination_Path();
 
 	// editor activation
 	virtual void Editor_Activate( void );

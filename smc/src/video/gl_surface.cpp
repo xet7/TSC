@@ -18,6 +18,9 @@
 #include "../video/renderer.h"
 #include "../video/img_manager.h"
 #include "../objects/sprite.h"
+#include "../core/property_helper.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -95,7 +98,7 @@ cGL_Surface *cGL_Surface :: Copy( void ) const
 	new_surface->m_col_pos = m_col_pos;
 	new_surface->m_col_w = m_col_w;
 	new_surface->m_col_h = m_col_h;
-	new_surface->m_filename = m_filename;
+	new_surface->m_path = m_path;
 
 	// settings
 	new_surface->m_obsolete = m_obsolete;
@@ -282,11 +285,11 @@ void cGL_Surface :: Load_Software_Texture( cSaved_Texture *soft_tex )
 	// load from file
 	else
 	{
-		cGL_Surface *surface_copy = pVideo->Load_GL_Surface( m_filename );
+		cGL_Surface *surface_copy = pVideo->Load_GL_Surface( m_path );
 
 		if( !surface_copy )
 		{
-			printf( "Warning: cGL_Surface :: Load_Software_Texture %s loading failed\n", m_filename.c_str() );
+			printf( "Warning: cGL_Surface :: Load_Software_Texture %s loading failed\n", m_path.c_str() );
 			return;
 		}
 
@@ -301,9 +304,14 @@ void cGL_Surface :: Load_Software_Texture( cSaved_Texture *soft_tex )
 	}
 }
 
+// FIXME: This whole method is completely broken in respect to
+// handling paths as fs::path objects and names as std::string objects.
+// Sadly, it is called from nearly every file in SMC so changing it
+// means editing, testing, and fixing ALL OF SMC. It's legacy code
+// dating from prior to the transition to boost::filesystem.
 std::string cGL_Surface :: Get_Filename( int with_dir /* = 2 */, bool with_end /* = 1 */ ) const
 {
-	std::string name = m_filename;
+	std::string name = path_to_utf8(m_path); // FIXME: Legacy code makes string manipulation
 
 	// erase whole directory
 	if( with_dir == 0 && name.rfind( "/" ) != std::string::npos ) 

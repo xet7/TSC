@@ -19,6 +19,7 @@
 #include "../overworld/overworld.h"
 #include "../core/i18n.h"
 #include "../overworld/world_editor.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIWindowManager.h"
@@ -27,6 +28,8 @@
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -327,7 +330,7 @@ void cLayer :: Add( cLayer_Line_Point_Start *line_point )
 	}
 }
 
-void cLayer :: Load( const std::string &filename )
+void cLayer :: Load( const fs::path &filename )
 {
 	Delete_All();
 
@@ -336,26 +339,26 @@ void cLayer :: Load( const std::string &filename )
 		// parse layer
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/World/Lines.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Lines.xsd")), "" );
 	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/World/Lines.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Lines.xsd")), "" );
 	#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "Loading Line Layer %s CEGUI Exception %s\n", filename.c_str(), ex.getMessage().c_str() );
+		std::cerr << "Loading Line Layer " << path_to_utf8(filename) << " failed with CEGUI exception: " << ex.getMessage() << std::endl;
 		pHud_Debug->Set_Text( _("Line Layer Loading failed : ") + (const std::string)ex.getMessage().c_str() );
 	}
 }
 
-bool cLayer :: Save( const std::string &filename )
+bool cLayer :: Save( const fs::path &filename )
 {
-	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
+	fs::ofstream file(filename, ios::out | ios::trunc);
 
 	if( !file )
 	{
-		pHud_Debug->Set_Text( _("Couldn't save world layer ") + filename );
+		pHud_Debug->Set_Text( _("Couldn't save world layer ") + path_to_utf8(filename) );
 		return 0;
 	}
 

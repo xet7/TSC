@@ -32,6 +32,7 @@
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -203,7 +204,7 @@ std::string cSave :: Get_Active_Level( void )
 	{
 		cSave_Level *save_level = (*itr);
 
-		if( !pLevel_Manager->Get_Path( save_level->m_name ) )
+		if( pLevel_Manager->Get_Path( save_level->m_name ).empty() )
 		{
 			continue;
 		}
@@ -222,7 +223,7 @@ std::string cSave :: Get_Active_Level( void )
 
 cSavegame :: cSavegame( void )
 {
-	m_savegame_dir = pResource_Manager->user_data_dir + USER_SAVEGAME_DIR;
+	m_savegame_dir = pResource_Manager->Get_User_Savegame_Directory();
 }
 
 cSavegame :: ~cSavegame( void )
@@ -455,7 +456,7 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 			// create level data
 			cSave_Level *save_level = new cSave_Level();
 
-			save_level->m_name = Trim_Filename( level->m_level_filename, 0, 0 );
+			save_level->m_name = path_to_utf8(Trim_Filename( level->m_level_filename, false, false ));
 			
 			// save position and script data if active level
 			if( pActive_Level == level )
@@ -581,21 +582,22 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 
 cSave *cSavegame :: Load( unsigned int save_slot )
 {
-	std::string filename = m_savegame_dir + "/" + int_to_string( save_slot ) + ".smcsav";
+	fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
 
 	// if not new format try the old
 	if( !File_Exists( filename ) )
 	{
-		filename = m_savegame_dir + "/" + int_to_string( save_slot ) + ".save";
+		filename = m_savegame_dir / utf8_to_path(int_to_string( save_slot ) + ".save");
 	}
 
 	if( !File_Exists( filename ) )
 	{
-		printf( "Error : cSavegame::Load : No Savegame found at Slot : %s\n", filename.c_str() );
+		// FIXME: This should raise an exception.
+		std::cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << std::endl;
 		return NULL;
 	}
 
-	cSavegame_XML_Handler *loader = new cSavegame_XML_Handler( filename );
+	cSavegame_XML_Handler *loader = new cSavegame_XML_Handler( path_to_utf8(filename) );
 	cSave *savegame = loader->Acquire_Savegame();
 	delete loader;
 
@@ -604,16 +606,16 @@ cSave *cSavegame :: Load( unsigned int save_slot )
 
 int cSavegame :: Save( unsigned int save_slot, cSave *savegame )
 {
-	const std::string filename = m_savegame_dir + "/" + int_to_string( save_slot ) + ".smcsav";
+	fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
 	// remove old format savegame
-	Delete_File( m_savegame_dir + "/" + int_to_string( save_slot ) + ".save" );
+	fs::remove( m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save") );
 
-	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
+	fs::ofstream file(filename, ios::out | ios::trunc);
 
 	if( !file.is_open() )
 	{
 		printf( "Error : Couldn't open savegame file for saving. Is the file read-only ?" );
-		pHud_Debug->Set_Text( _("Couldn't save savegame ") + filename, speedfactor_fps * 5.0f );
+		pHud_Debug->Set_Text( _("Couldn't save savegame ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return 0;
 	}
 
@@ -822,7 +824,7 @@ std::string cSavegame :: Get_Description( unsigned int save_slot, bool only_desc
 
 bool cSavegame :: Is_Valid( unsigned int save_slot ) const
 {
-	return ( File_Exists( m_savegame_dir + "/" + int_to_string( save_slot ) + ".smcsav" ) || File_Exists( m_savegame_dir + "/" + int_to_string( save_slot ) + ".save" ) );
+	return ( File_Exists( m_savegame_dir / utf8_to_path(int_to_string( save_slot ) + ".smcsav") ) || File_Exists( m_savegame_dir / utf8_to_path(int_to_string( save_slot ) + ".save") ) );
 }
 
 /* *** *** *** *** *** *** *** cSavegame_XML_Handler *** *** *** *** *** *** *** *** *** *** */

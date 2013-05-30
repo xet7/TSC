@@ -31,53 +31,28 @@ namespace SMC
 
 /* *** *** *** *** *** *** cResource_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-std::string Trim_Filename( std::string filename, bool keep_dir /* = 1 */, bool keep_end /* = 1 */ )
+fs::path Trim_Filename( fs::path filename, bool keep_dir /* = 1 */, bool keep_end /* = 1 */ )
 {
-	if( !keep_dir && filename.find( "/" ) != std::string::npos ) 
-	{
-		filename.erase( 0, filename.rfind( "/" ) + 1 );
-	}
-
-	if( !keep_end && filename.rfind( "." ) != std::string::npos ) 
-	{
-		filename.erase( filename.rfind( "." ) );
-	}
+	if (!keep_dir)
+		filename = filename.filename();
+	if (!keep_end)
+		filename.replace_extension("");
 
 	return filename;
 }
 
-bool File_Exists( const std::string &filename )
+bool File_Exists( const fs::path &filename )
 {
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	fs::file_type type = fs::status( fs::path( utf8_to_ucs2( filename ) ) ).type();
-#else
-	fs::file_type type = fs::status( fs::path( filename ) ).type();
-#endif
+  fs::file_type type = fs::status(filename).type();
 
 	return type == fs::regular_file || type == fs::symlink_file;
 }
 
-bool Dir_Exists( const std::string &dir )
+bool Dir_Exists( const fs::path &dir )
 {
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	fs::file_type type = fs::status( fs::path( utf8_to_ucs2( dir ) ) ).type();
-#else
-	fs::file_type type = fs::status( fs::path( dir ) ).type();
-#endif
+  fs::file_type type = fs::status(dir).type();
 
 	return type == fs::directory_file || type == fs::symlink_file;
-}
-
-bool Delete_File( const std::string &filename )
-{
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	return DeleteFileW( utf8_to_ucs2( filename ).c_str() ) != 0;
-#else
-	return remove( filename.c_str() ) == 0;
-#endif
 }
 
 bool Delete_Dir( const std::string &dir )
@@ -87,51 +62,6 @@ bool Delete_Dir( const std::string &dir )
 	return RemoveDirectoryW( utf8_to_ucs2( dir ).c_str() ) != 0;
 #else
 	return rmdir( dir.c_str() ) == 0;
-#endif
-}
-
-bool Delete_Dir_And_Content( const std::string &dir )
-{
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	return fs::remove_all( fs::path( utf8_to_ucs2( dir ).c_str() ) ) > 0;
-#else
-	return fs::remove_all( fs::path( dir ) ) > 0;
-#endif
-}
-
-bool Rename_File( const std::string &old_filename, const std::string &new_filename )
-{
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	return MoveFileExW( utf8_to_ucs2( old_filename ).c_str(), utf8_to_ucs2( new_filename ).c_str(), MOVEFILE_REPLACE_EXISTING ) != 0;
-#else
-	return rename( old_filename.c_str(), new_filename.c_str() ) == 0;
-#endif
-}
-
-bool Create_Directory( const std::string &dir )
-{
-	if( dir.empty() )
-	{
-		return 0;
-	}
-
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	return CreateDirectoryW( utf8_to_ucs2( dir ).c_str(), NULL ) != 0;
-#else
-	return fs::create_directory( fs::path( dir ) );
-#endif
-}
-
-bool Create_Directories( const std::string &dir )
-{
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	return fs::create_directories( fs::path( utf8_to_ucs2( dir ).c_str() ) );
-#else
-	return fs::create_directories( fs::path( dir ) );
 #endif
 }
 
@@ -169,50 +99,45 @@ void Convert_Path_Separators( std::string &str )
 	}
 }
 
-vector<std::string> Get_Directory_Files( const std::string &dir, const std::string &file_type /* = "" */, bool with_directories /* = 0 */, bool search_in_sub_directories /* = 1 */ )
+vector<fs::path> Get_Directory_Files( const fs::path &dir, const std::string &file_type /* = "" */, bool with_directories /* = false */, bool search_in_sub_directories /* = true */ )
 {
-	vector<std::string> valid_files;
+	vector<fs::path> valid_files;
+	fs::path extension = utf8_to_path(file_type);
 
-// fixme : boost should use a codecvt_facet but for now we convert to UCS-2
-#ifdef _WIN32
-	fs::path full_path( utf8_to_ucs2( dir ) );
-#else
-	fs::path full_path( dir );
-#endif
-	fs::directory_iterator end_iter;
+	fs::directory_iterator end_iter; // No-args constructor makes an end-iter according to docs
 
 	// load all available objects
-	for( fs::directory_iterator dir_itr( full_path ); dir_itr != end_iter; ++dir_itr )
+	for( fs::directory_iterator dir_itr( dir ); dir_itr != end_iter; ++dir_itr )
 	{
 		try
 		{
-			const std::string filename_str = dir_itr->path().filename().string();
+      const fs::path this_path = dir_itr->path();
 
 			// if directory
 			if( fs::is_directory( *dir_itr ) )
 			{
-				// ignore hidden directories
-				if( filename_str.find( "." ) == 0 )
+				// ignore hidden directories and . and ..
+				if( this_path.native().find( "." ) == 0 )
 				{
 					continue;
 				}
 
 				if( with_directories )
 				{
-					valid_files.push_back( dir + "/" + filename_str );
+					valid_files.push_back(this_path);
 				}
 
 				// load all items from the sub-directory
 				if( search_in_sub_directories )
 				{
-					vector<std::string> new_valid_files = Get_Directory_Files( dir + "/" + filename_str, file_type, with_directories );
+					vector<fs::path> new_valid_files = Get_Directory_Files( this_path, file_type, with_directories );
 					valid_files.insert( valid_files.end(), new_valid_files.begin(), new_valid_files.end() );
 				}
 			}
 			// valid file
-			else if( file_type.empty() || filename_str.rfind( file_type ) != std::string::npos )
+			else if( extension.empty() || this_path.extension() == extension )
 			{
-				valid_files.push_back( dir + "/" + filename_str );
+				valid_files.push_back( this_path );
 			}
 		}
 		catch( const std::exception &ex )

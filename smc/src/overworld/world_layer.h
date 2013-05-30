@@ -138,10 +138,10 @@ public:
 	virtual void Add( cLayer_Line_Point_Start *line_point );
 
 	// Load from file
-	void Load( const std::string &filename );
+	void Load( const boost::filesystem::path &filename );
 
 	// Save
-	bool Save( const std::string &filename );
+	bool Save( const boost::filesystem::path &filename );
 
 	// Delete all objects
 	virtual void Delete_All( void );

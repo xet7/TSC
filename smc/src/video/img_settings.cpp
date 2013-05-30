@@ -13,11 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/filesystem.hpp>
 #include "../video/img_settings.h"
 #include "../core/game_core.h"
 #include "../core/math/utilities.h"
 #include "../core/math/size.h"
 #include "../core/filesystem/filesystem.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -91,7 +94,7 @@ void cImage_Settings_Data :: Apply( cGL_Surface *image ) const
 	// empty image
 	if( !image )
 	{
-		printf( "Error : surface for base %s does not exist\n", m_base.c_str() );
+		std::cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << std::endl;
 		return;
 	}
 
@@ -267,7 +270,7 @@ cImage_Settings_Parser :: ~cImage_Settings_Parser( void )
 	//
 }
 
-cImage_Settings_Data *cImage_Settings_Parser :: Get( const std::string &filename, bool load_base_settings /* = 1 */ )
+cImage_Settings_Data *cImage_Settings_Parser :: Get( const boost::filesystem::path &filename, bool load_base_settings /* = 1 */ )
 {
 	m_load_base = load_base_settings;
 	m_settings_temp = new cImage_Settings_Data();
@@ -284,19 +287,20 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count < 2 || count > 3 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2-3 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[2] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
 
-		m_settings_temp->m_base = data_file.substr( 0, data_file.rfind( "/" ) + 1 ) + parts[1];
+		m_settings_temp->m_base = utf8_to_path(parts[1]);
+		//m_settings_temp->m_base = data_file.substr( 0, data_file.rfind( "/" ) + 1 ) + parts[1];
 
 		// with settings option
 		if( count == 3 && string_to_int( parts[2] ) )
@@ -305,20 +309,17 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 
 			if( m_load_base )
 			{
-				std::string settings_file = m_settings_temp->m_base;
+				fs::path settings_file = data_file.parent_path() / m_settings_temp->m_base;
 
 				// if settings file exists
 				while( !settings_file.empty() )
 				{
 					// if not already image settings based
-					if( settings_file.rfind( ".settings" ) == std::string::npos )
-					{
-						settings_file.erase( settings_file.rfind( "." ) + 1 );
-						settings_file.insert( settings_file.rfind( "." ) + 1, "settings" );
-					}
+					if( settings_file.extension() != utf8_to_path(".settings") )
+						settings_file.replace_extension(".settings");
 
 					// not found
-					if( !File_Exists( settings_file ) )
+					if( !fs::exists(settings_file) )
 					{
 						break;
 					}
@@ -352,14 +353,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
@@ -370,14 +371,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
@@ -388,7 +389,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 5 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 5 parameters" );
 			return 0;
 		}
@@ -397,7 +398,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 		{
 			if( !Is_Valid_Number( parts[i] ) )
 			{
-				printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+				printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 				printf( "%s is not a valid integer value\n", parts[1].c_str() );
 				return 0;
 			}
@@ -410,14 +411,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
@@ -428,14 +429,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
@@ -446,14 +447,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count < 2 || count > 5 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2-5 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
@@ -466,7 +467,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 		{
 			if( !Is_Valid_Number( parts[2] ) )
 			{
-				printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+				printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 				printf( "%s is not a valid integer value\n", parts[2].c_str() );
 				return 0; // error
 			}
@@ -478,7 +479,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 		{
 			if( !Is_Valid_Number( parts[3] ) )
 			{
-				printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+				printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 				printf( "%s is not a valid integer value\n", parts[3].c_str() );
 				return 0;
 			}
@@ -490,14 +491,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0;
 		}
@@ -512,7 +513,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
@@ -523,7 +524,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
@@ -534,7 +535,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
@@ -545,7 +546,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
@@ -556,7 +557,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
@@ -567,14 +568,14 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 			printf( "%s is not a valid integer value\n", parts[1].c_str() );
 			return 0; // error
 		}
@@ -587,7 +588,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	}
 	else
 	{
-		printf( "%s : line %d Error : ", Trim_Filename( data_file, 0, 0 ).c_str(), line );
+		printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
 		printf( "Unknown Command : %s\n", parts[0].c_str() );
 		return 0;
 	}

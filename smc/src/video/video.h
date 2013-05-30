@@ -37,7 +37,8 @@
 // CEGUI
 #include "CEGUISystem.h"
 #include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
-// boost thread
+// boost
+#include <boost/filesystem.hpp>
 #include <boost/thread/thread.hpp>
 
 namespace SMC
@@ -138,7 +139,7 @@ public:
 	/* Check if the image was already loaded and returns a pointer to it else it will be loaded
 	 * The returned image should not be deleted or modified.
 	 */
-	cGL_Surface *Get_Surface( std::string filename, bool print_errors = 1 );
+	cGL_Surface *Get_Surface( boost::filesystem::path filename, bool print_errors = true );
 
 	// Software image
 	class cSoftware_Image
@@ -159,14 +160,14 @@ public:
 	 * load_settings : enable file settings if set to 1
 	 * print_errors : print errors if image couldn't be created or loaded
 	*/
-	cSoftware_Image Load_Image( std::string filename, bool load_settings = 1, bool print_errors = 1 ) const;
+	cSoftware_Image Load_Image( boost::filesystem::path filename, bool load_settings = 1, bool print_errors = 1 ) const;
 
 	/* Load and return the hardware image
 	 * use_settings : enable file settings if set to 1
 	 * print_errors : print errors if image couldn't be created or loaded
 	 * The returned image should be deleted if not used anymore
 	*/
-	cGL_Surface *Load_GL_Surface( std::string filename, bool use_settings = 1, bool print_errors = 1 );
+	cGL_Surface *Load_GL_Surface( boost::filesystem::path filename, bool use_settings = 1, bool print_errors = 1 );
 
 	/* Convert to a scaled software image with a power of 2 size and 32 bits per pixel.
 	 * Conversion only happens if needed.
@@ -225,7 +226,7 @@ public:
 	// Save an image of the current screen
 	void Save_Screenshot( void );
 	// Save data as png image
-	void Save_Surface( const std::string &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp = 4, bool reverse_data = 0 ) const;
+	void Save_Surface( const boost::filesystem::path &filename, const unsigned char *data, unsigned int width, unsigned int height, unsigned int bpp = 4, bool reverse_data = 0 ) const;
 
 	// available OpenGL version
 	float m_opengl_version;
@@ -247,7 +248,7 @@ public:
 	bool m_joy_init_failed;
 
 	// active image cache directory
-	std::string m_imgcache_dir;
+	boost::filesystem::path m_imgcache_dir;
 
 	// geometry quality level 0.0 - 1.0
 	float m_geometry_quality;

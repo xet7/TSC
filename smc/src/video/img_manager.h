@@ -72,10 +72,10 @@ public:
 	virtual void Add( cGL_Surface *obj );
 
 	// Return the surface by path
-	cGL_Surface *Get_Pointer( const std::string &path ) const;
+	cGL_Surface *Get_Pointer( const boost::filesystem::path &path ) const;
 
 	// Return the copied image
-	cGL_Surface *Copy( const std::string &path );
+	cGL_Surface *Copy( const boost::filesystem::path &path );
 
 	cGL_Surface *operator [] ( unsigned int identifier )
 	{

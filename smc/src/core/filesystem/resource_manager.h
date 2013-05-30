@@ -31,21 +31,48 @@ public:
 	~cResource_Manager( void );
 
 	// Set the user data write directory
-	bool Set_User_Directory( const std::string &dir );
+	bool Set_User_Directory( const boost::filesystem::path &dir );
 	// Create the necessary folders in the user directory
 	void Init_User_Directory( void );
 
 	// user data directory
-	std::string user_data_dir;
+  boost::filesystem::path user_data_dir;
 
   // Return the path to the root directory containing graphics, music, etc.
   // This path is normally determined relatively to the `smc' executable,
   // but you can force a specific path at compile time by defining FIXED_DATA_DIR.
   boost::filesystem::path Get_Data_Directory( void );
+  // The user’s data directory we can write to.
+  boost::filesystem::path Get_User_Data_Directory();
 
-  // Get pixmaps from the uncached game data directory.
-  boost::filesystem::path Get_Game_Pixmaps_Dir();
+  // Get the various uncached unwritable game directories.
+  boost::filesystem::path Get_Game_Pixmaps_Directory();
+  boost::filesystem::path Get_Game_Schema_Directory();
+  boost::filesystem::path Get_Game_Level_Directory();
+	boost::filesystem::path Get_Game_Translation_Directory();
+	boost::filesystem::path Get_Game_Sounds_Directory();
+	boost::filesystem::path Get_Game_Campaign_Directory();
+	boost::filesystem::path Get_Game_Overworld_Directory();
+
+  // Get files from the various uncached unwritable game directories
   boost::filesystem::path Get_Game_Pixmap(std::string pixmap);
+  boost::filesystem::path Get_Game_Schema(std::string schema);
+  boost::filesystem::path Get_Game_Level(std::string level);
+	boost::filesystem::path Get_Game_Translation(std::string transname);
+	boost::filesystem::path Get_Game_Sound(std::string sound);
+	boost::filesystem::path Get_Game_Campaign(std::string campaign);
+	boost::filesystem::path Get_Game_Overworld(std::string overworld);
+
+  // Get the various directories in the user’s data directory
+  boost::filesystem::path Get_User_Level_Directory();
+  boost::filesystem::path Get_User_Savegame_Directory();
+  boost::filesystem::path Get_User_Screenshot_Directory();
+  boost::filesystem::path Get_User_World_Directory();
+  boost::filesystem::path Get_User_Campaign_Directory();
+  boost::filesystem::path Get_User_Imgcache_Directory();
+
+  // Get files from the various directories in the user’s data directory
+  boost::filesystem::path Get_User_Level(std::string level);
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

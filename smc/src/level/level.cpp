@@ -62,6 +62,7 @@
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+namespace fs = boost::filesystem;
 
 /* Function call order on level (un)loading
  * ========================================
@@ -121,12 +122,14 @@ cLevel :: ~cLevel( void )
 	delete m_sprite_manager;
 }
 
-bool cLevel :: New( std::string filename )
+  bool cLevel :: New( std::string levelname )
 {
 	Unload();
 
-	string_trim( filename, ' ' );
-	ifstream ifs;
+	string_trim( levelname, ' ' );
+	fs::path filename = utf8_to_path(levelname);
+
+	fs::ifstream ifs;
 
 	// if no name is given create name
 	if( filename.empty() )
@@ -137,9 +140,9 @@ bool cLevel :: New( std::string filename )
 		while( 1 )
 		{
 			// set name
-			filename = pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/new_" + int_to_string( i ) + ".smclvl";
+			filename = pResource_Manager->Get_User_Level("new_" + int_to_string(i) + ".smclvl");
 			// try to open the file
-			ifs.open( filename.c_str(), ios::in );
+			ifs.open( filename, ios::in );
 
 			// found unused name
 			if( !ifs.is_open() )
@@ -160,20 +163,15 @@ bool cLevel :: New( std::string filename )
 	else
 	{
 		// set file type
-		if( filename.find( ".smclvl" ) == std::string::npos )
-		{
-			filename.insert( filename.length(), ".smclvl" );
-		}
+		if (filename.extension() != fs::path(".smclvl"))
+			filename.replace_extension(".smclvl");
 
-		// set user directory
-		if( filename.find( pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" ) == std::string::npos )
-		{
-			filename.insert( 0, pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" );
-		}
+		// set user directory, creating an absolute path if necessary
+		filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
 	}
 
 	// open file
-	ifs.open( filename.c_str(), ios::in );
+	ifs.open( filename, ios::in );
 
 	// level doesn't exist
 	if( !ifs )
@@ -191,21 +189,22 @@ bool cLevel :: New( std::string filename )
 	return 0;
 }
 
-bool cLevel :: Load( std::string filename )
+bool cLevel :: Load( std::string levelname )
 {
 	m_next_level_filename.clear();
 
-	if( !pLevel_Manager->Get_Path( filename ) )
+	fs::path filename = pLevel_Manager->Get_Path( levelname );
+	if( filename.empty() )
 	{
 		// show error without directory and file type
-		printf( "Couldn't load level : %s\n", Trim_Filename( filename, 0, 0 ).c_str() );
+		std::cerr << "Couldn't load level : " << levelname << std::endl;
 		return 0;
 	}
 
 	Unload();
 
 	// new level format
-	if( filename.rfind( ".smclvl" ) != std::string::npos )
+	if (filename.extension() == fs::path(".smclvl"))
 	{
 		// No <script> tag starting yet
 		m_start_script_tag = false;
@@ -213,15 +212,15 @@ bool cLevel :: Load( std::string filename )
 		{
 		// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 		#ifdef _WIN32
-			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Level.xsd", "" );
+			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Level.xsd")), "" );
 		#else
-			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Level.xsd", "" );
+			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Level.xsd")), "" );
 		#endif
 		}
 		// catch CEGUI Exceptions
 		catch( CEGUI::Exception &ex )
 		{
-			printf( "Loading Level %s CEGUI Exception %s\n", filename.c_str(), ex.getMessage().c_str() );
+			std::cerr << "Loading Level “" << path_to_utf8(filename) << "” resulted in CEGUI exception: " << ex.getMessage() << std::endl;
 			pHud_Debug->Set_Text( _("Loading Level failed : ") + (const std::string)ex.getMessage().c_str() );
 			return 0;
 		}
@@ -229,7 +228,7 @@ bool cLevel :: Load( std::string filename )
 	// old level format
 	else
 	{
-		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const std::string)filename.c_str() );
+		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const std::string)path_to_utf8(filename) );
 		return 0;
 	}
 
@@ -315,20 +314,20 @@ void cLevel :: Save( void )
 	pAudio->Play_Sound( "editor/save.ogg" );
 
 	// use user level dir
-	if( m_level_filename.find( pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" ) == std::string::npos )
+	if( path_to_utf8(m_level_filename).find( path_to_utf8(pResource_Manager->Get_User_Level_Directory() ) ) == std::string::npos )
 	{
 		// erase old directory
 		m_level_filename = Trim_Filename( m_level_filename, 0, 1 );
 		// set user directory
-		m_level_filename.insert( 0, pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" );
+		m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
 	}
 
-	boost::filesystem::ofstream file(utf8_to_path(m_level_filename), ios::out | ios::trunc);
+	fs::ofstream file(m_level_filename, ios::out | ios::trunc);
 
 	if( !file )
 	{
 		printf( "Error : Couldn't open level file for saving. Is the file read-only ?" );
-		pHud_Debug->Set_Text( _("Couldn't save level ") + m_level_filename, speedfactor_fps * 5.0f );
+		pHud_Debug->Set_Text( _("Couldn't save level ") + path_to_utf8(m_level_filename), speedfactor_fps * 5.0f );
 		return;
 	}
 
@@ -412,12 +411,12 @@ void cLevel :: Save( void )
 	stream.closeTag();
 
 	file.close();
-	pHud_Debug->Set_Text( _("Level ") + Trim_Filename( m_level_filename, 0, 0 ) + _(" saved") );
+	pHud_Debug->Set_Text( _("Level ") + path_to_utf8(Trim_Filename( m_level_filename, false, false )) + _(" saved") );
 }
 
 void cLevel :: Delete( void )
 {
-	Delete_File( m_level_filename );
+  fs::remove( m_level_filename );
 	Unload();
 }
 
@@ -491,6 +490,11 @@ void cLevel :: Init( void )
 	if (!m_mruby->Run_Code(m_script, errmsg))
 		std::cerr << "Warning: MRuby script crashed: " << errmsg << std::endl;
 #endif
+}
+
+std::string cLevel :: Get_Level_Name()
+{
+	return path_to_utf8(Trim_Filename(m_level_filename, false, false));
 }
 
 void cLevel :: Set_Sprite_Manager( void )
@@ -617,7 +621,7 @@ void cLevel :: Update( void )
 
 	if( !m_next_level_filename.empty() )
 	{
-		Load( m_next_level_filename );
+		Load( path_to_utf8(m_next_level_filename) );
 	}
 
 	// if level-editor is not active
@@ -1066,35 +1070,28 @@ void cLevel :: Set_Music( std::string filename )
 	m_valid_music = File_Exists( filename );
 }
 
-void cLevel :: Set_Filename( std::string filename, bool rename_old /* = 1 */ )
+void cLevel :: Set_Filename( fs::path filename, bool rename_old /* = true */ )
 {
-	Convert_Path_Separators( filename );
-
 	// erase file type and directory
 	filename = Trim_Filename( filename, 0, 0 );
 
 	// if invalid
-	if( filename.length() < 2 )
+	if( path_to_utf8(filename).length() < 2 )
 	{
 		return;
 	}
 
 	// add level file type
-	if( filename.find( ".smclvl" ) == std::string::npos )
-	{
-		filename.insert( filename.length(), ".smclvl" );
-	}
+	if (filename.extension() != fs::path(".smclvl"))
+		filename.replace_extension(".smclvl");
 
-	// add level dir
-	if( filename.find( pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" ) == std::string::npos )
-	{
-		filename.insert( 0, pResource_Manager->user_data_dir + USER_LEVEL_DIR + "/" );
-	}
+	// add level dir if we aren’t absolute yet
+	filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
 
 	// rename file
 	if( rename_old )
 	{
-		Rename_File( m_level_filename, filename );
+		fs::rename( m_level_filename, filename );
 	}
 
 	m_level_filename = filename;
@@ -1419,7 +1416,7 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 			}
 
 			cGL_Surface *text_image = pFont->Render_Text( pFont->m_font_small, text );
-			text_image->m_filename = text;
+			text_image->m_path = utf8_to_path(text);
 			// set text image
 			sprite->Set_Image( text_image, 1, 1 );
 			// display it as front passive
@@ -1434,34 +1431,34 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 			// if V.1.2 and lower : change pipe position
 			if( engine_version < 22 )
 			{
-				if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/green/up.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/green/ver.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/green/down.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/blue/up.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/blue/ver.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/blue/down.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/yellow/up.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/yellow/ver.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/yellow/down.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/grey/up.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/grey/ver.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/grey/down.png" ) == 0 )
+				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/up.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/ver.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/down.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/up.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/ver.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/down.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/up.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/ver.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/down.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/up.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/ver.png")) == 0 ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/down.png")) == 0 )
 				{
 					sprite->Move( -6, 0, 1 );
 					sprite->m_start_pos_x = sprite->m_pos_x;
 				}
-				else if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/green/right.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/green/hor.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/green/left.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/blue/right.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/blue/hor.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/blue/left.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/yellow/right.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/yellow/hor.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/yellow/left.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/grey/right.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/grey/hor.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "pipes/grey/left.png" ) == 0 )
+				else if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/right.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/hor.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/left.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/right.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/hor.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/left.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/right.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/hor.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/left.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/right.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/hor.png")) == 0 ||
+								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/left.png")) == 0)
 				{
 					sprite->Move( 0, -6, 1 );
 					sprite->m_start_pos_y = sprite->m_pos_y;
@@ -1470,8 +1467,8 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 			// if V.1.2 and lower : change some hill positions
 			if( engine_version < 23 )
 			{
-				if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "hills/green_1/head.png" ) == 0 ||
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "hills/light_blue_1/head.png" ) == 0 )
+				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("hills/green_1/head.png")) ||
+						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("hills/light_blue_1/head.png")) == 0 )
 				{
 					sprite->Move( 0, -6, 1 );
 					sprite->m_start_pos_y = sprite->m_pos_y;
@@ -1481,19 +1478,19 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 			if( engine_version < 31 )
 			{
 				// image filename is already changed but we need to add the middle and right tiles
-				if( sprite_manager && ( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/jungle_1/slider/2_green_left.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/jungle_1/slider/2_blue_left.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/jungle_1/slider/2_brown_left.png" ) == 0 ) )
+				if( sprite_manager && ( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png")) == 0 ||
+																sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png")) == 0 ||
+																sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_brown_left.png")) == 0 ))
 				{
 					std::string color;
 
 					// green
-					if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/jungle_1/slider/2_green_left.png" ) == 0 )
+					if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png" )) == 0 )
 					{
 						color = "green";
 					}
 					// blue
-					else if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/jungle_1/slider/2_blue_left.png" ) == 0 )
+					else if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png") ) == 0 )
 					{
 						color = "blue";
 					}
@@ -1525,21 +1522,21 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 			if( engine_version < 32 )
 			{
 				// image filename is already changed but we need to add an additional middle tile for left and right
-				if( sprite_manager && ( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/left.png" ) == 0 || 
-					sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/right.png" ) == 0 ) )
+				if( sprite_manager && ( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0 ||
+																sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 ) )
 				{
 					// add middle tile
 					cSprite *copy = sprite->Copy();
 					copy->Set_Image( pVideo->Get_Surface( "ground/green_1/slider/1/brown/middle.png" ), 1 );
 					// if from left tile it must be moved
-					if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/left.png" ) == 0 )
+					if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png") ) == 0 )
 					{
 						copy->Set_Pos_X( copy->m_start_pos_x + 18, 1 );
 					}
 					sprite_manager->Add( copy );
 				}
 				// move right tile
-				if( sprite->m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/right.png" ) == 0 )
+				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 )
 				{
 					sprite->Move( 18, 0, 1 );
 					sprite->m_start_pos_x = sprite->m_pos_x;
@@ -1726,11 +1723,11 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 		// if V.1.7 and lower : change new slider middle count because start and end image is now half the width
 		if( engine_version < 32 )
 		{
-			if( moving_platform->m_images[0].m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/left.png" ) == 0 )
+			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png") ) == 0 )
 			{
 				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
 			}
-			if( moving_platform->m_images[0].m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/right.png" ) == 0 )
+			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 )
 			{
 				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
 			}
@@ -1778,11 +1775,11 @@ cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::
 		// if V.1.7 and lower : change new slider middle count because start and end image is now half the width
 		if( engine_version < 32 )
 		{
-			if( moving_platform->m_images[0].m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/left.png" ) == 0 )
+			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0 )
 			{
 				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
 			}
-			if( moving_platform->m_images[0].m_image->m_filename.compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" "ground/green_1/slider/1/brown/right.png" ) == 0 )
+			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0 )
 			{
 				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
 			}

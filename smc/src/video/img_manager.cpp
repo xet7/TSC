@@ -19,6 +19,10 @@
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUIProgressBar.h"
+// Boost
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -75,14 +79,14 @@ void cImage_Manager :: Add( cGL_Surface *obj )
 	cObject_Manager<cGL_Surface>::Add( obj );
 }
 
-cGL_Surface *cImage_Manager :: Get_Pointer( const std::string &path ) const
+  cGL_Surface *cImage_Manager :: Get_Pointer( const fs::path &path ) const
 {
 	for( GL_Surface_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
 		cGL_Surface *obj = (*itr);
 
 		// return first match
-		if( obj->m_filename.compare( path ) == 0 )
+		if( obj->m_path.compare( path ) == 0 )
 		{
 			return obj;
 		}
@@ -92,7 +96,7 @@ cGL_Surface *cImage_Manager :: Get_Pointer( const std::string &path ) const
 	return NULL;
 }
 
-cGL_Surface *cImage_Manager :: Copy( const std::string &path )
+cGL_Surface *cImage_Manager :: Copy( const fs::path &path )
 {
 	for( GL_Surface_List::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
@@ -100,7 +104,7 @@ cGL_Surface *cImage_Manager :: Copy( const std::string &path )
 		cGL_Surface *obj = (*itr);
 
 		// first match
-		if( obj->m_filename.compare( path ) == 0 )
+		if( obj->m_path.compare( path ) == 0 )
 		{
 			return obj->Copy();
 		}

@@ -47,7 +47,7 @@ public:
 	/* Load overworlds from the given directory
 	 * user_dir : if set overrides game worlds
 	*/
-	void Load_Dir( const std::string &dir, bool user_dir = 0 );
+	void Load_Dir( const boost::filesystem::path &dir, bool user_dir = false );
 
 	// Set active Overworld from name or path
 	bool Set_Active( const std::string &str );
@@ -57,10 +57,13 @@ public:
 	// Reset to default world first Waypoint
 	void Reset( void );
 
-	// Get overworld pointer
+	// Get overworld pointer. First tries to use Get_From_Name(), and
+	// if that doesn’t succeed, converts `str' to a boost::filesystem::path
+	// and tries Get_From_Path.
 	cOverworld *Get( const std::string &str );
-	// Get overworld from path
-	cOverworld *Get_from_Path( const std::string &path );
+	// Get overworld from path (may either be a full path or just
+	// a directory name)
+	cOverworld *Get_from_Path( const boost::filesystem::path &path );
 	// Get overworld from name
 	cOverworld *Get_from_Name( const std::string &name );
 

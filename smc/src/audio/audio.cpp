@@ -20,6 +20,9 @@
 #include "../user/preferences.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -390,7 +393,7 @@ void cAudio :: Set_Max_Sounds( unsigned int limit /* = 10 */ )
 	}
 }
 
-cSound *cAudio :: Get_Sound_File( std::string filename ) const
+cSound *cAudio :: Get_Sound_File( fs::path filename ) const
 {
 	if( !m_initialised || !m_sound_enabled )
 	{
@@ -400,11 +403,9 @@ cSound *cAudio :: Get_Sound_File( std::string filename ) const
 	// not available
 	if( !File_Exists( filename ) )
 	{
-		// add sound directory
-		if( filename.find( DATA_DIR "/" GAME_SOUNDS_DIR "/" ) == std::string::npos )
-		{
-			filename.insert( 0, DATA_DIR "/" GAME_SOUNDS_DIR "/" );
-		}
+		// add sound directory if required
+    if (!filename.is_absolute())
+      filename = pResource_Manager->Get_Game_Sounds_Directory() / filename;
 	}
 
 	cSound *sound = pSound_Manager->Get_Pointer( filename );
