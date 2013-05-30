@@ -65,7 +65,7 @@ public:
 	// load all campaigns
 	void Load( void );
 	// load a campaign
-	cCampaign *Load_Campaign( const std::string &filename );
+	cCampaign *Load_Campaign( const boost::filesystem::path &filename );
 
 	// Get campaign from name
 	cCampaign *Get_from_Name( const std::string &name );
@@ -76,7 +76,7 @@ public:
 class cCampaign_XML_Handler : public CEGUI::XMLHandler
 {
 public:
-	cCampaign_XML_Handler( const CEGUI::String &filename );
+	cCampaign_XML_Handler( const boost::filesystem::path &filename );
 	virtual ~cCampaign_XML_Handler( void );
 
 	// XML element start

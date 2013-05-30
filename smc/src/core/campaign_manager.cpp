@@ -26,6 +26,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+namespace fs = boost::filesystem;
+
 namespace SMC
 {
 
@@ -97,23 +99,16 @@ cCampaign_Manager :: ~cCampaign_Manager( void )
 
 void cCampaign_Manager :: Load( void )
 {
-	std::string user_dir = pResource_Manager->user_data_dir + USER_CAMPAIGN_DIR;
-	std::string game_dir = DATA_DIR "/" GAME_CAMPAIGN_DIR;
+	vector<fs::path> user_files = Get_Directory_Files( pResource_Manager->Get_User_Campaign_Directory(), ".smccpn", false, false);
+	vector<fs::path> game_files = Get_Directory_Files( pResource_Manager->Get_Game_Campaign_Directory(), ".smccpn", false, false);
 
-	vector<std::string> user_files = Get_Directory_Files( pResource_Manager->user_data_dir + USER_CAMPAIGN_DIR, "smccpn", 0, 0 );
-	vector<std::string> game_files = Get_Directory_Files( DATA_DIR "/" GAME_CAMPAIGN_DIR, "smccpn", 0, 0 );
-
-	// get directory length for erasing
-	int user_dir_length = user_dir.length() + 1;
-	int game_dir_length = game_dir.length() + 1;
-
-	for( vector<std::string>::iterator itr = user_files.begin(); itr != user_files.end(); ++itr )
+	for( vector<fs::path>::iterator itr = user_files.begin(); itr != user_files.end(); ++itr )
 	{
-		std::string user_name = (*itr);
-		cCampaign *campaign = Load_Campaign( user_name );
+		fs::path user_campaign_filename = (*itr);
+		cCampaign* campaign = Load_Campaign(user_campaign_filename);
 
 		// remove base directory
-		user_name.erase( 0, user_dir_length );
+		user_campaign_filename = user_campaign_filename.filename();
 
 		if( campaign )
 		{
@@ -121,13 +116,14 @@ void cCampaign_Manager :: Load( void )
 			campaign->m_user = 1;
 
 			// remove name from game files
-			for( vector<std::string>::iterator game_itr = game_files.begin(); game_itr != game_files.end(); ++game_itr )
+			for( vector<fs::path>::iterator game_itr = game_files.begin(); game_itr != game_files.end(); ++game_itr )
 			{
-				std::string game_name = (*game_itr);
-				// remove base directory
-				game_name.erase( 0, game_dir_length );
+				fs::path game_campaign_filename = (*game_itr);
 
-				if( user_name.compare( game_name ) == 0 )
+				// remove base directory
+				game_campaign_filename = game_campaign_filename.filename();
+
+				if( user_campaign_filename.compare( game_campaign_filename ) == 0 )
 				{
 					campaign->m_user = 2;
 					game_files.erase( game_itr );
@@ -137,11 +133,10 @@ void cCampaign_Manager :: Load( void )
 		}
 	}
 
-	for( vector<std::string>::iterator itr = game_files.begin(); itr != game_files.end(); ++itr )
+	for( vector<fs::path>::iterator itr = game_files.begin(); itr != game_files.end(); ++itr )
 	{
-		std::string name = (*itr);
-
-		cCampaign *campaign = Load_Campaign( name );
+		fs::path campaign_filename = (*itr);
+		cCampaign *campaign = Load_Campaign( campaign_filename );
 
 		if( campaign )
 		{
@@ -150,11 +145,11 @@ void cCampaign_Manager :: Load( void )
 	}
 }
 
-cCampaign *cCampaign_Manager :: Load_Campaign( const std::string &filename )
+cCampaign *cCampaign_Manager :: Load_Campaign( const fs::path &filename )
 {
 	if( !File_Exists( filename ) )
 	{
-		printf( "Error : Campaign loading failed : %s\n", filename.c_str() );
+		std::cerr << "Error : Campaign loading failed : " << path_to_utf8(filename) << std::endl;
 		return NULL;
 	}
 
@@ -183,7 +178,7 @@ cCampaign *cCampaign_Manager :: Get_from_Name( const std::string &name )
 
 /* *** *** *** *** *** *** *** cCampaign_XML_Handler *** *** *** *** *** *** *** *** *** *** */
 
-cCampaign_XML_Handler :: cCampaign_XML_Handler( const CEGUI::String &filename )
+cCampaign_XML_Handler :: cCampaign_XML_Handler( const fs::path &filename )
 {
 	m_campaign = new cCampaign();
 
@@ -191,15 +186,15 @@ cCampaign_XML_Handler :: cCampaign_XML_Handler( const CEGUI::String &filename )
 	{
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/" "Campaign.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Campaign.xsd")), "" );
 	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/" "Campaign.xsd", "" );
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Campaign.xsd")), "" );
 	#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "Loading Campaign %s CEGUI Exception %s\n", filename.c_str(), ex.getMessage().c_str() );
+		std::cerr << "Loading Campaign" << path_to_utf8(filename) << "failed with CEGUI exception: " << ex.getMessage() << std::cerr;
 		pHud_Debug->Set_Text( _("Campaign Loading failed : ") + (const std::string)ex.getMessage().c_str() );
 	}
 }
