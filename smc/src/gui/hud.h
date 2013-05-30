@@ -259,8 +259,8 @@ public:
 
 	// last game mode
 	GameMode m_game_mode_last;
-	// last level text
-	std::string m_level_old;
+	// last level filename
+	boost::filesystem::path m_level_old;
 	// last object counters
 	int m_obj_counter, m_pass_counter, m_mass_counter, m_enemy_counter, m_active_counter;
 	// sprites

@@ -1067,7 +1067,7 @@ void cDebugDisplay :: Draw_Debug_Mode( void )
 	// Level information
 	if( pActive_Level->m_level_filename.compare( m_level_old ) != 0 ) 
 	{
-		std::string lvl_text = _("Name : ") + Trim_Filename( pActive_Level->m_level_filename, 0, 0 );
+		std::string lvl_text = _("Name : ") + pActive_Level->Get_Level_Name();
 		m_level_old = pActive_Level->m_level_filename;
 
 		m_sprites[5]->Set_Image( pFont->Render_Text( pFont->m_font_very_small, lvl_text, white ), 0, 1 );
