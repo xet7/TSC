@@ -47,7 +47,7 @@ void cResource_Manager :: Init_User_Directory( void )
 	if( !Dir_Exists( user_data_dir ) )
 	{
 		// first run if not available
-		debug_print("Creating user directory at '%s'\n", user_data_dir.c_str());
+		debug_print("Creating user directory at '%s'\n", path_to_utf8(user_data_dir).c_str());
 		fs::create_directory( user_data_dir );
 	}
 	// Create savegame directory
@@ -101,7 +101,7 @@ fs::path cResource_Manager :: Get_Data_Directory( void )
     throw "Failed to retrieve the executable's path from the Win32API!";
 
   std::string utf8_path = ucs2_to_utf8(path_data);
-  Convert_Path_Separators(utf8_path);
+  //Convert_Path_Separators(utf8_path);
 
   return utf8_to_path(utf8_path).parent_path().parent_path() / "share" / "smc";
 #elif __linux
@@ -237,6 +237,31 @@ fs::path cResource_Manager :: Get_Game_Overworld_Directory()
 fs::path cResource_Manager :: Get_Game_Overworld(std::string overworld)
 {
 	return Get_Game_Overworld_Directory() / utf8_to_path(overworld);
+}
+
+fs::path cResource_Manager :: Get_Gui_Scheme_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GUI_SCHEME_DIR);
+}
+
+fs::path cResource_Manager :: Get_Gui_Imageset_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GUI_IMAGESET_DIR);
+}
+
+fs::path cResource_Manager :: Get_Gui_Font_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GUI_FONT_DIR);
+}
+
+fs::path cResource_Manager :: Get_Gui_LookNFeel_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GUI_LOOKNFEEL_DIR);
+}
+
+fs::path cResource_Manager :: Get_Gui_Layout_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GUI_LAYOUT_DIR);
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

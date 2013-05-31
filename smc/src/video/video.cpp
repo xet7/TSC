@@ -145,11 +145,12 @@ void cVideo :: Init_CEGUI( void ) const
 	CEGUI::DefaultResourceProvider *rp = new CEGUI::DefaultResourceProvider();
 
 	// set Resource Provider directories
-	rp->setResourceGroupDirectory( "schemes", DATA_DIR "/" GUI_SCHEME_DIR "/" );
-	rp->setResourceGroupDirectory( "imagesets", DATA_DIR "/" GUI_IMAGESET_DIR "/" );
-	rp->setResourceGroupDirectory( "fonts", DATA_DIR "/" GUI_FONT_DIR "/" );
-	rp->setResourceGroupDirectory( "looknfeels", DATA_DIR "/" GUI_LOOKNFEEL_DIR "/" );
-	rp->setResourceGroupDirectory( "layouts", DATA_DIR "/" GUI_LAYOUT_DIR "/" );
+	rp->setResourceGroupDirectory( "schemes", path_to_utf8(pResource_Manager->Get_Gui_Scheme_Directory()));
+	rp->setResourceGroupDirectory( "imagesets", path_to_utf8(pResource_Manager->Get_Gui_Imageset_Directory()));
+	rp->setResourceGroupDirectory( "fonts", path_to_utf8(pResource_Manager->Get_Gui_Font_Directory()));
+	rp->setResourceGroupDirectory( "looknfeels", path_to_utf8(pResource_Manager->Get_Gui_LookNFeel_Directory()));
+	rp->setResourceGroupDirectory( "layouts", path_to_utf8(pResource_Manager->Get_Gui_Layout_Directory()));
+
 	if( CEGUI::System::getDefaultXMLParserName().compare( "XercesParser" ) == 0 )
 	{
 		// Needed for Xerces to specify the schemas location

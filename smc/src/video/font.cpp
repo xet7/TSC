@@ -16,6 +16,7 @@
 #include "../video/font.h"
 #include "../video/gl_surface.h"
 #include "../core/property_helper.h"
+#include "../core/filesystem/resource_manager.h"
 
 namespace SMC
 {
@@ -81,15 +82,15 @@ void cFont_Manager :: Init( void )
 	}
 
 	// open fonts
-	m_font_normal = TTF_OpenFont( DATA_DIR "/" GUI_FONT_DIR "/default_bold.ttf", 18 );
-	m_font_small = TTF_OpenFont( DATA_DIR "/" GUI_FONT_DIR "/default_bold.ttf", 11 );
-	m_font_very_small = TTF_OpenFont( DATA_DIR "/" GUI_FONT_DIR "/default_bold.ttf", 9 );
+	m_font_normal			= TTF_OpenFont( path_to_utf8( pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path( "default_bold.ttf" ) ).c_str(), 18 );
+	m_font_small			= TTF_OpenFont( path_to_utf8( pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path( "default_bold.ttf" ) ).c_str(), 11);
+	m_font_very_small = TTF_OpenFont( path_to_utf8( pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path( "default_bold.ttf" ) ).c_str(), 9);
 
 	// if loading failed
 	if( !m_font_normal || !m_font_small || !m_font_very_small )
 	{
-		printf( "Error : Font loading failed from directory %s\n", GUI_FONT_DIR );
-		exit( EXIT_FAILURE );
+		// FIXME: Throw a proper exception
+		throw "Font loading failed";
 	}
 }
 

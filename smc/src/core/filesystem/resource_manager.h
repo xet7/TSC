@@ -54,6 +54,13 @@ public:
 	boost::filesystem::path Get_Game_Campaign_Directory();
 	boost::filesystem::path Get_Game_Overworld_Directory();
 
+	// CEGUI data paths
+	boost::filesystem::path Get_Gui_Scheme_Directory();
+	boost::filesystem::path Get_Gui_Imageset_Directory();
+	boost::filesystem::path Get_Gui_Font_Directory();
+	boost::filesystem::path Get_Gui_LookNFeel_Directory();
+	boost::filesystem::path Get_Gui_Layout_Directory();
+
   // Get files from the various uncached unwritable game directories
   boost::filesystem::path Get_Game_Pixmap(std::string pixmap);
   boost::filesystem::path Get_Game_Schema(std::string schema);
