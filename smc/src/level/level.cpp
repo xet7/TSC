@@ -210,12 +210,7 @@ bool cLevel :: Load( std::string levelname )
 		m_start_script_tag = false;
 		try
 		{
-		// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-		#ifdef _WIN32
-			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Level.xsd")), "" );
-		#else
 			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Level.xsd")), "" );
-		#endif
 		}
 		// catch CEGUI Exceptions
 		catch( CEGUI::Exception &ex )

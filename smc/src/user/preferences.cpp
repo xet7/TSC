@@ -144,12 +144,7 @@ bool cPreferences :: Load( const fs::path &filename /* = fs::path() */ )
 
 	try
 	{
-	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(m_config_filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Config.xsd")), "" );
-	#else
 		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_config_filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Config.xsd")), "" );
-	#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )

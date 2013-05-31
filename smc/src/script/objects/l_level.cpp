@@ -2,6 +2,7 @@
 #include "../script.h"
 #include "../../level/level.h"
 #include "../../user/savegame.h"
+#include "../../core/property_helper.h"
 #include "../events/event.h"
 #include "l_level.h"
 
@@ -44,7 +45,7 @@ static int Get_Engine_Version(lua_State* p_state)
 
 static int Get_Filename(lua_State* p_state)
 {
-	lua_pushstring(p_state, pActive_Level->m_level_filename.c_str());
+	lua_pushstring(p_state, path_to_utf8(pActive_Level->m_level_filename).c_str());
 	return 1;
 }
 
@@ -75,7 +76,7 @@ static int Get_Music_Filename(lua_State* p_state)
 
 static int Get_Next_Level_Filename(lua_State* p_state)
 {
-	lua_pushstring(p_state, pActive_Level->m_next_level_filename.c_str());
+	lua_pushstring(p_state, path_to_utf8(pActive_Level->m_next_level_filename).c_str());
 	return 1;
 }
 

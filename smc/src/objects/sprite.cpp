@@ -487,7 +487,7 @@ void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	if (img_filename.is_absolute())
 		img_filename = boost::filesystem::relative(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 
-	Write_Property( stream, "image", img_filename.native() );
+	Write_Property( stream, "image", path_to_utf8(img_filename) );
 	// type (only if Get_XML_Type_Name() returns something
 	// meaningful)
 	std::string type = Get_XML_Type_Name();

@@ -82,7 +82,7 @@ void cLevel_Settings :: Init( void )
 	// Main
 	// level filename
 	CEGUI::Editbox *editbox_level_filename = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_level_filename" ));
-	editbox_level_filename->setText( Trim_Filename( m_level->m_level_filename, 0, 0 ).c_str() );
+	editbox_level_filename->setText( m_level->Get_Level_Name().c_str() );
 	// music filename
 	CEGUI::Editbox *editbox_music_filename = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_music_filename" ));
 	editbox_music_filename->setText( m_level->Get_Music_Filename( 1 ).c_str() );

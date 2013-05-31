@@ -117,7 +117,7 @@ vector<fs::path> Get_Directory_Files( const fs::path &dir, const std::string &fi
 			if( fs::is_directory( *dir_itr ) )
 			{
 				// ignore hidden directories and . and ..
-				if( this_path.native().find( "." ) == 0 )
+				if (path_to_utf8(this_path.filename()).find(".") == 0)
 				{
 					continue;
 				}

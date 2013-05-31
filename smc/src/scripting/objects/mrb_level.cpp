@@ -1,6 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../../level/level.h"
 #include "../../user/savegame.h"
+#include "../../core/property_helper.h"
 #include "../events/event.h"
 #include "mrb_eventable.h"
 #include "mrb_level.h"
@@ -208,7 +209,7 @@ static mrb_value Get_Engine_Version(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Filename(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, pActive_Level->m_level_filename.c_str());
+	return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->m_level_filename).c_str());
 }
 
 /**
@@ -277,7 +278,7 @@ static mrb_value Get_Script(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, pActive_Level->m_next_level_filename.c_str());
+	return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->m_next_level_filename).c_str());
 }
 
 /**

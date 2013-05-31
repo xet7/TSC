@@ -373,7 +373,7 @@ void cOverworld_Player :: Activate_Waypoint( void )
 				Game_Action_Data_Start.add( "music_fadeout", "1500" );
 				Game_Action_Data_Start.add( "screen_fadeout", CEGUI::PropertyHelper::intToString( EFFECT_OUT_BLACK_TILED_RECTS ) );
 				Game_Action_Data_Middle.add( "enter_world", str_world.c_str() );
-				Game_Action_Data_Middle.add( "world_player_waypoint", overworld_origin->m_description->m_path.c_str() );
+				Game_Action_Data_Middle.add( "world_player_waypoint", path_to_utf8(overworld_origin->m_description->m_path).c_str() );
 				Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 			}
 			else
