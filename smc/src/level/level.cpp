@@ -424,7 +424,7 @@ void cLevel :: Reset_Settings( void )
 	m_version.clear();
 
 	// set default music
-	Set_Music( DATA_DIR "/" GAME_MUSIC_DIR "/" LEVEL_DEFAULT_MUSIC );
+	Set_Music( pResource_Manager->Get_Game_Music( LEVEL_DEFAULT_MUSIC ) );
 
 	m_description.clear();
 	m_difficulty = 0;
@@ -1015,44 +1015,16 @@ bool cLevel :: Joy_Button_Up( Uint8 button )
 	return 1;
 }
 
-std::string cLevel :: Get_Music_Filename( int with_dir /* = 2 */, bool with_end /* = 1 */ ) const
+fs::path cLevel :: Get_Music_Filename() const
 {
-	std::string filename = m_musicfile;
-
-	// erase whole directory
-	if( with_dir == 0 && filename.rfind( "/" ) != std::string::npos )
-	{
-		filename.erase( 0, filename.rfind( "/" ) + 1 );
-	}
-	// erase music directory
-	else if( with_dir == 1 && filename.find( DATA_DIR "/" GAME_MUSIC_DIR "/" ) != std::string::npos )
-	{
-		filename.erase( 0, strlen( DATA_DIR "/" GAME_MUSIC_DIR "/" ) );
-	}
-
-	// erase file type
-	if( !with_end && filename.rfind( "." ) != std::string::npos )
-	{
-		filename.erase( filename.rfind( "." ) );
-	}
-
-	return filename;
+	return fs::relative(pResource_Manager->Get_Music_Directory(), m_musicfile);
 }
 
-void cLevel :: Set_Music( std::string filename )
+void cLevel :: Set_Music( fs::path filename )
 {
-	if( filename.length() < 4 )
-	{
-		return;
-	}
-
-	Convert_Path_Separators( filename );
-
 	// add music dir
-	if( filename.find( DATA_DIR "/" GAME_MUSIC_DIR "/" ) == std::string::npos )
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_MUSIC_DIR "/" );
-	}
+	if (!filename.is_absolute())
+		filename = pResource_Manager->Get_Music_Directory() / filename;
 
 	// already set
 	if( m_musicfile.compare( filename ) == 0 )

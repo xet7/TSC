@@ -264,6 +264,17 @@ fs::path cResource_Manager :: Get_Gui_Layout_Directory()
 	return Get_Data_Directory() / utf8_to_path(GUI_LAYOUT_DIR);
 }
 
+fs::path cResource_Manager :: Get_Game_Music_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_MUSIC_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Music(std::string music)
+{
+	return Get_Game_Music_Directory() / utf8_to_path(music);
+}
+
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cResource_Manager *pResource_Manager = NULL;

@@ -112,14 +112,13 @@ public:
 	*/
 	bool Joy_Button_Up( Uint8 button );
 
-	/* Return the current Music filename with the given options
-	 * if with_dir is set to 0 the whole directory is cut out
-	 * if set to 1 the music directory is cut out
-	 * if set to 2 the full directory will be returned
+	/* Return the current Music filename relative to the music/
+	 * directory.
 	*/
-	std::string Get_Music_Filename( int with_dir = 2, bool with_end = 1 ) const;
-	// Set the Music filename
-	void Set_Music( std::string filename );
+	boost::filesystem::path Get_Music_Filename() const;
+	// Set the Music filename. `filename' must be relative to
+	// the music/ directory.
+	void Set_Music( boost::filesystem::path filename );
 	/* Set the filename
 	 * rename_old : if set also rename the level file in the user folder
 	*/
@@ -187,7 +186,7 @@ public:
 	// version
 	std::string m_version;
 	// music filename
-	std::string m_musicfile;
+	boost::filesystem::path m_musicfile;
 	// valid music to play
 	bool m_valid_music;
 	// description
