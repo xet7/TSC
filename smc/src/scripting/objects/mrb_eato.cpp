@@ -1,6 +1,7 @@
 #include "../../enemies/eato.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
+#include "../../core/property_helper.h"
 #include "mrb_enemy.h"
 #include "mrb_eato.h"
 
@@ -73,7 +74,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Image_Dir(mrb_state* p_state,  mrb_value self)
 {
 	cEato* p_eato = Get_Data_Ptr<cEato>(p_state, self);
-  return mrb_str_new_cstr(p_state, p_eato->m_img_dir.c_str());
+  return mrb_str_new_cstr(p_state, path_to_utf8(p_eato->m_img_dir).c_str());
 }
 
 void SMC::Scripting::Init_Eato(mrb_state* p_state)

@@ -43,8 +43,9 @@ public:
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
-	// Set the image directory
-	void Set_Image_Dir( std::string dir );
+	// Set the image directory. `dir' must be relative to the pixmaps/
+	// directory.
+	void Set_Image_Dir( boost::filesystem::path dir );
 	// Set direction
 	void Set_Direction( const ObjectDirection dir );
 
@@ -78,7 +79,7 @@ public:
 	bool Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event );
 
 	// image directory
-	std::string m_img_dir;
+	boost::filesystem::path m_img_dir;
 
 protected:
 	// save to stream

@@ -20,12 +20,15 @@
 #include "../video/gl_surface.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUIEditbox.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -60,7 +63,7 @@ void cEato :: Init( void )
 	m_fire_resistant = 1;
 
 	m_state = STA_STAY;
-	Set_Image_Dir( "enemy/eato/brown/" );
+	Set_Image_Dir( utf8_to_path( "enemy/eato/brown/" ) );
 	Set_Direction( DIR_UP_LEFT );
 
 	m_kill_sound = "enemy/eato/die.ogg";
@@ -81,7 +84,7 @@ void cEato :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// position
 	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 	// image directory
-	Set_Image_Dir( attributes.getValueAsString( "image_dir", m_img_dir ).c_str() );
+	Set_Image_Dir( utf8_to_path( attributes.getValueAsString( "image_dir", path_to_utf8( m_img_dir ) ).c_str() ) );
 	// direction
 	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
 }
@@ -96,34 +99,22 @@ void cEato :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	cEnemy::Do_XML_Saving(stream);
 
 	// image directory
-	Write_Property( stream, "image_dir", m_img_dir );
+	Write_Property( stream, "image_dir", path_to_utf8 ( m_img_dir ) );
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 }
 
-void cEato :: Set_Image_Dir( std::string dir )
+void cEato :: Set_Image_Dir( fs::path dir )
 {
 	if( dir.empty() )
 	{
 		return;
 	}
 
-	// remove pixmaps dir
-	if( dir.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == 0 )
-	{
-		dir.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
-
-	// add trailing slash if missing
-	if( *(dir.end() - 1) != '/' )
-	{
-		dir.insert( dir.length(), "/" );
-	}
-
 	// if not image directory
-	if( !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + dir + "1.png" ) && !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + dir + "1.settings" ) )
-	{
-		printf( "Warning : Eato image dir does not exist %s\n", dir.c_str() );
+	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("1.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("1.png") ) ) {
+		std::cerr	<< "Warning: Eato image files not found; does the eato directory "
+							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}
 
@@ -132,10 +123,10 @@ void cEato :: Set_Image_Dir( std::string dir )
 	// clear images
 	Clear_Images();
 	// set images
-	Add_Image( pVideo->Get_Surface( m_img_dir + "1.png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + "2.png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + "3.png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + "2.png" ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "1.png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "2.png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "3.png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "2.png" ) ) );
 	// set start image
 	Set_Image_Num( 0, 1 );
 
@@ -348,7 +339,7 @@ void cEato :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_eato_image_dir" ));
 	Editor_Add( UTF8_("Image directory"), UTF8_("Directory containing the images"), editbox, 200 );
 
-	editbox->setText( m_img_dir.c_str() );
+	editbox->setText( path_to_utf8( m_img_dir ).c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cEato::Editor_Image_Dir_Text_Changed, this ) );
 	// init
 	Editor_Init();
@@ -369,7 +360,7 @@ bool cEato :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Dir( str_text );
+	Set_Image_Dir( utf8_to_path( str_text ) );
 
 	return 1;
 }
