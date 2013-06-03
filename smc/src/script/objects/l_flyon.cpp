@@ -2,6 +2,7 @@
 #include "../script.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
+#include "../../core/property_helper.h"
 #include "../../enemies/flyon.h"
 #include "../events/event.h"
 #include "l_flyon.h"
@@ -47,7 +48,7 @@ static int Allocate(lua_State* p_state)
 
 	// Optional arguments
 	if (lua_isstring(p_state, 3))
-		p_flyon->Set_Image_Dir(lua_tostring(p_state, 3));
+		p_flyon->Set_Image_Dir(utf8_to_path(lua_tostring(p_state, 3)));
 	if (lua_isnumber(p_state, 4)){
 		int uid = static_cast<int>(lua_tonumber(p_state, 4));
 		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
@@ -85,7 +86,7 @@ static int Set_Max_Distance(lua_State* p_state)
 static int Get_Image_Dir(lua_State* p_state)
 {
 	cFlyon* p_flyon = *LuaWrap::check<cFlyon*>(p_state, 1);
-	lua_pushstring(p_state, p_flyon->m_img_dir.c_str());
+	lua_pushstring(p_state, path_to_utf8(p_flyon->m_img_dir).c_str());
 	return 1;
 }
 

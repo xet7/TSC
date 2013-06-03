@@ -47,8 +47,9 @@ public:
 	// save to savegame
 	virtual cSave_Level_Object *Save_To_Savegame( void );
 
-	// Set the image directory
-	void Set_Image_Dir( std::string filename );
+	// Set the image directory. `dir' must be a relative
+	// to the pixmaps/ directory.
+	void Set_Image_Dir( boost::filesystem::path dir );
 	// Set Direction
 	void Set_Direction( const ObjectDirection dir );
 	// Set Max Distance
@@ -89,7 +90,7 @@ public:
 	virtual Col_Valid_Type Validate_Collision( cSprite *obj );
 	// collision from player
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
-	
+
 	// editor activation
 	virtual void Editor_Activate( void );
 	// editor direction option selected event
@@ -102,7 +103,7 @@ public:
 	bool Editor_Speed_Text_Changed( const CEGUI::EventArgs &event );
 
 	// image directory
-	std::string m_img_dir;
+	boost::filesystem::path m_img_dir;
 
 	// moving speed
 	float m_speed;

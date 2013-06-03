@@ -19,6 +19,7 @@
 #include "../video/animation.h"
 #include "../user/savegame.h"
 #include "../core/math/utilities.h"
+#include "../core/filesystem/resource_manager.h"
 #include "../input/mouse.h"
 #include "../video/gl_surface.h"
 #include "../core/i18n.h"
@@ -29,6 +30,8 @@
 #include "elements/CEGUIEditbox.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -65,7 +68,7 @@ void cFlyon :: Init( void  )
 
 	m_state = STA_STAY;
 	Set_Direction( DIR_UP );
-	Set_Image_Dir( "enemy/flyon/orange/" );
+	Set_Image_Dir( utf8_to_path( "enemy/flyon/orange/" ) );
 	Set_Max_Distance( 200 );
 	Set_Speed( 5.8f );
 
@@ -94,7 +97,7 @@ void cFlyon :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// direction
 	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
 	// image directory
-	Set_Image_Dir( attributes.getValueAsString( "image_dir", m_img_dir ).c_str() );
+	Set_Image_Dir( utf8_to_path( attributes.getValueAsString( "image_dir", path_to_utf8( m_img_dir ) ).c_str() ) );
 	// max distance
 	Set_Max_Distance( attributes.getValueAsFloat( "max_distance", m_max_distance ) );
 	// speed
@@ -113,7 +116,7 @@ void cFlyon :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 	// image directory
-	Write_Property( stream, "image_dir", m_img_dir );
+	Write_Property( stream, "image_dir", path_to_utf8( m_img_dir ) );
 	// max distance
 	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
 	// speed
@@ -144,29 +147,17 @@ cSave_Level_Object *cFlyon :: Save_To_Savegame( void )
 	return save_object;
 }
 
-void cFlyon :: Set_Image_Dir( std::string dir )
+void cFlyon :: Set_Image_Dir( fs::path dir )
 {
 	if( dir.empty() )
 	{
 		return;
 	}
 
-	// remove pixmaps dir
-	if( dir.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == 0 )
-	{
-		dir.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
-
-	// add trailing slash if missing
-	if( *(dir.end() - 1) != '/' )
-	{
-		dir.insert( dir.length(), "/" );
-	}
-
 	// if not image directory
-	if( !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + dir + "closed_1.png" ) && !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + dir + "closed_1.settings" ) )
-	{
-		printf( "Warning : Flyon image dir does not exist %s\n", dir.c_str() );
+	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("closed_1.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("closed_1.png") ) ) {
+		std::cerr	<< "Warning: Flyon image files not found; does the flyon directory "
+							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}
 
@@ -175,10 +166,10 @@ void cFlyon :: Set_Image_Dir( std::string dir )
 	// clear images
 	Clear_Images();
 	// set images
-	Add_Image( pVideo->Get_Surface( m_img_dir + "closed_1.png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + "closed_2.png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + "open_1.png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + "open_2.png" ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "closed_1.png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "closed_2.png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "open_1.png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( "open_2.png" ) ) );
 	// set start image
 	Set_Image_Num( 0, 1 );
 
@@ -682,7 +673,7 @@ void cFlyon :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_flyon_image_dir" ));
 	Editor_Add( UTF8_("Image directory"), UTF8_("Directory containing the images"), editbox, 200 );
 
-	editbox->setText( m_img_dir.c_str() );
+	editbox->setText( path_to_utf8( m_img_dir ).c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cFlyon::Editor_Image_Dir_Text_Changed, this ) );
 
 	// max distance
@@ -720,7 +711,7 @@ bool cFlyon :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Dir( str_text );
+	Set_Image_Dir( utf8_to_path( str_text ) );
 
 	return 1;
 }
