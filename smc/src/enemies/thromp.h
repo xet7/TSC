@@ -47,8 +47,8 @@ public:
 	// save to savegame
 	virtual cSave_Level_Object *Save_To_Savegame( void );
 
-	// Set the image directory
-	void Set_Image_Dir( std::string filename );
+	// Set the image directory. `dir' must be relative to the pixmaps/ directory.
+	void Set_Image_Dir( boost::filesystem::path dir );
 	// Set Direction
 	void Set_Direction( const ObjectDirection dir );
 	// Set Max Distance
@@ -117,7 +117,7 @@ public:
 	bool Editor_Speed_Text_Changed( const CEGUI::EventArgs &event );
 
 	// image directory
-	std::string m_img_dir;
+	boost::filesystem::path m_img_dir;
 	// speed
 	float m_speed;
 	// destination direction velocity

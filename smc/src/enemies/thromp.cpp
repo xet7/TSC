@@ -25,12 +25,15 @@
 #include "../input/mouse.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
 #include "elements/CEGUIEditbox.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -67,7 +70,7 @@ void cThromp :: Init( void  )
 	m_move_back = 0;
 	m_dest_velx = 0;
 	m_dest_vely = 0;
-	m_img_dir = "enemy/thromp/";
+	m_img_dir = utf8_to_path("enemy/thromp/");
 	Set_Direction( DIR_DOWN );
 	Set_Speed( 7 );
 	Set_Max_Distance( 200 );
@@ -92,7 +95,7 @@ void cThromp :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// position
 	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 	// image directory
-	Set_Image_Dir( attributes.getValueAsString( "image_dir", m_img_dir ).c_str() );
+	Set_Image_Dir( utf8_to_path( attributes.getValueAsString( "image_dir", path_to_utf8( m_img_dir ) ).c_str() ) );
 	// direction
 	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
 	// max distance
@@ -111,7 +114,7 @@ void cThromp :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	cEnemy::Do_XML_Saving(stream);
 
 	// image directory
-	Write_Property( stream, "image_dir", m_img_dir );
+	Write_Property( stream, "image_dir", path_to_utf8( m_img_dir ) );
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 	// max distance
@@ -150,29 +153,17 @@ cSave_Level_Object *cThromp :: Save_To_Savegame( void )
 	return save_object;
 }
 
-void cThromp :: Set_Image_Dir( std::string dir )
+void cThromp :: Set_Image_Dir( fs::path dir )
 {
 	if( dir.empty() )
 	{
 		return;
 	}
 
-	// remove pixmaps dir
-	if( dir.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == 0 )
-	{
-		dir.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
-
-	// add trailing slash if missing
-	if( *(dir.end() - 1) != '/' )
-	{
-		dir.insert( dir.length(), "/" );
-	}
-
 	// if not image directory
-	if( !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + dir + "up.png" ) && !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + dir + "up.settings" ) )
-	{
-		printf( "Warning : Thromp image dir does not exist %s\n", dir.c_str() );
+	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.png") ) ) {
+		std::cerr	<< "Warning: Thromp image files not found; does the thromp directory "
+							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}
 
@@ -444,8 +435,8 @@ void cThromp :: Update_Images( void )
 	// clear images
 	Clear_Images();
 	// set images
-	Add_Image( pVideo->Get_Surface( m_img_dir + Get_Direction_Name( m_start_direction ) + ".png" ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir + Get_Direction_Name( m_start_direction ) + "_active.png" ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( Get_Direction_Name( m_start_direction ) + ".png" ) ) );
+	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( Get_Direction_Name( m_start_direction ) + "_active.png" ) ) );
 	// set start image
 	Set_Image_Num( 0, 1 );
 
@@ -793,7 +784,7 @@ void cThromp :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_thromp_image_dir" ));
 	Editor_Add( UTF8_("Image directory"), UTF8_("Directory containing the images"), editbox, 200 );
 
-	editbox->setText( m_img_dir.c_str() );
+	editbox->setText( path_to_utf8( m_img_dir ).c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cThromp::Editor_Image_Dir_Text_Changed, this ) );
 
 	// max distance
@@ -831,7 +822,7 @@ bool cThromp :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Dir( str_text );
+	Set_Image_Dir( utf8_to_path( str_text ) );
 
 	return 1;
 }
