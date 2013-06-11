@@ -224,7 +224,7 @@ public:
 class cSavegame_XML_Handler : public CEGUI::XMLHandler
 {
 public:
-	cSavegame_XML_Handler( const std::string &filename );
+	cSavegame_XML_Handler( const boost::filesystem::path &filename );
 	virtual ~cSavegame_XML_Handler( void );
 
 	/* Returns the savegame data

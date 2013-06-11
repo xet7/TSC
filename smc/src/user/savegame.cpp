@@ -829,16 +829,16 @@ bool cSavegame :: Is_Valid( unsigned int save_slot ) const
 
 /* *** *** *** *** *** *** *** cSavegame_XML_Handler *** *** *** *** *** *** *** *** *** *** */
 
-cSavegame_XML_Handler :: cSavegame_XML_Handler( const std::string &filename )
+cSavegame_XML_Handler :: cSavegame_XML_Handler( const fs::path &filename )
 {
 	// new savegame format
-	if( filename.rfind( ".smcsav" ) != std::string::npos )
+	if (filename.extension() == utf8_to_path(".smcsav"))
 	{
-		m_old_format = 0;
+		m_old_format = false;
 	}
 	else
 	{
-		m_old_format = 1;
+		m_old_format = true;
 	}
 
 	m_savegame = new cSave();
@@ -846,26 +846,27 @@ cSavegame_XML_Handler :: cSavegame_XML_Handler( const std::string &filename )
 	std::string xsd_name;
 	if( m_old_format )
 	{
-		xsd_name = "Savegame_old.xsd";
+		xsd_name = "Savegame_old";
 	}
 	else
 	{
-		xsd_name = "Savegame.xsd";
+		xsd_name = "Savegame";
 	}
 
 	try
 	{
+
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/" + xsd_name, "" );
-	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/" + xsd_name, "" );
-	#endif
+#ifdef _WIN32
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), (const CEGUI::utf8*)path_to_utf8(pResource_Manager->Get_Game_Schema(xsd_name + ".xsd")).c_str(), "" );
+#else
+		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema(xsd_name + ".xsd")).c_str(), "" );
+#endif
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "Loading Savegame %s CEGUI Exception %s\n", filename.c_str(), ex.getMessage().c_str() );
+		std::cerr << "Loading savegame '" << path_to_utf8(filename) << "' resulted in CEGUI exception: " << ex.getMessage().c_str() << std::endl;
 		pHud_Debug->Set_Text( _("Savegame Loading failed : ") + (const std::string)ex.getMessage().c_str() );
 	}
 
