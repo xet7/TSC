@@ -54,6 +54,7 @@
 #include "../objects/path.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
 #include "../overworld/world_editor.h"
 #include "../scripting/events/key_down_event.h"
 // CEGUI
@@ -349,7 +350,7 @@ void cLevel :: Save( void )
 		// level version
 		Write_Property( stream, "lvl_version", m_version );
 		// music
-		Write_Property( stream, "lvl_music", Get_Music_Filename( 1 ) );
+		Write_Property( stream, "lvl_music", path_to_utf8(Get_Music_Filename()) );
 		// description
 		Write_Property( stream, "lvl_description", m_description );
 		// difficulty
@@ -550,14 +551,14 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	// play music
 	if( m_valid_music )
 	{
-		if( pAudio->m_music_filename.compare( Get_Music_Filename( 2, 1 ) ) != 0 )
+		if( pAudio->m_music_filename.compare( m_musicfile ) != 0 )
 		{
 			pAudio->Play_Music( m_musicfile, -1, 0, 1000 );
 		}
 	}
 	else if( pAudio->m_music_enabled )
 	{
-		printf( "Warning : Music file not found %s\n", pActive_Level->m_musicfile.c_str() );
+		std::cerr << "Warning : Music file not found: " << path_to_utf8(pActive_Level->m_musicfile) << std::endl;
 	}
 
 	// Update Hud Text and position
@@ -1017,14 +1018,14 @@ bool cLevel :: Joy_Button_Up( Uint8 button )
 
 fs::path cLevel :: Get_Music_Filename() const
 {
-	return fs::relative(pResource_Manager->Get_Music_Directory(), m_musicfile);
+	return fs::relative(pResource_Manager->Get_Game_Music_Directory(), m_musicfile);
 }
 
 void cLevel :: Set_Music( fs::path filename )
 {
 	// add music dir
 	if (!filename.is_absolute())
-		filename = pResource_Manager->Get_Music_Directory() / filename;
+		filename = pResource_Manager->Get_Game_Music_Directory() / filename;
 
 	// already set
 	if( m_musicfile.compare( filename ) == 0 )
