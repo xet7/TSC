@@ -72,7 +72,7 @@ public:
 	// Set the Position z
 	void Set_Pos_Z( const float val );
 	// Set the Background image
-	void Set_Image( const std::string &img_file_1 );
+	void Set_Image( const boost::filesystem::path &img_file_1 );
 	// Set the Background Image scrolling speed
 	void Set_Scroll_Speed( const float x = 1.0f, const float y = 1.0f );
 
@@ -108,7 +108,7 @@ public:
 	// image
 	cGL_Surface *m_image_1;
 	// image filename
-	std::string m_image_1_filename;
+	boost::filesystem::path m_image_1_filename;
 	// scrolling speed
 	float m_speed_x;
 	float m_speed_y;
