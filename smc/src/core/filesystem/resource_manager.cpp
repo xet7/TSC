@@ -294,6 +294,16 @@ fs::path cResource_Manager :: Get_Game_Scripting(std::string script)
 	return Get_Game_Scripting_Directory() / utf8_to_path(script);
 }
 
+fs::path cResource_Manager :: Get_Game_Icon_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_ICON_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Icon(std::string icon)
+{
+	return Get_Game_Icon_Directory() / utf8_to_path(icon);
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cResource_Manager *pResource_Manager = NULL;
