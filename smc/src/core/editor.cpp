@@ -32,6 +32,7 @@
 #include "../overworld/overworld.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIWindowManager.h"
@@ -257,10 +258,10 @@ void cEditor :: Init( void )
 		return;
 	}
 	// Parse Items
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_items_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Editor_Items.xsd", "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_items_filename.c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Items.xsd")).c_str(), "" );
 
 	// Get all image items
-	Load_Image_Items( DATA_DIR "/" GAME_PIXMAPS_DIR );
+	Load_Image_Items(pResource_Manager->Get_Game_Pixmaps_Directory());
 
 	// Get Menu
 	if( !File_Exists( m_menu_filename ) )
@@ -269,7 +270,7 @@ void cEditor :: Init( void )
 		return;
 	}
 	// Parse Menu
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_menu_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Editor_Menu.xsd", "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_menu_filename.c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Menu.xsd")).c_str(), "" );
 }
 
 void cEditor :: Unload( void )
