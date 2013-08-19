@@ -3113,7 +3113,7 @@ void cMenu_Savegames :: Update_Load( void )
 		Game_Action = GA_ENTER_LEVEL;
 		cLevel *level = pLevel_Manager->Load( level_name );
 		// only fade-out music if different
-		if( pActive_Level->Get_Music_Filename( 1 ).compare( level->Get_Music_Filename( 1 ) ) != 0 )
+		if( pActive_Level->Get_Music_Filename().compare( level->Get_Music_Filename() ) != 0 )
 		{
 			Game_Action_Data_Start.add( "music_fadeout", "1000" );
 		}
