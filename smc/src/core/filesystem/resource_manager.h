@@ -54,6 +54,7 @@ public:
 	boost::filesystem::path Get_Game_Campaign_Directory();
 	boost::filesystem::path Get_Game_Overworld_Directory();
 	boost::filesystem::path Get_Game_Music_Directory();
+	boost::filesystem::path Get_Game_Editor_Directory();
 
 	// CEGUI data paths
 	boost::filesystem::path Get_Gui_Scheme_Directory();
@@ -71,6 +72,7 @@ public:
 	boost::filesystem::path Get_Game_Campaign(std::string campaign);
 	boost::filesystem::path Get_Game_Overworld(std::string overworld);
 	boost::filesystem::path Get_Game_Music(std::string music);
+	boost::filesystem::path Get_Game_Editor(std::string editor);
 
   // Get the various directories in the user’s data directory
   boost::filesystem::path Get_User_Level_Directory();

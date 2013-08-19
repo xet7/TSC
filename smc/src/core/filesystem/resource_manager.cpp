@@ -274,6 +274,15 @@ fs::path cResource_Manager :: Get_Game_Music(std::string music)
 	return Get_Game_Music_Directory() / utf8_to_path(music);
 }
 
+fs::path cResource_Manager :: Get_Game_Editor_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_EDITOR_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Editor(std::string editor)
+{
+	return Get_Game_Editor_Directory() / utf8_to_path(editor);
+}
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

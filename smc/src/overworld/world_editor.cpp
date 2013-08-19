@@ -21,6 +21,7 @@
 #include "../audio/audio.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 
 namespace SMC
 {
@@ -31,8 +32,8 @@ cEditor_World :: cEditor_World( cSprite_Manager *sprite_manager, cOverworld *ove
 : cEditor( sprite_manager )
 {
 	m_overworld = overworld;
-	m_menu_filename = DATA_DIR "/" GAME_EDITOR_DIR "/world_menu.xml";
-	m_items_filename = DATA_DIR "/" GAME_EDITOR_DIR "/world_items.xml";
+	m_menu_filename = pResource_Manager->Get_Game_Editor("world_menu.xml");
+	m_items_filename = pResource_Manager->Get_Game_Editor("world_items.xml");
 
 	m_editor_item_tag = "world";
 	m_camera_speed = 20;

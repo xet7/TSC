@@ -254,11 +254,11 @@ void cEditor :: Init( void )
 	// Get Items
 	if( !File_Exists( m_items_filename ) )
 	{
-		printf( "Error : Editor Loading : No Item file found : %s\n", m_items_filename.c_str() );
+		std::cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
 		return;
 	}
 	// Parse Items
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_items_filename.c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Items.xsd")).c_str(), "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_items_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Items.xsd")).c_str(), "" );
 
 	// Get all image items
 	Load_Image_Items(pResource_Manager->Get_Game_Pixmaps_Directory());
@@ -266,11 +266,11 @@ void cEditor :: Init( void )
 	// Get Menu
 	if( !File_Exists( m_menu_filename ) )
 	{
-		printf( "Error : Editor Loading : No Menu file found : %s\n", m_menu_filename.c_str() );
+		std::cerr << "Error : Editor Loading : No Menu file found : " << path_to_utf8(m_menu_filename) << std::endl;
 		return;
 	}
 	// Parse Menu
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_menu_filename.c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Menu.xsd")).c_str(), "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_menu_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Menu.xsd")).c_str(), "" );
 }
 
 void cEditor :: Unload( void )
