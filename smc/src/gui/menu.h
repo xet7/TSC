@@ -141,6 +141,8 @@ public:
 
 
 	// Returns a Menu with the common image filenames
+	// imagename: Name of the active (on hover) image
+	// imagename_menu: Name of the inactive image
 	cMenu_Item *Auto_Menu( std::string imagename, std::string imagename_menu, float ypos = 0, bool is_quit = 0 );
 
 	/* Load the given Menu

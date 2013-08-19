@@ -26,6 +26,7 @@
 #include "../overworld/overworld.h"
 #include "../user/preferences.h"
 #include "../input/keyboard.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIWindowManager.h"
@@ -525,13 +526,13 @@ cMenu_Item *cMenuCore :: Auto_Menu( std::string imagename, std::string imagefile
 	// the menu image
 	if( imagefilename_menu.length() > 0 )
 	{
-		temp_item->m_image_menu->Set_Image( pVideo->Get_Surface( DATA_DIR "/" GAME_PIXMAPS_DIR "/menu/items/" + imagefilename_menu ), 1 );
+		temp_item->m_image_menu->Set_Image( pVideo->Get_Surface( pResource_Manager->Get_Game_Pixmap("menu/items/" + imagefilename_menu ) ), 1 );
 	}
 
 	// the active image
 	if( imagename.length() > 0 )
 	{
-		temp_item->m_image_default->Set_Image( pVideo->Get_Surface( DATA_DIR "/" GAME_PIXMAPS_DIR "/menu/" + imagename ), 1 );
+		temp_item->m_image_default->Set_Image( pVideo->Get_Surface( pResource_Manager->Get_Game_Pixmap("menu/" + imagename ) ), 1 );
 	}
 
 	// position and initialization

@@ -2647,7 +2647,7 @@ bool cMenu_Options :: Audio_Music_Select( const CEGUI::EventArgs &event )
 		pAudio->Toggle_Music();
 
 		// Warning if no music pack is installed and music got enabled
-		if( pAudio->m_music_enabled && !File_Exists( std::string(DATA_DIR "/" GAME_MUSIC_DIR "/game/menu.ogg") ) && !File_Exists( std::string(DATA_DIR "/" GAME_MUSIC_DIR "/land/land_1.ogg") ) )
+		if( pAudio->m_music_enabled && !File_Exists( pResource_Manager->Get_Game_Music("game/menu.ogg") ) && !File_Exists( pResource_Manager->Get_Game_Music("land/land_1.ogg") ) )
 		{
 			Draw_Static_Text( _("Music addon not detected.\nYou can download it from the Website."), &orange );
 		}
