@@ -25,7 +25,7 @@ namespace SMC
 /* *** *** *** *** *** *** cStaticEnemy *** *** *** *** *** *** *** *** *** *** *** */
 /* It doesn't move but will hit you if you touch it.
  */
-class cStaticEnemy : public cEnemy 
+class cStaticEnemy : public cEnemy
 {
 public:
 	// constructor
@@ -56,7 +56,7 @@ public:
 	virtual cSave_Level_Object *Save_To_Savegame( void );
 
 	// Set the static image
-	void Set_Static_Image( const std::string &filename );
+	void Set_Static_Image( const boost::filesystem::path &filename );
 	// Set the rotation speed
 	void Set_Rotation_Speed( float speed );
     // Set the movement speed
@@ -106,7 +106,7 @@ public:
 	bool Editor_Ice_Resistance_Text_Changed( const CEGUI::EventArgs &event );
 
 	// image filename
-	std::string m_img_filename;
+	boost::filesystem::path m_img_filename;
 	// rotation speed
 	float m_rotation_speed;
 	// movement speed if using path
