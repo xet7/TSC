@@ -79,6 +79,7 @@ find_package(OpenGL REQUIRED)
 find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
+find_package(FreeImage REQUIRED)
 
 if (WIN32)
   find_package(LibIntl REQUIRED)
@@ -96,6 +97,10 @@ else()
     REQUIRED)
 endif()
 
+
+
+
+
 # pkg-config is really the better way to check for libs.
 # Unfortunetly, the above libraries don’t support it
 # properly.
@@ -104,7 +109,7 @@ pkg_check_modules(SDL REQUIRED sdl)
 pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
 pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
-pkg_check_modules(FREEIMAGE REQUIRED freeimage)
+#pkg_check_modules(FREEIMAGE REQUIRED freeimage)
 pkg_check_modules(PCRE REQUIRED libpcre)
 
 ###############################################
@@ -126,7 +131,7 @@ include_directories(
   ${SDL_IMAGE_INCLUDE_DIRS}
   ${SDL_MIXER_INCLUDE_DIRS}
   ${SDL_TTF_INCLUDE_DIRS}
-  ${FREEIMAGE_INCLUDE_DIRS}
+  ${FreeImage_INCLUDE_DIRS}
   ${PCRE_INCLUDE_DIRS}
   )
 
@@ -195,7 +200,7 @@ if (WIN32)
   target_link_libraries(smc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
-    ${FREEIMAGE_LIBRARIES}
+    ${FreeImage_LIBRARIES}
     ${SDL_STATIC_LIBRARIES}
     ${SDL_IMAGE_STATIC_LIBRARIES}
     ${SDL_MIXER_STATIC_LIBRARIES}
@@ -214,7 +219,7 @@ else()
   target_link_libraries(smc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
-    ${FREEIMAGE_LIBRARIES}
+    ${FreeImage_LIBRARIES}
     ${SDL_LIBRARIES}
     ${SDL_IMAGE_LIBRARIES}
     ${SDL_MIXER_LIBRARIES}
