@@ -169,6 +169,7 @@ enum LevelLandType
 #define GAME_ICON_DIR "icon"
 #define GAME_SCHEMA_DIR "schema"
 #define GAME_TRANSLATION_DIR "translations"
+#define GAME_SCRIPTING_DIR "scripting"
 // GUI
 #define GUI_SCHEME_DIR "gui/schemes"
 #define GUI_IMAGESET_DIR "gui/imagesets"

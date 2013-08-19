@@ -284,6 +284,16 @@ fs::path cResource_Manager :: Get_Game_Editor(std::string editor)
 	return Get_Game_Editor_Directory() / utf8_to_path(editor);
 }
 
+fs::path cResource_Manager :: Get_Game_Scripting_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_SCRIPTING_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Scripting(std::string script)
+{
+	return Get_Game_Scripting_Directory() / utf8_to_path(script);
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cResource_Manager *pResource_Manager = NULL;
