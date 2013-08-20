@@ -239,7 +239,7 @@ void Init_Game( void )
 	srand( static_cast<unsigned int>(time( NULL )) );
 
 	// Init Stage 1 - core classes
-	debug_print("Initializing resource manager and core classes");
+	debug_print("Initializing resource manager and core classes\n");
 	pResource_Manager = new cResource_Manager();
 	pVideo = new cVideo();
 	pAudio = new cAudio();
