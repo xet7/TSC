@@ -280,7 +280,7 @@ cMenuCore :: cMenuCore( void )
 
 	// left side
 	cParticle_Emitter *anim = new cParticle_Emitter( m_handler->m_level->m_sprite_manager );
-	anim->Set_Image_Filename( "clouds/default_1/1_middle.png" );
+	anim->Set_Image_Filename( utf8_to_path( "clouds/default_1/1_middle.png" ) );
 	anim->Set_Emitter_Rect( -100, static_cast<float>(-game_res_h), 0, game_res_h * 0.5f );
 	anim->Set_Emitter_Time_to_Live( -1 );
 	anim->Set_Emitter_Iteration_Interval( 16 );
@@ -296,7 +296,7 @@ cMenuCore :: cMenuCore( void )
 
 	// right side
 	anim = new cParticle_Emitter( m_handler->m_level->m_sprite_manager );
-	anim->Set_Image_Filename( "clouds/default_1/1_middle.png" );
+	anim->Set_Image_Filename( utf8_to_path ( "clouds/default_1/1_middle.png" ) );
 	anim->Set_Emitter_Rect( static_cast<float>(game_res_w) + 100, static_cast<float>(-game_res_h), 0, static_cast<float>(game_res_h) * 0.5f );
 	anim->Set_Emitter_Time_to_Live( -1 );
 	anim->Set_Emitter_Iteration_Interval( 16 );

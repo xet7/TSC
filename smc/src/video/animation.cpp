@@ -21,6 +21,8 @@
 #include "../core/math/utilities.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
 #include "../input/mouse.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
@@ -29,6 +31,8 @@
 #include "elements/CEGUICheckbox.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -603,7 +607,7 @@ cParticle_Emitter *cParticle_Emitter :: Copy( void ) const
 	particle_animation->Set_Particle_Based_On_Emitter_Pos( m_particle_based_on_emitter_pos );
 	particle_animation->Set_Pos( m_start_pos_x, m_start_pos_y, 1 );
 	particle_animation->Set_Pos_Z( m_pos_z, m_pos_z_rand );
-	particle_animation->Set_Image_Filename( m_image_filename.c_str() );
+	particle_animation->Set_Image_Filename( fs::path( m_image_filename ) );
 	particle_animation->Set_Emitter_Rect( m_rect );
 	particle_animation->Set_Emitter_Time_to_Live( m_emitter_time_to_live );
 	particle_animation->Set_Emitter_Iteration_Interval( m_emitter_iteration_interval );
@@ -629,7 +633,7 @@ cParticle_Emitter *cParticle_Emitter :: Copy( void ) const
 void cParticle_Emitter :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 {
 	// Particle image filename
-	Set_Image_Filename( attributes.getValueAsString( "particle_image" ).c_str() );
+	Set_Image_Filename( utf8_to_path( attributes.getValueAsString( "particle_image" ).c_str() ) );
 	// position z
 	Set_Pos_Z( attributes.getValueAsFloat( "pos_z", m_pos_z ), attributes.getValueAsFloat( "pos_z_rand", m_pos_z_rand ) );
 	// emitter based on camera pos
@@ -681,7 +685,7 @@ void cParticle_Emitter :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	cAnimation::Do_XML_Saving(stream);
 
 	// particle image filename
-	Write_Property( stream, "particle_image", m_image_filename );
+	Write_Property( stream, "particle_image", path_to_utf8( m_image_filename ) );
 	// position z
 	Write_Property( stream, "pos_z", m_pos_z );
 	Write_Property( stream, "pos_z_rand", m_pos_z_rand );
@@ -1239,17 +1243,12 @@ void cParticle_Emitter :: Set_Image( cGL_Surface *img )
 	m_image = img;
 }
 
-void cParticle_Emitter :: Set_Image_Filename( const std::string &str_filename )
+void cParticle_Emitter :: Set_Image_Filename( const fs::path &filename )
 {
 	// remember the filename for saving
-	m_image_filename = str_filename;
-
-	if( m_image_filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == 0 )
-	{
-		m_image_filename.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
-
-	Convert_Path_Separators( m_image_filename );
+	m_image_filename = filename;
+	if (filename.is_absolute())
+		m_image_filename = boost::filesystem::relative(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 
 	// set new image
 	Set_Image( pVideo->Get_Surface( m_image_filename, 0 ) );
@@ -1410,19 +1409,19 @@ void cParticle_Emitter :: Set_Color( const Color &col, const Color &col_rand /* 
 #ifdef _DEBUG
 		if( m_color.red + col_rand.red > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color red (%d) is too high for %s\n", col_rand.red, m_image_filename.c_str() );
+			printf( "cParticle_Emitter::Set_Color random color red (%d) is too high for %s\n", col_rand.red, path_to_utf8(m_image_filename).c_str() );
 		}
 		if( m_color.green + col_rand.green > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color green (%d) is too high for %s\n", col_rand.green, m_image_filename.c_str() );
+			printf( "cParticle_Emitter::Set_Color random color green (%d) is too high for %s\n", col_rand.green, path_to_utf8(m_image_filename).c_str() );
 		}
 		if( m_color.blue + col_rand.blue > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color blue (%d) is too high for %s\n", col_rand.blue, m_image_filename.c_str() );
+			printf( "cParticle_Emitter::Set_Color random color blue (%d) is too high for %s\n", col_rand.blue, path_to_utf8(m_image_filename).c_str() );
 		}
 		if( m_color.alpha + col_rand.alpha > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color alpha (%d) is too high for %s\n", col_rand.alpha, m_image_filename.c_str() );
+			printf( "cParticle_Emitter::Set_Color random color alpha (%d) is too high for %s\n", col_rand.alpha, path_to_utf8(m_image_filename).c_str() );
 		}
 #endif
 }
@@ -1497,7 +1496,7 @@ void cParticle_Emitter :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "emitter_image_filename" ));
 	Editor_Add( UTF8_("Filename"), UTF8_("Image filename"), editbox, 360 );
 
-	editbox->setText( m_image_filename.c_str() );
+	editbox->setText( path_to_utf8(m_image_filename).c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cParticle_Emitter::Editor_Filename_Text_Changed, this ) );
 
 	// emitter position based on camera pos
@@ -1795,7 +1794,7 @@ bool cParticle_Emitter :: Editor_Filename_Text_Changed( const CEGUI::EventArgs &
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Filename( str_text );
+	Set_Image_Filename( utf8_to_path(str_text) );
 	Pre_Update();
 
 	return 1;

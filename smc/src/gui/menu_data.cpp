@@ -3494,7 +3494,7 @@ void cMenu_Credits :: Update( void )
 					// multi-explosion
 					if( rand() % 2 )
 					{
-						anim->Set_Image_Filename( "animation/particles/fire_2.png" );
+						anim->Set_Image_Filename( utf8_to_path( "animation/particles/fire_2.png" ) );
 						anim->Set_Emitter_Time_to_Live( 0.4f );
 						anim->Set_Emitter_Iteration_Interval( 0.05f );
 						anim->Set_Direction_Range( 0, 360 );
@@ -3507,7 +3507,7 @@ void cMenu_Credits :: Update( void )
 					else
 					{
 						quota += rand() % 25;
-						anim->Set_Image_Filename( "animation/particles/fire_3.png" );
+						anim->Set_Image_Filename( utf8_to_path( "animation/particles/fire_3.png" ) );
 						anim->Set_Direction_Range( 0, 360 );
 						anim->Set_Scale( 0.2f, 0.1f );
 

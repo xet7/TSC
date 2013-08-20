@@ -210,8 +210,10 @@ public:
 	 * does not set the image filename
 	*/
 	virtual void Set_Image( cGL_Surface *img );
-	// Set the image with the filename
-	virtual void Set_Image_Filename( const std::string &str_filename );
+	// Set the image with the filename. `filename' should
+	// be relative to the pixmaps/ directory (but it’s converted if
+	// it’s an absolute path).
+	virtual void Set_Image_Filename( const boost::filesystem::path &filename );
 	/* set if spawned
 	 * if set it is not saved in the level/world file
 	*/
@@ -312,7 +314,7 @@ public:
 	ParticleList m_objects;
 
 	// filename of the particle image
-	std::string m_image_filename;
+	boost::filesystem::path m_image_filename;
 	// if emitter position is based on the camera position
 	bool m_emitter_based_on_camera_pos;
 	// if particles position is based on the emitter position

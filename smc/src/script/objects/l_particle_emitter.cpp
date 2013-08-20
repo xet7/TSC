@@ -2,6 +2,7 @@
 #include "../script.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
+#include "../../core/property_helper.h"
 #include "l_particle_emitter.h"
 
 using namespace SMC;
@@ -71,7 +72,7 @@ static int Set_Image_Filename(lua_State* p_state)
 	cParticle_Emitter* p_emitter = *LuaWrap::check<cParticle_Emitter*>(p_state, 1);
 	std::string path = luaL_checkstring(p_state, 2);
 
-	p_emitter->Set_Image_Filename(path);
+	p_emitter->Set_Image_Filename(utf8_to_path(path));
 
 	return 0;
 }
