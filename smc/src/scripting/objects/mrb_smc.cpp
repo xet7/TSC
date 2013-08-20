@@ -1,7 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_smc.h"
+#include "../../core/game_core.h"
 #include "../../core/property_helper.h"
 #include "../../core/filesystem/resource_manager.h"
+#include "../../core/framerate.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -84,10 +86,131 @@ static mrb_value Setup(mrb_state* p_state, mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ *
+ *   platform() → a_string
+ *
+ * Information about the platform SMC was compiled for.
+ *
+ * #### Return value
+ * One of `:win32`, `:linux`, `:apple`, or `:other`. Please
+ * notify me if you get `:other` from this method.
+ */
+static mrb_value Platform(mrb_state* p_state, mrb_value self)
+{
+#ifdef _WIN32
+	return SMC::Scripting::str2sym(p_state, "win32");
+#elif __linux
+	return SMC::Scripting::str2sym(p_state, "linux");
+#elif __APPLE__
+	return SMC::Scripting::str2sym(p_state, "apple");
+#else
+	return SMC::Scripting::str2sym(p_state, "other");
+#endif
+}
+
+/**
+ *
+ *   quit()
+ *
+ * Instructs SMC to terminate the main loop, exiting the
+ * game as if regularily closed.
+ */
+static mrb_value Quit(mrb_state* p_state, mrb_value self)
+{
+	game_exit = true;
+	return mrb_nil_value();
+}
+
+/**
+ *
+ *   exit( exitcode )
+ *
+ * Immediately and forcibly terminates SMC without any
+ * cleanup.
+ *
+ * `0 <= exitcode < 255` is the range for `exitcode`.
+ */
+static mrb_value Exit(mrb_state* p_state, mrb_value self)
+{
+	mrb_int exitcode;
+	mrb_get_args(p_state, "i", &exitcode);
+
+	exit(exitcode);
+	return mrb_nil_value(); // Not reached
+}
+
+/**
+ *
+ *   current_framerate() → integer
+ *
+ * The current frames per second (FPS).
+ */
+static mrb_value Current_Framerate(mrb_state* p_state, mrb_value self)
+{
+	return mrb_fixnum_value(pFramerate->m_fps);
+}
+
+/**
+ *
+ *   average_framerate() → integer
+ *
+ * The average frames per second (FPS).
+ */
+static mrb_value Average_Framerate(mrb_state* p_state, mrb_value self)
+{
+	return mrb_fixnum_value(pFramerate->m_fps_average);
+}
+
+/**
+ *
+ *   best_framerate() → integer
+ *
+ * The best frames per second (FPS).
+ */
+static mrb_value Best_Framerate(mrb_state* p_state, mrb_value self)
+{
+	return mrb_fixnum_value(pFramerate->m_fps_best);
+}
+
+/**
+ *
+ *   worst_framerate() → integer
+ *
+ * The worst frames per second (FPS).
+ */
+static mrb_value Worst_Framerate(mrb_state* p_state, mrb_value self)
+{
+	return mrb_fixnum_value(pFramerate->m_fps_worst);
+}
+
+/**
+ *
+ *   version() → a_string
+ *
+ * SMC’s version number in the form `major.minor.patch`.
+ */
+static mrb_value Version(mrb_state* p_state, mrb_value self)
+{
+	std::stringstream ss;
+
+	ss << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH;
+
+	return mrb_str_new_cstr(p_state, ss.str().c_str());
+}
+
 void SMC::Scripting::Init_SMC(mrb_state* p_state)
 {
 	p_rmSMC = mrb_define_module(p_state, "SMC");
 
 	mrb_define_module_function(p_state, p_rmSMC, "require", Require, ARGS_REQ(1));
 	mrb_define_module_function(p_state, p_rmSMC, "setup", Setup, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "platform", Platform, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "quit", Quit, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "exit", Exit, ARGS_REQ(1));
+	mrb_define_module_function(p_state, p_rmSMC, "current_framerate", Current_Framerate, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "average_framerate", Average_Framerate, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "best_framerate", Best_Framerate, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "worst_framerate", Worst_Framerate, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "version", Version, ARGS_NONE());
 }
