@@ -1,4 +1,4 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
+// -*- c++ -*-
 #ifndef SMC_SCRIPTING_EVENTABLE_H
 #define SMC_SCRIPTING_EVENTABLES_H
 #include <map>

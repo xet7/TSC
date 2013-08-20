@@ -1,4 +1,4 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
+// -*- c++ -*-
 #ifndef SMC_SCRIPTING_HPP
 #define SMC_SCRIPTING_HPP
 #include <string>

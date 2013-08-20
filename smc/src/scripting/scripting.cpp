@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "scripting.h"
 #include "../level/level.h"
 #include "../level/level_player.h"

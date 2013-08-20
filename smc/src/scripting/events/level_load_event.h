@@ -1,4 +1,4 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
+// -*- c++ -*-
 #ifndef SMC_SCRIPTING_LEVEL_LOAD_EVENT_H
 #define SMC_SCRIPTING_LEVEL_LOAD_EVENT_H
 #include "../scripting.h"
