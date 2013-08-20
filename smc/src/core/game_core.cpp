@@ -633,7 +633,8 @@ void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, CE
 
 void Relocate_Image( CEGUI::XMLAttributes &xml_attributes, const std::string &filename_old, const std::string &filename_new, const CEGUI::String &attribute_name /* = "image" */ )
 {
-	if( xml_attributes.getValueAsString( attribute_name ).compare( filename_old ) == 0 || xml_attributes.getValueAsString( attribute_name ).compare( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + filename_old ) == 0 )
+	std::string pixmaps_dir = path_to_utf8( pResource_Manager->Get_Game_Pixmaps_Directory() );
+	if( xml_attributes.getValueAsString( attribute_name ).compare( filename_old ) == 0 || xml_attributes.getValueAsString( attribute_name ).compare( pixmaps_dir + "/" + filename_old ) == 0 )
 	{
 		xml_attributes.remove( attribute_name );
 		xml_attributes.add( attribute_name, filename_new );
