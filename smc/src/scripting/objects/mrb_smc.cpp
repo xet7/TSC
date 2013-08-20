@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_smc.h"
 #include "../../core/game_core.h"
 #include "../../core/property_helper.h"

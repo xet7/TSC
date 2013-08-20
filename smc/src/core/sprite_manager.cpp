@@ -32,6 +32,7 @@ cSprite_Manager :: cSprite_Manager( unsigned int reserve_items /* = 2000 */, uns
 {
 	objects.reserve( reserve_items );
 
+	m_max_uid_mark = 1; // UID 0 is reserved for the player
 	m_z_pos_data.assign( zpos_items, 0.0f );
 	m_z_pos_data_editor.assign( zpos_items,0.0f );
 }
@@ -68,6 +69,10 @@ void cSprite_Manager :: Add( cSprite *sprite )
 		{
 			// set new object
 			*itr = sprite;
+
+			// Release old sprite’s UID
+			m_uid_pool.erase(obj->m_uid);
+
 			// delete old
 			delete obj;
 
@@ -204,7 +209,7 @@ void cSprite_Manager :: Delete_All( bool delayed /* = 0 */ )
 			// get object pointer
 			cSprite *obj = (*itr);
 
-			obj->Destroy();
+			obj->Destroy(); // Marks for autodestroy in cSprite_Manager::Add()
 		}
 	}
 	// instant
@@ -229,6 +234,9 @@ void cSprite_Manager :: Delete_All( bool delayed /* = 0 */ )
 
 		cObject_Manager<cSprite>::Delete_All();
 	}
+
+	// Empty the UID pool, we have no sprites anymore
+	m_uid_pool.clear();
 
 	// clear z position data
 	std::fill( m_z_pos_data.begin(), m_z_pos_data.end(), 0.0f );
@@ -414,22 +422,47 @@ unsigned int cSprite_Manager :: Get_Size_Array( const ArrayType sprite_array )
 	return count;
 }
 
+/* The member m_uid_pool contains a list of all those UIDs that
+ * are *not* currently in use, sorted from the smallest to
+ * the greatest (not necessarily without gaps, as destroyed
+ * sprites give their UID back into the pool). This allows
+ * use to quickly find the next free UID without much searching
+ * by just picking the very first element from m_uid_pool,
+ * which, as said, is always sorted and stays so.
+ *
+ * However, at the level start this would mean that m_uid_pool
+ * must contain infinitely many numbers reaching from 1 to ∞. Well,
+ * OK, not ∞, because CEGUI’s XML handler can only handle the
+ * bare `int' type and is hence limited to INT_MAX. As we don’t want
+ * to allocate space for all those possible UIDs which we will likely
+ * never need right from the start on, we instead just allocate the
+ * next ten UIDs for the pool if it is empty, remembering the new
+ * highest possible UID in m_max_uid_mark. */
 int cSprite_Manager :: Generate_UID()
 {
-	int uid = 1; // 0 is used to signale the invalid UID
+	// Allocate 10 new UIDs if the pool is empty
+	if (m_uid_pool.empty()) {
+		long new_max_uid_mark = m_max_uid_mark + 10; // We need long for the test below
 
-	// Count up until we find a free ID (this allows to re-use IDs of deleted
-	// objects which is not the case if we simply increment the IDs).
-	while (uid <= INT_MAX){
-		if (Is_UID_In_Use(uid))
-			uid++;
-		else
-			return uid;
-	};
+		// int is the only type CEGUI’s XML handler can handle. Therefore, we
+		// must refuse the generation of new UIDs beyond the maximum of what an
+		// int can hold.
+		if (new_max_uid_mark >= INT_MAX)
+			throw(std::range_error("Too many sprites, unable to generate further UIDs!"));
 
-	// If we get here, the user used quite many objects. Sorry, cannot
-	// help you anymore. Sadly, there’s no way to tell CEGUI’s XML about unsigned ints/longs...
-	throw(std::range_error("Too many sprites, unable to generate further sprite UIDs!"));
+		// Actually allocate the next ten numbers for the UID pool
+		for (int i = m_max_uid_mark; i < static_cast<int>(new_max_uid_mark); i++) // new_max_uid_mark is guaranteed to be < INT_MAX
+			m_uid_pool.insert(i);
+
+		// Remember the new maximum. Note that by checking INT_MAX, we have
+		// ensured the values fits into an int.
+		m_max_uid_mark = static_cast<int>(new_max_uid_mark);
+	}
+
+	// Pool is not empty, return the first available UID.
+	std::set<int>::const_iterator iter = m_uid_pool.begin();
+	m_uid_pool.erase(iter);
+	return *iter;
 }
 
 bool cSprite_Manager :: Is_UID_In_Use(int uid)
@@ -438,10 +471,13 @@ bool cSprite_Manager :: Is_UID_In_Use(int uid)
 	if (uid == 0)
 		return true;
 
-	for (cSprite_List::const_iterator iter = objects.begin(); iter < objects.end(); iter++){
-		if ((*iter)->m_uid == uid)
-			return true;
-	}
+	// If the UID is in the pool, it is free. If it is greater or equal to
+	// the pool border marker, it is free. Otherwise, it is in use.
+	if (uid >= m_max_uid_mark)
+		return false;
+
+	if (m_uid_pool.find(uid) == m_uid_pool.end())
+		return true;
 
 	return false;
 }

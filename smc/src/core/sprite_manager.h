@@ -1,3 +1,4 @@
+// -*- c++ -*-
 /***************************************************************************
  * sprite_manager.h
  *
@@ -19,6 +20,8 @@
 #include "../core/global_game.h"
 #include "../core/obj_manager.h"
 #include "../objects/movingsprite.h"
+
+#include <set>
 
 namespace SMC
 {
@@ -145,6 +148,12 @@ public:
 	ZposList m_z_pos_data;
 	// biggest editor type z position
 	ZposList m_z_pos_data_editor;
+	// This set holds the not-yet-used UIDs so we can easily
+	// find the next free one.
+	std::set<int> m_uid_pool;
+	// The UID pool is filled as needed. This is always the first
+	// non-yet allocated UID.
+	int m_max_uid_mark;
 
 	// Z position sort
 	struct zpos_sort
