@@ -39,16 +39,25 @@ namespace SMC {
 		// symbol object (not an mrb_sym!) for it.
 		inline mrb_value str2sym(mrb_state* mrb, std::string str){ return mrb_symbol_value(mrb_intern(mrb, str.c_str())); }
 
-		// More permissive version of MRuby’s Data_Get_Struct(),
-		// DATA_GET_PTR(), etc. This function doesn’t check the type
-		// pointer, which is totally useless for wrapping C++ class
-		// hierarchies, because MRuby doesn’t recgonize a pointer can
-		// actually be valid for the the parent type and just throws
-		// an exception. This function just checks if 'obj` doesn’t
-		// contain an entirely invalid pointer and raises a TypeError
-		// if so. Otherwise returns the pointer. Use MRuby’s
-		// RDATA_PTR() directly if you don’t want an exception in this
-		// case.
+		/**
+		 * More permissive version of MRuby’s DATA_GET_PTR(). This
+		 * function doesn’t check the type pointer, which is totally
+		 * useless for wrapping C++ class hierarchies, because MRuby
+		 * doesn’t recognize a pointer can actually be valid for the
+		 * the C++ parent type and just throws an exception. As mruby
+		 * is a C library, this is fine and for exactly that case it’s
+		 * possible to retrieve the raw pointer without any checks
+		 * with DATA_PTR() which is exactly what we do inside this
+		 * function. DATA_CHECK_GET_PTR() doesn’t work for us either,
+		 * because it also does the typecheck, just instead of raising
+		 * it returns `nil'.
+		 *
+		 * This function just checks if 'obj` doesn’t
+		 * contain an entirely invalid pointer and raises a TypeError
+		 * if so. Otherwise returns the pointer. Use MRuby’s
+		 * DATA_PTR() directly if you don’t want an exception in this
+		 * case.
+		 */
 		template<typename T>
 		T* Get_Data_Ptr(mrb_state* p_state, mrb_value obj)
 		{
