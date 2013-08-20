@@ -4,6 +4,7 @@
 #include "../level/level_player.h"
 #include "../core/sprite_manager.h"
 #include "../core/property_helper.h"
+#include "../core/filesystem/resource_manager.h"
 
 #include "objects/mrb_smc.h"
 #include "objects/mrb_eventable.h"
@@ -65,9 +66,6 @@ namespace SMC
 	namespace Scripting
 	{
 
-		// The path to the directory containing the global scripts.
-		boost::filesystem::path scripting_dir = SMC::utf8_to_path(DATA_DIR) / "scripting";
-
 		cMRuby_Interpreter::cMRuby_Interpreter(cLevel* p_level)
 		{
 			// Set member variables
@@ -112,7 +110,7 @@ namespace SMC
 			// Load the main scripting file. This file is required to call
 			// SMC::setup, which loads all of the wrapper classes into
 			// the interpreter.
-			boost::filesystem::path mainfile = scripting_dir / "main.rb";
+			boost::filesystem::path mainfile = pResource_Manager->Get_Game_Scripting("main.rb");
 			boost::filesystem::ifstream file(mainfile);
 			if (!file.is_open()) {
 				std::cerr << "Failed to open main scripting file '" << mainfile.generic_string().c_str() << "' for reading." << std::endl;

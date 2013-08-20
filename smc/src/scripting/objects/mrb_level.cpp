@@ -217,42 +217,12 @@ static mrb_value Get_Filename(mrb_state* p_state, mrb_value self)
  *
  *   music_filename( [ format [, with_ext ] ] ) → a_string
  *
- * Returns the default level music’s filename.
- *
- * #### Parameters
- *
- * format (:remove_nothing)
- * : Specifies the format of the path string
- *   returned. :remove_complete_dir returns only the bare filename,
- *   :remove_music_dir returns a path relative to the `music/` directory
- *   and :remove_nothing returns an absolute path.
- *
- * with_ext (false)
- * : If set, the returned path will not have a file extension.
+ * Returns the default level music’s filename, relative to
+ * the `music/` directory.
  */
 static mrb_value Get_Music_Filename(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym sym;
-	mrb_value with_ext;
-	int argc = mrb_get_args(p_state, "|no", &sym, &with_ext);
-
-	std::string format;
-	if (argc > 0)
-		format = mrb_sym2name(p_state, sym);
-	else
-		format = "remove_nothing";
-
-	std::string result;
-	if (format == "remove_complete_dir")
-		result = pActive_Level->Get_Music_Filename(0, mrb_test(with_ext));
-	else if (format == "remove_music_dir")
-		result = pActive_Level->Get_Music_Filename(1, mrb_test(with_ext));
-	else if (format == "remove_nothing")
-		result = pActive_Level->Get_Music_Filename(2, mrb_test(with_ext));
-	else
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid directory format specifier '%s'", mrb_sym2name(p_state, sym));
-
-	return mrb_str_new_cstr(p_state, result.c_str());
+	return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->Get_Music_Filename()).c_str());
 }
 
 /**
@@ -321,7 +291,7 @@ void SMC::Scripting::Init_Level(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel, "difficulty", Get_Difficulty, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "engine_version", Get_Engine_Version, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "filename", Get_Filename, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, ARGS_OPT(2));
+	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "finish", Finish, ARGS_OPT(1));

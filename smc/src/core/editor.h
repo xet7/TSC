@@ -216,8 +216,8 @@ public:
 	bool m_enabled;
 
 	// Editor filenames
-	std::string m_menu_filename;
-	std::string m_items_filename;
+	boost::filesystem::path m_menu_filename;
+	boost::filesystem::path m_items_filename;
 
 	// Required item tag
 	std::string m_editor_item_tag;

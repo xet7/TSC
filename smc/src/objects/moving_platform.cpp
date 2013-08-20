@@ -26,11 +26,15 @@
 #include "../level/level.h"
 #include "../objects/path.h"
 #include "../input/mouse.h"
+#include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
 #include "elements/CEGUIEditbox.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -157,11 +161,11 @@ void cMoving_Platform :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// middle image count
 	Set_Middle_Count( attributes.getValueAsInteger( "middle_img_count", m_middle_count ) );
 	// image top left
-	Set_Image_Top_Left( pVideo->Get_Surface( attributes.getValueAsString( "image_top_left", m_images[0].m_image->Get_Filename() ).c_str() ) );
+	Set_Image_Top_Left( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_left", path_to_utf8( m_images[0].m_image->Get_Path() ) ).c_str() ) ) );
 	// image top middle
-	Set_Image_Top_Middle( pVideo->Get_Surface( attributes.getValueAsString( "image_top_middle", m_images[1].m_image->Get_Filename() ).c_str() ) );
+	Set_Image_Top_Middle( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_middle", path_to_utf8( m_images[1].m_image->Get_Path() ) ).c_str() ) ) );
 	// image top right
-	Set_Image_Top_Right( pVideo->Get_Surface( attributes.getValueAsString( "image_top_right", m_images[2].m_image->Get_Filename() ).c_str() ) );
+	Set_Image_Top_Right( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_right", path_to_utf8( m_images[2].m_image->Get_Path() ) ).c_str() ) ) );
 }
 
 std::string cMoving_Platform :: Get_XML_Type_Name()
@@ -202,12 +206,17 @@ void cMoving_Platform :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "touch_move_time", m_touch_move_time );
 	// middle image count
 	Write_Property( stream, "middle_img_count", m_middle_count );
+
+	fs::path rel;
 	// image top left
-	Write_Property( stream, "image_top_left", m_images[0].m_image->Get_Filename( 1 ) );
+	rel = fs::relative( m_images[0].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	Write_Property( stream, "image_top_left", path_to_utf8( rel ) );
 	// image top middle
-	Write_Property( stream, "image_top_middle", m_images[1].m_image->Get_Filename( 1 ) );
+	rel = fs::relative( m_images[1].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	Write_Property( stream, "image_top_middle", path_to_utf8( rel ) );
 	// image top right
-	Write_Property( stream, "image_top_right", m_images[2].m_image->Get_Filename( 1 ) );
+	rel = fs::relative( m_images[2].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	Write_Property( stream, "image_top_right", path_to_utf8( rel ) );
 }
 
 void cMoving_Platform :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
@@ -1163,25 +1172,30 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox->setText( int_to_string( m_middle_count ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Hor_Middle_Count_Text_Changed, this ) );
 
+	fs::path rel;
+
 	// image top left
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_left" ));
 	Editor_Add( UTF8_("Image top left"), UTF8_("Image top left"), editbox, 200 );
 
-	editbox->setText( m_images[0].m_image->Get_Filename( 1 ) );
+	rel = fs::relative( m_images[0].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Left_Text_Changed, this ) );
 
 	// image top middle
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_middle" ));
 	Editor_Add( UTF8_("Image top middle"), UTF8_("Image top middle"), editbox, 200 );
 
-	editbox->setText( m_images[1].m_image->Get_Filename( 1 ) );
+	rel = fs::relative( m_images[1].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Middle_Text_Changed, this ) );
 
 	// image top right
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_right" ));
 	Editor_Add( UTF8_("Image top right"), UTF8_("Image top right"), editbox, 200 );
 
-	editbox->setText( m_images[2].m_image->Get_Filename( 1 ) );
+	rel = fs::relative( m_images[2].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Right_Text_Changed, this ) );
 
 	// init
@@ -1363,7 +1377,7 @@ bool cMoving_Platform :: Editor_Image_Top_Left_Text_Changed( const CEGUI::EventA
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Top_Left( pVideo->Get_Surface( str_text ) );
+	Set_Image_Top_Left( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
@@ -1373,7 +1387,7 @@ bool cMoving_Platform :: Editor_Image_Top_Middle_Text_Changed( const CEGUI::Even
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Top_Middle( pVideo->Get_Surface( str_text ) );
+	Set_Image_Top_Middle( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
@@ -1383,7 +1397,7 @@ bool cMoving_Platform :: Editor_Image_Top_Right_Text_Changed( const CEGUI::Event
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Top_Right( pVideo->Get_Surface( str_text ) );
+	Set_Image_Top_Right( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }

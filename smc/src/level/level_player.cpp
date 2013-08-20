@@ -18,6 +18,7 @@
 #include "../core/main.h"
 #include "../video/animation.h"
 #include "../core/game_core.h"
+#include "../core/filesystem/resource_manager.h"
 #include "../user/preferences.h"
 #include "../input/joystick.h"
 #include "../core/sprite_manager.h"
@@ -250,14 +251,14 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 	// lost a live
 	if( m_lives >= 0 )
 	{
-		pAudio->Play_Sound( "player/dead.ogg", RID_MARYO_DEATH );
+		pAudio->Play_Sound( utf8_to_path("player/dead.ogg"), RID_MARYO_DEATH );
 	}
 	// game over
 	else
 	{
-		pAudio->Play_Sound( DATA_DIR "/" GAME_MUSIC_DIR "/game/lost_1.ogg", RID_MARYO_DEATH );
+		pAudio->Play_Sound( pResource_Manager->Get_Game_Music("game/lost_1.ogg"), RID_MARYO_DEATH );
 	}
-	
+
 	// dying animation
 	Set_Image_Num( MARYO_IMG_DEAD + 1 );
 

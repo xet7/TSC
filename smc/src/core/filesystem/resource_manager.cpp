@@ -264,6 +264,46 @@ fs::path cResource_Manager :: Get_Gui_Layout_Directory()
 	return Get_Data_Directory() / utf8_to_path(GUI_LAYOUT_DIR);
 }
 
+fs::path cResource_Manager :: Get_Game_Music_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_MUSIC_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Music(std::string music)
+{
+	return Get_Game_Music_Directory() / utf8_to_path(music);
+}
+
+fs::path cResource_Manager :: Get_Game_Editor_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_EDITOR_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Editor(std::string editor)
+{
+	return Get_Game_Editor_Directory() / utf8_to_path(editor);
+}
+
+fs::path cResource_Manager :: Get_Game_Scripting_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_SCRIPTING_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Scripting(std::string script)
+{
+	return Get_Game_Scripting_Directory() / utf8_to_path(script);
+}
+
+fs::path cResource_Manager :: Get_Game_Icon_Directory()
+{
+	return Get_Data_Directory() / utf8_to_path(GAME_ICON_DIR);
+}
+
+fs::path cResource_Manager :: Get_Game_Icon(std::string icon)
+{
+	return Get_Game_Icon_Directory() / utf8_to_path(icon);
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cResource_Manager *pResource_Manager = NULL;

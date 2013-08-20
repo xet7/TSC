@@ -26,6 +26,7 @@
 #include "../overworld/overworld.h"
 #include "../user/preferences.h"
 #include "../input/keyboard.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIWindowManager.h"
@@ -279,7 +280,7 @@ cMenuCore :: cMenuCore( void )
 
 	// left side
 	cParticle_Emitter *anim = new cParticle_Emitter( m_handler->m_level->m_sprite_manager );
-	anim->Set_Image_Filename( "clouds/default_1/1_middle.png" );
+	anim->Set_Image_Filename( utf8_to_path( "clouds/default_1/1_middle.png" ) );
 	anim->Set_Emitter_Rect( -100, static_cast<float>(-game_res_h), 0, game_res_h * 0.5f );
 	anim->Set_Emitter_Time_to_Live( -1 );
 	anim->Set_Emitter_Iteration_Interval( 16 );
@@ -295,7 +296,7 @@ cMenuCore :: cMenuCore( void )
 
 	// right side
 	anim = new cParticle_Emitter( m_handler->m_level->m_sprite_manager );
-	anim->Set_Image_Filename( "clouds/default_1/1_middle.png" );
+	anim->Set_Image_Filename( utf8_to_path ( "clouds/default_1/1_middle.png" ) );
 	anim->Set_Emitter_Rect( static_cast<float>(game_res_w) + 100, static_cast<float>(-game_res_h), 0, static_cast<float>(game_res_h) * 0.5f );
 	anim->Set_Emitter_Time_to_Live( -1 );
 	anim->Set_Emitter_Iteration_Interval( 16 );
@@ -525,13 +526,13 @@ cMenu_Item *cMenuCore :: Auto_Menu( std::string imagename, std::string imagefile
 	// the menu image
 	if( imagefilename_menu.length() > 0 )
 	{
-		temp_item->m_image_menu->Set_Image( pVideo->Get_Surface( DATA_DIR "/" GAME_PIXMAPS_DIR "/menu/items/" + imagefilename_menu ), 1 );
+		temp_item->m_image_menu->Set_Image( pVideo->Get_Surface( pResource_Manager->Get_Game_Pixmap("menu/items/" + imagefilename_menu ) ), 1 );
 	}
 
 	// the active image
 	if( imagename.length() > 0 )
 	{
-		temp_item->m_image_default->Set_Image( pVideo->Get_Surface( DATA_DIR "/" GAME_PIXMAPS_DIR "/menu/" + imagename ), 1 );
+		temp_item->m_image_default->Set_Image( pVideo->Get_Surface( pResource_Manager->Get_Game_Pixmap("menu/" + imagename ) ), 1 );
 	}
 
 	// position and initialization

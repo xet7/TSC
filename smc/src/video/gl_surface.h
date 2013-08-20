@@ -62,12 +62,9 @@ public:
 	// Load a software texture
 	void Load_Software_Texture( cSaved_Texture *soft_tex );
 
-	// Return the filename
-	// FIXME: Legacy method mixing up name handling (std::string) and
-	// path handling (boost::filesystem::path). This always returns
-	// std::string instances. If you want a boost::filesystem::path
-	// use utf8_to_path().
-	std::string Get_Filename( int with_dir = 2, bool with_end = 1 ) const;
+	// Return the filename if created from a file, otherwise an
+	// empty boost::filesystem::path instance.
+	boost::filesystem::path Get_Path();
 	// Set a function called on destruction
 	void Set_Destruction_Function( void ( *nfunction )( cGL_Surface * ) );
 

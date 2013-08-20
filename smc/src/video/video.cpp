@@ -99,7 +99,7 @@ void cVideo :: Init_CEGUI_Fake( void ) const
 	if( CEGUI::System::getDefaultXMLParserName().compare( "XercesParser" ) == 0 )
 	{
 		// This is needed for Xerces to specify the schemas location
-		rp->setResourceGroupDirectory( "schemas", DATA_DIR "/" GAME_SCHEMA_DIR "/" );
+		rp->setResourceGroupDirectory( "schemas", path_to_utf8(pResource_Manager->Get_Game_Schema_Directory()).c_str() );
 	}
 	// get a directory to dump the CEGUI log
 	boost::filesystem::path logdir = Get_Temp_Directory() / "cegui.log";
@@ -154,7 +154,7 @@ void cVideo :: Init_CEGUI( void ) const
 	if( CEGUI::System::getDefaultXMLParserName().compare( "XercesParser" ) == 0 )
 	{
 		// Needed for Xerces to specify the schemas location
-		rp->setResourceGroupDirectory( "schemas", DATA_DIR "/" GAME_SCHEMA_DIR "/" );
+		rp->setResourceGroupDirectory( "schemas", path_to_utf8(pResource_Manager->Get_Game_Schema_Directory()).c_str() );
 	}
 
 	// create logger
@@ -299,16 +299,16 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		// Set Caption
 		SDL_WM_SetCaption( CAPTION, NULL );
 		// Set Icon
-		std::string filename_icon = DATA_DIR "/" GAME_ICON_DIR "/window_32.png";
+		boost::filesystem::path filename_icon = pResource_Manager->Get_Game_Icon("window_32.png");
 		if( File_Exists( filename_icon ) )
 		{
-			SDL_Surface *icon = IMG_Load( filename_icon.c_str() );
+			SDL_Surface *icon = IMG_Load( path_to_utf8(filename_icon).c_str() );
 			SDL_WM_SetIcon( icon, NULL );
 			SDL_FreeSurface( icon );
 		}
 		else
 		{
-			printf( "Warning : Window icon %s does not exist\n", filename_icon.c_str() );
+			std::cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << std::endl;
 		}
 	}
 

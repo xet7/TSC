@@ -18,6 +18,10 @@
 #include "../core/game_core.h"
 #include "../video/gl_surface.h"
 #include "../core/framerate.h"
+#include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -78,7 +82,7 @@ void cBackground :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 		Set_Start_Pos( attributes.getValueAsFloat( "posx" ), attributes.getValueAsFloat( "posy" ) );
 		Set_Pos_Z( attributes.getValueAsFloat( "posz" ) );
 
-		Set_Image( attributes.getValueAsString( "image" ).c_str() );
+		Set_Image( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) );
 		Set_Scroll_Speed( attributes.getValueAsFloat( "speedx" ), attributes.getValueAsFloat( "speedy" ) );
 		Set_Const_Velocity_X( attributes.getValueAsFloat( "const_velx" ) );
 		Set_Const_Velocity_Y( attributes.getValueAsFloat( "const_vely" ) );
@@ -119,7 +123,7 @@ void cBackground :: Save_To_XML( CEGUI::XMLSerializer &stream )
 		Write_Property( stream, "posz", m_pos_z );
 
 		// image filename
-		Write_Property( stream, "image", m_image_1_filename );
+		Write_Property( stream, "image", path_to_utf8( m_image_1_filename ) );
 		// speed
 		Write_Property( stream, "speedx", m_speed_x );
 		Write_Property( stream, "speedy", m_speed_y );
@@ -188,7 +192,7 @@ void cBackground :: Set_Color_2( const Color &color )
 	m_color_2 = color; 
 }
 
-void cBackground :: Set_Image( const std::string &img_file_1 )
+void cBackground :: Set_Image( const fs::path &img_file_1 )
 {
 	m_image_1_filename = img_file_1;
 
@@ -199,10 +203,9 @@ void cBackground :: Set_Image( const std::string &img_file_1 )
 		return;
 	}
 
-	if( m_image_1_filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) != std::string::npos )
-	{
-		m_image_1_filename.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
+	// Make the path relative to pixmaps/ if it isn’t yet
+	if (m_image_1_filename.is_absolute())
+		m_image_1_filename = fs::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), m_image_1_filename);
 
 	m_image_1 = pVideo->Get_Surface( m_image_1_filename );
 }

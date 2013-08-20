@@ -1,6 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_smc.h"
 #include "../../core/property_helper.h"
+#include "../../core/filesystem/resource_manager.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -47,7 +48,7 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 		mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Absolute paths are not allowed.");
 
 	// Open the MRuby file for reading
-	boost::filesystem::path scriptfile = Scripting::scripting_dir / path;
+	boost::filesystem::path scriptfile = pResource_Manager->Get_Game_Scripting_Directory() / path;
 	boost::filesystem::ifstream file(scriptfile);
 	debug_print("require: Loading '%s'\n", scriptfile.generic_string().c_str());
 	if (!file.is_open())

@@ -2647,7 +2647,7 @@ bool cMenu_Options :: Audio_Music_Select( const CEGUI::EventArgs &event )
 		pAudio->Toggle_Music();
 
 		// Warning if no music pack is installed and music got enabled
-		if( pAudio->m_music_enabled && !File_Exists( std::string(DATA_DIR "/" GAME_MUSIC_DIR "/game/menu.ogg") ) && !File_Exists( std::string(DATA_DIR "/" GAME_MUSIC_DIR "/land/land_1.ogg") ) )
+		if( pAudio->m_music_enabled && !File_Exists( pResource_Manager->Get_Game_Music("game/menu.ogg") ) && !File_Exists( pResource_Manager->Get_Game_Music("land/land_1.ogg") ) )
 		{
 			Draw_Static_Text( _("Music addon not detected.\nYou can download it from the Website."), &orange );
 		}
@@ -3113,7 +3113,7 @@ void cMenu_Savegames :: Update_Load( void )
 		Game_Action = GA_ENTER_LEVEL;
 		cLevel *level = pLevel_Manager->Load( level_name );
 		// only fade-out music if different
-		if( pActive_Level->Get_Music_Filename( 1 ).compare( level->Get_Music_Filename( 1 ) ) != 0 )
+		if( pActive_Level->Get_Music_Filename().compare( level->Get_Music_Filename() ) != 0 )
 		{
 			Game_Action_Data_Start.add( "music_fadeout", "1000" );
 		}
@@ -3494,7 +3494,7 @@ void cMenu_Credits :: Update( void )
 					// multi-explosion
 					if( rand() % 2 )
 					{
-						anim->Set_Image_Filename( "animation/particles/fire_2.png" );
+						anim->Set_Image_Filename( utf8_to_path( "animation/particles/fire_2.png" ) );
 						anim->Set_Emitter_Time_to_Live( 0.4f );
 						anim->Set_Emitter_Iteration_Interval( 0.05f );
 						anim->Set_Direction_Range( 0, 360 );
@@ -3507,7 +3507,7 @@ void cMenu_Credits :: Update( void )
 					else
 					{
 						quota += rand() % 25;
-						anim->Set_Image_Filename( "animation/particles/fire_3.png" );
+						anim->Set_Image_Filename( utf8_to_path( "animation/particles/fire_3.png" ) );
 						anim->Set_Direction_Range( 0, 360 );
 						anim->Set_Scale( 0.2f, 0.1f );
 

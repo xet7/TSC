@@ -14,6 +14,8 @@
 */
 
 #include "../core/global_basic.h"
+#include "../core/property_helper.h"
+#include "../core/filesystem/resource_manager.h"
 #include "../core/i18n.h"
 #include "SDL.h"
 #include "SDL_opengl.h"
@@ -36,11 +38,11 @@ void I18N_Init( void )
 		debug_print( "Translation locale is %s\n", sys_locale );
 	}
 
-	const char *textdomain_directory = bindtextdomain( CAPTION, DATA_DIR "/" GAME_TRANSLATION_DIR );
+	const char *textdomain_directory = bindtextdomain( CAPTION, path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()).c_str() );
 
 	if( !textdomain_directory )
 	{
-		printf( "Warning: bindtextdomain failed for %s\n", DATA_DIR "/" GAME_TRANSLATION_DIR );
+		std::cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << std::endl;
 	}
 
 	const char *textdomain_codeset = bind_textdomain_codeset( CAPTION, "UTF-8" );

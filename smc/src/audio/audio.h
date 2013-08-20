@@ -112,15 +112,15 @@ public:
 	 */
 	cSound *Get_Sound_File( boost::filesystem::path filename ) const;
 
-	// Play the given sound
-	bool Play_Sound( std::string filename, int res_id = -1, int volume = -1, int loops = 0 );
+	// Play the given sound. `filename' should be relative to the sounds/ directory.
+	bool Play_Sound( boost::filesystem::path filename, int res_id = -1, int volume = -1, int loops = 0 );
 	// If no forcing it will be played after the current music
-	bool Play_Music( std::string filename, int loops = 0, bool force = 1, unsigned int fadein_ms = 0 ); 
+	bool Play_Music( boost::filesystem::path filename, int loops = 0, bool force = 1, unsigned int fadein_ms = 0 );
 
 	/* Returns a pointer to the sound if it is active.
 	 * The returned sound should not be deleted or modified.
 	 */
-	cAudio_Sound *Get_Playing_Sound( std::string filename );
+	cAudio_Sound *Get_Playing_Sound( boost::filesystem::path filename );
 
 	/* Returns true if a free channel for the sound is available
 	*/
@@ -152,7 +152,7 @@ public:
 	 * filename : fade all sounds with this filename out
 	 * overwrite_fading : overwrite an already existing fade out
 	*/
-	void Fadeout_Sounds( unsigned int ms, std::string filename, bool overwrite_fading = 0 );
+	void Fadeout_Sounds( unsigned int ms, boost::filesystem::path filename, bool overwrite_fading = 0 );
 	/* Fade out Music
 	 * ms : the time to fade out
 	 * overwrite_fading : overwrite an already existing fade out
@@ -209,7 +209,7 @@ public:
 	Uint8 m_sound_volume, m_music_volume;
 
 	// current playing music filename
-	std::string m_music_filename;
+	boost::filesystem::path m_music_filename;
 	// current playing music pointer
 	Mix_Music *m_music;
 	// if new music should play after the current this is the old data

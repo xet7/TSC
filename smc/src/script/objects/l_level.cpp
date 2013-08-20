@@ -51,26 +51,7 @@ static int Get_Filename(lua_State* p_state)
 
 static int Get_Music_Filename(lua_State* p_state)
 {
-	std::string	format;
-	std::string	result;
-	bool		with_ext;
-
-	if (!lua_isstring(p_state, 2))
-		format = "remove_nothing";
-	else
-		format = lua_tostring(p_state, 2);
-	with_ext = lua_toboolean(p_state, 3);
-
-	if (format == "remove_complete_dir")
-		result = pActive_Level->Get_Music_Filename(0, with_ext);
-	else if (format == "remove_music_dir")
-		result = pActive_Level->Get_Music_Filename(1, with_ext);
-	else if (format == "remove_nothing")
-		result = pActive_Level->Get_Music_Filename(2, with_ext);
-	else
-		return luaL_error(p_state, "Invalid directory format specifier '%s'.", format.c_str());
-
-	lua_pushstring(p_state, result.c_str());
+	lua_pushstring(p_state, path_to_utf8(pActive_Level->Get_Music_Filename()).c_str());
 	return 1;
 }
 

@@ -487,7 +487,7 @@ void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string 
 		{
 			Game_Action = GA_ENTER_LEVEL;
 			// only fade out music if different
-			if( pActive_Level->Get_Music_Filename( 1 ).compare( level->Get_Music_Filename( 1 ) ) != 0 )
+      if (pActive_Level->Get_Music_Filename().filename().compare( level->Get_Music_Filename().filename() ) != 0)
 			{
 				Game_Action_Data_Start.add( "music_fadeout", "1000" );
 			}

@@ -37,6 +37,8 @@
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIComboDropList.h"
 
+namespace fs = boost::filesystem;
+
 namespace SMC
 {
 
@@ -431,7 +433,7 @@ void cSprite :: Init( void )
 cSprite *cSprite :: Copy( void ) const
 {
 	cSprite *basic_sprite = new cSprite( m_sprite_manager );
-	basic_sprite->Set_Image( m_start_image, 1 );
+	basic_sprite->Set_Image( m_start_image, true );
 	basic_sprite->Set_Pos( m_start_pos_x, m_start_pos_y, 1 );
 	basic_sprite->m_type = m_type;
 	basic_sprite->m_sprite_array = m_sprite_array;
@@ -455,7 +457,7 @@ void cSprite :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// position
 	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 	// image
-	Set_Image( pVideo->Get_Surface( attributes.getValueAsString( "image" ).c_str() ), 1 ) ;
+	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) ), true ) ;
 	// type
 	Set_Sprite_Type( Get_Sprite_Type_Id( attributes.getValueAsString( "type" ).c_str() ) );
 }
@@ -1560,7 +1562,8 @@ void cSprite :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_sprite_image" ));
 	Editor_Add( UTF8_("Image"), UTF8_("Image filename"), editbox, 200 );
 
-	editbox->setText( m_start_image->Get_Filename( 1 ) );
+	fs::path rel = fs::relative( m_start_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cSprite::Editor_Image_Text_Changed, this ) );
 
 	// init
@@ -1675,7 +1678,7 @@ bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image( pVideo->Get_Surface( str_text ), 1 );
+	Set_Image( pVideo->Get_Surface( utf8_to_path( str_text ) ), true ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }

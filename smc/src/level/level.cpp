@@ -54,6 +54,7 @@
 #include "../objects/path.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
 #include "../overworld/world_editor.h"
 #include "../scripting/events/key_down_event.h"
 // CEGUI
@@ -349,7 +350,7 @@ void cLevel :: Save( void )
 		// level version
 		Write_Property( stream, "lvl_version", m_version );
 		// music
-		Write_Property( stream, "lvl_music", Get_Music_Filename( 1 ) );
+		Write_Property( stream, "lvl_music", path_to_utf8(Get_Music_Filename()) );
 		// description
 		Write_Property( stream, "lvl_description", m_description );
 		// difficulty
@@ -424,7 +425,7 @@ void cLevel :: Reset_Settings( void )
 	m_version.clear();
 
 	// set default music
-	Set_Music( DATA_DIR "/" GAME_MUSIC_DIR "/" LEVEL_DEFAULT_MUSIC );
+	Set_Music( pResource_Manager->Get_Game_Music( LEVEL_DEFAULT_MUSIC ) );
 
 	m_description.clear();
 	m_difficulty = 0;
@@ -550,14 +551,14 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	// play music
 	if( m_valid_music )
 	{
-		if( pAudio->m_music_filename.compare( Get_Music_Filename( 2, 1 ) ) != 0 )
+		if( pAudio->m_music_filename.compare( m_musicfile ) != 0 )
 		{
 			pAudio->Play_Music( m_musicfile, -1, 0, 1000 );
 		}
 	}
 	else if( pAudio->m_music_enabled )
 	{
-		printf( "Warning : Music file not found %s\n", pActive_Level->m_musicfile.c_str() );
+		std::cerr << "Warning : Music file not found: " << path_to_utf8(pActive_Level->m_musicfile) << std::endl;
 	}
 
 	// Update Hud Text and position
@@ -1015,44 +1016,16 @@ bool cLevel :: Joy_Button_Up( Uint8 button )
 	return 1;
 }
 
-std::string cLevel :: Get_Music_Filename( int with_dir /* = 2 */, bool with_end /* = 1 */ ) const
+fs::path cLevel :: Get_Music_Filename() const
 {
-	std::string filename = m_musicfile;
-
-	// erase whole directory
-	if( with_dir == 0 && filename.rfind( "/" ) != std::string::npos )
-	{
-		filename.erase( 0, filename.rfind( "/" ) + 1 );
-	}
-	// erase music directory
-	else if( with_dir == 1 && filename.find( DATA_DIR "/" GAME_MUSIC_DIR "/" ) != std::string::npos )
-	{
-		filename.erase( 0, strlen( DATA_DIR "/" GAME_MUSIC_DIR "/" ) );
-	}
-
-	// erase file type
-	if( !with_end && filename.rfind( "." ) != std::string::npos )
-	{
-		filename.erase( filename.rfind( "." ) );
-	}
-
-	return filename;
+	return fs::relative(pResource_Manager->Get_Game_Music_Directory(), m_musicfile);
 }
 
-void cLevel :: Set_Music( std::string filename )
+void cLevel :: Set_Music( fs::path filename )
 {
-	if( filename.length() < 4 )
-	{
-		return;
-	}
-
-	Convert_Path_Separators( filename );
-
 	// add music dir
-	if( filename.find( DATA_DIR "/" GAME_MUSIC_DIR "/" ) == std::string::npos )
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_MUSIC_DIR "/" );
-	}
+	if (!filename.is_absolute())
+		filename = pResource_Manager->Get_Game_Music_Directory() / filename;
 
 	// already set
 	if( m_musicfile.compare( filename ) == 0 )

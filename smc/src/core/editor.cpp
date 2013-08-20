@@ -32,6 +32,7 @@
 #include "../overworld/overworld.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 // CEGUI
 #include "CEGUIXMLParser.h"
 #include "CEGUIWindowManager.h"
@@ -253,23 +254,23 @@ void cEditor :: Init( void )
 	// Get Items
 	if( !File_Exists( m_items_filename ) )
 	{
-		printf( "Error : Editor Loading : No Item file found : %s\n", m_items_filename.c_str() );
+		std::cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
 		return;
 	}
 	// Parse Items
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_items_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Editor_Items.xsd", "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_items_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Items.xsd")).c_str(), "" );
 
 	// Get all image items
-	Load_Image_Items( DATA_DIR "/" GAME_PIXMAPS_DIR );
+	Load_Image_Items(pResource_Manager->Get_Game_Pixmaps_Directory());
 
 	// Get Menu
 	if( !File_Exists( m_menu_filename ) )
 	{
-		printf( "Error : Editor Loading : No Menu file found : %s\n", m_menu_filename.c_str() );
+		std::cerr << "Error : Editor Loading : No Menu file found : " << path_to_utf8(m_menu_filename) << std::endl;
 		return;
 	}
 	// Parse Menu
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, m_menu_filename.c_str(), DATA_DIR "/" GAME_SCHEMA_DIR "/Editor_Menu.xsd", "" );
+	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_menu_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Menu.xsd")).c_str(), "" );
 }
 
 void cEditor :: Unload( void )
@@ -1301,11 +1302,13 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	{
 		if( image )
 		{
-			obj_name = image->Get_Filename( 0, 0 );
+			fs::path imgpath = image->Get_Path().filename();
+			imgpath.replace_extension();
+			obj_name = path_to_utf8(imgpath);
 		}
 
 		// Warn if using filename
-		printf( "Warning : editor object %s with no name given\n", obj_name.c_str() );
+		std::cerr << "Warning : editor object '" << obj_name << "' with no name given" << std::endl;
 	}
 
 	cEditor_Item_Object *new_item = new cEditor_Item_Object( obj_name, m_listbox_items );

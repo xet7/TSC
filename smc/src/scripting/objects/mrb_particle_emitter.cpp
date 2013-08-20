@@ -2,6 +2,7 @@
 #include "../../video/animation.h"
 #include "../../level/level.h"
 #include "../../core/sprite_manager.h"
+#include "../../core/property_helper.h"
 #include "mrb_particle_emitter.h"
 
 /**
@@ -209,9 +210,7 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 	mrb_get_args(p_state, "z", &str);
 
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Image_Filename(str);
-
-	std::cout << "Path: " << p_emitter->m_image_filename << std::endl;
+	p_emitter->Set_Image_Filename( utf8_to_path( str ) );
 
 	return mrb_str_new_cstr(p_state, str);
 }

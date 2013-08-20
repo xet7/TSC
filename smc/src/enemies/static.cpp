@@ -23,12 +23,16 @@
 #include "../core/i18n.h"
 #include "../objects/path.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
+#include "../core/filesystem/boost_relative.h"
 // CEGUI
 #include "CEGUIXMLAttributes.h"
 #include "CEGUIWindowManager.h"
 #include "elements/CEGUIEditbox.h"
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIListboxTextItem.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -61,8 +65,8 @@ void cStaticEnemy :: Init( void )
 	m_can_be_hit_from_shell = 0;
 
 	Set_Rotation_Speed( 0.0f );
-    Set_Speed( 0.0f );
-	Set_Static_Image( "enemy/static/blocks/spike_1/2_grey.png" );
+	Set_Speed( 0.0f );
+	Set_Static_Image( utf8_to_path("enemy/static/blocks/spike_1/2_grey.png") );
 	Create_Name();
 }
 
@@ -92,7 +96,7 @@ void cStaticEnemy :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	// rotation speed
 	Set_Rotation_Speed( static_cast<float>( attributes.getValueAsFloat( "rotation_speed", -7.5f ) ) );
 	// image
-	Set_Static_Image( attributes.getValueAsString( "static_image", "enemy/static/saw/default.png" ).c_str() );
+	Set_Static_Image( utf8_to_path( attributes.getValueAsString( "static_image", "enemy/static/saw/default.png" ).c_str() ) );
     // path
     Set_Path_Identifier( attributes.getValueAsString( "path", "" ).c_str() );
     // movement speed
@@ -115,7 +119,7 @@ void cStaticEnemy :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	// rotation speed
 	Write_Property( stream, "rotation_speed", m_rotation_speed );
 	// image
-	Write_Property( stream, "static_image", m_img_filename );
+	Write_Property( stream, "static_image", path_to_utf8(m_img_filename).c_str() );
 	// path
 		Write_Property( stream, "path", m_path_state.m_path_identifier );
 		// speed
@@ -151,22 +155,18 @@ void cStaticEnemy :: Set_Rotation_Speed( float speed )
 	m_rotation_speed = speed;
 }
 
-void cStaticEnemy :: Set_Static_Image( const std::string &filename )
+void cStaticEnemy :: Set_Static_Image( const fs::path &filename )
 {
-	if( filename.empty() || ( !File_Exists( filename ) && !File_Exists( DATA_DIR "/" GAME_PIXMAPS_DIR "/" + filename ) ) )
+	if( filename.empty() || ( !File_Exists( filename ) && !File_Exists( pResource_Manager->Get_Game_Pixmap( path_to_utf8( filename ) ) ) ) )
 	{
 		return;
 	}
 
 	Clear_Images();
 
-	m_img_filename = filename;
-
-	// remove pixmaps dir
-	if( m_img_filename.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) == 0 )
-	{
-		m_img_filename.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
+	// remove pixmaps directory
+	if (filename.is_absolute())
+		m_img_filename = boost::filesystem::relative(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 
 	Add_Image( pVideo->Get_Surface( filename ) );
 	Set_Image_Num( 0, 1 );
@@ -369,7 +369,7 @@ void cStaticEnemy :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_static_enemy_image" ));
 	Editor_Add( UTF8_("Image"), UTF8_("Image filename"), editbox, 200 );
 
-	editbox->setText( m_img_filename.c_str() );
+	editbox->setText( path_to_utf8(m_img_filename).c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cStaticEnemy::Editor_Image_Text_Changed, this ) );
 
 	// rotation speed
@@ -430,7 +430,7 @@ bool cStaticEnemy :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Static_Image( str_text );
+	Set_Static_Image( utf8_to_path(str_text) );
 
 	return 1;
 }

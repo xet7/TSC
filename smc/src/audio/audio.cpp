@@ -438,7 +438,7 @@ cSound *cAudio :: Get_Sound_File( fs::path filename ) const
 	return sound;
 }
 
-bool cAudio :: Play_Sound( std::string filename, int res_id /* = -1 */, int volume /* = -1 */, int loops /* = 0 */ )
+bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume /* = -1 */, int loops /* = 0 */ )
 {
 	if( !m_initialised || !m_sound_enabled )
 	{
@@ -449,16 +449,14 @@ bool cAudio :: Play_Sound( std::string filename, int res_id /* = -1 */, int volu
 	if( !File_Exists( filename ) )
 	{
 		// add sound directory
-		if( filename.find( DATA_DIR "/" GAME_SOUNDS_DIR "/" ) == std::string::npos )
-		{
-			filename.insert( 0, DATA_DIR "/" GAME_SOUNDS_DIR "/" );
-		}
+		if (!filename.is_absolute())
+			filename = pResource_Manager->Get_Game_Sounds_Directory() / filename;
 
 		// not found
 		if( !File_Exists( filename ) )
 		{
-			printf( "Could not find sound file : %s\n", filename.c_str() );
-			return 0;
+			std::cerr << "Warning: Could not find sound file '" << path_to_utf8(filename) << "'" << std::endl;
+			return false;
 		}
 	}
 
@@ -467,8 +465,8 @@ bool cAudio :: Play_Sound( std::string filename, int res_id /* = -1 */, int volu
 	// failed loading
 	if( !sound_data )
 	{
-		printf( "Warning : Could not load sound file : %s\n", filename.c_str() );
-		return 0;
+		std::cerr << "Warning: Could not load sound file '" << path_to_utf8(filename) << "'" << std::endl;
+		return false;
 	}
 
 	// create channel
@@ -488,11 +486,7 @@ bool cAudio :: Play_Sound( std::string filename, int res_id /* = -1 */, int volu
 	// failed to play
 	if( sound->m_channel < 0 )
 	{
-		if( m_debug )
-		{
-			printf( "Could not play sound file : %s\n", filename.c_str() );
-		}
-
+		debug_print("Could not play sound file : %s\n", path_to_utf8(filename).c_str());
 		return 0;
 	}
 	// playing successfully
@@ -517,17 +511,15 @@ bool cAudio :: Play_Sound( std::string filename, int res_id /* = -1 */, int volu
 	return 1;
 }
 
-bool cAudio :: Play_Music( std::string filename, int loops /* = 0 */, bool force /* = 1 */, unsigned int fadein_ms /* = 0 */ )
+bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /* = 1 */, unsigned int fadein_ms /* = 0 */ )
 {
-	if( filename.find( DATA_DIR "/" GAME_MUSIC_DIR "/" ) == std::string::npos )
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_MUSIC_DIR "/" );
-	}
+	if (!filename.is_absolute())
+		filename = pResource_Manager->Get_Game_Music_Directory() / filename;
 
 	// no valid file
 	if( !File_Exists( filename ) )
 	{
-		printf( "Couldn't find music file : %s\n", filename.c_str() );
+		std::cerr << "Warning: Couldn't find music file '" << path_to_utf8(filename) << "'" << std::endl;
 		return 0;
 	}
 
@@ -543,7 +535,7 @@ bool cAudio :: Play_Music( std::string filename, int loops /* = 0 */, bool force
 	Resume_Music();
 
 	// if no music is playing or force to play the given music
-	if( !Is_Music_Playing() || force ) 
+	if( !Is_Music_Playing() || force )
 	{
 		// stop and free current music
 		if( m_music )
@@ -576,15 +568,12 @@ bool cAudio :: Play_Music( std::string filename, int loops /* = 0 */, bool force
 			}
 		}
 		// not loaded
-		else 
+		else
 		{
-			if( m_debug )
-			{
-				printf( "Couldn't load music file : %s\n", filename.c_str() );
-			}
+			debug_print("Couldn't load music file : %s\n", path_to_utf8(filename).c_str());
 
 			// failed to play
-			return 0;
+			return false;
 		}
 	}
 	// music is playing and is not forced
@@ -610,11 +599,11 @@ bool cAudio :: Play_Music( std::string filename, int loops /* = 0 */, bool force
 		// load the wanted next playing music
 		m_music = Mix_LoadMUS( filename.c_str() );
 	}
-	
-	return 1;
+
+	return true;
 }
 
-cAudio_Sound *cAudio :: Get_Playing_Sound( std::string filename )
+cAudio_Sound *cAudio :: Get_Playing_Sound( fs::path filename )
 {
 	if( !m_sound_enabled || !m_initialised )
 	{
@@ -622,10 +611,8 @@ cAudio_Sound *cAudio :: Get_Playing_Sound( std::string filename )
 	}
 
 	// add sound directory
-	if( filename.find( DATA_DIR "/" GAME_SOUNDS_DIR "/" ) == std::string::npos )
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_SOUNDS_DIR "/" );
-	}
+	if (!filename.is_absolute())
+		filename = pResource_Manager->Get_Game_Sounds_Directory() / filename;
 
 	// get all sounds
 	for( AudioSoundList::const_iterator itr = m_active_sounds.begin(); itr != m_active_sounds.end(); ++itr )
@@ -765,7 +752,7 @@ void cAudio :: Fadeout_Sounds( unsigned int ms /* = 200 */, int channel /* = -1 
 	Mix_FadeOutChannel( channel, ms );
 }
 
-void cAudio :: Fadeout_Sounds( unsigned int ms, std::string filename, bool overwrite_fading /* = 0 */ )
+void cAudio :: Fadeout_Sounds( unsigned int ms, fs::path filename, bool overwrite_fading /* = 0 */ )
 {
 	if( !m_sound_enabled || !m_initialised )
 	{
@@ -773,10 +760,8 @@ void cAudio :: Fadeout_Sounds( unsigned int ms, std::string filename, bool overw
 	}
 
 	// add sound directory
-	if( filename.find( DATA_DIR "/" GAME_SOUNDS_DIR "/" ) == std::string::npos )
-	{
-		filename.insert( 0, DATA_DIR "/" GAME_SOUNDS_DIR "/" );
-	}
+	if (!filename.is_absolute())
+		filename = pResource_Manager->Get_Game_Sounds_Directory() / filename;
 
 	// get all sounds
 	for( AudioSoundList::const_iterator itr = m_active_sounds.begin(); itr != m_active_sounds.end(); ++itr )

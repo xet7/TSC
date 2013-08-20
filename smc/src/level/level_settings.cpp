@@ -21,6 +21,7 @@
 #include "../video/font.h"
 #include "../video/renderer.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 #include "../core/framerate.h"
 #include "../audio/audio.h"
 #include "../gui/generic.h"
@@ -36,6 +37,8 @@
 #include "elements/CEGUISlider.h"
 #include "elements/CEGUIListbox.h"
 #include "elements/CEGUIListboxTextItem.h"
+
+namespace fs = boost::filesystem;
 
 namespace SMC
 {
@@ -85,7 +88,7 @@ void cLevel_Settings :: Init( void )
 	editbox_level_filename->setText( m_level->Get_Level_Name().c_str() );
 	// music filename
 	CEGUI::Editbox *editbox_music_filename = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_music_filename" ));
-	editbox_music_filename->setText( m_level->Get_Music_Filename( 1 ).c_str() );
+	editbox_music_filename->setText( path_to_utf8(m_level->Get_Music_Filename()).c_str() );
 	// author
 	CEGUI::Editbox *editbox_author = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_author" ));
 	editbox_author->setText( reinterpret_cast<const CEGUI::utf8*>(m_level->m_author.c_str()) );
@@ -239,8 +242,8 @@ void cLevel_Settings :: Leave( void )
 
 	// # Main Tab
 	// filename
-	std::string level_filename = wmgr.getWindow( "editbox_level_filename" )->getText().c_str();
-	if( level_filename.length() > 1 && Trim_Filename( m_level->m_level_filename, 0, 0 ).compare( level_filename ) != 0 )
+	fs::path level_filename = utf8_to_path( wmgr.getWindow( "editbox_level_filename" )->getText().c_str() );
+	if( !level_filename.empty() && Trim_Filename( m_level->m_level_filename, false, false ).compare( level_filename ) != 0 )
 	{
 		m_level->Set_Filename( level_filename );
 		if( Box_Question( _("Save ") + path_to_utf8(Trim_Filename( level_filename, false, false )) + " ?" ) )
@@ -248,10 +251,10 @@ void cLevel_Settings :: Leave( void )
 			m_level->Save();
 		}
 	}
-	// music
-	std::string new_music = wmgr.getWindow( "editbox_music_filename" )->getText().c_str();
+	// music (relative to music/ directory)
+	fs::path new_music = utf8_to_path( wmgr.getWindow( "editbox_music_filename" )->getText().c_str() );
 	// if the music is new
-	if( pAudio->Is_Music_Playing() && new_music.compare( m_level->Get_Music_Filename( 1 ) ) != 0 )
+	if( pAudio->Is_Music_Playing() && new_music.compare( m_level->Get_Music_Filename() ) != 0 )
 	{
 		m_level->Set_Music( new_music );
 		pAudio->Fadeout_Music( 1000 );
@@ -397,14 +400,14 @@ bool cLevel_Settings :: Set_Background_Image( const CEGUI::EventArgs &event )
 	{
 		// get background
 		cBackground *background = static_cast<cBackground *>(item->getUserData());
-		std::string background_filename = background->m_image_1_filename;
+		fs::path background_filename = background->m_image_1_filename;
 
 		// type
 		CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "combo_bg_image_type" ));
 		editbox->setText( reinterpret_cast<const CEGUI::utf8*>(background->Get_Type_Name().c_str()) );
 		// filename
 		editbox = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_bg_image_name" ));
-		editbox->setText( background_filename.c_str() );
+		editbox->setText( path_to_utf8( background_filename ).c_str() );
 		// position
 		editbox = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_bg_image_posx" ));
 		editbox->setText( float_to_string( background->m_start_pos_x, 6, 0 ).c_str() );
@@ -525,7 +528,7 @@ bool cLevel_Settings :: Update_BG_Image( const CEGUI::EventArgs &event )
 	}
 
 	std::string bg_type = wmgr.getWindow( "combo_bg_image_type" )->getText().c_str();
-	std::string bg_filename = wmgr.getWindow( "editbox_bg_image_name" )->getText().c_str();
+	std::string bg_name = wmgr.getWindow( "editbox_bg_image_name" )->getText().c_str();
 	float posx = string_to_float( (wmgr.getWindow( "editbox_bg_image_posx" ))->getText().c_str() );
 	float posy = string_to_float( (wmgr.getWindow( "editbox_bg_image_posy" ))->getText().c_str() );
 	float posz = string_to_float( (wmgr.getWindow( "editbox_bg_image_posz" ))->getText().c_str() );
@@ -549,7 +552,7 @@ bool cLevel_Settings :: Update_BG_Image( const CEGUI::EventArgs &event )
 	background->Set_Const_Velocity_Y( const_vel_y );
 
 	// full filename for validation
-	bg_filename.insert( 0, DATA_DIR "/" GAME_PIXMAPS_DIR "/" );
+	fs::path bg_filename = pResource_Manager->Get_Game_Pixmap(bg_name);
 
 	// invalid file
 	if( !File_Exists( bg_filename ) )

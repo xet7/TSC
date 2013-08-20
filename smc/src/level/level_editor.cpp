@@ -26,6 +26,7 @@
 #include "../core/i18n.h"
 #include "../level/level_player.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/filesystem/resource_manager.h"
 
 namespace SMC
 {
@@ -35,8 +36,8 @@ namespace SMC
 cEditor_Level :: cEditor_Level( cSprite_Manager *sprite_manager, cLevel *level )
 : cEditor( sprite_manager )
 {
-	m_menu_filename = DATA_DIR "/" GAME_EDITOR_DIR "/level_menu.xml";
-	m_items_filename = DATA_DIR "/" GAME_EDITOR_DIR "/level_items.xml";
+	m_menu_filename = pResource_Manager->Get_Game_Editor("level_menu.xml");
+	m_items_filename = pResource_Manager->Get_Game_Editor("level_items.xml");
 
 	m_editor_item_tag = "level";
 
