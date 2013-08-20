@@ -209,13 +209,13 @@ void cMoving_Platform :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 
 	fs::path rel;
 	// image top left
-	rel = fs::relative( m_images[0].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
 	Write_Property( stream, "image_top_left", path_to_utf8( rel ) );
 	// image top middle
-	rel = fs::relative( m_images[1].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
 	Write_Property( stream, "image_top_middle", path_to_utf8( rel ) );
 	// image top right
-	rel = fs::relative( m_images[2].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
 	Write_Property( stream, "image_top_right", path_to_utf8( rel ) );
 }
 
@@ -1178,7 +1178,7 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_left" ));
 	Editor_Add( UTF8_("Image top left"), UTF8_("Image top left"), editbox, 200 );
 
-	rel = fs::relative( m_images[0].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Left_Text_Changed, this ) );
 
@@ -1186,7 +1186,7 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_middle" ));
 	Editor_Add( UTF8_("Image top middle"), UTF8_("Image top middle"), editbox, 200 );
 
-	rel = fs::relative( m_images[1].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Middle_Text_Changed, this ) );
 
@@ -1194,7 +1194,7 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_right" ));
 	Editor_Add( UTF8_("Image top right"), UTF8_("Image top right"), editbox, 200 );
 
-	rel = fs::relative( m_images[2].m_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Right_Text_Changed, this ) );
 

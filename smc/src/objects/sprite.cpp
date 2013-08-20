@@ -487,7 +487,7 @@ void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 
 	// remove pixmaps directory from string
 	if (img_filename.is_absolute())
-		img_filename = boost::filesystem::relative(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+		img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
 
 	Write_Property( stream, "image", path_to_utf8(img_filename) );
 	// type (only if Get_XML_Type_Name() returns something
@@ -1562,7 +1562,7 @@ void cSprite :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_sprite_image" ));
 	Editor_Add( UTF8_("Image"), UTF8_("Image filename"), editbox, 200 );
 
-	fs::path rel = fs::relative( m_start_image->Get_Path(), pResource_Manager->Get_Game_Pixmaps_Directory() );
+	fs::path rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_start_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cSprite::Editor_Image_Text_Changed, this ) );
 

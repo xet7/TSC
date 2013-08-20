@@ -1248,7 +1248,7 @@ void cParticle_Emitter :: Set_Image_Filename( const fs::path &filename )
 	// remember the filename for saving
 	m_image_filename = filename;
 	if (filename.is_absolute())
-		m_image_filename = boost::filesystem::relative(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+		m_image_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), filename);
 
 	// set new image
 	Set_Image( pVideo->Get_Surface( m_image_filename, 0 ) );

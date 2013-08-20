@@ -116,6 +116,7 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 			// Ask the sprite to create the correct type of MRuby object
 			// so we don’t have to maintain a static C++/MRuby type mapping table
 			mrb_value obj = (*iter)->Create_MRuby_Object(p_state);
+			// Store it in the cache
 			mrb_hash_set(p_state, cache, ruid, obj);
 
 			return obj;
