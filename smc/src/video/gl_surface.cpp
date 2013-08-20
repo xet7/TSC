@@ -304,33 +304,9 @@ void cGL_Surface :: Load_Software_Texture( cSaved_Texture *soft_tex )
 	}
 }
 
-// FIXME: This whole method is completely broken in respect to
-// handling paths as fs::path objects and names as std::string objects.
-// Sadly, it is called from nearly every file in SMC so changing it
-// means editing, testing, and fixing ALL OF SMC. It's legacy code
-// dating from prior to the transition to boost::filesystem.
-std::string cGL_Surface :: Get_Filename( int with_dir /* = 2 */, bool with_end /* = 1 */ ) const
+fs::path cGL_Surface :: Get_Path()
 {
-	std::string name = path_to_utf8(m_path); // FIXME: Legacy code makes string manipulation
-
-	// erase whole directory
-	if( with_dir == 0 && name.rfind( "/" ) != std::string::npos ) 
-	{
-		name.erase( 0, name.rfind( "/" ) + 1 );
-	}
-	// erase pixmaps directory
-	else if( with_dir == 1 && name.find( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) != std::string::npos ) 
-	{
-		name.erase( 0, strlen( DATA_DIR "/" GAME_PIXMAPS_DIR "/" ) );
-	}
-
-	// erase file type
-	if( !with_end && name.rfind( "." ) != std::string::npos ) 
-	{
-		name.erase( name.rfind( "." ) );
-	}
-
-	return name;
+	return m_path;
 }
 
 void cGL_Surface :: Set_Destruction_Function( void ( *nfunction )( cGL_Surface * ) )

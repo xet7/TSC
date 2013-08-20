@@ -1302,11 +1302,13 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	{
 		if( image )
 		{
-			obj_name = image->Get_Filename( 0, 0 );
+			fs::path imgpath = image->Get_Path().filename();
+			imgpath.replace_extension();
+			obj_name = path_to_utf8(imgpath);
 		}
 
 		// Warn if using filename
-		printf( "Warning : editor object %s with no name given\n", obj_name.c_str() );
+		std::cerr << "Warning : editor object '" << obj_name << "' with no name given" << std::endl;
 	}
 
 	cEditor_Item_Object *new_item = new cEditor_Item_Object( obj_name, m_listbox_items );
