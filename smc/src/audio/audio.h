@@ -18,7 +18,7 @@
 
 #include "../core/global_basic.h"
 #include "../audio/sound_manager.h"
-#include "../script/scriptable_object.h"
+#include "../scripting/scriptable_object.h"
 #include "../scripting/objects/mrb_audio.h"
 
 namespace SMC
@@ -85,7 +85,7 @@ typedef vector<cAudio_Sound *> AudioSoundList;
 
 /* *** *** *** *** *** *** *** Audio class *** *** *** *** *** *** *** *** *** *** */
 
-class cAudio: public Script::cScriptable_Object
+class cAudio: public Scripting::cScriptable_Object
 {
 public:
 	cAudio( void );

@@ -2,7 +2,7 @@
 #ifndef SMC_SCRIPTING_EVENT_H
 #define SMC_SCRIPTING_EVENT_H
 #include "../scripting.h"
-#include "../../script/scriptable_object.h"
+#include "../../scripting/scriptable_object.h"
 
 // Defines an event handler function that forwards to the Eventable#bind
 // method, passing `evtname' as the first argument. Effectively implements
@@ -34,7 +34,7 @@ namespace SMC {
 		class cEvent
 		{
 		public:
-			void Fire(cMRuby_Interpreter* p_mruby, Script::cScriptable_Object* p_obj);
+			void Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_obj);
 			virtual std::string Event_Name();
 		protected:
 			virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);

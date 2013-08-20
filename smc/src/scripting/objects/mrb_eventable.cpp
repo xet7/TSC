@@ -1,6 +1,6 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_eventable.h"
-#include "../../script/scriptable_object.h"
+#include "../../scripting/scriptable_object.h"
 #include "../../core/global_basic.h"
 
 /**
@@ -40,7 +40,7 @@ mrb_value Bind(mrb_state* p_state, mrb_value self)
 	mrb_value callback;
 	mrb_get_args(p_state, "z&", &evtname, &callback);
 
-	Script::cScriptable_Object* p_obj = (Script::cScriptable_Object*) DATA_PTR(self);
+	Scripting::cScriptable_Object* p_obj = (Scripting::cScriptable_Object*) DATA_PTR(self);
 	if (!p_obj)
 		mrb_raise(p_state, MRB_RUNTIME_ERROR(p_state), "No associated C++ object found.");
 

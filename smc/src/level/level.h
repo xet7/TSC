@@ -22,7 +22,6 @@
 #include "../objects/level_entry.h"
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
-#include "../script/script.h"
 #include "../scripting/scripting.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
@@ -170,8 +169,6 @@ public:
 	cAnimation_Manager *m_animation_manager;
 	// sprite manager
 	cSprite_Manager *m_sprite_manager;
-	// Lua interpreter used for this level
-	Script::cLua_Interpreter *m_lua;
 	// MRuby interpreter used for this level
 	Scripting::cMRuby_Interpreter *m_mruby;
 

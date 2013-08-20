@@ -124,7 +124,7 @@ include_directories(
   )
 
 ###############################################
-# mruby / Lua
+# mruby
 
 if (ENABLE_MRUBY)
   # Tell CMake how to compile mruby
@@ -151,11 +151,6 @@ if (ENABLE_MRUBY)
 else() # Disable it
   set(MRuby_LIBRARIES "")
 endif()
-
-# Recurse for Lua and place the resulting
-# liblua.a next to us.
-add_subdirectory(lua ${SMC_BINARY_DIR}/lua)
-include_directories(${SMC_SOURCE_DIR}/lua/lua-5.2.1/src)
 
 ###############################################
 # Configuration header
@@ -197,7 +192,6 @@ if (WIN32)
     ${MRuby_LIBRARIES}
     ${PCRE_STATIC_LIBRARIES}
     ${PNG_STATIC_LIBRARIES}
-    lua
     intl
     )
   # For some unknown reason, nobody knows how to properly detect libintl?
@@ -216,7 +210,6 @@ else()
     ${MRuby_LIBRARIES}
     ${PCRE_LIBRARIES}
     ${PNG_LIBRARIES}
-    lua
     )
 endif()
 

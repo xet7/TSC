@@ -99,7 +99,6 @@ cLevel :: cLevel( void )
 	Reset_Settings();
 
 	m_delayed_unload = 0;
-	m_lua   = NULL; // Initialized in Init()
 	m_mruby = NULL; // Initialized in Init()
 
 	m_sprite_manager = new cSprite_Manager();
@@ -290,12 +289,10 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 
 	Reset_Settings();
 
-	/* Shutdown the Lua interpreter. The menu level (the one shown on the
-	 * startup screen) has not been Init()ialized and hence has no Lua
+	/* Shutdown the mruby interpreter. The menu level (the one shown on the
+	 * startup screen) has not been Init()ialized and hence has no mruby
 	 * interpreter attached. Therefore we need to check the existance
-	 * of the Lua interpreter here. */
-	if (m_lua)
-		delete m_lua;
+	 * of the mruby interpreter here. */
 	if (m_mruby)
 		delete m_mruby;
 
@@ -472,16 +469,12 @@ void cLevel :: Init( void )
 	}
 
 #ifdef ENABLE_MRUBY
-	// Initialize a Lua interpreter for this level. Each level has its own Lua
+	// Initialize an mruby interpreter for this level. Each level has its own mruby
 	// interpreter to prevent unintended object exchange between levels.
-	m_lua = new Script::cLua_Interpreter(this);
 	m_mruby = new Scripting::cMRuby_Interpreter(this);
 
-	// Run the Lua code associated with this level (this sets up
+	// Run the mruby code associated with this level (this sets up
 	// all the event handlers the user wants to register)
-	//std::string errmsg;
-	//if (!m_lua->Run_Code(m_script, errmsg))
-	//	std::cerr << "Warning: Lua script crashed with: " << errmsg << std::endl;
 	std::string errmsg;
 	if (!m_mruby->Run_Code(m_script, errmsg))
 		std::cerr << "Warning: MRuby script crashed: " << errmsg << std::endl;

@@ -22,8 +22,7 @@
 #include "../core/math/rect.h"
 #include "../video/video.h"
 #include "../core/collision.h"
-#include "../script/script.h"
-#include "../script/scriptable_object.h"
+#include "../scripting/scriptable_object.h"
 #include "../scripting/scripting.h"
 #include "../scripting/objects/mrb_sprite.h"
 // CEGUI
@@ -34,7 +33,7 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cCollidingSprite *** *** *** *** *** *** *** *** *** *** */
 
-class cCollidingSprite: public Script::cScriptable_Object
+class cCollidingSprite: public Scripting::cScriptable_Object
 {
 public:
 	cCollidingSprite( cSprite_Manager *sprite_manager );
