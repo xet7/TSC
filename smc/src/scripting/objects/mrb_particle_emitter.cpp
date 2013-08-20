@@ -81,8 +81,8 @@ static mrb_float mrbnum2float(mrb_state* p_state, mrb_value obj)
  */
 static mrb_value range_from_rand_values(mrb_state* p_state, mrb_float middle, mrb_float rand)
 {
-	mrb_value beg = mrb_float_value(middle - rand);
-	mrb_value end = mrb_float_value(middle + rand);
+	mrb_value beg = mrb_float_value(p_state, middle - rand);
+	mrb_value end = mrb_float_value(p_state, middle + rand);
 
 	return mrb_range_new(p_state, beg, end, 0); // beg..end (incl.)
 }
@@ -181,7 +181,7 @@ static mrb_value Set_Z(mrb_state* p_state,  mrb_value self)
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
 	p_emitter->Set_Pos_Z(z);
 
-	return mrb_float_value(z);
+	return mrb_float_value(p_state, z);
 }
 
 /**
@@ -285,7 +285,7 @@ static mrb_value Get_Speed(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
 {
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return mrb_float_value(p_emitter->m_emitter_time_to_live);
+	return mrb_float_value(p_state, p_emitter->m_emitter_time_to_live);
 }
 
 /**

@@ -284,7 +284,7 @@ static mrb_value Set_Direction(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Velocity_X(mrb_state* p_state,  mrb_value self)
 {
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	return mrb_float_value(p_sprite->m_velx);
+	return mrb_float_value(p_state, p_sprite->m_velx);
 }
 
 /**
@@ -298,7 +298,7 @@ static mrb_value Get_Velocity_X(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Velocity_Y(mrb_state* p_state,  mrb_value self)
 {
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	return mrb_float_value(p_sprite->m_vely);
+	return mrb_float_value(p_state, p_sprite->m_vely);
 }
 
 /**
@@ -314,8 +314,8 @@ static mrb_value Get_Velocity(mrb_state* p_state,  mrb_value self)
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
 
 	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_float_value(p_sprite->m_velx));
-	mrb_ary_push(p_state, result, mrb_float_value(p_sprite->m_vely));
+	mrb_ary_push(p_state, result, mrb_float_value(p_state, p_sprite->m_velx));
+	mrb_ary_push(p_state, result, mrb_float_value(p_state, p_sprite->m_vely));
 
 	return result;
 }
@@ -341,7 +341,7 @@ static mrb_value Set_Velocity_X(mrb_state* p_state,  mrb_value self)
 
 	p_sprite->Set_Velocity(xvel, p_sprite->m_vely); // Keep Y velocity
 
-	return mrb_float_value(xvel);
+	return mrb_float_value(p_state, xvel);
 }
 
 /**
@@ -365,7 +365,7 @@ static mrb_value Set_Velocity_Y(mrb_state* p_state,  mrb_value self)
 
 	p_sprite->Set_Velocity(p_sprite->m_velx, yvel); // Keep X velocity
 
-	return mrb_float_value(yvel);
+	return mrb_float_value(p_state, yvel);
 }
 
 /**
@@ -428,7 +428,7 @@ static mrb_value Accelerate_X(mrb_state* p_state,  mrb_value self)
 
 	p_sprite->Add_Velocity_X(a);
 
-	return mrb_float_value(a);
+	return mrb_float_value(p_state, a);
 }
 
 /**
@@ -450,7 +450,7 @@ static mrb_value Accelerate_Y(mrb_state* p_state,  mrb_value self)
 
 	p_sprite->Add_Velocity_Y(a);
 
-	return mrb_float_value(a);
+	return mrb_float_value(p_state, a);
 }
 
 
