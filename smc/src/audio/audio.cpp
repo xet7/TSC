@@ -450,7 +450,7 @@ bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume 
 	{
 		// add sound directory
 		if (!filename.is_absolute())
-			filename = pResource_Manager->Get_Game_Sounds_Directory();
+			filename = pResource_Manager->Get_Game_Sounds_Directory() / filename;
 
 		// not found
 		if( !File_Exists( filename ) )
