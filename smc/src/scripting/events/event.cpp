@@ -12,9 +12,9 @@ using namespace SMC::Scripting;
  * documentation for more information on this.
  *
  * For subclasses, you don’t want to override Fire(), but rather
- * Run_Lua_Callback() and Event_Name().
+ * Run_MRuby_Callback() and Event_Name().
  */
-void cEvent::Fire(cMRuby_Interpreter* p_mruby, Script::cScriptable_Object* p_obj)
+void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_obj)
 {
 	// Menu level has no mruby interpreter
 	if (!p_mruby)

@@ -239,6 +239,7 @@ void Init_Game( void )
 	srand( static_cast<unsigned int>(time( NULL )) );
 
 	// Init Stage 1 - core classes
+	debug_print("Initializing resource manager and core classes");
 	pResource_Manager = new cResource_Manager();
 	pVideo = new cVideo();
 	pAudio = new cAudio();
@@ -303,10 +304,6 @@ void Init_Game( void )
 	pActive_Animation_Manager = pActive_Level->m_animation_manager;
 	// set the first active sprite manager available
 	pLevel_Player->Set_Sprite_Manager( pActive_Level->m_sprite_manager );
-
-  // Initialize scripting
-	debug_print("Initializing mruby scripting engine\n");
-  Script::Initialize_Scripting();
 
 	// apply preferences
 	debug_print("Applying preferences\n");

@@ -25,7 +25,6 @@
 #include "../video/renderer.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
-#include "../script/events/gold_100_event.h"
 #include "../scripting/events/gold_100_event.h"
 // CEGUI
 #include "CEGUIWindowManager.h"
