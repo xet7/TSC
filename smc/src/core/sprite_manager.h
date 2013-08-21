@@ -142,6 +142,10 @@ public:
 	int Generate_UID();
 	// Returns true if the given UID already exists, false otherwise.
 	bool Is_UID_In_Use(int uid);
+	// Allocate new UIDs in the pool of available UIDs. The new maximum
+	// available uid is `new_max_uid_mark - 1'. This method does nothing
+	// if `new_max_uid_mark' is smaller than the current max mark.
+	void Allocate_UIDs(long new_max_uid_mark);
 
 	typedef vector<float> ZposList;
 	// biggest type z position

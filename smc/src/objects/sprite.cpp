@@ -460,6 +460,10 @@ void cSprite :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) ), true ) ;
 	// type
 	Set_Sprite_Type( Get_Sprite_Type_Id( attributes.getValueAsString( "type" ).c_str() ) );
+	// UID
+	// FIXME: Not all sprite subclasses call the chain upto cSprite::Load_From_XML()!
+	// See https://github.com/Quintus/SMC/issues/12#issuecomment-23027306
+	m_uid = attributes.getValueAsInteger("uid", -1); // -1 instructs cSprite_Manager::Add() to generate a new UID
 }
 
 void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )

@@ -52,11 +52,28 @@ void cSprite_Manager :: Add( cSprite *sprite )
 
 	Set_Pos_Z( sprite );
 
-	/* If we the sprite already has a UID set, we accept it as-is. This is 
+	/* If the sprite already has a UID set, we accept it as-is. This is
 	 * usually the case when loading a level from the XML file. Otherwise
 	 * we generate a unique id. */
-	if (sprite->m_uid <= 0) // TODO: Throw an exception if already in use?
+	if (sprite->m_uid <= 0) { // No UID set
 		sprite->m_uid = Generate_UID();
+	}
+	else { // UID set
+		// Ensure the pool knows about new maximum UIDs
+		if (sprite->m_uid >= m_max_uid_mark) {
+			// Allocate till our new mark
+			Allocate_UIDs(sprite->m_uid + 1);
+		}
+
+#ifdef _DEBUG
+		// This slows down performance, so only check this in debug mode
+		if (Is_UID_In_Use(sprite->m_uid))
+			std::cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << std::endl;
+#endif
+
+		// Mark the sprite’s UID as taken
+		m_uid_pool.erase(sprite->m_uid);
+	}
 
 	// Check if an destroyed object can be replaced
 	for( cSprite_List::iterator itr = objects.begin(); itr != objects.end(); ++itr )
@@ -70,8 +87,8 @@ void cSprite_Manager :: Add( cSprite *sprite )
 			// set new object
 			*itr = sprite;
 
-			// Release old sprite’s UID
-			m_uid_pool.erase(obj->m_uid);
+			// Release old sprite’s UID by putting it back into the UID pool
+			m_uid_pool.insert(obj->m_uid);
 
 			// delete old
 			delete obj;
@@ -441,28 +458,35 @@ unsigned int cSprite_Manager :: Get_Size_Array( const ArrayType sprite_array )
 int cSprite_Manager :: Generate_UID()
 {
 	// Allocate 10 new UIDs if the pool is empty
-	if (m_uid_pool.empty()) {
-		long new_max_uid_mark = m_max_uid_mark + 10; // We need long for the test below
-
-		// int is the only type CEGUI’s XML handler can handle. Therefore, we
-		// must refuse the generation of new UIDs beyond the maximum of what an
-		// int can hold.
-		if (new_max_uid_mark >= INT_MAX)
-			throw(std::range_error("Too many sprites, unable to generate further UIDs!"));
-
-		// Actually allocate the next ten numbers for the UID pool
-		for (int i = m_max_uid_mark; i < static_cast<int>(new_max_uid_mark); i++) // new_max_uid_mark is guaranteed to be < INT_MAX
-			m_uid_pool.insert(i);
-
-		// Remember the new maximum. Note that by checking INT_MAX, we have
-		// ensured the values fits into an int.
-		m_max_uid_mark = static_cast<int>(new_max_uid_mark);
-	}
+	if (m_uid_pool.empty())
+		Allocate_UIDs(m_max_uid_mark + 10);
 
 	// Pool is not empty, return the first available UID.
 	std::set<int>::const_iterator iter = m_uid_pool.begin();
 	m_uid_pool.erase(iter);
 	return *iter;
+}
+
+// We need `long', because we must check an `int' overflow (see below)
+void cSprite_Manager :: Allocate_UIDs(long new_max_uid_mark)
+{
+	// The pool can’t be shrinked
+	if (new_max_uid_mark <= m_max_uid_mark)
+		return;
+
+	// int is the only type CEGUI’s XML handler can handle. Therefore, we
+	// must refuse the generation of new UIDs beyond the maximum of what an
+	// int can hold.
+	if (new_max_uid_mark >= INT_MAX)
+		throw(std::range_error("Too many sprites, unable to generate further UIDs!"));
+
+	// Actually allocate the numbers for the UID pool
+	for (int i = m_max_uid_mark; i < static_cast<int>(new_max_uid_mark); i++) // new_max_uid_mark is guaranteed to be < INT_MAX
+		m_uid_pool.insert(i);
+
+	// Remember the new maximum. Note that by checking INT_MAX, we have
+	// ensured the values fits into an int.
+	m_max_uid_mark = static_cast<int>(new_max_uid_mark);
 }
 
 bool cSprite_Manager :: Is_UID_In_Use(int uid)
