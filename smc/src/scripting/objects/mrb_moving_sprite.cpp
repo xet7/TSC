@@ -72,7 +72,6 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcMoving_Sprite = NULL;
-struct mrb_data_type SMC::Scripting::rtMoving_Sprite = {"MovingSprite", NULL};
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {

@@ -6,7 +6,6 @@
 namespace SMC {
 	namespace Scripting {
 		extern struct RClass* p_rcEato;
-		extern struct mrb_data_type rtEato;
 		void Init_Eato(mrb_state* p_state);
 	}
 }

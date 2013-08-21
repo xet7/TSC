@@ -59,6 +59,9 @@ Sprite, LevelPlayer, etc.) into the interpreter.
 
 *****************************************************************************/
 
+// Extern
+mrb_data_type SMC::Scripting::rtSMC_Scriptable = {"SmcScriptable", NULL};
+
 namespace SMC
 {
 

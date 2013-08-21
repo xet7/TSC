@@ -9,8 +9,7 @@ using namespace SMC;
 using namespace SMC::Scripting;
 
 // Extern
-struct RClass* SMC::Scripting::p_rcEato     = NULL;
-struct mrb_data_type SMC::Scripting::rtEato = {"Eato", NULL};
+struct RClass* SMC::Scripting::p_rcEato = NULL;
 
 /**
  * Method: Eato::new
@@ -49,7 +48,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 	cEato* p_eato = new cEato(pActive_Level->m_sprite_manager);
 	DATA_PTR(self) = p_eato;
-	DATA_TYPE(self) = &rtEato;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
 
 	// This is a generated object
 	p_eato->Set_Spawned(true);

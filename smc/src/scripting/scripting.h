@@ -29,7 +29,10 @@
 namespace SMC {
 	namespace Scripting {
 
-		extern boost::filesystem::path scripting_dir;
+		// We don’t use mruby’s C typechecks, but mruby wants
+		// an mrb_data_type nevertheless from us. So we set
+		// it for all our objects to this one.
+		extern struct mrb_data_type rtSMC_Scriptable;
 
 		// Load all MRuby wrapper classes for the C++ classes
 		// into the given mruby state. Called by SMC::setup
@@ -40,28 +43,14 @@ namespace SMC {
 		inline mrb_value str2sym(mrb_state* mrb, std::string str){ return mrb_symbol_value(mrb_intern(mrb, str.c_str())); }
 
 		/**
-		 * More permissive version of MRuby’s DATA_GET_PTR(). This
-		 * function doesn’t check the type pointer, which is totally
-		 * useless for wrapping C++ class hierarchies, because MRuby
-		 * doesn’t recognize a pointer can actually be valid for the
-		 * the C++ parent type and just throws an exception. As mruby
-		 * is a C library, this is fine and for exactly that case it’s
-		 * possible to retrieve the raw pointer without any checks
-		 * with DATA_PTR() which is exactly what we do inside this
-		 * function. DATA_CHECK_GET_PTR() doesn’t work for us either,
-		 * because it also does the typecheck, just instead of raising
-		 * it returns `nil'.
-		 *
-		 * This function just checks if 'obj` doesn’t
-		 * contain an entirely invalid pointer and raises a TypeError
-		 * if so. Otherwise returns the pointer. Use MRuby’s
-		 * DATA_PTR() directly if you don’t want an exception in this
-		 * case.
+		 * Shorthand for doing
+		 *   DATA_GET_PTR(p_state, obj, &rtSMC_Scriptable)
+		 * over and over with a security NULL check.
 		 */
 		template<typename T>
 		T* Get_Data_Ptr(mrb_state* p_state, mrb_value obj)
 		{
-			T* p_result = (T*) DATA_PTR(obj);
+			T* p_result = static_cast<T*>(mrb_data_get_ptr(p_state, obj, &rtSMC_Scriptable));
 			if (!p_result) {
 				mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Unexpected NULL pointer. This is most likely an SMC bug.");
 				return NULL; // Not reached

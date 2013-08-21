@@ -130,8 +130,7 @@ using namespace SMC;
 using namespace SMC::Scripting;
 
 // Extern
-struct RClass* SMC::Scripting::p_rcLevel     = NULL;
-struct mrb_data_type SMC::Scripting::rtLevel = {"Level", NULL};
+struct RClass* SMC::Scripting::p_rcLevel = NULL;
 
 /***************************************
  * Events

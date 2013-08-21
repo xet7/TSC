@@ -75,7 +75,7 @@ public:
 	// Create the MRuby instance for this object.
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcMoving_Sprite, &Scripting::rtMoving_Sprite, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcMoving_Sprite, &Scripting::rtSMC_Scriptable, this));
 	}
 
 	/* Sets the image for drawing

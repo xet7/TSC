@@ -6,7 +6,6 @@
 namespace SMC {
 	namespace Scripting {
 		extern struct RClass* p_rcInput;
-		extern struct mrb_data_type rtInput;
 		void Init_Input(mrb_state* p_state);
 	}
 }

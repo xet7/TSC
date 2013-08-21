@@ -53,8 +53,7 @@ using namespace SMC;
 using namespace SMC::Scripting;
 
 // Extern
-struct RClass* SMC::Scripting::p_rcSprite     = NULL;
-struct mrb_data_type SMC::Scripting::rtSprite = {"Sprite", NULL};
+struct RClass* SMC::Scripting::p_rcSprite = NULL;
 
 MRUBY_IMPLEMENT_EVENT(touch);
 
@@ -67,7 +66,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 	// Insert a new sprite instance into the MRuby object
 	cSprite* p_sprite = new cSprite(pActive_Level->m_sprite_manager);
 	DATA_PTR(self) = p_sprite;
-	DATA_TYPE(self) = &rtSprite;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
 
 	// Arguments
 	if (path)

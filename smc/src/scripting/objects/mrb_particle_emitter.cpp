@@ -54,7 +54,6 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcParticleEmitter = NULL;
-struct mrb_data_type SMC::Scripting::rtParticleEmitter = {"ParticleEmitter", NULL};
 
 /***************************************
  * Helpers
@@ -161,7 +160,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	pActive_Animation_Manager->Add(p_emitter);
 
 	DATA_PTR(self) = p_emitter;
-	DATA_TYPE(self) = &rtParticleEmitter;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
 
 	return self;
 }

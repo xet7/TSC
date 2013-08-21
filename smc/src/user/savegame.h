@@ -203,7 +203,7 @@ public:
 	{
 		// See docs in mrb_level.cpp for why we associate ourself
 		// with the Level class here instead of a savegame class.
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLevel, &Scripting::rtLevel, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLevel, &Scripting::rtSMC_Scriptable, this));
 	}
 
 	// Returns only the Savegame description

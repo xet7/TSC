@@ -30,7 +30,6 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcInput = NULL;
-struct mrb_data_type SMC::Scripting::rtInput = {"Inpu", NULL};
 
 /***************************************
  * Events

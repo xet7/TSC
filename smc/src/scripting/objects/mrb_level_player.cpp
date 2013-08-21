@@ -10,7 +10,6 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcLevel_Player     = NULL;
-struct mrb_data_type SMC::Scripting::rtLevel_Player = {"LevelPlayer", NULL};
 
 /**
  * Class: LevelPlayer

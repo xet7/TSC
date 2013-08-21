@@ -155,7 +155,6 @@ static void Free_Timer(mrb_state* p_state, void* ptr);
 
 // Extern
 struct RClass* SMC::Scripting::p_rcTimer = NULL;
-struct mrb_data_type SMC::Scripting::rtTimer = {"Timer", Free_Timer};
 
 /***************************************
  * C++ part
@@ -317,7 +316,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	// same MRuby instance as `p_state'.
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, mrb_test(is_periodic));
 	DATA_PTR(self) = p_timer;
-	DATA_TYPE(self) = &rtTimer;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
 
 	// Prevent the GC from collecting the objects by a) adding ourselves
 	// to the class-instance variable instances and b) adding the callback
@@ -361,7 +360,7 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, true);
 	p_timer->Start();
 
-	return mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtTimer, p_timer));
+	return mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
 }
 
 /**
@@ -390,7 +389,7 @@ static mrb_value After(mrb_state* p_state,  mrb_value self)
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
 	p_timer->Start();
 
-	return mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtTimer, p_timer));
+	return mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
 }
 
 /**
