@@ -452,6 +452,20 @@ static mrb_value Accelerate_Y(mrb_state* p_state,  mrb_value self)
 	return mrb_float_value(p_state, a);
 }
 
+/**
+ * Method: MovingSprite#turn_around
+ *
+ *   turn_around()
+ *
+ * Make this object turn around and continue moving into the
+ * opposite direction.
+ */
+static mrb_value Turn_Around(mrb_state* p_state, mrb_value self)
+{
+	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+	p_sprite->Turn_Around();
+	return mrb_nil_value();
+}
 
 void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
@@ -469,4 +483,5 @@ void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x=", Set_Velocity_X, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y=", Set_Velocity_Y, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity=", Set_Velocity, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "turn_around", Turn_Around, ARGS_NONE());
 }

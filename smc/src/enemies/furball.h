@@ -26,7 +26,7 @@ namespace SMC
  * forget to do anything and just stupidly run into them.
  * Don't fall for it! Take them very seriously! Pay attention!
  */
-class cFurball : public cEnemy 
+class cFurball : public cEnemy
 {
 public:
 	// constructor
@@ -59,7 +59,7 @@ public:
 	inline int Get_Downgrade_Count(){return m_downgrade_count;}
 
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir );
 	/* set color
 	 * brown = normal, blue = ice, black = boss
 	*/
