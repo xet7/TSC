@@ -14,38 +14,12 @@ struct RClass* SMC::Scripting::p_rcEato = NULL;
 /**
  * Method: Eato::new
  *
- *   new( direction ) → an_eato
+ *   new() → an_eato
  *
  * TODO: Docs.
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	char* cdir = NULL;
-	mrb_get_args(p_state, "z", &cdir);
-	std::string sdir(cdir);
-
-	ObjectDirection dir;
-	if (sdir == "up_left")
-		dir = DIR_UP_LEFT;
-	else if (sdir == "up_right")
-		dir = DIR_UP_RIGHT;
-	else if (sdir == "left_up")
-		dir = DIR_LEFT_UP;
-	else if (sdir == "left_down")
-		dir = DIR_LEFT_DOWN;
-	else if (sdir == "right_up")
-		dir = DIR_RIGHT_UP;
-	else if (sdir == "right_down")
-		dir = DIR_RIGHT_DOWN;
-	else if (sdir == "down_left")
-		dir = DIR_DOWN_LEFT;
-	else if (sdir == "down_right")
-		dir = DIR_DOWN_RIGHT;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid eato direction: %s", cdir);
-		return self; // Not reached
-	}
-
 	cEato* p_eato = new cEato(pActive_Level->m_sprite_manager);
 	DATA_PTR(self) = p_eato;
 	DATA_TYPE(self) = &rtSMC_Scriptable;
@@ -53,13 +27,28 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	// This is a generated object
 	p_eato->Set_Spawned(true);
 
-	// Required arguments
-	p_eato->Set_Direction(dir);
-
 	// Let SMC manage the memory
 	pActive_Level->m_sprite_manager->Add(p_eato);
 
 	return self;
+}
+
+/**
+ * Method: Eato#image_dir=
+ *
+ *   image_dir=( path ) → path
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Image_Dir(mrb_state* p_state, mrb_value self)
+{
+	char* cdir = NULL;
+	mrb_get_args(p_state, "z", &cdir);
+
+	cEato* p_eato = Get_Data_Ptr<cEato>(p_state, self);
+	p_eato->Set_Image_Dir(utf8_to_path(cdir));
+
+	return mrb_str_new_cstr(p_state, cdir);
 }
 
 /**
@@ -82,4 +71,5 @@ void SMC::Scripting::Init_Eato(mrb_state* p_state)
 
 	mrb_define_method(p_state, p_rcEato, "initialize", Initialize, ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcEato, "image_dir", Get_Image_Dir, ARGS_NONE());
+	mrb_define_method(p_state, p_rcEato, "image_dir=", Set_Image_Dir, ARGS_REQ(1));
 }
