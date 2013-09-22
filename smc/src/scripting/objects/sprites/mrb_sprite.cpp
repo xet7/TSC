@@ -321,7 +321,7 @@ static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
 	mrb_int start_y;
 	mrb_get_args(p_state, "i", &start_y);
 
-	p_sprite->Set_Pos_X(start_y, true);
+	p_sprite->Set_Pos_Y(start_y, true);
 
 	return mrb_fixnum_value(start_y);
 }
