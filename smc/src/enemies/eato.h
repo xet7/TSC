@@ -47,7 +47,7 @@ public:
 	// directory.
 	void Set_Image_Dir( boost::filesystem::path dir );
 	// Set direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir );
 
 	/* downgrade state ( if already weakest state : dies )
 	 * force : usually dies or a complete downgrade

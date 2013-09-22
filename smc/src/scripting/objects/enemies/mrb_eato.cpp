@@ -62,7 +62,6 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	return self;
 }
 
-
 /**
  * Method: Eato#image_dir
  *
