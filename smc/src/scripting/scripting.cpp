@@ -19,6 +19,7 @@
 #include "objects/misc/mrb_timer.h"
 #include "objects/enemies/mrb_enemy.h"
 #include "objects/enemies/mrb_eato.h"
+#include "objects/enemies/mrb_flyon.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -185,6 +186,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Timer(p_state);
 	Init_Enemy(p_state);
 	Init_Eato(p_state);
+	Init_Flyon(p_state);
 	Init_ParticleEmitter(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }

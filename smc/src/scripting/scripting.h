@@ -25,6 +25,7 @@
 #define MRB_RUNTIME_ERROR(mrb) (mrb_class_get(mrb, "RuntimeError"))
 #define MRB_TYPE_ERROR(mrb) (mrb_class_get(mrb, "TypeError"))
 #define MRB_NOTIMP_ERROR(mrb) (mrb_class_get(mrb, "NotImplementedError"))
+#define MRB_RANGE_ERROR(mrb) (mrb_class_get(mrb, "RangeError"))
 
 namespace SMC {
 	namespace Scripting {

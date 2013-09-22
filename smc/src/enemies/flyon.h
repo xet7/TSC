@@ -24,7 +24,7 @@ namespace SMC
 /* *** *** *** *** *** cFlyon *** *** *** *** *** *** *** *** *** *** *** *** */
 /*  Eats your butt in the sky.
 */
-class cFlyon : public cEnemy 
+class cFlyon : public cEnemy
 {
 public:
 	// constructor
@@ -51,7 +51,7 @@ public:
 	// to the pixmaps/ directory.
 	void Set_Image_Dir( boost::filesystem::path dir );
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir );
 	// Set Max Distance
 	void Set_Max_Distance( float nmax_distance );
 	// Set the Speed

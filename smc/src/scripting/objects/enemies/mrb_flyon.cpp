@@ -1,0 +1,239 @@
+#include "../../../enemies/flyon.h"
+#include "../../../level/level.h"
+#include "../../../core/sprite_manager.h"
+#include "../../../core/property_helper.h"
+#include "mrb_enemy.h"
+#include "mrb_flyon.h"
+
+/**
+ * Class: Flyon
+ *
+ * Parent: [Enemy](enemy.html)
+ * {: .superclass}
+ *
+ * The _Flyon_ jumps out of its hiding and attacks you. It then quickly
+ * returns into its typically unreachable hiding and waits a number of
+ * seconds before it tries again.
+ *
+ * Note the flyon is one of the rare objects that makes use of its
+ * _starting position_ coordinates. They define the actual position
+ * the flyon is returning to after a jump; the normal coordinates
+ * merely determine where it is _currently_.
+ */
+
+using namespace SMC;
+using namespace SMC::Scripting;
+
+// Extern
+struct RClass* SMC::Scripting::p_rcFlyon = NULL;
+
+/**
+ * Method: Flyon::new() → a_flyon
+ *
+ * Creates a new Fylon object with the default values.
+ */
+static mrb_value Initialize(mrb_state* p_state, mrb_value self)
+{
+
+	cFlyon* p_flyon = new cFlyon(pActive_Level->m_sprite_manager);
+	DATA_PTR(self) = p_flyon;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
+
+	// This is a generated object
+	p_flyon->Set_Spawned(true);
+
+	// Let SMC manager the memory
+	pActive_Level->m_sprite_manager->Add(p_flyon);
+
+	return self;
+}
+
+/**
+ * Method: Flyon#image_dir=
+ *
+ *   image_dir=( path ) → path
+ *
+ * Set the directory used to retrieve the pictures for the flyon.
+ *
+ * #### Parameters
+ * path
+ * : Path for the flyon image directory, relative to `pixmaps` directory.
+ *   Note the only real alternative to the default (`pixmaps/flyon/orange`)
+ *   is `pixmaps/flyon/blue`.
+ */
+static mrb_value Set_Image_Dir(mrb_state* p_state, mrb_value self)
+{
+	char* cdir = NULL;
+	mrb_get_args(p_state, "z", &cdir);
+
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	p_flyon->Set_Image_Dir(utf8_to_path(cdir));
+
+	return mrb_str_new_cstr(p_state, cdir);
+}
+
+/**
+ * Method: Flyon#image_dir
+ *
+ *   image_dir() → a_string
+ *
+ * Retrieve the path to the directory where the pictures for the
+ * flyon are taken from, relative to the `pixmaps` directory.
+ */
+static mrb_value Get_Image_Dir(mrb_state* p_state, mrb_value self)
+{
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	return mrb_str_new_cstr(p_state, path_to_utf8(p_flyon->m_img_dir).c_str());
+}
+
+/**
+ * Method: Flyon#max_distance=
+ *
+ *   max_distance=( distance ) → distance
+ *
+ * Specify the maximum distance the flyon may travel.
+ *
+ * #### Parameters
+ * distance
+ * : The new maximum distance the flyon may travel, in pixels. A float.
+ */
+static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
+{
+	mrb_float maxdistance;
+	mrb_get_args(p_state, "f", &maxdistance);
+
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	p_flyon->Set_Max_Distance(maxdistance);
+
+	return mrb_float_value(p_state, maxdistance);
+}
+
+/**
+ * Method: Flyon#max_distance
+ *
+ *   max_distance() → a_float
+ *
+ * Retrieve the maximum number of pixels the flyon may travel.
+ */
+static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
+{
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	return mrb_float_value(p_state, p_flyon->m_max_distance);
+}
+
+/**
+ * Method: Flyon#speed=
+ *
+ *   speed=( speed ) → speed
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
+{
+	mrb_float speed;
+	mrb_get_args(p_state, "f", &speed);
+
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	p_flyon->Set_Speed(speed);
+
+	return mrb_float_value(p_state, speed);
+}
+
+/**
+ * Method: Flyon#speed
+ *
+ *   speed() → a_float
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
+{
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	return mrb_float_value(p_state, p_flyon->m_speed);
+}
+
+/**
+ * Method: Flyon#wait_time=
+ *
+ *   wait_time=( secs ) → secs
+ *
+ * Specify the time to wait between jumping.
+ *
+ * #### Parameters
+ * secs
+ * : Number of seconds to wait between jumping out again.
+ *   A float.
+ */
+static mrb_value Set_Wait_Time(mrb_state* p_state, mrb_value self)
+{
+	mrb_float time;
+	mrb_get_args(p_state, "f", &time);
+
+	if (time < 0) {
+		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Wait time must be > 0.");
+		return mrb_nil_value(); // Not reached
+	}
+
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	p_flyon->m_wait_time = time;
+
+	return mrb_float_value(p_state, time);
+}
+
+/**
+ * Method: Flyon#wait_time
+ *
+ *   wait_time() → a_float
+ *
+ * Returns the number of seconds to wait betwee jumping, as a
+ * float.
+ */
+static mrb_value Get_Wait_Time(mrb_state* p_state, mrb_value self)
+{
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	return mrb_float_value(p_state, p_flyon->m_wait_time);
+}
+
+/**
+ * Method: Flyon#distance_to_end
+ *
+ *   distance_to_end() → a_float
+ *
+ * Current distance to the end position, in pixels.
+ */
+static mrb_value Get_End_Distance(mrb_state* p_state, mrb_value self)
+{
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	return mrb_float_value(p_state, p_flyon->Get_End_Distance());
+}
+
+/**
+ * Method: Flyon#moving_backwards?
+ *
+ *   moving_backwards? → true or false
+ *
+ * Whether or not the flyon is moving backwards to its original position.
+ */
+static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
+{
+	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+	return mrb_bool_value(p_flyon->m_move_back);
+}
+
+void SMC::Scripting::Init_Flyon(mrb_state* p_state)
+{
+	p_rcFlyon = mrb_define_class(p_state, "Flyon", p_rcEnemy);
+	MRB_SET_INSTANCE_TT(p_rcFlyon, MRB_TT_DATA);
+
+	mrb_define_method(p_state, p_rcFlyon, "initialize", Initialize, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "image_dir=", Set_Image_Dir, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "image_dir", Get_Image_Dir, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "max_distance=", Set_Max_Distance, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "max_distance", Get_Max_Distance, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "speed=", Set_Speed, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "speed", Get_Speed, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "wait_time=", Set_Wait_Time, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "wait_time", Get_Wait_Time, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "distance_to_end", Get_End_Distance, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "moving_backwards?", Is_Moving_Backwards, ARGS_NONE());
+}
