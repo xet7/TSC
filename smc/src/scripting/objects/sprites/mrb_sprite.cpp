@@ -57,6 +57,24 @@ struct RClass* SMC::Scripting::p_rcSprite = NULL;
 
 MRUBY_IMPLEMENT_EVENT(touch);
 
+/**
+ * Method: Sprite::new
+ *
+ *   new( [path [, uid ] ] ) → a_sprite
+ *
+ * Adds a sprite to the level.
+ *
+ * ##### Parameters
+ * path
+ * : The path to the sprite’s image, relative to the `pixmaps/` directory.
+ *
+ * uid
+ * : The UID for the sprite. If not given, a free one will be used.
+ *
+ * ##### Return value
+ * The newly created instance.
+ */
+
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
 	mrb_int uid = -1;
