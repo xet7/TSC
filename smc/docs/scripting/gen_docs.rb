@@ -1,6 +1,8 @@
+#!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require "pathname"
 require "fileutils"
+require "coderay"
 require "kramdown"
 
 # Sourcecode parsing class that extracts scripting-related
