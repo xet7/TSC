@@ -19,7 +19,7 @@
 #include "../objects/animated_sprite.h"
 #include "../core/framerate.h"
 #include "../audio/audio.h"
-#include "../scripting/objects/mrb_enemy.h"
+#include "../scripting/objects/enemies/mrb_enemy.h"
 
 namespace SMC
 {

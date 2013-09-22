@@ -19,7 +19,7 @@
 #include "../core/global_basic.h"
 #include "../core/global_game.h"
 #include "../scripting/scriptable_object.h"
-#include "../scripting/objects/mrb_input.h"
+#include "../scripting/objects/misc/mrb_input.h"
 // SDL
 #include "SDL.h"
 

@@ -20,7 +20,7 @@
 #include "../objects/ball.h"
 #include "../objects/animated_sprite.h"
 #include "../scripting/scripting.h"
-#include "../scripting/objects/mrb_level_player.h"
+#include "../scripting/objects/misc/mrb_level_player.h"
 
 namespace SMC
 {

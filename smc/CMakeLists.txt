@@ -218,5 +218,3 @@ install(TARGETS smc
   DESTINATION bin)
 install(DIRECTORY "${SMC_SOURCE_DIR}/data/" # Note trailing slash for content copy
   DESTINATION share/smc)
-install(DIRECTORY "${SMC_SOURCE_DIR}/src/scripting/mruby/" # Note trailing slash for content copy
-  DESTINATION share/smc/scripting)

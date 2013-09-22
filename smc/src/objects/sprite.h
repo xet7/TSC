@@ -24,7 +24,7 @@
 #include "../core/collision.h"
 #include "../scripting/scriptable_object.h"
 #include "../scripting/scripting.h"
-#include "../scripting/objects/mrb_sprite.h"
+#include "../scripting/objects/sprites/mrb_sprite.h"
 // CEGUI
 #include "CEGUIXMLSerializer.h"
 

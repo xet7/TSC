@@ -18,7 +18,7 @@
 
 #include "../objects/sprite.h"
 #include "../scripting/scriptable_object.h"
-#include "../scripting/objects/mrb_level.h"
+#include "../scripting/objects/misc/mrb_level.h"
 // CEGUI
 #include "CEGUIXMLHandler.h"
 #include "CEGUIXMLAttributes.h"

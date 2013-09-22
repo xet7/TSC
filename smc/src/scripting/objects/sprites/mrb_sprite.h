@@ -1,7 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_MRB_SPRITE_H
 #define SMC_SCRIPTING_MRB_SPRITE_H
-#include "../scripting.h"
+#include "../../scripting.h"
 
 namespace SMC {
 	namespace Scripting {

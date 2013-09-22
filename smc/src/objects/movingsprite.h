@@ -17,7 +17,7 @@
 #define SMC_MOVINGSPRITE_H
 
 #include "../objects/sprite.h"
-#include "../scripting/objects/mrb_moving_sprite.h"
+#include "../scripting/objects/sprites/mrb_moving_sprite.h"
 
 namespace SMC
 {

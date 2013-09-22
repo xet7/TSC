@@ -1,9 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../../level/level.h"
-#include "../../user/savegame.h"
-#include "../../core/property_helper.h"
-#include "../events/event.h"
-#include "mrb_eventable.h"
+#include "../../../level/level.h"
+#include "../../../user/savegame.h"
+#include "../../../core/property_helper.h"
+#include "../../events/event.h"
+#include "../mrb_eventable.h"
 #include "mrb_level.h"
 
 /**

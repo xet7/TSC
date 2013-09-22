@@ -1,6 +1,6 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_eventable.h"
-#include "../../scripting/scriptable_object.h"
+#include "../scriptable_object.h"
 #include "../../core/global_basic.h"
 
 /**

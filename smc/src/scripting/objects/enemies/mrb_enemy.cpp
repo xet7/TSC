@@ -1,9 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_enemy.h"
-#include "mrb_animated_sprite.h"
-#include "../../enemies/enemy.h"
-#include "../../gui/hud.h"
-#include "../events/event.h"
+#include "../sprites/mrb_animated_sprite.h"
+#include "../../../enemies/enemy.h"
+#include "../../../gui/hud.h"
+#include "../../events/event.h"
 
 /**
  * Class: Enemy

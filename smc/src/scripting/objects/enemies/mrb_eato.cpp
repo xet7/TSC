@@ -1,7 +1,7 @@
-#include "../../enemies/eato.h"
-#include "../../level/level.h"
-#include "../../core/sprite_manager.h"
-#include "../../core/property_helper.h"
+#include "../../../enemies/eato.h"
+#include "../../../level/level.h"
+#include "../../../core/sprite_manager.h"
+#include "../../../core/property_helper.h"
 #include "mrb_enemy.h"
 #include "mrb_eato.h"
 

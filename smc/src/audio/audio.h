@@ -19,7 +19,7 @@
 #include "../core/global_basic.h"
 #include "../audio/sound_manager.h"
 #include "../scripting/scriptable_object.h"
-#include "../scripting/objects/mrb_audio.h"
+#include "../scripting/objects/misc/mrb_audio.h"
 
 namespace SMC
 {

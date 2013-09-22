@@ -1,6 +1,6 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include <cstdio>
-#include "../../level/level.h"
+#include "../../../level/level.h"
 #include "mrb_timer.h"
 
 /**
@@ -119,7 +119,7 @@
  * therefore high-precision. The payoff is that although the
  * actual "injection" is (nearly) asynchronous (there is this
  * mutex preventing race conditions around the list of
- * pending callback indices), the actual *execution* is
+ * pending callbacks), the actual *execution* is
  * a bit delayed, as it will only happen when the normal
  * mainloop comes over cLevel::Update(), which is usually
  * once a frame for normal gameplay (i.e. not for
@@ -450,7 +450,7 @@ static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
 						mrb_obj_classname(p_state, self),
 						p_timer->Get_Interval(),
 						p_timer->Is_Periodic() ? "periodic" : "oneshot",
-						p_timer->Is_Active() ? "running" : "stopped"); // HIER! Passt nicht für Oneshots!
+						p_timer->Is_Active() ? "running" : "stopped");
 
 	if (num < 0)
 		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Couldn't format string, sprintf() returned %d", num);

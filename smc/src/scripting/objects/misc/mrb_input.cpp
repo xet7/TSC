@@ -1,7 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../events/event.h"
-#include "../../input/keyboard.h"
-#include "mrb_eventable.h"
+#include "../../events/event.h"
+#include "../../../input/keyboard.h"
+#include "../mrb_eventable.h"
 #include "mrb_input.h"
 
 /**
