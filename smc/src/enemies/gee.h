@@ -46,7 +46,7 @@ public:
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir );
 	// Set Max Distance
 	void Set_Max_Distance( int nmax_distance );
 	// set color

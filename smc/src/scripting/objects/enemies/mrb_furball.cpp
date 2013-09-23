@@ -231,7 +231,7 @@ void SMC::Scripting::Init_Furball(mrb_state* p_state)
 	p_rcFurball = mrb_define_class(p_state, "Furball", p_rcEnemy);
 	MRB_SET_INSTANCE_TT(p_rcFurball, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcFurball, "color=", Set_Color, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcFurball, "color", Get_Color, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcFurball, "boss?", Is_Boss, MRB_ARGS_NONE());
