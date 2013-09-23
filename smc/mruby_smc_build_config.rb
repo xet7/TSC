@@ -22,6 +22,7 @@ config = lambda do |conf, root|
   conf.gem "#{root}/mrbgems/mruby-proc-ext"
   conf.gem "#{root}/mrbgems/mruby-symbol-ext"
   conf.gem "#{root}/mrbgems/mruby-random"
+  conf.gem "#{root}/mrbgems/mruby-object-ext"
   # conf.gem "#{root}/mrbgems/mruby-eval"
 
   # Generate mirb command
