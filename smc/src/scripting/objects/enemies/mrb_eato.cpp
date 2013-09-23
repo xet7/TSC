@@ -5,6 +5,17 @@
 #include "mrb_enemy.h"
 #include "mrb_eato.h"
 
+/**
+ * Class: Eato
+ *
+ * Parent: [Enemy](enemy.html)
+ * {: .superclass}
+ *
+ * The small _Eato_ is a plant glued to a wall, ceiling or even the bottom
+ * and just sits there. It doesn’t move, but if Maryo gets in its reach,
+ * it will bite.
+ */
+
 using namespace SMC;
 using namespace SMC::Scripting;
 

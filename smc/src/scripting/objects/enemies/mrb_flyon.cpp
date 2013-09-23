@@ -28,7 +28,9 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rcFlyon = NULL;
 
 /**
- * Method: Flyon::new() → a_flyon
+ * Method: Flyon::new()
+ *
+ *   new() → a_flyon
  *
  * Creates a new Fylon object with the default values.
  */

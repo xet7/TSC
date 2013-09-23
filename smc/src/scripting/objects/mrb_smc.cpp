@@ -86,6 +86,7 @@ static mrb_value Setup(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::platform
  *
  *   platform() → a_string
  *
@@ -109,6 +110,7 @@ static mrb_value Platform(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::quit
  *
  *   quit()
  *
@@ -122,6 +124,7 @@ static mrb_value Quit(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::exit
  *
  *   exit( exitcode )
  *
@@ -140,6 +143,7 @@ static mrb_value Exit(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::current_framerate
  *
  *   current_framerate() → integer
  *
@@ -151,6 +155,7 @@ static mrb_value Current_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::average_framerate
  *
  *   average_framerate() → integer
  *
@@ -162,6 +167,7 @@ static mrb_value Average_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::best_framerate
  *
  *   best_framerate() → integer
  *
@@ -173,6 +179,7 @@ static mrb_value Best_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::worst_framerate
  *
  *   worst_framerate() → integer
  *
@@ -184,6 +191,7 @@ static mrb_value Worst_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: SMC::version
  *
  *   version() → a_string
  *

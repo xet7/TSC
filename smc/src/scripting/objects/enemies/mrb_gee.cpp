@@ -5,6 +5,16 @@
 #include "mrb_enemy.h"
 #include "mrb_gee.h"
 
+/**
+ * Class: Gee
+ *
+ * Parent: [Enemy](enemy.html)
+ * {: .superclass}
+ *
+ * The _Gee_ is a flying monster that moves slowly or quickly along
+ * a fixed path. Red gees are immunate to fire attacks.
+ */
+
 using namespace SMC;
 using namespace SMC::Scripting;
 
@@ -74,6 +84,8 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 
 /**
  * Method: Gee#color
+ *
+ *   color() → a_symbol
  *
  * Retrieve the gee’s color.
  *
@@ -178,7 +190,7 @@ static mrb_value Get_Fly_Speed(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: always_flying=
+ * Method: Gee#always_flying=
  *
  *   always_flying( bool ) → bool
  *
@@ -196,7 +208,7 @@ static mrb_value Set_Always_Fly(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: always_flying?
+ * Method: Gee#always_flying?
  *
  *   always_flying?() → true or false
  *
