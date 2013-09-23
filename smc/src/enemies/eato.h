@@ -17,6 +17,7 @@
 #define SMC_EATO_H
 
 #include "../enemies/enemy.h"
+#include "../scripting/objects/enemies/mrb_eato.h"
 
 namespace SMC
 {
@@ -42,6 +43,13 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcEato, &Scripting::rtSMC_Scriptable, this));
+	}
+
 
 	// Set the image directory. `dir' must be relative to the pixmaps/
 	// directory.

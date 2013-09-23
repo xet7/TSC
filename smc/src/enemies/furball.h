@@ -17,6 +17,7 @@
 #define SMC_FURBALL_H
 
 #include "../enemies/enemy.h"
+#include "../scripting/objects/enemies/mrb_furball.h"
 
 namespace SMC
 {
@@ -46,6 +47,13 @@ public:
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcFurball, &Scripting::rtSMC_Scriptable, this));
+	}
+
 
 	// maximum downgrades until death
 	void Set_Max_Downgrade_Count( int max_downgrade_count );
