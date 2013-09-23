@@ -147,5 +147,5 @@ void SMC::Scripting::Init_UIDS(mrb_state* p_state)
 	// UID 0 is always the player
 	mrb_hash_set(p_state, cache, mrb_fixnum_value(0), mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern(p_state, "Player")));
 
-	mrb_define_class_method(p_state, p_rmUIDS, "[]", Index, ARGS_REQ(1));
+	mrb_define_class_method(p_state, p_rmUIDS, "[]", Index, MRB_ARGS_REQ(1));
 }

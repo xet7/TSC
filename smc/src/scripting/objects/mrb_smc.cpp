@@ -202,14 +202,14 @@ void SMC::Scripting::Init_SMC(mrb_state* p_state)
 {
 	p_rmSMC = mrb_define_module(p_state, "SMC");
 
-	mrb_define_module_function(p_state, p_rmSMC, "require", Require, ARGS_REQ(1));
-	mrb_define_module_function(p_state, p_rmSMC, "setup", Setup, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "platform", Platform, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "quit", Quit, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "exit", Exit, ARGS_REQ(1));
-	mrb_define_module_function(p_state, p_rmSMC, "current_framerate", Current_Framerate, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "average_framerate", Average_Framerate, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "best_framerate", Best_Framerate, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "worst_framerate", Worst_Framerate, ARGS_NONE());
-	mrb_define_module_function(p_state, p_rmSMC, "version", Version, ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "require", Require, MRB_ARGS_REQ(1));
+	mrb_define_module_function(p_state, p_rmSMC, "setup", Setup, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "platform", Platform, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "quit", Quit, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "exit", Exit, MRB_ARGS_REQ(1));
+	mrb_define_module_function(p_state, p_rmSMC, "current_framerate", Current_Framerate, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "average_framerate", Average_Framerate, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "best_framerate", Best_Framerate, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "worst_framerate", Worst_Framerate, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "version", Version, MRB_ARGS_NONE());
 }

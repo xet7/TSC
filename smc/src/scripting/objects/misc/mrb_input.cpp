@@ -61,8 +61,8 @@ void SMC::Scripting::Init_Input(mrb_state* p_state)
 	mrb_define_const(p_state, p_state->object_class, "Input", pKeyboard->Create_MRuby_Object(p_state));
 
 	// Methods
-	mrb_define_method(p_state, p_rcInput, "initialize", Initialize, ARGS_NONE());
+	mrb_define_method(p_state, p_rcInput, "initialize", Initialize, MRB_ARGS_NONE());
 
 	// Event handlers
-	mrb_define_method(p_state, p_rcInput, "on_key_down", MRUBY_EVENT_HANDLER(key_down), ARGS_NONE());
+	mrb_define_method(p_state, p_rcInput, "on_key_down", MRUBY_EVENT_HANDLER(key_down), MRB_ARGS_NONE());
 }

@@ -176,7 +176,7 @@ void SMC::Scripting::Init_Audio(mrb_state* p_state)
 	// Make the Audio constant the only instance of AudioClass
 	mrb_define_const(p_state, p_state->object_class, "Audio", pAudio->Create_MRuby_Object(p_state));
 
-	mrb_define_method(p_state, p_rcAudio, "initialize", Initialize, ARGS_NONE());
-	mrb_define_method(p_state, p_rcAudio, "play_sound", Play_Sound, ARGS_REQ(1) | ARGS_OPT(3));
-	mrb_define_method(p_state, p_rcAudio, "play_music", Play_Music, ARGS_REQ(1) | ARGS_OPT(3));
+	mrb_define_method(p_state, p_rcAudio, "initialize", Initialize, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcAudio, "play_sound", Play_Sound, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
+	mrb_define_method(p_state, p_rcAudio, "play_music", Play_Music, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
 }

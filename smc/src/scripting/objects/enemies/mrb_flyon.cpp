@@ -225,15 +225,15 @@ void SMC::Scripting::Init_Flyon(mrb_state* p_state)
 	p_rcFlyon = mrb_define_class(p_state, "Flyon", p_rcEnemy);
 	MRB_SET_INSTANCE_TT(p_rcFlyon, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcFlyon, "initialize", Initialize, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "image_dir=", Set_Image_Dir, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "image_dir", Get_Image_Dir, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "max_distance=", Set_Max_Distance, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "max_distance", Get_Max_Distance, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "speed=", Set_Speed, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "speed", Get_Speed, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "wait_time=", Set_Wait_Time, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "wait_time", Get_Wait_Time, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "distance_to_end", Get_End_Distance, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "moving_backwards?", Is_Moving_Backwards, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "initialize", Initialize, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "image_dir=", Set_Image_Dir, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "image_dir", Get_Image_Dir, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "speed", Get_Speed, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "wait_time=", Set_Wait_Time, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFlyon, "wait_time", Get_Wait_Time, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "distance_to_end", Get_End_Distance, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFlyon, "moving_backwards?", Is_Moving_Backwards, MRB_ARGS_NONE());
 }

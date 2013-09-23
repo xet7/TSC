@@ -231,12 +231,12 @@ void SMC::Scripting::Init_Furball(mrb_state* p_state)
 	p_rcFurball = mrb_define_class(p_state, "Furball", p_rcEnemy);
 	MRB_SET_INSTANCE_TT(p_rcFurball, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "color=", Set_Color, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "color", Get_Color, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "boss?", Is_Boss, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "max_downgrade_count=", Set_Max_Downgrade_Count, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "max_downgrade_count", Get_Max_Downgrade_Count, ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed=", Set_Level_Ends_If_Killed, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed?", Does_Level_End_If_Killed, ARGS_NONE());
+	mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFurball, "color=", Set_Color, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFurball, "color", Get_Color, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFurball, "boss?", Is_Boss, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFurball, "max_downgrade_count=", Set_Max_Downgrade_Count, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFurball, "max_downgrade_count", Get_Max_Downgrade_Count, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed=", Set_Level_Ends_If_Killed, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed?", Does_Level_End_If_Killed, MRB_ARGS_NONE());
 }

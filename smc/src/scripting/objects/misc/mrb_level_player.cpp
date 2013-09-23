@@ -471,26 +471,26 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	mrb_undef_class_method(p_state, p_rcLevel_Player, "new");
 
 	// Normal methods
-	mrb_define_method(p_state, p_rcLevel_Player, "downgrade", Downgrade, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "jump", Jump, ARGS_OPT(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "lives", Get_Lives, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "downgrade", Downgrade, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "jump", Jump, MRB_ARGS_OPT(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "lives", Get_Lives, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, MRB_ARGS_REQ(1));
 
 	// Event handlers
-	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcLevel_Player, "on_downgrade", MRUBY_EVENT_HANDLER(downgrade), ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcLevel_Player, "on_jump", MRUBY_EVENT_HANDLER(jump), ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcLevel_Player, "on_shoot", MRUBY_EVENT_HANDLER(shoot), ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), MRB_ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_downgrade", MRUBY_EVENT_HANDLER(downgrade), MRB_ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_jump", MRUBY_EVENT_HANDLER(jump), MRB_ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcLevel_Player, "on_shoot", MRUBY_EVENT_HANDLER(shoot), MRB_ARGS_BLOCK());
 
 	// Aliases
 	mrb_define_alias(p_state, p_rcLevel_Player, "waffles", "gold");

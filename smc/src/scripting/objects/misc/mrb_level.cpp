@@ -284,17 +284,17 @@ void SMC::Scripting::Init_Level(mrb_state* p_state)
 	// Make the Level constant the only instance of LevelClass
 	mrb_define_const(p_state, p_state->object_class, "Level", pSavegame->Create_MRuby_Object(p_state));
 
-	mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "author", Get_Author, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "description", Get_Description, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "difficulty", Get_Difficulty, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "engine_version", Get_Engine_Version, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "filename", Get_Filename, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "finish", Finish, ARGS_OPT(1));
+	mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "author", Get_Author, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "description", Get_Description, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "difficulty", Get_Difficulty, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "engine_version", Get_Engine_Version, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "filename", Get_Filename, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_OPT(1));
 
-	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), MRB_ARGS_NONE());
 }

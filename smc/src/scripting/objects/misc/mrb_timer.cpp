@@ -524,13 +524,13 @@ void SMC::Scripting::Init_Timer(mrb_state* p_state)
 	// Timer instances so they don’t get GC’ed.
 	mrb_iv_set(p_state, mrb_obj_value(p_rcTimer), mrb_intern(p_state, "instances"), mrb_ary_new(p_state));
 
-	mrb_define_class_method(p_state, p_rcTimer, "after", After, ARGS_REQ(1) | ARGS_BLOCK());
-	mrb_define_class_method(p_state, p_rcTimer, "every", Every, ARGS_REQ(1) | ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcTimer, "initialize", Initialize, ARGS_REQ(1) | ARGS_OPT(1) | ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcTimer, "start", Start, ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "stop", Stop, ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "inspect", Inspect, ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "shall_halt?", Shall_Halt, ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "interval", Get_Interval, ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "active?", Is_Active, ARGS_NONE());
+	mrb_define_class_method(p_state, p_rcTimer, "after", After, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
+	mrb_define_class_method(p_state, p_rcTimer, "every", Every, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcTimer, "initialize", Initialize, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1) | MRB_ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcTimer, "start", Start, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcTimer, "stop", Stop, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcTimer, "inspect", Inspect, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcTimer, "shall_halt?", Shall_Halt, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcTimer, "interval", Get_Interval, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcTimer, "active?", Is_Active, MRB_ARGS_NONE());
 }

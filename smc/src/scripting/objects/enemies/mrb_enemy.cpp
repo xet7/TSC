@@ -203,15 +203,15 @@ void SMC::Scripting::Init_Enemy(mrb_state* p_state)
 	p_rcEnemy = mrb_define_class(p_state, "Enemy", p_rcAnimated_Sprite);
 	MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcEnemy, "initialize", Initialize, ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_points", Get_Kill_Points, ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_points=", Set_Kill_Points, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcEnemy, "kill_sound", Get_Kill_Sound, ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_sound=", Set_Kill_Sound, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcEnemy, "fire_resistant=", Set_Fire_Resistant, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcEnemy, "fire_resistant?", Is_Fire_Resistant, ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill!", Kill, ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_with_points!", Kill_With_Points, ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "initialize", Initialize, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "kill_points", Get_Kill_Points, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "kill_points=", Set_Kill_Points, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcEnemy, "kill_sound", Get_Kill_Sound, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "kill_sound=", Set_Kill_Sound, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcEnemy, "fire_resistant=", Set_Fire_Resistant, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcEnemy, "fire_resistant?", Is_Fire_Resistant, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "kill!", Kill, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "kill_with_points!", Kill_With_Points, MRB_ARGS_NONE());
 
-	mrb_define_method(p_state, p_rcEnemy, "on_die", MRUBY_EVENT_HANDLER(die), ARGS_NONE());
+	mrb_define_method(p_state, p_rcEnemy, "on_die", MRUBY_EVENT_HANDLER(die), MRB_ARGS_NONE());
 }

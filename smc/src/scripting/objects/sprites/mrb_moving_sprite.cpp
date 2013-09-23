@@ -471,17 +471,17 @@ void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
 	p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", p_rcSprite);
 
-	mrb_define_method(p_state, p_rcMoving_Sprite, "initialize", Initialize, ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_x!", Accelerate_X, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_y!", Accelerate_Y, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate!", Accelerate, ARGS_REQ(2));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "direction", Get_Direction, ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "direction=", Set_Direction, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x", Get_Velocity_X, ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y", Get_Velocity_Y, ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity", Get_Velocity, ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x=", Set_Velocity_X, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y=", Set_Velocity_Y, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity=", Set_Velocity, ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "turn_around", Turn_Around, ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "initialize", Initialize, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_x!", Accelerate_X, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_y!", Accelerate_Y, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate!", Accelerate, MRB_ARGS_REQ(2));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "direction", Get_Direction, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "direction=", Set_Direction, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x", Get_Velocity_X, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y", Get_Velocity_Y, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity", Get_Velocity, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x=", Set_Velocity_X, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y=", Set_Velocity_Y, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity=", Set_Velocity, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "turn_around", Turn_Around, MRB_ARGS_NONE());
 }
