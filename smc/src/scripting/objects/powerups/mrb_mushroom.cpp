@@ -51,14 +51,19 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  * #### Parameters
  * type
  * : The mushroom’s new type. One of the following symbols:
+ *
  *   red
  *   : The normal red mushroom
- *   1up
+ *
+ *   live
  *   : The green +1 life mushroom
+ *
  *   poison
  *   : The green -1 life mushroom
+ *
  *   blue
  *   : The blue ice-maryo mushroom
+ *
  *   ghost
  *   : The transparent ghost-maryo mushroom
  */

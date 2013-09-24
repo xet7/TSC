@@ -51,7 +51,7 @@ Singletons
   You can treat them mostly like normal MRuby objects, but the
   class these singletons belong to is not instanciatable from the
   MRuby side, e.g. the `Audio` singleton is the one and only instance
-  of the [AudioClass](audio_class.html) class.
+  of the [AudioClass](audioclass.html) class.
 
 Unique Identifiers (UIDs)
 -------------------------
@@ -193,6 +193,7 @@ the MRuby scripting API:
 * [Eato](eato.html)
 * [Enemy](enemy.html)
 * [Eventable](eventable.html)
+* [Fireplant](fireplant.html)
 * [Flyon](flyon.html)
 * [Furball](furball.html)
 * [Gee](gee.html)
@@ -202,11 +203,15 @@ the MRuby scripting API:
 * [LevelClass](levelclass.html)
 * [LevelPlayer](levelplayer.html)
 * [Message](message.html)
+* [Moon](moon.html)
 * [MovingSprite](movingsprite.html)
+* [Mushroom](mushroom.html)
 * [ParticleEmitter](particleemitter.html)
 * Player → [LevelPlayer](level_layer.html)
+* [Powerup](powerup.html)
 * [SMC](smc.html)
 * [Sprite](sprite.html)
+* [Star](star.html)
 * [Timer](timer.html)
 * [UIDS](uids.html)
 
