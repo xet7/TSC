@@ -24,7 +24,7 @@ namespace SMC
 /* *** *** *** *** *** *** cRokko *** *** *** *** *** *** *** *** *** *** *** */
 /*	A giant, slow-moving bullet
  */
-class cRokko : public cEnemy 
+class cRokko : public cEnemy
 {
 public:
 	// constructor
@@ -53,6 +53,10 @@ public:
 	void Set_Max_Distance_Front( float distance );
 	// Set max detection distance for the sides
 	void Set_Max_Distance_Sides( float distance );
+	// Set if Rokko self-activates if Maryo is nearby
+	// (default is to self-activate).
+	void Set_Manual( bool manual );
+	bool Get_Manual();
 	// activate
 	void Activate( bool with_sound = 1 );
 
@@ -117,6 +121,10 @@ protected:
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
+private:
+	// If this is set, Rokko won’t go off if Maryo comes.
+	// You have to call Activate() manually.
+	bool m_manual;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

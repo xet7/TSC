@@ -294,24 +294,23 @@ void cRokko :: Update( void )
 	cEnemy::Update();
 
 	if( !m_valid_update || !Is_In_Range() )
-	{
 		return;
-	}
 
 	// if not active
 	if( m_state != STA_FLY )
 	{
-		GL_rect final_distance = Get_Final_Distance_Rect();
-
-		// if player is in front then activate
-		if( pLevel_Player->m_maryo_type != MARYO_GHOST && pLevel_Player->m_col_rect.Intersects( final_distance ) )
-		{
-			Activate();
-		}
-		else
-		{
+		// Do not self-activate when manual triggering is enabled
+		if (m_manual)
 			return;
-		}
+		// Do not activate if Maryo is a ghost
+		else if (pLevel_Player->m_maryo_type == MARYO_GHOST)
+			return;
+		// if player is in front then activate
+		else if( pLevel_Player->m_col_rect.Intersects( Get_Final_Distance_Rect() ) )
+			Activate();
+		// Do not activate if Maryo is not near by
+		else
+			return;
 	}
 
 	// generate smoke
@@ -647,6 +646,16 @@ bool cRokko :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 	Set_Speed( string_to_float( str_text ) );
 
 	return 1;
+}
+
+void cRokko :: Set_Manual( bool manual )
+{
+	m_manual = manual;
+}
+
+bool cRokko :: Get_Manual()
+{
+	return m_manual;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
