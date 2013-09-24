@@ -30,6 +30,9 @@ Yes. This repository’s main purpose is to implement scripting with
 [mruby](https://github.com/mruby/mruby) into SMC. While it’s by no
 means complete yet, some results can already be seen.
 
+A daily-regenerated [website with the scripting API
+ documentation](http://smcsdocs.quintilianus.eu) is also available.
+
 How to compile
 --------------
 
