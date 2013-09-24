@@ -23,6 +23,7 @@
 #include "objects/enemies/mrb_furball.h"
 #include "objects/enemies/mrb_gee.h"
 #include "objects/enemies/mrb_krush.h"
+#include "objects/enemies/mrb_rokko.h"
 #include "objects/powerups/mrb_powerup.h"
 #include "objects/powerups/mrb_mushroom.h"
 #include "objects/powerups/mrb_fireplant.h"
@@ -200,6 +201,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Furball(p_state);
 	Init_Gee(p_state);
 	Init_Krush(p_state);
+	Init_Rokko(p_state);
 	Init_Powerup(p_state);
 	Init_Mushroom(p_state);
 	Init_Fireplant(p_state);

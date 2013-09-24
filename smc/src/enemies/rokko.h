@@ -46,7 +46,7 @@ public:
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir, bool new_start_direction = true);
 	// set flying speed
 	void Set_Speed( float nspeed );
 	// Set max detection distance for the front

@@ -210,6 +210,7 @@ the MRuby scripting API:
 * [ParticleEmitter](particleemitter.html)
 * Player → [LevelPlayer](level_layer.html)
 * [Powerup](powerup.html)
+* [Rokko](rokko.html)
 * [SMC](smc.html)
 * [Sprite](sprite.html)
 * [Star](star.html)

@@ -132,7 +132,7 @@ void cRokko :: Load_From_Savegame( cSave_Level_Object *save_object )
 	}
 }
 
-void cRokko :: Set_Direction( const ObjectDirection dir )
+void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_direction /* = true */ )
 {
 	// already set
 	if( m_start_direction == dir )
@@ -143,7 +143,7 @@ void cRokko :: Set_Direction( const ObjectDirection dir )
 	// clear old images
 	Clear_Images();
 
-	cEnemy::Set_Direction( dir, 1 );
+	cEnemy::Set_Direction( dir, new_start_direction );
 	m_name = "Rokko ";
 	m_name += _(Get_Direction_Name(m_start_direction).c_str());
 
