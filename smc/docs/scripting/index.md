@@ -199,6 +199,7 @@ the MRuby scripting API:
 * [Gee](gee.html)
 * Input → [InputClass](inputclass.html)
 * [InputClass](inputclass.html)
+* [Krush](krush.html)
 * Level → [LevelClass](levelclass.html)
 * [LevelClass](levelclass.html)
 * [LevelPlayer](levelplayer.html)
