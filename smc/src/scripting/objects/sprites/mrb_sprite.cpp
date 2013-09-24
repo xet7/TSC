@@ -33,7 +33,10 @@
  * coordinates"). Most sprites don’t really care about the initial
  * coordinates, but some instances of subclasses of `Sprite` do, e.g. the
  * [flyon](flyon.html) remembers its starting position, i.e. where to
- * return after jumping out, in its initial coordinates.
+ * return after jumping out, in its initial coordinates. Note that the
+ * method for specifying the initial coordinates _also_ set the
+ * "normal" coordinates at the same time to the same value (so you
+ * usually don’t need to set both pairs manually).
  *
  * Events
  * ------
@@ -295,7 +298,7 @@ static mrb_value Get_Start_Y(mrb_state* p_state,  mrb_value self)
  *
  *   start_x=( val )
  *
- * Sets the sprite’s initial X coordinate.
+ * Like #x=, but also sets the sprite’s initial X coordinate.
  */
 static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
 {
@@ -313,7 +316,7 @@ static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
  *
  *   start_y=( val )
  *
- * Sets the sprite’s initial Y coordinate.
+ * Like #y=, but also sets the sprite’s initial Y coordinate.
  */
 static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
 {

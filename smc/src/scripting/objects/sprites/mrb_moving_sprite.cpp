@@ -65,6 +65,29 @@
  * you to exactly calculate how a once-accelerated object behaves. If you
  * calculate such a formula, please add it in place of this text to the
  * documentation.
+ *
+ * Directions
+ * ----------
+ *
+ * A moving sprite always has one or more directions it is "looking" into.
+ * While which directions are valid depends on the exact sprite being
+ * in use (e.g. a gee can’t have :left, or :right, but only :horizontal
+ * and :vertical), the common method to set these directions is #direction=
+ * defined in this class.
+ *
+ * As with "bare" sprites and coordinates, moving sprites have two attributes
+ * for directions: The normal, current direction; and the "initial direction",
+ * which specifys the looking direction at object creation time. Again, most
+ * sprites to not care about the initial directions, but those who do are
+ * really picky about it. If you try to only specify the current direction for
+ * Rokko, but not the initial one, he will just continue looking into the
+ * default direction (which is left). If you even activate him in this
+ * state, he is flying backwards!
+ *
+ * Again as with "bare" sprites, setting the initial direction via
+ * the #start_direction= method also sets the current direction, so
+ * you most likely don’t need both at once (unless you really want
+ * the backward-flying rokko).
  */
 
 using namespace SMC;
@@ -271,6 +294,141 @@ static mrb_value Set_Direction(mrb_state* p_state,  mrb_value self)
 	p_sprite->Set_Direction(dir);
 	return mrb_symbol_value(rdir);
 }
+
+/**
+ * Method: MovingSprite#start_direction=
+ *
+ *   start_direction=( dir ) → dir
+ *
+ * Like #direction=, but also sets the "initial" looking direction of
+ * the sprite. This is e.g. used by Rokko.
+ */
+static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
+{
+	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+	mrb_sym rdir;
+	mrb_get_args(p_state, "n", &rdir);
+	std::string dirstr = mrb_sym2name(p_state, rdir);
+
+	std::cout << "dirstr: " << dirstr  << std::endl;
+
+	ObjectDirection dir;
+	if (dirstr == "left")
+		dir = DIR_LEFT;
+	else if (dirstr == "right")
+		dir = DIR_RIGHT;
+	else if (dirstr == "up" || dirstr == "top")
+		dir = DIR_UP;
+	else if (dirstr == "down" || dirstr == "bottom")
+		dir = DIR_DOWN;
+	else if (dirstr == "up_left" || dirstr == "top_left")
+		dir = DIR_UP_LEFT;
+	else if (dirstr == "up_right" || dirstr == "top_right")
+		dir = DIR_UP_RIGHT;
+	else if (dirstr == "down_left" || dirstr == "bottom_left")
+		dir = DIR_DOWN_LEFT;
+	else if (dirstr == "down right" || dirstr == "bottom_right")
+		dir = DIR_DOWN_RIGHT;
+	else if (dirstr == "left_up" || dirstr == "left_top")
+		dir = DIR_LEFT_UP;
+	else if (dirstr == "left_down" || dirstr == "left_bottom")
+		dir = DIR_LEFT_DOWN;
+	else if (dirstr == "right_up" || dirstr == "right_top")
+		dir = DIR_RIGHT_UP;
+	else if (dirstr == "right_down" || dirstr == "right_bottom")
+		dir = DIR_RIGHT_DOWN;
+	else if (dirstr == "horizontal")
+		dir = DIR_HORIZONTAL;
+	else if (dirstr == "vertical")
+		dir = DIR_VERTICAL;
+	else if (dirstr == "all")
+		dir = DIR_ALL;
+	else if (dirstr == "first")
+		dir = DIR_FIRST;
+	else if (dirstr == "last")
+		dir = DIR_LAST;
+	else {
+		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid direction '%s'.", dirstr.c_str());
+		return mrb_nil_value(); // Not reached
+	}
+	// A world for a consecutive enum!
+
+	std::cout << "Result: " << dir << std::endl;
+
+	p_sprite->Set_Direction(dir, true);
+	return mrb_symbol_value(rdir);
+}
+
+/**
+ * Method: MovingSprite#start_direction
+ *
+ *   start_direction() → a_symbol
+ *
+ * Returns the "initial" looking direction of this sprite. Return
+ * values are as per #direction.
+ */
+static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
+{
+	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+	std::string dir;
+	switch(p_sprite->m_start_direction){
+	case DIR_UNDEFINED:
+		dir = "undefined";
+		break;
+	case DIR_LEFT:
+		dir = "left";
+		break;
+	case DIR_RIGHT:
+		dir = "right";
+		break;
+	case DIR_UP:
+		dir = "up";
+		break;
+	case DIR_DOWN:
+		dir = "down";
+		break;
+	case DIR_UP_LEFT:
+		dir = "up_left";
+		break;
+	case DIR_UP_RIGHT:
+		dir = "up_right";
+		break;
+	case DIR_DOWN_LEFT:
+		dir = "down_left";
+		break;
+	case DIR_DOWN_RIGHT:
+		dir = "down_right";
+		break;
+	case DIR_LEFT_UP:
+		dir = "left_up";
+		break;
+	case DIR_LEFT_DOWN:
+		dir = "left_down";
+		break;
+	case DIR_HORIZONTAL:
+		dir = "horizontal";
+		break;
+	case DIR_VERTICAL:
+		dir = "vertical";
+		break;
+	case DIR_ALL:
+		dir = "all";
+		break;
+	case DIR_FIRST:
+		dir = "first";
+		break;
+	case DIR_LAST:
+		dir = "last";
+		break;
+	default: // Shouldn’t happen
+		std::cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+		return mrb_nil_value();
+	}
+	// A world for a consecutive enum!
+
+	return str2sym(p_state, dir);
+}
+
 
 /**
  * Method: MovingSprite#velocity_x
@@ -512,6 +670,8 @@ void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate!", Accelerate, MRB_ARGS_REQ(2));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "direction", Get_Direction, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "direction=", Set_Direction, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction", Get_Start_Direction, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction=", Set_Start_Direction, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x", Get_Velocity_X, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y", Get_Velocity_Y, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity", Get_Velocity, MRB_ARGS_NONE());
