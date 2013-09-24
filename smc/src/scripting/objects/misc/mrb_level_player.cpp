@@ -13,6 +13,8 @@ struct RClass* SMC::Scripting::p_rcLevel_Player     = NULL;
 
 /**
  * Class: LevelPlayer
+ * Parent: [AnimatedSprite](animatedsprite.html)
+ * {: .superclass}
  *
  * The sole instance of this class, the singleton `Player`, represents
  * Maryo himself. Naturally you can’t instanciate this class (SMC isn’t a
@@ -35,6 +37,10 @@ struct RClass* SMC::Scripting::p_rcLevel_Player     = NULL;
  *   _jump_ key". The only exception to this rule is the `Player`
  *   constant in Mruby, which obviously represents Maryo, not the guy
  *   playing the game.
+ *
+ * Note that the level player is just a normal sprite all its way up
+ * through the class hierarchy. So be sure to check the superclasses’
+ * methods if you don’t find what you’re looking for here.
  *
  * Events
  * ------
@@ -88,19 +94,6 @@ MRUBY_IMPLEMENT_EVENT(shoot);
 /***************************************
  * Methods
  ***************************************/
-
-/**
- * Method: LevelPlayer#downgrade
- *
- *   downgrade()
- *
- * Hurts Maryo. Kills him if he is small.
- */
-static mrb_value Downgrade(mrb_state* p_state,  mrb_value self)
-{
-	pLevel_Player->DownGrade();
-	return mrb_nil_value();
-}
 
 /**
  * Method: LevelPlayer#jump
@@ -471,7 +464,6 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	mrb_undef_class_method(p_state, p_rcLevel_Player, "new");
 
 	// Normal methods
-	mrb_define_method(p_state, p_rcLevel_Player, "downgrade", Downgrade, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "jump", Jump, MRB_ARGS_OPT(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, MRB_ARGS_REQ(1));
