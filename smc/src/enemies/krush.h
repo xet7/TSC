@@ -48,7 +48,7 @@ public:
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir );
 
 	/* Move into the opposite Direction
 	 * if col_dir is given only turns around if the collision direction is in front
