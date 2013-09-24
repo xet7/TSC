@@ -310,8 +310,6 @@ static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
 	mrb_get_args(p_state, "n", &rdir);
 	std::string dirstr = mrb_sym2name(p_state, rdir);
 
-	std::cout << "dirstr: " << dirstr  << std::endl;
-
 	ObjectDirection dir;
 	if (dirstr == "left")
 		dir = DIR_LEFT;
@@ -352,8 +350,6 @@ static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
 		return mrb_nil_value(); // Not reached
 	}
 	// A world for a consecutive enum!
-
-	std::cout << "Result: " << dir << std::endl;
 
 	p_sprite->Set_Direction(dir, true);
 	return mrb_symbol_value(rdir);
