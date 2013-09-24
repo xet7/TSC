@@ -25,6 +25,7 @@
 #include "objects/powerups/mrb_powerup.h"
 #include "objects/powerups/mrb_mushroom.h"
 #include "objects/powerups/mrb_fireplant.h"
+#include "objects/powerups/mrb_moon.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -199,6 +200,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Powerup(p_state);
 	Init_Mushroom(p_state);
 	Init_Fireplant(p_state);
+	Init_Moon(p_state);
 	Init_ParticleEmitter(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }
