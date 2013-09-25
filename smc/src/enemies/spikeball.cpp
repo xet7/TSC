@@ -108,7 +108,7 @@ void cSpikeball :: Load_From_Savegame( cSave_Level_Object *save_object )
 	Update_Rotation_Hor();
 }
 
-void cSpikeball :: Set_Direction( const ObjectDirection dir )
+	void cSpikeball :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )
 {
 	// already set
 	if( m_start_direction == dir )
@@ -116,7 +116,7 @@ void cSpikeball :: Set_Direction( const ObjectDirection dir )
 		return;
 	}
 
-	cEnemy::Set_Direction( dir, 1 );
+	cEnemy::Set_Direction( dir, initial );
 
 	Update_Rotation_Hor( 1 );
 	Create_Name();

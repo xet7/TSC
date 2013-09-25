@@ -24,7 +24,7 @@ namespace SMC
 /* *** *** *** *** *** *** cSpikeball *** *** *** *** *** *** *** *** *** *** *** */
 /* Paranoid hard metal ball.
  */
-class cSpikeball : public cEnemy 
+class cSpikeball : public cEnemy
 {
 public:
 	// constructor
@@ -46,9 +46,10 @@ public:
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir, bool initial = true );
 	/* set color
-	 * black = normal
+	 * TODO: Currently there are only grey spikeballs.
+	 * grey = normal
 	*/
 	void Set_Color( const DefaultColor &col );
 
