@@ -1287,4 +1287,24 @@ void cTurtleBoss :: Create_Name( void )
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
+int cTurtleBoss :: Get_Downgrade_Count()
+{
+	return m_downgrade_count;
+}
+
+int cTurtleBoss :: Get_Max_Downgrade_Count()
+{
+	return m_max_downgrade_count;
+}
+
+float cTurtleBoss :: Get_Shell_Time()
+{
+	return m_shell_time;
+}
+
+bool cTurtleBoss :: Get_Level_Ends_If_Killed()
+{
+	return m_level_ends_if_killed;
+}
+
 } // namespace SMC

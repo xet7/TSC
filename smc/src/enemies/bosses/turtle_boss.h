@@ -63,7 +63,7 @@ public:
 	void Set_Shell_Time( float nmax_downgrade_time );
 
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir, bool new_start_direction = 0 );
+	virtual void Set_Direction( const ObjectDirection dir, bool new_start_direction = 0 );
 	// set color
 	void Set_Color( DefaultColor col );
 	// Set if the level ends when killed
@@ -146,6 +146,11 @@ public:
 
 	// Color
 	DefaultColor m_color_type;
+
+  int Get_Downgrade_Count();
+  int Get_Max_Downgrade_Count();
+  float Get_Shell_Time();
+  bool Get_Level_Ends_If_Killed();
 
 protected:
 	// Create the Name from the current settings
