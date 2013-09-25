@@ -56,7 +56,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  * #### Parameters
  * color
  * : The spika’s new color. One of the following symbols:
- *   `:orange`, `:green`, `:grey`.
+ *   `:orange`, `:green`, `:grey`, `:red`.
  */
 static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 {
@@ -71,6 +71,8 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 		col = COL_GREEN;
 	else if (colorstr == "grey")
 		col = COL_GREY;
+	else if (colorstr == "red")
+		col = COL_RED;
 	else {
 		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid spika color %s", colorstr.c_str());
 		return mrb_nil_value(); // Not reached
@@ -118,6 +120,7 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
  * | orange      | 3.0                 |
  * | green       | 4.0                 |
  * | grey        | 7.0                 |
+ * | red         | 10.0                |
  *
  * #### Parameters
  * speed

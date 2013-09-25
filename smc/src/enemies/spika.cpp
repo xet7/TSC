@@ -137,6 +137,17 @@ void cSpika :: Set_Color( DefaultColor col )
 		m_fire_resistant = 1;
 		m_ice_resistance = 0.5f;
 	}
+	else if ( m_color_type == COL_RED )
+	{
+		Add_Image( pVideo->Get_Surface( "enemy/spika/red.png") );
+
+		m_speed = 10;
+		m_detection_size = 300.0f;
+		m_kill_points = 550;
+
+		m_fire_resistant = 1;
+		m_ice_resistance = 1.0f;
+	}
 	else
 	{
 		printf( "Error : Unknown Spika Color %d\n", m_color_type );
