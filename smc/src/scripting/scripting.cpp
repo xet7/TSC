@@ -28,6 +28,7 @@
 #include "objects/enemies/mrb_spikeball.h"
 #include "objects/enemies/mrb_static.h"
 #include "objects/enemies/mrb_thromp.h"
+#include "objects/enemies/mrb_turtle.h"
 #include "objects/powerups/mrb_powerup.h"
 #include "objects/powerups/mrb_mushroom.h"
 #include "objects/powerups/mrb_fireplant.h"
@@ -210,6 +211,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Spikeball(p_state);
 	Init_StaticEnemy(p_state);
 	Init_Thromp(p_state);
+	Init_Turtle(p_state);
 	Init_Powerup(p_state);
 	Init_Mushroom(p_state);
 	Init_Fireplant(p_state);

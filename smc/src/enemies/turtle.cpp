@@ -181,6 +181,7 @@ void cTurtle :: Set_Color( DefaultColor col )
 
 	if( m_color_type == COL_RED )
 	{
+		// FIXME: We don’t have a graphic for the red armadillo!
 		//filename_dir = "red";
 		filename_dir = "green";
 		m_kill_points = 50;
