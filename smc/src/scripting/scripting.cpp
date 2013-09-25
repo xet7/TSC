@@ -26,6 +26,7 @@
 #include "objects/enemies/mrb_rokko.h"
 #include "objects/enemies/mrb_spika.h"
 #include "objects/enemies/mrb_spikeball.h"
+#include "objects/enemies/mrb_thromp.h"
 #include "objects/powerups/mrb_powerup.h"
 #include "objects/powerups/mrb_mushroom.h"
 #include "objects/powerups/mrb_fireplant.h"
@@ -206,6 +207,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Rokko(p_state);
 	Init_Spika(p_state);
 	Init_Spikeball(p_state);
+	Init_Thromp(p_state);
 	Init_Powerup(p_state);
 	Init_Mushroom(p_state);
 	Init_Fireplant(p_state);

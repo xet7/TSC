@@ -50,7 +50,7 @@ public:
 	// Set the image directory. `dir' must be relative to the pixmaps/ directory.
 	void Set_Image_Dir( boost::filesystem::path dir );
 	// Set Direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir, bool initial = true );
 	// Set Max Distance
 	void Set_Max_Distance( float nmax_distance );
 	// Set the Speed

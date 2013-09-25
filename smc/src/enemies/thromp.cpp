@@ -172,7 +172,7 @@ void cThromp :: Set_Image_Dir( fs::path dir )
 	Update_Images();
 }
 
-void cThromp :: Set_Direction( const ObjectDirection dir )
+void cThromp :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )
 {
 	// already set
 	if( m_start_direction == dir )
@@ -180,7 +180,7 @@ void cThromp :: Set_Direction( const ObjectDirection dir )
 		return;
 	}
 
-	cEnemy::Set_Direction( dir, 1 );
+	cEnemy::Set_Direction( dir, initial );
 
 	Update_Distance_Rect();
 	Update_Dest_Vel();
