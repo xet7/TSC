@@ -213,9 +213,14 @@ the MRuby scripting API:
 * [Rokko](rokko.html)
 * [SMC](smc.html)
 * [Spika](spika.html)
+* [Spikeball](spikeball.html)
 * [Sprite](sprite.html)
 * [Star](star.html)
+* [StaticEnemy](staticenemy.html)
+* [Thromp](thromp.html)
 * [Timer](timer.html)
+* [Turtle](turtle.html)
+* [TurtleBoss](turtleboss.html)
 * [UIDS](uids.html)
 
 License

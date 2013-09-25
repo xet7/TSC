@@ -6,7 +6,7 @@
 #include "mrb_static.h"
 
 /**
- * Class: Static
+ * Class: StaticEnemy
  *
  * Parent: [Enemy](enemy.html)
  * {: .superclass}
@@ -26,7 +26,7 @@ using namespace SMC::Scripting;
 struct RClass* SMC::Scripting::p_rcStaticEnemy = NULL;
 
 /**
- * Method: Static::new
+ * Method: StaticEnemy::new
  *
  *   new() → a_static
  *
@@ -48,7 +48,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 }
 
 /**
- * Method: Static#static_image=
+ * Method: StaticEnemy#static_image=
  *
  *   static_image=( path ) → path
  *
@@ -71,7 +71,7 @@ static mrb_value Set_Static_Image(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#static_image
+ * Method: StaticEnemy#static_image
  *
  *   static_image() → a_string
  *
@@ -85,7 +85,7 @@ static mrb_value Get_Static_Image(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#rotation_speed=
+ * Method: StaticEnemy#rotation_speed=
  *
  *   rotation_speed=( speed ) → speed
  *
@@ -113,7 +113,7 @@ static mrb_value Set_Rotation_Speed(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#rotation_speed
+ * Method: StaticEnemy#rotation_speed
  *
  *   rotation_speed() → a_float
  *
@@ -126,7 +126,7 @@ static mrb_value Get_Rotation_Speed(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#speed=
+ * Method: StaticEnemy#speed=
  *
  *   speed=( val ) → val
  *
@@ -155,7 +155,7 @@ static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#speed
+ * Method: StaticEnemy#speed
  *
  *   speed() → a_float
  *
@@ -168,7 +168,7 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#path=
+ * Method: StaticEnemy#path=
  *
  *   path=( ident ) → ident
  *
@@ -194,7 +194,7 @@ static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Static#path
+ * Method: StaticEnemy#path
  *
  *   path() → a_string or nil
  *
