@@ -126,6 +126,33 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ * Method: UIDS::cache_size
+ *
+ *   cache_size() → an_integer
+ *
+ * The current size of the UID cache. This method is mainly
+ * useful for debugging purposes.
+ */
+static mrb_value Cache_Size(mrb_state* p_state, mrb_value self)
+{
+	mrb_value keys = mrb_hash_keys(p_state, mrb_iv_get(p_state, self, mrb_intern(p_state, "cache")));
+	return mrb_fixnum_value(mrb_ary_len(p_state, keys));
+}
+
+/**
+ * Method: UIDS::cached_uids
+ *
+ *   cached_uids() → an_array
+ *
+ * Returns an unsorted array of all UIDs currently cached.
+ * This method is mainly useful for debugging purposes.
+ */
+static mrb_value Cached_UIDs(mrb_state* p_state, mrb_value self)
+{
+	return mrb_hash_keys(p_state, mrb_iv_get(p_state, self, mrb_intern(p_state, "cache")));
+}
+
 // FIXME: Call Scripting::Delete_UID_From_Cache for sprites
 // being removed from a level’s cSprite_Manager!
 void SMC::Scripting::Delete_UID_From_Cache(mrb_state* p_state, int uid)
@@ -148,4 +175,6 @@ void SMC::Scripting::Init_UIDS(mrb_state* p_state)
 	mrb_hash_set(p_state, cache, mrb_fixnum_value(0), mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern(p_state, "Player")));
 
 	mrb_define_class_method(p_state, p_rmUIDS, "[]", Index, MRB_ARGS_REQ(1));
+	mrb_define_class_method(p_state, p_rmUIDS, "cache_size", Cache_Size, MRB_ARGS_NONE());
+	mrb_define_class_method(p_state, p_rmUIDS, "cached_uids", Cached_UIDs, MRB_ARGS_NONE());
 }
