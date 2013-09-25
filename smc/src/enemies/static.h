@@ -59,10 +59,10 @@ public:
 	void Set_Static_Image( const boost::filesystem::path &filename );
 	// Set the rotation speed
 	void Set_Rotation_Speed( float speed );
-    // Set the movement speed
-    void Set_Speed( float speed );
-    // Set the path identifier
-    void Set_Path_Identifier( const std::string &path );
+	// Set the movement speed
+	void Set_Speed( float speed );
+	// Set the path identifier
+	void Set_Path_Identifier( const std::string &path );
 
 	/* downgrade state ( if already weakest state : dies )
 	 * force : usually dies or a complete downgrade
