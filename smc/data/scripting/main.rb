@@ -31,6 +31,8 @@
 # interpeter instance.
 SMC.setup
 
-# Secret Maryo Chronicles core extension pack. These are helpers
-# you usually don’t want to disable.
-SMC.require "core/aliases"
+# Turtle will be Armadillo in the future
+Armadillo = Turtle
+
+# Add your requires here
+SMC.require "std/_std"
