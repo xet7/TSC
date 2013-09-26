@@ -133,7 +133,7 @@ namespace SMC
 			boost::filesystem::path mainfile = pResource_Manager->Get_Game_Scripting("main.rb");
 			boost::filesystem::ifstream file(mainfile);
 			if (!file.is_open()) {
-				std::cerr << "Failed to open main scripting file '" << mainfile.generic_string().c_str() << "' for reading." << std::endl;
+				std::cerr << "Failed to open main scripting file '" << path_to_utf8(mainfile) << "' for reading." << std::endl;
 				std::cerr << "Scripting will not work correctly." << std::endl;
 				return;
 			}

@@ -5,6 +5,7 @@
 #include "../../events/event.h"
 #include "../../../level/level.h"
 #include "../../../core/sprite_manager.h"
+#include "../../../core/property_helper.h"
 #include "../../../level/level_player.h"
 
 /**
@@ -91,7 +92,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
 	// Arguments
 	if (path)
-		p_sprite->Set_Image(pVideo->Get_Surface(path), true);
+		p_sprite->Set_Image(pVideo->Get_Surface(utf8_to_path(path)), true);
 	if (uid != -1) {
 		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
 			mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "UID %d is already used.", uid);

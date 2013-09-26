@@ -14,6 +14,7 @@
  */
 
 using namespace SMC;
+namespace fs = boost::filesystem;
 
 // Extern
 struct RClass* SMC::Scripting::p_rmSMC = NULL;
@@ -41,7 +42,7 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 	// Append ".rb" and convert to a platform-independent boost path
 	std::string spath(cpath);
 	spath.append(".rb");
-	boost::filesystem::path path = utf8_to_path(spath);
+	fs::path path = utf8_to_path(spath);
 
 	// Disallow absolute pathes, we don’t want load external files
 	// accidentally
@@ -49,9 +50,9 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 		mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Absolute paths are not allowed.");
 
 	// Open the MRuby file for reading
-	boost::filesystem::path scriptfile = pResource_Manager->Get_Game_Scripting_Directory() / path;
-	boost::filesystem::ifstream file(scriptfile);
-	debug_print("require: Loading '%s'\n", scriptfile.generic_string().c_str());
+	fs::path scriptfile = pResource_Manager->Get_Game_Scripting_Directory() / path;
+	fs::ifstream file(scriptfile);
+	debug_print("require: Loading '%s'\n", path_to_utf8(scriptfile));
 	if (!file.is_open())
 		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Cannot open file '%s' for reading", scriptfile.generic_string().c_str());
 
@@ -206,6 +207,23 @@ static mrb_value Version(mrb_state* p_state, mrb_value self)
 	return mrb_str_new_cstr(p_state, ss.str().c_str());
 }
 
+/**
+ * Method: SMC::debug_mode?
+ *
+ *   debug_mode?() → true or false
+ *
+ * Checks if this SMC has been compiled in debug mode, and if so,
+ * returns `true`, `false` otherwise.
+ */
+static mrb_value Is_Debug_Mode(mrb_state* p_state, mrb_value self)
+{
+#ifdef _DEBUG
+	return mrb_true_value();
+#else
+	return mrb_false_value();
+#endif
+}
+
 void SMC::Scripting::Init_SMC(mrb_state* p_state)
 {
 	p_rmSMC = mrb_define_module(p_state, "SMC");
@@ -220,4 +238,5 @@ void SMC::Scripting::Init_SMC(mrb_state* p_state)
 	mrb_define_module_function(p_state, p_rmSMC, "best_framerate", Best_Framerate, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "worst_framerate", Worst_Framerate, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "version", Version, MRB_ARGS_NONE());
+	mrb_define_module_function(p_state, p_rmSMC, "debug_mode?", Is_Debug_Mode, MRB_ARGS_NONE());
 }
