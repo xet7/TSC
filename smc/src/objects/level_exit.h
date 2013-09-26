@@ -55,7 +55,7 @@ public:
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Set direction
-	void Set_Direction( const ObjectDirection dir );
+	virtual void Set_Direction( const ObjectDirection dir, bool initial = true );
 
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );

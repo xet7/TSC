@@ -169,7 +169,7 @@ void cLevel_Exit :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 }
 
-void cLevel_Exit :: Set_Direction( const ObjectDirection dir )
+	void cLevel_Exit :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )
 {
 	// already set
 	if( m_direction == dir )
@@ -177,7 +177,7 @@ void cLevel_Exit :: Set_Direction( const ObjectDirection dir )
 		return;
 	}
 
-	cAnimated_Sprite::Set_Direction( dir, 1 );
+	cAnimated_Sprite::Set_Direction( dir, initial );
 
 	Create_Name();
 }
