@@ -482,6 +482,7 @@ void cPath :: Init( void )
 	m_type = TYPE_PATH;
 	m_massive_type = MASS_PASSIVE;
 	m_editor_pos_z = 0.11f;
+	m_show_line = false;
 
 	m_name = _("Path");
 

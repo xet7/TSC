@@ -124,6 +124,10 @@ inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &n
 {
 	Write_Property( stream, name, CEGUI::PropertyHelper::floatToString( val ) );
 };
+inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, bool val)
+{
+  Write_Property(stream, name, bool_to_string(val));
+}
 
 // Changes the image path in the given xml attributes to the new one
 void Relocate_Image( CEGUI::XMLAttributes &xml_attributes, const std::string &filename_old, const std::string &filename_new, const CEGUI::String &attribute_name = "image" );

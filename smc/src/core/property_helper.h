@@ -69,6 +69,7 @@ inline void string_trim( std::string &str, const char search )
 std::string int_to_string( const int number );
 std::string int64_to_string( const Uint64 number );
 std::string long_to_string( const long number );
+std::string bool_to_string( const bool val);
 /* Return the float as a string
  * prec: the precision after the decimal point
  * keep_zeros: keep trailing zeros in the fractional part
@@ -82,6 +83,8 @@ long string_to_long( const std::string &str );
 float string_to_float( const std::string &str );
 // Return the string as a double
 double string_to_double( const std::string &str );
+// Return the string as true or false
+bool string_to_bool( const std::string &str);
 // Return the version number
 unsigned int string_to_version_number( std::string str );
 // Return the non-xml string

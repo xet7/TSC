@@ -82,6 +82,11 @@ std::string long_to_string( const long number )
 	return os.str();
 }
 
+std::string bool_to_string( const bool val)
+{
+	return val ? "1" : "0";
+}
+
 // from stringencoders for float_to_string
 /**
  * Powers of 10
@@ -295,6 +300,14 @@ double string_to_double( const std::string &str )
 	// use helper
 	from_string<double>( num, str, std::dec );
 	return num;
+}
+
+bool string_to_bool( const std::string &str)
+{
+	if (str == "0")
+		return false;
+	else
+		return true;
 }
 
 unsigned int string_to_version_number( std::string str )
