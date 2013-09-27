@@ -1239,6 +1239,21 @@ void cLevel :: elementEnd( const CEGUI::String &element )
 		// valid
 		if( object )
 		{
+			/* If a static UID has been set, assign it to the sprite.
+			 * -1 means "no UID set" and instructs cSprite_Manager to
+			 * assign a new, free one to the object. Note that in the
+			 * unlikely case of intermixed static and dynamic UIDs (i.e.
+			 * some sprites have UIDs assigned, others not — this can only
+			 * be achieved by editing the level XML by hand, the editor does
+			 * not allow this) it could happen that cSprite_Manager’s UID
+			 * generator generates a UID (and assignes it to the object) that
+			 * is later set as a static UID for another sprite — causing this
+			 * sprite to have the same UID as the one with the generated UID
+			 * (this will print a warning to the console if SMC is compiled
+			 * in debug mode). We cannot know this in advance, but as said
+			 * you have to edit the XML by hand and therefore we can ignore
+			 * this case safely. */
+			object->m_uid = m_xml_attributes.getValueAsInteger("uid", -1);
 			m_sprite_manager->Add( object );
 		}
 	}
