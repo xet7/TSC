@@ -7,6 +7,7 @@
 #include "../../../core/sprite_manager.h"
 #include "../../../core/property_helper.h"
 #include "../../../level/level_player.h"
+#include "../../../video/gl_surface.h"
 
 /**
  * Class: Sprite
@@ -509,6 +510,46 @@ static mrb_value Is_Player(mrb_state* p_state,  mrb_value self)
 		return mrb_false_value();
 }
 
+/**
+ * Method: Sprite#image=
+ *
+ *   image=( path ) → path
+ *
+ * Change the sprite’s image to the given one.
+ *
+ * #### Parameters
+ * path
+ * : The path to the new image, relative to the `pixmaps/` directory.
+ */
+static mrb_value Set_Image(mrb_state* p_state, mrb_value self)
+{
+	char* path = NULL;
+	mrb_get_args(p_state, "z", &path);
+
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+	p_sprite->Set_Image(pVideo->Get_Surface(utf8_to_path(path), true));
+
+	return mrb_str_new_cstr(p_state, path);
+}
+
+/**
+ * Method: Sprite#image
+ *
+ *   image() → a_string or nil
+ *
+ * Returns the path to the sprite’s current image. If the sprite was
+ * not constructed from a file, returns `nil`.
+ */
+static mrb_value Get_Image(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+	boost::filesystem::path imgpath = p_sprite->m_start_image->Get_Path();
+
+	if (imgpath.empty())
+		return mrb_nil_value();
+	else
+		return mrb_str_new_cstr(p_state, path_to_utf8(imgpath).c_str());
+}
 
 void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 {
@@ -537,6 +578,8 @@ void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcSprite, "warp", Warp, MRB_ARGS_REQ(2));
 	mrb_define_method(p_state, p_rcSprite, "start_at", Start_At, MRB_ARGS_REQ(2));
 	mrb_define_method(p_state, p_rcSprite, "player?", Is_Player, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "image", Get_Image, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcSprite, "image=", Set_Image, MRB_ARGS_REQ(1));
 
 	mrb_define_method(p_state, p_rcSprite, "on_touch", MRUBY_EVENT_HANDLER(touch), MRB_ARGS_NONE());
 }
