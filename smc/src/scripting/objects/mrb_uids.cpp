@@ -73,34 +73,15 @@ using namespace SMC;
 // Extern
 struct RClass* SMC::Scripting::p_rmUIDS = NULL;
 
-/**
- * Method: UIDS::[]
- *
- *   [uid] → a_sprite
- *
- * Retrieve an MRuby object for the sprite with the unique identifier
- * `uid`. The first time you call this method with a given UID, it
- * will cycle through _all_ sprite objects in the level, so it will
- * take relatively long. The sprite object is then cached internally,
- * causing later lookups to be fast.
- *
- * #### Parameter
- * uid
- * : The unique identifier of the sprite you want to retrieve. You can
- *   look this up in the SMC editor.
- *
- * #### Return value
- * Returns an instance of class `Sprite` or one of its subclasses, as
- * required. If the requested UID can’t be found, returns `nil`.
- */
-static mrb_value Index(mrb_state* p_state, mrb_value self)
+// Try to retrieve the given index UID from the cache, and if
+// that doesn’t work, do the long shot and insert that sprite
+// into the cache, then return the mruby object for it.
+// p_state: mruby state
+// cache: The UID-sprite cache
+// ruid: The mruby fixnum index
+static mrb_value _Index(mrb_state* p_state, mrb_value cache, mrb_value ruid)
 {
-	mrb_value ruid;
-	mrb_get_args(p_state, "o", &ruid);
-	mrb_int uid = mrb_fixnum(ruid);
-
 	// Try to retrieve the sprite from the cache
-	mrb_value cache  = mrb_iv_get(p_state, self, mrb_intern(p_state, "cache"));
 	mrb_value sprite = mrb_hash_get(p_state, cache, ruid);
 
 	// If we already have an object for this UID in the
@@ -111,6 +92,7 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 	// Otherwise, allocate a new MRuby object for it and store
 	// that new object in the cache.
 	cSprite_List objs = pActive_Level->m_sprite_manager->objects; // Shorthand
+	mrb_int uid = mrb_fixnum(ruid);
 	for(cSprite_List::const_iterator iter = objs.begin(); iter != objs.end(); iter++){
 		if ((*iter)->m_uid == uid) {
 			// Ask the sprite to create the correct type of MRuby object
@@ -124,6 +106,67 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 	}
 
 	return mrb_nil_value();
+}
+
+/**
+ * Method: UIDS::[]
+ *
+ *   [uid] → a_sprite
+ *   [range] → an_array
+ *
+ * Retrieve an MRuby object for the sprite with the unique identifier
+ * `uid`. The first time you call this method with a given UID, it
+ * will cycle through _all_ sprite objects in the level, so it will
+ * take relatively long. The sprite object is then cached internally,
+ * causing later lookups to be fast.
+ *
+ * #### Parameter
+ * uid
+ * : The unique identifier of the sprite you want to retrieve. You can
+ *   look this up in the SMC editor. May also be a range.
+ *
+ * #### Return value
+ * Returns an instance of class `Sprite` or one of its subclasses, as
+ * required. If the requested UID can’t be found, returns `nil`.
+ *
+ * If you requested a range, you’ll get an array containing the
+ * requested `Sprite` subclass instances instead. The array may
+ * contain `nil` values for sprites that could not be found.
+ */
+static mrb_value Index(mrb_state* p_state, mrb_value self)
+{
+	mrb_value arg;
+	mrb_get_args(p_state, "o", &arg);
+
+	mrb_value cache = mrb_iv_get(p_state, self, mrb_intern(p_state, "cache"));
+
+	// C++ does not allow us to declare variables inside a `case:' :-(
+	mrb_value start = mrb_nil_value();
+	mrb_value end   = mrb_nil_value();
+	mrb_value ary   = mrb_nil_value();
+
+	switch (mrb_type(arg))  {
+	case MRB_TT_FIXNUM: // Single UID requested
+		return _Index(p_state, cache, arg);
+	case MRB_TT_RANGE: // UID range requested
+		start = mrb_funcall(p_state, arg, "first", 0);
+		end   = mrb_funcall(p_state, arg, "last", 0);
+
+		// Ensure we get an integer range, and not string or so
+		if (mrb_type(start) != MRB_TT_FIXNUM || mrb_type(end) != MRB_TT_FIXNUM) {
+			mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Invalid UID range type.");
+			return mrb_nil_value(); // Not reached
+		}
+
+		ary = mrb_ary_new(p_state);
+		for(mrb_int i=mrb_fixnum(start); i <= mrb_fixnum(end); i++)
+			mrb_ary_push(p_state, ary, _Index(p_state, cache, mrb_fixnum_value(i)));
+
+		return ary;
+	default:
+		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Invalid UID type.");
+		return mrb_nil_value(); // Not reached
+	}
 }
 
 /**
