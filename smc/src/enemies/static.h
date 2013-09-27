@@ -18,6 +18,7 @@
 
 #include "../enemies/enemy.h"
 #include "../objects/path.h"
+#include "../scripting/objects/enemies/mrb_static.h"
 
 namespace SMC
 {
@@ -46,6 +47,13 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcStaticEnemy, &Scripting::rtSMC_Scriptable, this));
+	}
+
 
 	// Set the parent sprite manager
 	virtual void Set_Sprite_Manager( cSprite_Manager *sprite_manager );

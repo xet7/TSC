@@ -17,6 +17,7 @@
 #define SMC_SPIKA_H
 
 #include "../enemies/enemy.h"
+#include "../scripting/objects/enemies/mrb_spika.h"
 
 namespace SMC
 {
@@ -26,7 +27,7 @@ namespace SMC
  * 
  * Colors : Orange, Green and Grey
  */
-class cSpika : public cEnemy 
+class cSpika : public cEnemy
 {
 public:
 	// constructor
@@ -43,6 +44,13 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcSpika, &Scripting::rtSMC_Scriptable, this));
+	}
+
 
 	// set color
 	void Set_Color( DefaultColor col );

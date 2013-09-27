@@ -17,6 +17,7 @@
 #define SMC_ROKKO_H
 
 #include "../enemies/enemy.h"
+#include "../scripting/objects/enemies/mrb_rokko.h"
 
 namespace SMC
 {
@@ -44,6 +45,13 @@ public:
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcRokko, &Scripting::rtSMC_Scriptable, this));
+	}
+
 
 	// Set Direction
 	virtual void Set_Direction( const ObjectDirection dir, bool new_start_direction = true);

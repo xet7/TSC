@@ -17,6 +17,7 @@
 #define SMC_TURTLEBOSS_H
 
 #include "../../enemies/enemy.h"
+#include "../../scripting/objects/enemies/mrb_turtle_boss.h"
 
 namespace SMC
 {
@@ -54,6 +55,12 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcTurtleBoss, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// maximum hits until downgrade
 	void Set_Max_Hits( int nmax_hits );
