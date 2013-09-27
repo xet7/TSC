@@ -105,9 +105,6 @@ void cTurtle :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 	// direction
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-
-	// end
-	stream.closeTag();
 }
 
 void cTurtle :: Load_From_Savegame( cSave_Level_Object *save_object )
