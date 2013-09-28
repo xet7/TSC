@@ -52,7 +52,7 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 	// Open the MRuby file for reading
 	fs::path scriptfile = pResource_Manager->Get_Game_Scripting_Directory() / path;
 	fs::ifstream file(scriptfile);
-	debug_print("require: Loading '%s'\n", path_to_utf8(scriptfile));
+	debug_print("require: Loading '%s'\n", path_to_utf8(scriptfile).c_str());
 	if (!file.is_open())
 		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Cannot open file '%s' for reading", scriptfile.generic_string().c_str());
 
