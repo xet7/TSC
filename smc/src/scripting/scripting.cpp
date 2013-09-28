@@ -37,6 +37,7 @@
 #include "objects/powerups/mrb_star.h"
 #include "objects/boxes/mrb_box.h"
 #include "objects/boxes/mrb_spinbox.h"
+#include "objects/boxes/mrb_textbox.h"
 #include "objects/specials/mrb_level_exit.h"
 
 #include <boost/filesystem.hpp>
@@ -224,6 +225,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Star(p_state);
 	Init_Box(p_state);
 	Init_SpinBox(p_state);
+	Init_TextBox(p_state);
 	Init_ParticleEmitter(p_state);
 	Init_LevelExit(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
