@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.h"
 #include "../objects/box.h"
+#include "../scripting/objects/boxes/mrb_spinbox.h"
 
 namespace SMC
 {
@@ -42,6 +43,12 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcSpin_Box, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// Activate the Spinning
 	virtual void Activate( void );
