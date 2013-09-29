@@ -19,6 +19,7 @@
 #include "../core/global_basic.h"
 #include "../objects/box.h"
 #include "../objects/powerup.h"
+#include "../scripting/objects/boxes/mrb_bonusbox.h"
 
 namespace SMC
 {
@@ -44,6 +45,12 @@ public:
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcBonus_Box, &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// sets the count this object can be activated
 	virtual void Set_Useable_Count( int count, bool new_startcount = 0 );
 	/* Set the bonus type
@@ -53,7 +60,7 @@ public:
 	 * TYPE_MUSHROOM_BLUE		for Mushroom or Blue Mushroom
 	 * TYPE_MUSHROOM_GHOST		for Mushroom or Ghost Mushroom
 	 * TYPE_MUSHROOM_LIVE_1		for 1-UP Mushroom
-	 * TYPE_JSTAR				for Star
+	 * TYPE_STAR				for Star
 	 * TYPE_GOLDPIECE			for Goldpiece
 	 * TYPE_MUSHROOM_POISON		for Poison Mushroom
 	*/
