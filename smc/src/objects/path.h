@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.h"
 #include "../objects/sprite.h"
+#include "../scripting/objects/specials/mrb_path.h"
 
 namespace SMC
 {
@@ -158,6 +159,12 @@ public:
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 	// save to savegame
 	virtual cSave_Level_Object *Save_To_Savegame( void );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcPath, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// Set the identifier
 	void Set_Identifier( const std::string &identifier );

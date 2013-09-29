@@ -40,6 +40,7 @@
 #include "objects/boxes/mrb_textbox.h"
 #include "objects/boxes/mrb_bonusbox.h"
 #include "objects/specials/mrb_level_exit.h"
+#include "objects/specials/mrb_path.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -230,5 +231,6 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_BonusBox(p_state);
 	Init_ParticleEmitter(p_state);
 	Init_LevelExit(p_state);
+	Init_Path(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }
