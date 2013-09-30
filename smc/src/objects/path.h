@@ -42,6 +42,12 @@ public:
 	// Set the parent sprite manager
 	void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcPath, &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// draw current position
 	void Draw( void );
 

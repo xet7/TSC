@@ -50,7 +50,6 @@ public:
 		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcEato, &Scripting::rtSMC_Scriptable, this));
 	}
 
-
 	// Set the image directory. `dir' must be relative to the pixmaps/
 	// directory.
 	void Set_Image_Dir( boost::filesystem::path dir );
