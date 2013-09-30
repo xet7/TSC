@@ -211,6 +211,7 @@ the MRuby scripting API:
 * [Mushroom](mushroom.html)
 * [ParticleEmitter](particleemitter.html)
 * [Path](path.html)
+* [Path::Segment](path_segment.html)
 * Player → [LevelPlayer](levelplayer.html)
 * [Powerup](powerup.html)
 * [Rokko](rokko.html)

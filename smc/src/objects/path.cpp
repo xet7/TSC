@@ -1081,6 +1081,11 @@ void cPath :: Editor_Segment_Pos_Changed( void )
 	}
 }
 
+void cPath :: Add_Segment( cPath_Segment segment )
+{
+	m_segments.push_back(segment);
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

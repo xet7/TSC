@@ -180,6 +180,11 @@ public:
 	// Remove all links
 	void Remove_Links( void );
 
+	// Add a segment to the path. Note the segment will be copied
+	// and the copy will be used, so cPath doesn't take control of
+	// your memory management.
+	void Add_Segment( cPath_Segment segment );
+
 	// update
 	virtual void Update( void );
 	// draw

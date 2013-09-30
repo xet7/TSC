@@ -21,8 +21,17 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
+// forward declare
+static void PS_Free(mrb_state* p_state, void* ptr);
+
 // Extern
 struct RClass* SMC::Scripting::p_rcPath = NULL;
+struct RClass* SMC::Scripting::p_rcPath_Segment = NULL;
+struct mrb_data_type SMC::Scripting::rtSMC_Path_Segment = {"SmcPathSegment", PS_Free};
+
+/***************************************
+ * Class Path
+ ***************************************/
 
 /**
  * Method: Path::new
@@ -160,10 +169,228 @@ static mrb_value Does_Rewind(mrb_state* p_state, mrb_value self)
 	return mrb_bool_value(p_path->m_rewind);
 }
 
+/**
+ * Method: Path#add_segment
+ *
+ *   add_segment( segment )
+ *
+ * Adds the given segment to the end of the path.
+ *
+ * #### Parameters
+ * segment
+ * : The [Path::Segment](path_segment.html) instance to add to the path.
+ */
+static mrb_value Add_Segment(mrb_state* p_state, mrb_value self)
+{
+	mrb_value segment;
+	mrb_get_args(p_state, "o", &segment);
+
+	if (!mrb_obj_is_kind_of(p_state, segment, p_rcPath_Segment)) {
+		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a Path::Segment.");
+		return mrb_nil_value(); // Not reached
+	}
+
+	cPath*         p_path    = Get_Data_Ptr<cPath>(p_state, self);
+	cPath_Segment* p_segment = Get_Data_Ptr<cPath_Segment>(p_state, segment);
+
+	p_path->Add_Segment(*p_segment);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: Path#each_segment
+ *
+ *   each_segment(){|segment| ...}
+ *
+ * Iterates over all segments in the path and yields them
+ * into the given block one-by-one.
+ *
+ * #### Parameters
+ * segment (**bock**)
+ * : The currently iterated path segment. A [Path::Segment](path_segment.html)
+ *   instance.
+ */
+static mrb_value Each_Segment(mrb_state* p_state, mrb_value self)
+{
+	mrb_value block;
+	mrb_get_args(p_state, "&", &block);
+
+	cPath* p_path = Get_Data_Ptr<cPath>(p_state, self);
+
+	cPath::PathList::const_iterator iter;
+	for(iter = p_path->m_segments.begin(); iter != p_path->m_segments.end(); iter++) {
+		cPath_Segment segment = *iter;
+		cPath_Segment* p_segment = new cPath_Segment;
+
+		// We need to copy the cPath_Segment instance to a persistant pointer,
+		// because `segment' goes out of scope at the end of the for loop!
+		// The mruby Path::Segment class properly `delete's that pointer.
+		p_segment->Set_Pos(segment.m_x1, segment.m_y1, segment.m_x2, segment.m_y2);
+		mrb_value rsegment = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcPath_Segment, &rtSMC_Path_Segment, p_segment));
+
+		mrb_yield(p_state, block, rsegment);
+	}
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: Path#segments
+ *
+ *   segments() → an_array
+ *
+ * Returns all segments of this path as an array.
+ *
+ * #### Return value
+ * An array of [Path::Segment](path_segment.html) instances.
+ */
+static mrb_value Segments(mrb_state* p_state, mrb_value self)
+{
+	mrb_value ary;
+
+	cPath* p_path = Get_Data_Ptr<cPath>(p_state, self);
+
+	cPath::PathList::const_iterator iter;
+	for(iter = p_path->m_segments.begin(); iter != p_path->m_segments.end(); iter++) {
+		cPath_Segment segment = *iter;
+		cPath_Segment* p_segment = new cPath_Segment;
+
+		// We need to copy the cPath_Segment instance to a persistant pointer,
+		// because `segment' goes out of scope at the end of the for loop!
+		// The mruby Path::Segment class properly `delete's that pointer.
+		p_segment->Set_Pos(segment.m_x1, segment.m_y1, segment.m_x2, segment.m_y2);
+		mrb_value rsegment = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcPath_Segment, &rtSMC_Path_Segment, p_segment));
+
+		mrb_ary_push(p_state, ary, rsegment);
+	}
+
+	return ary;
+}
+
+/***************************************
+ * Class Path::Segment
+ ***************************************/
+
+/**
+ * Class: Path::Segment
+ *
+ * Instances of this class represent a single segment of a path.
+ * It’s a purely informational object that serves no purpose
+ * beside containing the two endpoints of a path segment.
+ */
+
+/**
+ * Method: Path::Segment::new
+ *
+ *   new( startx, starty, targetx, targety ) → a_path_segment
+ *
+ * Creates a new path segment describing the given positions and
+ * their connection.
+ *
+ * #### Parameters
+ * All parameters are float values.
+ *
+ * startx
+ * : The start X coordinate.
+ *
+ * starty
+ * : The start Y coordinate.
+ *
+ * targetx
+ * : The target X coordinate.
+ *
+ * targety
+ * : The target Y coordinate.
+ */
+static mrb_value PS_Initialize(mrb_state* p_state, mrb_value self)
+{
+	float startx, starty, targetx, targety;
+	mrb_get_args(p_state, "ffff", &startx, &starty, &targetx, &targety);
+
+	cPath_Segment* p_segment = new cPath_Segment();
+	DATA_PTR(self) = p_segment;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
+
+	p_segment->Set_Pos(startx, starty, targetx, targety);
+
+	return self;
+}
+
+// GC callback
+static void PS_Free(mrb_state* p_state, void* ptr)
+{
+	cPath_Segment* p_segment = (cPath_Segment*) ptr;
+
+	delete p_segment;
+}
+
+/**
+ * Method: Path::Segment#start_x
+ *
+ *   start_x() → a_float
+ *
+ * Returns the start X coordinate.
+ */
+static mrb_value PS_Get_Start_X(mrb_state* p_state, mrb_value self)
+{
+	cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+
+	return mrb_float_value(p_state, p_segment->m_x1);
+}
+
+/**
+ * Method: Path::Segment#start_y
+ *
+ *   start_y() → a_float
+ *
+ * Returns the start Y coordinate.
+ */
+static mrb_value PS_Get_Start_Y(mrb_state* p_state, mrb_value self)
+{
+	cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+
+	return mrb_float_value(p_state, p_segment->m_y1);
+}
+
+/**
+ * Method: Path::Segment#target_x
+ *
+ *   target_x() → a_float
+ *
+ * Returns the target X coordinate.
+ */
+static mrb_value PS_Get_Target_X(mrb_state* p_state, mrb_value self)
+{
+	cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+
+	return mrb_float_value(p_state, p_segment->m_x2);
+}
+
+/**
+ * Method: Path::Segment#target_y
+ *
+ *   target_y() → a_float
+ *
+ * Returns the target Y coordinate.
+ */
+static mrb_value PS_Get_Target_Y(mrb_state* p_state, mrb_value self)
+{
+	cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+
+	return mrb_float_value(p_state, p_segment->m_y2);
+}
+
+/***************************************
+ * Binding
+ ***************************************/
+
 void SMC::Scripting::Init_Path(mrb_state* p_state)
 {
 	p_rcPath = mrb_define_class(p_state, "Path", p_rcSprite);
+	p_rcPath_Segment = mrb_define_class_under(p_state, p_rcPath, "Segment", p_rcPath);
 	MRB_SET_INSTANCE_TT(p_rcPath, MRB_TT_DATA);
+	MRB_SET_INSTANCE_TT(p_rcPath_Segment, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcPath, "initialize", Initialize, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcPath, "identifier=", Set_Identifier, MRB_ARGS_REQ(1));
@@ -172,4 +399,13 @@ void SMC::Scripting::Init_Path(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcPath, "show_line?", Does_Show_Line, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcPath, "rewind=", Set_Rewind, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcPath, "rewind?", Does_Rewind, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcPath, "add_segment", Add_Segment, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcPath, "each_segment", Each_Segment, MRB_ARGS_BLOCK());
+	mrb_define_method(p_state, p_rcPath, "segments", Segments, MRB_ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcPath_Segment, "initialize", PS_Initialize, MRB_ARGS_REQ(4));
+	mrb_define_method(p_state, p_rcPath_Segment, "start_x", PS_Get_Start_X, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcPath_Segment, "start_y", PS_Get_Start_Y, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcPath_Segment, "target_x", PS_Get_Target_X, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcPath_Segment, "target_y", PS_Get_Target_Y, MRB_ARGS_NONE());
 }
