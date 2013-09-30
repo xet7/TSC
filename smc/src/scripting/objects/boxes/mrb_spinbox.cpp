@@ -5,7 +5,7 @@
 #include "mrb_box.h"
 
 /**
- * Class SpinBox:
+ * Class: SpinBox
  *
  * Parent [Box](box.html)
  * {: .superclass}
@@ -23,6 +23,8 @@ struct RClass* SMC::Scripting::p_rcSpin_Box = NULL;
 
 /**
  * Method: SpinBox::new
+ *
+ *   new() → a_spin_box
  *
  * Creates a new SpinBox with the default values.
  */

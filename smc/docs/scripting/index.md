@@ -204,6 +204,7 @@ the MRuby scripting API:
 * [Krush](krush.html)
 * Level → [LevelClass](levelclass.html)
 * [LevelClass](levelclass.html)
+* [LevelExit](levelexit.html)
 * [LevelPlayer](levelplayer.html)
 * [Message](message.html)
 * [Moon](moon.html)

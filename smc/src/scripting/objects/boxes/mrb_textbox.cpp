@@ -5,7 +5,7 @@
 #include "mrb_box.h"
 
 /**
- * Class TextBox:
+ * Class: TextBox
  *
  * Parent [Box](box.html)
  * {: .superclass}
@@ -27,6 +27,8 @@ struct RClass* SMC::Scripting::p_rcText_Box = NULL;
 
 /**
  * Method: TextBox::new
+ *
+ *   new() → a_text_box
  *
  * Creates a new TextBox with the default values.
  */

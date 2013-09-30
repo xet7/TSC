@@ -122,6 +122,8 @@ static mrb_value Set_Show_Line(mrb_state* p_state, mrb_value self)
 /**
  * Method: Path#show_line?
  *
+ *   show_line?() → true or false
+ *
  * Returns `true` or `false` depending on whether the path’s
  * movement line should be drawn.
  */

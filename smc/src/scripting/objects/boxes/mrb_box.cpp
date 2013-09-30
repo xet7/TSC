@@ -3,7 +3,7 @@
 #include "../sprites/mrb_animated_sprite.h"
 
 /**
- * Class Box:
+ * Class: Box
  *
  * Parent [AnimatedSprite](animatedsprite.html)
  * {: .superclass}

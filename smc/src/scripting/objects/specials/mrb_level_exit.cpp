@@ -160,6 +160,8 @@ static mrb_value Set_Camera_Motion(mrb_state* p_state, mrb_value self)
 /**
  * Method: LevelExit#camera_motion
  *
+ *   camera_motion() → a_symbol
+ *
  * Return the level exit’s camera motion. See #camera_motion= for
  * a list of possible return values.
  */

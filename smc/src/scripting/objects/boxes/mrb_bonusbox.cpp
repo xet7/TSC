@@ -5,7 +5,7 @@
 #include "mrb_box.h"
 
 /**
- * Class BonusBox:
+ * Class: BonusBox
  *
  * Parent [Box](box.html)
  * {: .superclass}
@@ -22,6 +22,8 @@ struct RClass* SMC::Scripting::p_rcBonus_Box = NULL;
 
 /**
  * Method: BonusBox::new
+ *
+ *   new() → a_bonus_box
  *
  * Creates a new BonusBox with the default values.
  */
@@ -125,6 +127,8 @@ static mrb_value Set_Bonus_Type(mrb_state* p_state, mrb_value self)
 /**
  * Method: BonusBox#bonus_type
  *
+ *   bonus_type() → a_symbol
+ *
  * Return the box’ current bonus type.
  */
 static mrb_value Get_Bonus_Type(mrb_state* p_state, mrb_value self)
@@ -155,7 +159,7 @@ static mrb_value Get_Bonus_Type(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: force_best_item=
+ * Method: BonusBox#force_best_item=
  *
  *   force_best_item=( bool ) → bool
  *
