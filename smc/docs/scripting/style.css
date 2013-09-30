@@ -40,6 +40,18 @@ table th {
     padding: 2px;
 }
 
+table tbody tr:hover {
+    background-color: #FFF760;
+}
+
+table.CodeRay tbody tr:hover {
+    background-color: #F2F2F2;
+}
+
+table.CodeRay tbody tr td.line-numbers pre {
+    background-color: #D4F6F6;
+}
+
 pre {
     border: 1px solid black;
     padding: 4px;

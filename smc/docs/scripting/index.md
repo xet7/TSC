@@ -7,7 +7,7 @@ their methods.
 
 SMC scripting is implemented with
 [MRuby](https://github.com/mruby/mruby), a minimal implementation of the
-[Ruby proggramming language](http://www.ruby-lang.org). Although it’s
+[Ruby programming language](http://www.ruby-lang.org). Although it’s
 not a hard-to-grasp language and intends to be as human-readable as
 possible, it tries to not sacrifice principles of powerful
 object-oriented programming. So, while you may understand and even
@@ -19,42 +19,39 @@ For those that are already familiar with the canonical Ruby
 interpreter ("MRI") or one of the other great Ruby implementations
 such as Rubinius or JRuby, let me point out that the "m" in "mruby"
 really stands for "minimal". Don’t expect to get a fully-featured Ruby
-implementation, especially regarding the standard library or RubyGems,
+implementation, especially regarding the standard library or _RubyGems_,
 which are simply missing. However, the language core itself should
 mostly be the way you expect it.
 
-Kinds of MRuby objects
-----------------------
+Interaction with C++
+--------------------
 
-There are three kinds of objects you may interact while scripting SMC:
+SMC is written in C++. As such, all method calls that actually _do_
+anything in the gameplay must be translated to C++ function calls. For
+this to happen, each SMC-related mruby object is wrapped around a C++
+pointer that points to the actual underlying C++ object. Whenever you
+call a method on the mruby object, that method unwraps the C++
+pointer, translates the mruby arguments you hand to the method to
+types usable for C++ and then calls the C++ object’s corresponding
+function. On returning, the same process happens in reverse order.
 
-Classes
-: These are the main component of the scripting API. You can create
-  instances of these classes by calling their `::new` method, which
-  will give you in most cases an ordinary MRuby object that is wrapped
-  around some C++ pointer. Their _instance methods_ give you the
-  possibility to interact with the underlying C++ pointer, both
-  modifying and inspecting the object it points to. Note that classes
-  themselves are objects, but with no internal C++ pointer as none is
-  needed for them.
+While this knowledge may not seem important to you, it may help you
+fixing obscure problems related to the fact the mruby objects are
+independent from the underlying C++ pointers.
 
-C++ data
-: As noted before, instances of (most) of SMC’s MRuby classes wrap
-some kind of C++ pointer. In most cases you will not have to worry
-about it, but depending on the exact usecase rethinking this fact may
-come in handy. You can’t access these pointers directly (Ruby is a
-pointerless language), but the object’s methods will do this
-internally for you.
+Object types
+------------
 
-Singletons
-: There’s a little number of special objects called _singletons_.
-  You can treat them mostly like normal MRuby objects, but the
-  class these singletons belong to is not instanciatable from the
-  MRuby side, e.g. the `Audio` singleton is the one and only instance
-  of the [AudioClass](audioclass.html) class.
+There are two ways to interact with SMC objects. The first way is to
+get hold of an object already existing in the level, for example an
+enemy or a block. The other way is to actively _create_ an object
+yourself, by calling the corresponding object’s `::new` method.
 
-Unique Identifiers (UIDs)
--------------------------
+Once you have an mruby object you can interact with, there’s no
+difference anymore between mruby objects build up around existing C++
+ones and mruby objects that were created together with a C++ object.
+
+### Retrieval of existing objects ###
 
 Each sprite created via the regular SMC editor (a so-called _internal_
 sprite) is assigned an identifier that is unique for the whole of the
@@ -67,33 +64,60 @@ between multiple level loads and even level editing (however, deleting
 an object in the editor will release its UID and make it available to
 other sprites). SMC maintains a global MRuby object called `UIDS` that
 references a table which maps all known UIDs to specific instances of
-class [Sprite](sprite.html) or one of its subclasses. This makes it
-easy to refer to a specific sprite and interact with it. For example,
-if you wanted to move a block with UID 38 away (e.g. for unblocking a
-path):
+class [Sprite](sprite.html) or one of its subclasses.
+
+In order to actually create an mruby object for an existing C++ object
+in the level, your way goes through that `UIDS` object. It provides
+you with a method `::[]` that determines what C++ pointer belongs to
+the UID you pass it, wraps an mruby object around the pointer and
+finally returns that mruby object to you. The returned mruby object is
+then cached, so if you query `UIDS` again with the same UID, you will
+get the _exact same object_ back as for the first time you queried.
+
+For example, if you wanted to unblock a path by moving a block with
+UID 38 away:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
 # Note that (-100|100) is outside the visible area,
 # therefore it looks as if the block "disappeared".
-UIDS[38].warp(-100, 100)
+block = UIDS[38]
+block.warp(-100, 100)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sprites created via the scripting interface (so-called _external_
-sprites) do not have an UID assigned to them automatically, therefore
-they won’t show up in the global `UIDS` table. The
-[Sprite](sprite.html) class’ [new()](sprite.html#new) method (and the
-`new()` methods of its subclasses) however support an optional last
-`uid` parameter that allows you to specify a UID for external
-sprites. Note that specifying an already used UID will cause an error,
-therefore you probably want to either use UIDs surely not used
-(something above 10000, as levels with that many elements are
-extraordinarily rare) or query the length of the current UID table
-(which ideally has no gaps, but that cannot be guaranteed) and adding
-to it dynamically:
+### Creation of new objects ###
+
+As mentioned above, there’s a second way to interact with the
+level. Instead of passively retrieving existing objects and
+interacting with them, you can actually _create_ new things and place
+them in the level. To achieve this, call the corresponding class’
+`::new` method, which will generate a new C++ pointer and a new mruby
+object for that pointer, with all its attributes set to SMC’s default
+values for that type.
+
+As an example, here’s how you would proceed for spawning a furball:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
-mysprite = Sprite.new("path/to/pic", UIDS.count + 1)
+furball = Furball.new
+furball.start_direction = :right
+furball.start_at(300, -300)
+furball.show
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first line as explained generates a new furball. We then make that
+furball look into the right, while (line 3) it initially appears at
+position `(300|-300)`. From the moment you call the `#show` method on,
+your settings will take effect and the new furball takes part in the
+gameplay.
+
+Hint: Don’t forget to call `#show` on your generated objects,
+otherwise they won’t show up at all.
+
+These generated or _external_ sprites are automatically marked as
+_generated_ objects and hence are **not** saved when the user creates
+a new savegame! If you want to preserve your generated objects through
+saving/loading a savegame, you have to register for specific events on
+the level; see the documentation on [Level](levelclass.html) for more
+information on this.
 
 Events
 ------
@@ -119,15 +143,15 @@ collides with the object with UID 38, you’d do:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
 UIDS[38].on_touch do |other|
-  Player.kill! if other.player?
+  other.kill! if other.player?
 end
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Furthermore, events are inherited. This allows you for example to
 register for the Touch event of a Furball, which somewhere up the
-inheritance chain is a Sprite. Therefore, if you don’t find the event
-you’re looking for in your object’s class’ documentation, try the
-superclass’ documentation.
+inheritance chain is a Sprite (where the Touch event is initially
+defiend). Therefore, if you don’t find the event you’re looking for in
+your object’s class’ documentation, try the superclass’ documentation.
 
 Organisation of the documentation
 ---------------------------------
@@ -147,8 +171,14 @@ followed by the list of events and then a list of methods:
 
 1. The class methods. These are methods you can directly call on the
    class object, without having to create an instance of that class.
+   When referencing class methods in the documentation, we will
+   always use a double-colon like this: `Furbal::new` means the
+   `new()` method on the `Furball` class.
 2. The instance methods. These are methods you can call on instances
-   of the respective class.
+   of the respective class. When referencing instance methods in
+   the documentation, we will alawys use a hash symbol like
+   this: `MovingSprite#warp` refers to the `warp()` method of
+   objects of type `MovingSprite`.
 
 Each method is introduced using its name, followed by a list of one or
 more possible call sequences. A call sequence may look like this:
@@ -185,50 +215,68 @@ List of classes, modules, and singletons
 ----------------------------------------
 
 This is an alphabetical list of all classes, modules, and singletons exposed to
-the MRuby scripting API:
+the MRuby scripting API, grouped by topic:
 
-* [AnimatedSprite](animatedsprite.html)
-* Audio → [AudioClass](audioclass.html)
-* [AudioClass](audioclass.html)
-* [BonusBox](bonusbox.html)
-* [Box](box.html)
-* [Eato](eato.html)
-* [Enemy](enemy.html)
-* [Eventable](eventable.html)
-* [Fireplant](fireplant.html)
-* [Flyon](flyon.html)
-* [Furball](furball.html)
-* [Gee](gee.html)
-* Input → [InputClass](inputclass.html)
-* [InputClass](inputclass.html)
-* [Krush](krush.html)
-* Level → [LevelClass](levelclass.html)
-* [LevelClass](levelclass.html)
-* [LevelExit](levelexit.html)
-* [LevelPlayer](levelplayer.html)
-* [Message](message.html)
-* [Moon](moon.html)
-* [MovingSprite](movingsprite.html)
-* [Mushroom](mushroom.html)
-* [ParticleEmitter](particleemitter.html)
-* [Path](path.html)
-* [Path::Segment](path_segment.html)
-* Player → [LevelPlayer](levelplayer.html)
-* [Powerup](powerup.html)
-* [Rokko](rokko.html)
-* [SMC](smc.html)
-* [Spika](spika.html)
-* [Spikeball](spikeball.html)
-* [SpinBox](spinbox.html)
-* [Sprite](sprite.html)
-* [Star](star.html)
-* [StaticEnemy](staticenemy.html)
-* [TextBox](textbox.html)
-* [Thromp](thromp.html)
-* [Timer](timer.html)
-* [Turtle](turtle.html)
-* [TurtleBoss](turtleboss.html)
-* [UIDS](uids.html)
+| Name & link                           | Notes                                       |
+|---------------------------------------|---------------------------------------------|
+| [SMC](smc.html)                       | Game-related stuff.                         |
+| [UIDS](uids.html)                     | Global UID table                            |
+|---------------------------------------|---------------------------------------------|
+| ***Sprites***                         | ***Sprites***                               |
+|---------------------------------------|---------------------------------------------|
+| [AnimatedSprite](animatedsprite.html) |                                             |
+| [MovingSprite](movingsprite.html)     |                                             |
+| [Sprite](sprite.html)                 | Base class for nearly everything            |
+|---------------------------------------|---------------------------------------------|
+| ***Enemies***                         | ***Enemies***                               |
+|---------------------------------------|---------------------------------------------|
+| [Enemy](enemy.html)                   | Base class for all enemies                  |
+| [Eato](eato.html)                     |                                             |
+| [Flyon](flyon.html)                   |                                             |
+| [Furball](furball.html)               |                                             |
+| [Gee](gee.html)                       |                                             |
+| [Krush](krush.html)                   |                                             |
+| [Rokko](rokko.html)                   |                                             |
+| [Spika](spika.html)                   |                                             |
+| [Spikeball](spikeball.html)           |                                             |
+| [Thromp](thromp.html)                 |                                             |
+| [Turtle](turtle.html)                 |                                             |
+| [TurtleBoss](turtleboss.html)         |                                             |
+| [StaticEnemy](staticenemy.html)       |                                             |
+|---------------------------------------|---------------------------------------------|
+| ***Boxes***                           | ***Boxes***                                 |
+|---------------------------------------|---------------------------------------------|
+| [Box](box.html)                       | Base class for all boxes                    |
+| [BonusBox](bonusbox.html)             |                                             |
+| [Spinbox](spinbox.html)               |                                             |
+| [TextBox](textbox.html)               |                                             |
+|---------------------------------------|---------------------------------------------|
+| ***Powerups***                        | ***Powerups***                              |
+|---------------------------------------|---------------------------------------------|
+| [Powerup](powerup.html)               | Base class for all powerups                 |
+| [Fireplant](fireplant.html)           |                                             |
+| [Moon](moon.html)                     |                                             |
+| [Mushroom](mushroom.html)             |                                             |
+| [Star](star.html)                     |                                             |
+|---------------------------------------|---------------------------------------------|
+| ***Level stuff***                     | ***Level stuff***                           |
+|---------------------------------------|---------------------------------------------|
+| Level → LevelClass                    | The level itself; singleton                 |
+| [LevelClass](levelclass.html)         |                                             |
+| [LevelExit](levelexit.html)           |                                             |
+| [LevelPlayer](levelplayer.html)       |                                             |
+| Player → LevelPlayer                  | Maryo; singleton                            |
+|---------------------------------------|---------------------------------------------|
+| ***Miscellaneous***                   | ***Miscellaneous***                         |
+|---------------------------------------|---------------------------------------------|
+| Audio → AudioClass                    | Singleton                                   |
+| [AudioClass](audioclass.html)         |                                             |
+| [Eventable](eventable.html)           |                                             |
+| Input → InputClass                    | Singleton                                   |
+| [InputClass](inputclass.html)         |                                             |
+| [Path](path.html)                     |                                             |
+| [Path::Segment](path_segment.html)    |                                             |
+| [Timer](timer.html)                   |                                             |
 
 License
 -------
