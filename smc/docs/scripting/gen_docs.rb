@@ -74,11 +74,12 @@ class Parser
     puts "Examining #{path.relative_path_from(Pathname.pwd)}..."
     path.open do |file|
       file.each_line.with_index do |line, lino|
+
         if @document_block_open
           # We are in a /** block here
           if line =~ /^\s*\*\/$/
             # /** block closed by */
-            debug "> Closing document block on line #{lino + 1}"
+            debug "> Closing document block on line #{@lino}"
             @document_block_open = false
 
             parse_doctext
@@ -93,7 +94,8 @@ class Parser
           # We are not in a /** block here
           if line =~ /^\/\*\*$/
             # /** block opened
-            debug "> Opening document block on line #{lino + 1}"
+            @lino = lino + 1
+            debug "> Opening document block on line #{@lino}"
             @document_block_open = true
           end
         end
@@ -110,10 +112,10 @@ class Parser
       if respond_to?(method, true)
         send(method, $'.strip)
       else
-        warn "Warning: Skipping invalid documentation type '#{$1}'"
+        warn "Warning: Skipping invalid documentation type '#{$1}' on line #@lino"
       end
     else
-      warn "Warning: Skipping invalid documentation comment block"
+      warn "Warning: Skipping invalid documentation comment block on line #@lino"
     end
   end
 
@@ -172,7 +174,7 @@ class Parser
       classname  = parts.join("::")
       is_imethod = false
     else
-      warn "Warning: Invalid method spec '#{methodstring}'. Ignoring."
+      warn "Warning: Invalid method spec '#{methodstring}' on line #@lino. Ignoring."
       return
     end
 
@@ -190,7 +192,7 @@ class Parser
       end
     end
 
-    warn "Warning: No call sequence found for '#{methodstring}'" if calls.empty?
+    warn "Warning: No call sequence found for '#{methodstring}' on line #@lino" if calls.empty?
 
     @methods << MethodDoc.new(methodname, classname, is_imethod, calls, text.join)
   end
