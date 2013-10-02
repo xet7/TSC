@@ -211,10 +211,96 @@ And finally, if you’re lucky the method’s documentation may contain
 some usage examples of the method. But again, this may not be the case
 for all methods.
 
-List of classes, modules, and singletons
-----------------------------------------
+The Standard Scripting Library
+------------------------------
 
-This is an alphabetical list of all classes, modules, and singletons exposed to
+At the bottom of this file, you find a list of all built-in core
+objects of the SMC scripting environments. These are usually simply
+referred to as "the core" and are available always without you having
+to to anything. On top of this, there exist some "helper" classes
+called the "standard scripting library", or SSL for short. The SSL
+contains classes that built upon the functionality provided by the
+core and extend them in such a way a specific task is easier to
+achieve than by utilizing the core stuff "rawly". As a major
+difference to the core classes, which are implemented in C++, the SSL
+is solely written in Ruby code. You can find it in the scripting/std
+folder of your SMC data path.
+
+In order to use these standard extensions, you have to _require_
+them. You can choose between loading the entire standard library at
+once, which can slow down level startup and will likely pull in many
+things you don’t even use, and loading specific helpers directly, thus
+resulting in probably many `require` statements on the top of your
+level code. Due to the performance gain however, the latter choice is
+preferred.
+
+To load the entire SSL, simply place this at the top of your scripting
+code:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
+SMC.require "std/all"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you want to load specific helpers like the `ImmediateSprite` class
+that allows you to create static sprites quickly, do it like this
+instead:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
+SMC.require "std/immediate_sprite"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In either case, you could then use `ImmediateSprite` like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
+Std::ImmediateSprite.new("blocks/extra/corded.png", x: 300, y: -300)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+which will create, place, and show a corded block at the given
+coordinates.
+
+Note that all standard library stuff is defined under the `Std`
+namespace. Do **not** use that namespace for your own scripting
+expansion packs (see below).
+
+Scripting expansion packs
+-------------------------
+
+As already noted, the SSL is written entirely in Ruby, without any C++
+involved. This allows you to provide _your very own_ helper classes to
+be defined exactly the same way. Choose a namespace for your lib,
+`Freaky` for instance, and then place your own code below that.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
+module Freaky
+
+  class FreakyThing < Furball
+    # Your code...
+  end
+
+end
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each class should have its own file, and all files related to the
+"freaky" expansion-pack should reside in a folder "freaky/". That
+folder should also contain a file "all.rb" that pulls in all classes
+under the `Freaky` namespace so a user can require them all at once
+the same way as the SSL shown above. When you’re done, place the
+"freaky/" folder next to the "std/" folder in your SMC’s "scripting/"
+directory. You will then be able to `SMC.require` files from below
+that folder. To get an impression of how all that works, you can
+always look on the SSL’s code itself.
+
+You can also create a ZIP file or Tarball from your "freaky/" folder
+and upload it to the Internet, so everybody can download it an add it
+to their own SMC installation. These ZIP or Tarball files are then
+called a _scripting expansion pack_. If you publish one, please
+accompany it with some kind of license, so others can build upon it. Ask
+on the SMC forums if you’re unsure what that means.
+
+List of core classes, modules, and singletons
+---------------------------------------------
+
+This is an alphabetical list of all core classes, modules, and singletons exposed to
 the MRuby scripting API, grouped by topic:
 
 | Name & link                           | Notes                                       |
