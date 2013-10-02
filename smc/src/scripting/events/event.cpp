@@ -26,8 +26,11 @@ void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_
 	std::vector<mrb_value>::iterator iter;
 	for(iter = callbacks.begin(); iter != callbacks.end(); iter++){
 		Run_MRuby_Callback(p_mruby, *iter);
-		if (p_state->exc)
-			std::cerr << "Warning: Error running mruby handler: " << format_mruby_error(p_state, p_state->exc) << std::endl;
+		if (p_state->exc) {
+			std::cerr << "Warning: Error running mruby handler:" << std::endl;
+			mrb_print_error(p_state);
+		}
+			//std::cerr << "Warning: Error running mruby handler: " << format_mruby_error(p_state, p_state->exc) << std::endl;
 	}
 }
 

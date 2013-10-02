@@ -993,23 +993,6 @@ std::string readfile(boost::filesystem::ifstream& file)
 	return content;
 }
 
-std::string format_mruby_error(mrb_state* p_state, struct RObject* exception)
-{
-	mrb_value exc				= mrb_obj_value(exception);
-	std::string text			= mrb_string_value_ptr(p_state, mrb_funcall(p_state, exc, "message", 0));
-	std::string classname		= mrb_obj_classname(p_state, mrb_obj_value(exception));
-	std::string backtrace		= mrb_string_value_ptr(p_state, mrb_ary_join(p_state, mrb_funcall(p_state, exc, "backtrace", 0), mrb_str_new_cstr(p_state, "\n\t")));
-
-	std::string errormsg;
-	errormsg.append(text);
-	errormsg.append(" (");
-	errormsg.append(classname);
-	errormsg.append(")");
-	errormsg.append("\n");
-	errormsg.append(backtrace);
-	return errormsg;
-}
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

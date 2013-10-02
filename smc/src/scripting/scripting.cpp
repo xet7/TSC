@@ -219,9 +219,8 @@ namespace SMC
 			for(iter = m_callbacks.begin(); iter != m_callbacks.end(); iter++) {
 				mrb_funcall(mp_mruby, *iter, "call", 0);
 				if (mp_mruby->exc) {
-					std::cerr << "Warning: Error running timer callback: ";
-					std::cerr << format_mruby_error(mp_mruby, mp_mruby->exc);
-					std::cerr << std::endl;
+					std::cerr << "Warning: Error running timer callback: " << std::endl;
+					mrb_print_error(mp_mruby);
 				}
 			}
 
