@@ -475,9 +475,7 @@ void cLevel :: Init( void )
 
 	// Run the mruby code associated with this level (this sets up
 	// all the event handlers the user wants to register)
-	std::string errmsg;
-	if (!m_mruby->Run_Code(m_script, errmsg))
-		std::cerr << "Warning: MRuby script crashed: " << errmsg << std::endl;
+	m_mruby->Run_Code(m_script, "(level script)");
 #endif
 }
 

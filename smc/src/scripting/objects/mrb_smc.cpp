@@ -56,15 +56,25 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 	if (!file.is_open())
 		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Cannot open file '%s' for reading", scriptfile.generic_string().c_str());
 
-	// Compile and run the MRuby code
-	mrb_load_string(p_state, readfile(file).c_str());
-
-	// Cleanup
+	// Read it
+	std::string code = readfile(file);
 	file.close();
+
+	// Create our context for exception handling
+	mrbc_context* p_context = mrbc_context_new(p_state);
+	p_context->capture_errors = true;
+	p_context->lineno = 1;
+	mrbc_filename(p_state, p_context, path_to_utf8(scriptfile.filename()).c_str());
+
+	// Compile and run the MRuby code
+	mrb_load_nstring_cxt(p_state, code.c_str(), code.length(), p_context);
+
+	// Check for exceptions
 	if (p_state->exc)
-		mrb_exc_raise(p_state, mrb_obj_value(p_state->exc));
+		mrb_exc_raise(p_state, mrb_obj_value(p_state->exc)); // Reraise
 
 	// Finish
+	mrbc_context_free(p_state, p_context);
 	return mrb_nil_value();
 }
 

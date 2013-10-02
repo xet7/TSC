@@ -68,10 +68,20 @@ namespace SMC {
 			~cMRuby_Interpreter();
 
 			// Execute MRuby code. If an exception occurs
-			// (including syntax errors), `errormsg' will
-			// contain a human-readable description and
-			// false is returned, true otherwise.
-			bool Run_Code(const std::string& code, std::string& errormsg);
+			// (including syntax errors), false is returned,
+			// true otherwise. `contextname' is purely informational
+			// and only ever used in exception messages.
+			// This method prints exceptions to standard error.
+			bool Run_Code(const std::string& code, const std::string& contextname);
+			// Execute MRuby code found in a file, using the filename
+			// as the context name. Otherwise has the same
+			// semantics as Run_Code().
+			bool Run_File(const boost::filesystem::path& filepath);
+			// Execute MRuby code in the given parsing context.
+			// This method only does raw code execution, no
+			// exception inspection is done for you. It’s basically
+			// a wrapper around mrb_load_nstring_cxt().
+			mrb_value Run_Code_In_Context(const std::string& code, mrbc_context* p_context);
 			// Registers an MRuby callback to be called on the next
 			// call to Evaluate_Timer_Callbacks(). `callback'
 			// is an MRuby proc.

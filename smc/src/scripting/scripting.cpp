@@ -117,15 +117,55 @@ namespace SMC
 			return mp_level;
 		}
 
-		bool cMRuby_Interpreter::Run_Code(const std::string& code, std::string& errormsg)
+		mrb_value cMRuby_Interpreter::Run_Code_In_Context(const std::string& code, mrbc_context* p_context)
 		{
-			mrb_load_string(mp_mruby, code.c_str());
-			if (mp_mruby->exc){
-				errormsg = format_mruby_error(mp_mruby, mp_mruby->exc);
-				return false;
+			return mrb_load_nstring_cxt(mp_mruby, code.c_str(), code.length(), p_context);
+		}
+
+		bool cMRuby_Interpreter::Run_Code(const std::string& code, const std::string& contextname)
+		{
+			// Create a new context. This is important so we
+			// can properly retrieve exceptions, which mrb_load_string()
+			// does not allow.
+			mrbc_context* p_context = mrbc_context_new(mp_mruby);
+			p_context->capture_errors = true;
+			p_context->lineno = 1;
+			mrbc_filename(mp_mruby, p_context, contextname.c_str()); // Set context filename (for exceptions)
+
+			Run_Code_In_Context(code, p_context);
+
+			bool result;
+			if (mp_mruby->exc) {
+				// Exception occured
+				mrb_print_error(mp_mruby);
+				result = false;
 			}
 			else
-				return true;
+				result = true;
+
+			mrbc_context_free(mp_mruby, p_context);
+			return result;
+		}
+
+		bool cMRuby_Interpreter::Run_File(const boost::filesystem::path& filepath)
+		{
+			// Note we cannot use mrb_load_file(), because we use boost::filesystem’s
+			// filereading capabilities which mruby doesn’t understand. Instead, we
+			// simply pass the read file’s contents to mruby.
+
+			// Open the file.
+			boost::filesystem::ifstream file(filepath);
+			if (!file.is_open()) {
+				std::cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << std::endl;
+				return false;
+			}
+
+			// Read it.
+			std::string code = readfile(file);
+			file.close();
+
+			// Compile & execute it.
+			return Run_Code(code, path_to_utf8(filepath.filename()).c_str());
 		}
 
 		void cMRuby_Interpreter::Load_Scripts()
@@ -137,20 +177,20 @@ namespace SMC
 			// SMC::setup, which loads all of the wrapper classes into
 			// the interpreter.
 			boost::filesystem::path mainfile = pResource_Manager->Get_Game_Scripting("main.rb");
-			boost::filesystem::ifstream file(mainfile);
-			if (!file.is_open()) {
-				std::cerr << "Failed to open main scripting file '" << path_to_utf8(mainfile) << "' for reading." << std::endl;
-				std::cerr << "Scripting will not work correctly." << std::endl;
-				return;
-			}
-			else {
-				mrb_load_string(mp_mruby, readfile(file).c_str());
-				if (mp_mruby->exc){
-					std::cerr << "Warning: Error loading main script: ";
-					std::cerr << format_mruby_error(mp_mruby, mp_mruby->exc);
-					std::cerr << std::endl;
-				}
-				file.close();
+
+			/* If the main file errors, we cannot know which classes are loaded and
+			 * which aren’t. We have no real information on the state of the scripting
+			 * environment. This may obscurely break scripting-based levels or even
+			 * segfault SMC. Hence we cannot ignore this case and must abort.
+			 */
+			// FIXME: Throw a proper exception, catch it on level loading and refuse to load the level.
+			if (!Run_File(mainfile)) {
+				std::string msg;
+				msg.append("Error loading main mruby script '");
+				msg.append(path_to_utf8(mainfile));
+				msg.append("'. Cannot continue!");
+				std::cerr << "FATAL: " << msg << std::endl;
+				throw(msg);
 			}
 		}
 
