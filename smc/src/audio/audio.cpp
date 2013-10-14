@@ -551,7 +551,7 @@ bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /*
 		}
 
 		// load the given music
-		m_music = Mix_LoadMUS( filename.c_str() );
+		m_music = Mix_LoadMUS( path_to_utf8(filename).c_str() );
 
 		// loaded
 		if( m_music )
@@ -597,7 +597,7 @@ bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /*
 		}
 
 		// load the wanted next playing music
-		m_music = Mix_LoadMUS( filename.c_str() );
+		m_music = Mix_LoadMUS( path_to_utf8(filename).c_str() );
 	}
 
 	return true;
