@@ -193,7 +193,7 @@ static mrb_value Set_Z(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Image_Filename(mrb_state* p_state,  mrb_value self)
 {
 	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_emitter->m_image_filename.c_str());
+	return mrb_str_new_cstr(p_state, path_to_utf8(p_emitter->m_image_filename).c_str());
 }
 
 /**
