@@ -181,8 +181,12 @@ Links
 -----
 
 * The SMC website: http://www.secretmaryo.org
-* The SMC forums: http://secretmaryo.org/phpBB3
-* My bugtracker: https://github.com/Quintus/SMC/issues
+* The official, but largely unmaintained SMC forums:
+  http://secretmaryo.org/phpBB3
+* The alternative, more vivid SMC forums focusing on scripting:
+  http://smc.quintilianus.eu
+* The bugtracker: https://github.com/Quintus/SMC/issues
+* The scripting API documentation: http://smcsdocs.quintilianus.eu
 
 License
 -------
