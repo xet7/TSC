@@ -266,7 +266,8 @@ enum SpriteType
 	TYPE_HUD_LIFE = 15,
 	TYPE_HUD_GOLD = 16,
 	TYPE_HUD_BACKGROUND = 17,
-	TYPE_HUD_ITEMBOX = 32
+	TYPE_HUD_ITEMBOX = 32,
+	TYPE_HUD_INFOMESSAGE = 66
 };
 
 /* *** Massive Types *** */

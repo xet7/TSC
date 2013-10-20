@@ -183,6 +183,30 @@ public:
 	Uint32 m_milliseconds;
 };
 
+/* *** *** *** *** *** cInfoMessage *** *** *** *** *** *** *** *** *** *** *** */
+
+class cInfoMessage : public cStatusText
+{
+public:
+  cInfoMessage( cSprite_Manager *sprite_manager );
+  virtual ~cInfoMessage( void );
+
+  // Update
+  virtual void Update( void );
+  // draw
+  virtual void Draw( cSurface_Request *request = NULL );
+
+  // Set text
+  void Set_Text( const std::string& text );
+  std::string Get_Text();
+
+private:
+  std::string m_text;
+  float m_alpha;
+  float m_display_time;
+  cMovingSprite* m_background;
+};
+
 /* *** *** *** *** *** cItemBox *** *** *** *** *** *** *** *** *** *** *** *** */
 
 class cItemBox : public cStatusText
@@ -276,6 +300,7 @@ extern cDebugDisplay *pHud_Debug;
 extern cGoldDisplay *pHud_Goldpieces;
 extern cLiveDisplay *pHud_Lives;
 extern cTimeDisplay *pHud_Time;
+extern cInfoMessage *pHud_Infomessage;
 extern cItemBox *pHud_Itembox;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

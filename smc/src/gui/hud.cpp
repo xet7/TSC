@@ -104,6 +104,9 @@ void cHud_Manager :: Load( void )
 	// Gold Display
 	pHud_Goldpieces = new cGoldDisplay( m_sprite_manager );
 	Add( static_cast<cHudSprite *>(pHud_Goldpieces) );
+	// Info Message Display
+	pHud_Infomessage = new cInfoMessage( m_sprite_manager );
+	Add( static_cast<cHudSprite *>(pHud_Infomessage) );
 	// Itembox
 	pHud_Itembox = new cItemBox( m_sprite_manager );
 	Add( static_cast<cHudSprite *>(pHud_Itembox) );
@@ -127,6 +130,7 @@ void cHud_Manager :: Unload( void )
 	pHud_Goldpieces = NULL;
 	pHud_Points = NULL;
 	pHud_Time = NULL;
+	pHud_Infomessage = NULL;
 	pHud_Debug = NULL;
 	pHud_Itembox = NULL;
 	
@@ -199,6 +203,12 @@ void cHud_Manager :: Update_Text( void )
 	{
 		pHud_Time->Set_Pos( game_res_w * 0.70f, 18.0f );
 		pHud_Time->Update();
+	}
+
+	if ( pHud_Infomessage )
+	{
+		pHud_Infomessage->Set_Pos( 20.0f, 95.0f );
+		pHud_Infomessage->Update();
 	}
 
 	if( pHud_Debug )
@@ -684,6 +694,75 @@ void cTimeDisplay :: Set_Time( Uint32 milliseconds )
 {
 	m_milliseconds = milliseconds;
 	Update();
+}
+
+/* *** *** *** *** *** cInfoMessage *** *** *** *** *** *** *** *** *** *** *** */
+
+cInfoMessage :: cInfoMessage( cSprite_Manager* p_sprite_manager )
+	: cStatusText( p_sprite_manager )
+{
+	m_type = TYPE_HUD_INFOMESSAGE;
+	m_name = "HUD Infomessage";
+
+	m_text = "Test";
+	m_alpha = -1;
+
+	m_background = new cMovingSprite( p_sprite_manager );
+	m_background->Set_Ignore_Camera(true);
+	m_background->m_camera_range = 0;
+	m_background->Set_Massive_Type( MASS_MASSIVE );
+	m_background->m_pos_z = 0.1299f;
+	m_background->Set_Image( pVideo->Get_Surface( "game/infomessage.png" ) );
+
+	Set_Image( pFont->Render_Text( pFont->m_font_normal, m_text, yellow ), 0, 1 );
+}
+
+cInfoMessage :: ~cInfoMessage()
+{
+	delete m_background;
+}
+
+void cInfoMessage :: Set_Text(const std::string& text)
+{
+	m_text = text;
+	m_display_time = 100.0f;
+	m_alpha = 255.0f;
+}
+
+std::string cInfoMessage :: Get_Text()
+{
+	return m_text;
+}
+
+void cInfoMessage :: Update()
+{
+	// Display the message a few seconds without fading out,
+	// then start to fade it out. If m_alpha is <= 0, it
+	// has been fade out completed.
+	if (m_alpha > 0) {
+		m_background->Set_Pos(0.0f, m_pos_y - 20.0f);
+
+		if (m_display_time > 0)
+			m_display_time -= pFramerate->m_speed_factor;
+		else
+			m_alpha -= pFramerate->m_speed_factor * 5;
+	}
+}
+
+void cInfoMessage :: Draw( cSurface_Request* p_request /* = NULL */ )
+{
+	if( editor_enabled || Game_Mode == MODE_OVERWORLD || Game_Mode == MODE_MENU )
+	{
+		return;
+	}
+
+	if (m_alpha > 0) {
+		m_background->Set_Color(255,255,255, static_cast<Uint8>(m_alpha));
+		Set_Color(255, 255, 255, static_cast<Uint8>(m_alpha));
+
+		m_background->Draw();
+		cHudSprite::Draw();
+	}
 }
 
 /* *** *** *** *** *** *** *** cItemBox *** *** *** *** *** *** *** *** *** *** */
@@ -1405,6 +1484,7 @@ cDebugDisplay *pHud_Debug = NULL;
 cGoldDisplay *pHud_Goldpieces = NULL;
 cLiveDisplay *pHud_Lives = NULL;
 cTimeDisplay *pHud_Time = NULL;
+cInfoMessage *pHud_Infomessage = NULL;
 cItemBox *pHud_Itembox = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
