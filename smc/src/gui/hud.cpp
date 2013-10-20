@@ -713,8 +713,6 @@ cInfoMessage :: cInfoMessage( cSprite_Manager* p_sprite_manager )
 	m_background->Set_Massive_Type( MASS_MASSIVE );
 	m_background->m_pos_z = 0.1299f;
 	m_background->Set_Image( pVideo->Get_Surface( "game/infomessage.png" ) );
-
-	Set_Image( pFont->Render_Text( pFont->m_font_normal, m_text, yellow ), 0, 1 );
 }
 
 cInfoMessage :: ~cInfoMessage()
@@ -727,6 +725,8 @@ void cInfoMessage :: Set_Text(const std::string& text)
 	m_text = text;
 	m_display_time = 100.0f;
 	m_alpha = 255.0f;
+
+	Set_Image( pFont->Render_Text( pFont->m_font_normal, m_text, yellow ), 0, 1 );
 }
 
 std::string cInfoMessage :: Get_Text()

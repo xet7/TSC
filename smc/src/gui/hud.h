@@ -196,7 +196,7 @@ public:
   // draw
   virtual void Draw( cSurface_Request *request = NULL );
 
-  // Set text
+  // Set text and display it fading out slowly.
   void Set_Text( const std::string& text );
   std::string Get_Text();
 
