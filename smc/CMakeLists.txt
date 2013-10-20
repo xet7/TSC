@@ -193,6 +193,7 @@ if (WIN32)
     ${PCRE_STATIC_LIBRARIES}
     ${PNG_STATIC_LIBRARIES}
     intl
+    ws2_32
     )
   # For some unknown reason, nobody knows how to properly detect libintl?
   # However, as we already require Gettext anyway, linking libintl in directly
