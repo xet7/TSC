@@ -1,6 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../../../level/level.h"
 #include "../../../user/savegame.h"
+#include "../../../gui/hud.h"
 #include "../../../core/property_helper.h"
 #include "../../events/event.h"
 #include "../mrb_eventable.h"
@@ -274,6 +275,56 @@ static mrb_value Finish(mrb_state* p_state,  mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ * Method: LevelClass#display_info_message
+ *
+ *   display_info_message( message )
+ *
+ * Shows a **short**, informative message on the screen. This is achieved
+ * by displaying a prominent sprite covering the full width of the
+ * game window containing your message for a few seconds, before the
+ * entire construction (i.e. sprite plus message) is then slowly faded
+ * out to invisibility.
+ *
+ * This method is not meant to display larger passages of text to the
+ * user; use the `Message` class from the SSL for that. No line breaking
+ * is done (and only a single line of text is supported).
+ *
+ * This method is intended for displaying merely optional pieces of
+ * information; for instance, if you built a large tower level, you
+ * may use this method to display the floor the player just entered to
+ * give him more orientation.
+ *
+ * Do not overuse this method. If you use it, stick to one usage scheme;
+ * don’t use it for too many different kinds of information, that would
+ * confuse the player probably.
+ *
+ * #### Parameters
+ * message
+ * : The message to display. A short oneliner.
+ *
+ * #### Example
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~ ruby
+ * # Say the object with UID 14 is a warp point that
+ * # warps you to the tower’s 3rd floor when touched.
+ * # To make the player aware, write your code like this:
+ * UIDS[14].on_touch do |collidor|
+ *   next unless collidor.player? # Only react on the player
+ *
+ *   Level.display_info_message("3rd floor")
+ *   collidor.warp(400, -620)
+ * end
+ * ~~~~~~~~~~~~~~~~~~~~~~~
+ */
+static mrb_value Display_Info_Message(mrb_state* p_state, mrb_value self)
+{
+	char* message = NULL;
+	mrb_get_args(p_state, "z", &message);
+
+	pHud_Infomessage->Set_Text(message);
+	return mrb_nil_value();
+}
 
 void SMC::Scripting::Init_Level(mrb_state* p_state)
 {
@@ -294,6 +345,7 @@ void SMC::Scripting::Init_Level(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_OPT(1));
+	mrb_define_method(p_state, p_rcLevel, "display_info_message", Display_Info_Message, MRB_ARGS_REQ(1));
 
 	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), MRB_ARGS_NONE());
