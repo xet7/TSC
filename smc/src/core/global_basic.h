@@ -40,15 +40,61 @@
 	#define debug_print(format, ...)
 #endif
 
-/* *** *** *** *** *** *** *** Standard setup *** *** *** *** *** *** *** *** *** *** */
+/* *** *** *** *** *** *** *** Includes *** *** *** *** *** *** *** *** *** *** */
 
+// C stdlib
+#include <cstdio>
+#include <cstdlib>
+#include <climits>
+#include <cctype>
+
+// C++ STL
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <time.h>
 #include <math.h>
+#include <functional>
+#include <set>
+#include <algorithm>
+#include <stdexcept>
+#include <map>
+
+// Boost
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/chrono.hpp>
+
+// SDL
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
+#include <SDL_syswm.h>
+
+// CEGUI
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
+#include <CEGUI/RendererModules/CEGUINullRenderer.h>
+
+// Other libs
+#include <png.h>
+#include <libintl.h>
+
+// MRuby
+#include <mruby.h>
+#include <mruby/compile.h>
+#include <mruby/string.h>
+#include <mruby/hash.h>
+#include <mruby/class.h>
+#include <mruby/data.h>
+#include <mruby/variable.h>
+#include <mruby/proc.h>
+#include <mruby/range.h>
 
 using std::vector;
 using std::ifstream;
