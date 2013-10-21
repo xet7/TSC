@@ -1,7 +1,6 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_TIMER_H
 #define SMC_SCRIPTING_TIMER_H
-#include <boost/thread/thread.hpp>
 #include "../../scripting.h"
 
 namespace SMC {

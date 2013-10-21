@@ -83,7 +83,7 @@
 // CEGUI
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
-#include <CEGUI/RendererModules/CEGUINullRenderer.h>
+#include <CEGUI/RendererModules/Null/CEGUINullRenderer.h>
 
 // Other libs
 #include <png.h>
@@ -111,6 +111,7 @@
 #include <mruby.h>
 #include <mruby/compile.h>
 #include <mruby/string.h>
+#include <mruby/array.h>
 #include <mruby/hash.h>
 #include <mruby/class.h>
 #include <mruby/data.h>

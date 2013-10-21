@@ -1,7 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_HPP
 #define SMC_SCRIPTING_HPP
-
+#include "../core/global_basic.h"
 #include "../core/global_game.h"
 #include "objects/mrb_smc.h"
 

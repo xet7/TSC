@@ -12,6 +12,7 @@
 
 #ifndef SMC_BOOST_RELATIVE_H
 #define SMC_BOOST_RELATIVE_H
+#include <boost/filesystem.hpp>
 
 namespace boost
 {
