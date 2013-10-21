@@ -39,10 +39,6 @@
 #include "../scripting/events/jump_event.h"
 #include "../scripting/events/shoot_event.h"
 #include "../scripting/events/downgrade_event.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIListboxTextItem.h"
 
 namespace SMC
 {

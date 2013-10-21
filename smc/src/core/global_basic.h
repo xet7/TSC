@@ -65,10 +65,15 @@
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem/convenience.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/chrono.hpp>
+#include "filesystem/boost_relative.h"
 
 // SDL
+#ifdef __unix__
+  #define NO_SDL_GLEXT
+#endif
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
@@ -95,6 +100,10 @@
 #include <mruby/variable.h>
 #include <mruby/proc.h>
 #include <mruby/range.h>
+
+#ifndef PNG_COLOR_TYPE_RGBA
+	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
+#endif
 
 using std::vector;
 using std::ifstream;

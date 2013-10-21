@@ -30,14 +30,6 @@
 	#include <Carbon/Carbon.h>
 #endif
 
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "CEGUIFontManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUIFrameWindow.h"
-#include "elements/CEGUIPushButton.h"
-#include "elements/CEGUIMultiLineEditbox.h"
-
 namespace SMC
 {
 

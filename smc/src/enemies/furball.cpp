@@ -23,12 +23,6 @@
 #include "../core/sprite_manager.h"
 #include "../level/level.h"
 //#include "../script/events/downgrade_event.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIListboxTextItem.h"
 
 namespace SMC
 {

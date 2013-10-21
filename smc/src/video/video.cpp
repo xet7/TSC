@@ -29,28 +29,6 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../gui/spinner.h"
-// SDL
-#include "SDL_opengl.h"
-// CEGUI
-#include "CEGUIDefaultResourceProvider.h"
-#include "CEGUIDefaultLogger.h"
-#include "CEGUIExceptions.h"
-#include "CEGUIWindowFactoryManager.h"
-#include "CEGUIImagesetManager.h"
-#include "CEGUIFontManager.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUISchemeManager.h"
-#include "falagard/CEGUIFalWidgetLookManager.h"
-#include "elements/CEGUIProgressBar.h"
-#include "RendererModules/Null/CEGUINullRenderer.h"
-// boost
-#include <boost/filesystem.hpp>
-#include "../core/filesystem/boost_relative.h"
-// png
-#include <png.h>
-#ifndef PNG_COLOR_TYPE_RGBA
-	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
-#endif
 
 namespace fs = boost::filesystem;
 

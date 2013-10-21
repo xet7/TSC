@@ -32,11 +32,6 @@
 #include "../user/savegame.h"
 #include "../overworld/world_editor.h"
 #include "filesystem/resource_manager.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIProgressBar.h"
-// Boost
-#include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;
 

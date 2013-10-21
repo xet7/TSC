@@ -44,9 +44,6 @@
 #include <unistd.h>
 #endif
 
-// CEGUI
-#include "CEGUIDefaultLogger.h"
-
 // SMC namespace is set later to exclude main() from it
 using namespace SMC;
 

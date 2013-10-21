@@ -17,8 +17,6 @@
 #include "../core/i18n.h"
 #include "../video/color.h"
 #include "../objects/sprite.h"
-// for std::ostringstream
-#include <sstream>
 
 namespace SMC
 {

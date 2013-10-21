@@ -19,9 +19,6 @@
 #include "../core/global_basic.h"
 #include "../core/obj_manager.h"
 #include "../core/camera.h"
-// CEGUI
-#include "CEGUIXMLHandler.h"
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

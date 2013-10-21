@@ -14,10 +14,6 @@
 */
 
 #include "../../core/math/utilities.h"
-// for find_if()
-#include <algorithm>
-// for isdigit()
-#include <cctype>
 
 /* non digit class
  * returns true if not a number was found

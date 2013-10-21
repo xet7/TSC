@@ -35,18 +35,6 @@
 #include "../core/math/size.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "CEGUIFontManager.h"
-#include "elements/CEGUITabControl.h"
-#include "elements/CEGUIPushButton.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUISpinner.h"
-#include "elements/CEGUIMultiLineEditbox.h"
-#include "elements/CEGUISlider.h"
-// Boost
-#include <boost/filesystem.hpp>
 
 // unix hackfix : undef None from SDL_syswm.h
 #ifdef None

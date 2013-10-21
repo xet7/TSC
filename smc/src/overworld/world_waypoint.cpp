@@ -25,11 +25,6 @@
 #include "../video/gl_surface.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUIListboxTextItem.h"
 
 namespace SMC
 {

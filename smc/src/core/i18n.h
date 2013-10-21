@@ -17,7 +17,6 @@
 #define SMC_I18N_H
 
 #include "../core/global_game.h"
-#include <libintl.h>
 
 namespace SMC
 {

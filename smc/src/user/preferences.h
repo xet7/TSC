@@ -17,11 +17,6 @@
 #define SMC_PREFERENCES_H
 
 #include "../core/global_basic.h"
-// SDL
-#include "SDL.h"
-// CEGUI
-#include "CEGUIXMLHandler.h"
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

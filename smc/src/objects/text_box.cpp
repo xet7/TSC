@@ -23,10 +23,6 @@
 #include "../core/i18n.h"
 #include "../audio/audio.h"
 #include "../level/level.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIMultiLineEditbox.h"
-#include "elements/CEGUIScrollbar.h"
 
 namespace SMC
 {

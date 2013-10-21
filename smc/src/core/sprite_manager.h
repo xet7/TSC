@@ -21,8 +21,6 @@
 #include "../core/obj_manager.h"
 #include "../objects/movingsprite.h"
 
-#include <set>
-
 namespace SMC
 {
 

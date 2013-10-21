@@ -4,9 +4,6 @@
 #include "../../core/filesystem/resource_manager.h"
 #include "../../core/framerate.h"
 
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-
 /**
  * Module: SMC
  *

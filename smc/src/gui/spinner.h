@@ -17,9 +17,6 @@
 #define SMC_SPINNER_H
 
 #include "../core/global_basic.h"
-// CEGUI
-#include "elements/CEGUISpinner.h"
-#include "CEGUIWindowFactory.h"
 
 namespace CEGUI
 {

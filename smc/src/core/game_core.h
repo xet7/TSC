@@ -19,8 +19,6 @@
 #include "../core/property_helper.h"
 #include "../objects/sprite.h"
 #include "../core/camera.h"
-// CEGUI
-#include "CEGUIPropertyHelper.h"
 
 namespace SMC
 {

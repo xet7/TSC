@@ -33,16 +33,6 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
-// CEGUI
-#include "CEGUIXMLParser.h"
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIFrameWindow.h"
-#include "elements/CEGUIPushButton.h"
-#include "elements/CEGUITabControl.h"
-#include "elements/CEGUIScrollbar.h"
-#include "CEGUIGeometryBuffer.h"
-// Boost
-#include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;
 

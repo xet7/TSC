@@ -1,10 +1,6 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_SCRIPTABLE_OBJECT_H
 #define SMC_SCRIPTING_SCRIPTABLE_OBJECT_H
-#include <map>
-#include <string>
-#include <vector>
-#include <mruby.h>
 
 namespace SMC{
 	namespace Scripting{

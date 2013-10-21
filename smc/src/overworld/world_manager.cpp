@@ -21,10 +21,6 @@
 #include "../overworld/world_editor.h"
 #include "../input/mouse.h"
 #include "../video/animation.h"
-// CEGUI
-#include "CEGUIXMLParser.h"
-// Boost
-#include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;
 

@@ -13,7 +13,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
 #include "../objects/sprite.h"
 #include "../objects/movingsprite.h"
 #include "../core/game_core.h"
@@ -30,12 +29,6 @@
 #include "../level/level_editor.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "CEGUIFontManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIComboDropList.h"
 
 namespace fs = boost::filesystem;
 

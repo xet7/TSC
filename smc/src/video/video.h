@@ -23,23 +23,6 @@
 #ifdef __unix__
 	#include <GL/glx.h>
 #endif
-// SDL
-#include "SDL.h"
-#include "SDL_image.h"
-#ifdef __unix__
-	#define NO_SDL_GLEXT
-#endif
-#include "SDL_opengl.h"
-#ifdef __unix__
-	#undef NO_SDL_GLEXT
-#endif
-#include "SDL_syswm.h"
-// CEGUI
-#include "CEGUISystem.h"
-#include "RendererModules/OpenGL/CEGUIOpenGLRenderer.h"
-// boost
-#include <boost/filesystem.hpp>
-#include <boost/thread/thread.hpp>
 
 namespace SMC
 {

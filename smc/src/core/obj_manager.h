@@ -17,7 +17,6 @@
 #define SMC_OBJ_MANAGER_H
 
 #include "../core/global_basic.h"
-#include <algorithm>
 
 namespace SMC
 {

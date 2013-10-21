@@ -23,9 +23,6 @@
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
 #include "../scripting/scripting.h"
-// CEGUI
-#include "CEGUIXMLHandler.h"
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

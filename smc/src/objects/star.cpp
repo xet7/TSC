@@ -19,8 +19,6 @@
 #include "../video/animation.h"
 #include "../core/i18n.h"
 #include "../core/game_core.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

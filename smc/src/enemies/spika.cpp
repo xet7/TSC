@@ -22,8 +22,6 @@
 #include "../core/sprite_manager.h"
 #include "../core/i18n.h"
 #include "../enemies/bosses/turtle_boss.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

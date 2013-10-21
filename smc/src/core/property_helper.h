@@ -18,15 +18,6 @@
 
 #include "../core/global_basic.h"
 #include "../core/global_game.h"
-#include "SDL.h"
-#include <algorithm>
-// CEGUI
-#include "CEGUIString.h"
-// Boost
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-// MRuby
-#include <mruby.h>
 
 namespace SMC
 {

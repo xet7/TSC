@@ -16,9 +16,6 @@
 #include "../core/global_basic.h"
 #include "../core/framerate.h"
 #include "../core/math/utilities.h"
-// SDL
-#include "SDL.h"
-
 
 namespace SMC
 {
