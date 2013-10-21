@@ -79,7 +79,6 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-#include <SDL_syswm.h>
 
 // CEGUI
 #include <CEGUI/CEGUI.h>
@@ -89,6 +88,24 @@
 // Other libs
 #include <png.h>
 #include <libintl.h>
+
+// System-specific includes
+#ifdef __unix__
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <SDL_syswm.h>
+#include <GL/glx.h>
+#endif
+
+#ifdef _WIN32
+#include <shlobj.h>
+#endif
+
+#ifdef __APPLE__
+#include <unistd.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <Carbon/Carbon.h>
+#endif
 
 // MRuby
 #include <mruby.h>

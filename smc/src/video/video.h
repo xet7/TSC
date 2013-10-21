@@ -19,10 +19,6 @@
 #include "../core/global_basic.h"
 #include "../core/global_game.h"
 #include "../video/color.h"
-// glx
-#ifdef __unix__
-	#include <GL/glx.h>
-#endif
 
 namespace SMC
 {

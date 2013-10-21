@@ -22,14 +22,6 @@
 #include "../video/renderer.h"
 #include "../user/preferences.h"
 
-#ifdef __unix__
-	// needed for the clipboard access
-	#  include <SDL_syswm.h>
-#elif __APPLE__
-	// needed for the clipboard access
-	#include <Carbon/Carbon.h>
-#endif
-
 namespace SMC
 {
 

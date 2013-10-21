@@ -38,12 +38,6 @@
 #include "../core/i18n.h"
 #include "../gui/generic.h"
 
-#ifdef __APPLE__
-// needed for datapath detection
-#include <CoreFoundation/CoreFoundation.h>
-#include <unistd.h>
-#endif
-
 // SMC namespace is set later to exclude main() from it
 using namespace SMC;
 

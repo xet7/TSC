@@ -36,12 +36,6 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 
-// unix hackfix : undef None from SDL_syswm.h
-#ifdef None
-	#undef None
-#endif
-#include "elements/CEGUIMultiColumnList.h"
-
 namespace fs = boost::filesystem;
 
 namespace SMC
