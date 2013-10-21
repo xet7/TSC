@@ -47,6 +47,8 @@
 #include <cstdlib>
 #include <climits>
 #include <cctype>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 // C++ STL
 #include <iostream>
@@ -79,6 +81,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include <SDL_syswm.h>
 
 // CEGUI
 #include <CEGUI/CEGUI.h>
@@ -91,9 +94,6 @@
 
 // System-specific includes
 #ifdef __unix__
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <SDL_syswm.h>
 #include <GL/glx.h>
 #endif
 
