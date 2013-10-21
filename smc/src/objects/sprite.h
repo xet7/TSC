@@ -16,8 +16,6 @@
 #ifndef SMC_SPRITE_H
 #define SMC_SPRITE_H
 
-#include <string>
-#include <map>
 #include "../core/global_game.h"
 #include "../core/math/rect.h"
 #include "../video/video.h"
@@ -25,8 +23,6 @@
 #include "../scripting/scriptable_object.h"
 #include "../scripting/scripting.h"
 #include "../scripting/objects/sprites/mrb_sprite.h"
-// CEGUI
-#include "CEGUIXMLSerializer.h"
 
 namespace SMC
 {

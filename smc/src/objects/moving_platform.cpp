@@ -28,11 +28,6 @@
 #include "../input/mouse.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIListboxTextItem.h"
-#include "elements/CEGUIEditbox.h"
 
 namespace fs = boost::filesystem;
 

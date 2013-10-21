@@ -23,9 +23,6 @@
 #include "../overworld/world_sprite_manager.h"
 #include "../gui/hud.h"
 #include "../audio/random_sound.h"
-// CEGUI
-#include "CEGUIXMLHandler.h"
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

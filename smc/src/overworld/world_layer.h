@@ -20,9 +20,6 @@
 #include "../objects/movingsprite.h"
 #include "../core/obj_manager.h"
 #include "../overworld/world_waypoint.h"
-// CEGUI
-#include "CEGUIXMLHandler.h"
-#include "CEGUIXMLAttributes.h"
 
 namespace SMC
 {

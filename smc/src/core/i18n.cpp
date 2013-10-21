@@ -17,8 +17,6 @@
 #include "../core/property_helper.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/i18n.h"
-#include "SDL.h"
-#include "SDL_opengl.h"
 
 namespace SMC
 {

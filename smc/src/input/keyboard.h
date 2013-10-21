@@ -20,8 +20,6 @@
 #include "../core/global_game.h"
 #include "../scripting/scriptable_object.h"
 #include "../scripting/objects/misc/mrb_input.h"
-// SDL
-#include "SDL.h"
 
 namespace SMC
 {

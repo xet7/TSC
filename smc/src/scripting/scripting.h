@@ -1,23 +1,8 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_HPP
 #define SMC_SCRIPTING_HPP
-#include <string>
-#include <mruby.h>
-#include <map>
-#include <mruby/compile.h>
-#include <mruby/string.h>
-#include <mruby/hash.h>
-#include <mruby/class.h>
-#include <mruby/data.h>
-#include <mruby/variable.h>
-#include <mruby/proc.h>
-#include <mruby/array.h>
-#include <mruby/range.h>
-#include <boost/filesystem.hpp>
-#include <boost/thread/thread.hpp>
-
+#include "../core/global_basic.h"
 #include "../core/global_game.h"
-
 #include "objects/mrb_smc.h"
 
 // Some defines to ease use of mruby

@@ -19,8 +19,6 @@
 #include "../core/global_basic.h"
 #include "../video/video.h"
 #include "../core/obj_manager.h"
-// CEGUI
-#include "CEGUIXMLSerializer.h"
 
 namespace SMC
 {

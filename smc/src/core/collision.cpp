@@ -20,8 +20,6 @@
 #include "../level/level_player.h"
 #include "../video/gl_surface.h"
 #include "../core/sprite_manager.h"
-// for binary_function and bind2nd
-#include <functional>
 
 namespace SMC
 {

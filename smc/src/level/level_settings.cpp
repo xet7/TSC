@@ -26,17 +26,6 @@
 #include "../audio/audio.h"
 #include "../gui/generic.h"
 #include "../core/i18n.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUISpinner.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIMultiLineEditbox.h"
-#include "elements/CEGUIPushButton.h"
-#include "elements/CEGUITabControl.h"
-#include "elements/CEGUISlider.h"
-#include "elements/CEGUIListbox.h"
-#include "elements/CEGUIListboxTextItem.h"
 
 namespace fs = boost::filesystem;
 

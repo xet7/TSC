@@ -26,9 +26,6 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../scripting/events/gold_100_event.h"
-// CEGUI
-#include "CEGUIWindowManager.h"
-#include "CEGUIFontManager.h"
 
 namespace SMC
 {

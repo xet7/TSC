@@ -21,11 +21,6 @@
 #include "../input/mouse.h"
 #include "../core/math/utilities.h"
 #include "../core/i18n.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICheckbox.h"
 
 namespace SMC
 {

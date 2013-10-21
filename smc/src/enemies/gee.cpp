@@ -20,12 +20,6 @@
 #include "../gui/hud.h"
 #include "../input/mouse.h"
 #include "../core/i18n.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIListboxTextItem.h"
 
 namespace SMC
 {

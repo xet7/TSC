@@ -19,12 +19,6 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/i18n.h"
-// CEGUI
-#include "CEGUIXMLParser.h"
-#include "CEGUIExceptions.h"
-// Boost
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
 
 namespace fs = boost::filesystem;
 

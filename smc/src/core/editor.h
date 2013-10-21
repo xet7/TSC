@@ -20,13 +20,6 @@
 #include "../objects/sprite.h"
 #include "../gui/hud.h"
 #include "../video/img_settings.h"
-// CEGUI
-#include "CEGUIXMLHandler.h"
-#include "CEGUIXMLAttributes.h"
-#include "elements/CEGUIListbox.h"
-#include "elements/CEGUIListboxTextItem.h"
-#include "CEGUIImageset.h"
-#include "RendererModules/OpenGL/CEGUIOpenGLTexture.h"
 
 namespace SMC
 {

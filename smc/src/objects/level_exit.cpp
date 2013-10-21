@@ -26,14 +26,6 @@
 #include "../level/level.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIListboxTextItem.h"
-// Boost
-#include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;
 

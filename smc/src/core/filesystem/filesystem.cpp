@@ -15,16 +15,8 @@
 
 #include "../../core/filesystem/filesystem.h"
 #include "../../core/game_core.h"
-// boost filesystem
-#include "boost/filesystem/convenience.hpp"
+
 namespace fs = boost::filesystem;
-// needed for the stat function and to get the user directory on unix
-#include <sys/stat.h>
-#include <sys/types.h>
-#if _WIN32
-// needed to get the user directory (SHGetFolderPath)
-#include <shlobj.h>
-#endif
 
 namespace SMC
 {

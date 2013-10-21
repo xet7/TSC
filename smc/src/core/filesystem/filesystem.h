@@ -16,7 +16,6 @@
 #ifndef SMC_FILESYSTEM_H
 #define SMC_FILESYSTEM_H
 
-#include <boost/filesystem.hpp>
 #include "../../core/global_basic.h"
 
 namespace SMC

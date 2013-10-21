@@ -17,8 +17,6 @@
 #define SMC_JOYSTICK_H
 
 #include "../core/global_basic.h"
-// SDL
-#include "SDL.h"
 
 namespace SMC
 {

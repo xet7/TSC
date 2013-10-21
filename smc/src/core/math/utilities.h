@@ -18,8 +18,6 @@
 
 #include "../../core/global_basic.h"
 #include "../../core/global_game.h"
-// for rand()
-#include <cstdlib>
 
 namespace SMC
 {

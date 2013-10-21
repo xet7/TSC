@@ -57,12 +57,7 @@
 #include "../core/filesystem/boost_relative.h"
 #include "../overworld/world_editor.h"
 #include "../scripting/events/key_down_event.h"
-// CEGUI
-#include "CEGUIXMLParser.h"
-#include "CEGUIExceptions.h"
-// Boost
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
+
 namespace fs = boost::filesystem;
 
 /* Function call order on level (un)loading

@@ -13,7 +13,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <boost/filesystem.hpp>
 #include "../video/img_settings.h"
 #include "../core/game_core.h"
 #include "../core/math/utilities.h"

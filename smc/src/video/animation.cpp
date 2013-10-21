@@ -24,13 +24,6 @@
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
 #include "../input/mouse.h"
-// CEGUI
-#include "CEGUIXMLAttributes.h"
-#include "CEGUIWindowManager.h"
-#include "elements/CEGUIEditbox.h"
-#include "elements/CEGUICheckbox.h"
-#include "elements/CEGUICombobox.h"
-#include "elements/CEGUIListboxTextItem.h"
 
 namespace fs = boost::filesystem;
 

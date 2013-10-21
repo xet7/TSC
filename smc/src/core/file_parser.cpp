@@ -19,7 +19,6 @@
 #include "../core/global_basic.h"
 #include "../core/file_parser.h"
 #include "../core/game_core.h"
-#include <cstdio>
 
 namespace fs = boost::filesystem;
 

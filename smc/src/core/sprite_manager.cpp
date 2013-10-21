@@ -18,9 +18,6 @@
 #include "../level/level_player.h"
 #include "../input/mouse.h"
 #include "../overworld/world_player.h"
-#include <algorithm>
-#include <stdexcept>
-#include <climits>
 
 namespace SMC
 {

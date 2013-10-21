@@ -42,9 +42,6 @@
 #include "objects/specials/mrb_level_exit.h"
 #include "objects/specials/mrb_path.h"
 
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-
 /*****************************************************************************
  Scripting organisation
 

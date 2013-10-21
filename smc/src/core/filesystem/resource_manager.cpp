@@ -18,7 +18,6 @@
 #elif defined(__linux)
 #include <limits.h>
 #endif
-#include <boost/filesystem/path.hpp>
 
 #include "resource_manager.h"
 #include "filesystem.h"

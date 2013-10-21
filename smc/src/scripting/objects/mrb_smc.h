@@ -1,7 +1,6 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_SMC_H
 #define SMC_SCRIPTING_SMC_H
-#include <map>
 #include "../scripting.h"
 
 namespace SMC {

@@ -40,15 +40,101 @@
 	#define debug_print(format, ...)
 #endif
 
-/* *** *** *** *** *** *** *** Standard setup *** *** *** *** *** *** *** *** *** *** */
+/* *** *** *** *** *** *** *** Includes *** *** *** *** *** *** *** *** *** *** */
 
+// C stdlib
+#include <cstdio>
+#include <cstdlib>
+#include <climits>
+#include <cctype>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+// C++ STL
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <time.h>
 #include <math.h>
+#include <functional>
+#include <set>
+#include <algorithm>
+#include <stdexcept>
+#include <map>
+
+// Boost
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem/convenience.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/chrono.hpp>
+#include "filesystem/boost_relative.h"
+
+// SDL
+#ifdef __unix__
+  #define NO_SDL_GLEXT
+#endif
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
+
+// X.h, included by SDL_syswm.h on *nix, defines None (as 0L),
+// while CEGUI uses None as part of an enumeration. This
+// make the CEGUI include explosde if we leave None defined.
+// We redefine it at the end of this file.
+#include <SDL_syswm.h>
+#ifdef __unix__
+#undef None
+#endif
+
+// CEGUI
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
+#include <CEGUI/RendererModules/Null/CEGUINullRenderer.h>
+
+// Other libs
+#include <png.h>
+#include <libintl.h>
+
+// System-specific includes
+#ifdef __unix__
+#include <GL/glx.h>
+#endif
+
+#ifdef _WIN32
+#include <shlobj.h>
+#endif
+
+#ifdef __APPLE__
+#include <unistd.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <Carbon/Carbon.h>
+#endif
+
+// MRuby
+#include <mruby.h>
+#include <mruby/compile.h>
+#include <mruby/string.h>
+#include <mruby/array.h>
+#include <mruby/hash.h>
+#include <mruby/class.h>
+#include <mruby/data.h>
+#include <mruby/variable.h>
+#include <mruby/proc.h>
+#include <mruby/range.h>
+
+#ifndef PNG_COLOR_TYPE_RGBA
+	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
+#endif
+
+// Redefine None to 0L (see note on including SDL_syswm.h above)
+#ifdef __unix__
+#define None 0L
+#endif
 
 using std::vector;
 using std::ifstream;

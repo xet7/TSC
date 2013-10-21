@@ -20,14 +20,6 @@
 #include "../core/i18n.h"
 #include "../overworld/world_editor.h"
 #include "../core/filesystem/resource_manager.h"
-// CEGUI
-#include "CEGUIXMLParser.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUIExceptions.h"
-#include "elements/CEGUIEditbox.h"
-// Boost
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
 
 namespace fs = boost::filesystem;
 

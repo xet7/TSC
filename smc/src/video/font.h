@@ -18,9 +18,6 @@
 
 #include "../core/global_basic.h"
 #include "../video/img_manager.h"
-// SDL
-// also includes SDL.h
-#include "SDL_ttf.h"
 
 namespace SMC
 {

@@ -16,11 +16,6 @@
 #ifndef SMC_COLOR_H
 #define SMC_COLOR_H
 
-// SDL
-#include "SDL.h"
-// CEGUI
-#include "CEGUIcolour.h"
-
 namespace SMC
 {
 
