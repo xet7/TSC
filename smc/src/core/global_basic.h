@@ -81,7 +81,15 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+
+// X.h, included by SDL_syswm.h on *nix, defines None (as 0L),
+// while CEGUI uses None as part of an enumeration. This
+// make the CEGUI include explosde if we leave None defined.
+// We redefine it at the end of this file.
 #include <SDL_syswm.h>
+#ifdef __unix__
+#undef None
+#endif
 
 // CEGUI
 #include <CEGUI/CEGUI.h>
@@ -121,6 +129,11 @@
 
 #ifndef PNG_COLOR_TYPE_RGBA
 	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
+#endif
+
+// Redefine None to 0L (see note on including SDL_syswm.h above)
+#ifdef __unix__
+#define None 0L
 #endif
 
 using std::vector;
