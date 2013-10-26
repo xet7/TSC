@@ -53,10 +53,12 @@ improvement over the overly-complex autotool mess.
 * GNU Gettext.
 * The FreeImage library.
 * The LibPNG library.
-* The SDL main library plus SDL_image, SDL_mixer and SDL_ttf,
+* The SDL main library plus SDL_image and SDL_mixer,
   all <2.0, which is not supported yet. (Hey, it’s a large codebase
   and I’m working on it alone!)
+* The SDL_ttf library.
 * The libPCRE regular expression library.
+* The libxml++ library.
 
 ### Checkout the repository ###
 
@@ -107,7 +109,7 @@ once).
 % git clone git://github.com/Quintus/mxe.git
 % cd mxe
 % git checkout smc-building
-% make -j4 cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf boost
+% make -j4 cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf libxml++ boost
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This will take a few hours.
