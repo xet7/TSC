@@ -2,11 +2,10 @@
 #ifndef SMC_LEVEL_LOADER_H
 #define SMC_LEVEL_LOADER_H
 #include "../core/global_basic.h"
+#include "../core/global_game.h"
 #include "level.h"
 
 namespace SMC {
-
-	typedef std::map<std::string, std::string> XmlAttributes;
 
 	/**
 	 * This class is used to construct a level from a given XML file.
@@ -41,8 +40,8 @@ namespace SMC {
 	private:
 		void Parse_Tag_Information();
 		void Parse_Tag_Settings();
-		/*void Parse_Tag_Background();
-		void Parse_Tag_Player();
+		void Parse_Tag_Background();
+		/*void Parse_Tag_Player();
 		void Parse_Tag_Script(); */
 		void Parse_Level_Object_Tag(const std::string& name);
 		/* cSprite* Create_Level_Object_From_XML(const std::string& name); */

@@ -81,6 +81,8 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Information();
 	else if (name == "settings")
 		Parse_Tag_Settings();
+	else if (name == "background")
+		Parse_Tag_Background();
 	else {
 		if (cLevel::Is_Level_Object_Element(std::string(name)))
 			Parse_Level_Object_Tag(name);
@@ -137,6 +139,17 @@ void cLevelLoader::Parse_Tag_Settings()
 											string_to_float(m_current_properties["cam_limit_y"]),
 											string_to_float(m_current_properties["cam_limit_w"]),
 											string_to_float(m_current_properties["cam_limit_h"]));
+}
+
+void cLevelLoader::Parse_Tag_Background()
+{
+	BackgroundType bg_type = static_cast<BackgroundType>(string_to_int(m_current_properties["type"]));
+
+	// Use gradient background
+	if (bg_type == BG_GR_HOR || bg_type == BG_GR_VER)
+		mp_level->m_background_manager->Get_Pointer(0)->Load_From_Attributes(m_current_properties);
+	else // default background
+		mp_level->m_background_manager->Add(new cBackground(m_current_properties, mp_level->m_sprite_manager));
 }
 
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)

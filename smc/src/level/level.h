@@ -17,6 +17,7 @@
 #define SMC_LEVEL_H
 
 #include "../core/global_basic.h"
+#include "../core/global_game.h"
 #include "../level/level_background.h"
 #include "../level/level_manager.h"
 #include "../objects/level_entry.h"

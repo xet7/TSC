@@ -44,6 +44,7 @@ public:
 	cBackground( cSprite_Manager *sprite_manager );
 	// create from stream
 	cBackground( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cBackground( XmlAttributes& attributes, cSprite_Manager* sprite_manager );
 	// destructor
 	~cBackground( void );
 
@@ -52,6 +53,7 @@ public:
 
 	// load from stream
 	void Load_From_XML( CEGUI::XMLAttributes &attributes );
+	void Load_From_Attributes( XmlAttributes& attributes );
 	// save to stream
 	void Save_To_XML( CEGUI::XMLSerializer &stream );
 

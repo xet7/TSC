@@ -16,6 +16,7 @@
 #ifndef SMC_GLOBAL_GAME_H
 #define SMC_GLOBAL_GAME_H
 #include "config.h"
+#include "global_basic.h"
 
 namespace SMC
 {
@@ -437,11 +438,15 @@ class cSize_Int;
 class cSprite_Manager;
 class cSurface_Request;
 class cSprite;
+class cBackground_Manager;
 class cWorld_Sprite_Manager;
 class Color;
 class GL_rect;
 class GL_line;
 class GL_point;
+class cLevelLoader;
+
+typedef std::map<std::string, std::string> XmlAttributes;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

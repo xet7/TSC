@@ -41,6 +41,13 @@ cBackground :: cBackground( CEGUI::XMLAttributes &attributes, cSprite_Manager *s
 	cBackground::Load_From_XML( attributes );
 }
 
+cBackground :: cBackground( XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+{
+	cBackground::Init();
+	cBackground::Set_Sprite_Manager( sprite_manager );
+	cBackground::Load_From_Attributes( attributes );
+}
+
 cBackground :: ~cBackground( void )
 {
 	//
@@ -86,6 +93,36 @@ void cBackground :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 		Set_Scroll_Speed( attributes.getValueAsFloat( "speedx" ), attributes.getValueAsFloat( "speedy" ) );
 		Set_Const_Velocity_X( attributes.getValueAsFloat( "const_velx" ) );
 		Set_Const_Velocity_Y( attributes.getValueAsFloat( "const_vely" ) );
+	}
+}
+
+void cBackground :: Load_From_Attributes( XmlAttributes &attributes )
+{
+	Set_Type( static_cast<BackgroundType>( string_to_int( attributes["type"] ) ) );
+
+	if ( m_type == BG_GR_HOR || m_type == BG_GR_VER )
+	{
+		int r, g, b;
+
+		r = string_to_int(attributes["bg_color_1_red"]);
+		g = string_to_int(attributes["bg_color_1_green"]);
+		b = string_to_int(attributes["bg_color_1_blue"]);
+		Set_Color_1(Color(static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b)));
+
+		r = string_to_int(attributes["bg_color_2_red"]);
+		g = string_to_int(attributes["bg_color_2_green"]);
+		b = string_to_int(attributes["bg_color_2_blue"]);
+		Set_Color_2(Color(static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b)));
+	}
+	else if ( m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL )
+	{
+		Set_Start_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]) );
+		Set_Pos_Z( string_to_float(attributes["posz"]) );
+
+		Set_Image( utf8_to_path(attributes["image"]) );
+		Set_Scroll_Speed( string_to_float(attributes["speedx"]), string_to_float(attributes["speedy"]) );
+		Set_Const_Velocity_X( string_to_float(attributes["const_velx"]) );
+		Set_Const_Velocity_Y( string_to_float(attributes["const_vely"]) );
 	}
 }
 
