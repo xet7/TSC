@@ -171,6 +171,7 @@ cLevel :: ~cLevel( void )
 	// level doesn't exist
 	if( !ifs )
 	{
+		debug_print("Created new level: %s\n", path_to_utf8(filename).c_str());
 		// set filename
 		m_level_filename = filename;
 		m_engine_version = level_engine_version;
@@ -233,6 +234,7 @@ bool cLevel :: Load( std::string levelname )
 	}
 
 	m_level_filename = filename;
+	debug_print("Loaded level: %s\n", path_to_utf8(m_level_filename).c_str());
 
 	// engine version entry not set
 	if( m_engine_version < 0 )
@@ -280,6 +282,7 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	// no version
 	m_engine_version = -1;
 
+	debug_print("Unloaded level: %s\n", path_to_utf8(m_level_filename).c_str());
 	m_level_filename.clear();
 
 	Reset_Settings();
