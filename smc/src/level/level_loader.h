@@ -39,13 +39,13 @@ namespace SMC {
 		virtual void on_characters(const Glib::ustring& text);
 
 	private:
-		/* void Parse_Tag_Information();
-		void Parse_Tag_Settings();
+		void Parse_Tag_Information();
+		/*void Parse_Tag_Settings();
 		void Parse_Tag_Background();
 		void Parse_Tag_Player();
-		void Parse_Tag_Script();
+		void Parse_Tag_Script(); */
 		void Parse_Level_Object_Tag(const std::string& name);
-		cSprite* Create_Level_Object_From_XML(const std::string& name); */
+		/* cSprite* Create_Level_Object_From_XML(const std::string& name); */
 
 		// The cLevel instance we’re building
 		cLevel* mp_level;

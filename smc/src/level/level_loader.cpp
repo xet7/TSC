@@ -1,4 +1,5 @@
 #include "level_loader.h"
+#include "../core/property_helper.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -75,6 +76,16 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 	if (name == "property")
 		return;
 
+	// Now for the real, cumbersome parsing process
+	if (name == "information")
+		Parse_Tag_Information();
+	else {
+		if (cLevel::Is_Level_Object_Element(std::string(name)))
+			Parse_Level_Object_Tag(name);
+		else
+			std::cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << std::endl;
+	}
+
 	// Everything handled, so we can now safely clear the
 	// collected <property> element values for the next
 	// tag.
@@ -90,3 +101,20 @@ void cLevelLoader::on_characters(const Glib::ustring& text)
  * Parsers for mayor XML tags
  ***************************************/
 
+void cLevelLoader::Parse_Tag_Information()
+{
+	// Support V1.7 and lower which used float
+	float engine_version_float = string_to_float(m_current_properties["engine_version"]);
+
+	// if float engine version
+	if (engine_version_float < 3)
+		engine_version_float *= 10; // change to new format
+
+	mp_level->m_engine_version = static_cast<int>(engine_version_float);
+	mp_level->m_last_saved     = string_to_int64(m_current_properties["save_time"]);
+}
+
+void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
+{
+	// TODO
+}
