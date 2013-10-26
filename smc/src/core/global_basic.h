@@ -72,6 +72,9 @@
 #include <boost/chrono.hpp>
 #include "filesystem/boost_relative.h"
 
+// libxml++
+#include <libxml++/libxml++.h>
+
 // SDL
 #ifdef __unix__
   #define NO_SDL_GLEXT
