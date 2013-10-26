@@ -40,8 +40,8 @@ namespace SMC {
 
 	private:
 		void Parse_Tag_Information();
-		/*void Parse_Tag_Settings();
-		void Parse_Tag_Background();
+		void Parse_Tag_Settings();
+		/*void Parse_Tag_Background();
 		void Parse_Tag_Player();
 		void Parse_Tag_Script(); */
 		void Parse_Level_Object_Tag(const std::string& name);

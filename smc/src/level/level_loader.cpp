@@ -79,6 +79,8 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 	// Now for the real, cumbersome parsing process
 	if (name == "information")
 		Parse_Tag_Information();
+	else if (name == "settings")
+		Parse_Tag_Settings();
 	else {
 		if (cLevel::Is_Level_Object_Element(std::string(name)))
 			Parse_Level_Object_Tag(name);
@@ -112,6 +114,29 @@ void cLevelLoader::Parse_Tag_Information()
 
 	mp_level->m_engine_version = static_cast<int>(engine_version_float);
 	mp_level->m_last_saved     = string_to_int64(m_current_properties["save_time"]);
+}
+
+void cLevelLoader::Parse_Tag_Settings()
+{
+	// If V1.9 and lower: Move Y coordinate bottom to 0
+	if (mp_level->m_engine_version < 35 && m_current_properties.count("cam_limit_h") > 0) {
+		float y = string_to_float(m_current_properties["cam_limit_h"]);
+		m_current_properties["cam_lmit_h"] = float_to_string(y - 600.0f);
+	}
+
+	mp_level->Set_Author(                              m_current_properties["lvl_author"]);
+	mp_level->Set_Version(                             m_current_properties["lvl_version"]);
+	mp_level->Set_Difficulty(  string_to_int(          m_current_properties["lvl_difficulty"]));
+	mp_level->Set_Description( xml_string_to_string(   m_current_properties["lvl_description"]));
+	mp_level->Set_Music(       utf8_to_path(           m_current_properties["lvl_music"]));
+	mp_level->Set_Land_Type(   Get_Level_Land_Type_Id( m_current_properties["lvl_land_type"]));
+
+	mp_level->m_fixed_camera_hor_vel = string_to_float(m_current_properties["cam_fixed_hor_vel"]);
+
+	mp_level->m_camera_limits = GL_rect(	string_to_float(m_current_properties["cam_limit_x"]),
+											string_to_float(m_current_properties["cam_limit_y"]),
+											string_to_float(m_current_properties["cam_limit_w"]),
+											string_to_float(m_current_properties["cam_limit_h"]));
 }
 
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)

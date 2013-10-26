@@ -78,7 +78,7 @@ double string_to_double( const std::string &str );
 bool string_to_bool( const std::string &str);
 // Return the version number
 unsigned int string_to_version_number( std::string str );
-// Return the non-xml string
+// Replaces the <br/> found in XML strings with \n.
 std::string xml_string_to_string( std::string str );
 #ifdef _WIN32
 // Return it as UTF-8 string
