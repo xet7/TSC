@@ -17,8 +17,9 @@
 # http://www.kernel.org/pub/software/scm/git/docs/gitignore.html
 #
 
-# The normal build directory
+# The normal build directories
 /smc/build
+/smc/crossbuild
 
 # Generated
 /smc/*.log
