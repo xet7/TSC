@@ -192,39 +192,49 @@ void cLevelLoader::Parse_Tag_Player()
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
 {
 	// create sprite
-	cSprite* p_object = NULL;
-	p_object = Create_Level_Object_From_XML(name, m_current_properties, mp_level->m_engine_version, mp_level->m_sprite_manager);
+	std::vector<cSprite*> sprites = Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_level->m_engine_version);
 
 	// valid
-	if (p_object) {
-		/* If a static UID has been set, assign it to the sprite.
-		 * -1 means "no UID set" and instructs cSprite_Manager to
-		 * assign a new, free one to the object. Note that in the
-		 * unlikely case of intermixed static and dynamic UIDs (i.e.
-		 * some sprites have UIDs assigned, others not — this can only
-		 * be achieved by editing the level XML by hand, the editor does
-		 * not allow this) it could happen that cSprite_Manager’s UID
-		 * generator generates a UID (and assignes it to the object) that
-		 * is later set as a static UID for another sprite — causing this
-		 * sprite to have the same UID as the one with the generated UID
-		 * (this will print a warning to the console if SMC is compiled
-		 * in debug mode). We cannot know this in advance, but as said
-		 * you have to edit the XML by hand and therefore we can ignore
-		 * this case safely. */
+	if (sprites.size() > 0) {
+		/* If a static UID has been set, assign it to the sprite. -1
+		 * (cSprite’s default) means "no UID set" and instructs
+		 * cSprite_Manager to assign a new, free one to the
+		 * object. Note that in the unlikely case of intermixed static
+		 * and dynamic UIDs (i.e.  some sprites have UIDs assigned,
+		 * others not — this can only be achieved by editing the level
+		 * XML by hand, the editor does not allow this) it could
+		 * happen that cSprite_Manager’s UID generator generates a UID
+		 * (and assignes it to the object) that is later set as a
+		 * static UID for another sprite — causing this sprite to have
+		 * the same UID as the one with the generated UID (this will
+		 * print a warning to the console if SMC is compiled in debug
+		 * mode). We cannot know this in advance, but as said you have
+		 * to edit the XML by hand and therefore we can ignore this
+		 * case safely. */
 		if (m_current_properties.count("uid"))
-			p_object->m_uid = string_to_int(m_current_properties["uid"]);
-		else
-			p_object->m_uid = -1;
+			sprites[0]->m_uid = string_to_int(m_current_properties["uid"]); // The 98% case is that we get only one sprite back, the other 2% are backward compatibility
 
-		mp_level->m_sprite_manager->Add(p_object);
+		for(std::vector<cSprite*>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+			mp_level->m_sprite_manager->Add(*iter);
 	}
 }
 
 /***************************************
- * Create_Level_Object_From_XML()
+ * Create_Level_Objects_From_XML_Tag()
  ***************************************/
 
-cSprite* cLevelLoader::Create_Level_Object_From_XML(std::string name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version)
 {
-	return NULL; // TODO
+	if (name == "sprite")
+		return Create_Sprites_From_XML_Tag(name, attributes, engine_version);
+
+	// keep above list sync with cLevel::Is_Level_Object_Element()
+
+	// This is not a level object tag, return empty list
+	return std::vector<cSprite*>();
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version)
+{
+	return std::vector<cSprite*>(); // TODO
 }

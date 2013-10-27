@@ -420,7 +420,7 @@ void cSprite :: Init( void )
 
 	m_editor_window_name_width = 0.0f;
 
-	m_uid = 0;
+	m_uid = -1;
 }
 
 cSprite *cSprite :: Copy( void ) const
@@ -440,7 +440,7 @@ cSprite *cSprite :: Copy( void ) const
 	basic_sprite->Set_Shadow_Color( m_shadow_color );
 	basic_sprite->Set_Spawned( m_spawned );
 
-	basic_sprite->m_uid = 0;
+	basic_sprite->m_uid = -1;
 
 	return basic_sprite;
 }

@@ -23,7 +23,12 @@ namespace SMC {
 	class cLevelLoader: public xmlpp::SaxParser
 	{
 	public:
-		static cSprite* Create_Level_Object_From_XML(std::string name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		// Takes the sprite’s main XML tag name, a list of parsed <property> elements
+		// and the level’s engine version and creates a cSprite instance from that.
+		// That is, the return value usually is a std::vector with a single cSprite
+		// in it, but sometimes (notably on backward compatibility), a single XML
+		// element breaks up into multiple sprites you then get back all in that vector.
+		static std::vector<cSprite*> Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version);
 
 		cLevelLoader(boost::filesystem::path levelfile);
 		virtual ~cLevelLoader();
@@ -40,6 +45,8 @@ namespace SMC {
 		virtual void on_characters(const Glib::ustring& text);
 
 	private:
+		static std::vector<cSprite*> Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version);
+
 		void Parse_Tag_Information();
 		void Parse_Tag_Settings();
 		void Parse_Tag_Background();
