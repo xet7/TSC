@@ -1,4 +1,5 @@
 #include "level_loader.h"
+#include "level_player.h"
 #include "../core/property_helper.h"
 
 namespace fs = boost::filesystem;
@@ -83,6 +84,8 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Settings();
 	else if (name == "background")
 		Parse_Tag_Background();
+	else if (name == "player")
+		Parse_Tag_Player();
 	else {
 		if (cLevel::Is_Level_Object_Element(std::string(name)))
 			Parse_Level_Object_Tag(name);
@@ -150,6 +153,33 @@ void cLevelLoader::Parse_Tag_Background()
 		mp_level->m_background_manager->Get_Pointer(0)->Load_From_Attributes(m_current_properties);
 	else // default background
 		mp_level->m_background_manager->Add(new cBackground(m_current_properties, mp_level->m_sprite_manager));
+}
+
+void cLevelLoader::Parse_Tag_Player()
+{
+	// Defaults
+	mp_level->m_player_start_pos_x = cLevel_Player::m_default_pos_x;
+	mp_level->m_player_start_pos_y = cLevel_Player::m_default_pos_y;
+
+	if (m_current_properties.count("posx"))
+		mp_level->m_player_start_pos_x = string_to_float(m_current_properties["posx"]);
+	if (m_current_properties.count("posy"))
+		mp_level->m_player_start_pos_y = string_to_float(m_current_properties["posy"]);
+
+	// If V1.9 and lower: Move Y coordinate bottom to 0
+	if (mp_level->m_engine_version < 35)
+		mp_level->m_player_start_pos_y -= 600.0f;
+
+	// Adjust with Y offsets other versions had
+	if (mp_level->m_engine_version <= 10)
+		mp_level->m_player_start_pos_y += 58.0f;
+	else if (mp_level->m_engine_version <= 20)
+		mp_level->m_player_start_pos_y -= 48.0f;
+
+	// direction, set to default if invalid
+	mp_level->m_player_start_direction = Get_Direction_Id(m_current_properties["direction"]);
+	if (mp_level->m_player_start_direction != DIR_LEFT && mp_level->m_player_start_direction != DIR_RIGHT)
+		mp_level->m_player_start_direction = DIR_RIGHT;
 }
 
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
