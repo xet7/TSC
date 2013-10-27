@@ -103,7 +103,11 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 
 void cLevelLoader::on_characters(const Glib::ustring& text)
 {
-
+	/* If we’re currently in the <script> tag, read its
+	 * text (may be called multiple times for each token,
+	 * so append rather then set directly). */
+	if (m_in_script_tag)
+		mp_level->m_script.append(text);
 }
 
 /***************************************
