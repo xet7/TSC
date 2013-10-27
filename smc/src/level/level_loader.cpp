@@ -88,6 +88,10 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Player();
 	else if (cLevel::Is_Level_Object_Element(std::string(name))) // CEGUI doesn’t like Glib::ustring
 		Parse_Level_Object_Tag(name);
+	else if (name == "level")
+		{}// Ignore the root <level> tag
+	else if (name == "script")
+		m_in_script_tag = false; // Indicate the <script> tag has ended
 	else
 		std::cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << std::endl;
 
