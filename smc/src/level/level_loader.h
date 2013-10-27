@@ -1,7 +1,6 @@
 // -*- c++ -*-
 #ifndef SMC_LEVEL_LOADER_H
 #define SMC_LEVEL_LOADER_H
-#include "../core/global_basic.h"
 #include "../core/global_game.h"
 #include "level.h"
 
@@ -23,6 +22,8 @@ namespace SMC {
 	class cLevelLoader: public xmlpp::SaxParser
 	{
 	public:
+		static cSprite* Create_Level_Object_From_XML(const std::string& name);
+
 		cLevelLoader(boost::filesystem::path levelfile);
 		virtual ~cLevelLoader();
 
@@ -43,7 +44,6 @@ namespace SMC {
 		void Parse_Tag_Background();
 		void Parse_Tag_Player();
 		void Parse_Level_Object_Tag(const std::string& name);
-		/* cSprite* Create_Level_Object_From_XML(const std::string& name); */
 
 		// The cLevel instance we’re building
 		cLevel* mp_level;

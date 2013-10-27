@@ -1,5 +1,6 @@
 #include "level_loader.h"
 #include "level_player.h"
+#include "../core/sprite_manager.h"
 #include "../core/property_helper.h"
 
 namespace fs = boost::filesystem;
@@ -89,7 +90,7 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 	else if (cLevel::Is_Level_Object_Element(std::string(name))) // CEGUI doesn’t like Glib::ustring
 		Parse_Level_Object_Tag(name);
 	else if (name == "level")
-		{}// Ignore the root <level> tag
+		{ /* Ignore the root <level> tag */ }
 	else if (name == "script")
 		m_in_script_tag = false; // Indicate the <script> tag has ended
 	else
@@ -190,5 +191,40 @@ void cLevelLoader::Parse_Tag_Player()
 
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
 {
-	// TODO
+	// create sprite
+	cSprite* p_object = NULL;
+	p_object = Create_Level_Object_From_XML(name);
+
+	// valid
+	if (p_object) {
+		/* If a static UID has been set, assign it to the sprite.
+		 * -1 means "no UID set" and instructs cSprite_Manager to
+		 * assign a new, free one to the object. Note that in the
+		 * unlikely case of intermixed static and dynamic UIDs (i.e.
+		 * some sprites have UIDs assigned, others not — this can only
+		 * be achieved by editing the level XML by hand, the editor does
+		 * not allow this) it could happen that cSprite_Manager’s UID
+		 * generator generates a UID (and assignes it to the object) that
+		 * is later set as a static UID for another sprite — causing this
+		 * sprite to have the same UID as the one with the generated UID
+		 * (this will print a warning to the console if SMC is compiled
+		 * in debug mode). We cannot know this in advance, but as said
+		 * you have to edit the XML by hand and therefore we can ignore
+		 * this case safely. */
+		if (m_current_properties.count("uid"))
+			p_object->m_uid = string_to_int(m_current_properties["uid"]);
+		else
+			p_object->m_uid = -1;
+
+		mp_level->m_sprite_manager->Add(p_object);
+	}
+}
+
+/***************************************
+ * Create_Level_Object_From_XML()
+ ***************************************/
+
+cSprite* cLevelLoader::Create_Level_Object_From_XML(const std::string& name)
+{
+	return NULL; // TODO
 }
