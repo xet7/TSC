@@ -236,5 +236,66 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 
 std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version)
 {
-	return std::vector<cSprite*>(); // TODO
+	std::vector<cSprite*> result;
+
+	// V1.4 and lower: change some image paths
+	if (engine_version < 25) {
+		attributes.relocate_image( "game/box/stone8.png", "blocks/metal/stone_2_violet.png" );
+		attributes.relocate_image( "ground/jungle_1/tree_type_1.png", "ground/jungle_1/tree/1.png" );
+		attributes.relocate_image( "ground/jungle_1/tree_type_1_front.png", "ground/jungle_1/tree/1_front.png" );
+		attributes.relocate_image( "ground/jungle_1/tree_type_2.png", "ground/jungle_1/tree/2.png" );
+		attributes.relocate_image( "ground/yoshi_1/extra_1_blue.png", "ground/jungle_2/hedge/1_blue.png" );
+		attributes.relocate_image( "ground/yoshi_1/extra_1_green.png", "ground/jungle_2/hedge/1_green.png" );
+		attributes.relocate_image( "ground/yoshi_1/extra_1_red.png", "ground/jungle_2/hedge/1_red.png" );
+		attributes.relocate_image( "ground/yoshi_1/extra_1_yellow.png", "ground/jungle_2/hedge/1_yellow.png" );
+		attributes.relocate_image( "ground/yoshi_1/rope_1_leftright.png", "ground/jungle_2/rope_1_hor.png" );
+	}
+	// V1.5 and lower: change pipe connection image paths
+	if (engine_version < 28) {
+		attributes.relocate_image( "blocks/pipe/connection_left_down.png", "blocks/pipe/connection/plastic_1/orange/right_up.png" );
+		attributes.relocate_image( "blocks/pipe/connection_left_up.png", "blocks/pipe/connection/plastic_1/orange/right_down.png" );
+		attributes.relocate_image( "blocks/pipe/connection_right_down.png", "blocks/pipe/connection/plastic_1/orange/left_up.png" );
+		attributes.relocate_image( "blocks/pipe/connection_right_up.png", "blocks/pipe/connection/plastic_1/orange/left_down.png" );
+		attributes.relocate_image( "blocks/pipe/metal_connector.png", "blocks/pipe/connection/metal_1/grey/middle.png" );
+	}
+	// V1.7 and lower: change yoshi_1 hill_up to jungle_1 slider image paths
+	if (engine_version < 31) {
+		attributes.relocate_image( "ground/yoshi_1/hill_up_1.png", "ground/jungle_1/slider/2_green_left.png" );
+		attributes.relocate_image( "ground/yoshi_1/hill_up_2.png", "ground/jungle_1/slider/2_blue_left.png" );
+		attributes.relocate_image( "ground/yoshi_1/hill_up_3.png", "ground/jungle_1/slider/2_brown_left.png" );
+	}
+	// V1.7.x and lower: change green_1 ground to green_3 ground image paths
+	if (engine_version < 34) {
+		// normal
+		attributes.relocate_image( "ground/green_1/ground/left_up.png", "ground/green_3/ground/top/left.png" );
+		attributes.relocate_image( "ground/green_1/ground/left_down.png", "ground/green_3/ground/bottom/left.png" );
+		attributes.relocate_image( "ground/green_1/ground/right_up.png", "ground/green_3/ground/top/right.png" );
+		attributes.relocate_image( "ground/green_1/ground/right_down.png", "ground/green_3/ground/bottom/right.png" );
+		attributes.relocate_image( "ground/green_1/ground/up.png", "ground/green_3/ground/top/1.png" );
+		attributes.relocate_image( "ground/green_1/ground/down.png", "ground/green_3/ground/bottom/1.png" );
+		attributes.relocate_image( "ground/green_1/ground/right.png", "ground/green_3/ground/middle/right.png" );
+		attributes.relocate_image( "ground/green_1/ground/left.png", "ground/green_3/ground/middle/left.png" );
+		attributes.relocate_image( "ground/green_1/ground/middle.png", "ground/green_3/ground/middle/1.png" );
+
+		// hill (not available)
+		//attributes.relocate_image( "ground/green_1/ground/hill_left_up.png", "ground/green_3/ground/" );
+		//attributes.relocate_image( "ground/green_1/ground/hill_right_up.png", "ground/green_3/ground/" );
+		//attributes.relocate_image( "ground/green_1/ground/hill_right.png", "ground/green_3/ground/" );
+		//attributes.relocate_image( "ground/green_1/ground/hill_left.png", "ground/green_3/ground/" );
+	}
+	// V1.9 and lower: move y coordinate bottom to 0
+	if (engine_version < 35) {
+		if (attributes.count("posy") > 0)
+			attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+	}
+	// V1.9.x and lower: change fire-1 animation to particles
+	if (engine_version < 37) {
+		attributes.relocate_image( "animation/fire_1/1.png", "animation/particles/fire_1.png" );
+		attributes.relocate_image( "animation/fire_1/2.png", "animation/particles/fire_2.png" );
+		attributes.relocate_image( "animation/fire_1/3.png", "animation/particles/fire_3.png" );
+		attributes.relocate_image( "animation/fire_1/4.png", "animation/particles/fire_4.png" );
+	}
+	// always: fix sprite with undefined massive-type
+	if (attributes.count("type") > 0 && attributes["type"] == "undefined")
+		attributes["type"] = "passive"; // So it doesn’t hinder gameplay
 }

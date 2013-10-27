@@ -4,7 +4,7 @@
 
 using namespace SMC;
 
-void XmlAttributes::Relocate_Image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name /* = "image" */)
+void XmlAttributes::relocate_image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name /* = "image" */)
 {
 	std::string current_value = (*this)[attribute_name];
 	std::string filename_old_full = path_to_utf8(pResource_Manager->Get_Game_Pixmaps_Directory() / filename_old);

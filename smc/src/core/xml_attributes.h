@@ -5,7 +5,8 @@
 namespace SMC {
   class XmlAttributes: public std::map<std::string, std::string>
   {
-    void Relocate_Image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name = "image");
+  public:
+    void relocate_image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name = "image");
   };
 }
 
