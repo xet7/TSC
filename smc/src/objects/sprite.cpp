@@ -28,7 +28,7 @@
 #include "../scripting/events/touch_event.h"
 #include "../level/level_editor.h"
 #include "../core/filesystem/resource_manager.h"
-#include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -335,6 +335,19 @@ cSprite :: cSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_ma
 {
 	cSprite::Init();
 	cSprite::Load_From_XML( attributes );
+}
+
+cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
+	: cCollidingSprite( sprite_manager ), m_type_name( type_name )
+{
+	cSprite::Init();
+
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]) );
+	// image
+	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
+	// type
+	Set_Sprite_Type( Get_Sprite_Type_Id( attributes["type"] ) );
 }
 
 cSprite :: ~cSprite( void )

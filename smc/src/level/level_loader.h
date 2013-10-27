@@ -28,7 +28,7 @@ namespace SMC {
 		// That is, the return value usually is a std::vector with a single cSprite
 		// in it, but sometimes (notably on backward compatibility), a single XML
 		// element breaks up into multiple sprites you then get back all in that vector.
-		static std::vector<cSprite*> Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version);
+		static std::vector<cSprite*> Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
 		cLevelLoader(boost::filesystem::path levelfile);
 		virtual ~cLevelLoader();
@@ -45,7 +45,7 @@ namespace SMC {
 		virtual void on_characters(const Glib::ustring& text);
 
 	private:
-		static std::vector<cSprite*> Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version);
+		static std::vector<cSprite*> Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
 		void Parse_Tag_Information();
 		void Parse_Tag_Settings();

@@ -2,6 +2,8 @@
 #include "level_player.h"
 #include "../core/sprite_manager.h"
 #include "../core/property_helper.h"
+#include "../core/filesystem/resource_manager.h"
+#include "../video/font.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -192,7 +194,7 @@ void cLevelLoader::Parse_Tag_Player()
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
 {
 	// create sprite
-	std::vector<cSprite*> sprites = Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_level->m_engine_version);
+	std::vector<cSprite*> sprites = Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_level->m_engine_version, mp_level->m_sprite_manager);
 
 	// valid
 	if (sprites.size() > 0) {
@@ -223,10 +225,11 @@ void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
  * Create_Level_Objects_From_XML_Tag()
  ***************************************/
 
-std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version)
+std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
 	if (name == "sprite")
-		return Create_Sprites_From_XML_Tag(name, attributes, engine_version);
+		return Create_Sprites_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	//else if (name == "enemystopper")
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
 
@@ -234,7 +237,7 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 	return std::vector<cSprite*>();
 }
 
-std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version)
+std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
 	std::vector<cSprite*> result;
 
@@ -298,4 +301,129 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 	// always: fix sprite with undefined massive-type
 	if (attributes.count("type") > 0 && attributes["type"] == "undefined")
 		attributes["type"] = "passive"; // So it doesn’t hinder gameplay
+
+	cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
+
+	// If image not available display its filename
+	if (!p_sprite->m_start_image) {
+		std::string text = attributes["image"];
+		if (text.empty())
+			text = "Invalid image here";
+
+		cGL_Surface* p_text_image = pFont->Render_Text(pFont->m_font_small, text);
+		p_text_image->m_path = utf8_to_path(text);
+		p_sprite->Set_Image(p_text_image, true, true);
+		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE); // It shouldn't hinder gameplay
+		p_sprite->Set_Active(false); // Only display it in the editor
+	}
+
+	// needs image
+	if (p_sprite->m_image) {
+		// If V1.2 and lower: change pipe position
+		if (engine_version < 22) {
+			if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/up.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/ver.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/down.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/up.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/ver.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/down.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/up.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/ver.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/down.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/up.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/ver.png")) == 0 ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/down.png")) == 0 ) {
+				p_sprite->Move( -6, 0, 1 );
+				p_sprite->m_start_pos_x = p_sprite->m_pos_x;
+			}
+			else if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/right.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/hor.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/left.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/right.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/hor.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/left.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/right.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/hor.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/left.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/right.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/hor.png")) == 0 ||
+					 p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/left.png")) == 0) {
+				p_sprite->Move( 0, -6, 1 );
+				p_sprite->m_start_pos_y = p_sprite->m_pos_y;
+			}
+		} // engine_version < 22
+
+		// If V1.2.x and lower: change some hill positions
+		if (engine_version < 23) {
+			if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("hills/green_1/head.png")) ||
+				p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("hills/light_blue_1/head.png")) == 0 ) {
+				p_sprite->Move( 0, -6, 1 );
+				p_sprite->m_start_pos_y = p_sprite->m_pos_y;
+			}
+		} // engine_version < 23
+
+		// If V1.7 and lower: change yoshi_1 hill_up to jungle_1 slider image paths
+		if (engine_version < 31) {
+			// This is one of the XML tags that explodes into multiple sprites.
+			// image filename is already changed but we need to add the middle and right tiles
+			if( p_sprite_manager && ( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png")) == 0 ||
+									  p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png")) == 0 ||
+									  p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_brown_left.png")) == 0 )) {
+				std::string color;
+				// green
+				if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png" )) == 0 )
+					color = "green";
+				// blue
+				else if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png") ) == 0 )
+					color = "blue";
+				// brown
+				else
+					color = "brown";
+
+				cSprite *p_copy = p_sprite;
+
+				// add middle tiles
+				for( unsigned int i = 0; i < 4; i++ ) {
+					p_copy = p_copy->Copy();
+					p_copy->Set_Image( pVideo->Get_Surface( utf8_to_path( "ground/jungle_1/slider/2_" + color + "_middle.png") ), 1 );
+					p_copy->Set_Pos_X( p_copy->m_start_pos_x + 22, 1 );
+					//p_sprite_manager->Add( p_copy );
+					result.push_back(p_copy);
+				}
+
+				// add end tile
+				p_copy = p_copy->Copy();
+				p_copy->Set_Image( pVideo->Get_Surface( utf8_to_path( "ground/jungle_1/slider/2_" + color + "_right.png" ) ), 1 );
+				p_copy->Set_Pos_X( p_copy->m_start_pos_x + 22, 1 );
+				//p_sprite_manager->Add( p_copy );
+				result.push_back(p_copy);
+			}
+		} // engine_version < 31
+
+		// If V1.7 and lower: change slider grey_1 to green_1 brown slider image paths
+		if (engine_version < 32) {
+			// image filename is already changed but we need to add an additional middle tile for left and right
+			if( p_sprite_manager && ( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0 ||
+									  p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 ) ) {
+				// add middle tile
+				cSprite *p_copy = p_sprite->Copy();
+				p_copy->Set_Image( pVideo->Get_Surface( utf8_to_path( "ground/green_1/slider/1/brown/middle.png") ), 1 );
+
+				// if from left tile it must be moved
+				if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png") ) == 0 )
+					p_copy->Set_Pos_X( p_copy->m_start_pos_x + 18, 1 );
+
+				//p_sprite_manager->Add( p_copy );
+				result.push_back(p_copy);
+			}
+			// move right tile
+			if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 ) {
+				p_sprite->Move( 18, 0, 1 );
+				p_sprite->m_start_pos_x = p_sprite->m_pos_x;
+			}
+		} // engine_version < 32
+	} // p_sprite->m_image
+
+	result.push_back(p_sprite);
+	return result;
 }

@@ -112,6 +112,7 @@ public:
 	cSprite( cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
 	// create from stream
 	cSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
+	cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
 	// destructor
 	virtual ~cSprite( void );
 
