@@ -86,12 +86,10 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Background();
 	else if (name == "player")
 		Parse_Tag_Player();
-	else {
-		if (cLevel::Is_Level_Object_Element(std::string(name)))
-			Parse_Level_Object_Tag(name);
-		else
-			std::cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << std::endl;
-	}
+	else if (cLevel::Is_Level_Object_Element(std::string(name))) // CEGUI doesn’t like Glib::ustring
+		Parse_Level_Object_Tag(name);
+	else
+		std::cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << std::endl;
 
 	// Everything handled, so we can now safely clear the
 	// collected <property> element values for the next
