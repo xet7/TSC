@@ -2,6 +2,7 @@
 #ifndef SMC_LEVEL_LOADER_H
 #define SMC_LEVEL_LOADER_H
 #include "../core/global_game.h"
+#include "../core/xml_attributes.h"
 #include "level.h"
 
 namespace SMC {
@@ -22,7 +23,7 @@ namespace SMC {
 	class cLevelLoader: public xmlpp::SaxParser
 	{
 	public:
-		static cSprite* Create_Level_Object_From_XML(const std::string& name);
+		static cSprite* Create_Level_Object_From_XML(std::string name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
 		cLevelLoader(boost::filesystem::path levelfile);
 		virtual ~cLevelLoader();

@@ -445,8 +445,7 @@ class GL_rect;
 class GL_line;
 class GL_point;
 class cLevelLoader;
-
-typedef std::map<std::string, std::string> XmlAttributes;
+class XmlAttributes;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

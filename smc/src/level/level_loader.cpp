@@ -193,7 +193,7 @@ void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
 {
 	// create sprite
 	cSprite* p_object = NULL;
-	p_object = Create_Level_Object_From_XML(name);
+	p_object = Create_Level_Object_From_XML(name, m_current_properties, mp_level->m_engine_version, mp_level->m_sprite_manager);
 
 	// valid
 	if (p_object) {
@@ -224,7 +224,7 @@ void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
  * Create_Level_Object_From_XML()
  ***************************************/
 
-cSprite* cLevelLoader::Create_Level_Object_From_XML(const std::string& name)
+cSprite* cLevelLoader::Create_Level_Object_From_XML(std::string name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
 	return NULL; // TODO
 }
