@@ -4,6 +4,7 @@
 #include "../core/property_helper.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../video/font.h"
+#include "../objects/enemystopper.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -229,7 +230,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 {
 	if (name == "sprite")
 		return Create_Sprites_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
-	//else if (name == "enemystopper")
+	else if (name == "enemystopper")
+		return Create_Enemy_Stoppers_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
 
@@ -425,5 +427,17 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 	} // p_sprite->m_image
 
 	result.push_back(p_sprite);
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// If V1.9 and lower: Move Y coordinate bottom to 0
+	if (engine_version < 35 && attributes.count("posy") > 0)
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	result.push_back(new cEnemyStopper(attributes, p_sprite_manager));
 	return result;
 }

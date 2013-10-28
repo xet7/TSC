@@ -31,6 +31,7 @@ public:
 	cEnemyStopper( cSprite_Manager *sprite_manager );
 	// create from stream
 	cEnemyStopper( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cEnemyStopper( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cEnemyStopper( void );
 	

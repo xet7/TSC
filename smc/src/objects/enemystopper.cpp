@@ -17,6 +17,7 @@
 #include "../level/level_editor.h"
 #include "../core/game_core.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -36,9 +37,16 @@ cEnemyStopper :: cEnemyStopper( CEGUI::XMLAttributes &attributes, cSprite_Manage
 	cEnemyStopper::Load_From_XML( attributes );
 }
 
+cEnemyStopper :: cEnemyStopper( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimated_Sprite( sprite_manager, "enemystopper" )
+{
+	cEnemyStopper::Init();
+	Set_Pos( string_to_float( attributes["posx"] ), string_to_float( attributes["posy"] ), true );
+}
+
 cEnemyStopper :: ~cEnemyStopper( void )
 {
-
+	//
 }
 
 cEnemyStopper *cEnemyStopper :: Copy( void ) const
