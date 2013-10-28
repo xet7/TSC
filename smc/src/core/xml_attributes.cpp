@@ -12,3 +12,11 @@ void XmlAttributes::relocate_image(const std::string& filename_old, const std::s
 	if (current_value == filename_old || current_value == filename_old_full)
 		(*this)[attribute_name] = filename_new;
 }
+
+std::string XmlAttributes::fetch(const std::string& key, const std::string& defaultvalue /* = "" */)
+{
+	if (count(key) > 0)
+		return (*this)[key];
+	else
+		return defaultvalue;
+}

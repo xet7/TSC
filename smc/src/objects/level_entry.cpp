@@ -25,6 +25,7 @@
 #include "../level/level.h"
 #include "../core/i18n.h"
 #include "../core/sprite_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -42,6 +43,21 @@ cLevel_Entry :: cLevel_Entry( CEGUI::XMLAttributes &attributes, cSprite_Manager 
 {
 	cLevel_Entry::Init();
 	cLevel_Entry::Load_From_XML( attributes );
+}
+
+cLevel_Entry :: cLevel_Entry( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimated_Sprite( sprite_manager, "level_entry" )
+{
+	cLevel_Entry::Init();
+
+	// position
+	Set_Pos( string_to_float( attributes["posx"] ), string_to_float( attributes["posy"] ), true );
+	// type
+	Set_Type( static_cast<Level_Entry_type>( string_to_int( attributes.fetch("type", int_to_string( m_entry_type ) ) ) ) );
+	// name
+	Set_Name( attributes["name"] );
+	// direction
+	Set_Direction( Get_Direction_Id( attributes.fetch( "direction", Get_Direction_Name( m_start_direction ) ) ) );
 }
 
 cLevel_Entry :: ~cLevel_Entry( void )

@@ -42,6 +42,7 @@ public:
 	cLevel_Entry( cSprite_Manager *sprite_manager );
 	// create from stream
 	cLevel_Entry( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cLevel_Entry( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cLevel_Entry( void );
 
