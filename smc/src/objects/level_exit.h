@@ -43,6 +43,7 @@ public:
 	cLevel_Exit( cSprite_Manager *sprite_manager );
 	// create from stream
 	cLevel_Exit( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cLevel_Exit( void );
 

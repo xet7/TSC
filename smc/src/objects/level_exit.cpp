@@ -26,6 +26,7 @@
 #include "../level/level.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -45,6 +46,47 @@ cLevel_Exit :: cLevel_Exit( CEGUI::XMLAttributes &attributes, cSprite_Manager *s
 {
 	cLevel_Exit::Init();
 	cLevel_Exit::Load_From_XML( attributes );
+}
+
+cLevel_Exit :: cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimated_Sprite( sprite_manager, "levelexit" )
+{
+	cLevel_Exit::Init();
+
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// type
+	Level_Exit_type type = m_exit_type;
+	if ( attributes.count( "type" ) > 0 )
+		type = static_cast<Level_Exit_type>( string_to_int( attributes["type"] ) );
+	Set_Type( type );
+
+	// motion
+	Camera_movement cm = m_exit_motion;
+	if ( attributes.count( "camera_motion" ) > 0 )
+		cm = static_cast<Camera_movement>( string_to_int( attributes["camera_motion"] ) );
+	Set_Camera_Motion( cm );
+
+	// destination level
+	Set_Level( attributes["level_name"] );
+
+	// destination entry
+	Set_Entry( attributes["entry"] );
+
+	// path identifier
+	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
+		Set_Path_Identifier( attributes["path_identifier"] );
+
+	// direction
+	if( m_exit_type == LEVEL_EXIT_WARP ) {
+		ObjectDirection dir = m_start_direction;
+
+		if (attributes.count("direction") > 0)
+			dir = Get_Direction_Id( attributes["direction"] );
+
+		Set_Direction( dir );
+	}
 }
 
 cLevel_Exit :: ~cLevel_Exit( void )

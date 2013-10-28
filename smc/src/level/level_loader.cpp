@@ -5,6 +5,7 @@
 #include "../core/filesystem/resource_manager.h"
 #include "../video/font.h"
 #include "../objects/enemystopper.h"
+#include "../objects/level_exit.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -232,6 +233,9 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Sprites_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "enemystopper")
 		return Create_Enemy_Stoppers_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "levelexit")
+		return Create_Level_Exits_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
 
@@ -439,5 +443,23 @@ std::vector<cSprite*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const std
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	result.push_back(new cEnemyStopper(attributes, p_sprite_manager));
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Level_Exits_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// If V1.9 and lower: Move Y coordinate bottom to 0
+	if (engine_version < 35 && attributes.count("posy") > 0)
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	// If V1.9.x and lower: change "motion" to "camera_motion"
+	if (engine_version < 36 && attributes.count("motion") > 0) {
+		attributes["camera_motion"] = int_to_string(string_to_int(attributes["motion"]) + 1);
+		attributes.erase("motion");
+	}
+
+	result.push_back(new cLevel_Exit(attributes, p_sprite_manager));
 	return result;
 }
