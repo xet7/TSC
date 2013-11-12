@@ -7,6 +7,7 @@
 #include "../objects/enemystopper.h"
 #include "../objects/level_exit.h"
 #include "../objects/bonusbox.h"
+#include "../objects/spinbox.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -505,7 +506,8 @@ std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string&
 
 		result.push_back(new cBonusBox(attributes, p_sprite_manager));
 	}
-	else if (attributes["type"] == "spin"){/* TODO */}
+	else if (attributes["type"] == "spin")
+		result.push_back(new cSpinBox(attributes, p_sprite_manager));
 	else if (attributes["type"] == "text"){/* TODO */}
 	else if (attributes["type"] == "empty"){/* TODO */}
 	else if (attributes["type"] == "invisible"){/* TODO */}

@@ -35,6 +35,14 @@ cSpinBox :: cSpinBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_
 	cSpinBox::Load_From_XML( attributes );
 }
 
+
+cSpinBox :: cSpinBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cBaseBox( sprite_manager )
+{
+	cSpinBox::Init();
+	cSpinBox::Load_From_XML( attributes );
+}
+
 cSpinBox :: ~cSpinBox( void )
 {
 
@@ -71,6 +79,11 @@ cSpinBox *cSpinBox :: Copy( void ) const
 }
 
 void cSpinBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
+{
+	cBaseBox::Load_From_XML( attributes );
+}
+
+void cSpinBox :: Load_From_XML( XmlAttributes &attributes )
 {
 	cBaseBox::Load_From_XML( attributes );
 }
