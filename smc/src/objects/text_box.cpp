@@ -45,6 +45,13 @@ cText_Box :: cText_Box( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprit
 	cText_Box::Load_From_XML( attributes );
 }
 
+cText_Box :: cText_Box( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cBaseBox( sprite_manager )
+{
+	cText_Box::Init();
+	cText_Box::Load_From_XML( attributes );
+}
+
 cText_Box :: ~cText_Box( void )
 {
 
@@ -82,6 +89,14 @@ void cText_Box :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 
 	// text
 	Set_Text( xml_string_to_string( attributes.getValueAsString( "text" ).c_str() ) );
+}
+
+void cText_Box :: Load_From_XML( XmlAttributes &attributes )
+{
+	cBaseBox::Load_From_XML( attributes );
+
+	// text
+	Set_Text( xml_string_to_string( attributes["text"] ) );
 }
 
 void cText_Box :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
