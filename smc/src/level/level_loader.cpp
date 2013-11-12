@@ -486,17 +486,30 @@ std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string&
 	std::vector<cSprite*> result;
 
 	// If V1.9 and lower: Move Y coordinate bottom to 0
-	if (engine_version < 35 && attributes.count("posy") > 0)
+	if (engine_version < 35 && attributes.exists("posy"))
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	if (attributes["type"] == "bonus")
 		result.push_back(new cBonusBox(attributes, p_sprite_manager));
-	else if (attributes["type"] == "gold"){/* TODO */}
+	else if (attributes["type"] == "gold"){ // `gold' is somewhere pre V0.99.5
+		// Update old values
+		attributes["type"]      = "bonus";
+		attributes["animation"] = "Default";
+		attributes["item"]      = int_to_string(TYPE_GOLDPIECE);
+
+		// Renamed old values
+		if (attributes.exists("color")) {
+			attributes["gold_color"] = attributes["color"];
+			attributes.erase("color");
+		}
+
+		result.push_back(new cBonusBox(attributes, p_sprite_manager));
+	}
 	else if (attributes["type"] == "spin"){/* TODO */}
 	else if (attributes["type"] == "text"){/* TODO */}
 	else if (attributes["type"] == "empty"){/* TODO */}
 	else if (attributes["type"] == "invisible"){/* TODO */}
-	else
+	else // if attributes["type"] == X
 		std::cerr << "Warning: Unknown level box type: " << attributes["type"] << std::endl;
 
 	return result;
