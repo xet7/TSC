@@ -511,7 +511,13 @@ std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string&
 		result.push_back(new cSpinBox(attributes, p_sprite_manager));
 	else if (attributes["type"] == "text")
 		result.push_back(new cText_Box(attributes, p_sprite_manager));
-	else if (attributes["type"] == "empty"){/* TODO */}
+	else if (attributes["type"] == "empty"){ // pre V0.99.4
+		// Update old values
+		attributes["type"] = "bonus";
+		attributes["item"] = "0";
+
+		result.push_back(new cBonusBox(attributes, p_sprite_manager));
+	}
 	else if (attributes["type"] == "invisible"){/* TODO */}
 	else // if attributes["type"] == X
 		std::cerr << "Warning: Unknown level box type: " << attributes["type"] << std::endl;
