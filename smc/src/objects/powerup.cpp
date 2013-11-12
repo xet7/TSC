@@ -221,6 +221,18 @@ cMushroom :: cMushroom( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprit
 	cMushroom::Load_From_XML( attributes );
 }
 
+cMushroom :: cMushroom( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cPowerUp( sprite_manager )
+{
+	cMushroom::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+	// type
+	Set_Type(static_cast<SpriteType>(string_to_int(attributes.fetch("mushroom_type", int_to_string(TYPE_MUSHROOM_DEFAULT)))));
+}
+
+
 cMushroom :: ~cMushroom( void )
 {
 	//

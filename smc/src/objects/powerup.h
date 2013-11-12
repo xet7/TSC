@@ -17,6 +17,7 @@
 #define SMC_POWERUP_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/animated_sprite.h"
 #include "../scripting/objects/powerups/mrb_powerup.h"
 #include "../scripting/objects/powerups/mrb_mushroom.h"
@@ -74,6 +75,7 @@ public:
 	cMushroom( cSprite_Manager *sprite_manager );
 	// create from stream
 	cMushroom( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cMushroom( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cMushroom( void );
 
