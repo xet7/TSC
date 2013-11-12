@@ -6,6 +6,7 @@
 #include "../video/font.h"
 #include "../objects/enemystopper.h"
 #include "../objects/level_exit.h"
+#include "../objects/bonusbox.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -237,6 +238,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Level_Exits_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "level_entry")
 		return Create_Level_Entries_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "box")
+		return Create_Boxes_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
@@ -475,5 +478,26 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Entries_From_XML_Tag(const std:
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	result.push_back(new cLevel_Entry(attributes, p_sprite_manager));
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// If V1.9 and lower: Move Y coordinate bottom to 0
+	if (engine_version < 35 && attributes.count("posy") > 0)
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	if (attributes["type"] == "bonus")
+		result.push_back(new cBonusBox(attributes, p_sprite_manager));
+	else if (attributes["type"] == "gold"){/* TODO */}
+	else if (attributes["type"] == "spin"){/* TODO */}
+	else if (attributes["type"] == "text"){/* TODO */}
+	else if (attributes["type"] == "empty"){/* TODO */}
+	else if (attributes["type"] == "invisible"){/* TODO */}
+	else
+		std::cerr << "Warning: Unknown level box type: " << attributes["type"] << std::endl;
+
 	return result;
 }

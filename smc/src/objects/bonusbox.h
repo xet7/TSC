@@ -17,6 +17,7 @@
 #define SMC_BONUSBOX_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/box.h"
 #include "../objects/powerup.h"
 #include "../scripting/objects/boxes/mrb_bonusbox.h"
@@ -33,6 +34,7 @@ public:
 	cBonusBox( cSprite_Manager *sprite_manager );
 	// create from stream
 	cBonusBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cBonusBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
 	// destructor
 	virtual ~cBonusBox( void );
 
@@ -44,6 +46,7 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)

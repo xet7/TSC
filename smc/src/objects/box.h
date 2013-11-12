@@ -17,6 +17,7 @@
 #define SMC_BOX_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/animated_sprite.h"
 #include "../scripting/objects/boxes/mrb_box.h"
 
@@ -47,6 +48,7 @@ public:
 
 	// load from stream
 	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );

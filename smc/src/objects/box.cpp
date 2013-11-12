@@ -64,6 +64,23 @@ cBaseBox :: ~cBaseBox( void )
 	//
 }
 
+void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
+{
+	// Position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// animation (`box_type' is set by subclasses’ constructors’ as default values)
+	// FIXME: This should be in the respective subclasses somehow
+	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX)
+		Set_Animation_Type(attributes.fetch("animation", m_anim_type));
+
+	// Invisible
+	Set_Invisible(static_cast<Box_Invisible_Type>(string_to_float(attributes["invisible"])));
+
+	// Usable count
+	Set_Useable_Count(string_to_float(attributes.fetch("useable_count", int_to_string(m_start_useable_count))));
+}
+
 void cBaseBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
 {
 	// position

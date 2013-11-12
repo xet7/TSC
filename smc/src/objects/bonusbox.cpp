@@ -44,6 +44,13 @@ cBonusBox :: cBonusBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprit
 	cBonusBox::Load_From_XML( attributes );
 }
 
+cBonusBox :: cBonusBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cBaseBox( sprite_manager )
+{
+	cBonusBox::Init();
+	cBonusBox::Load_From_XML( attributes );
+}
+
 cBonusBox :: ~cBonusBox( void )
 {
 	for( MovingSpriteList::iterator itr = m_active_items.begin(); itr != m_active_items.end(); ++itr )
@@ -79,6 +86,19 @@ cBonusBox *cBonusBox :: Copy( void ) const
 	bonusbox->Set_Goldcolor( m_gold_color );
 	bonusbox->Set_Useable_Count( m_start_useable_count, 1 );
 	return bonusbox;
+}
+
+void cBonusBox :: Load_From_XML( XmlAttributes &attributes )
+{
+	cBaseBox::Load_From_XML( attributes );
+
+	// item
+	Set_Bonus_Type( static_cast<SpriteType>( string_to_int( attributes["item"] ) ) );
+	// force best possible item
+	Set_Force_Best_Item( string_to_int( attributes["force_best_item"] ) );
+	// gold color
+	if ( box_type == TYPE_GOLDPIECE )
+		Set_Goldcolor(Get_Color_Id(attributes.fetch("gold_color", Get_Color_Name(m_gold_color))));
 }
 
 void cBonusBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
