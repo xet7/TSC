@@ -13,6 +13,9 @@ namespace SMC {
 
 		// If the given `key' exists, return its value. Otherwise return `defaultvalue'.
 		std::string fetch(const std::string& key, const std::string& defaultvalue = "");
+
+		// Returns true if the given key exists, false otherwise.
+		bool exists(const std::string& key);
 	};
 }
 
