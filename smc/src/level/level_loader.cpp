@@ -242,6 +242,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Level_Entries_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "box")
 		return Create_Boxes_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "item" || name == "powerup") // powerup is pre V.0.99.5
+		return Create_Items_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
@@ -528,6 +530,26 @@ std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string&
 	}
 	else // if attributes["type"] == X
 		std::cerr << "Warning: Unknown level box type: " << attributes["type"] << std::endl;
+
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 35 && attributes.exists("posy"))
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	std::string type = attributes["type"];
+	if (type == "goldpiece"){/* TODO */}
+	else if (type == "mushroom"){/* TODO */}
+	else if (type == "fireplant"){/* TODO */}
+	else if (type == "jstar"){/* TODO */}
+	else if (type == "moon"){/* TODO */}
+	else // type == "X"
+		std::cerr << "Warning: Unknown level item type '" << type << "'" << std::endl;
 
 	return result;
 }
