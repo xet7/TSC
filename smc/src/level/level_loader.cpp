@@ -9,6 +9,7 @@
 #include "../objects/bonusbox.h"
 #include "../objects/spinbox.h"
 #include "../objects/text_box.h"
+#include "../objects/goldpiece.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -543,7 +544,8 @@ std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string&
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	std::string type = attributes["type"];
-	if (type == "goldpiece"){/* TODO */}
+	if (type == "goldpiece")
+		result.push_back(new cGoldpiece(attributes, p_sprite_manager));
 	else if (type == "mushroom"){/* TODO */}
 	else if (type == "fireplant"){/* TODO */}
 	else if (type == "jstar"){/* TODO */}

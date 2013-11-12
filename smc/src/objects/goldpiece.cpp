@@ -42,6 +42,17 @@ cGoldpiece :: cGoldpiece( CEGUI::XMLAttributes &attributes, cSprite_Manager *spr
 	cGoldpiece::Load_From_XML( attributes );
 }
 
+cGoldpiece :: cGoldpiece( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimated_Sprite( sprite_manager, "item" )
+{
+	cGoldpiece::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+	// gold color
+	Set_Gold_Color( Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type))) );
+}
+
 cGoldpiece :: ~cGoldpiece( void )
 {
 	//

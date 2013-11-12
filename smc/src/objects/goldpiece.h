@@ -17,6 +17,7 @@
 #define SMC_GOLDPIECE_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/animated_sprite.h"
 
 namespace SMC
@@ -31,6 +32,7 @@ public:
 	cGoldpiece( cSprite_Manager *sprite_manager );
 	// create from stream
 	cGoldpiece( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cGoldpiece( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cGoldpiece( void );
 
