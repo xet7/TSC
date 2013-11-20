@@ -122,10 +122,15 @@ cLevel *cLevel_Manager :: Load( std::string levelname )
 	{
 		return level;
 	}
-	
+
+#ifdef ENABLE_NEW_LOADER
+	// load
+	level = cLevel::Load_DEBUG_Libxmlpp( levelname );
+#else
 	// load
 	level = new cLevel();
 	level->Load( levelname );
+#endif
 	Add( level );
 	return level;
 }
