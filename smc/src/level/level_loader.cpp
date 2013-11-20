@@ -554,7 +554,8 @@ std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string&
 		result.push_back(new cFirePlant(attributes, p_sprite_manager));
 	else if (type == "jstar")
 		result.push_back(new cjStar(attributes, p_sprite_manager));
-	else if (type == "moon"){/* TODO */}
+	else if (type == "moon")
+		result.push_back(new cMoon(attributes, p_sprite_manager));
 	else // type == "X"
 		std::cerr << "Warning: Unknown level item type '" << type << "'" << std::endl;
 

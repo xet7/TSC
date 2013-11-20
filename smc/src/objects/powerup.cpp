@@ -696,6 +696,15 @@ cMoon :: cMoon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manage
 	cMoon::Load_From_XML( attributes );
 }
 
+cMoon :: cMoon( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cPowerUp( sprite_manager )
+{
+	cMoon::Init();
+
+	// Position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
+}
+
 cMoon :: ~cMoon( void )
 {
 	//
