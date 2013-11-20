@@ -126,6 +126,7 @@ public:
 	// constructor
 	cFirePlant( cSprite_Manager *sprite_manager );
 	// create from stream
+	cFirePlant( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
 	cFirePlant( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cFirePlant( void );

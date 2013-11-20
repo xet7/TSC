@@ -543,6 +543,15 @@ cFirePlant :: cFirePlant( CEGUI::XMLAttributes &attributes, cSprite_Manager *spr
 	cFirePlant::Load_From_XML( attributes );
 }
 
+cFirePlant :: cFirePlant( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cPowerUp( sprite_manager )
+{
+	cFirePlant::Init();
+
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
+}
+
 cFirePlant :: ~cFirePlant( void )
 {
 	//

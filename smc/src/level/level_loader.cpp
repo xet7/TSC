@@ -548,7 +548,8 @@ std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string&
 		result.push_back(new cGoldpiece(attributes, p_sprite_manager));
 	else if (type == "mushroom")
 		result.push_back(new cMushroom(attributes, p_sprite_manager));
-	else if (type == "fireplant"){/* TODO */}
+	else if (type == "fireplant")
+		result.push_back(new cFirePlant(attributes, p_sprite_manager));
 	else if (type == "jstar"){/* TODO */}
 	else if (type == "moon"){/* TODO */}
 	else // type == "X"
