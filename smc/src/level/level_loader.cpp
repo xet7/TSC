@@ -257,6 +257,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 	else if (name == "item" || name == "powerup") // powerup is pre V.0.99.5
 		return Create_Items_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
+	else
+		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
 
