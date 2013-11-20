@@ -15,6 +15,7 @@
 
 #include "../level/level.h"
 #include "../level/level_editor.h"
+#include "level_loader.h"
 #include "../core/game_core.h"
 #include "../gui/menu.h"
 #include "../user/preferences.h"
@@ -244,6 +245,47 @@ bool cLevel :: Load( std::string levelname )
 
 	return 1;
 }
+
+#ifdef _DEBUG
+cLevel* cLevel :: Load_DEBUG_Libxmlpp( std::string levelname )
+{
+	fs::path filename = pLevel_Manager->Get_Path( levelname );
+	if( filename.empty() )
+	{
+		// show error without directory and file type
+		std::cerr << "Couldn't load level : " << levelname << std::endl;
+		return NULL;
+	}
+
+	// This is our loader
+	cLevelLoader loader;
+
+	// new level format
+	if (filename.extension() == fs::path(".smclvl")) {
+		loader.parse_file(filename);
+	}
+	else { // old level format
+		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const std::string)path_to_utf8(filename) );
+		return NULL;
+	}
+
+	// Our level
+	cLevel* p_level = loader.Get_Level();
+
+	/* late initialization
+	 * needed to create links to other objects
+	*/
+	for( cSprite_List::iterator itr = p_level->m_sprite_manager->objects.begin(); itr != p_level->m_sprite_manager->objects.end(); ++itr ) {
+		cSprite *obj = (*itr);
+
+		obj->Init_Links();
+	}
+
+	debug_print("Loaded level: %s\n", path_to_utf8(p_level->m_level_filename).c_str());
+
+	return p_level;
+}
+#endif
 
 void cLevel :: Unload( bool delayed /* = 0 */ )
 {

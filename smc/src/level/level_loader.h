@@ -19,6 +19,10 @@ namespace SMC {
 	 * parsing, we cannot be sure if we can securely delete it before
 	 * a second run, which is therefore simply forbidden and will result
 	 * in an XML_Double_Parsing exception to be thrown.
+	 *
+	 * Note that the cLevel instance returned by Get_Level() is NOT destroyed
+	 * when the cLevelLoader gets destroyed. It is handed to you for further
+	 * processing instead.
 	 */
 	class cLevelLoader: public xmlpp::SaxParser
 	{
@@ -30,9 +34,13 @@ namespace SMC {
 		// element breaks up into multiple sprites you then get back all in that vector.
 		static std::vector<cSprite*> Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
-		cLevelLoader(boost::filesystem::path levelfile);
+		cLevelLoader();
 		virtual ~cLevelLoader();
 
+		// Parse the given filename. Use this function instead of bare xmlpp’s
+		// parse_file() that accepts a Glib::ustring — this function sets
+		// some internal members.
+		virtual void parse_file(boost::filesystem::path filename);
 		// After finishing parsing, contains a pointer to a cLevel instance.
 		// This pointer must be freed by you. Returns NULL before parsing.
 		cLevel* Get_Level();

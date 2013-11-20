@@ -16,10 +16,9 @@
 namespace fs = boost::filesystem;
 using namespace SMC;
 
-cLevelLoader::cLevelLoader(fs::path levelfile)
+cLevelLoader::cLevelLoader()
 	: xmlpp::SaxParser()
 {
-	m_levelfile = levelfile; // Copy
 	mp_level    = NULL;
 }
 
@@ -39,6 +38,12 @@ cLevel* cLevelLoader::Get_Level()
  * SAX parser callbacks
  ***************************************/
 
+void cLevelLoader::parse_file(boost::filesystem::path filename)
+{
+	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
+	m_levelfile = filename;
+}
+
 void cLevelLoader::on_start_document()
 {
 	if (mp_level)
@@ -49,7 +54,11 @@ void cLevelLoader::on_start_document()
 
 void cLevelLoader::on_end_document()
 {
-	// Nothing
+	mp_level->m_level_filename = m_levelfile;
+
+	// engine version entry not set
+	if (mp_level->m_engine_version < 0)
+		mp_level->m_engine_version = 0;
 }
 
 void cLevelLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
