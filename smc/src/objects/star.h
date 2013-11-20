@@ -30,6 +30,7 @@ public:
 	// constructor
 	cjStar( cSprite_Manager *sprite_manager );
 	// create from stream
+	cjStar( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cjStar( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cjStar( void );

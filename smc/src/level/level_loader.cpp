@@ -10,6 +10,8 @@
 #include "../objects/spinbox.h"
 #include "../objects/text_box.h"
 #include "../objects/goldpiece.h"
+#include "../objects/powerup.h"
+#include "../objects/star.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -550,7 +552,8 @@ std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string&
 		result.push_back(new cMushroom(attributes, p_sprite_manager));
 	else if (type == "fireplant")
 		result.push_back(new cFirePlant(attributes, p_sprite_manager));
-	else if (type == "jstar"){/* TODO */}
+	else if (type == "jstar")
+		result.push_back(new cjStar(attributes, p_sprite_manager));
 	else if (type == "moon"){/* TODO */}
 	else // type == "X"
 		std::cerr << "Warning: Unknown level item type '" << type << "'" << std::endl;

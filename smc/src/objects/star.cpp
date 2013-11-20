@@ -38,6 +38,15 @@ cjStar :: cjStar( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_mana
 	cjStar::Load_From_XML( attributes );
 }
 
+cjStar :: cjStar( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cPowerUp( sprite_manager )
+{
+	cjStar::Init();
+
+	// Position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
+}
+
 cjStar :: ~cjStar( void )
 {
 	//
