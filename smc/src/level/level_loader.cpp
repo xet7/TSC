@@ -64,7 +64,7 @@ void cLevelLoader::on_end_document()
 
 void cLevelLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
-	if (name == "property") {
+	if (name == "property" || name == "Property") {
 		std::string key;
 		std::string value;
 
@@ -95,7 +95,7 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 	// <property> tags are parsed cumulatively in on_start_element()
 	// so all have been collected when the surrounding element
 	// terminates here.
-	if (name == "property")
+	if (name == "property" || name == "Property")
 		return;
 
 	// Now for the real, cumbersome parsing process
