@@ -261,6 +261,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Moving_Platforms_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "falling_platform") // falling platform is pre V.1.5
 		return Create_Falling_Platforms_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "enemy")
+		return Create_Enemies_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 	else if (name == "path")
 		return Create_Paths_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
@@ -661,5 +663,74 @@ std::vector<cSprite*> cLevelLoader::Create_Paths_From_XML_Tag(const std::string&
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	result.push_back(new cPath(attributes, p_sprite_manager));
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+	std::string type = attributes["type"];
+
+	// if V.1.5 and lower
+	if (engine_version < 26) {
+		// change gumba to furball
+		if (type == "gumba") {
+			// change type
+			type = "furball";
+			attributes["type"] = "furball";
+			// fix color : red was used in pre 1.0 but later became blue
+			if (attributes.exists("color") && attributes["color"] == "red")
+				attributes["color"] = "blue";
+		}
+
+		// change rex to krush
+		else if (type == "rex") {
+			// change type
+			type = "krush";
+			attributes["type"] = "krush";
+		}
+	} // engine_version < 26
+
+	// if V.1.7 and lower
+	if (engine_version < 29) {
+		if (type == "jpiranha") {
+			// change type
+			type = "flyon";
+			attributes["type"] = "flyon";
+
+			// change image dir
+			if (attributes.exists("image_dir")) {
+				std::string img_dir = attributes["image_dir"];
+				std::string::size_type pos = img_dir.find("jpiranha");
+
+				// change if found
+				if (pos != std::string::npos) {
+					img_dir.replace(pos, 8, "flyon");
+					attributes["image_dir"] = img_dir;
+				}
+			}
+		}
+	} // engine_version < 29
+
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 35 && attributes.exists("posy"))
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	// Now for the real enemy loading after all the backward compatibility stuff
+	if (type == "eato"){}
+	else if (type == "furball"){}
+	else if (type == "turtle"){}
+	else if (type == "turtleboss"){}
+	else if (type == "flyon"){}
+	else if (type == "thromp"){}
+	else if (type == "rokko"){}
+	else if (type == "krush"){}
+	else if (type == "gee"){}
+	else if (type == "spika"){}
+	else if (type == "static"){}
+	else if (type == "spikeball"){}
+	else // type == "X"
+		std::cerr << "Warning: Unknown level enemy type: " << type << std::endl;
+
 	return result;
 }
