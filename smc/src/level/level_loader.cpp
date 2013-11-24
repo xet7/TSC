@@ -718,9 +718,9 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	// Now for the real enemy loading after all the backward compatibility stuff
-	if (type == "eato"){}
-	else if (type == "furball")
+	if (type == "eato")
 		result.push_back(new cEato(attributes, p_sprite_manager));
+	/*else if (type == "furball")
 	else if (type == "turtle"){}
 	else if (type == "turtleboss"){}
 	else if (type == "flyon"){}
@@ -730,7 +730,7 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 	else if (type == "gee"){}
 	else if (type == "spika"){}
 	else if (type == "static"){}
-	else if (type == "spikeball"){}
+	else if (type == "spikeball"){}*/
 	else // type == "X"
 		std::cerr << "Warning: Unknown level enemy type: " << type << std::endl;
 
