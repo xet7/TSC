@@ -15,6 +15,7 @@
 
 #include "../enemies/furball.h"
 #include "../core/game_core.h"
+#include "../core/xml_attributes.h"
 #include "../level/level_player.h"
 #include "../gui/hud.h"
 #include "../core/i18n.h"
@@ -40,6 +41,30 @@ cFurball :: cFurball( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_
 {
 	cFurball::Init();
 	cFurball::Load_From_XML( attributes );
+}
+
+cFurball :: cFurball( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cFurball::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	if( m_type == TYPE_FURBALL_BOSS )
+	{
+		// max downgrade count
+		Set_Max_Downgrade_Count(string_to_int(attributes.fetch("max_downgrade_count", int_to_string(m_max_downgrade_count))));
+
+		// level ends if killed
+		Set_Level_Ends_If_Killed(string_to_bool(attributes.fetch("level_ends_if_killed", bool_to_string(m_level_ends_if_killed))));
+	}
 }
 
 cFurball :: ~cFurball( void )

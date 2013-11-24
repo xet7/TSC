@@ -33,6 +33,7 @@ public:
 	// constructor
 	cFurball( cSprite_Manager *sprite_manager );
 	// create from stream
+	cFurball( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cFurball( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cFurball( void );
