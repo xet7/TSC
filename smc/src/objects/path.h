@@ -149,6 +149,7 @@ public:
 	// constructor
 	cPath( cSprite_Manager *sprite_manager );
 	// create from stream
+	cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cPath( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cPath( void );

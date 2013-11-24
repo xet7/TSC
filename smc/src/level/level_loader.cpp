@@ -262,6 +262,9 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 	else if (name == "falling_platform") // falling platform is pre V.1.5
 		return Create_Falling_Platforms_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
+	else if (name == "path")
+		return Create_Paths_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 	else
 		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
 
@@ -646,5 +649,17 @@ std::vector<cSprite*> cLevelLoader::Create_Falling_Platforms_From_XML_Tag(const 
 	}
 
 	result.push_back(p_moving_platform);
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Paths_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 35 && attributes.exists("posy"))
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	result.push_back(new cPath(attributes, p_sprite_manager));
 	return result;
 }

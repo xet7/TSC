@@ -16,6 +16,7 @@
 #include "../objects/path.h"
 #include "../core/game_core.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 #include "../video/renderer.h"
 #include "../input/mouse.h"
 #include "../user/savegame.h"
@@ -463,6 +464,46 @@ cPath :: cPath( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manage
 {
 	cPath::Init();
 	cPath::Load_From_XML( attributes );
+}
+
+cPath :: cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cSprite( sprite_manager, "path" )
+{
+	cPath::Init();
+
+	m_segments.clear();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// identifier
+	Set_Identifier(attributes["identifier"]);
+
+	// show line
+	Set_Show_Line(string_to_bool(attributes.fetch("show_line", bool_to_string(m_show_line))));
+
+	// rewind
+	Set_Rewind(string_to_bool(attributes.fetch("rewind", bool_to_string(m_rewind))));
+
+	// load segments
+	unsigned int count;
+	while (true) {
+		std::string str_pos = int_to_string( count );
+
+		// next line not available
+		if (!attributes.exists("segment_" + str_pos + "_x1"))
+			break;
+
+		cPath_Segment obj;
+
+		obj.Set_Pos(	string_to_float(attributes["segment_" + str_pos + "_x1"]),
+						string_to_float(attributes["segment_" + str_pos + "_y1"]),
+						string_to_float(attributes["segment_" + str_pos + "_x2"]),
+						string_to_float(attributes["segment_" + str_pos + "_y2"]));
+
+		m_segments.push_back(obj);
+		count++;
+	}
 }
 
 cPath :: ~cPath( void )
