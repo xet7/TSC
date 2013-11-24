@@ -55,6 +55,7 @@ public:
 	// constructor
 	cMoving_Platform( cSprite_Manager *sprite_manager );
 	// create from stream
+	cMoving_Platform( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cMoving_Platform( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	~cMoving_Platform( void );

@@ -12,6 +12,7 @@
 #include "../objects/goldpiece.h"
 #include "../objects/powerup.h"
 #include "../objects/star.h"
+#include "../objects/moving_platform.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -256,6 +257,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Boxes_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "item" || name == "powerup") // powerup is pre V.0.99.5
 		return Create_Items_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "moving_platform")
+		return Create_Moving_Platforms_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 	else
 		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
@@ -570,5 +573,33 @@ std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string&
 	else // type == "X"
 		std::cerr << "Warning: Unknown level item type '" << type << "'" << std::endl;
 
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Moving_Platforms_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// if V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
+	if (engine_version < 32) {
+		attributes.relocate_image("slider/grey_1/slider_left.png", "ground/green_1/slider/1/brown/left.png", "image_top_left");
+		attributes.relocate_image("slider/grey_1/slider_middle.png", "ground/green_1/slider/1/brown/middle.png", "image_top_middle");
+		attributes.relocate_image("slider/grey_1/slider_right.png", "ground/green_1/slider/1/brown/right.png", "image_top_right");
+	}
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 35 && attributes.exists("posy"))
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	cMoving_Platform* p_moving_platform = new cMoving_Platform(attributes, p_sprite_manager);
+
+	// if V.1.7 and lower : change new slider middle count because start and end image is now half the width
+	if (engine_version < 32) {
+		if (p_moving_platform->m_images[0].m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0)
+			p_moving_platform->Set_Middle_Count(p_moving_platform->m_middle_count + 1);
+		else if (p_moving_platform->m_images[0].m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0)
+			p_moving_platform->Set_Middle_Count(p_moving_platform->m_middle_count + 1);
+	}
+
+	result.push_back(p_moving_platform);
 	return result;
 }

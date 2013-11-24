@@ -28,6 +28,7 @@
 #include "../input/mouse.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -47,6 +48,58 @@ cMoving_Platform :: cMoving_Platform( CEGUI::XMLAttributes &attributes, cSprite_
 {
 	cMoving_Platform::Init();
 	cMoving_Platform::Load_From_XML( attributes );
+}
+
+cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimated_Sprite( sprite_manager, "moving_platform" ), m_path_state( sprite_manager )
+{
+	cMoving_Platform::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// move type
+	Set_Move_Type(static_cast<Moving_Platform_Type>(string_to_int(attributes.fetch("move_type", int_to_string(m_move_type)))));
+
+	// massive type
+	Set_Massive_Type(Get_Massive_Type_Id(attributes.fetch("massive_type", Get_Massive_Type_Name(m_massive_type))));
+
+	// if move type is line or circle
+	if (m_move_type == MOVING_PLATFORM_TYPE_LINE || m_move_type == MOVING_PLATFORM_TYPE_CIRCLE) {
+		// direction
+		Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
+
+		// max distance
+		Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(m_max_distance))));
+	}
+
+	// path identifier
+	if (m_move_type == MOVING_PLATFORM_TYPE_PATH || m_move_type == MOVING_PLATFORM_TYPE_PATH_BACKWARDS)
+		Set_Path_Identifier(attributes["path_identifier"]);
+
+	// speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
+
+	// touch_time
+	Set_Touch_Time(string_to_float(attributes.fetch("touch_time", float_to_string(m_touch_time))));
+
+	// shake time
+	Set_Shake_Time(string_to_float(attributes.fetch("shake_time", float_to_string(m_shake_time))));
+
+	// touch move time
+	Set_Touch_Move_Time(string_to_float(attributes.fetch("touch_move_time", float_to_string(m_touch_move_time))));
+
+	// middle image count
+	Set_Middle_Count(string_to_int(attributes.fetch("middle_img_count", int_to_string(m_middle_count))));
+
+	// image top left
+	Set_Image_Top_Left(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_left", path_to_utf8(m_images[0].m_image->Get_Path())))));
+
+	// image top middle
+	Set_Image_Top_Middle(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_middle", path_to_utf8(m_images[1].m_image->Get_Path())))));
+
+	// image top right
+	Set_Image_Top_Right(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_right", path_to_utf8(m_images[2].m_image->Get_Path())))));
 }
 
 cMoving_Platform :: ~cMoving_Platform( void )
