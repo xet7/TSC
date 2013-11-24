@@ -32,6 +32,7 @@ public:
 	// constructor
 	cEato( cSprite_Manager *sprite_manager );
 	// create from stream
+	cEato( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cEato( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cEato( void );

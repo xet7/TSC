@@ -21,6 +21,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -40,6 +41,21 @@ cEato :: cEato( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manage
 {
 	cEato::Init();
 	cEato::Load_From_XML( attributes );
+}
+
+cEato :: cEato( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cEato::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// image directory
+	Set_Image_Dir(utf8_to_path(attributes.fetch("image_dir", path_to_utf8(m_img_dir))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
 }
 
 cEato :: ~cEato( void )

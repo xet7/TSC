@@ -13,6 +13,7 @@
 #include "../objects/powerup.h"
 #include "../objects/star.h"
 #include "../objects/moving_platform.h"
+#include "../enemies/eato.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -718,7 +719,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 
 	// Now for the real enemy loading after all the backward compatibility stuff
 	if (type == "eato"){}
-	else if (type == "furball"){}
+	else if (type == "furball")
+		result.push_back(new cEato(attributes, p_sprite_manager));
 	else if (type == "turtle"){}
 	else if (type == "turtleboss"){}
 	else if (type == "flyon"){}
