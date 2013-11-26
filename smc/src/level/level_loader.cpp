@@ -18,6 +18,7 @@
 #include "../enemies/turtle.h"
 #include "../enemies/bosses/turtle_boss.h"
 #include "../enemies/flyon.h"
+#include "../enemies/thromp.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -738,8 +739,16 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 	}
 	else if (type == "flyon")
 		result.push_back(new cFlyon(attributes, p_sprite_manager));
-	/*else if (type == "thromp"){}
-	else if (type == "rokko"){}
+	else if (type == "thromp"){
+		cThromp* p_thromp = new cThromp(attributes, p_sprite_manager);
+
+		// if V.1.4 and lower : fix thromp distance was smaller
+		if (engine_version < 25)
+			p_thromp->Set_Max_Distance(p_thromp->m_max_distance + 36);
+
+		result.push_back(p_thromp);
+	}
+	/*else if (type == "rokko"){}
 	else if (type == "krush"){}
 	else if (type == "gee"){}
 	else if (type == "spika"){}

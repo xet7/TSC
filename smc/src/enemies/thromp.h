@@ -31,6 +31,7 @@ public:
 	// constructor
 	cThromp( cSprite_Manager *sprite_manager );
 	// create from stream
+	cThromp( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cThromp( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cThromp( void );

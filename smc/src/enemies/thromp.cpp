@@ -26,6 +26,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -46,6 +47,28 @@ cThromp :: cThromp( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_ma
 	cThromp::Init();
 	cThromp::Load_From_XML( attributes );
 }
+
+cThromp :: cThromp( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cThromp::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// image directory
+	Set_Image_Dir(utf8_to_path(attributes.fetch("image_dir", path_to_utf8(m_img_dir))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// max distance
+	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(static_cast<int>(m_max_distance)))));
+
+	// speed
+	string_to_float(attributes.fetch("speed", float_to_string(m_speed)));
+}
+
 
 cThromp :: ~cThromp( void )
 {
