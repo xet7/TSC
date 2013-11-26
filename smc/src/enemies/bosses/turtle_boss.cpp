@@ -23,6 +23,7 @@
 #include "../../video/gl_surface.h"
 #include "../../core/sprite_manager.h"
 #include "../../core/i18n.h"
+#include "../../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -41,6 +42,34 @@ cTurtleBoss :: cTurtleBoss( CEGUI::XMLAttributes &attributes, cSprite_Manager *s
 	cTurtleBoss::Init();
 	cTurtleBoss::Load_From_XML( attributes );
 }
+
+cTurtleBoss :: cTurtleBoss( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cTurtleBoss::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+
+	// max hits
+	Set_Max_Hits(string_to_int(attributes.fetch("max_hit_count", int_to_string(m_max_hits))));
+
+	// max downgrade count
+	Set_Max_Downgrade_Counts(string_to_int(attributes.fetch("max_downgrade_count", int_to_string(m_max_downgrade_count))));
+
+	// shell time
+	Set_Shell_Time(string_to_int(attributes.fetch("shell_time", int_to_string(m_shell_time))));
+
+	// level ends if killed
+	Set_Level_Ends_If_Killed(string_to_bool(attributes.fetch("level_ends_if_killed", bool_to_string(m_level_ends_if_killed))));
+}
+
 
 cTurtleBoss :: ~cTurtleBoss( void )
 {

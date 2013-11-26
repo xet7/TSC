@@ -16,6 +16,7 @@
 #include "../enemies/eato.h"
 #include "../enemies/furball.h"
 #include "../enemies/turtle.h"
+#include "../enemies/bosses/turtle_boss.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -726,8 +727,15 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cFurball(attributes, p_sprite_manager));
 	else if (type == "turtle")
 		result.push_back(new cTurtle(attributes, p_sprite_manager));
-	/*else if (type == "turtleboss"){}
-	else if (type == "flyon"){}
+	else if (type == "turtleboss"){
+		// if V.1.5 and lower : max_downgrade_time changed to shell_time
+		if (engine_version < 27 && attributes.exists("max_downgrade_time")) {
+			attributes["shell_time"] = attributes["max_downgrade_time"];
+			attributes.erase("max_downgrade_time");
+		}
+		result.push_back(new cTurtleBoss(attributes, p_sprite_manager));
+	}
+	/*else if (type == "flyon"){}
 	else if (type == "thromp"){}
 	else if (type == "rokko"){}
 	else if (type == "krush"){}
