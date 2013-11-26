@@ -24,6 +24,7 @@
 #include "../video/gl_surface.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -43,6 +44,27 @@ cFlyon :: cFlyon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_mana
 {
 	cFlyon::Init();
 	cFlyon::Load_From_XML( attributes );
+}
+
+cFlyon :: cFlyon( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cFlyon::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// image directory
+	Set_Image_Dir(utf8_to_path(attributes.fetch("image_dir", path_to_utf8(m_img_dir))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// max distance
+	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(m_max_distance))));
+
+	// speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
 }
 
 cFlyon :: ~cFlyon( void )

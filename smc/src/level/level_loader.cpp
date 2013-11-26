@@ -17,6 +17,7 @@
 #include "../enemies/furball.h"
 #include "../enemies/turtle.h"
 #include "../enemies/bosses/turtle_boss.h"
+#include "../enemies/flyon.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -735,8 +736,9 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		}
 		result.push_back(new cTurtleBoss(attributes, p_sprite_manager));
 	}
-	/*else if (type == "flyon"){}
-	else if (type == "thromp"){}
+	else if (type == "flyon")
+		result.push_back(new cFlyon(attributes, p_sprite_manager));
+	/*else if (type == "thromp"){}
 	else if (type == "rokko"){}
 	else if (type == "krush"){}
 	else if (type == "gee"){}

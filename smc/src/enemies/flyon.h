@@ -31,6 +31,7 @@ public:
 	// constructor
 	cFlyon( cSprite_Manager *sprite_manager );
 	// create from stream
+	cFlyon( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cFlyon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cFlyon( void );
