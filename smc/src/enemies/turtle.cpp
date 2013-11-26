@@ -43,6 +43,22 @@ cTurtle :: cTurtle( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_ma
 	cTurtle::Load_From_XML( attributes );
 }
 
+cTurtle :: cTurtle( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cTurtle::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+}
+
+
 cTurtle :: ~cTurtle( void )
 {
 	//

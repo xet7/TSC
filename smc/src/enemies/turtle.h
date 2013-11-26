@@ -43,6 +43,7 @@ public:
 	// constructor
 	cTurtle( cSprite_Manager *sprite_manager );
 	// create from stream
+	cTurtle( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cTurtle( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cTurtle( void );

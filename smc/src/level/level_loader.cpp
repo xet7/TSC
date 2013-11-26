@@ -15,6 +15,7 @@
 #include "../objects/moving_platform.h"
 #include "../enemies/eato.h"
 #include "../enemies/furball.h"
+#include "../enemies/turtle.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -723,8 +724,9 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cEato(attributes, p_sprite_manager));
 	else if (type == "furball")
 		result.push_back(new cFurball(attributes, p_sprite_manager));
-	/*else if (type == "turtle"){}
-	else if (type == "turtleboss"){}
+	else if (type == "turtle")
+		result.push_back(new cTurtle(attributes, p_sprite_manager));
+	/*else if (type == "turtleboss"){}
 	else if (type == "flyon"){}
 	else if (type == "thromp"){}
 	else if (type == "rokko"){}
