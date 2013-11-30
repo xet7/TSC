@@ -33,6 +33,7 @@ public:
 	// constructor
 	cSpika( cSprite_Manager *sprite_manager );
 	// create from stream
+	cSpika( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cSpika( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cSpika( void );

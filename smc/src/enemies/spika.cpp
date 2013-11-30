@@ -21,6 +21,7 @@
 #include "../video/gl_surface.h"
 #include "../core/sprite_manager.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 #include "../enemies/bosses/turtle_boss.h"
 
 namespace SMC
@@ -40,6 +41,19 @@ cSpika :: cSpika( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_mana
 	cSpika::Init();
 	cSpika::Load_From_XML( attributes );
 }
+
+cSpika :: cSpika( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cSpika::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+}
+
 
 cSpika :: ~cSpika( void )
 {
