@@ -24,6 +24,7 @@
 #include "../enemies/gee.h"
 #include "../enemies/spika.h"
 #include "../enemies/static.h"
+#include "../enemies/spikeball.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -763,7 +764,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cSpika(attributes, p_sprite_manager));
 	else if (type == "static")
 		result.push_back(new cStaticEnemy(attributes, p_sprite_manager));
-	/*else if (type == "spikeball"){}*/
+	else if (type == "spikeball")
+		result.push_back(new cSpikeball(attributes, p_sprite_manager));
 	else // type == "X"
 		std::cerr << "Warning: Unknown level enemy type: " << type << std::endl;
 
