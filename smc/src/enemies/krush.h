@@ -33,6 +33,7 @@ public:
 	// constructor
 	cKrush( cSprite_Manager *sprite_manager );
 	// create from stream
+	cKrush( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cKrush( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cKrush( void );

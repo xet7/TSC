@@ -22,6 +22,7 @@
 #include "../user/savegame.h"
 #include "../core/i18n.h"
 #include "../core/sprite_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -40,6 +41,19 @@ cKrush :: cKrush( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_mana
 	cKrush::Init();
 	cKrush::Load_From_XML( attributes );
 }
+
+cKrush :: cKrush( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cKrush::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+}
+
 
 cKrush :: ~cKrush( void )
 {

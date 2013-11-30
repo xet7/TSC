@@ -20,6 +20,7 @@
 #include "../enemies/flyon.h"
 #include "../enemies/thromp.h"
 #include "../enemies/rokko.h"
+#include "../enemies/krush.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -751,8 +752,9 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 	}
 	else if (type == "rokko")
 		result.push_back(new cRokko(attributes, p_sprite_manager));
-	/*else if (type == "krush"){}
-	else if (type == "gee"){}
+	else if (type == "krush")
+		result.push_back(new cKrush(attributes, p_sprite_manager));
+	/*else if (type == "gee"){}
 	else if (type == "spika"){}
 	else if (type == "static"){}
 	else if (type == "spikeball"){}*/
