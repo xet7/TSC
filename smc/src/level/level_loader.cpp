@@ -19,6 +19,7 @@
 #include "../enemies/bosses/turtle_boss.h"
 #include "../enemies/flyon.h"
 #include "../enemies/thromp.h"
+#include "../enemies/rokko.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -748,8 +749,9 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 
 		result.push_back(p_thromp);
 	}
-	/*else if (type == "rokko"){}
-	else if (type == "krush"){}
+	else if (type == "rokko")
+		result.push_back(new cRokko(attributes, p_sprite_manager));
+	/*else if (type == "krush"){}
 	else if (type == "gee"){}
 	else if (type == "spika"){}
 	else if (type == "static"){}

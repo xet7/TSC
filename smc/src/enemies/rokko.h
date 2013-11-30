@@ -31,6 +31,7 @@ public:
 	// constructor
 	cRokko( cSprite_Manager *sprite_manager );
 	// create from stream
+	cRokko( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cRokko( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cRokko( void );

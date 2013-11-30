@@ -22,6 +22,7 @@
 #include "../video/renderer.h"
 #include "../input/mouse.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -40,6 +41,22 @@ cRokko :: cRokko( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_mana
 	cRokko::Init();
 	cRokko::Load_From_XML( attributes );
 }
+
+cRokko :: cRokko( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cRokko::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
+}
+
 
 cRokko :: ~cRokko( void )
 {
