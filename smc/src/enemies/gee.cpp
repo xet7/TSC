@@ -20,6 +20,7 @@
 #include "../gui/hud.h"
 #include "../input/mouse.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -38,6 +39,34 @@ cGee :: cGee( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager 
 	cGee::Init();
 	cGee::Load_From_XML( attributes );
 }
+
+cGee :: cGee( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager )
+{
+	cGee::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// max distance
+	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(m_max_distance))));
+
+	// always fly
+	m_always_fly = string_to_bool(attributes.fetch("always_fly", bool_to_string(m_always_fly)));
+
+	// wait time
+	m_wait_time = string_to_float(attributes.fetch("wait_time", float_to_string(m_wait_time)));
+
+	// fly distance
+	m_fly_distance = string_to_int(attributes.fetch("fly_distance", int_to_string(m_fly_distance)));
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+}
+
 
 cGee :: ~cGee( void )
 {

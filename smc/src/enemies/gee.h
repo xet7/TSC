@@ -31,6 +31,7 @@ public:
 	// constructor
 	cGee( cSprite_Manager *sprite_manager );
 	// create from stream
+	cGee( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cGee( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cGee( void );
