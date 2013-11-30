@@ -25,6 +25,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -44,6 +45,33 @@ cStaticEnemy :: cStaticEnemy( CEGUI::XMLAttributes &attributes, cSprite_Manager 
 {
 	cStaticEnemy::Init();
 	cStaticEnemy::Load_From_XML( attributes );
+}
+
+cStaticEnemy :: cStaticEnemy( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cEnemy( sprite_manager ), m_path_state( sprite_manager )
+{
+	cStaticEnemy::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// rotation speed
+	Set_Rotation_Speed(string_to_float(attributes.fetch("rotation_speed", "-7.5")));
+
+	// image
+	Set_Static_Image(utf8_to_path(attributes.fetch("static_image", "enemy/static/saw/default.png")));
+
+    // path
+	Set_Path_Identifier(attributes["path"]);
+
+    // movement speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
+
+	// fire resistant
+	m_fire_resistant = string_to_bool(attributes.fetch("fire_resistant", bool_to_string(m_fire_resistant)));
+
+	// ice resistance
+	m_ice_resistance = string_to_float(attributes.fetch("ice_resistance", float_to_string(m_ice_resistance)));
 }
 
 cStaticEnemy :: ~cStaticEnemy( void )

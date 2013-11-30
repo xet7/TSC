@@ -32,6 +32,7 @@ public:
 	// constructor
 	cStaticEnemy( cSprite_Manager *sprite_manager );
 	// create from stream
+	cStaticEnemy( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cStaticEnemy( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cStaticEnemy( void );
