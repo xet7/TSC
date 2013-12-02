@@ -26,6 +26,7 @@
 #include "../enemies/static.h"
 #include "../enemies/spikeball.h"
 #include "../audio/random_sound.h"
+#include "../video/animation.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -278,7 +279,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Enemies_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "sound")
 		return Create_Sounds_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
-	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
+	else if (name == "particle_emitter")
+		return Create_Particle_Emitters_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "path")
 		return Create_Paths_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
@@ -784,6 +786,39 @@ std::vector<cSprite*> cLevelLoader::Create_Sounds_From_XML_Tag(const std::string
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
 	result.push_back(new cRandom_Sound(attributes, p_sprite_manager));
+
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// Note : If you relocate images don't forget the global effect
+
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 35 && attributes.exists("posy"))
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+		// if V.1.9 and lower : change fire_1 animation to particles
+	if (engine_version < 37) {
+		attributes.relocate_image("animation/fire_1/1.png", "animation/particles/fire_1.png", "file");
+		attributes.relocate_image("animation/fire_1/2.png", "animation/particles/fire_2.png", "file");
+		attributes.relocate_image("animation/fire_1/3.png", "animation/particles/fire_3.png", "file");
+		attributes.relocate_image("animation/fire_1/4.png", "animation/particles/fire_4.png", "file");
+	}
+
+	// if V.1.9 and lower : change file to image
+	if (engine_version < 38 && attributes.exists("file")) {
+		attributes["image"] = attributes["file"];
+		attributes.erase("file");
+	}
+
+	cParticle_Emitter* p_emitter = new cParticle_Emitter(attributes, p_sprite_manager);
+	// set to not spawned
+	p_emitter->Set_Spawned(false);
+
+	result.push_back(p_emitter);
 
 	return result;
 }

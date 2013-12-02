@@ -23,6 +23,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 #include "../input/mouse.h"
 
 namespace fs = boost::filesystem;
@@ -523,6 +524,94 @@ cParticle_Emitter :: cParticle_Emitter( CEGUI::XMLAttributes &attributes, cSprit
 {
 	cParticle_Emitter::Init();
 	cParticle_Emitter::Load_From_XML( attributes );
+}
+
+cParticle_Emitter :: cParticle_Emitter( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimation( sprite_manager, "particle_emitter" )
+{
+	cParticle_Emitter::Init();
+
+	// Particle image filename
+	Set_Image_Filename(utf8_to_path(attributes["particle_image"]));
+
+
+	// position z
+	Set_Pos_Z(	attributes.fetch<float>("pos_z", m_pos_z),
+				attributes.fetch<float>("pos_z_rand", m_pos_z_rand));
+
+	// emitter based on camera pos
+	Set_Based_On_Camera_Pos(attributes.fetch<bool>("emitter_based_on_camera_pos", m_emitter_based_on_camera_pos));
+
+	// particle based on emitter pos
+	Set_Particle_Based_On_Emitter_Pos(attributes.fetch<float>("particle_based_on_emitter_pos", m_particle_based_on_emitter_pos));
+
+	// emitter rect
+	Set_Emitter_Rect(	static_cast<float>(attributes.fetch<int>("posx", static_cast<int>(m_pos_x))),
+						static_cast<float>(attributes.fetch<int>("posy", static_cast<int>(m_pos_y))),
+						static_cast<float>(attributes.fetch<int>("sizex", static_cast<int>(m_start_rect.m_w))),
+						static_cast<float>(attributes.fetch<int>("sizey", static_cast<int>(m_start_rect.m_h))));
+
+	// emitter time to live
+	Set_Emitter_Time_to_Live(attributes.fetch<float>("emitter_time_to_live", m_emitter_time_to_live));
+
+	// emitter interval
+	Set_Emitter_Iteration_Interval(attributes.fetch<float>("emitter_interval", m_emitter_iteration_interval));
+
+	// quota/count
+	Set_Quota(attributes.fetch<int>("quota", m_emitter_quota));
+
+	// time for particle to live
+	Set_Time_to_Live(	attributes.fetch<float>("time_to_live", m_time_to_live),
+						attributes.fetch<float>("time_to_live_rand", m_time_to_live_rand));
+
+	// velocity
+	Set_Speed(	attributes.fetch<float>("vel", m_vel),
+				attributes.fetch<float>("vel_rand", m_vel_rand));
+
+	// start rotation
+	Set_Rotation(	attributes.fetch<float>("rot_x", m_start_rot_x),
+					attributes.fetch<float>("rot_y", m_start_rot_y),
+					attributes.fetch<float>("rot_z", m_start_rot_z),
+					true);
+
+	Set_Start_Rot_Z_Uses_Direction(attributes.fetch<bool>("start_rot_z_uses_direction", m_start_rot_z_uses_direction));
+
+	// constant rotation x
+	Set_Const_Rotation_X(	attributes.fetch<float>("const_rot_x", m_const_rot_x),
+							attributes.fetch<float>("const_rot_x_rand", m_const_rot_x_rand));
+
+	// constant rotation y
+	Set_Const_Rotation_X(	attributes.fetch<float>("const_rot_y", m_const_rot_y),
+							attributes.fetch<float>("const_rot_y_rand", m_const_rot_y_rand));
+
+	// constant rotation z
+	Set_Const_Rotation_X(	attributes.fetch<float>("const_rot_z", m_const_rot_z),
+							attributes.fetch<float>("const_rot_z_rand", m_const_rot_z_rand));
+
+	// angle
+	Set_Direction_Range(	attributes.fetch<float>("angle_start", m_angle_start),
+							attributes.fetch<float>("angle_range", m_angle_range));
+
+	// scale
+	Set_Scale(	attributes.fetch<float>("size_scale", m_size_scale),
+				attributes.fetch<float>("size_scale_rand", m_size_scale_rand));
+
+	// horizontal gravity
+	Set_Horizontal_Gravity(	attributes.fetch<float>("gravity_x", m_gravity_x),
+							attributes.fetch<float>("gravity_x_rand", m_gravity_x_rand));
+
+	// vertical gravity
+	Set_Horizontal_Gravity(	attributes.fetch<float>("gravity_y", m_gravity_y),
+							attributes.fetch<float>("gravity_y_rand", m_gravity_y_rand));
+
+	// clip rect
+	Set_Clip_Rect(	static_cast<float>(attributes.fetch<int>("clip_x", static_cast<int>(m_clip_rect.m_x))),
+					static_cast<float>(attributes.fetch<int>("clip_y", static_cast<int>(m_clip_rect.m_y))),
+					static_cast<float>(attributes.fetch<int>("clip_w", static_cast<int>(m_clip_rect.m_w))),
+					static_cast<float>(attributes.fetch<int>("clip_h", static_cast<int>(m_clip_rect.m_h))));
+
+	// clip mode
+	Set_Clip_Mode(static_cast<ParticleClipMode>(attributes.fetch<int>("clip_mode", m_clip_mode)));
 }
 
 cParticle_Emitter :: ~cParticle_Emitter( void )

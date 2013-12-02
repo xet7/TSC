@@ -29,5 +29,13 @@ namespace SMC {
 		else
 			return defaultvalue;
 	}
+	template<>
+	const char* XmlAttributes::fetch(const std::string& key, const char* defaultvalue)
+	{
+		if (exists(key))
+			return (*this)[key].c_str();
+		else
+			return defaultvalue;
+	}
 
 }

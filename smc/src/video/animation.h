@@ -168,6 +168,7 @@ public:
 	// constructor
 	cParticle_Emitter( cSprite_Manager *sprite_manager );
 	// create from stream
+	cParticle_Emitter( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cParticle_Emitter( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cParticle_Emitter( void );

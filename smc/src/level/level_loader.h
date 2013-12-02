@@ -63,6 +63,7 @@ namespace SMC {
 		static std::vector<cSprite*> Create_Falling_Platforms_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 		static std::vector<cSprite*> Create_Enemies_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 		static std::vector<cSprite*> Create_Sounds_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static std::vector<cSprite*> Create_Particle_Emitters_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 		static std::vector<cSprite*> Create_Paths_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
 		void Parse_Tag_Information();
