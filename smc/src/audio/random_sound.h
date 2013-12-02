@@ -30,6 +30,7 @@ public:
 	// constructor
 	cRandom_Sound( cSprite_Manager *sprite_manager );
 	// create from stream
+	cRandom_Sound( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cRandom_Sound( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cRandom_Sound( void );

@@ -21,6 +21,7 @@
 #include "../input/mouse.h"
 #include "../core/math/utilities.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -39,6 +40,33 @@ cRandom_Sound :: cRandom_Sound( CEGUI::XMLAttributes &attributes, cSprite_Manage
 {
 	cRandom_Sound::Init();
 	cRandom_Sound::Load_From_XML( attributes );
+}
+
+cRandom_Sound :: cRandom_Sound( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cSprite( sprite_manager, "sound" )
+{
+	cRandom_Sound::Init();
+
+	// filename
+	Set_Filename(attributes["file"]);
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// 
+	Set_Continuous(string_to_bool(attributes.fetch("continuous", bool_to_string(m_continuous))));
+
+	// delay
+	Set_Delay_Min(string_to_int(attributes.fetch("delay_min", int_to_string(m_delay_min))));
+	Set_Delay_Max(string_to_int(attributes.fetch("delay_max", int_to_string(m_delay_max))));
+
+	// volume
+	Set_Volume_Min(string_to_float(attributes.fetch("volume_min", float_to_string(m_volume_min))));
+	Set_Volume_Max(string_to_float(attributes.fetch("volume_max", float_to_string(m_volume_max))));
+
+	// volume reduction
+	Set_Volume_Reduction_Begin(string_to_float(attributes.fetch("volume_reduction_begin", float_to_string(m_volume_reduction_begin))));
+	Set_Volume_Reduction_End(string_to_float(attributes.fetch("volume_reduction_end", float_to_string(m_volume_reduction_end))));
 }
 
 cRandom_Sound :: ~cRandom_Sound( void )

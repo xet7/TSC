@@ -25,6 +25,7 @@
 #include "../enemies/spika.h"
 #include "../enemies/static.h"
 #include "../enemies/spikeball.h"
+#include "../audio/random_sound.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -275,6 +276,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Falling_Platforms_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "enemy")
 		return Create_Enemies_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "sound")
+		return Create_Sounds_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 	else if (name == "path")
 		return Create_Paths_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
@@ -768,6 +771,19 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cSpikeball(attributes, p_sprite_manager));
 	else // type == "X"
 		std::cerr << "Warning: Unknown level enemy type: " << type << std::endl;
+
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Sounds_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 35 && attributes.exists("posy"))
+		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+	result.push_back(new cRandom_Sound(attributes, p_sprite_manager));
 
 	return result;
 }
