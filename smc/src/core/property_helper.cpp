@@ -505,6 +505,11 @@ bool string_to_type(const std::string& value)
   return string_to_bool(value);
 }
 
+template<>
+std::string string_to_type(const std::string& value)
+{
+	return std::string(value); // copy
+}
 
 ObjectDirection Get_Opposite_Direction( const ObjectDirection direction )
 {

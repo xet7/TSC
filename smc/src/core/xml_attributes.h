@@ -13,6 +13,7 @@ namespace SMC {
 		void relocate_image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name = "image");
 
 		// If the given `key' exists, return its value. Otherwise return `defaultvalue'.
+		// For strings, an this template is overriden to do no conversion at all.
 		template <typename T>
 		T fetch(const std::string& key, T defaultvalue)
 		{
