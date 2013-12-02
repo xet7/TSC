@@ -480,10 +480,10 @@ cPath :: cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 	Set_Identifier(attributes["identifier"]);
 
 	// show line
-	Set_Show_Line(string_to_bool(attributes.fetch("show_line", bool_to_string(m_show_line))));
+	Set_Show_Line(attributes.fetch<bool>("show_line", m_show_line));
 
 	// rewind
-	Set_Rewind(string_to_bool(attributes.fetch("rewind", bool_to_string(m_rewind))));
+	Set_Rewind(attributes.fetch<bool>("rewind", m_rewind));
 
 	// load segments
 	unsigned int count;

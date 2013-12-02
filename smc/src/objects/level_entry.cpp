@@ -53,7 +53,7 @@ cLevel_Entry :: cLevel_Entry( XmlAttributes &attributes, cSprite_Manager *sprite
 	// position
 	Set_Pos( string_to_float( attributes["posx"] ), string_to_float( attributes["posy"] ), true );
 	// type
-	Set_Type( static_cast<Level_Entry_type>( string_to_int( attributes.fetch("type", int_to_string( m_entry_type ) ) ) ) );
+	Set_Type(static_cast<Level_Entry_type>(attributes.fetch<int>("type", m_entry_type)));
 	// name
 	Set_Name( attributes["name"] );
 	// direction

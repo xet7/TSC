@@ -229,7 +229,7 @@ cMushroom :: cMushroom( XmlAttributes &attributes, cSprite_Manager *sprite_manag
 	// position
 	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 	// type
-	Set_Type(static_cast<SpriteType>(string_to_int(attributes.fetch("mushroom_type", int_to_string(TYPE_MUSHROOM_DEFAULT)))));
+	Set_Type(static_cast<SpriteType>(attributes.fetch<int>("mushroom_type", TYPE_MUSHROOM_DEFAULT)));
 }
 
 

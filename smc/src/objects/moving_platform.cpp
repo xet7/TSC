@@ -59,7 +59,7 @@ cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager
 	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 
 	// move type
-	Set_Move_Type(static_cast<Moving_Platform_Type>(string_to_int(attributes.fetch("move_type", int_to_string(m_move_type)))));
+	Set_Move_Type(static_cast<Moving_Platform_Type>(attributes.fetch<int>("move_type", m_move_type)));
 
 	// massive type
 	Set_Massive_Type(Get_Massive_Type_Id(attributes.fetch("massive_type", Get_Massive_Type_Name(m_massive_type))));
@@ -70,7 +70,7 @@ cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager
 		Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
 
 		// max distance
-		Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(m_max_distance))));
+		Set_Max_Distance(attributes.fetch<int>("max_distance", m_max_distance));
 	}
 
 	// path identifier
@@ -78,19 +78,19 @@ cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager
 		Set_Path_Identifier(attributes["path_identifier"]);
 
 	// speed
-	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
+	Set_Speed(attributes.fetch<float>("speed", m_speed));
 
 	// touch_time
-	Set_Touch_Time(string_to_float(attributes.fetch("touch_time", float_to_string(m_touch_time))));
+	Set_Touch_Time(attributes.fetch<float>("touch_time", m_touch_time));
 
 	// shake time
-	Set_Shake_Time(string_to_float(attributes.fetch("shake_time", float_to_string(m_shake_time))));
+	Set_Shake_Time(attributes.fetch<float>("shake_time", m_shake_time));
 
 	// touch move time
-	Set_Touch_Move_Time(string_to_float(attributes.fetch("touch_move_time", float_to_string(m_touch_move_time))));
+	Set_Touch_Move_Time(attributes.fetch<float>("touch_move_time", m_touch_move_time));
 
 	// middle image count
-	Set_Middle_Count(string_to_int(attributes.fetch("middle_img_count", int_to_string(m_middle_count))));
+	Set_Middle_Count(attributes.fetch<int>("middle_img_count", m_middle_count));
 
 	// image top left
 	Set_Image_Top_Left(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_left", path_to_utf8(m_images[0].m_image->Get_Path())))));

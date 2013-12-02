@@ -78,7 +78,7 @@ void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
 	Set_Invisible(static_cast<Box_Invisible_Type>(string_to_float(attributes["invisible"])));
 
 	// Usable count
-	Set_Useable_Count(string_to_float(attributes.fetch("useable_count", int_to_string(m_start_useable_count))));
+	Set_Useable_Count(attributes.fetch<int>("useable_count", m_start_useable_count));
 }
 
 void cBaseBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )

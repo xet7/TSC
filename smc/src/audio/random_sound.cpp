@@ -54,19 +54,19 @@ cRandom_Sound :: cRandom_Sound( XmlAttributes &attributes, cSprite_Manager *spri
 	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 
 	// 
-	Set_Continuous(string_to_bool(attributes.fetch("continuous", bool_to_string(m_continuous))));
+	Set_Continuous(attributes.fetch<bool>("continuous", m_continuous));
 
 	// delay
-	Set_Delay_Min(string_to_int(attributes.fetch("delay_min", int_to_string(m_delay_min))));
-	Set_Delay_Max(string_to_int(attributes.fetch("delay_max", int_to_string(m_delay_max))));
+	Set_Delay_Min(attributes.fetch<int>("delay_min", m_delay_min));
+	Set_Delay_Min(attributes.fetch<int>("delay_max", m_delay_max));
 
 	// volume
-	Set_Volume_Min(string_to_float(attributes.fetch("volume_min", float_to_string(m_volume_min))));
-	Set_Volume_Max(string_to_float(attributes.fetch("volume_max", float_to_string(m_volume_max))));
+	Set_Volume_Min(attributes.fetch<float>("volume_min", m_volume_min));
+	Set_Volume_Max(attributes.fetch<float>("volume_min", m_volume_max));
 
 	// volume reduction
-	Set_Volume_Reduction_Begin(string_to_float(attributes.fetch("volume_reduction_begin", float_to_string(m_volume_reduction_begin))));
-	Set_Volume_Reduction_End(string_to_float(attributes.fetch("volume_reduction_end", float_to_string(m_volume_reduction_end))));
+	Set_Volume_Reduction_Begin(attributes.fetch<float>("volume_reduction_begin", m_volume_reduction_begin));
+	Set_Volume_Reduction_End(attributes.fetch<float>("volume_reduction_end", m_volume_reduction_end));
 }
 
 cRandom_Sound :: ~cRandom_Sound( void )
