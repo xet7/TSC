@@ -99,6 +99,24 @@ std::string path_to_utf8(const boost::filesystem::path& path);
 // Return the given time as string
 std::string Time_to_String( time_t t, const char *format );
 
+// Return it as a string
+template <typename T>
+std::string type_to_string(T value)
+{
+  std::stringstream ss;
+  ss << value;
+  return ss.str();
+}
+
+// Return it as something else. This function is specifically
+// implemented for some types in property_helper.cpp; the raw
+// prototype declared here is only for the signature.
+template <typename T>
+T string_to_type(const std::string& value)
+{
+  throw std::runtime_error("Cannot use string_to_type() template raw.");
+}
+
 // Return the opposite Direction
 ObjectDirection Get_Opposite_Direction( const ObjectDirection direction );
 // Return the Direction Name

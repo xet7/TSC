@@ -479,6 +479,33 @@ std::string Time_to_String( time_t t, const char *format )
 	return str_time;
 }
 
+// Specifications for the template-converters
+
+template<>
+std::string type_to_string(bool value)
+{
+  return value ? "1" : "0";
+}
+
+template<>
+float string_to_type(const std::string& value)
+{
+  return string_to_float(value);
+}
+
+template<>
+int string_to_type(const std::string& value)
+{
+  return string_to_int(value);
+}
+
+template<>
+bool string_to_type(const std::string& value)
+{
+  return string_to_bool(value);
+}
+
+
 ObjectDirection Get_Opposite_Direction( const ObjectDirection direction )
 {
 	switch( direction )

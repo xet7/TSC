@@ -13,14 +13,6 @@ void XmlAttributes::relocate_image(const std::string& filename_old, const std::s
 		(*this)[attribute_name] = filename_new;
 }
 
-std::string XmlAttributes::fetch(const std::string& key, const std::string& defaultvalue /* = "" */)
-{
-	if (exists(key))
-		return (*this)[key];
-	else
-		return defaultvalue;
-}
-
 bool XmlAttributes::exists(const std::string& key)
 {
 	if (count(key) > 0)
