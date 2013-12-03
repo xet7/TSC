@@ -27,6 +27,7 @@
 #include "../enemies/spikeball.h"
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
+#include "../core/game_core.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -283,6 +284,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Particle_Emitters_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "path")
 		return Create_Paths_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "global_effect") // global_effect is V.1.9 and lower
+		return Create_Global_Effects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
 	else
 		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
@@ -820,5 +823,67 @@ std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const 
 
 	result.push_back(p_emitter);
 
+	return result;
+}
+
+// if V.1.9 and lower : convert global effect to an advanced particle emitter
+std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+
+	// if V.0.99.4 and lower : change lieftime mod to time to live
+	if (engine_version < 21 && !attributes.exists("time_to_live")) {
+		attributes["time_to_live"] = float_to_string(attributes.fetch<float>("lifetime_mod", 20.0f) * 0.3f);
+		attributes.erase("lifetime_mod");
+	}
+
+	// if V.0.99.7 and lower : change creation speed to emitter iteration interval
+	if (engine_version < 22 && !attributes.exists("emitter_iteration_interval")) {
+		attributes["emitter_iteration_interval"] = float_to_string((1.0f / attributes.fetch<float>("creation_speed", 0.3f)) * 0.032f);
+		attributes.erase("creation_speed");
+	}
+
+	// if V.1.9 and lower : change fire_1 animation to particles
+	if (engine_version < 37) {
+		attributes.relocate_image("animation/fire_1/1.png", "animation/particles/fire_1.png", "image");
+		attributes.relocate_image("animation/fire_1/2.png", "animation/particles/fire_2.png", "image");
+		attributes.relocate_image("animation/fire_1/3.png", "animation/particles/fire_3.png", "image");
+		attributes.relocate_image("animation/fire_1/4.png", "animation/particles/fire_4.png", "image");
+	}
+
+	// change disabled type to quota 0
+	if (attributes.exists("type") && attributes["type"] == "0") {
+		attributes["quota"] = "0";
+		attributes.erase("type");
+	}
+
+	// rename attributes
+	attributes["pos_x"]			= int_to_string(attributes.fetch<int>("rect_x", 0));
+	attributes["pos_y"]			= int_to_string(attributes.fetch<int>("rect_y", 0) - 600);
+	attributes["size_x"]		= int_to_string(attributes.fetch<int>("rect_w", game_res_w));
+	attributes["size_y"]		= int_to_string(attributes.fetch<int>("rect_h", 0));
+	attributes["pos_z"]			= float_to_string(attributes.fetch<float>("z", 0.12f));
+	attributes["pos_z_rand"]	= float_to_string(attributes.fetch<float>("z_rand", 0.0f));
+	attributes["emitter_time_to_live"] = "-1.0";
+	if (!attributes.exists("time_to_live"))
+		attributes["time_to_live"] = "0.7";
+	attributes["emitter_interval"]	= float_to_string(attributes.fetch<float>("emitter_iteration_interval", 0.3f));
+	attributes["size_scale"]		= float_to_string(attributes.fetch<float>("speed", 0.2f));
+	attributes["size_scale_rand"]	= float_to_string(attributes.fetch<float>("scale_rand", 0.2f));
+	attributes["vel"]				= float_to_string(attributes.fetch<float>("speed", 0.2f));
+	attributes["vel_rand"]			= float_to_string(attributes.fetch<float>("speed_rand", 8.0f));
+	attributes["angle_start"]		= float_to_string(attributes.fetch<float>("dir_range_start", 0.0f));
+	attributes["angle_range"]		= float_to_string(attributes.fetch<float>("dir_range_size", 90.0f));
+	attributes["const_rot_z"]		= float_to_string(attributes.fetch<float>("const_rotz", -5.0f));
+	attributes["const_rot_z_rand"]	= float_to_string(attributes.fetch<float>("const_rotz_rand", 10.0f));
+
+	cParticle_Emitter* p_emitter = new cParticle_Emitter(attributes, p_sprite_manager);
+	p_emitter->Set_Spawned(false);
+
+	// clip to the camera
+	p_emitter->Set_Clip_Rect( GL_rect( 0.0f, 0.0f, static_cast<float>(game_res_w), static_cast<float>(game_res_h) + ( attributes.fetch<int>("rect_y", 0) * -1 ) ) );
+	p_emitter->Set_Based_On_Camera_Pos( 1 );
+
+	result.push_back(p_emitter);
 	return result;
 }
