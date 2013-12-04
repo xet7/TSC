@@ -30,6 +30,7 @@ public:
 	// constructor
 	cBall( cSprite_Manager *sprite_manager );
 	// create from stream
+	cBall( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	cBall( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cBall( void );

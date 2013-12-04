@@ -28,6 +28,7 @@
 #include "../audio/random_sound.h"
 #include "../video/animation.h"
 #include "../core/game_core.h"
+#include "../objects/ball.h"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -286,7 +287,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Paths_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "global_effect") // global_effect is V.1.9 and lower
 		return Create_Global_Effects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
-	// FIXME: CONTINUE HERE with stuff from cLevel.cpp (Create_Level_Object_From_XML())
+	else if (name == "ball")
+		return Create_Balls_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else
 		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
 
@@ -885,5 +887,12 @@ std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std
 	p_emitter->Set_Based_On_Camera_Pos( 1 );
 
 	result.push_back(p_emitter);
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Balls_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+	result.push_back(new cBall(attributes, p_sprite_manager));
 	return result;
 }

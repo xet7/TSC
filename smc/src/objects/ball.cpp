@@ -44,6 +44,26 @@ cBall :: cBall( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manage
 	cBall::Load_From_XML( attributes );
 }
 
+cBall :: cBall( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cAnimated_Sprite( sprite_manager, "ball" )
+{
+	cBall::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	m_direction = static_cast<ObjectDirection>(string_to_int(attributes["direction"]));
+
+	// origin array and type
+	Set_Origin(	static_cast<ArrayType>(string_to_int(attributes["origin_array"])),
+				static_cast<SpriteType>(string_to_int(attributes["origin_type"])));
+
+	// type
+	Set_Ball_Type(static_cast<ball_effect>(string_to_int(attributes["ball_type"])));
+}
+
+
 cBall :: ~cBall( void )
 {
 	// always destroy
