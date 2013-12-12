@@ -81,6 +81,9 @@ class cOverworld : public CEGUI::XMLHandler
 {
 public:
 	cOverworld( void );
+	// Load overworld from the given directory.
+	// For `user_dir', see `m_user' in cOverworld_description.
+	cOverworld( boost::filesystem::path directory, int user_dir = 0 );
 	virtual ~cOverworld( void );
 
 	// New
@@ -207,6 +210,9 @@ public:
 	cHudSprite *m_hud_level_name;
 
 private:
+	// Common stuff for constructors
+	void Init();
+
 	// XML element start
 	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
 	// XML element end

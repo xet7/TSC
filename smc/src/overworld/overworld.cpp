@@ -156,6 +156,31 @@ fs::path cOverworld_description :: Get_Path()
 
 cOverworld :: cOverworld( void )
 {
+	Init();
+}
+
+cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */ )
+{
+	Init();
+	m_description->m_path = directory;
+	m_description->m_name = path_to_utf8(directory); // default name is the path
+	m_description->m_user = user_dir;
+}
+
+cOverworld :: ~cOverworld( void )
+{
+	Unload();
+
+	delete m_sprite_manager;
+	delete m_animation_manager;
+	delete m_description;
+	delete m_layer;
+	delete m_hud_level_name;
+	delete m_hud_world_name;
+}
+
+void cOverworld::Init()
+{
 	m_sprite_manager = new cWorld_Sprite_Manager( this );
 	m_animation_manager = new cAnimation_Manager();
 	m_description = new cOverworld_description();
@@ -176,18 +201,6 @@ cOverworld :: cOverworld( void )
 
 	m_player_start_waypoint = 0;
 	m_player_moving_state = STA_STAY;
-}
-
-cOverworld :: ~cOverworld( void )
-{
-	Unload();
-
-	delete m_sprite_manager;
-	delete m_animation_manager;
-	delete m_description;
-	delete m_layer;
-	delete m_hud_level_name;
-	delete m_hud_world_name;
 }
 
 bool cOverworld :: New( std::string name )

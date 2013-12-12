@@ -103,18 +103,11 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 				// already available
 				if( overworld )
 				{
-					overworld->m_description->m_user = 2;
+					overworld->m_description->m_user = 2; // 2 = available in system *and* in user dir
 					continue;
 				}
 
-				overworld = new cOverworld();
-
-				// set directory path
-				overworld->m_description->m_path = fs::path(current_dir);
-				// default name is the path
-				overworld->m_description->m_name = path_to_utf8(current_dir.filename());
-				// set user
-				overworld->m_description->m_user = user_dir;
+				overworld = new cOverworld(current_dir, static_cast<int>(user_dir));
 
 				objects.push_back( overworld );
 
