@@ -41,10 +41,12 @@ public:
 	// Save
 	void Save( void );
 
-	// Full path to the world file
+	// Full path to the world directory
 	boost::filesystem::path Get_Path();
+	// Set path to the world directory, optionally overwriting the world’s name.
+	void Set_Path(boost::filesystem::path directory, bool set_name = false);
 
-	// Full path to the world file
+	// Full path to the world directory
 	boost::filesystem::path m_path;
 	// world name
 	std::string m_name;

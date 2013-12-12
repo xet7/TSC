@@ -30,6 +30,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "overworld_description_loader.h"
 
 namespace fs = boost::filesystem;
 
@@ -152,6 +153,14 @@ fs::path cOverworld_description :: Get_Path()
 	return m_path;
 }
 
+void cOverworld_description :: Set_Path(fs::path directory, bool set_name /* = false */)
+{
+	m_path = directory;
+
+	if (set_name)
+		m_name = path_to_utf8(directory);
+}
+
 /* *** *** *** *** *** *** *** *** cOverworld *** *** *** *** *** *** *** *** *** */
 
 cOverworld :: cOverworld( void )
@@ -162,8 +171,21 @@ cOverworld :: cOverworld( void )
 cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */ )
 {
 	Init();
-	m_description->m_path = directory;
-	m_description->m_name = path_to_utf8(directory); // default name is the path
+
+#ifdef ENABLE_NEW_LOADER
+	// Load the description XML file
+	cOverworldDescriptionLoader descloader;
+	descloader.parse_file(directory / utf8_to_path("description.xml"));
+
+	// Replace empty description with the one we just loaded
+	delete m_description;
+	m_description = descloader.Get_Overworld_Description();
+	m_description->Set_Path(directory);
+#else
+	// For the legecy loader, the description XML file is loaded in cOverworld::Load()
+	m_description->Set_Path(directory, true); // default name is the path, overwritten when the XML is loaded in ::Load()
+#endif
+
 	m_description->m_user = user_dir;
 }
 

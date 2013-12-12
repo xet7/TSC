@@ -26,10 +26,10 @@ cOverworld* cOverworldLoader::Get_Overworld()
  * SAX parser callbacks
  ***************************************/
 
-void cOverworldLoader::parse_file(fs::path filename)
+void cOverworldLoader::parse_dir(fs::path dirname)
 {
-	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
-	m_worldfile = filename;
+	m_worlddir = dirname;
+	xmlpp::SaxParser::parse_file(path_to_utf8(dirname / utf8_to_path("world.xml")));
 }
 
 void cOverworldLoader::on_start_document()
@@ -37,7 +37,7 @@ void cOverworldLoader::on_start_document()
 	if (mp_world)
 		throw("Restarted XML parser after already starting it."); // FIXME: proper exception
 
-	mp_world = new cOverworld();
+	mp_world = new cOverworld(m_worlddir); // FIXME: No specification of `user_dir'
 }
 
 void cOverworldLoader::on_end_document()

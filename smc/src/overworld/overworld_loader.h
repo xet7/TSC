@@ -6,16 +6,22 @@
 
 namespace SMC {
 
+ /**
+  * Parser for a world directory; actually employs
+  * several subparsers for the XML files in that
+  * directory, but handles the main XML file
+  * itself.
+  */
   class cOverworldLoader: public xmlpp::SaxParser
   {
   public:
     cOverworldLoader();
     virtual ~cOverworldLoader();
 
-    // Parse the given filename. Use this function instead of bare xmlpp’s
+    // Parse the given world directory. Use this function instead of bare xmlpp’s
     // parse_file() that accepts a Glib::ustring — this function sets
     // some internal members.
-    virtual void parse_file(boost::filesystem::path filename);
+    virtual void parse_dir(boost::filesystem::path dirname);
 
     cOverworld* Get_Overworld();
   protected: // SAX parser callbacks
@@ -26,8 +32,8 @@ namespace SMC {
 
   private:
     cOverworld* mp_world;
-    // The file we’re parsing
-    boost::filesystem::path m_worldfile;
+    // The directory we’re parsing
+    boost::filesystem::path m_worlddir;
     // The <property> results we found before the current tag.
     XmlAttributes m_current_properties;
   };
