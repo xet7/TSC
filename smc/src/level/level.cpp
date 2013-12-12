@@ -272,6 +272,7 @@ cLevel* cLevel :: Load_DEBUG_Libxmlpp( std::string levelname )
 	// Our level
 	cLevel* p_level = loader.Get_Level();
 
+	// FIXME: Move this into cLevelLoader::on_end_document()
 	/* late initialization
 	 * needed to create links to other objects
 	*/
