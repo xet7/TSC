@@ -40,7 +40,7 @@ namespace SMC
 
 cOverworld_description :: cOverworld_description( void )
 {
-	m_path = "world_1";
+	m_path = "world_1"; // FIXME: Don’t assume this world exists.
 	m_name = _("Unnamed");
 	m_visible = 1;
 	m_user = 0;
