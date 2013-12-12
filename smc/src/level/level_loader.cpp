@@ -57,8 +57,8 @@ cLevel* cLevelLoader::Get_Level()
 
 void cLevelLoader::parse_file(boost::filesystem::path filename)
 {
-	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 	m_levelfile = filename;
+	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 }
 
 void cLevelLoader::on_start_document()
