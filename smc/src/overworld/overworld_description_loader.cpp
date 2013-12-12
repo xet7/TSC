@@ -28,8 +28,8 @@ cOverworld_description* cOverworldDescriptionLoader::Get_Overworld_Description()
 
 void cOverworldDescriptionLoader::parse_file(fs::path filename)
 {
-	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 	m_descfile = filename;
+	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 }
 
 void cOverworldDescriptionLoader::on_start_document()
