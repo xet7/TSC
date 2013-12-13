@@ -31,6 +31,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "overworld_description_loader.h"
+#include "overworld_loader.h"
 
 namespace fs = boost::filesystem;
 
@@ -167,6 +168,36 @@ cOverworld :: cOverworld( void )
 {
 	Init();
 }
+
+#ifdef ENABLE_NEW_LOADER
+cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */)
+{
+	Init();
+
+	// Overworld loading consists of three steps: Loading the description file,
+	// loading the main world file and loading the layers file.
+
+	//////// Step 1: Description file ////////
+	cOverworldDescriptionLoader descloader;
+	cOverworld_description* p_desc = NULL;
+	descloader.parse_file(directory / utf8_to_path("description.xml"));
+	p_desc = descloader.Get_Overworld_Description();
+	p_desc->Set_Path(directory); // FIXME: Post-initialization violates OOP principle of secrecy. `m_path' needs to be moved into cOverworld!
+
+	// Replace the old default description for world_1 with the correct one
+	// we just loaded.
+	delete m_description;
+	m_description = p_desc;
+
+	//////// Step 2: Main world file ////////
+	cOverworldLoader worldloader;
+	worldloader.parse_file(directory / utf8_to_path("world.xml"));
+	// TODO
+
+	//////// Step 3: Layers file ////////
+	// TODO
+}
+#endif
 
 cOverworld :: ~cOverworld( void )
 {

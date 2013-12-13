@@ -86,6 +86,11 @@ class cOverworld : public CEGUI::XMLHandler
 {
 public:
 	cOverworld( void );
+
+#ifdef ENABLE_NEW_LOADER
+  cOverworld( boost::filesystem::path directory, int user_dir = 0);
+#endif
+
 	virtual ~cOverworld( void );
 
 	// New

@@ -8,52 +8,42 @@ using namespace SMC;
 cOverworldLoader::cOverworldLoader()
 	: xmlpp::SaxParser()
 {
-	mp_world = NULL;
+	mp_data = NULL;
 }
 
 cOverworldLoader::~cOverworldLoader()
 {
-	// Do not delete the cLevel instance — it is used by the
-	// caller and delted by him.
-	mp_world = NULL;
+	delete mp_data;
 }
 
-cOverworld* cOverworldLoader::Get_Overworld()
+cOverworldData* cOverworldLoader::Get_Overworld_Data()
 {
-	return mp_world;
+	return mp_data;
 }
 
 /***************************************
  * SAX parser callbacks
  ***************************************/
 
-void cOverworldLoader::parse_dir(fs::path dirname)
+void cOverworldLoader::parse_file(fs::path filename)
 {
-	m_worlddir = dirname;
-	xmlpp::SaxParser::parse_file(path_to_utf8(dirname / utf8_to_path("world.xml")));
+	m_worldfile = filename;
+	xmlpp::SaxParser::parse_file(path_to_utf8(m_worldfile));
 }
 
 void cOverworldLoader::on_start_document()
 {
-	if (mp_world)
+	if (mp_data)
 		throw("Restarted XML parser after already starting it."); // FIXME: proper exception
 
-	// Load the description XML file
-	cOverworldDescriptionLoader descloader;
-	cOverworld_description* p_desc = NULL;
-	descloader.parse_file(m_worlddir / utf8_to_path("description.xml"));
-	p_desc = descloader.Get_Overworld_Description();
-	p_desc->Set_Path(m_worlddir);
-
-	mp_world = new cOverworld();
-	mp_world->Replace_Description(descloader.Get_Overworld_Description()); // FIXME: OO-violating post-initialization
+	mp_data = new cOverworldData();
 }
 
 void cOverworldLoader::on_end_document()
 {
 	// engine version entry not set
-	if (mp_world->m_engine_version < 0)
-		mp_world->m_engine_version = 0;
+	if (mp_data->m_engine_version < 0)
+		mp_data->m_engine_version = 0;
 }
 
 void cOverworldLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
