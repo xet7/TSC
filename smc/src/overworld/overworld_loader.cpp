@@ -1,4 +1,5 @@
 #include "overworld_loader.h"
+#include "overworld_description_loader.h"
 #include "overworld.h"
 
 namespace fs = boost::filesystem;
@@ -37,12 +38,22 @@ void cOverworldLoader::on_start_document()
 	if (mp_world)
 		throw("Restarted XML parser after already starting it."); // FIXME: proper exception
 
-	mp_world = new cOverworld(m_worlddir); // FIXME: No specification of `user_dir'
+	// Load the description XML file
+	cOverworldDescriptionLoader descloader;
+	cOverworld_description* p_desc = NULL;
+	descloader.parse_file(m_worlddir / utf8_to_path("description.xml"));
+	p_desc = descloader.Get_Overworld_Description();
+	p_desc->Set_Path(m_worlddir);
+
+	mp_world = new cOverworld();
+	mp_world->Replace_Description(descloader.Get_Overworld_Description()); // FIXME: OO-violating post-initialization
 }
 
 void cOverworldLoader::on_end_document()
 {
-
+	// engine version entry not set
+	if (mp_world->m_engine_version < 0)
+		mp_world->m_engine_version = 0;
 }
 
 void cOverworldLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)

@@ -47,6 +47,9 @@ public:
 	void Set_Path(boost::filesystem::path directory, bool set_name = false);
 
 	// Full path to the world directory
+  // FIXME: This should really be in cOverworld itself as it has
+  // exactly NOTHING to do with the description stuff handled by
+  // this object.
 	boost::filesystem::path m_path;
 	// world name
 	std::string m_name;
@@ -83,9 +86,6 @@ class cOverworld : public CEGUI::XMLHandler
 {
 public:
 	cOverworld( void );
-	// Load overworld from the given directory.
-	// For `user_dir', see `m_user' in cOverworld_description.
-	cOverworld( boost::filesystem::path directory, int user_dir = 0 );
 	virtual ~cOverworld( void );
 
 	// New
@@ -100,6 +100,12 @@ public:
 	void Enter( const GameMode old_mode = MODE_NOTHING );
 	// Leave
 	void Leave( const GameMode next_mode = MODE_NOTHING );
+
+  // Replace the default description (which is always the
+  // one of world_1) with something more useful.
+  // FIXME: This method needs to be removed when m_path is
+  // transferred from cOverworld_description to cOverworld.
+  void Replace_Description(cOverworld_description* p_desc);
 
 	// Draw
 	void Draw( void );

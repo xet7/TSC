@@ -168,27 +168,6 @@ cOverworld :: cOverworld( void )
 	Init();
 }
 
-cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */ )
-{
-	Init();
-
-#ifdef ENABLE_NEW_LOADER
-	// Load the description XML file
-	cOverworldDescriptionLoader descloader;
-	descloader.parse_file(directory / utf8_to_path("description.xml"));
-
-	// Replace empty description with the one we just loaded
-	delete m_description;
-	m_description = descloader.Get_Overworld_Description();
-	m_description->Set_Path(directory);
-#else
-	// For the legecy loader, the description XML file is loaded in cOverworld::Load()
-	m_description->Set_Path(directory, true); // default name is the path, overwritten when the XML is loaded in ::Load()
-#endif
-
-	m_description->m_user = user_dir;
-}
-
 cOverworld :: ~cOverworld( void )
 {
 	Unload();
@@ -223,6 +202,12 @@ void cOverworld::Init()
 
 	m_player_start_waypoint = 0;
 	m_player_moving_state = STA_STAY;
+}
+
+void cOverworld :: Replace_Description(cOverworld_description* p_desc)
+{
+	delete m_description;
+	m_description = p_desc;
 }
 
 bool cOverworld :: New( std::string name )
