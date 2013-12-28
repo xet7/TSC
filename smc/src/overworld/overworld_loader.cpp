@@ -1,3 +1,5 @@
+#include "../video/gl_surface.h"
+#include "../core/filesystem/resource_manager.h"
 #include "overworld_loader.h"
 #include "overworld_description_loader.h"
 #include "overworld.h"
@@ -145,8 +147,69 @@ void cOverworldLoader::Parse_Tag_Background()
 												m_current_properties.retrieve<int>("color_blue"));
 }
 
+/***************************************
+ * Create_World_Object_From_XML()
+ ***************************************/
+
 cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
 {
-	// TODO
+	if (name == "sprite")
+		return Create_Sprite_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
+	else
+		std::cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
+
 	return NULL;
+}
+
+cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
+{
+	if (engine_version < 2) {
+		// old version: change file and position name
+		if (attributes.exists("filename")) {
+			attributes["image"] = attributes["filename"];
+			attributes["posx"] = attributes["pos_x"];
+			attributes["posy"] = attributes["pos_y"];
+		}
+
+		// If V.1.9 and lower: move y coordinate bottom to 0
+		if (attributes.exists("posy"))
+			attributes["posy"] = float_to_string(attributes.retrieve<float>("posy") - 600.0f);
+	}
+
+	// If V.1.9 and lower: change old bridge to bridge 1 vertical
+	if (engine_version < 3)
+		attributes.relocate_image("world/objects/bridge/bridge_1.png", "world/objects/bridge/bridge_1_ver_start.png" );
+
+	// Create sprite
+	cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
+	// Set sprite type
+	p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+
+	// needs image. If V.1.9 and lower: change old bridge to bridge 1 vertical
+	if (p_sprite->m_image && engine_version < 3 && p_sprite->m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("world/objects/bridge/bridge_1_ver_start.png")) == 0) {
+		// Move a bit to the left
+		p_sprite->Move(-7.0f, 0.0f, true);
+		p_sprite->m_start_pos_x = p_sprite->m_pos_x;
+
+		// create other tiles now
+		cSprite* p_copy = p_sprite->Copy();
+
+		// middle
+		p_copy->Set_Image(pVideo->Get_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_middle.png")), true);
+		p_copy->Set_Pos_Y(p_copy->m_start_pos_y + 32, true);
+		p_sprite_manager->Add(p_copy); // HACK: Should be done by the caller! (unexpected parameter modification)
+
+		// end
+		p_copy = p_copy->Copy();
+		p_copy->Set_Image(pVideo->Get_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_end.png")), true);
+		p_copy->Set_Pos_Y(p_copy->m_start_pos_y + 32, true);
+		p_sprite_manager->Add(p_copy); // HACK: Should be done by the caller! (unexpected parameter modification)
+	}
+
+	/* Actually, this is the only one of 3 sprites that will be added to p_sprite_manager
+	 * by the caller (see HACKs above). cLevelLoader solves this problem by returning
+	 * a std::vector of cSprite instances instead, but retrospectively this seems
+	 * overkill for a problem that will be gone when backward compatibility is
+	 * finally dropped. */
+	return p_sprite;
 }
