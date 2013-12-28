@@ -82,6 +82,8 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Information();
 	else if (name == "settings")
 		Parse_Tag_Settings();
+	else if (name == "player")
+		Parse_Tag_Player();
 	else {
 		// TODO
 		std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
@@ -116,4 +118,12 @@ void cOverworldLoader::Parse_Tag_Settings()
 	//												m_current_properties.fetch<int>("cam_limit_y"),
 	//												m_current_properties.fetch<int>("cam_limit_w"),
 	//												m_current_properties.fetch<int>("cam_limit_h")));
+}
+
+void cOverworldLoader::Parse_Tag_Player()
+{
+	// Start Waypoint
+	mp_overworld->m_player_start_waypoint = m_current_properties.retrieve<int>("waypoint");
+	// Moving state
+	mp_overworld->m_player_moving_state = static_cast<Moving_state>(m_current_properties.retrieve<int>("moving_state"));
 }

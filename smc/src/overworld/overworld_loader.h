@@ -40,6 +40,7 @@ namespace SMC {
     // Main tag parsers
     void Parse_Tag_Information();
     void Parse_Tag_Settings();
+    void Parse_Tag_Player();
 
   private:
     // The cOverworld instance this parser builds up.
