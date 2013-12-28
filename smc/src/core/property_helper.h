@@ -111,6 +111,9 @@ std::string type_to_string(T value)
 // Return it as something else. This function is specifically
 // implemented for some types in property_helper.cpp; the raw
 // prototype declared here is only for the signature.
+// It CANNOT be used raw; be sure to implement it for a specific
+// type if you need that type (most likely because XmlAttributes::fetch()
+// delegates to this function?).
 template <typename T>
 T string_to_type(const std::string& value)
 {

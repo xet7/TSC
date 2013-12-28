@@ -84,6 +84,8 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Settings();
 	else if (name == "player")
 		Parse_Tag_Player();
+	else if (name == "background")
+		Parse_Tag_Background();
 	else {
 		// TODO
 		std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
@@ -126,4 +128,11 @@ void cOverworldLoader::Parse_Tag_Player()
 	mp_overworld->m_player_start_waypoint = m_current_properties.retrieve<int>("waypoint");
 	// Moving state
 	mp_overworld->m_player_moving_state = static_cast<Moving_state>(m_current_properties.retrieve<int>("moving_state"));
+}
+
+void cOverworldLoader::Parse_Tag_Background()
+{
+	mp_overworld->m_background_color = Color(	static_cast<Uint8>(m_current_properties.retrieve<int>("color_red")),
+												m_current_properties.retrieve<int>("color_green"),
+												m_current_properties.retrieve<int>("color_blue"));
 }
