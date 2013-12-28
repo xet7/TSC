@@ -39,6 +39,7 @@ public:
 	// constructor
 	cWaypoint( cSprite_Manager *sprite_manager );
 	// create from stream
+	cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
 	cWaypoint( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cWaypoint( void );

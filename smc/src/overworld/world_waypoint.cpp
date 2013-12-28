@@ -25,6 +25,7 @@
 #include "../video/gl_surface.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -44,6 +45,43 @@ cWaypoint :: cWaypoint( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprit
 	cWaypoint::Load_From_XML( attributes );
 }
 
+cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+: cSprite( sprite_manager, "waypoint" )
+{
+	cWaypoint::Init();
+
+	// position
+	Set_Pos(static_cast<float>(attributes.retrieve<int>("x")), static_cast<float>(attributes.retrieve<int>("y")), true);
+
+	// image
+	/*
+	if (attributes.exists("image"))
+		Set_Image(pVideo->Get_Surface(utf8_to_path(attributes["image"])), true);
+	*/
+
+	// type
+	m_waypoint_type = static_cast<Waypoint_type>(attributes.fetch<int>("type", WAYPOINT_NORMAL));
+
+	// destination
+	// pre 0.99.6 : world
+	if (attributes.exists("world"))
+		Set_Destination(attributes["world"]);
+	// pre 0.99.6 : level
+	else if (attributes.exists("level"))
+		Set_Destination(attributes["level"]);
+	// default : destination
+	else
+		Set_Destination(attributes["destination"]);
+
+	// backward direction
+	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<std::string>("direction_backward", "left")));
+
+	// forward direction
+	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<std::string>("direction_forward", "right")));
+
+	// access
+	Set_Access(attributes.fetch<bool>("access", true), true);
+}
 
 cWaypoint :: ~cWaypoint( void )
 {

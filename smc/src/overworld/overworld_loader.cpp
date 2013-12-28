@@ -155,6 +155,8 @@ cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name,
 {
 	if (name == "sprite")
 		return Create_Sprite_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
+	else if (name == "waypoint")
+		return Create_Waypoint_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
 	else
 		std::cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
 
@@ -212,4 +214,13 @@ cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes,
 	 * overkill for a problem that will be gone when backward compatibility is
 	 * finally dropped. */
 	return p_sprite;
+}
+
+cSprite* cOverworldLoader::Create_Waypoint_From_XML_Tag(XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
+{
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 2 && attributes.exists("y"))
+		attributes["y"] = float_to_string(attributes.retrieve<float>("y") - 600.0f);
+
+	return new cWaypoint(attributes, p_sprite_manager);
 }
