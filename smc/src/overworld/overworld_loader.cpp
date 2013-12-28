@@ -77,6 +77,9 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 	// terminates here.
 	if (name == "property" || name == "Property")
 		return;
+	// Ignore the root tag itself
+	if (name == "overworld")
+		return;
 
 	if (name == "information")
 		Parse_Tag_Information();
@@ -87,8 +90,13 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "background")
 		Parse_Tag_Background();
 	else {
-		// TODO
-		std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
+		cSprite* p_object = Create_World_Object_From_XML(name, m_current_properties, mp_overworld->m_engine_version, mp_overworld->m_sprite_manager, mp_overworld);
+
+		// valid
+		if (p_object)
+			mp_overworld->m_sprite_manager->Add(p_object);
+		else
+			std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
 	}
 
 	// Everything handled, so we can now safely clear the
@@ -135,4 +143,10 @@ void cOverworldLoader::Parse_Tag_Background()
 	mp_overworld->m_background_color = Color(	static_cast<Uint8>(m_current_properties.retrieve<int>("color_red")),
 												m_current_properties.retrieve<int>("color_green"),
 												m_current_properties.retrieve<int>("color_blue"));
+}
+
+cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
+{
+	// TODO
+	return NULL;
 }
