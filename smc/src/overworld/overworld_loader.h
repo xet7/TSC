@@ -11,6 +11,13 @@ namespace SMC {
   * in conjunction with the loaders for layers
   * and description XML files for worlds by
   * the cOverworld constructor.
+  *
+  * Note this means that the cOverworld instance you
+  * get from this parser is **incomplete**! Without
+  * employing the two other XML parsers you can’t use
+  * the cOverworld for playing; therefore, use cOverworld’s
+  * constructor for instanciating cOverworld rather than this
+  * class directly, which should be considered as a private API.
   */
   class cOverworldLoader: public xmlpp::SaxParser
   {
@@ -32,6 +39,7 @@ namespace SMC {
 
     // Main tag parsers
     void Parse_Tag_Information();
+    void Parse_Tag_Settings();
 
   private:
     // The cOverworld instance this parser builds up.

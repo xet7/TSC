@@ -206,6 +206,7 @@ public:
 	// background color
 	Color m_background_color;
 	// music filename
+	// FIXME: Should be boost::filesystem::path
 	std::string m_musicfile;
 
 	// settings

@@ -80,6 +80,8 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 
 	if (name == "information")
 		Parse_Tag_Information();
+	else if (name == "settings")
+		Parse_Tag_Settings();
 	else {
 		// TODO
 		std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
@@ -99,4 +101,19 @@ void cOverworldLoader::Parse_Tag_Information()
 {
 	mp_overworld->m_engine_version = string_to_int(m_current_properties["engine_version"]);
 	mp_overworld->m_last_saved = string_to_int64(m_current_properties["save_time"]);
+}
+
+void cOverworldLoader::Parse_Tag_Settings()
+{
+	// Author
+	//mp_overworld->author = m_current_properties["author"];
+	// Version
+	//mp_overworld->version = m_current_properties["version"];
+	// Music
+	mp_overworld->m_musicfile = m_current_properties["music"];
+	// Camera Limits
+	//pOverworldManager->camera->Set_Limits(GL_rect(	m_current_properties.fetch<int>("cam_limit_x"),
+	//												m_current_properties.fetch<int>("cam_limit_y"),
+	//												m_current_properties.fetch<int>("cam_limit_w"),
+	//												m_current_properties.fetch<int>("cam_limit_h")));
 }
