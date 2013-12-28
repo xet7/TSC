@@ -108,7 +108,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 				}
 
 #ifdef ENABLE_NEW_LOADER
-				overworld = new cOverworld( current_dir, user_dir );
+				overworld = cOverworld::Load_From_Directory( current_dir, user_dir );
 				objects.push_back( overworld );
 #else
 				// FIXME: OO-violating (secrecy principle) post-initialization

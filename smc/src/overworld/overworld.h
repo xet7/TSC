@@ -88,7 +88,9 @@ public:
 	cOverworld( void );
 
 #ifdef ENABLE_NEW_LOADER
-  cOverworld( boost::filesystem::path directory, int user_dir = 0);
+  /// Load an overworld from a world directory.
+  /// The returned instance must be freed by you.
+  static cOverworld* Load_From_Directory(boost::filesystem::path directory, int user_dir = 0);
 #endif
 
 	virtual ~cOverworld( void );

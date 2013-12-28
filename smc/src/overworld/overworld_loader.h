@@ -16,7 +16,7 @@ namespace SMC {
   * get from this parser is **incomplete**! Without
   * employing the two other XML parsers you can’t use
   * the cOverworld for playing; therefore, use cOverworld’s
-  * constructor for instanciating cOverworld rather than this
+  * methods for instanciating cOverworld rather than this
   * class directly, which should be considered as a private API.
   */
   class cOverworldLoader: public xmlpp::SaxParser

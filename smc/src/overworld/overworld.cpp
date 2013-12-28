@@ -170,10 +170,8 @@ cOverworld :: cOverworld( void )
 }
 
 #ifdef ENABLE_NEW_LOADER
-cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */)
+cOverworld* cOverworld :: Load_From_Directory( fs::path directory, int user_dir /* = 0 */)
 {
-	Init();
-
 	// Overworld loading consists of three steps: Loading the description file,
 	// loading the main world file and loading the layers file.
 	std::cout << "Loading world from directory: '" << path_to_utf8(directory) << "'" << std::endl;
@@ -184,22 +182,22 @@ cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */)
 	descloader.parse_file(directory / utf8_to_path("description.xml"));
 	p_desc = descloader.Get_Overworld_Description();
 	p_desc->Set_Path(directory); // FIXME: Post-initialization violates OOP principle of secrecy. `m_path' needs to be moved into cOverworld!
-
-	// Replace the old default description for world_1 with the correct one
-	// we just loaded.
-	delete m_description;
-	m_description = p_desc;
+	p_desc->m_user = user_dir; // FIXME: Post-initialization violates OOP principle of secrecy.
 
 	//////// Step 2: Main world file ////////
 	cOverworldLoader worldloader;
 	worldloader.parse_file(directory / utf8_to_path("world.xml"));
-	// In theory we must `delete this' and replace it with
-	// the result of the cOverworldLoader. This is of course
-	// not possible, hence we copy all attributes.
-	// TODO
+	cOverworld* p_overworld = worldloader.Get_Overworld();
+
+	// Replace the old default description for world_1 with the correct one
+	// we loaded previously.
+	delete p_overworld->m_description;
+	p_overworld->m_description = p_desc;
 
 	//////// Step 3: Layers file ////////
 	// TODO
+
+	return p_overworld;
 }
 #endif
 
