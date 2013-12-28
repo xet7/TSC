@@ -176,6 +176,7 @@ cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */)
 
 	// Overworld loading consists of three steps: Loading the description file,
 	// loading the main world file and loading the layers file.
+	std::cout << "Loading world from directory: '" << path_to_utf8(directory) << "'" << std::endl;
 
 	//////// Step 1: Description file ////////
 	cOverworldDescriptionLoader descloader;
@@ -192,6 +193,9 @@ cOverworld :: cOverworld( fs::path directory, int user_dir /* = 0 */)
 	//////// Step 2: Main world file ////////
 	cOverworldLoader worldloader;
 	worldloader.parse_file(directory / utf8_to_path("world.xml"));
+	// In theory we must `delete this' and replace it with
+	// the result of the cOverworldLoader. This is of course
+	// not possible, hence we copy all attributes.
 	// TODO
 
 	//////// Step 3: Layers file ////////

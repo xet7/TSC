@@ -6,22 +6,11 @@
 
 namespace SMC {
 
-	/**
-	 * This class holds the result of parsing a world
-	 * XML file. It is used exclusively by cOverworld
-	 * constructors.
-	 */
-	class cOverworldData {
-	public:
-		int m_engine_version;
-		time_t m_last_saved;
-	};
-
  /**
-  * Parser for a world directory; actually employs
-  * several subparsers for the XML files in that
-  * directory, but handles the main XML file
-  * itself.
+  * Parser for a world file. This class is used
+  * in conjunction with the loaders for layers
+  * and description XML files for worlds by
+  * the cOverworld constructor.
   */
   class cOverworldLoader: public xmlpp::SaxParser
   {
@@ -34,16 +23,20 @@ namespace SMC {
     // some internal members.
     virtual void parse_file(boost::filesystem::path filename);
 
-    cOverworldData* Get_Overworld_Data();
+    cOverworld* Get_Overworld();
   protected: // SAX parser callbacks
     virtual void on_start_document();
     virtual void on_end_document();
     virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties);
     virtual void on_end_element(const Glib::ustring& name);
 
+    // Main tag parsers
+    void Parse_Tag_Information();
+
   private:
-    cOverworldData* mp_data;
-    // The directory we’re parsing
+    // The cOverworld instance this parser builds up.
+    cOverworld* mp_overworld;
+    // The world file we’re parsing
     boost::filesystem::path m_worldfile;
     // The <property> results we found before the current tag.
     XmlAttributes m_current_properties;

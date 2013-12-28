@@ -107,6 +107,10 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 					continue;
 				}
 
+#ifdef ENABLE_NEW_LOADER
+				overworld = new cOverworld( current_dir, user_dir );
+				objects.push_back( overworld );
+#else
 				// FIXME: OO-violating (secrecy principle) post-initialization
 				overworld = new cOverworld();
 				overworld->m_description->Set_Path(current_dir, true);
@@ -115,6 +119,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 				objects.push_back( overworld );
 
 				overworld->Load();
+#endif
 			}
 		}
 		catch( const std::exception &ex )
