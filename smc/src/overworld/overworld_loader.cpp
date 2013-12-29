@@ -157,6 +157,8 @@ cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name,
 		return Create_Sprite_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
 	else if (name == "waypoint")
 		return Create_Waypoint_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
+	else if (name == "sound")
+		return Create_Sound_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
 	else
 		std::cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
 
@@ -223,4 +225,13 @@ cSprite* cOverworldLoader::Create_Waypoint_From_XML_Tag(XmlAttributes& attribute
 		attributes["y"] = float_to_string(attributes.retrieve<float>("y") - 600.0f);
 
 	return new cWaypoint(attributes, p_sprite_manager);
+}
+
+cSprite* cOverworldLoader::Create_Sound_From_XML_Tag(XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
+{
+	// if V.1.9 and lower : move y coordinate bottom to 0
+	if (engine_version < 2 && attributes.exists("pos_y"))
+		attributes["pos_y"] = float_to_string(attributes.retrieve<float>("pos_y") - 600.0f);
+
+	return new cRandom_Sound(attributes, p_sprite_manager);
 }

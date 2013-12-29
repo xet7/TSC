@@ -48,6 +48,7 @@ namespace SMC {
   private:
 	  static cSprite* Create_Sprite_From_XML_Tag(XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld);
 	  static cSprite* Create_Waypoint_From_XML_Tag(XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld);
+	  static cSprite* Create_Sound_From_XML_Tag(XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld);
 
     // The cOverworld instance this parser builds up.
     cOverworld* mp_overworld;
