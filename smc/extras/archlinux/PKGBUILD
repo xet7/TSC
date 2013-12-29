@@ -1,0 +1,48 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Quintus <quintus@quintilianus.eu>
+pkgname=smc-quintus-git
+pkgver=r558
+pkgrel=1
+pkgdesc="Quintus' fork of the jump'n'run game."
+arch=("i686" "x86_64")
+url="https://github.com/Quintus/SMC"
+license=('GPL')
+depends=("sdl_image" "sdl_ttf" "sdl_mixer" "cegui-0.7" "boost-libs" "libgl" "libxml++")
+makedepends=("cmake")
+optdepends=()
+provides=("smc" "smc-git")
+conflicts=("smc" "smc-git")
+options=()
+source=("git+https://github.com/Quintus/SMC.git" "smc.desktop")
+noextract=()
+md5sums=("SKIP"
+         "eed8e75ad75ae05cbd1e16ddfbb54ef1")
+
+pkgver() {
+    cd "$srcdir/SMC"
+    echo -n "r"
+    git rev-list HEAD --count
+}
+
+prepare() {
+	cd "$srcdir/SMC"
+  git submodule init
+  git submodule update
+}
+
+build() {
+	cd "$srcdir/SMC/smc"
+  mkdir build
+  cd build
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug ..
+  make
+}
+
+package() {
+	cd "$srcdir/SMC/smc/build"
+	make install DESTDIR="$pkgdir/"
+}
