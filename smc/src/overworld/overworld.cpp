@@ -31,6 +31,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "overworld_description_loader.h"
+#include "overworld_layer_loader.h"
 #include "overworld_loader.h"
 
 namespace fs = boost::filesystem;
@@ -195,7 +196,15 @@ cOverworld* cOverworld :: Load_From_Directory( fs::path directory, int user_dir 
 	p_overworld->m_description = p_desc;
 
 	//////// Step 3: Layers file ////////
-	// TODO
+	cOverworldLayerLoader layerloader(p_overworld);
+	layerloader.parse_file(directory / utf8_to_path("layer.xml"));
+
+	// Replace the old default layer with the one we just loaded
+	delete p_overworld->m_layer;
+	p_overworld->m_layer = layerloader.Get_Layer();
+
+	// Set the text that is displayed at the top when this world is shown
+	p_overworld->m_hud_world_name->Set_Image(pFont->Render_Text(pFont->m_font_normal, p_overworld->m_description->m_name, yellow), true, true);
 
 	return p_overworld;
 }
