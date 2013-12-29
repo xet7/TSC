@@ -20,6 +20,7 @@
 #include "../core/i18n.h"
 #include "../overworld/world_editor.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -130,6 +131,21 @@ cLayer_Line_Point_Start :: cLayer_Line_Point_Start( CEGUI::XMLAttributes &attrib
 {
 	cLayer_Line_Point_Start::Init();
 	cLayer_Line_Point_Start::Load_From_XML( attributes );
+}
+
+cLayer_Line_Point_Start :: cLayer_Line_Point_Start( XmlAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld )
+: cLayer_Line_Point( sprite_manager, overworld, TYPE_OW_LINE_START )
+{
+	cLayer_Line_Point_Start::Init();
+
+	// Start
+	Set_Pos(static_cast<float>(attributes.retrieve<int>("X1")) - 2, static_cast<float>(attributes.retrieve<int>("Y1")) -2, true);
+
+	// End
+	m_linked_point->Set_Pos(static_cast<float>(attributes.retrieve<int>("X2")) - 2, static_cast<float>(attributes.retrieve<int>("Y2")) -2, true);
+
+	// origin
+	m_origin = attributes.retrieve<int>("origin");
 }
 
 cLayer_Line_Point_Start :: ~cLayer_Line_Point_Start( void )

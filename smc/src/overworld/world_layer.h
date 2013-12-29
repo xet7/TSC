@@ -67,6 +67,7 @@ public:
 	// destructor
 	virtual ~cLayer_Line_Point_Start( void );
 	// create from stream
+	cLayer_Line_Point_Start( XmlAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld );
 	cLayer_Line_Point_Start( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld );
 
 	// init defaults
