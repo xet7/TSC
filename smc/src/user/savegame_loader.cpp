@@ -81,6 +81,10 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 	if (name == "property" || name == "Property")
 		return;
 
+	// Ignore the root element
+	if (name == "savegame" || name == "Savegame")
+		return;
+
 	if (name == "information" || name == "Information")
 		handle_information();
 	else if (name == "level" || name == "Level")
@@ -99,6 +103,8 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 	}
 	else if (name == "player" || name == "Player")
 		handle_player();
+	else if (m_is_old_format && name == "Overworld_Data")
+		handle_old_format_overworld_data();
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -197,8 +203,18 @@ void cSavegameLoader::handle_player()
 	mp_save->m_itembox_item	= m_current_properties.retrieve<int>("itembox_item");
 	// New in V.11
 	mp_save->m_level_time = m_current_properties.retrieve<int>("level_time");
+
+	// See handle_old_format_overworld_data() for the old format handler
 	if (!m_is_old_format) {
 		mp_save->m_overworld_active = m_current_properties["overworld_active"];
 		mp_save->m_overworld_current_waypoint = m_current_properties.retrieve<int>("overworld_current_waypoint");
 	}
+}
+
+// Handles savegame format V.10 and lower. See also format check
+// in handle_player().
+void cSavegameLoader::handle_old_format_overworld_data()
+{
+	mp_save->m_overworld_active = m_current_properties["active"];
+	mp_save->m_overworld_current_waypoint = m_current_properties.retrieve<int>("current_waypoint");
 }

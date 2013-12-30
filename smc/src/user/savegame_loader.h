@@ -30,6 +30,7 @@ namespace SMC {
     void handle_level_object();
     void handle_level_spawned_object(const Glib::ustring& name);
     void handle_player();
+    void handle_old_format_overworld_data();
   private:
     // The save we’re building.
     cSave* mp_save;
