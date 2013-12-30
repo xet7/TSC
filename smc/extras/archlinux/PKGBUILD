@@ -1,8 +1,3 @@
-# This is an example PKGBUILD file. Use this as a start to creating your own,
-# and remove these comments. For more information, see 'man PKGBUILD'.
-# NOTE: Please fill out the license field for your package! If it is unknown,
-# then please put 'unknown'.
-
 # Maintainer: Quintus <quintus@quintilianus.eu>
 pkgname=smc-quintus-git
 pkgver=r558
@@ -11,8 +6,8 @@ pkgdesc="Quintus' fork of the jump'n'run game."
 arch=("i686" "x86_64")
 url="https://github.com/Quintus/SMC"
 license=('GPL')
-depends=("sdl_image" "sdl_ttf" "sdl_mixer" "cegui-0.7" "boost-libs" "libgl" "libxml++")
-makedepends=("cmake")
+depends=("sdl" "sdl_image" "sdl_ttf" "sdl_mixer" "freeimage" "libpng" "cegui-0.7" "boost-libs" "libgl" "libxml++" "gettext" "pcre")
+makedepends=("cmake" "ruby" "gperf" "pkg-config" "bison")
 optdepends=()
 provides=("smc" "smc-git")
 conflicts=("smc" "smc-git")

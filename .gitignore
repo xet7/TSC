@@ -31,6 +31,12 @@
 /smc/docs/scripting/html/
 Thumbs.db
 
+# Arch package
+/smc/extras/archlinux/SMC
+/smc/extras/archlinux/pkg
+/smc/extras/archlinux/*.tar.xz
+/smc/extras/archlinux/src
+
 # Visual Studio
 /smc/makefiles/MSVC9.0/Debug
 /smc/makefiles/MSVC9.0/Mixed
