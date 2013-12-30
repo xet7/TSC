@@ -32,6 +32,8 @@ namespace SMC {
     void handle_player();
     void handle_old_format_overworld_data();
     void handle_overworld();
+    void handle_overworld_waypoint();
+
   private:
     // The save we’re building.
     cSave* mp_save;

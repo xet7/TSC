@@ -108,6 +108,10 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		handle_old_format_overworld_data();
 	else if (name == "overworld" || name == "Overworld")
 		handle_overworld();
+	else if (name == "waypoint" || name == "Overworld_Level") {
+		handle_overworld_waypoint();
+		return; // don’t clear attributes to keep the world "name"
+	}
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -236,4 +240,27 @@ void cSavegameLoader::handle_overworld()
 	p_saveoverworld->m_waypoints.swap(m_waypoints); // Clears m_waypoints for the next overworld
 	// save
 	mp_save->m_overworlds.push_back(p_saveoverworld);
+}
+
+void cSavegameLoader::handle_overworld_waypoint()
+{
+	cSave_Overworld_Waypoint* p_waypoint = new cSave_Overworld_Waypoint();
+
+	// destination ( level_name and world_name is pre V.0.99.6 )
+	if (m_current_properties.exists("world_name"))
+		p_waypoint->m_destination = m_current_properties["world_name"];
+	else if (m_current_properties.exists("level_name"))
+		p_waypoint->m_destination = m_current_properties["level_name"];
+	else // default
+		p_waypoint->m_destination = m_current_properties["destination"];
+
+	p_waypoint->m_access = m_current_properties.retrieve<bool>("access");
+
+	m_waypoints.push_back(p_waypoint);
+
+	// Clear attributes for the next waypoint (nested XML we need to take care of)
+	m_current_properties.erase("destination");
+	m_current_properties.erase("level_name");
+	m_current_properties.erase("world_name");
+	m_current_properties.erase("access");
 }
