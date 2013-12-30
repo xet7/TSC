@@ -13,8 +13,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../user/savegame.h"
-#include "../user/preferences.h"
+#include "savegame.h"
+#include "savegame_loader.h"
+#include "preferences.h"
 #include "../core/game_core.h"
 #include "../core/obj_manager.h"
 #include "../level/level.h"
@@ -187,6 +188,15 @@ void cSave :: Init( void )
 	// overworld
 	m_overworld_current_waypoint = 0;
 }
+
+#ifdef ENABLE_NEW_LOADER
+cSave* cSave :: Load_From_File( fs::path filepath )
+{
+	cSavegameLoader loader;
+	loader.parse_file(filepath);
+	return loader.Get_Save();
+}
+#endif
 
 std::string cSave :: Get_Active_Level( void )
 {
@@ -592,9 +602,13 @@ cSave *cSavegame :: Load( unsigned int save_slot )
 		return NULL;
 	}
 
+#ifdef ENABLE_NEW_LOADER
+	cSave *savegame = cSave::Load_From_File( filename );
+#else
 	cSavegame_XML_Handler *loader = new cSavegame_XML_Handler( path_to_utf8(filename) );
 	cSave *savegame = loader->Acquire_Savegame();
 	delete loader;
+#endif
 
 	return savegame;
 }

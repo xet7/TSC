@@ -7,6 +7,10 @@
 
 namespace SMC {
 
+  /**
+   * XML parser for the savegame files. You should not use this class
+   * directly, use cSave::Load_From_File() instead.
+   */
   class cSavegameLoader: public xmlpp::SaxParser
   {
   public:

@@ -122,6 +122,12 @@ typedef vector<cSave_Level *> Save_LevelList;
 class cSave
 {
 public:
+#ifdef ENABLE_NEW_LOADER
+	/// Load a savegame from the given file. The returned cSave
+	/// instance must be freed by you.
+	static cSave* Load_From_File( boost::filesystem::path filepath );
+#endif
+
 	cSave( void );
 	~cSave( void );
 
