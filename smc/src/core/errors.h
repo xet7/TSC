@@ -14,7 +14,7 @@ namespace SMC {
     SMCError();
     virtual ~SMCError() throw();
 
-    virtual const char* what() throw();
+    virtual const char* what() const throw();
   };
 
   /**
@@ -27,7 +27,7 @@ namespace SMC {
     XmlKeyDoesNotExist(std::string key);
     virtual ~XmlKeyDoesNotExist() throw();
 
-    virtual const char* what() throw();
+    virtual const char* what() const throw();
     std::string Get_Key();
   protected:
     std::string m_key;

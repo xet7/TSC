@@ -12,7 +12,7 @@ SMCError::~SMCError() throw()
 	//
 }
 
-const char* SMCError::what() throw()
+const char* SMCError::what() const throw()
 {
 	return "Unknown SMC exception.\n";
 }
@@ -32,7 +32,7 @@ std::string XmlKeyDoesNotExist::Get_Key()
 	return m_key;
 }
 
-const char* XmlKeyDoesNotExist::what() throw()
+const char* XmlKeyDoesNotExist::what() const throw()
 {
 	std::string err = "XML key '" + m_key + "' does not exist!\n";
 	return err.c_str();
