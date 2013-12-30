@@ -500,6 +500,12 @@ int string_to_type(const std::string& value)
 }
 
 template<>
+long string_to_type(const std::string& value)
+{
+	return string_to_long(value);
+}
+
+template<>
 bool string_to_type(const std::string& value)
 {
   return string_to_bool(value);

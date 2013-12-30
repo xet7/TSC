@@ -97,6 +97,8 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		handle_level_spawned_object(name);
 		return; // don't clear attributes
 	}
+	else if (name == "player" || name == "Player")
+		handle_player();
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -179,7 +181,24 @@ void cSavegameLoader::handle_level_spawned_object(const Glib::ustring& name)
 {
 	std::vector<cSprite*> sprites = cLevelLoader::Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_save->m_level_engine_version, pActive_Level->m_sprite_manager);
 
+	// add objects for later handling in handle_level()
 	std::vector<cSprite*>::iterator iter;
 	for (iter=sprites.begin(); iter != sprites.end(); iter++)
 		m_level_spawned_objects.push_back(*iter);
+}
+
+void cSavegameLoader::handle_player()
+{
+	mp_save->m_lives 		= m_current_properties.retrieve<int>("lives");
+	mp_save->m_points 		= m_current_properties.fetch<long>("points", 0);
+	mp_save->m_goldpieces	= m_current_properties.retrieve<int>("goldpieces");
+	mp_save->m_player_type	= m_current_properties.retrieve<int>("type");
+	mp_save->m_player_state	= m_current_properties.retrieve<int>("state");
+	mp_save->m_itembox_item	= m_current_properties.retrieve<int>("itembox_item");
+	// New in V.11
+	mp_save->m_level_time = m_current_properties.retrieve<int>("level_time");
+	if (!m_is_old_format) {
+		mp_save->m_overworld_active = m_current_properties["overworld_active"];
+		mp_save->m_overworld_current_waypoint = m_current_properties.retrieve<int>("overworld_current_waypoint");
+	}
 }
