@@ -1,5 +1,6 @@
 #include "../core/i18n.h"
 #include "../level/level_loader.h"
+#include "../overworld/world_manager.h"
 #include "savegame_loader.h"
 #include "savegame.h"
 
@@ -105,6 +106,8 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		handle_player();
 	else if (m_is_old_format && name == "Overworld_Data")
 		handle_old_format_overworld_data();
+	else if (name == "overworld" || name == "Overworld")
+		handle_overworld();
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -133,9 +136,9 @@ void cSavegameLoader::handle_level()
 	 * currently empty (it’s a new object) and hence swapping
 	 * with them consequently means clearing the swapping
 	 * partner. */
-	// set level objects
+	// set level objects, clear object list for the next level
 	p_savelevel->m_level_objects.swap(m_level_objects);
-	// set level spawned objects
+	// set level spawned objects, clear object list for the next level
 	p_savelevel->m_spawned_objects.swap(m_level_spawned_objects);
 
 	// Add this level to the list of levels for this
@@ -217,4 +220,20 @@ void cSavegameLoader::handle_old_format_overworld_data()
 {
 	mp_save->m_overworld_active = m_current_properties["active"];
 	mp_save->m_overworld_current_waypoint = m_current_properties.retrieve<int>("current_waypoint");
+}
+
+void cSavegameLoader::handle_overworld()
+{
+	std::string name = m_current_properties["name"];
+
+	// is overworld available? We can probably ignore this for in-level saves
+	if (!pOverworld_Manager->Get_from_Name(name))
+		std::cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << std::endl;
+
+	// Create savegame overworld
+	cSave_Overworld* p_saveoverworld = new cSave_Overworld();
+	p_saveoverworld->m_name = name;
+	p_saveoverworld->m_waypoints.swap(m_waypoints); // Clears m_waypoints for the next overworld
+	// save
+	mp_save->m_overworlds.push_back(p_saveoverworld);
 }
