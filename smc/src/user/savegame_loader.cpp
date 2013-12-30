@@ -82,6 +82,8 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 
 	if (name == "information" || name == "Information")
 		handle_information();
+	else if (name == "level" || name == "Level")
+		handle_level();
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -94,4 +96,28 @@ void cSavegameLoader::handle_information()
 	mp_save->m_level_engine_version	= m_current_properties.fetch<int>("level_engine_version", mp_save->m_level_engine_version);
 	mp_save->m_save_time			= string_to_int64(m_current_properties["save_time"]);
 	mp_save->m_description			= m_current_properties["description"];
+}
+
+void cSavegameLoader::handle_level()
+{
+	cSave_Level* p_savelevel = new cSave_Level();
+
+	// Restore the general attributes.
+	p_savelevel->m_name			= m_current_properties["level_name"];
+	p_savelevel->m_mruby_data	= m_current_properties["mruby_data"];
+	p_savelevel->m_level_pos_x	= m_current_properties.retrieve<float>("player_posx");
+	p_savelevel->m_level_pos_y	= m_current_properties.retrieve<float>("player_poxy");
+
+	/* Restore object lists. Note the lists in `p_savelevel' are
+	 * currently empty (it’s a new object) and hence swapping
+	 * with them consequently means clearing the swapping
+	 * partner. */
+	// set level objects
+	p_savelevel->m_level_objects.swap(m_level_objects);
+	// set level spawned objects
+	p_savelevel->m_spawned_objects.swap(m_level_spawned_objects);
+
+	// Add this level to the list of levels for this
+	// savegame.
+	mp_save->m_levels.push_back(p_savelevel);
 }

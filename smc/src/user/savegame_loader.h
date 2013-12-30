@@ -26,9 +26,14 @@ namespace SMC {
     virtual void on_end_element(const Glib::ustring& name);
 
     void handle_information();
+    void handle_level();
   private:
     // The save we’re building.
     cSave* mp_save;
+    // level objects for parsing
+    Save_Level_ObjectList m_level_objects;
+    // level spawned objects for parsing
+    cSprite_List m_level_spawned_objects;
     // The file we’re parsing.
     boost::filesystem::path m_savefile;
     // The <property> results we found before the current tag.
