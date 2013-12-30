@@ -27,6 +27,7 @@ namespace SMC {
 
     void handle_information();
     void handle_level();
+    void handle_level_object();
   private:
     // The save we’re building.
     cSave* mp_save;

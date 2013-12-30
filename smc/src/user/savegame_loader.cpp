@@ -84,6 +84,12 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		handle_information();
 	else if (name == "level" || name == "Level")
 		handle_level();
+	else if (name == "objects_data")
+		return; // don’t clear attributes
+	else if (name == "object" || name == "Level_Object") {
+		handle_level_object();
+		return; // don’t clear attributes
+	}
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -120,4 +126,44 @@ void cSavegameLoader::handle_level()
 	// Add this level to the list of levels for this
 	// savegame.
 	mp_save->m_levels.push_back(p_savelevel);
+}
+
+void cSavegameLoader::handle_level_object()
+{
+	int type = m_current_properties.retrieve<int>("type");
+	if (type <= 0) {
+		std::cerr << "Warning: Unknown level object type '" << type << "'" << std::endl;
+		return;
+	}
+
+	cSave_Level_Object* p_object = new cSave_Level_Object();
+
+	// type
+	p_object->m_type = static_cast<SpriteType>(type);
+
+	// Get properties
+	XmlAttributes::const_iterator iter;
+	for (iter = m_current_properties.begin(); iter != m_current_properties.end(); iter++) {
+
+		// Ignore level attributes
+		if (iter->first == "level_name" || iter->first == "player_posx" || iter->first == "player_posy" || iter->first == "mruby_data")
+			continue;
+
+		p_object->m_properties.push_back(cSave_Level_Object_Property(iter->first, iter->second));
+	}
+
+	/* We are in a nested tag situation (<object> in <objects_data>).
+	 * We now clear only the properties specific to <object> so the
+	 * <property>s found in the upper <objects_data> node are preserved
+	 * for the next <object>. */
+	m_current_properties.erase("type");
+	// remove used properties
+	Save_Level_Object_ProprtyList::const_iterator iter2;
+	for (iter2 = p_object->m_properties.begin(); iter2 != p_object->m_properties.end(); iter2++) {
+		cSave_Level_Object_Property prop = (*iter2);
+		m_current_properties.erase(prop.m_name);
+	}
+
+	// add object for handling in handle_level()
+	m_level_objects.push_back(p_object);
 }
