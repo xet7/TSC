@@ -175,7 +175,7 @@ cOverworld* cOverworld :: Load_From_Directory( fs::path directory, int user_dir 
 {
 	// Overworld loading consists of three steps: Loading the description file,
 	// loading the main world file and loading the layers file.
-	std::cout << "Loading world from directory: '" << path_to_utf8(directory) << "'" << std::endl;
+	debug_print("Loading world from directory '%s'\n", path_to_utf8(directory).c_str());
 
 	//////// Step 1: Description file ////////
 	cOverworldDescriptionLoader descloader;

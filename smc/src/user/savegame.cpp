@@ -192,6 +192,8 @@ void cSave :: Init( void )
 #ifdef ENABLE_NEW_LOADER
 cSave* cSave :: Load_From_File( fs::path filepath )
 {
+	debug_print("Loading savegame file '%s'\n", path_to_utf8(filepath).c_str());
+
 	cSavegameLoader loader;
 	loader.parse_file(filepath);
 	return loader.Get_Save();
