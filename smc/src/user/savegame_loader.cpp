@@ -1,4 +1,5 @@
 #include "../core/i18n.h"
+#include "../level/level_loader.h"
 #include "savegame_loader.h"
 #include "savegame.h"
 
@@ -90,6 +91,12 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		handle_level_object();
 		return; // don’t clear attributes
 	}
+	else if (name == "spawned_objects")
+		return; // don't clear attributes
+	else if (name != "player" && cLevel::Is_Level_Object_Element(std::string(name))) { // Glib::ustring is not autoconverted to CEGUI::String
+		handle_level_spawned_object(name);
+		return; // don't clear attributes
+	}
 	else
 		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
@@ -166,4 +173,13 @@ void cSavegameLoader::handle_level_object()
 
 	// add object for handling in handle_level()
 	m_level_objects.push_back(p_object);
+}
+
+void cSavegameLoader::handle_level_spawned_object(const Glib::ustring& name)
+{
+	std::vector<cSprite*> sprites = cLevelLoader::Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_save->m_level_engine_version, pActive_Level->m_sprite_manager);
+
+	std::vector<cSprite*>::iterator iter;
+	for (iter=sprites.begin(); iter != sprites.end(); iter++)
+		m_level_spawned_objects.push_back(*iter);
 }
