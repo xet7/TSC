@@ -127,6 +127,49 @@ void cBackground :: Load_From_Attributes( XmlAttributes &attributes )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+void cBackground :: Save_To_Xml_Node( xmlpp::Element *p_parent )
+{
+	if (m_type == BG_NONE)
+		return;
+
+	// <background>
+	xmlpp::Element* p_node = p_parent->add_child("background");
+	Add_Property(p_node, "type", m_type);
+
+	// gradient
+	if (m_type == BG_GR_HOR || m_type == BG_GR_VER) {
+		// background color 1
+		Add_Property( p_node, "bg_color_1_red", static_cast<int>(m_color_1.red) );
+		Add_Property( p_node, "bg_color_1_green", static_cast<int>(m_color_1.green) );
+		Add_Property( p_node, "bg_color_1_blue", static_cast<int>(m_color_1.blue) );
+		// background color 2
+		Add_Property( p_node, "bg_color_2_red", static_cast<int>(m_color_2.red) );
+		Add_Property( p_node, "bg_color_2_green", static_cast<int>(m_color_2.green) );
+		Add_Property( p_node, "bg_color_2_blue", static_cast<int>(m_color_2.blue) );
+	}
+	// image
+	else if (m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL) {
+		// position
+		Add_Property( p_node, "posx", m_start_pos_x );
+		Add_Property( p_node, "posy", m_start_pos_y );
+		Add_Property( p_node, "posz", m_pos_z );
+
+		// image filename
+		Add_Property( p_node, "image", path_to_utf8( m_image_1_filename ) );
+		// speed
+		Add_Property( p_node, "speedx", m_speed_x );
+		Add_Property( p_node, "speedy", m_speed_y );
+		// constant velocity
+		Add_Property( p_node, "const_velx", m_const_vel_x );
+		Add_Property( p_node, "const_vely", m_const_vel_y );
+	}
+	else
+		std::cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
+	// </background>
+}
+#endif
+
 void cBackground :: Save_To_XML( CEGUI::XMLSerializer &stream )
 {
 	if( m_type == BG_NONE )

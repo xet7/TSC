@@ -356,6 +356,26 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
 	// </information>
 
+	// <settings>
+	p_node = p_root->add_child("settings");
+		Add_Property(p_node, "lvl_author", m_author);
+		Add_Property(p_node, "lvl_version", m_version);
+		Add_Property(p_node, "lvl_music", path_to_utf8(Get_Music_Filename()));
+		Add_Property(p_node, "lvl_description", m_description);
+		Add_Property(p_node, "lvl_difficulty", static_cast<int>(m_difficulty));
+		Add_Property(p_node, "lvl_land_type", Get_Level_Land_Type_Name(m_land_type));
+		Add_Property(p_node, "cam_limit_x", static_cast<int>(m_camera_limits.m_x));
+		Add_Property(p_node, "cam_limit_y", static_cast<int>(m_camera_limits.m_y));
+		Add_Property(p_node, "cam_limit_w", static_cast<int>(m_camera_limits.m_w));
+		Add_Property(p_node, "cam_limit_h", static_cast<int>(m_camera_limits.m_h));
+		Add_Property(p_node, "cam_fixed_hor_vel", m_fixed_camera_hor_vel);
+	// </settings>
+
+	vector<cBackground*>::iterator iter;
+	for(iter=m_background_manager->objects.begin(); iter != m_background_manager->objects.end(); iter++)
+		(*iter)->Save_To_Xml_Node(p_node);
+
+	// TODO: Write to `filename' instead!
 	doc.write_to_stream_formatted(std::cout);
 
 	return filename;

@@ -57,6 +57,11 @@ public:
 	// save to stream
 	void Save_To_XML( CEGUI::XMLSerializer &stream );
 
+#ifdef ENABLE_NEW_LOADER
+	/// Save this object below the given XML node
+	void Save_To_Xml_Node(xmlpp::Element* p_parent);
+#endif
+
 	// Set the parent sprite manager
 	void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
 	// Sets the type of Background
