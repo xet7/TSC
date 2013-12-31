@@ -342,6 +342,26 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	m_sprite_manager->Delete_All();
 }
 
+#ifdef ENABLE_NEW_LOADER
+fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
+{
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("level");
+	xmlpp::Element* p_node = NULL;
+
+	// <information>
+	p_node = p_root->add_child("information");
+		Add_Property(p_node, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+		Add_Property(p_node, "engine_version", level_engine_version);
+		Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
+	// </information>
+
+	doc.write_to_stream_formatted(std::cout);
+
+	return filename;
+}
+#endif
+
 void cLevel :: Save( void )
 {
 	pAudio->Play_Sound( "editor/save.ogg" );
@@ -354,6 +374,11 @@ void cLevel :: Save( void )
 		// set user directory
 		m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
 	}
+
+#if defined(_DEBUG) && defined(ENABLE_NEW_LOADER)
+	std::cerr << "REMOVE THESE LINES IN" << __FILE__ << ":" << __LINE__ << " THEY ARE ONLY FOR DEBUGGING" << std::endl;;
+	Save_To_File(m_level_filename);
+#endif
 
 	fs::ofstream file(m_level_filename, ios::out | ios::trunc);
 

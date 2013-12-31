@@ -54,6 +54,10 @@ public:
 	 * if delayed is given unloads the on the next update
 	*/
 	void Unload( bool delayed = 0 );
+#ifdef ENABLE_NEW_LOADER
+	// Save the level to a file as XML
+  boost::filesystem::path Save_To_File(boost::filesystem::path filename = boost::filesystem::path());
+#endif
 	// Save the Level
 	void Save( void );
 	// Delete and unload

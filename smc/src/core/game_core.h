@@ -100,6 +100,17 @@ void Preload_Images( bool draw_gui = 0 );
  */
 void Preload_Sounds( bool draw_gui = 0 );
 
+#ifdef ENABLE_NEW_LOADER
+/// Add a <property> node below the given XML node.
+void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value);
+
+inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, int value){ Add_Property(p_element, name, int_to_string(value)); }
+inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, Uint64 value){ Add_Property(p_element, name, int64_to_string(value)); }
+inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, long value){ Add_Property(p_element, name, long_to_string(value)); }
+inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, float value){ Add_Property(p_element, name, float_to_string(value)); }
+inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, bool value){ Add_Property(p_element, name, bool_to_string(value)); }
+#endif
+
 // Write a property line to the serializer
 void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, CEGUI::String val );
 inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, int val )
