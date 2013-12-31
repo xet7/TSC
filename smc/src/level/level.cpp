@@ -383,6 +383,14 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		Add_Property(p_node, "direction", Get_Direction_Name(pLevel_Player->m_start_direction));
 	// </player>
 
+	// TODO: Objects
+
+	// MRuby script code
+	// <script>
+	p_node = p_root->add_child("script");
+		p_node->add_child_text(m_script);
+	// </script>
+
 	// TODO: Write to `filename' instead!
 	doc.write_to_stream_formatted(std::cout);
 
