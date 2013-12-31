@@ -33,6 +33,12 @@ namespace SMC
 class cLevel : public CEGUI::XMLHandler
 {
 public:
+
+#ifdef ENABLE_NEW_LOADER
+	/// Loads a level from the given file.
+	static cLevel* Load_From_File( boost::filesystem::path filename );
+#endif
+
 	cLevel( void );
 	virtual ~cLevel( void );
 
@@ -44,11 +50,6 @@ public:
 	// Load an existing level by name (file extension and user or
   // game directory are automatically added).
 	bool Load( std::string levelname );
-#ifdef _DEBUG
-	// Like Load(), but uses the new libxml++ loader. Currently only
-	// for experimental purposes!
-	static cLevel* Load_DEBUG_Libxmlpp( std::string levelname );
-#endif
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
 	*/

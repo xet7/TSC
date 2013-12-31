@@ -246,14 +246,13 @@ bool cLevel :: Load( std::string levelname )
 	return 1;
 }
 
-#ifdef _DEBUG
-cLevel* cLevel :: Load_DEBUG_Libxmlpp( std::string levelname )
+#ifdef ENABLE_NEW_LOADER
+cLevel* cLevel :: Load_From_File( fs::path filename )
 {
-	fs::path filename = pLevel_Manager->Get_Path( levelname );
 	if( filename.empty() )
 	{
 		// show error without directory and file type
-		std::cerr << "Couldn't load level : " << levelname << std::endl;
+		std::cerr << "Couldn't load level file '" << path_to_utf8(filename) << "'" << std::endl;
 		return NULL;
 	}
 

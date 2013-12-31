@@ -125,7 +125,8 @@ cLevel *cLevel_Manager :: Load( std::string levelname )
 
 #ifdef ENABLE_NEW_LOADER
 	// load
-	level = cLevel::Load_DEBUG_Libxmlpp( levelname );
+	fs::path filename = Get_Path( levelname );
+	level = cLevel::Load_From_File( filename );
 #else
 	// load
 	level = new cLevel();
