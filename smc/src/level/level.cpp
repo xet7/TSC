@@ -371,9 +371,17 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		Add_Property(p_node, "cam_fixed_hor_vel", m_fixed_camera_hor_vel);
 	// </settings>
 
+	// backgrounds
 	vector<cBackground*>::iterator iter;
 	for(iter=m_background_manager->objects.begin(); iter != m_background_manager->objects.end(); iter++)
 		(*iter)->Save_To_Xml_Node(p_node);
+
+	// <player>
+	p_node = p_root->add_child("player");
+		Add_Property(p_node, "posx", static_cast<int>(pLevel_Player->m_start_pos_x));
+		Add_Property(p_node, "posy", static_cast<int>(pLevel_Player->m_start_pos_y));
+		Add_Property(p_node, "direction", Get_Direction_Name(pLevel_Player->m_start_direction));
+	// </player>
 
 	// TODO: Write to `filename' instead!
 	doc.write_to_stream_formatted(std::cout);
