@@ -98,6 +98,18 @@ void cGoldpiece :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cGoldpiece :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+
+	// color
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+
+	return p_node;
+}
+#endif
+
 void cGoldpiece :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	// new position x
