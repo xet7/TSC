@@ -141,6 +141,11 @@ public:
 	// active particle animation counter
 	float m_particle_counter_active;
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 protected:
 	// Create the Name from the current settings
 	void Create_Name( void );

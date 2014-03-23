@@ -126,6 +126,27 @@ void cBaseBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "useable_count", m_start_useable_count );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cBaseBox :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+
+	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX) {
+		// animation type
+		Add_Property(p_node, "animation", m_anim_type);
+		// best possible item
+		Add_Property(p_node, "item", box_type);
+	}
+
+	// invisible
+	Add_Property(p_node, "invisible", m_box_invisible);
+	// useable count
+	Add_Property(p_node, "useable_count", m_start_useable_count);
+
+	return p_node;
+}
+#endif
+
 void cBaseBox :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	// useable count

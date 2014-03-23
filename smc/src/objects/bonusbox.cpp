@@ -129,6 +129,22 @@ void cBonusBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cBonusBox :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cBaseBox::Save_To_XML_Node(p_element);
+
+	// force best possible item
+	Add_Property(p_node, "force_best_item", m_force_best_item);
+	// gold color
+	if (box_type == TYPE_GOLDPIECE)
+		Add_Property(p_node, "gold_color", Get_Color_Name(m_gold_color));
+
+	return p_node;
+}
+#endif
+
+
 void cBonusBox :: Set_Useable_Count( int count, bool new_startcount /* = 0 */ )
 {
 	cBaseBox::Set_Useable_Count( count, new_startcount );
