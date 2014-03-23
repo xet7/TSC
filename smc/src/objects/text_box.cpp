@@ -107,6 +107,18 @@ void cText_Box :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "text", m_text );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cText_Box :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cBaseBox::Save_To_XML_Node(p_element);
+
+	// text
+	Add_Property(p_node, "text", m_text);
+
+	return p_node;
+}
+#endif
+
 void cText_Box :: Activate( void )
 {
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
