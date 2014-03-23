@@ -137,6 +137,22 @@ void cLevel_Entry :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cLevel_Entry :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+
+	// direction
+	if (m_entry_type == LEVEL_ENTRY_WARP)
+		Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	// name
+	if (!m_entry_name.empty())
+		Add_Property(p_node, "name", m_entry_name);
+
+	return p_node;
+}
+#endif
+
 void cLevel_Entry :: Set_Direction( const ObjectDirection dir )
 {
 	// already set
