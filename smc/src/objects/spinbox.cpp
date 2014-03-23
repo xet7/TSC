@@ -93,6 +93,13 @@ void cSpinBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	cBaseBox::Do_XML_Saving( stream );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cSpinBox :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	return cBaseBox::Save_To_XML_Node(p_element);
+}
+#endif
+
 void cSpinBox :: Activate( void )
 {
 	// already spinning
