@@ -203,6 +203,32 @@ void cLevel_Exit :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+
+	// camera motion
+	Add_Property(p_node, "camera_motion", m_exit_motion);
+
+	// destination entry name
+	if (!m_dest_entry.empty())
+		Add_Property(p_node, "entry", m_dest_entry);
+
+	// path identifier
+	if (m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS) {
+		if (!m_path_identifier.empty()) {
+			Add_Property(p_node, "path_identifier", m_path_identifier);
+		}
+	}
+
+	if (m_exit_type == LEVEL_EXIT_WARP)
+		Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	return p_node;
+}
+#endif
+
 	void cLevel_Exit :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )
 {
 	// already set

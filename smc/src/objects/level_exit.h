@@ -117,6 +117,11 @@ public:
 	// editor entry name text
 	cGL_Surface *m_editor_entry_name;
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 protected:
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
