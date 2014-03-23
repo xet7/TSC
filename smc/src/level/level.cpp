@@ -428,6 +428,7 @@ void cLevel :: Save( void )
 #if defined(_DEBUG) && defined(ENABLE_NEW_LOADER)
 	std::cerr << "REMOVE THESE LINES IN" << __FILE__ << ":" << __LINE__ << " THEY ARE ONLY FOR DEBUGGING" << std::endl;;
 	Save_To_File(m_level_filename);
+	return;
 #endif
 
 	fs::ofstream file(m_level_filename, ios::out | ios::trunc);
