@@ -518,6 +518,13 @@ void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
 	stream.closeTag();
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	return p_element->add_child(m_type_name);
+}
+#endif
+
 void cSprite :: Set_Image( cGL_Surface *new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */ )
 {
 	if( m_delete_image )

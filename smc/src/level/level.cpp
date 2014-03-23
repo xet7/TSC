@@ -383,7 +383,21 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		Add_Property(p_node, "direction", Get_Direction_Name(pLevel_Player->m_start_direction));
 	// </player>
 
-	// TODO: Objects
+	cSprite_List::iterator iter2;
+	for(iter2=m_sprite_manager->objects.begin(); iter2 != m_sprite_manager->objects.end(); iter2++) {
+		cSprite* p_obj = *iter2;
+
+		// skip spawned and destroyed objects
+		if (p_obj->m_spawned || p_obj->m_auto_destroy)
+			continue;
+
+		// save to file stream
+		// TODO: This method must be implemented in all the classes
+		// that currently use Save_To_XML() + Do_XML_Saving(). The
+		// Do_XML_Saving() method should be removed entirely in favor
+		// of properly calling this method.
+		p_obj->Save_To_XML_Node(p_root);
+	}
 
 	// MRuby script code
 	// <script>

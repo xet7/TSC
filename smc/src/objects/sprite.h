@@ -132,6 +132,15 @@ public:
 	// further below) instead.
 	void Save_To_XML( CEGUI::XMLSerializer &stream );
 
+#ifdef ENABLE_NEW_LOADER
+	/// Save the level below the given XML node. Subclasses
+	/// should override this *and* call the base class method.
+	/// The subclasses should then add attributes to the node
+	/// the baseclass method returned and return that node
+	/// themselves again.
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object ) {};
 	// save to savegame
@@ -564,6 +573,8 @@ protected:
 	// Saves the actual object attributes to the stream.
 	// Called from Save_To_XML(). Override in subclasses
 	// and call the parent method.
+	// TODO: This method should vanish when Save_To_XML_Node()
+	// is properly implemented in all relevant classes.
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	// Returns the string to use for the XML `type' property of
 	// the sprite. Override in subclasses and do not call
