@@ -521,7 +521,35 @@ void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
 #ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	return p_element->add_child(m_type_name);
+	xmlpp::Element* p_node = p_element->add_child(m_type_name);
+
+	// position
+	Add_Property(p_node, "posx", static_cast<int>(m_start_pos_x));
+	Add_Property(p_node, "posy", static_cast<int>(m_start_pos_y));
+	// UID
+	Add_Property(p_node, "uid", m_uid);
+
+	// image
+	boost::filesystem::path img_filename;
+	if (m_start_image)
+		img_filename = m_start_image->m_path;
+	else if (m_image)
+		img_filename = m_image->m_path;
+	else
+		std::cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
+
+	// remove pixmaps directory from string
+	if (img_filename.is_absolute())
+		img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
+
+	Add_Property(p_node, "image", path_to_utf8(img_filename));
+
+	// type (only if Get_XML_Type_Name() returns something meaningful)
+	std::string type = Get_XML_Type_Name();
+	if (!type.empty())
+		Add_Property(p_node, "type", type);
+
+	return p_node;
 }
 #endif
 
