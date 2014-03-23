@@ -132,6 +132,23 @@ void cBall :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "ball_type", m_ball_type );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cBall :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+
+	// direction
+	Add_Property(p_node, "direction", m_direction);
+	// origin array and type
+	Add_Property(p_node, "origin_array", m_origin_array);
+	Add_Property(p_node, "origin_type", m_origin_type);
+	// type
+	Add_Property(p_node, "ball_type", m_ball_type);
+
+	return p_node;
+}
+#endif
+
 void cBall :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	// new position x

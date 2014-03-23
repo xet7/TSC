@@ -84,6 +84,11 @@ public:
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 
+#ifdef ENABLE_NEW_LOADER
+	// Save below given XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 	// origin
 	ArrayType m_origin_array;
 	SpriteType m_origin_type;
