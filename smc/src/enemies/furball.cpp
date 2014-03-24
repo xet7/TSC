@@ -145,6 +145,23 @@ void cFurball :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cFurball :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	if (m_type == TYPE_FURBALL_BOSS) {
+		Add_Property(p_node, "max_downgrade_count", m_max_downgrade_count);
+		Add_Property(p_node, "level_ends_if_killed", m_level_ends_if_killed);
+	}
+
+	return p_node;
+}
+#endif
+
 void cFurball :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	cEnemy::Load_From_Savegame( save_object );

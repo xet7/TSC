@@ -126,6 +126,11 @@ public:
 	// Color
 	DefaultColor m_color_type;
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 protected:
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
