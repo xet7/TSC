@@ -391,11 +391,7 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		if (p_obj->m_spawned || p_obj->m_auto_destroy)
 			continue;
 
-		// save to file stream
-		// TODO: This method must be implemented in all the classes
-		// that currently use Save_To_XML() + Do_XML_Saving(). The
-		// Do_XML_Saving() method should be removed entirely in favor
-		// of properly calling this method.
+		// save to XML node
 		p_obj->Save_To_XML_Node(p_root);
 	}
 
@@ -405,13 +401,16 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		p_node->add_child_text(m_script);
 	// </script>
 
-	// TODO: Write to `filename' instead!
-	doc.write_to_stream_formatted(std::cout);
+	// Write to file (raises xmlpp::exception on write error)
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(filename)));
+	debug_print("Wrote level file '%s'.\n", path_to_utf8(filename).c_str());
 
 	return filename;
 }
 #endif
 
+// TODO: Merge Save() with Save_To_File() after ENABLE_NEW_LOADER
+// is the only variant?
 void cLevel :: Save( void )
 {
 	pAudio->Play_Sound( "editor/save.ogg" );
@@ -425,12 +424,19 @@ void cLevel :: Save( void )
 		m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
 	}
 
-#if defined(_DEBUG) && defined(ENABLE_NEW_LOADER)
-	std::cerr << "REMOVE THESE LINES IN" << __FILE__ << ":" << __LINE__ << " THEY ARE ONLY FOR DEBUGGING" << std::endl;;
-	Save_To_File(m_level_filename);
-	return;
-#endif
+#ifdef ENABLE_NEW_LOADER
+	try{
+		Save_To_File(m_level_filename);
+	}
+	catch(xmlpp::exception& e) {
+		std::cerr << "Error: Couldn't save level file: " << e.what() << std::endl;
+		std::cerr << "Is the file read-only?" << std::endl;
+		pHud_Debug->Set_Text( _("Couldn't save level ") + path_to_utf8(m_level_filename), speedfactor_fps * 5.0f );
 
+		// Abort
+		return;
+	}
+#else
 	fs::ofstream file(m_level_filename, ios::out | ios::trunc);
 
 	if( !file )
@@ -520,6 +526,9 @@ void cLevel :: Save( void )
 	stream.closeTag();
 
 	file.close();
+#endif
+
+	// Display nice completion message
 	pHud_Debug->Set_Text( _("Level ") + path_to_utf8(Trim_Filename( m_level_filename, false, false )) + _(" saved") );
 }
 

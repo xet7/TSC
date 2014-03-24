@@ -55,8 +55,9 @@ public:
 	*/
 	void Unload( bool delayed = 0 );
 #ifdef ENABLE_NEW_LOADER
-	// Save the level to a file as XML
-  boost::filesystem::path Save_To_File(boost::filesystem::path filename = boost::filesystem::path());
+	// Save the level to a file as XML.
+	// Raises xmlpp::exception on failure to write the XML file.
+	boost::filesystem::path Save_To_File(boost::filesystem::path filename = boost::filesystem::path());
 #endif
 	// Save the Level
 	void Save( void );
