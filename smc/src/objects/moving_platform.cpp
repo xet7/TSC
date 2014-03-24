@@ -267,6 +267,52 @@ void cMoving_Platform :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "image_top_right", path_to_utf8( rel ) );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cMoving_Platform :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+
+	// massive type
+	Add_Property(p_node, "massive_type", Get_Massive_Type_Name(m_massive_type));
+
+	switch(m_move_type) {
+	// path identifier
+	case MOVING_PLATFORM_TYPE_PATH: // fallthrough
+	case MOVING_PLATFORM_TYPE_PATH_BACKWARDS:
+		if (!m_path_state.m_path_identifier.empty())
+			Add_Property(p_node, "path_identifier", m_path_state.m_path_identifier);
+		break;
+	// if move type is line or circle
+	case MOVING_PLATFORM_TYPE_LINE: // fallthrough
+	case MOVING_PLATFORM_TYPE_CIRCLE:
+		Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+		Add_Property(p_node, "max_distance", m_max_distance);
+		break;
+	}
+
+	// Other properties
+	Add_Property(p_node, "speed", m_speed);
+	Add_Property(p_node, "touch_time", m_touch_time);
+	Add_Property(p_node, "shake_time", m_shake_time);
+	Add_Property(p_node, "touch_move_time", m_touch_move_time);
+	Add_Property(p_node, "middle_img_count", m_middle_count);
+
+	fs::path rel;
+	// image top left
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
+	Add_Property(p_node, "image_top_left", path_to_utf8(rel));
+	// image top middle
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
+	Add_Property(p_node, "image_top_middle", path_to_utf8(rel));
+	// image top right
+	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
+	Add_Property(p_node, "image_top_right", path_to_utf8(rel));
+
+	return p_node;
+}
+#endif
+
+
 void cMoving_Platform :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
 {
 	cSprite::Set_Sprite_Manager( sprite_manager );

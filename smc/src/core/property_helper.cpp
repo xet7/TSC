@@ -66,6 +66,13 @@ std::string int_to_string( const int number )
 	return os.str();
 }
 
+std::string uint_to_string( const unsigned int number)
+{
+	std::ostringstream os;
+	os << number;
+	return os.str();
+}
+
 std::string int64_to_string( const Uint64 number )
 {
 	std::ostringstream os;
@@ -265,6 +272,14 @@ int string_to_int( const std::string &str )
 	int num = 0;
 	// use helper
 	from_string<int>( num, str, std::dec );
+	return num;
+}
+
+unsigned int string_to_uint( const std::string& str )
+{
+	unsigned int num = 0;
+	// use helper
+	from_string<unsigned int>(num, str, std::dec);
 	return num;
 }
 

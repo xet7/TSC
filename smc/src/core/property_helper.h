@@ -61,6 +61,7 @@ std::string int_to_string( const int number );
 std::string int64_to_string( const Uint64 number );
 std::string long_to_string( const long number );
 std::string bool_to_string( const bool val);
+std::string uint_to_string( const unsigned int number );
 /* Return the float as a string
  * prec: the precision after the decimal point
  * keep_zeros: keep trailing zeros in the fractional part
@@ -70,6 +71,7 @@ std::string float_to_string( double value, int prec = 6, bool keep_zeros = 1 );
 int string_to_int( const std::string &str );
 Uint64 string_to_int64( const std::string &str );
 long string_to_long( const std::string &str );
+unsigned int string_to_uint( const std::string& str );
 // Return the string as a float
 float string_to_float( const std::string &str );
 // Return the string as a double

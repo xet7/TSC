@@ -109,6 +109,7 @@ inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, U
 inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, long value){ Add_Property(p_element, name, long_to_string(value)); }
 inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, float value){ Add_Property(p_element, name, float_to_string(value)); }
 inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, bool value){ Add_Property(p_element, name, bool_to_string(value)); }
+inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, unsigned int value){ Add_Property(p_element, name, uint_to_string(value)); }
 #endif
 
 // Write a property line to the serializer
