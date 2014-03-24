@@ -112,6 +112,11 @@ public:
 	// editor volume reduction end text changed event
 	bool Editor_Volume_Reduction_End_Text_Changed( const CEGUI::EventArgs &event );
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 protected:
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );

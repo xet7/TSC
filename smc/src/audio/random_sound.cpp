@@ -165,6 +165,31 @@ void cRandom_Sound :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "volume_reduction_end", m_volume_reduction_end );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cRandom_Sound :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
+
+
+	// filename
+	Add_Property(p_node, "file", m_filename);
+	// continuous
+	Add_Property(p_node, "continuous", m_continuous);
+	// delay
+	Add_Property(p_node, "delay_min", m_delay_min);
+	Add_Property(p_node, "delay_max", m_delay_max);
+	// volume
+	Add_Property(p_node, "volume_min", m_volume_min);
+	Add_Property(p_node, "volume_max", m_volume_max);
+	// volume reduction
+	Add_Property(p_node, "volume_reduction_begin", m_volume_reduction_begin);
+	Add_Property(p_node, "volume_reduction_end", m_volume_reduction_end);
+
+	return p_node;
+}
+#endif
+
+
 void cRandom_Sound :: Set_Filename( const std::string &str )
 {
 	// stop playing sounds
