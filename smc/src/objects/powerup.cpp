@@ -279,6 +279,17 @@ void cMushroom :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "mushroom_type", m_type );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cMushroom :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cPowerUp::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "mushroom_type", m_type);
+
+	return p_node;
+}
+#endif
+
 void cMushroom :: Set_Type( SpriteType new_type )
 {
 	// already set

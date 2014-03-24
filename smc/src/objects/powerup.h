@@ -64,6 +64,8 @@ public:
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 
 	float m_counter;
+
+	// node saving inherited
 };
 
 /* *** *** *** *** *** cMushroom *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -112,6 +114,11 @@ public:
 	// glim animation modifier
 	bool m_glim_mod;
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 protected:
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
@@ -150,6 +157,8 @@ public:
 
 	float m_particle_counter;
 
+	// node saving inherited
+
 protected:
 	// save to stream
 	// stream saving inherited
@@ -187,6 +196,8 @@ public:
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_particle_counter;
+
+	// node saving inherited
 
 protected:
 	// save to stream
