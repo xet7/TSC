@@ -103,6 +103,18 @@ void cSpika :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cSpika :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+
+	return p_node;
+}
+#endif
+
+
 void cSpika :: Set_Color( DefaultColor col )
 {
 	// already set
