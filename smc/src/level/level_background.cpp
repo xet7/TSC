@@ -128,7 +128,7 @@ void cBackground :: Load_From_Attributes( XmlAttributes &attributes )
 }
 
 #ifdef ENABLE_NEW_LOADER
-void cBackground :: Save_To_Xml_Node( xmlpp::Element *p_parent )
+void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 {
 	if (m_type == BG_NONE)
 		return;

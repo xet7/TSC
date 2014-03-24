@@ -374,7 +374,7 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 	// backgrounds
 	vector<cBackground*>::iterator iter;
 	for(iter=m_background_manager->objects.begin(); iter != m_background_manager->objects.end(); iter++)
-		(*iter)->Save_To_Xml_Node(p_node);
+		(*iter)->Save_To_XML_Node(p_root);
 
 	// <player>
 	p_node = p_root->add_child("player");

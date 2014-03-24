@@ -59,7 +59,7 @@ public:
 
 #ifdef ENABLE_NEW_LOADER
 	/// Save this object below the given XML node
-	void Save_To_Xml_Node(xmlpp::Element* p_parent);
+	void Save_To_XML_Node(xmlpp::Element* p_parent);
 #endif
 
 	// Set the parent sprite manager
