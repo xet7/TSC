@@ -108,6 +108,11 @@ public:
 	void Unload( void );
 	// Save
 	void Save( void );
+	#ifdef ENABLE_NEW_LOADER
+	// Save to the given directory. Raises xmlpp::exception on error.
+	void Save_To_Directory(boost::filesystem::path path);
+	void Save_To_File(boost::filesystem::path path);
+	#endif
 	// Enter
 	void Enter( const GameMode old_mode = MODE_NOTHING );
 	// Leave

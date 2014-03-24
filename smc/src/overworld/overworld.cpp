@@ -85,6 +85,7 @@ void cOverworld_description :: Save( void )
 		Save_To_File(filename);
 	}
 	catch(xmlpp::exception& e) {
+		std::cerr << "Failed to save world description file '" << path_to_utf8(filename) << "': " << e.what() << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return;
 	}
@@ -392,8 +393,18 @@ void cOverworld :: Save( void )
 		fs::create_directories( save_dir );
 	}
 
+#ifdef ENABLE_NEW_LOADER
+	try {
+		Save_To_Directory(save_dir);
+	}
+	catch(xmlpp::exception& e) {
+		std::cerr << "Error: Could not save overworld '" << path_to_utf8(save_dir) << "': " << e.what() << std::endl
+				  << "Is the directory read-only?" << std::endl;
+		pHud_Debug->Set_Text( _("Couldn't save world ") + path_to_utf8(save_dir), speedfactor_fps * 5.0f );
+		return;
+	}
+#else
 	fs::path filename = save_dir / utf8_to_path("world.xml");
-
 	fs::ofstream file(filename, ios::out | ios::trunc);
 
 	if( !file )
@@ -469,10 +480,66 @@ void cOverworld :: Save( void )
 	m_layer->Save( save_dir / utf8_to_path("/layer.xml") );
 	// save description
 	m_description->Save();
+#endif
 
 	// show info
 	pHud_Debug->Set_Text( _("World ") + m_description->m_name + _(" saved") );
 }
+
+#ifdef ENABLE_NEW_LOADER
+void cOverworld :: Save_To_Directory( fs::path path )
+{
+	// As with loading, saving is a three-step process:
+	// main world file, layer file, description file.
+
+	Save_To_File(path / utf8_to_path("world.xml"));
+	//m_layer->Save_To_File(save_dir / utf8_to_path("layer.xml"));
+	m_description->Save(); // FIXME: When m_path is moved to cOverworld, replace with call to cOverworld_description::Save_To_File()
+}
+
+void cOverworld :: Save_To_File( fs::path path )
+{
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("overworld");
+	xmlpp::Element* p_node = NULL;
+
+	// General information
+	p_node = p_root->add_child("information");
+	Add_Property(p_node, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+	Add_Property(p_node, "engine_version", world_engine_version);
+	Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL))); // seconds since 1970
+
+	// Settings (currently only music)
+	p_node = p_root->add_child("settings");
+	Add_Property(p_node, "music", m_musicfile);
+
+	// Background color
+	p_node = p_root->add_child("background");
+	Add_Property(p_node, "color_red", static_cast<int>(m_background_color.red));
+	Add_Property(p_node, "color_green", static_cast<int>(m_background_color.green));
+	Add_Property(p_node, "color_blue", static_cast<int>(m_background_color.blue));
+
+	// Player
+	p_node = p_root->add_child("player");
+	Add_Property(p_node, "waypoint", m_player_start_waypoint);
+	Add_Property(p_node, "moving_state", static_cast<int>(m_player_moving_state));
+
+	cSprite_List::const_iterator iter;
+	for(iter = m_sprite_manager->objects.begin(); iter != m_sprite_manager->objects.end(); iter++) {
+		cSprite* p_sprite = (*iter);
+
+		// Skip spawned and destroyed objects
+		if (p_sprite->m_spawned || p_sprite->m_auto_destroy)
+			continue;
+
+		// Save below this node
+		p_sprite->Save_To_XML_Node(p_root);
+	}
+
+	// Save layer?
+	// Save description?
+}
+#endif
 
 void cOverworld :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 {
