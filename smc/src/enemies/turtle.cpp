@@ -118,6 +118,21 @@ void cTurtle :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cTurtle :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "posx", static_cast<int>(m_start_pos_x));
+	Add_Property(p_node, "posy", static_cast<int>(m_start_pos_y));
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	return p_node;
+}
+#endif
+
+
 void cTurtle :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	cEnemy::Load_From_Savegame( save_object );
