@@ -630,7 +630,8 @@ void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, CE
 void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
 {
 	xmlpp::Element* p_propnode = p_element->add_child("property");
-	p_propnode->set_attribute(name, value);
+	p_propnode->set_attribute("name", name);
+	p_propnode->set_attribute("value", value);
 }
 #endif
 
