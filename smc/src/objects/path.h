@@ -242,6 +242,11 @@ public:
 	typedef vector<cPath_State *> PathStateList;
 	PathStateList m_linked_path_states;
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 protected:
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );

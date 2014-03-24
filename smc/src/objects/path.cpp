@@ -609,6 +609,30 @@ void cPath :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cPath :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
+
+	// Attributes
+	Add_Property(p_node, "identifier", m_identifier);
+	Add_Property(p_node, "show_line", m_show_line);
+	Add_Property(p_node, "rewind", m_rewind);
+
+	// segments
+	for(unsigned int i=0; i < m_segments.size(); i++) {
+		std::string str_pos = int_to_string(i);
+
+		Add_Property(p_node, "segment_" + str_pos + "_x1", m_segments[i].m_x1);
+		Add_Property(p_node, "segment_" + str_pos + "_y1", m_segments[i].m_y1);
+		Add_Property(p_node, "segment_" + str_pos + "_x2", m_segments[i].m_x2);
+		Add_Property(p_node, "segment_" + str_pos + "_y2", m_segments[i].m_y2);
+	}
+
+	return p_node;
+}
+#endif
+
 void cPath :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 
