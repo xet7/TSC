@@ -152,6 +152,22 @@ void cGee :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cGee :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "max_distance", static_cast<int>(m_max_distance));
+	Add_Property(p_node, "always_fly", m_always_fly);
+	Add_Property(p_node, "wait_time", m_wait_time);
+	Add_Property(p_node, "fly_distance", static_cast<int>(m_fly_distance));
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+
+	return p_node;
+}
+#endif
+
 void cGee :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	cEnemy::Load_From_Savegame( save_object );
