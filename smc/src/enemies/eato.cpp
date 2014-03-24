@@ -114,6 +114,18 @@ void cEato :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cEato :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "image_dir", path_to_utf8(m_img_dir));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	return p_node;
+}
+#endif
+
 void cEato :: Set_Image_Dir( fs::path dir )
 {
 	if( dir.empty() )
