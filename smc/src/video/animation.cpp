@@ -825,6 +825,73 @@ void cParticle_Emitter :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "clip_mode", m_clip_mode );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cParticle_Emitter :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cAnimation::Save_To_XML_Node(p_element);
+
+	// particle image filename
+	Add_Property(p_node, "particle_image", path_to_utf8(m_image_filename));
+	// position z
+	Add_Property(p_node, "pos_z",      m_pos_z);
+	Add_Property(p_node, "pos_z_rand", m_pos_z_rand);
+	// emitter based on camera pos
+	Add_Property(p_node, "emitter_based_on_camera_pos", m_emitter_based_on_camera_pos);
+	// particle based on emitter pos
+	Add_Property(p_node, "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos);
+	// emitter rect (X and Y positions are saved by cSprite::Save_To_XML_Node())
+	Add_Property(p_node, "sizex", static_cast<int>(m_start_rect.m_w));
+	Add_Property(p_node, "sizey", static_cast<int>(m_start_rect.m_h));
+	// emitter interval
+	Add_Property(p_node, "emitter_time_to_live", m_emitter_time_to_live);
+	Add_Property(p_node, "emitter_interval",     m_emitter_iteration_interval);
+	// quota/count
+	Add_Property(p_node, "quota", m_emitter_quota);
+	// time to live
+	Add_Property(p_node, "time_to_live", m_time_to_live);
+	Add_Property(p_node, "time_to_live_rand", m_time_to_live_rand);
+	// velocity
+	Add_Property(p_node, "vel", m_vel);
+	Add_Property(p_node, "vel_rand", m_vel_rand);
+	// start rotation
+	Add_Property(p_node, "rot_x", m_start_rot_x);
+	Add_Property(p_node, "rot_y", m_start_rot_y);
+	Add_Property(p_node, "rot_z", m_start_rot_z);
+	Add_Property(p_node, "start_rot_z_uses_direction", m_start_rot_z_uses_direction);
+	// constant rotation x
+	Add_Property(p_node, "const_rot_x", m_const_rot_x);
+	Add_Property(p_node, "const_rot_x_rand", m_const_rot_x_rand);
+	// constant rotation y
+	Add_Property(p_node, "const_rot_y", m_const_rot_y);
+	Add_Property(p_node, "const_rot_y_rand", m_const_rot_y_rand);
+	// constant rotation z
+	Add_Property(p_node, "const_rot_z", m_const_rot_z);
+	Add_Property(p_node, "const_rot_z_rand", m_const_rot_z_rand);
+	// angle
+	Add_Property(p_node, "angle_start", m_angle_start );
+	Add_Property(p_node, "angle_range", m_angle_range);
+	// scale
+	Add_Property(p_node, "size_scale", m_size_scale);
+	Add_Property(p_node, "size_scale_rand", m_size_scale_rand);
+	// horizontal gravity
+	Add_Property(p_node, "gravity_x", m_gravity_x);
+	Add_Property(p_node, "gravity_x_rand", m_gravity_x_rand);
+	// vertical gravity
+	Add_Property(p_node, "gravity_y", m_gravity_y);
+	Add_Property(p_node, "gravity_y_rand", m_gravity_y_rand);
+	// clip rect
+	Add_Property(p_node, "clip_x", static_cast<int>(m_clip_rect.m_x));
+	Add_Property(p_node, "clip_y", static_cast<int>(m_clip_rect.m_y));
+	Add_Property(p_node, "clip_w", static_cast<int>(m_clip_rect.m_w));
+	Add_Property(p_node, "clip_h", static_cast<int>(m_clip_rect.m_h));
+	// clip mode
+	Add_Property(p_node, "clip_mode", m_clip_mode);
+
+	return p_node;
+}
+#endif
+
+
 void cParticle_Emitter :: Pre_Update( void )
 {
 	if( !m_image || m_emitter_quota == 0 || Is_Float_Equal( m_time_to_live, 0.0f ) )
