@@ -402,6 +402,33 @@ bool cLayer :: Save( const fs::path &filename )
 	return 1;
 }
 
+#ifdef ENABLE_NEW_LOADER
+void cLayer :: Save_To_File( const fs::path& path )
+{
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("layer");
+
+	// lines
+	LayerLineList::const_iterator iter;
+	for(iter=objects.begin(); iter != objects.end(); iter++) {
+		cLayer_Line_Point_Start* p_line = *iter;
+		xmlpp::Element* p_node = p_root->add_child("line");
+
+		// start
+		Add_Property(p_node, "X1", static_cast<int>(p_line->Get_Line_Pos_X()));
+		Add_Property(p_node, "Y1", static_cast<int>(p_line->Get_Line_Pos_Y()));
+		// end
+		Add_Property(p_node, "X2", static_cast<int>(p_line->m_linked_point->Get_Line_Pos_X()));
+		Add_Property(p_node, "Y2", static_cast<int>(p_line->m_linked_point->Get_Line_Pos_Y()));
+		// origin
+		Add_Property(p_node, "origin", p_line->m_origin );
+	}
+
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(path)));
+	debug_print("Wrote world layer file '%s'.\n", path_to_utf8(path).c_str());
+}
+#endif
+
 void cLayer :: Delete_All( void )
 {
 	// only clear array

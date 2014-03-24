@@ -493,7 +493,7 @@ void cOverworld :: Save_To_Directory( fs::path path )
 	// main world file, layer file, description file.
 
 	Save_To_File(path / utf8_to_path("world.xml"));
-	//m_layer->Save_To_File(save_dir / utf8_to_path("layer.xml"));
+	m_layer->Save_To_File(path / utf8_to_path("layer.xml"));
 	m_description->Save(); // FIXME: When m_path is moved to cOverworld, replace with call to cOverworld_description::Save_To_File()
 }
 
@@ -536,8 +536,8 @@ void cOverworld :: Save_To_File( fs::path path )
 		p_sprite->Save_To_XML_Node(p_root);
 	}
 
-	// Save layer?
-	// Save description?
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(path)));
+	debug_print("Wrote world file '%s'.\n", path_to_utf8(path).c_str());
 }
 #endif
 

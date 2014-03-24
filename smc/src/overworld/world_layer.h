@@ -141,6 +141,11 @@ public:
 	// Save
 	bool Save( const boost::filesystem::path &filename );
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to file, raises xmlpp::exception on failure
+	void Save_To_File( const boost::filesystem::path &filename );
+#endif
+
 	// Delete all objects
 	virtual void Delete_All( void );
 
