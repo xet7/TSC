@@ -126,6 +126,19 @@ void cRokko :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "speed", m_speed );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cRokko :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "speed", m_speed);
+
+	return p_node;
+}
+#endif
+
+
 void cRokko :: Load_From_Savegame( cSave_Level_Object *save_object )
 {
 	cEnemy::Load_From_Savegame( save_object );
