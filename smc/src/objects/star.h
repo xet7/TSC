@@ -67,6 +67,8 @@ public:
 	// glim animation counter
 	float m_glim_counter;
 
+	// node saving inherited
+
 protected:
 	// save to stream
 	// stream saving inherited

@@ -348,6 +348,13 @@ void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 	}
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	return cAnimated_Sprite::Save_To_XML_Node(p_element);
+}
+#endif
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC
