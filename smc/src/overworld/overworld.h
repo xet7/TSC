@@ -41,6 +41,11 @@ public:
 	// Save
 	void Save( void );
 
+	#ifdef ENABLE_NEW_LOADER
+	// Save to the given file. Raises xmlpp::exception on error.
+	void Save_To_File(boost::filesystem::path path);
+	#endif
+
 	// Full path to the world directory
 	boost::filesystem::path Get_Path();
 	// Set path to the world directory, optionally overwriting the world’s name.

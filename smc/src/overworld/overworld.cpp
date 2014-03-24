@@ -79,6 +79,16 @@ void cOverworld_description :: Load( void )
 void cOverworld_description :: Save( void )
 {
 	fs::path filename = pResource_Manager->Get_User_World_Directory() / m_path / utf8_to_path("description.xml");
+
+#ifdef ENABLE_NEW_LOADER
+	try {
+		Save_To_File(filename);
+	}
+	catch(xmlpp::exception& e) {
+		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
+		return;
+	}
+#else
 	fs::ofstream file(filename, ios::out | ios::trunc);
 
 	if( !file )
@@ -106,7 +116,24 @@ void cOverworld_description :: Save( void )
 	stream.closeTag();
 
 	file.close();
+	#endif
 }
+
+#ifdef ENABLE_NEW_LOADER
+void cOverworld_description :: Save_To_File(fs::path path)
+{
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("description");
+	xmlpp::Element* p_node = p_root->add_child("world");
+
+	Add_Property(p_node, "name", m_name);
+	Add_Property(p_node, "visible", m_visible);
+
+	// Write to file (raises xmlpp::exception on error)
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(path)));
+	debug_print("Wrote world description file '%s'.\n", path_to_utf8(path).c_str());
+}
+#endif
 
 void cOverworld_description :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
 {
