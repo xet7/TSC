@@ -160,6 +160,23 @@ void cTurtleBoss :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
 	Write_Property( stream, "level_ends_if_killed", m_level_ends_if_killed );
 }
 
+#ifdef ENABLE_NEW_LOADER
+xmlpp::Element* cTurtleBoss :: Save_To_XML_Node( xmlpp::Element* p_element )
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "max_hit_count", m_max_hits);
+	Add_Property(p_node, "max_downgrade_count", m_max_downgrade_count);
+	Add_Property(p_node, "shell_time", m_shell_time);
+	Add_Property(p_node, "level_ends_if_killed", m_level_ends_if_killed);
+
+	return p_node;
+}
+#endif
+
+
 void cTurtleBoss :: Set_Max_Hits( int nmax_hits )
 {
 	m_max_hits = nmax_hits;

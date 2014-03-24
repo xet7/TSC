@@ -175,6 +175,11 @@ protected:
 	// if the level ends when killed
 	bool m_level_ends_if_killed;
 
+#ifdef ENABLE_NEW_LOADER
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+#endif
+
 	// save to stream
 	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
