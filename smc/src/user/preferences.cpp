@@ -161,6 +161,75 @@ void cPreferences :: Save( void )
 {
 	Update();
 
+#ifdef ENABLE_NEW_LOADER
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("config");
+
+	// Game
+	Add_Property(p_root, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+	Add_Property(p_root, "game_language", m_language);
+	Add_Property(p_root, "game_always_run", m_always_run);
+	Add_Property(p_root, "game_menu_level", m_menu_level);
+	Add_Property(p_root, "game_user_data_dir", path_to_utf8(m_force_user_data_dir));
+	Add_Property(p_root, "game_camera_hor_speed", m_camera_hor_speed);
+	Add_Property(p_root, "game_camera_ver_speed", m_camera_ver_speed);
+	// Video
+	Add_Property(p_root, "video_fullscreen", m_video_fullscreen);
+	Add_Property(p_root, "video_screen_w", m_video_screen_w);
+	Add_Property(p_root, "video_screen_h", m_video_screen_h);
+	Add_Property(p_root, "video_screen_bpp", static_cast<int>(m_video_screen_bpp));
+	Add_Property(p_root, "video_vsync", m_video_vsync);
+	Add_Property(p_root, "video_fps_limit", m_video_fps_limit);
+	Add_Property(p_root, "video_geometry_quality", pVideo->m_geometry_quality);
+	Add_Property(p_root, "video_texture_quality", pVideo->m_texture_quality);
+	// Audio
+	Add_Property(p_root, "audio_music", m_audio_music);
+	Add_Property(p_root, "audio_sound", m_audio_sound);
+	Add_Property(p_root, "audio_sound_volume", static_cast<int>(pAudio->m_sound_volume));
+	Add_Property(p_root, "audio_music_volume", static_cast<int>(pAudio->m_music_volume));
+	Add_Property(p_root, "audio_hz", m_audio_hz);
+	// Keyboard
+	Add_Property(p_root, "keyboard_key_up", m_key_up);
+	Add_Property(p_root, "keyboard_key_down", m_key_down);
+	Add_Property(p_root, "keyboard_key_left", m_key_left);
+	Add_Property(p_root, "keyboard_key_right", m_key_right);
+	Add_Property(p_root, "keyboard_key_jump", m_key_jump);
+	Add_Property(p_root, "keyboard_key_shoot", m_key_shoot);
+	Add_Property(p_root, "keyboard_key_item", m_key_item);
+	Add_Property(p_root, "keyboard_key_action", m_key_action);
+	Add_Property(p_root, "keyboard_scroll_speed", m_scroll_speed);
+	Add_Property(p_root, "keyboard_key_screenshot", m_key_screenshot);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_up", m_key_editor_fast_copy_up);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_down", m_key_editor_fast_copy_down);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_left", m_key_editor_fast_copy_left);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_right", m_key_editor_fast_copy_right);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_up", m_key_editor_pixel_move_up);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_down", m_key_editor_pixel_move_down);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_left", m_key_editor_pixel_move_left);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right);
+	// Joystick/Gamepad
+	Add_Property(p_root, "joy_enabled", m_joy_enabled);
+	Add_Property(p_root, "joy_name", m_joy_name);
+	Add_Property(p_root, "joy_analog_jump", m_joy_analog_jump);
+	Add_Property(p_root, "joy_axis_hor", m_joy_axis_hor);
+	Add_Property(p_root, "joy_axis_ver", m_joy_axis_ver);
+	Add_Property(p_root, "joy_axis_threshold", m_joy_axis_threshold);
+	Add_Property(p_root, "joy_button_jump", static_cast<int>(m_joy_button_jump));
+	Add_Property(p_root, "joy_button_item", static_cast<int>(m_joy_button_item));
+	Add_Property(p_root, "joy_button_shoot", static_cast<int>(m_joy_button_shoot));
+	Add_Property(p_root, "joy_button_action", static_cast<int>(m_joy_button_action));
+	Add_Property(p_root, "joy_button_exit", static_cast<int>(m_joy_button_exit));
+	// Special
+	Add_Property(p_root, "level_background_images", m_level_background_images);
+	Add_Property(p_root, "image_cache_enabled", m_image_cache_enabled);
+	// Editor
+	Add_Property(p_root, "editor_mouse_auto_hide", m_editor_mouse_auto_hide);
+	Add_Property(p_root, "editor_show_item_images", m_editor_show_item_images);
+	Add_Property(p_root, "editor_item_image_size", m_editor_item_image_size);
+
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(m_config_filename)));
+	debug_print("Wrote savegame file '%s'.\n", path_to_utf8(m_config_filename).c_str());
+#else
 	fs::ofstream file(m_config_filename, ios::out | ios::trunc);
 
 	if( !file.is_open() )
@@ -238,6 +307,7 @@ void cPreferences :: Save( void )
 	stream.closeTag();
 
 	file.close();
+#endif
 }
 
 void cPreferences :: Reset_All( void )
