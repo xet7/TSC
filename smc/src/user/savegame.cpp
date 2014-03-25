@@ -226,6 +226,119 @@ std::string cSave :: Get_Active_Level( void )
 	return "";
 }
 
+#ifdef ENABLE_NEW_LOADER
+void cSave :: Write_To_File( fs::path filepath )
+{
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("savegame");
+	xmlpp::Element* p_node = NULL;
+
+	// <information>
+	p_node = p_root->add_child("information");
+	Add_Property(p_node, "version", m_version);
+	Add_Property(p_node, "level_engine_version", m_level_engine_version);
+	Add_Property(p_node, "save_time", static_cast<Uint64>(m_save_time));
+	Add_Property(p_node, "description", m_description);
+	// </information>
+
+	// <player>
+	p_node = p_root->add_child("player");
+	Add_Property(p_node, "lives", m_lives);
+	Add_Property(p_node, "points", m_points);
+	Add_Property(p_node, "goldpieces", m_goldpieces);
+	Add_Property(p_node, "type", m_player_type);
+	Add_Property(p_node, "state", m_player_state);
+	Add_Property(p_node, "itembox_item", m_itembox_item);
+	// if a level is available
+	if (!m_levels.empty())
+		Add_Property(p_node, "level_time", m_level_time);
+	Add_Property(p_node, "overworld_active", m_overworld_active);
+	Add_Property(p_node, "overworld_current_waypoint", m_overworld_current_waypoint);
+	// </player>
+
+	// levels
+	Save_LevelList::const_iterator iter;
+	for(iter=m_levels.begin(); iter != m_levels.end(); iter++) {
+		cSave_Level* p_level = *iter;
+
+		// <level>
+		p_node = p_root->add_child("level");
+		Add_Property(p_node, "level_name", p_level->m_name);
+
+		// position is only set when saving the active level
+		if( !Is_Float_Equal( p_level->m_level_pos_x, 0.0f ) && !Is_Float_Equal( p_level->m_level_pos_y, 0.0f ) ) {
+			Add_Property(p_node, "player_posx", p_level->m_level_pos_x);
+			Add_Property(p_node, "player_posy", p_level->m_level_pos_y);
+		}
+		// mruby data is only set when saving the active level and
+		// the script writer added something to it.
+		if (!p_level->m_mruby_data.empty())
+			Add_Property(p_node, "mruby_data", p_level->m_mruby_data);
+
+		// <spawned_objects>
+		xmlpp::Element* p_spawned_node = p_node->add_child("spawned_objects");
+		cSprite_List::const_iterator iter2;
+		for(iter2=p_level->m_spawned_objects.begin(); iter2 != p_level->m_spawned_objects.end(); iter2++) {
+			cSprite* p_sprite = *iter2;
+			p_sprite->Save_To_XML_Node(p_spawned_node);
+		}
+		// </spawned_objects>
+
+		// <objects_data>
+		xmlpp::Element* p_objects_data_node = p_node->add_child("objects_data");
+		Save_Level_ObjectList::const_iterator iter3;
+		for(iter3=p_level->m_level_objects.begin(); iter3 != p_level->m_level_objects.end(); iter3++) {
+			cSave_Level_Object* p_obj = *iter3;
+
+			// <object>
+			xmlpp::Element* p_object_node = p_objects_data_node->add_child("object");
+			Add_Property(p_object_node, "type", p_obj->m_type);
+
+			// properties
+			Save_Level_Object_ProprtyList::const_iterator iter4;
+			for(iter4=p_obj->m_properties.begin(); iter4 != p_obj->m_properties.end(); iter4++) {
+				cSave_Level_Object_Property property = *iter4;
+				Add_Property(p_object_node, property.m_name, property.m_value);
+			}
+			// </object>
+		}
+		// </objects_data>
+		// </level>
+	}
+
+	// Overworlds
+	Save_OverworldList::const_iterator oiter;
+	for(oiter=m_overworlds.begin(); oiter != m_overworlds.end(); oiter++) {
+		cSave_Overworld* p_overworld = *oiter;
+
+		// <overworld>
+		p_node = p_root->add_child("overworld");
+		Add_Property(p_node, "name", p_overworld->m_name);
+
+		Save_Overworld_WaypointList::const_iterator wpiter;
+		for(wpiter=p_overworld->m_waypoints.begin(); wpiter != p_overworld->m_waypoints.end(); wpiter++) {
+			cSave_Overworld_Waypoint* p_wp = *wpiter;
+
+			// skip empty waypoints
+			if (p_wp->m_destination.empty())
+				continue;
+
+			// <waypoint>
+			xmlpp::Element* p_waypoint_node = p_node->add_child("waypoint");
+			Add_Property(p_waypoint_node, "destination", p_wp->m_destination);
+			Add_Property(p_waypoint_node, "access", p_wp->m_access);
+			// </waypoint>
+		}
+
+		// </overworld>
+	}
+
+	// Write to file (raises xmlpp::exception on error)
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(filepath)));
+	debug_print("Wrote savegame file '%s'.\n", path_to_utf8(filepath).c_str());
+}
+#endif
+
 /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
 
 cSavegame :: cSavegame( void )
@@ -575,7 +688,22 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 		}
 	}
 
+#ifdef ENABLE_NEW_LOADER
+	fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
+	// remove old format savegame
+	fs::remove( m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save") );
+
+	try {
+		savegame->Write_To_File(filename);
+	}
+	catch(xmlpp::exception& e) {
+		std::cerr << "Failed to save savegame '" << filename << "': " << e.what() << std::endl
+				  << "Is the file read-only?" << std::endl;
+		pHud_Debug->Set_Text( _("Couldn't save savegame ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
+	}
+#else
 	Save( save_slot, savegame );
+#endif
 
 	if( pHud_Debug )
 	{

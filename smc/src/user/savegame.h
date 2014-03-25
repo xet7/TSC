@@ -137,6 +137,12 @@ public:
 	// return the active level if available
 	std::string Get_Active_Level( void );
 
+#ifdef ENABLE_NEW_LOADER
+	// Write the savegame out to the given file; raises
+	// xmlpp::exception on error.
+	void Write_To_File( boost::filesystem::path filepath );
+#endif
+
 	// savegame version
 	int m_version;
 	// time ( seconds since 1970 )
@@ -177,6 +183,7 @@ public:
 
 /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
 
+// TODO: Maybe this class should be removed entirely and merged with cSave?
 class cSavegame: public Scripting::cScriptable_Object
 {
 public:
