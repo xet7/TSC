@@ -26,7 +26,7 @@ namespace SMC {
 		// SAX parser callbacks
 		virtual void on_start_document();
 		virtual void on_end_document();
-		virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList properties);
+		virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties);
 		//virtual void on_end_element(const Glib::ustring& name);
 
 		void handle_property(const std::string& name, const std::string& value);

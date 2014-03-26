@@ -50,7 +50,7 @@ void cPreferencesLoader::on_end_document()
 	//
 }
 
-void cPreferencesLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList properties)
+void cPreferencesLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name != "property" && name != "Item")
 		return;
