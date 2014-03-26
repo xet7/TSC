@@ -245,6 +245,11 @@ private:
 	// XML element end
 	virtual void elementEnd( const CEGUI::String &element );
 
+#ifdef ENABLE_NEW_LOADER
+	void Parse_Items_File(boost::filesystem::path filename);
+	void Parse_Menu_File(boost::filesystem::path filename);
+#endif
+
 	void Handle_Item( const CEGUI::XMLAttributes &attributes );
 	void Handle_Menu( const CEGUI::XMLAttributes &attributes );
 

@@ -14,6 +14,7 @@
 */
 
 #include "editor.h"
+#include "editor_items_loader.h"
 #include "../game_core.h"
 #include "../../gui/generic.h"
 #include "../framerate.h"
@@ -247,6 +248,11 @@ void cEditor :: Init( void )
 		std::cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
 		return;
 	}
+
+#ifdef ENABLE_NEW_LOADER
+	Parse_Items_File(path_to_utf8(m_items_filename));
+	Parse_Menu_File(path_to_utf8(m_menu_filename));
+#else
 	// Parse Items
 	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_items_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Items.xsd")).c_str(), "" );
 
@@ -261,6 +267,7 @@ void cEditor :: Init( void )
 	}
 	// Parse Menu
 	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_menu_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Menu.xsd")).c_str(), "" );
+#endif
 }
 
 void cEditor :: Unload( void )
@@ -1768,6 +1775,35 @@ void cEditor :: Handle_Menu( const CEGUI::XMLAttributes &attributes )
 	std::string tags = m_xml_attributes.getValueAsString( "tags" ).c_str();
 
 	Add_Menu_Object( name, tags, CEGUI::PropertyHelper::stringToColour( m_xml_attributes.getValueAsString( "color", "FFFFFFFF" ) ) );
+}
+
+void cEditor :: Parse_Items_File( fs::path filename )
+{
+	cEditorItemsLoader parser;
+	parser.parse_file(filename);
+	m_tagged_item_objects = parser.get_tagged_sprites();
+}
+
+void cEditor :: Parse_Menu_File( fs::path filename )
+{
+	// The menu XML file is so dead simple that a SAX parser would
+	// simply be overkill. Leightweight XPath queries are enough.
+	xmlpp::DomParser parser;
+	parser.parse_file(path_to_utf8(filename));
+
+	xmlpp::Element* p_root = parser.get_document()->get_root_node();
+	xmlpp::NodeSet items = p_root->find("menu/item");
+
+	xmlpp::NodeSet::const_iterator iter;
+	for(iter=items.begin(); iter != items.end(); iter++) {
+		xmlpp::Element* p_node = dynamic_cast<xmlpp::Element*>(*iter);
+
+		std::string name  = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='name']")[0])->get_attribute("value")->get_value();
+		std::string tags  = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='tags']")[0])->get_attribute("value")->get_value();
+		std::string color = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='color']")[0])->get_attribute("value")->get_value();
+
+		Add_Menu_Object(name, tags, CEGUI::PropertyHelper::stringToColour(color));
+	}
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
