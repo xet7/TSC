@@ -43,7 +43,7 @@ NotImplementedError::NotImplementedError(std::string message)
 	m_message = message;
 }
 
-NotImplementedError::~NotImplementedError()
+NotImplementedError::~NotImplementedError() throw()
 {
 	//
 }
