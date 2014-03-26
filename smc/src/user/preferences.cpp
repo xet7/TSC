@@ -175,7 +175,7 @@ bool cPreferences :: Load( const fs::path &filename /* = fs::path() */ )
 	// if user data dir is set
 	if( !m_force_user_data_dir.empty() )
 	{
-		pResource_Manager->Set_User_Directory( m_force_user_data_dir );
+		pResource_Manager->Force_User_Directory( m_force_user_data_dir );
 	}
 
 	return 1;

@@ -32,7 +32,7 @@ namespace SMC
 
 cResource_Manager :: cResource_Manager( void )
 {
-	user_data_dir = fs::path();
+	m_forced_user_data_dir = fs::path();
 }
 
 cResource_Manager :: ~cResource_Manager( void )
@@ -42,6 +42,8 @@ cResource_Manager :: ~cResource_Manager( void )
 
 void cResource_Manager :: Init_User_Directory( void )
 {
+	fs::path user_data_dir = Get_User_Data_Directory();
+
 	// Create user directory
 	if( !Dir_Exists( user_data_dir ) )
 	{
@@ -81,11 +83,9 @@ void cResource_Manager :: Init_User_Directory( void )
 	}
 }
 
-bool cResource_Manager :: Set_User_Directory( const fs::path &dir )
+void cResource_Manager :: Force_User_Directory( const fs::path &dir )
 {
-	user_data_dir = dir;
-
-	return 1;
+	m_forced_user_data_dir = dir;
 }
 
 fs::path cResource_Manager :: Get_Data_Directory( void )
@@ -140,7 +140,37 @@ fs::path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
 
 fs::path cResource_Manager :: Get_User_Data_Directory()
 {
-  return user_data_dir;
+	// If the directory has been forced, return that one and nothing else.
+	if (!m_forced_user_data_dir.empty())
+		return m_forced_user_data_dir;
+
+	// Otherwise, retrieve the default directory from the system.
+#ifdef _WIN32
+	wchar_t path_appdata[MAX_PATH + 1];
+
+	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
+	{
+		printf( "Error : Couldn't get Windows user data directory. Defaulting to the Application directory.\n" );
+		return "";
+	}
+
+	std::string str_path = ucs2_to_utf8( path_appdata );
+	Convert_Path_Separators( str_path );
+
+	/*std::wstring str = utf8_to_ucs2( str_path );
+	str.insert( str.length(), L"\n" );
+	HANDLE std_out = GetStdHandle( STD_OUTPUT_HANDLE );
+	unsigned long chars;
+	WriteConsole( std_out, str.c_str(), lstrlen(str.c_str()), &chars, NULL );*/
+
+	return utf8_to_path(str_path + "/smc/");
+#elif __unix__
+	return utf8_to_path((std::string)getenv( "HOME" ) + "/.smc/");
+#elif __APPLE__
+	return utf8_to_path((std::string)getenv( "HOME" ) + "/Library/Application Support/smc/");
+#else
+#error Dont know how to determine the user data directory on this patform!
+#endif
 }
 
 fs::path cResource_Manager :: Get_User_Level_Directory()

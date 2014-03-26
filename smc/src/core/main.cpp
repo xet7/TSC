@@ -241,14 +241,22 @@ void Init_Game( void )
 	pImage_Manager = new cImage_Manager();
 	pSound_Manager = new cSound_Manager();
 	pSettingsParser = new cImage_Settings_Parser();
-	pPreferences = cPreferences::Load_From_File();
+#ifndef ENABLE_NEW_LOADER
+	pPreferences = new cPreferences();
+#endif
 
 	// Init Stage 2 - set preferences and init audio and the video screen
-	/* Set default user directory
-	 * can get overridden later from the preferences
-	*/
-	debug_print("Setting user directory to '%s'\n", Get_User_Directory().c_str());
-	pResource_Manager->Set_User_Directory( Get_User_Directory() );
+	debug_print("Preliminary user data directory is '%s'.\n", pResource_Manager->Get_User_Data_Directory().c_str());
+
+#ifdef ENABLE_NEW_LOADER
+	// load user data
+	pPreferences = cPreferences::Load_From_File();
+	// Set user data dir if requested by `game_user_data_dir' preferences option
+	if (!pPreferences->m_force_user_data_dir.empty()) {
+		std::cout << "Forcing user data directory to '" << path_to_utf8(pPreferences->m_force_user_data_dir) << "' as requested by preferences." << std::endl;
+		pResource_Manager->Force_User_Directory(pPreferences->m_force_user_data_dir);
+	}
+#else
 	/* Initialize the fake CEGUI renderer and system for the pPreferences XMLParser,
 	 * because CEGUI creates the system normally with the OpenGL-Renderer and OpenGL calls may 
 	 * only be made with a valid OpenGL-context, which we would get only by setting 
@@ -260,13 +268,14 @@ void Init_Game( void )
 	pVideo->Init_CEGUI_Fake();
 	// load user data
 	pPreferences->Load();
+	// delete CEGUI System fake
+	pVideo->Delete_CEGUI_Fake();
+#endif
+
 	// set game language
 	I18N_Set_Language( pPreferences->m_language );
 	// init translation support
 	I18N_Init();
-	// delete CEGUI System fake
-	pVideo->Delete_CEGUI_Fake();
-
 	// init user dir directory
 	pResource_Manager->Init_User_Directory();
 	// video init

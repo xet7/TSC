@@ -31,13 +31,11 @@ public:
 	cResource_Manager( void );
 	~cResource_Manager( void );
 
-	// Set the user data write directory
-	bool Set_User_Directory( const boost::filesystem::path &dir );
+	// Force the resource manager to use a user(-writable) directory different from
+	// the default one.
+	void Force_User_Directory( const boost::filesystem::path &dir );
 	// Create the necessary folders in the user directory
 	void Init_User_Directory( void );
-
-	// user data directory
-  boost::filesystem::path user_data_dir;
 
   // Return the path to the root directory containing graphics, music, etc.
   // This path is normally determined relatively to the `smc' executable,
@@ -89,6 +87,10 @@ public:
 
   // Get files from the various directories in the user’s data directory
   boost::filesystem::path Get_User_Level(std::string level);
+
+private:
+	// user data directory
+	boost::filesystem::path m_forced_user_data_dir;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
