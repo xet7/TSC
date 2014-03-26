@@ -58,10 +58,6 @@ public:
 	cVideo( void );
 	~cVideo( void );
 
-	// Initialize CEGUI system and renderer fake for the preferences xml parser
-	void Init_CEGUI_Fake( void ) const;
-	// Delete the CEGUI system and renderer fake
-	void Delete_CEGUI_Fake( void ) const;
 	// Initialize the CEGUI System and Renderer
 	void Init_CEGUI( void ) const;
 	// Initialize the basic CEGUI data and configuration

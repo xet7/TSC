@@ -69,40 +69,6 @@ cVideo :: ~cVideo( void )
 
 }
 
-void cVideo :: Init_CEGUI_Fake( void ) const
-{
-	// create fake Resource Provider
-	CEGUI::DefaultResourceProvider *rp = new CEGUI::DefaultResourceProvider();
-	// set Resource Provider directories
-	if( CEGUI::System::getDefaultXMLParserName().compare( "XercesParser" ) == 0 )
-	{
-		// This is needed for Xerces to specify the schemas location
-		rp->setResourceGroupDirectory( "schemas", path_to_utf8(pResource_Manager->Get_Game_Schema_Directory()).c_str() );
-	}
-	// get a directory to dump the CEGUI log
-	boost::filesystem::path logdir = Get_Temp_Directory() / "cegui.log";
-#ifdef _WIN32
-	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	std::string logdir_str = logdir.generic_string();
-	CEGUI::String log_dump_dir = (const CEGUI::utf8*) logdir_str.c_str();
-#else
-	CEGUI::String log_dump_dir = "/dev/null";
-#endif
-	// create fake system and renderer
-	pGuiSystem = &CEGUI::System::create( CEGUI::NullRenderer::create(), rp, NULL, NULL, NULL, "", log_dump_dir );
-}
-
-void cVideo :: Delete_CEGUI_Fake( void ) const
-{
-	CEGUI::ResourceProvider *rp = pGuiSystem->getResourceProvider();
-	CEGUI::Renderer *renderer = pGuiSystem->getRenderer();
-
-	pGuiSystem->destroy();
-	pGuiSystem = NULL;
-	delete renderer;
-	delete rp;
-}
-
 void cVideo :: Init_CEGUI( void ) const
 {
 	// create renderer
