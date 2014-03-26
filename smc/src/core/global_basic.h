@@ -98,7 +98,6 @@
 // CEGUI
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
-#include <CEGUI/RendererModules/Null/CEGUINullRenderer.h>
 
 // Other libs
 #include <png.h>
