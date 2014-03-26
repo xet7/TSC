@@ -252,7 +252,7 @@ void cPreferences :: Save( void )
 	Add_Property(p_root, "editor_item_image_size", m_editor_item_image_size);
 
 	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(m_config_filename)));
-	debug_print("Wrote savegame file '%s'.\n", path_to_utf8(m_config_filename).c_str());
+	debug_print("Wrote preferences file '%s'.\n", path_to_utf8(m_config_filename).c_str());
 #else
 	fs::ofstream file(m_config_filename, ios::out | ios::trunc);
 
