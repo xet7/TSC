@@ -286,8 +286,8 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 	//////////////////// Special ////////////////////
 	else if (name == "level_background_images")
 		mp_preferences->m_level_background_images = string_to_bool(value);
-	else if (name == "image_cache_enabed")
-		mp_preferences->m_image_cache_enabed = string_to_bool(value);
+	else if (name == "image_cache_enabled")
+		mp_preferences->m_image_cache_enabled = string_to_bool(value);
 	//////////////////// Editor ////////////////////
 	else if (name == "editor_mouse_auto_hide")
 		mp_preferences->m_editor_mouse_auto_hide = string_to_bool(value);

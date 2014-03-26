@@ -23,6 +23,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/filesystem.h"
+#include "preferences_loader.h"
 
 namespace fs = boost::filesystem;
 
@@ -31,6 +32,8 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** */
 
+// Default preferences path
+const fs::path cPreferences::DEFAULT_PREFERENCES_FILENAME = utf8_to_path("config.xml");
 // Game
 const bool cPreferences::m_always_run_default = 0;
 const std::string cPreferences::m_menu_level_default = "menu_green_1";
@@ -104,6 +107,27 @@ cPreferences :: ~cPreferences( void )
 {
 	//
 }
+
+#ifdef ENABLE_NEW_LOADER
+cPreferences* cPreferences :: Load_From_File(fs::path filename /* = fs::path() */)
+{
+	// If filename is empty, use the default preferences file.
+	if (filename.empty())
+		filename = fs::absolute(DEFAULT_PREFERENCES_FILENAME, pResource_Manager->Get_User_Data_Directory());
+
+	debug_print("Determined preferences filename: '%s'\n", path_to_utf8(filename).c_str());
+
+	// If the preferences file doesn’t exist, use default values.
+	if (!File_Exists(filename)) {
+		std::cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << std::endl;
+		return new cPreferences();
+	}
+
+	cPreferencesLoader loader;
+	loader.parse_file(filename);
+	return loader.Get_Preferences();
+}
+#endif
 
 bool cPreferences :: Load( const fs::path &filename /* = fs::path() */ )
 {
@@ -328,7 +352,7 @@ void cPreferences :: Reset_All( void )
 	m_image_cache_enabled = 1;
 
 	// filename
-	m_config_filename = "config.xml";
+	m_config_filename = DEFAULT_PREFERENCES_FILENAME;
 }
 
 void cPreferences :: Reset_Game( void )

@@ -135,6 +135,9 @@
 	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
 #endif
 
+// SMC build configuration header
+#include "config.h"
+
 // Redefine None to 0L (see note on including SDL_syswm.h above)
 #ifdef __unix__
 #define None 0L

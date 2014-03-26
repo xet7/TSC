@@ -28,11 +28,18 @@ class cPreferences : public CEGUI::XMLHandler
 public:
 	cPreferences( void );
 	virtual ~cPreferences( void );
-	
+
 	// Load the preferences from a file
 	bool Load( const boost::filesystem::path &filename = boost::filesystem::path() );
 	// Save the preferences to a file
 	void Save( void );
+
+#ifdef ENABLE_NEW_LOADER
+	// Load the preferences from a file. If no path is given, loads
+	// the default config file below the user directory.
+	// The returned instance must be freed by you.
+	static cPreferences* Load_From_File( boost::filesystem::path filename = boost::filesystem::path() );
+#endif
 
 	// Reset the settings
 	void Reset_All( void );
@@ -140,6 +147,11 @@ public:
 	boost::filesystem::path m_config_filename;
 
 	/* *** *** *** defaults *** *** *** *** */
+
+	// Default preferences path
+	// TODO: All constants should be uppercase. Certainly
+	// they are not simple instance members as denoted by "m_"!
+	static const boost::filesystem::path DEFAULT_PREFERENCES_FILENAME;
 	// Game
 	static const bool m_always_run_default;
 	static const std::string m_menu_level_default;
