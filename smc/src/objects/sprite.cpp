@@ -23,7 +23,7 @@
 #include "../video/gl_surface.h"
 #include "../video/renderer.h"
 #include "../core/sprite_manager.h"
-#include "../core/editor.h"
+#include "../core/editor/editor.h"
 #include "../core/i18n.h"
 #include "../scripting/events/touch_event.h"
 #include "../level/level_editor.h"
