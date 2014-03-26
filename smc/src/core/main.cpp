@@ -238,10 +238,10 @@ void Init_Game( void )
 	pFramerate = new cFramerate();
 	pRenderer = new cRenderQueue( 200 );
 	pRenderer_current = new cRenderQueue( 200 );
-	pPreferences = new cPreferences();
 	pImage_Manager = new cImage_Manager();
 	pSound_Manager = new cSound_Manager();
 	pSettingsParser = new cImage_Settings_Parser();
+	pPreferences = cPreferences::Load_From_File();
 
 	// Init Stage 2 - set preferences and init audio and the video screen
 	/* Set default user directory
