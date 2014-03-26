@@ -33,6 +33,19 @@ namespace SMC {
     std::string m_key;
     };
 
+	// Thrown if specific things are not implemented for
+	// some reason.
+	class NotImplementedError: public SMCError
+	{
+	public:
+		NotImplementedError(std::string message);
+		virtual ~NotImplementedError() throw();
+
+		virtual const char* what() const throw();
+	protected:
+		std::string m_message;
+	};
+
 }
 
 #endif

@@ -37,3 +37,18 @@ const char* XmlKeyDoesNotExist::what() const throw()
 	std::string err = "XML key '" + m_key + "' does not exist!\n";
 	return err.c_str();
 }
+
+NotImplementedError::NotImplementedError(std::string message)
+{
+	m_message = message;
+}
+
+NotImplementedError::~NotImplementedError()
+{
+	//
+}
+
+const char* NotImplementedError::what() const throw()
+{
+	return m_message.c_str();
+}
