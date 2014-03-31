@@ -34,6 +34,7 @@
 #include "../i18n.h"
 #include "../filesystem/filesystem.h"
 #include "../filesystem/resource_manager.h"
+#include "../errors.h"
 
 namespace fs = boost::filesystem;
 
@@ -1777,11 +1778,15 @@ void cEditor :: Handle_Menu( const CEGUI::XMLAttributes &attributes )
 	Add_Menu_Object( name, tags, CEGUI::PropertyHelper::stringToColour( m_xml_attributes.getValueAsString( "color", "FFFFFFFF" ) ) );
 }
 
+// virtual
+// This function must set m_tagged_item_objects in the subclasses!
+// Instanciate cEditorItemsLoader for parsing the items file.
 void cEditor :: Parse_Items_File( fs::path filename )
 {
-	cEditorItemsLoader parser;
-	parser.parse_file(filename);
-	m_tagged_item_objects = parser.get_tagged_sprites();
+	throw(NotImplementedError("Parse_Items_File() must be overridden in a subclass."));
+	//cEditorItemsLoader parser;
+	//parser.parse_file(filename, cLevelLoader::Create_Level_Objects_From_XML_Tag);
+	//m_tagged_item_objects = parser.get_tagged_sprites();
 }
 
 void cEditor :: Parse_Menu_File( fs::path filename )

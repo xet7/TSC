@@ -75,6 +75,8 @@ public:
 	cLevel *m_level;
 	// Level Settings
 	cLevel_Settings *m_settings_screen;
+protected:
+  virtual void Parse_Items_File(boost::filesystem::path filename);
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

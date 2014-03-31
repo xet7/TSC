@@ -14,8 +14,10 @@ namespace SMC {
 
 		// Parse the given filename. Use this function instead of bare xmlpp’s
 		// parse_file() that accepts a Glib::ustring — this function sets
-		// some internal members.
-		virtual void parse_file(boost::filesystem::path filename);
+		// some internal members. `cb' is used to retrieve the sprites;
+		// it should point to cLevelLoader::Create_Level_Objects_From_XML_Tag
+		// or a similar function.
+		virtual void parse_file(boost::filesystem::path filename, cSprite_Manager* p_sm, std::vector<cSprite*> (*cb)(const std::string&, XmlAttributes&, int, cSprite_Manager*));
 		// Retrieve the tagged cSprite instances found by the parser.
 		vector<cSprite*> get_tagged_sprites();
 
@@ -24,12 +26,6 @@ namespace SMC {
 		virtual void on_end_document();
 		virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties);
 		virtual void on_end_element(const Glib::ustring& name);
-
-		// This method must be overridden by subclasses. It should
-		// return a sprite fitting for the given attributes.
-		// That is, either use cLevelLoader::Create_Level_Objects_From_XML_Tag()
-		// or the corresponding equivalent.
-		virtual cSprite* get_object(const Glib::ustring& name, XmlAttributes& attributes, int engine_version);
 
 	private:
 		// The file we’re parsing
@@ -40,6 +36,8 @@ namespace SMC {
 		XmlAttributes m_current_properties;
 
 		vector<cSprite*> m_tagged_sprites;
+		std::vector<cSprite*> (*mfp_callback)(const std::string&, XmlAttributes&, int, cSprite_Manager*);
+		cSprite_Manager* mp_sprite_manager;
 	};
 
 }

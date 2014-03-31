@@ -239,16 +239,16 @@ protected:
 	// Exit the help window
 	bool Window_Help_Exit_Clicked( const CEGUI::EventArgs &event );
 
+#ifdef ENABLE_NEW_LOADER
+	virtual void Parse_Items_File(boost::filesystem::path filename);
+	void Parse_Menu_File(boost::filesystem::path filename);
+#endif
+
 private:
 	// XML element start
 	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
 	// XML element end
 	virtual void elementEnd( const CEGUI::String &element );
-
-#ifdef ENABLE_NEW_LOADER
-	void Parse_Items_File(boost::filesystem::path filename);
-	void Parse_Menu_File(boost::filesystem::path filename);
-#endif
 
 	void Handle_Item( const CEGUI::XMLAttributes &attributes );
 	void Handle_Menu( const CEGUI::XMLAttributes &attributes );

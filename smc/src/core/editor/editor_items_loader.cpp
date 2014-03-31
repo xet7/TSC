@@ -14,9 +14,11 @@ cEditorItemsLoader::~cEditorItemsLoader()
 	//
 }
 
-void cEditorItemsLoader::parse_file(fs::path filename)
+void cEditorItemsLoader::parse_file(fs::path filename, cSprite_Manager* p_sm, std::vector<cSprite*> (*cb)(const std::string&, XmlAttributes&, int, cSprite_Manager*))
 {
 	m_items_file = filename;
+	mp_sprite_manager = p_sm;
+	mfp_callback = cb;
 	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 }
 
@@ -64,22 +66,24 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	std::string objname = m_current_properties["object_name"];
 	std::string tags = m_current_properties["object_tags"];
 
-	cSprite* p_sprite = get_object(objname, m_current_properties, level_engine_version);
+	// TODO: When backward compatibility is removed, reduce to ONE
+	// cSprite* instead of this stupid vector. Currently backward
+	// compatibility may cause a single XML tag to explode to multiple
+	// sprites.
+	std::vector<cSprite*> sprites = mfp_callback(name, m_current_properties, level_engine_version, mp_sprite_manager);
 
-	if (!p_sprite) {
+	if (sprites.empty()) {
 		std::cerr << "Warning: Editor item could not be created: " << objname << std::endl;
 		return;
 	}
 
-	p_sprite->m_editor_tags = tags.c_str();
-	m_tagged_sprites.push_back(p_sprite);
-}
+	// Also, the tags would then only be set on this one sprite.
+	// This really looks stupid this way. Really. I mean really.
+	sprites[0]->m_editor_tags = tags.c_str();
 
-// virtual
-cSprite* cEditorItemsLoader::get_object(const Glib::ustring& name, XmlAttributes& attributes, int engine_version)
-{
-	throw(new NotImplementedError("cEditorItemsLoader::get_object() must be overridden in a subclass."));
-	return NULL; // Not reached
+	std::vector<cSprite*>::iterator iter;
+	for(iter=sprites.begin(); iter != sprites.end(); iter++)
+		m_tagged_sprites.push_back(*iter);
 }
 
 vector<cSprite*> cEditorItemsLoader::get_tagged_sprites()

@@ -27,6 +27,8 @@
 #include "../level/level_player.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/editor/editor_items_loader.h"
+#include "level_loader.h"
 
 namespace SMC
 {
@@ -504,6 +506,14 @@ void cEditor_Level :: Function_Settings( void )
 	Game_Action_Data_Start.add( "screen_fadeout_speed", "3" );
 	Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
+}
+
+// virtual
+void cEditor_Level :: Parse_Items_File( boost::filesystem::path filename )
+{
+	cEditorItemsLoader parser;
+	parser.parse_file(filename, m_sprite_manager, cLevelLoader::Create_Level_Objects_From_XML_Tag);
+	m_tagged_item_objects = parser.get_tagged_sprites();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
