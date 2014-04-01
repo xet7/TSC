@@ -256,7 +256,9 @@ void cEditor_World :: Function_Reload( void )
 		return;
 	}
 
-	m_overworld->Load();
+	cOverworld* p_old_world = m_overworld;
+	m_overworld = cOverworld::Load_From_Directory(p_old_world->m_description->Get_Path());
+	delete p_old_world;
 }
 
 /* HACK: the cEditor::Parse_Items_File function requires a callback

@@ -29,22 +29,17 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** *** cOverworld_description *** *** *** *** *** *** *** *** *** */
 
-class cOverworld_description : public CEGUI::XMLHandler
+class cOverworld_description
 {
 public:
 	cOverworld_description( void );
 	virtual ~cOverworld_description( void );
 
-	// Load
-	void Load( void );
-
 	// Save
 	void Save( void );
 
-	#ifdef ENABLE_NEW_LOADER
 	// Save to the given file. Raises xmlpp::exception on error.
 	void Save_To_File(boost::filesystem::path path);
-	#endif
 
 	// Full path to the world directory
 	boost::filesystem::path Get_Path();
@@ -68,16 +63,6 @@ public:
 
 	// world comment
 	std::string m_comment;
-private:
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-	// handle world description
-	void handle_world( const CEGUI::XMLAttributes& attributes );
-
-	// XML element property list
-	CEGUI::XMLAttributes m_xml_attributes;
 };
 
 /* *** *** *** *** *** *** *** *** cOverworld *** *** *** *** *** *** *** *** *** */
@@ -87,32 +72,27 @@ class cAnimation_Manager;
 
 typedef vector<cWaypoint *> WaypointList;
 
-class cOverworld : public CEGUI::XMLHandler
+class cOverworld
 {
 public:
 	cOverworld( void );
 
-#ifdef ENABLE_NEW_LOADER
   /// Load an overworld from a world directory.
   /// The returned instance must be freed by you.
   static cOverworld* Load_From_Directory(boost::filesystem::path directory, int user_dir = 0);
-#endif
 
 	virtual ~cOverworld( void );
 
 	// New
 	bool New( std::string name );
-	// Load
-	bool Load( void );
 	// Unload
 	void Unload( void );
 	// Save
 	void Save( void );
-	#ifdef ENABLE_NEW_LOADER
+
 	// Save to the given directory. Raises xmlpp::exception on error.
 	void Save_To_Directory(boost::filesystem::path path);
-	void Save_To_File(boost::filesystem::path path);
-	#endif
+
 	// Enter
 	void Enter( const GameMode old_mode = MODE_NOTHING );
 	// Leave
@@ -239,13 +219,8 @@ private:
 	// Common stuff for constructors
 	void Init();
 
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
- 
-	// XML element property list
-	CEGUI::XMLAttributes m_xml_attributes;
+	// Save only the main overworld file, not layers and description files.
+	void Save_To_File(boost::filesystem::path path);
 };
 
 /* Returns a World Object if element name is available else NULL

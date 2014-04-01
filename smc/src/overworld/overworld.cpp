@@ -56,31 +56,10 @@ cOverworld_description :: ~cOverworld_description( void )
 	//
 }
 
-void cOverworld_description :: Load( void )
-{
-	fs::path filename = m_path / utf8_to_path("description.xml");
-
-	// filename not valid
-	if( !File_Exists( filename ) )
-	{
-		std::cerr << "Error : Couldn't open World description file : " << path_to_utf8(filename) << std::endl;
-		return;
-	}
-
-	// Load Description
-// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-#ifdef _WIN32
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Description.xsd")), "" );
-#else
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Description.xsd")), "" );
-#endif
-}
-
 void cOverworld_description :: Save( void )
 {
 	fs::path filename = pResource_Manager->Get_User_World_Directory() / m_path / utf8_to_path("description.xml");
 
-#ifdef ENABLE_NEW_LOADER
 	try {
 		Save_To_File(filename);
 	}
@@ -89,38 +68,8 @@ void cOverworld_description :: Save( void )
 		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return;
 	}
-#else
-	fs::ofstream file(filename, ios::out | ios::trunc);
-
-	if( !file )
-	{
-		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
-		return;
-	}
-
-	CEGUI::XMLSerializer stream( file );
-
-	// begin
-	stream.openTag( "description" );
-
-	// begin
-	stream.openTag( "world" );
-		// name
-		Write_Property( stream, "name", m_name );
-		// visible
-		Write_Property( stream, "visible", m_visible );
-	// end world
-	stream.closeTag();
-
-
-	// end description
-	stream.closeTag();
-
-	file.close();
-	#endif
 }
 
-#ifdef ENABLE_NEW_LOADER
 void cOverworld_description :: Save_To_File(fs::path path)
 {
 	xmlpp::Document doc;
@@ -133,49 +82,6 @@ void cOverworld_description :: Save_To_File(fs::path path)
 	// Write to file (raises xmlpp::exception on error)
 	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(path)));
 	debug_print("Wrote world description file '%s'.\n", path_to_utf8(path).c_str());
-}
-#endif
-
-void cOverworld_description :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
-{
-	if( element == "property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-	}
-	else if( element == "Property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "Name" ), attributes.getValueAsString( "Value" ) );
-	}
-}
-
-void cOverworld_description :: elementEnd( const CEGUI::String &element )
-{
-	if( element == "property" || element == "Property" )
-	{
-		return;
-	}
-
-	if( element == "world" || element == "World" )
-	{
-		handle_world( m_xml_attributes );
-	}
-	else if( element == "description" || element == "Description" )
-	{
-		// ignore
-	}
-	else if( element.length() )
-	{
-		printf( "Warning : World Description Unknown element : %s\n", element.c_str() );
-	}
-
-	// clear
-	m_xml_attributes = CEGUI::XMLAttributes();
-}
-
-void cOverworld_description :: handle_world( const CEGUI::XMLAttributes &attributes )
-{
-	m_name = xml_string_to_string( attributes.getValueAsString( "name", m_name.c_str() ).c_str() );
-	m_visible = attributes.getValueAsBool( "visible", 1 );
 }
 
 fs::path cOverworld_description :: Get_Path()
@@ -198,7 +104,6 @@ cOverworld :: cOverworld( void )
 	Init();
 }
 
-#ifdef ENABLE_NEW_LOADER
 cOverworld* cOverworld :: Load_From_Directory( fs::path directory, int user_dir /* = 0 */)
 {
 	// Overworld loading consists of three steps: Loading the description file,
@@ -236,7 +141,6 @@ cOverworld* cOverworld :: Load_From_Directory( fs::path directory, int user_dir 
 
 	return p_overworld;
 }
-#endif
 
 cOverworld :: ~cOverworld( void )
 {
@@ -300,62 +204,6 @@ bool cOverworld :: New( std::string name )
 	return 1;
 }
 
-bool cOverworld :: Load( void )
-{
-	Unload();
-
-	// description
-	m_description->Load();
-
-	// world
-	fs::path world_filename = m_description->Get_Path() / "/world.xml";
-
-	if( !File_Exists( world_filename ) )
-	{
-		std::cerr << "Couldn't find World file " << path_to_utf8(world_filename) << std::endl;
-		return 0;
-	}
-
-	try
-	{
-		// parse overworld
-	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(world_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("/World/World.xsd")), "" );
-	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(world_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("/World/World.xsd")), "" );
-	#endif
-	}
-	// catch CEGUI Exceptions
-	catch( CEGUI::Exception &ex )
-	{
-		std::cerr << "Loading World " << path_to_utf8(world_filename) << "failed with CEGUI exception: " << ex.getMessage() << std::endl;
-		pHud_Debug->Set_Text( _("World Loading failed : ") + (const std::string)ex.getMessage().c_str() );
-	}
-
-	// engine version entry not set
-	if( m_engine_version < 0 )
-	{
-		m_engine_version = 0;
-	}
-
-	// layer
-  fs::path layer_filename = m_description->Get_Path() / "/layer.xml";
-
-	if( !File_Exists( layer_filename ) )
-	{
-		std::cerr << "Couldn't find World Layer file " << path_to_utf8(layer_filename) << std::endl;
-		return 0;
-	}
-
-	m_layer->Load( layer_filename );
-
-	// set name
-	m_hud_world_name->Set_Image( pFont->Render_Text( pFont->m_font_normal, m_description->m_name, yellow ), 1, 1 );
-
-	return 1;
-}
-
 void cOverworld :: Unload( void )
 {
 	// not loaded
@@ -393,7 +241,6 @@ void cOverworld :: Save( void )
 		fs::create_directories( save_dir );
 	}
 
-#ifdef ENABLE_NEW_LOADER
 	try {
 		Save_To_Directory(save_dir);
 	}
@@ -403,90 +250,11 @@ void cOverworld :: Save( void )
 		pHud_Debug->Set_Text( _("Couldn't save world ") + path_to_utf8(save_dir), speedfactor_fps * 5.0f );
 		return;
 	}
-#else
-	fs::path filename = save_dir / utf8_to_path("world.xml");
-	fs::ofstream file(filename, ios::out | ios::trunc);
-
-	if( !file )
-	{
-		std::cerr << "Error : Couldn't open world file " << path_to_utf8(filename) << " for saving. Is the file read-only ?" << std::endl;
-		pHud_Debug->Set_Text( _("Couldn't save world ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
-		return;
-	}
-
-	CEGUI::XMLSerializer stream( file );
-
-
-	// begin
-	stream.openTag( "overworld" );
-
-	// begin
-	stream.openTag( "information" );
-		// game version
-		Write_Property( stream, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH) );
-		// engine version
-		Write_Property( stream, "engine_version", world_engine_version );
-		// time ( seconds since 1970 )
-		Write_Property( stream, "save_time", static_cast<Uint64>( time( NULL ) ) );
-	// end information
-	stream.closeTag();
-
-	// begin
-	stream.openTag( "settings" );
-		// music
-		Write_Property( stream, "music", m_musicfile );
-	// end settings
-	stream.closeTag();
-
-	// begin
-	stream.openTag( "background" );
-		// color
-		Write_Property( stream, "color_red", static_cast<int>(m_background_color.red) );
-		Write_Property( stream, "color_green", static_cast<int>(m_background_color.green) );
-		Write_Property( stream, "color_blue", static_cast<int>(m_background_color.blue) );
-	// end background
-	stream.closeTag();
-
-	// begin
-	stream.openTag( "player" );
-		// start waypoint
-		Write_Property( stream, "waypoint", m_player_start_waypoint );
-		// moving state
-		Write_Property( stream, "moving_state", static_cast<int>(m_player_moving_state) );
-	// end player
-	stream.closeTag();
-
-	// objects
-	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
-	{
-		cSprite *obj = (*itr);
-
-		// skip spawned and destroyed objects
-		if( obj->m_spawned || obj->m_auto_destroy )
-		{
-			continue;
-		}
-
-		// save to file stream
-		obj->Save_To_XML( stream );
-	}
-
-	// end overworld
-	stream.closeTag();
-
-	file.close();
-
-	// save layer
-	m_layer->Save( save_dir / utf8_to_path("/layer.xml") );
-	// save description
-	m_description->Save();
-#endif
 
 	// show info
 	pHud_Debug->Set_Text( _("World ") + m_description->m_name + _(" saved") );
 }
 
-#ifdef ENABLE_NEW_LOADER
 void cOverworld :: Save_To_Directory( fs::path path )
 {
 	// As with loading, saving is a three-step process:
@@ -539,7 +307,6 @@ void cOverworld :: Save_To_File( fs::path path )
 	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(path)));
 	debug_print("Wrote world file '%s'.\n", path_to_utf8(path).c_str());
 }
-#endif
 
 void cOverworld :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 {
@@ -1213,72 +980,6 @@ bool cOverworld :: Is_Loaded( void ) const
 	}
 
 	return 0;
-}
-
-void cOverworld :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
-{
-	if( element == "property" || element == "Property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-	}
-}
-
-void cOverworld :: elementEnd( const CEGUI::String &element )
-{
-	if( element == "property" || element == "Property" )
-	{
-		return;
-	}
-
-	if( element == "information" )
-	{
-		m_engine_version = m_xml_attributes.getValueAsInteger( "engine_version" );
-		m_last_saved = string_to_int64( m_xml_attributes.getValueAsString( "save_time" ).c_str() );
-	}
-	else if( element == "settings" )
-	{
-		// Author
-		//author = m_xml_attributes.getValueAsString( "author" ).c_str();
-		// Version
-		//version = m_xml_attributes.getValueAsString( "version" ).c_str();
-		// Music
-		m_musicfile = xml_string_to_string( m_xml_attributes.getValueAsString( "music" ).c_str() );
-		// Camera Limits
-		//pOverworld_Manager->camera->Set_Limits( GL_rect( static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_x" )), static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_y" )), static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_w" )), static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_h" )) ) );
-	}
-	else if( element == "player" )
-	{
-		// Start Waypoint
-		m_player_start_waypoint = m_xml_attributes.getValueAsInteger( "waypoint" );
-		// Moving State
-		m_player_moving_state = static_cast<Moving_state>(m_xml_attributes.getValueAsInteger( "moving_state" ));
-	}
-	else if( element == "background" )
-	{
-		m_background_color = Color( static_cast<Uint8>(m_xml_attributes.getValueAsInteger( "color_red" )), m_xml_attributes.getValueAsInteger( "color_green" ), m_xml_attributes.getValueAsInteger( "color_blue" ) );
-	}
-	else
-	{
-		// get World object
-		cSprite *object = Create_World_Object_From_XML( element, m_xml_attributes, m_engine_version, m_sprite_manager, this );
-		
-		// valid
-		if( object )
-		{
-			m_sprite_manager->Add( object );
-		}
-		else if( element == "overworld" )
-		{
-			// ignore
-		}
-		else if( element.length() )
-		{
-			printf( "Warning : Overworld Unknown element : %s\n", element.c_str() );
-		}
-	}
-
-	// clear
-	m_xml_attributes = CEGUI::XMLAttributes();
 }
 
 cSprite *Create_World_Object_From_XML( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager, cOverworld *overworld )
