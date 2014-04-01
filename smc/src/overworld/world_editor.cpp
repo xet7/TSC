@@ -171,11 +171,6 @@ void cEditor_World :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 	}
 }
 
-cSprite *cEditor_World :: Get_Object( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version )
-{
-	return Create_World_Object_From_XML( element, attributes, engine_version, m_sprite_manager, m_overworld );
-}
-
 bool cEditor_World :: Function_New( void )
 {
 	std::string world_name = Box_Text_Input( _("Create a new World"), _("Name") );

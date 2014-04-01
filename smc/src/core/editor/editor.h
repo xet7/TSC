@@ -104,7 +104,7 @@ public:
 
 /* *** *** *** *** *** *** *** cEditor *** *** *** *** *** *** *** *** *** *** */
 
-class cEditor : public CEGUI::XMLHandler
+class cEditor
 {
 public:
 	cEditor( cSprite_Manager *sprite_manager );
@@ -171,8 +171,6 @@ public:
 	void Load_Image_Items( boost::filesystem::path dir );
 	// Active Item Entry
 	virtual void Activate_Item( cEditor_Item_Object *entry );
-	// return the sprite object
-	virtual cSprite *Get_Object( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version );
 
 	// #### Editor Functions
 	/* copy the given object(s) next to itself into the given direction
@@ -239,22 +237,8 @@ protected:
 	// Exit the help window
 	bool Window_Help_Exit_Clicked( const CEGUI::EventArgs &event );
 
-#ifdef ENABLE_NEW_LOADER
 	virtual void Parse_Items_File(boost::filesystem::path filename);
 	void Parse_Menu_File(boost::filesystem::path filename);
-#endif
-
-private:
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-
-	void Handle_Item( const CEGUI::XMLAttributes &attributes );
-	void Handle_Menu( const CEGUI::XMLAttributes &attributes );
-
-	// XML element Item Tag list
-	CEGUI::XMLAttributes m_xml_attributes;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
