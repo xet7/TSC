@@ -70,7 +70,7 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	// cSprite* instead of this stupid vector. Currently backward
 	// compatibility may cause a single XML tag to explode to multiple
 	// sprites.
-	std::vector<cSprite*> sprites = mfp_callback(name, m_current_properties, level_engine_version, mp_sprite_manager);
+	std::vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager);
 
 	if (sprites.empty()) {
 		std::cerr << "Warning: Editor item could not be created: " << objname << std::endl;
