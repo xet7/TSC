@@ -14,11 +14,12 @@ cEditorItemsLoader::~cEditorItemsLoader()
 	//
 }
 
-void cEditorItemsLoader::parse_file(fs::path filename, cSprite_Manager* p_sm, std::vector<cSprite*> (*cb)(const std::string&, XmlAttributes&, int, cSprite_Manager*))
+void cEditorItemsLoader::parse_file(fs::path filename, cSprite_Manager* p_sm, void* p_data, std::vector<cSprite*> (*cb)(const std::string&, XmlAttributes&, int, cSprite_Manager*, void*))
 {
 	m_items_file = filename;
 	mp_sprite_manager = p_sm;
 	mfp_callback = cb;
+	mp_data = p_data;
 	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 }
 
@@ -70,7 +71,7 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	// cSprite* instead of this stupid vector. Currently backward
 	// compatibility may cause a single XML tag to explode to multiple
 	// sprites.
-	std::vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager);
+	std::vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager, mp_data);
 
 	if (sprites.empty()) {
 		std::cerr << "Warning: Editor item could not be created: " << objname << std::endl;

@@ -508,11 +508,17 @@ void cEditor_Level :: Function_Settings( void )
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 }
 
+// static
+std::vector<cSprite*> cEditor_Level :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+{
+	return cLevelLoader::Create_Level_Objects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+}
+
 // virtual
 void cEditor_Level :: Parse_Items_File( boost::filesystem::path filename )
 {
 	cEditorItemsLoader parser;
-	parser.parse_file(filename, m_sprite_manager, cLevelLoader::Create_Level_Objects_From_XML_Tag);
+	parser.parse_file(filename, m_sprite_manager, NULL, items_loader_callback);
 	m_tagged_item_objects = parser.get_tagged_sprites();
 }
 

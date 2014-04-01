@@ -17,11 +17,13 @@
 #include "../overworld/world_editor.h"
 #include "../core/game_core.h"
 #include "../gui/generic.h"
-#include "../overworld/overworld.h"
+#include "overworld.h"
 #include "../audio/audio.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "overworld_loader.h"
+#include "../core/editor/editor_items_loader.h"
 
 namespace SMC
 {
@@ -260,6 +262,30 @@ void cEditor_World :: Function_Reload( void )
 	}
 
 	m_overworld->Load();
+}
+
+/* HACK: the cEditor::Parse_Items_File function requires a callback
+ * that **due to backward compatibility reasons** wants a std::vector<cSprite*>
+ * instead of a single cSprite* (because that is what
+ * cLevelLoader::Create_Level_Object_From_XML_Tag() returns). This function is
+ * just to make the function signature fitting for the callback function by
+ * creating a one-element std::vector<cSprite*>.
+ */
+// static
+std::vector<cSprite*> cEditor_World :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+{
+	cSprite* p_sprite = cOverworldLoader::Create_World_Object_From_XML(name, attributes, engine_version, p_sprite_manager, static_cast<cOverworld*>(p_data));
+	std::vector<cSprite*> result;
+	result.push_back(p_sprite);
+	return result;
+}
+
+// virtual
+void cEditor_World :: Parse_Items_File( boost::filesystem::path filename )
+{
+	cEditorItemsLoader parser;
+	parser.parse_file(filename, m_sprite_manager, m_overworld, items_loader_callback);
+	m_tagged_item_objects = parser.get_tagged_sprites();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
