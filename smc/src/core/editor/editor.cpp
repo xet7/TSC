@@ -252,6 +252,7 @@ void cEditor :: Init( void )
 
 #ifdef ENABLE_NEW_LOADER
 	Parse_Items_File(path_to_utf8(m_items_filename));
+	Load_Image_Items(pResource_Manager->Get_Game_Pixmaps_Directory());
 	Parse_Menu_File(path_to_utf8(m_menu_filename));
 #else
 	// Parse Items
@@ -1797,15 +1798,20 @@ void cEditor :: Parse_Menu_File( fs::path filename )
 	parser.parse_file(path_to_utf8(filename));
 
 	xmlpp::Element* p_root = parser.get_document()->get_root_node();
-	xmlpp::NodeSet items = p_root->find("menu/item");
+	xmlpp::NodeSet items = p_root->find("item");
 
 	xmlpp::NodeSet::const_iterator iter;
 	for(iter=items.begin(); iter != items.end(); iter++) {
 		xmlpp::Element* p_node = dynamic_cast<xmlpp::Element*>(*iter);
 
-		std::string name  = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='name']")[0])->get_attribute("value")->get_value();
-		std::string tags  = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='tags']")[0])->get_attribute("value")->get_value();
-		std::string color = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='color']")[0])->get_attribute("value")->get_value();
+		std::string name = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='name']")[0])->get_attribute("value")->get_value();
+		std::string tags = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='tags']")[0])->get_attribute("value")->get_value();
+
+		// Set color if available (---header--- elements have no color property)
+		std::string color = "FFFFFFFF";
+		xmlpp::NodeSet results = p_node->find("property[@name='color']");
+		if (!results.empty())
+			color = dynamic_cast<xmlpp::Element*>(results[0])->get_attribute("value")->get_value();
 
 		Add_Menu_Object(name, tags, CEGUI::PropertyHelper::stringToColour(color));
 	}

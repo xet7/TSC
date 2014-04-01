@@ -84,6 +84,8 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	std::vector<cSprite*>::iterator iter;
 	for(iter=sprites.begin(); iter != sprites.end(); iter++)
 		m_tagged_sprites.push_back(*iter);
+
+	m_current_properties.clear();
 }
 
 vector<cSprite*> cEditorItemsLoader::get_tagged_sprites()
