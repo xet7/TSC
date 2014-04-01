@@ -123,15 +123,10 @@ cLevel *cLevel_Manager :: Load( std::string levelname )
 		return level;
 	}
 
-#ifdef ENABLE_NEW_LOADER
 	// load
 	fs::path filename = Get_Path( levelname );
 	level = cLevel::Load_From_File( filename );
-#else
-	// load
-	level = new cLevel();
-	level->Load( levelname );
-#endif
+
 	Add( level );
 	return level;
 }

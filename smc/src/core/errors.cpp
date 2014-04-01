@@ -52,3 +52,18 @@ const char* NotImplementedError::what() const throw()
 {
 	return m_message.c_str();
 }
+
+InvalidLevelError::InvalidLevelError(std::string message)
+{
+	m_message = message;
+}
+
+InvalidLevelError::~InvalidLevelError() throw()
+{
+	//
+}
+
+const char* InvalidLevelError::what() const throw()
+{
+	return m_message.c_str();
+}

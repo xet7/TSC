@@ -46,6 +46,16 @@ namespace SMC {
 		std::string m_message;
 	};
 
+	class InvalidLevelError: public SMCError
+	{
+	public:
+		InvalidLevelError(std::string message);
+		virtual ~InvalidLevelError() throw();
+		virtual const char* what() const throw();
+	protected:
+		std::string m_message;
+	};
+
 }
 
 #endif

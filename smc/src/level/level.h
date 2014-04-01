@@ -30,14 +30,12 @@ namespace SMC
 
 /* *** *** *** *** *** cLevel *** *** *** *** *** *** *** *** *** *** *** *** */
 
-class cLevel : public CEGUI::XMLHandler
+class cLevel
 {
 public:
 
-#ifdef ENABLE_NEW_LOADER
 	/// Loads a level from the given file.
 	static cLevel* Load_From_File( boost::filesystem::path filename );
-#endif
 
 	cLevel( void );
 	virtual ~cLevel( void );
@@ -47,18 +45,16 @@ public:
 	 * returns true if successful
 	*/
 	bool New( std::string levelname );
-	// Load an existing level by name (file extension and user or
-  // game directory are automatically added).
-	bool Load( std::string levelname );
+
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
 	*/
 	void Unload( bool delayed = 0 );
-#ifdef ENABLE_NEW_LOADER
+
 	// Save the level to a file as XML.
 	// Raises xmlpp::exception on failure to write the XML file.
 	boost::filesystem::path Save_To_File(boost::filesystem::path filename = boost::filesystem::path());
-#endif
+
 	// Save the Level
 	void Save( void );
 	// Delete and unload

@@ -488,7 +488,8 @@ void cEditor_Level :: Function_Reload( void )
 		return;
 	}
 
-	if( pActive_Level->Load( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, false ) ) ) )
+	pActive_Level = cLevel::Load_From_File( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, false ) ) );
+	if( pActive_Level )
 	{
 		pActive_Level->Init();
 	}

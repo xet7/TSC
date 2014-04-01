@@ -113,13 +113,11 @@ void cMenu_Item :: Draw( cSurface_Request *request /* = NULL */ )
 
 cMenuHandler :: cMenuHandler( void )
 {
-	m_level = new cLevel();
+	m_level = cLevel::Load_From_File( pResource_Manager->Get_Game_Level(pPreferences->m_menu_level + ".smclvl") );
 	m_camera = new cCamera( m_level->m_sprite_manager );
 	m_player = new cSprite( m_level->m_sprite_manager );
 	m_player->Set_Massive_Type( MASS_PASSIVE );
 	Reset();
-
-	m_level->Load( pPreferences->m_menu_level );
 
 	// SMC logo image
 	cHudSprite *sprite = new cHudSprite( m_level->m_sprite_manager );

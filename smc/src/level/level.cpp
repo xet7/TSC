@@ -186,74 +186,13 @@ cLevel :: ~cLevel( void )
 	return 0;
 }
 
-bool cLevel :: Load( std::string levelname )
-{
-	m_next_level_filename.clear();
-
-	fs::path filename = pLevel_Manager->Get_Path( levelname );
-	if( filename.empty() )
-	{
-		// show error without directory and file type
-		std::cerr << "Couldn't load level : " << levelname << std::endl;
-		return 0;
-	}
-
-	Unload();
-
-	// new level format
-	if (filename.extension() == fs::path(".smclvl"))
-	{
-		// No <script> tag starting yet
-		m_start_script_tag = false;
-		try
-		{
-			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Level.xsd")), "" );
-		}
-		// catch CEGUI Exceptions
-		catch( CEGUI::Exception &ex )
-		{
-			std::cerr << "Loading Level “" << path_to_utf8(filename) << "” resulted in CEGUI exception: " << ex.getMessage() << std::endl;
-			pHud_Debug->Set_Text( _("Loading Level failed : ") + (const std::string)ex.getMessage().c_str() );
-			return 0;
-		}
-	}
-	// old level format
-	else
-	{
-		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const std::string)path_to_utf8(filename) );
-		return 0;
-	}
-
-	/* late initialization
-	 * needed to create links to other objects
-	*/
-	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
-	{
-		cSprite *obj = (*itr);
-
-		obj->Init_Links();
-	}
-
-	m_level_filename = filename;
-	debug_print("Loaded level: %s\n", path_to_utf8(m_level_filename).c_str());
-
-	// engine version entry not set
-	if( m_engine_version < 0 )
-	{
-		m_engine_version = 0;
-	}
-
-	return 1;
-}
-
-#ifdef ENABLE_NEW_LOADER
 cLevel* cLevel :: Load_From_File( fs::path filename )
 {
 	if( filename.empty() )
-	{
-		// show error without directory and file type
-		std::cerr << "Couldn't load level file '" << path_to_utf8(filename) << "'" << std::endl;
-		return NULL;
+		throw(InvalidLevelError("Empty level filename!"));
+	if (!File_Exists(filename)) {
+		std::string msg = "Level file not found: " + path_to_utf8(filename);
+		throw(InvalidLevelError(msg));
 	}
 
 	// This is our loader
@@ -285,7 +224,6 @@ cLevel* cLevel :: Load_From_File( fs::path filename )
 
 	return p_level;
 }
-#endif
 
 void cLevel :: Unload( bool delayed /* = 0 */ )
 {
@@ -342,7 +280,6 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	m_sprite_manager->Delete_All();
 }
 
-#ifdef ENABLE_NEW_LOADER
 fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 {
 	xmlpp::Document doc;
@@ -407,7 +344,6 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 
 	return filename;
 }
-#endif
 
 // TODO: Merge Save() with Save_To_File() after ENABLE_NEW_LOADER
 // is the only variant?
@@ -424,7 +360,6 @@ void cLevel :: Save( void )
 		m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
 	}
 
-#ifdef ENABLE_NEW_LOADER
 	try{
 		Save_To_File(m_level_filename);
 	}
@@ -436,97 +371,6 @@ void cLevel :: Save( void )
 		// Abort
 		return;
 	}
-#else
-	fs::ofstream file(m_level_filename, ios::out | ios::trunc);
-
-	if( !file )
-	{
-		printf( "Error : Couldn't open level file for saving. Is the file read-only ?" );
-		pHud_Debug->Set_Text( _("Couldn't save level ") + path_to_utf8(m_level_filename), speedfactor_fps * 5.0f );
-		return;
-	}
-
-	CEGUI::XMLSerializer stream( file );
-
-	// begin
-	stream.openTag( "level" );
-
-	// begin
-	stream.openTag( "information" );
-		// game version
-		Write_Property( stream, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH) );
-		// engine version
-		Write_Property( stream, "engine_version", level_engine_version );
-		// time ( seconds since 1970 )
-		Write_Property( stream, "save_time", static_cast<Uint64>( time( NULL ) ) );
-	// end information
-	stream.closeTag();
-
-	// begin
-	stream.openTag( "settings" );
-		// level author
-		Write_Property( stream, "lvl_author", m_author );
-		// level version
-		Write_Property( stream, "lvl_version", m_version );
-		// music
-		Write_Property( stream, "lvl_music", path_to_utf8(Get_Music_Filename()) );
-		// description
-		Write_Property( stream, "lvl_description", m_description );
-		// difficulty
-		Write_Property( stream, "lvl_difficulty", static_cast<int>(m_difficulty) );
-		// land type
-		Write_Property( stream, "lvl_land_type", Get_Level_Land_Type_Name( m_land_type ) );
-		// camera limits
-		Write_Property( stream, "cam_limit_x", static_cast<int>(m_camera_limits.m_x) );
-		Write_Property( stream, "cam_limit_y", static_cast<int>(m_camera_limits.m_y) );
-		Write_Property( stream, "cam_limit_w", static_cast<int>(m_camera_limits.m_w) );
-		Write_Property( stream, "cam_limit_h", static_cast<int>(m_camera_limits.m_h) );
-		// fixed camera horizontal velocity
-		Write_Property( stream, "cam_fixed_hor_vel", m_fixed_camera_hor_vel );
-	// end settings
-	stream.closeTag();
-
-	// backgrounds
-	for( vector<cBackground *>::iterator itr = m_background_manager->objects.begin(); itr != m_background_manager->objects.end(); ++itr )
-	{
-		(*itr)->Save_To_XML( stream );
-	}
-
-	// begin
-	stream.openTag( "player" );
-		// position
-		Write_Property( stream, "posx", static_cast<int>(pLevel_Player->m_start_pos_x) );
-		Write_Property( stream, "posy", static_cast<int>(pLevel_Player->m_start_pos_y) );
-		// direction
-		Write_Property( stream, "direction", Get_Direction_Name( pLevel_Player->m_start_direction ) );
-	// end player
-	stream.closeTag();
-
-	// objects
-	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
-	{
-		cSprite *obj = (*itr);
-
-		// skip spawned and destroyed objects
-		if( obj->m_spawned || obj->m_auto_destroy )
-		{
-			continue;
-		}
-
-		// save to file stream
-		obj->Save_To_XML( stream );
-	}
-
-	// MRuby script code
-	stream.openTag( "script" )
-		.text(m_script)
-		.closeTag();
-
-	// end level
-	stream.closeTag();
-
-	file.close();
-#endif
 
 	// Display nice completion message
 	pHud_Debug->Set_Text( _("Level ") + path_to_utf8(Trim_Filename( m_level_filename, false, false )) + _(" saved") );
@@ -733,7 +577,10 @@ void cLevel :: Update( void )
 
 	if( !m_next_level_filename.empty() )
 	{
-		Load( path_to_utf8(m_next_level_filename) );
+		// TODO: This should NOT be in cLevel::Update()!
+		// Level changing belongs to the game loop or so!
+		throw(NotImplementedError("Cannot load next level yet!"));
+		//Load( path_to_utf8(m_next_level_filename) );
 	}
 
 	// if level-editor is not active
