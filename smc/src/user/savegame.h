@@ -122,11 +122,9 @@ typedef vector<cSave_Level *> Save_LevelList;
 class cSave
 {
 public:
-#ifdef ENABLE_NEW_LOADER
 	/// Load a savegame from the given file. The returned cSave
 	/// instance must be freed by you.
 	static cSave* Load_From_File( boost::filesystem::path filepath );
-#endif
 
 	cSave( void );
 	~cSave( void );
@@ -137,11 +135,9 @@ public:
 	// return the active level if available
 	std::string Get_Active_Level( void );
 
-#ifdef ENABLE_NEW_LOADER
 	// Write the savegame out to the given file; raises
 	// xmlpp::exception on error.
 	void Write_To_File( boost::filesystem::path filepath );
-#endif
 
 	// savegame version
 	int m_version;
@@ -205,8 +201,6 @@ public:
 	* The returned object should be deleted if not used anymore
 	*/
 	cSave *Load( unsigned int save_slot );
-	// Save a Save
-	int Save( unsigned int save_slot, cSave *savegame );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -224,51 +218,6 @@ public:
 
 	// savegame directory
 	boost::filesystem::path m_savegame_dir;
-};
-
-/* *** *** *** *** *** *** *** cSavegame_XML_Handler *** *** *** *** *** *** *** *** *** *** */
-
-// Note this class only does the XML *loading*, the
-// saving is done in cSavegame directly.
-class cSavegame_XML_Handler : public CEGUI::XMLHandler
-{
-public:
-	cSavegame_XML_Handler( const boost::filesystem::path &filename );
-	virtual ~cSavegame_XML_Handler( void );
-
-	/* Returns the savegame data
-	 * The returned savegame should be deleted if not used anymore
-	*/
-	cSave *Acquire_Savegame( void );
-
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-
-	void Handle_Level( const CEGUI::XMLAttributes &attributes );
-	void Handle_Level_Object( const CEGUI::XMLAttributes &attributes );
-	void Handle_Level_Spawned_Object( const CEGUI::String &element, CEGUI::XMLAttributes &attributes );
-	void Handle_Player( const CEGUI::XMLAttributes &attributes );
-	void Handle_Overworld_Data( const CEGUI::XMLAttributes &attributes );
-	void Handle_Overworld( const CEGUI::XMLAttributes &attributes );
-	void Handle_Overworld_Waypoint( const CEGUI::XMLAttributes &attributes );
-
-	// if old format savegame
-	bool m_old_format;
-
-	// XML attributes list
-	CEGUI::XMLAttributes m_xml_attributes;
-
-	// overworld waypoints for parsing
-	Save_Overworld_WaypointList m_active_waypoints;
-	// level objects for parsing
-	Save_Level_ObjectList m_level_objects;
-	// level spawned objects for parsing
-	cSprite_List m_level_spawned_objects;
-
-	// object we are constructing
-	cSave *m_savegame;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
