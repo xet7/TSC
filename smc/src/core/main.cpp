@@ -30,7 +30,7 @@
 #include "../input/joystick.h"
 #include "../overworld/world_manager.h"
 #include "../overworld/overworld.h"
-#include "../core/campaign_manager.h"
+#include "../campaign/campaign_manager.h"
 #include "../input/mouse.h"
 #include "../user/savegame.h"
 #include "../input/keyboard.h"

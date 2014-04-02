@@ -13,7 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/campaign_manager.h"
+#include "campaign_manager.h"
 #include "../gui/hud.h"
 #include "../core/game_core.h"
 #include "../core/filesystem/filesystem.h"
