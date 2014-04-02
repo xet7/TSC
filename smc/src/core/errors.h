@@ -56,6 +56,14 @@ namespace SMC {
 		std::string m_message;
 	};
 
+	class RestartedXmlParserError: public SMCError
+	{
+	public:
+		RestartedXmlParserError();
+		virtual ~RestartedXmlParserError() throw();
+		virtual const char* what() const throw();
+	};
+
 }
 
 #endif

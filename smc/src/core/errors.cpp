@@ -67,3 +67,18 @@ const char* InvalidLevelError::what() const throw()
 {
 	return m_message.c_str();
 }
+
+RestartedXmlParserError::RestartedXmlParserError()
+{
+	//
+}
+
+RestartedXmlParserError::~RestartedXmlParserError() throw()
+{
+	//
+}
+
+const char* RestartedXmlParserError::what() const throw()
+{
+	return "Restarted a one-time XML parser!";
+}
