@@ -147,12 +147,18 @@ cCampaign *cCampaign_Manager :: Load_Campaign( const fs::path &filename )
 		return NULL;
 	}
 
+#ifdef ENABLE_NEW_LOADER
+	cCampaignLoader parser;
+	parser.parse_file(filename);
+	return parser.Get_Campaign();
+#else
 	cCampaign_XML_Handler *loader = new cCampaign_XML_Handler( filename );
 	cCampaign *campaign = loader->m_campaign;
 	loader->m_campaign = NULL;
 	delete loader;
 
 	return campaign;
+#endif
 }
 
 cCampaign *cCampaign_Manager :: Get_from_Name( const std::string &name )
