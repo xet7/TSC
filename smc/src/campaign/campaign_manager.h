@@ -31,8 +31,8 @@ public:
 	cCampaign( void );
 	~cCampaign( void );
 
-	// save
-	bool Save( const std::string &filename );
+	// Save. Raises xmlpp::exception on error.
+	void Save_To_File( const boost::filesystem::path& filename );
 
 	// name
 	std::string m_name;

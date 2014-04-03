@@ -39,45 +39,27 @@ cCampaign :: ~cCampaign( void )
 
 }
 
-bool cCampaign :: Save( const std::string &filename )
+void cCampaign :: Save_To_File( const fs::path& filename )
 {
-	boost::filesystem::ofstream file(utf8_to_path(filename), ios::out | ios::trunc);
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("campaign");
+	xmlpp::Element* p_node = NULL;
 
-	if( !file.is_open() )
-	{
-		printf( "Error : Couldn't open campaign file for saving. Is the file read-only ?" );
-		pHud_Debug->Set_Text( _("Couldn't save campaign ") + filename, speedfactor_fps * 5.0f );
-		return 0;
-	}
+	// <information>
+	p_node = p_root->add_child("information");
+	Add_Property(p_node, "name", m_name);
+	Add_Property(p_node, "description", m_description);
+	Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
+	// </information>
 
-	CEGUI::XMLSerializer stream( file );
+	// <target>
+	p_node = p_root->add_child("target");
+	Add_Property(p_node, "name", m_target);
+	Add_Property(p_node, "is_level", m_is_target_level);
+	// </target>
 
-	// begin
-	stream.openTag( "campaign" );
-
-	// begin
-	stream.openTag( "information" );
-		Write_Property( stream, "name", m_name );
-		Write_Property( stream, "description", m_description );
-		Write_Property( stream, "save_time", static_cast<Uint64>( time( NULL ) ) );
-	// end information
-	stream.closeTag();
-
-	// begin
-	stream.openTag( "target" );
-		Write_Property( stream, "name", m_target );
-		Write_Property( stream, "is_level", m_is_target_level );
-	// end target
-	stream.closeTag();
-
-	// end campaign
-	stream.closeTag();
-
-	file.close();
-	
-	debug_print( "Saved campaign %s\n", filename.c_str() );
-	
-	return 1;
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(filename)));
+	debug_print("Wrote campaign file '%s'.\n", path_to_utf8(filename).c_str());
 }
 
 /* *** *** *** *** *** *** *** cCampaign_Manager *** *** *** *** *** *** *** *** *** *** */
