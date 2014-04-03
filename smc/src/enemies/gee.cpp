@@ -33,13 +33,6 @@ cGee :: cGee( cSprite_Manager *sprite_manager )
 	cGee::Init();
 }
 
-cGee :: cGee( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cGee::Init();
-	cGee::Load_From_XML( attributes );
-}
-
 cGee :: cGee( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -111,48 +104,11 @@ cGee *cGee :: Copy( void ) const
 	return gee;
 }
 
-void cGee :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	// max distance
-	Set_Max_Distance( attributes.getValueAsInteger( "max_distance", m_max_distance ) );
-	// always fly
-	m_always_fly = attributes.getValueAsBool( "always_fly", m_always_fly );
-	// wait time
-	m_wait_time = attributes.getValueAsFloat( "wait_time", m_wait_time );
-	// fly distance
-	m_fly_distance = attributes.getValueAsInteger( "fly_distance", m_fly_distance );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-}
-
 std::string cGee :: Get_XML_Type_Name()
 {
 	return "gee";
 }
 
-void cGee :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// max distance
-	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
-	// always fly
-	Write_Property( stream, "always_fly", m_always_fly );
-	// wait time
-	Write_Property( stream, "wait_time", m_wait_time );
-	// fly distance
-	Write_Property( stream, "fly_distance", static_cast<int>(m_fly_distance) );
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cGee :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -166,7 +122,6 @@ xmlpp::Element* cGee :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cGee :: Load_From_Savegame( cSave_Level_Object *save_object )
 {

@@ -36,13 +36,6 @@ cTurtle :: cTurtle( cSprite_Manager *sprite_manager )
 	cTurtle::Init();
 }
 
-cTurtle :: cTurtle( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cTurtle::Init();
-	cTurtle::Load_From_XML( attributes );
-}
-
 cTurtle :: cTurtle( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -90,35 +83,11 @@ cTurtle *cTurtle :: Copy( void ) const
 	return turtle;
 }
 
-void cTurtle :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ), 1 );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-}
-
 std::string cTurtle :: Get_XML_Type_Name()
 {
 	return "turtle";
 }
 
-void cTurtle :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cTurtle :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -130,8 +99,6 @@ xmlpp::Element* cTurtle :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
-
 
 void cTurtle :: Load_From_Savegame( cSave_Level_Object *save_object )
 {

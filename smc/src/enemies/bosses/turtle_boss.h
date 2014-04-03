@@ -44,7 +44,6 @@ public:
 	cTurtleBoss( cSprite_Manager *sprite_manager );
 	// create from stream
 	cTurtleBoss( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cTurtleBoss( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cTurtleBoss( void );
 
@@ -53,9 +52,6 @@ public:
 
 	// copy
 	virtual cTurtleBoss *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -175,13 +171,10 @@ protected:
 	// if the level ends when killed
 	bool m_level_ends_if_killed;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 };
 

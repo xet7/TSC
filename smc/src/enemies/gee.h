@@ -32,7 +32,6 @@ public:
 	cGee( cSprite_Manager *sprite_manager );
 	// create from stream
 	cGee( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cGee( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cGee( void );
 
@@ -40,9 +39,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cGee *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -141,14 +137,11 @@ public:
 	// clouds particle counter
 	float m_clouds_counter;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 
 private:

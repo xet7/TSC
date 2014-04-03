@@ -69,10 +69,8 @@ public:
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 	// if dead
 	bool m_dead;

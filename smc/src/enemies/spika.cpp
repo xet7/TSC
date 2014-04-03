@@ -35,13 +35,6 @@ cSpika :: cSpika( cSprite_Manager *sprite_manager )
 	cSpika::Init();
 }
 
-cSpika :: cSpika( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cSpika::Init();
-	cSpika::Load_From_XML( attributes );
-}
-
 cSpika :: cSpika( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -82,28 +75,11 @@ cSpika *cSpika :: Copy( void ) const
 	return spika;
 }
 
-void cSpika :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-}
-
 std::string cSpika :: Get_XML_Type_Name()
 {
 	return "spika";
 }
 
-void cSpika :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cSpika :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -112,8 +88,6 @@ xmlpp::Element* cSpika :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
-
 
 void cSpika :: Set_Color( DefaultColor col )
 {

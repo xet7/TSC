@@ -36,13 +36,6 @@ cTurtleBoss :: cTurtleBoss( cSprite_Manager *sprite_manager )
 	cTurtleBoss::Init();
 }
 
-cTurtleBoss :: cTurtleBoss( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cTurtleBoss::Init();
-	cTurtleBoss::Load_From_XML( attributes );
-}
-
 cTurtleBoss :: cTurtleBoss( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -119,48 +112,11 @@ cTurtleBoss *cTurtleBoss :: Copy( void ) const
 	return turtle;
 }
 
-void cTurtleBoss :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ), 1 );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-	// max hits
-	Set_Max_Hits( attributes.getValueAsInteger( "max_hit_count", m_max_hits ) );
-	// max downgrade count
-	Set_Max_Downgrade_Counts( attributes.getValueAsInteger( "max_downgrade_count", m_max_downgrade_count ) );
-	// shell time
-	Set_Shell_Time( attributes.getValueAsFloat( "shell_time", m_shell_time ) );
-	// level ends if killed
-	Set_Level_Ends_If_Killed( attributes.getValueAsBool( "level_ends_if_killed", m_level_ends_if_killed ) );
-}
-
 std::string cTurtleBoss :: Get_XML_Type_Name()
 {
 	return "turtleboss";
 }
 
-void cTurtleBoss :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// max hit count
-	Write_Property( stream, "max_hit_count", m_max_hits );
-	// max downgrade count
-	Write_Property( stream, "max_downgrade_count", m_max_downgrade_count );
-	// shell time
-	Write_Property( stream, "shell_time", m_shell_time );
-	// level ends if killed
-	Write_Property( stream, "level_ends_if_killed", m_level_ends_if_killed );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cTurtleBoss :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -174,8 +130,6 @@ xmlpp::Element* cTurtleBoss :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
-
 
 void cTurtleBoss :: Set_Max_Hits( int nmax_hits )
 {

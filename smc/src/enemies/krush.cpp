@@ -35,13 +35,6 @@ cKrush :: cKrush( cSprite_Manager *sprite_manager )
 	cKrush::Init();
 }
 
-cKrush :: cKrush( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cKrush::Init();
-	cKrush::Load_From_XML( attributes );
-}
-
 cKrush :: cKrush( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -90,27 +83,11 @@ cKrush *cKrush :: Copy( void ) const
 	return krush;
 }
 
-void cKrush :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-}
-
 std::string cKrush :: Get_XML_Type_Name()
 {
 	return "krush";
 }
 
-void cKrush :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cKrush :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -119,7 +96,6 @@ xmlpp::Element* cKrush :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 
 void cKrush :: Load_From_Savegame( cSave_Level_Object *save_object )

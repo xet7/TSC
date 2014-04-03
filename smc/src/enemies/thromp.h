@@ -32,7 +32,6 @@ public:
 	cThromp( cSprite_Manager *sprite_manager );
 	// create from stream
 	cThromp( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cThromp( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cThromp( void );
 
@@ -40,9 +39,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cThromp *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -139,14 +135,11 @@ public:
 	// distance rect to end position
 	GL_rect m_distance_rect;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 
 private:

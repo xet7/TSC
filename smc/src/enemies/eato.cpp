@@ -36,13 +36,6 @@ cEato :: cEato( cSprite_Manager *sprite_manager )
 	cEato::Init();
 }
 
-cEato :: cEato( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cEato::Init();
-	cEato::Load_From_XML( attributes );
-}
-
 cEato :: cEato( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -89,32 +82,11 @@ cEato *cEato :: Copy( void ) const
 	return eato;
 }
 
-void cEato :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// image directory
-	Set_Image_Dir( utf8_to_path( attributes.getValueAsString( "image_dir", path_to_utf8( m_img_dir ) ).c_str() ) );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-}
-
 std::string cEato :: Get_XML_Type_Name()
 {
 	return "eato";
 }
 
-void cEato :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-
-	// image directory
-	Write_Property( stream, "image_dir", path_to_utf8 ( m_img_dir ) );
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cEato :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -124,7 +96,6 @@ xmlpp::Element* cEato :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cEato :: Set_Image_Dir( fs::path dir )
 {

@@ -40,12 +40,6 @@ cStaticEnemy :: cStaticEnemy( cSprite_Manager *sprite_manager )
 	cStaticEnemy::Init();
 }
 
-cStaticEnemy :: cStaticEnemy( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager ), m_path_state( sprite_manager )
-{
-	cStaticEnemy::Init();
-	cStaticEnemy::Load_From_XML( attributes );
-}
 
 cStaticEnemy :: cStaticEnemy( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager ), m_path_state( sprite_manager )
@@ -111,48 +105,11 @@ cStaticEnemy *cStaticEnemy :: Copy( void ) const
 	return static_enemy;
 }
 
-void cStaticEnemy :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// rotation speed
-	Set_Rotation_Speed( static_cast<float>( attributes.getValueAsFloat( "rotation_speed", -7.5f ) ) );
-	// image
-	Set_Static_Image( utf8_to_path( attributes.getValueAsString( "static_image", "enemy/static/saw/default.png" ).c_str() ) );
-    // path
-    Set_Path_Identifier( attributes.getValueAsString( "path", "" ).c_str() );
-    // movement speed
-    Set_Speed( static_cast<float>( attributes.getValueAsFloat( "speed", m_speed ) ) );
-	// fire resistant
-	m_fire_resistant = attributes.getValueAsBool( "fire_resistant", m_fire_resistant );
-	// ice resistance
-	m_ice_resistance = static_cast<float>( attributes.getValueAsFloat( "ice_resistance", m_ice_resistance ) );
-}
-
 std::string cStaticEnemy :: Get_XML_Type_Name()
 {
 	return "static";
 }
 
-void cStaticEnemy :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cEnemy::Do_XML_Saving(stream);
-
-	// rotation speed
-	Write_Property( stream, "rotation_speed", m_rotation_speed );
-	// image
-	Write_Property( stream, "static_image", path_to_utf8(m_img_filename).c_str() );
-	// path
-		Write_Property( stream, "path", m_path_state.m_path_identifier );
-		// speed
-		Write_Property( stream, "speed", m_speed );
-	// fire resistant
-	Write_Property( stream, "fire_resistant", m_fire_resistant );
-	// ice resistance
-	Write_Property( stream, "ice_resistance", m_ice_resistance );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cStaticEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -166,7 +123,6 @@ xmlpp::Element* cStaticEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 
 void cStaticEnemy :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )

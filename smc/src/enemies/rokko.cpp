@@ -35,13 +35,6 @@ cRokko :: cRokko( cSprite_Manager *sprite_manager )
 	cRokko::Init();
 }
 
-cRokko :: cRokko( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cEnemy( sprite_manager )
-{
-	cRokko::Init();
-	cRokko::Load_From_XML( attributes );
-}
-
 cRokko :: cRokko( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
@@ -101,32 +94,11 @@ cRokko *cRokko :: Copy( void ) const
 	return rokko;
 }
 
-void cRokko :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	// speed
-	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
-}
-
 std::string cRokko :: Get_XML_Type_Name()
 {
   return "rokko";
 }
 
-void cRokko :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-  cEnemy::Do_XML_Saving(stream);
-
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// speed
-	Write_Property( stream, "speed", m_speed );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cRokko :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -136,7 +108,6 @@ xmlpp::Element* cRokko :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 
 void cRokko :: Load_From_Savegame( cSave_Level_Object *save_object )
