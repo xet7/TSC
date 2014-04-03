@@ -223,13 +223,6 @@ private:
 	void Save_To_File(boost::filesystem::path path);
 };
 
-/* Returns a World Object if element name is available else NULL
- * engine_version : engine version of the data and if it's below the current version it converts it
- * sprite_manager : needed if the engine version is below the current version and data conversion creates multiple objects
- * overworld : the parent overworld
-*/
-cSprite *Create_World_Object_From_XML( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager, cOverworld *overworld );
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 // The Overworld
