@@ -16,7 +16,7 @@ cCampaignLoader::~cCampaignLoader()
 	mp_campaign = NULL;
 }
 
-cLevel* cCampaignLoader::Get_Campaign()
+cCampaign* cCampaignLoader::Get_Campaign()
 {
 	return mp_campaign;
 }
@@ -33,7 +33,7 @@ void cCampaignLoader::parse_file(boost::filesystem::path filename)
 
 void cCampaignLoader::on_start_document()
 {
-	if (mp_level)
+	if (mp_campaign)
 		throw(RestartedXmlParserError());
 
 	mp_campaign = new cCampaign();
@@ -67,7 +67,7 @@ void cCampaignLoader::on_start_element(const Glib::ustring& name, const xmlpp::S
 	}
 }
 
-void cLevelLoader::on_end_element(const Glib::ustring& name)
+void cCampaignLoader::on_end_element(const Glib::ustring& name)
 {
 	// <property> tags are parsed cumulatively in on_start_element()
 	// so all have been collected when the surrounding element
@@ -75,5 +75,27 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 	if (name == "property")
 		return;
 
+	if (name == "information")
+		Handle_Information();
+	else if (name == "target")
+		Handle_Target();
+	else if (name == "campaign")
+		{ /* Ignore */ }
+	else
+		std::cerr << "Warning: Campaign unknown element '" << name << "'." << std::endl;
+
 	m_current_properties.clear();
+}
+
+void cCampaignLoader::Handle_Information()
+{
+	mp_campaign->m_name			= m_current_properties["name"];
+	mp_campaign->m_description	= m_current_properties["description"];
+	mp_campaign->m_last_saved	= string_to_int64(m_current_properties["save_time"]);
+}
+
+void cCampaignLoader::Handle_Target()
+{
+	mp_campaign->m_target = m_current_properties["name"];
+	mp_campaign->m_is_target_level = m_current_properties.retrieve<bool>("is_level");
 }

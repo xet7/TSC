@@ -14,6 +14,7 @@
 */
 
 #include "campaign_manager.h"
+#include "campaign_loader.h"
 #include "../gui/hud.h"
 #include "../core/game_core.h"
 #include "../core/filesystem/filesystem.h"
@@ -150,6 +151,8 @@ cCampaign *cCampaign_Manager :: Load_Campaign( const fs::path &filename )
 #ifdef ENABLE_NEW_LOADER
 	cCampaignLoader parser;
 	parser.parse_file(filename);
+
+	debug_print("Loaded campaign file: %s\n", path_to_utf8(filename).c_str());
 	return parser.Get_Campaign();
 #else
 	cCampaign_XML_Handler *loader = new cCampaign_XML_Handler( filename );

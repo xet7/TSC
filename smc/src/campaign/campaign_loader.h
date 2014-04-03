@@ -2,6 +2,8 @@
 #ifndef SMC_CAMPAIGN_LOADER_H
 #define SMC_CAMPAIGN_LOADER_H
 #include "../core/global_game.h"
+#include "../core/xml_attributes.h"
+#include "campaign_manager.h"
 
 namespace SMC {
 
@@ -26,9 +28,13 @@ namespace SMC {
 		virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties);
 		virtual void on_end_element(const Glib::ustring& name);
 
+		void Handle_Information();
+		void Handle_Target();
+
 		cCampaign* mp_campaign;
 		boost::filesystem::path m_campaignfile;
 		XmlAttributes m_current_properties;
-}
+	};
 
+}
 #endif
