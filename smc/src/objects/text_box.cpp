@@ -38,13 +38,6 @@ cText_Box :: cText_Box( cSprite_Manager *sprite_manager )
 	cText_Box::Init();
 }
 
-cText_Box :: cText_Box( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cBaseBox( sprite_manager )
-{
-	cText_Box::Init();
-	cText_Box::Load_From_XML( attributes );
-}
-
 cText_Box :: cText_Box( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cBaseBox( sprite_manager )
 {
@@ -83,14 +76,6 @@ cText_Box *cText_Box :: Copy( void ) const
 	return text_box;
 }
 
-void cText_Box :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	cBaseBox::Load_From_XML( attributes );
-
-	// text
-	Set_Text( xml_string_to_string( attributes.getValueAsString( "text" ).c_str() ) );
-}
-
 void cText_Box :: Load_From_XML( XmlAttributes &attributes )
 {
 	cBaseBox::Load_From_XML( attributes );
@@ -99,15 +84,6 @@ void cText_Box :: Load_From_XML( XmlAttributes &attributes )
 	Set_Text( xml_string_to_string( attributes["text"] ) );
 }
 
-void cText_Box :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cBaseBox::Do_XML_Saving( stream );
-
-	// text
-	Write_Property( stream, "text", m_text );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cText_Box :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cBaseBox::Save_To_XML_Node(p_element);
@@ -117,7 +93,6 @@ xmlpp::Element* cText_Box :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cText_Box :: Activate( void )
 {

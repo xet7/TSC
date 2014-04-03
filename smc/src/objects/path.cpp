@@ -459,13 +459,6 @@ cPath :: cPath( cSprite_Manager *sprite_manager )
 	cPath::Init();
 }
 
-cPath :: cPath( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cSprite( sprite_manager, "path" )
-{
-	cPath::Init();
-	cPath::Load_From_XML( attributes );
-}
-
 cPath :: cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cSprite( sprite_manager, "path" )
 {
@@ -544,72 +537,11 @@ cPath *cPath :: Copy( void ) const
 	return path;
 }
 
-void cPath :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	m_segments.clear();
-
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// identifier
-	Set_Identifier( attributes.getValueAsString( "identifier" ).c_str() );
-	// show line
-	Set_Show_Line(attributes.getValueAsBool("show_line", m_show_line));
-	// rewind
-	Set_Rewind( attributes.getValueAsBool( "rewind", m_rewind ) );
-
-	unsigned int count = 0;
-	// load segments
-	while( 1 )
-	{
-		std::string str_pos = int_to_string( count );
-
-		// next line not available
-		if( !attributes.exists( "segment_" + str_pos + "_x1" ) )
-		{
-			break;
-		}
-
-		cPath_Segment obj;
-		
-		obj.Set_Pos( attributes.getValueAsFloat( "segment_" + str_pos + "_x1" ), attributes.getValueAsFloat( "segment_" + str_pos + "_y1" ), attributes.getValueAsFloat( "segment_" + str_pos + "_x2" ), attributes.getValueAsFloat( "segment_" + str_pos + "_y2" ) );
-
-		m_segments.push_back( obj );
-
-		count++;
-	}
-}
-
 std::string cPath :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cPath :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cSprite::Do_XML_Saving(stream);
-
-	// identifier
-	Write_Property( stream, "identifier", m_identifier );
-	// show line
-	Write_Property( stream, "show_line", m_show_line );
-	// rewind
-	Write_Property( stream, "rewind", m_rewind );
-
-	// segments
-	unsigned int count = m_segments.size();
-
-	for( unsigned int pos = 0; pos < count; pos++ )
-	{
-		std::string str_pos = int_to_string( pos );
-
-		Write_Property( stream, "segment_" + str_pos + "_x1", m_segments[pos].m_x1 );
-		Write_Property( stream, "segment_" + str_pos + "_y1", m_segments[pos].m_y1 );
-		Write_Property( stream, "segment_" + str_pos + "_x2", m_segments[pos].m_x2 );
-		Write_Property( stream, "segment_" + str_pos + "_y2", m_segments[pos].m_y2 );
-	}
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cPath :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
@@ -631,7 +563,6 @@ xmlpp::Element* cPath :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cPath :: Load_From_Savegame( cSave_Level_Object *save_object )
 {

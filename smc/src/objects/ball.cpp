@@ -37,13 +37,6 @@ cBall :: cBall( cSprite_Manager *sprite_manager )
 	cBall::Init();
 }
 
-cBall :: cBall( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cAnimated_Sprite( sprite_manager, "ball" )
-{
-	cBall::Init();
-	cBall::Load_From_XML( attributes );
-}
-
 cBall :: cBall( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "ball" )
 {
@@ -102,37 +95,11 @@ cBall *cBall :: Copy( void ) const
 	return ball;
 }
 
-void cBall :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	m_direction = static_cast<ObjectDirection>(attributes.getValueAsInteger( "direction" ));
-	// origin array and type
-	Set_Origin( static_cast<ArrayType>(attributes.getValueAsInteger( "origin_array" )), static_cast<SpriteType>(attributes.getValueAsInteger( "origin_type" )) );
-	// type
-	Set_Ball_Type( static_cast<ball_effect>(attributes.getValueAsInteger( "ball_type" )) );
-}
-
 std::string cBall :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cBall :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cAnimated_Sprite::Do_XML_Saving(stream);
-
-	// direction
-	Write_Property( stream, "direction", m_direction );
-	// origin array and type
-	Write_Property( stream, "origin_array", m_origin_array );
-	Write_Property( stream, "origin_type", m_origin_type );
-	// type
-	Write_Property( stream, "ball_type", m_ball_type );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cBall :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
@@ -147,7 +114,6 @@ xmlpp::Element* cBall :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cBall :: Load_From_Savegame( cSave_Level_Object *save_object )
 {

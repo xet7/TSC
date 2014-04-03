@@ -33,7 +33,6 @@ public:
 	// constructor
 	cBonusBox( cSprite_Manager *sprite_manager );
 	// create from stream
-	cBonusBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	cBonusBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
 	// destructor
 	virtual ~cBonusBox( void );
@@ -45,7 +44,6 @@ public:
 	virtual cBonusBox *Copy( void ) const;
 
 	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// Create the MRuby object for this
@@ -111,14 +109,10 @@ public:
 	// Goldpiece color
 	DefaultColor m_gold_color;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	// typename inherited
 };
 

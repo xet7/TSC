@@ -81,21 +81,6 @@ void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
 	Set_Useable_Count(attributes.fetch<int>("useable_count", m_start_useable_count));
 }
 
-void cBaseBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	if( box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX )
-	{
-		// animation
-		Set_Animation_Type( attributes.getValueAsString( "animation", m_anim_type ).c_str() );
-	}
-	// invisible
-	Set_Invisible( static_cast<Box_Invisible_Type>(attributes.getValueAsInteger( "invisible" )) );
-	// useable count
-	Set_Useable_Count( attributes.getValueAsInteger( "useable_count", m_start_useable_count ), 1 );
-}
-
 std::string cBaseBox :: Get_XML_Type_Name()
 {
 	// return is just as good as break here
@@ -109,24 +94,6 @@ std::string cBaseBox :: Get_XML_Type_Name()
 	}
 }
 
-void cBaseBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cAnimated_Sprite::Do_XML_Saving(stream);
-
-	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX)
-	{
-		// animation type
-		Write_Property( stream, "animation", m_anim_type );
-		// best possible item
-		Write_Property( stream, "item", box_type );
-	}
-	// invisible
-	Write_Property( stream, "invisible", m_box_invisible );
-	// useable count
-	Write_Property( stream, "useable_count", m_start_useable_count );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cBaseBox :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
@@ -145,7 +112,6 @@ xmlpp::Element* cBaseBox :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cBaseBox :: Load_From_Savegame( cSave_Level_Object *save_object )
 {

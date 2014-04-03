@@ -31,7 +31,6 @@ public:
 	// constructor
 	cSpinBox( cSprite_Manager *sprite_manager );
 	// create from stream
-	cSpinBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	cSpinBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cSpinBox( void );
@@ -43,7 +42,6 @@ public:
 	virtual cSpinBox *Copy( void ) const;
 
 	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// Create the MRuby object for this
@@ -68,14 +66,10 @@ public:
 	// if spinning
 	bool m_spin;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save below given XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	// typename inherited
 };
 

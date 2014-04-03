@@ -76,7 +76,6 @@ public:
 	// constructor
 	cMushroom( cSprite_Manager *sprite_manager );
 	// create from stream
-	cMushroom( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	cMushroom( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cMushroom( void );
@@ -85,9 +84,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cMushroom *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -114,14 +110,10 @@ public:
 	// glim animation modifier
 	bool m_glim_mod;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
   virtual std::string Get_XML_Type_Name();
 };
 
@@ -134,7 +126,6 @@ public:
 	cFirePlant( cSprite_Manager *sprite_manager );
 	// create from stream
 	cFirePlant( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
-	cFirePlant( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cFirePlant( void );
 
@@ -142,9 +133,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cFirePlant *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Activates the item
 	virtual void Activate( void );
@@ -160,8 +148,6 @@ public:
 	// node saving inherited
 
 protected:
-	// save to stream
-	// stream saving inherited
   virtual std::string Get_XML_Type_Name(){return "fireplant";}
 };
 
@@ -174,7 +160,6 @@ public:
 	cMoon( cSprite_Manager *sprite_manager );
 	// create from stream
 	cMoon( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cMoon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cMoon( void );
 

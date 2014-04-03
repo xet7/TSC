@@ -47,7 +47,6 @@ public:
 	virtual ~cBaseBox( void );
 
 	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// load from savegame
@@ -141,16 +140,12 @@ public:
 	// active particle animation counter
 	float m_particle_counter_active;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
 	// Create the Name from the current settings
 	void Create_Name( void );
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 };
 

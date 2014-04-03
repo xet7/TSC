@@ -330,13 +330,6 @@ cSprite :: cSprite( cSprite_Manager *sprite_manager, const std::string type_name
 	cSprite::Init();
 }
 
-cSprite :: cSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
-: cCollidingSprite( sprite_manager ), m_type_name( type_name )
-{
-	cSprite::Init();
-	cSprite::Load_From_XML( attributes );
-}
-
 cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
 	: cCollidingSprite( sprite_manager ), m_type_name( type_name )
 {
@@ -458,67 +451,6 @@ cSprite *cSprite :: Copy( void ) const
 	return basic_sprite;
 }
 
-void cSprite :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// image
-	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) ), true ) ;
-	// type
-	Set_Sprite_Type( Get_Sprite_Type_Id( attributes.getValueAsString( "type" ).c_str() ) );
-	// FIXME: Not all sprite subclasses call the chain upto cSprite::Load_From_XML()!
-	// See https://github.com/Quintus/SMC/issues/12#issuecomment-23027306
-}
-
-void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
-	// UID
-	Write_Property( stream, "uid", m_uid );
-	// image
-	boost::filesystem::path img_filename;
-
-	if( m_start_image )
-	{
-		img_filename = m_start_image->m_path;
-	}
-	else if( m_image )
-	{
-		img_filename = m_image->m_path;
-	}
-	else
-	{
-		printf( "Warning: cSprite::Do_XML_Saving() no image from type %d\n", m_type );
-	}
-
-	// remove pixmaps directory from string
-	if (img_filename.is_absolute())
-		img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
-
-	Write_Property( stream, "image", path_to_utf8(img_filename) );
-	// type (only if Get_XML_Type_Name() returns something
-	// meaningful)
-	std::string type = Get_XML_Type_Name();
-	if (!type.empty())
-		Write_Property( stream, "type", type );
-}
-
-void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
-{
-	// m_type_name is set by subclasses, so the main opening
-	// tag is detected automatically.
-	stream.openTag( m_type_name );
-
-	// Main saving. Subclasses add to this method.
-	Do_XML_Saving(stream);
-
-	// End tag
-	stream.closeTag();
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = p_element->add_child(m_type_name);
@@ -551,7 +483,6 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
 
 void cSprite :: Set_Image( cGL_Surface *new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */ )
 {

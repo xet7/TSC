@@ -31,7 +31,6 @@ public:
 	cjStar( cSprite_Manager *sprite_manager );
 	// create from stream
 	cjStar( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cjStar( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cjStar( void );
 	
@@ -39,9 +38,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cjStar *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Activate the star
 	void Activate( void );
@@ -70,8 +66,6 @@ public:
 	// node saving inherited
 
 protected:
-	// save to stream
-	// stream saving inherited
 	virtual std::string Get_XML_Type_Name(){return "jstar";}
 };
 

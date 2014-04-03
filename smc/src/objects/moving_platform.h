@@ -56,7 +56,6 @@ public:
 	cMoving_Platform( cSprite_Manager *sprite_manager );
 	// create from stream
 	cMoving_Platform( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cMoving_Platform( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	~cMoving_Platform( void );
 	
@@ -68,9 +67,6 @@ public:
 	virtual void Init_Links( void );
 	// copy
 	virtual cMoving_Platform *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Set the parent sprite manager
 	virtual void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
@@ -189,14 +185,10 @@ public:
 	// path state if linked to a path
 	cPath_State m_path_state;
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 
 private:

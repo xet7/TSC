@@ -111,7 +111,6 @@ public:
 	// constructor
 	cSprite( cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
 	// create from stream
-	cSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
 	cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
 	// destructor
 	virtual ~cSprite( void );
@@ -125,21 +124,12 @@ public:
 	// copy this sprite
 	virtual cSprite *Copy( void ) const;
 
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-	// save to stream. Subclasses should override
-	// Do_XML_Saving() and Get_XML_Type_Name (see
-	// further below) instead.
-	void Save_To_XML( CEGUI::XMLSerializer &stream );
-
-#ifdef ENABLE_NEW_LOADER
 	/// Save the level below the given XML node. Subclasses
 	/// should override this *and* call the base class method.
 	/// The subclasses should then add attributes to the node
 	/// the baseclass method returned and return that node
 	/// themselves again.
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object ) {};
@@ -570,12 +560,6 @@ public:
 	static const float m_pos_z_halfmassive_start;
 
 protected:
-	// Saves the actual object attributes to the stream.
-	// Called from Save_To_XML(). Override in subclasses
-	// and call the parent method.
-	// TODO: This method should vanish when Save_To_XML_Node()
-	// is properly implemented in all relevant classes.
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	// Returns the string to use for the XML `type' property of
 	// the sprite. Override in subclasses and do not call
 	// the parent method. Returning an empty string causes

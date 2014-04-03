@@ -43,13 +43,6 @@ cMoving_Platform :: cMoving_Platform( cSprite_Manager *sprite_manager )
 	cMoving_Platform::Init();
 }
 
-cMoving_Platform :: cMoving_Platform( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cAnimated_Sprite( sprite_manager, "moving_platform" ), m_path_state( sprite_manager )
-{
-	cMoving_Platform::Init();
-	cMoving_Platform::Load_From_XML( attributes );
-}
-
 cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "moving_platform" ), m_path_state( sprite_manager )
 {
@@ -177,97 +170,11 @@ cMoving_Platform *cMoving_Platform :: Copy( void ) const
 	return moving_platform;
 }
 
-void cMoving_Platform :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// move type
-	Set_Move_Type( static_cast<Moving_Platform_Type>(attributes.getValueAsInteger( "move_type", m_move_type )) );
-	// massive type
-	Set_Massive_Type( Get_Massive_Type_Id( attributes.getValueAsString( "massive_type", Get_Massive_Type_Name( m_massive_type ) ).c_str() ) );
-	// if move type is line or circle
-	if( m_move_type == MOVING_PLATFORM_TYPE_LINE || m_move_type == MOVING_PLATFORM_TYPE_CIRCLE )
-	{
-		// direction
-		Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ), 1 );
-		// max distance
-		Set_Max_Distance( attributes.getValueAsInteger( "max_distance", m_max_distance ) );
-	}
-	// path identifier
-	if( m_move_type == MOVING_PLATFORM_TYPE_PATH || m_move_type == MOVING_PLATFORM_TYPE_PATH_BACKWARDS )
-	{
-		Set_Path_Identifier( attributes.getValueAsString( "path_identifier" ).c_str() );
-	}
-	// speed
-	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
-	// touch_time
-	Set_Touch_Time( attributes.getValueAsFloat( "touch_time", m_touch_time ) );
-	// shake time
-	Set_Shake_Time( attributes.getValueAsFloat( "shake_time", m_shake_time ) );
-	// touch move time
-	Set_Touch_Move_Time( attributes.getValueAsFloat( "touch_move_time", m_touch_move_time ) );
-	// middle image count
-	Set_Middle_Count( attributes.getValueAsInteger( "middle_img_count", m_middle_count ) );
-	// image top left
-	Set_Image_Top_Left( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_left", path_to_utf8( m_images[0].m_image->Get_Path() ) ).c_str() ) ) );
-	// image top middle
-	Set_Image_Top_Middle( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_middle", path_to_utf8( m_images[1].m_image->Get_Path() ) ).c_str() ) ) );
-	// image top right
-	Set_Image_Top_Right( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_right", path_to_utf8( m_images[2].m_image->Get_Path() ) ).c_str() ) ) );
-}
-
 std::string cMoving_Platform :: Get_XML_Type_Name()
 {
 	return int_to_string(m_move_type);
 }
 
-void cMoving_Platform :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cAnimated_Sprite::Do_XML_Saving(stream);
-
-	// massive type
-	Write_Property( stream, "massive_type", Get_Massive_Type_Name( m_massive_type ) );
-
-	// path identifier
-	if( m_move_type == MOVING_PLATFORM_TYPE_PATH || m_move_type == MOVING_PLATFORM_TYPE_PATH_BACKWARDS )
-	{
-		if( !m_path_state.m_path_identifier.empty() )
-		{
-			Write_Property( stream, "path_identifier", m_path_state.m_path_identifier );
-		}
-	}
-	// if move type is line or circle
-	if( m_move_type == MOVING_PLATFORM_TYPE_LINE || m_move_type == MOVING_PLATFORM_TYPE_CIRCLE )
-	{
-		// direction
-		Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-		// max distance
-		Write_Property( stream, "max_distance", m_max_distance );
-	}
-	// speed
-	Write_Property( stream, "speed", m_speed );
-	// touch time
-	Write_Property( stream, "touch_time", m_touch_time );
-	// shake time
-	Write_Property( stream, "shake_time", m_shake_time );
-	// touch move time
-	Write_Property( stream, "touch_move_time", m_touch_move_time );
-	// middle image count
-	Write_Property( stream, "middle_img_count", m_middle_count );
-
-	fs::path rel;
-	// image top left
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
-	Write_Property( stream, "image_top_left", path_to_utf8( rel ) );
-	// image top middle
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
-	Write_Property( stream, "image_top_middle", path_to_utf8( rel ) );
-	// image top right
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
-	Write_Property( stream, "image_top_right", path_to_utf8( rel ) );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cMoving_Platform :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
@@ -310,7 +217,6 @@ xmlpp::Element* cMoving_Platform :: Save_To_XML_Node( xmlpp::Element* p_element 
 
 	return p_node;
 }
-#endif
 
 
 void cMoving_Platform :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
