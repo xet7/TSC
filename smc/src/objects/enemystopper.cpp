@@ -30,13 +30,6 @@ cEnemyStopper :: cEnemyStopper( cSprite_Manager *sprite_manager )
 	cEnemyStopper::Init();
 }
 
-cEnemyStopper :: cEnemyStopper( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cAnimated_Sprite( sprite_manager, "enemystopper" )
-{
-	cEnemyStopper::Init();
-	cEnemyStopper::Load_From_XML( attributes );
-}
-
 cEnemyStopper :: cEnemyStopper( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "enemystopper" )
 {
@@ -74,11 +67,6 @@ void cEnemyStopper :: Init( void )
 	m_start_rect.m_h = m_rect.m_h;
 
 	m_editor_color = Color( static_cast<Uint8>(0), 0, 255, 128 );
-}
-
-void cEnemyStopper :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 }
 
 void cEnemyStopper :: Draw( cSurface_Request *request /* = NULL */ )
