@@ -35,13 +35,6 @@ cBackground :: cBackground( cSprite_Manager *sprite_manager )
 	cBackground::Set_Sprite_Manager( sprite_manager );
 }
 
-cBackground :: cBackground( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-{
-	cBackground::Init();
-	cBackground::Set_Sprite_Manager( sprite_manager );
-	cBackground::Load_From_XML( attributes );
-}
-
 cBackground :: cBackground( XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 {
 	cBackground::Init();
@@ -76,27 +69,6 @@ void cBackground :: Init( void )
 	m_const_vel_y = 0.0f;
 }
 
-void cBackground :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	Set_Type( static_cast<BackgroundType>(attributes.getValueAsInteger( "type" )) );
-
-	if( m_type == BG_GR_HOR || m_type == BG_GR_VER )
-	{
-		Set_Color_1( Color( static_cast<Uint8>(attributes.getValueAsInteger( "bg_color_1_red" )), attributes.getValueAsInteger( "bg_color_1_green" ), attributes.getValueAsInteger( "bg_color_1_blue" ) ) );
-		Set_Color_2( Color( static_cast<Uint8>(attributes.getValueAsInteger( "bg_color_2_red" )), attributes.getValueAsInteger( "bg_color_2_green" ), attributes.getValueAsInteger( "bg_color_2_blue" ) ) );
-	}
-	else if( m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL )
-	{
-		Set_Start_Pos( attributes.getValueAsFloat( "posx" ), attributes.getValueAsFloat( "posy" ) );
-		Set_Pos_Z( attributes.getValueAsFloat( "posz" ) );
-
-		Set_Image( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) );
-		Set_Scroll_Speed( attributes.getValueAsFloat( "speedx" ), attributes.getValueAsFloat( "speedy" ) );
-		Set_Const_Velocity_X( attributes.getValueAsFloat( "const_velx" ) );
-		Set_Const_Velocity_Y( attributes.getValueAsFloat( "const_vely" ) );
-	}
-}
-
 void cBackground :: Load_From_Attributes( XmlAttributes &attributes )
 {
 	Set_Type( static_cast<BackgroundType>( string_to_int( attributes["type"] ) ) );
@@ -127,7 +99,6 @@ void cBackground :: Load_From_Attributes( XmlAttributes &attributes )
 	}
 }
 
-#ifdef ENABLE_NEW_LOADER
 void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 {
 	if (m_type == BG_NONE)
@@ -167,58 +138,6 @@ void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 	else
 		std::cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
 	// </background>
-}
-#endif
-
-void cBackground :: Save_To_XML( CEGUI::XMLSerializer &stream )
-{
-	if( m_type == BG_NONE )
-	{
-		return;
-	}
-
-	// begin
-	stream.openTag( "background" );
-
-	// type
-	Write_Property( stream, "type", m_type );
-
-	// gradient
-	if( m_type == BG_GR_HOR || m_type == BG_GR_VER )
-	{
-		// background color 1
-		Write_Property( stream, "bg_color_1_red", static_cast<int>(m_color_1.red) );
-		Write_Property( stream, "bg_color_1_green", static_cast<int>(m_color_1.green) );
-		Write_Property( stream, "bg_color_1_blue", static_cast<int>(m_color_1.blue) );
-		// background color 2
-		Write_Property( stream, "bg_color_2_red", static_cast<int>(m_color_2.red) );
-		Write_Property( stream, "bg_color_2_green", static_cast<int>(m_color_2.green) );
-		Write_Property( stream, "bg_color_2_blue", static_cast<int>(m_color_2.blue) );
-	}
-	// image
-	else if( m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL )
-	{
-		// position
-		Write_Property( stream, "posx", m_start_pos_x );
-		Write_Property( stream, "posy", m_start_pos_y );
-		Write_Property( stream, "posz", m_pos_z );
-
-		// image filename
-		Write_Property( stream, "image", path_to_utf8( m_image_1_filename ) );
-		// speed
-		Write_Property( stream, "speedx", m_speed_x );
-		Write_Property( stream, "speedy", m_speed_y );
-		// constant velocity
-		Write_Property( stream, "const_velx", m_const_vel_x );
-		Write_Property( stream, "const_vely", m_const_vel_y );
-	}
-	else
-	{
-		printf( "Error : Unknown Background Type %d\n", m_type );
-	}
-
-	// end background
-	stream.closeTag();
 }
 
 void cBackground :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
