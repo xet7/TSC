@@ -205,27 +205,7 @@ public:
 	// camera
 	GL_rect m_camera_limits;
 	float m_fixed_camera_hor_vel;
-
-private:
-	// XML element start (called by CEGUI on XML loading)
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end (called by CEGUI on XML loading)
-	virtual void elementEnd( const CEGUI::String &element );
-	// XML text element (called by CEGUI on XML loading)
-	virtual void text( const CEGUI::String &element );
-
-	// XML element Item Tag list
-	CEGUI::XMLAttributes m_xml_attributes;
-
-	// XML: Indicates whether the <script> tag has been opened
-	bool m_start_script_tag;
 };
-
-/* Return the Level Object if element name is available else NULL
- * engine_version : engine version of the data and if it's below the current version it converts it
- * sprite_manager : needed if the engine version is below the current version and data conversion creates multiple objects
-*/
-cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
