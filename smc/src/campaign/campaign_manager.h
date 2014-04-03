@@ -68,26 +68,6 @@ public:
 	cCampaign *Get_from_Name( const std::string &name );
 };
 
-/* *** *** *** *** *** *** *** cCampaign_XML_Handler *** *** *** *** *** *** *** *** *** *** */
-
-class cCampaign_XML_Handler : public CEGUI::XMLHandler
-{
-public:
-	cCampaign_XML_Handler( const boost::filesystem::path &filename );
-	virtual ~cCampaign_XML_Handler( void );
-
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-
-	// XML attributes list
-	CEGUI::XMLAttributes m_xml_attributes;
-
-	// object we are constructing
-	cCampaign *m_campaign;
-};
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 // Campaign Manager

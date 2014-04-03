@@ -148,20 +148,11 @@ cCampaign *cCampaign_Manager :: Load_Campaign( const fs::path &filename )
 		return NULL;
 	}
 
-#ifdef ENABLE_NEW_LOADER
 	cCampaignLoader parser;
 	parser.parse_file(filename);
 
 	debug_print("Loaded campaign file: %s\n", path_to_utf8(filename).c_str());
 	return parser.Get_Campaign();
-#else
-	cCampaign_XML_Handler *loader = new cCampaign_XML_Handler( filename );
-	cCampaign *campaign = loader->m_campaign;
-	loader->m_campaign = NULL;
-	delete loader;
-
-	return campaign;
-#endif
 }
 
 cCampaign *cCampaign_Manager :: Get_from_Name( const std::string &name )
@@ -177,76 +168,6 @@ cCampaign *cCampaign_Manager :: Get_from_Name( const std::string &name )
 	}
 
 	return NULL;
-}
-
-/* *** *** *** *** *** *** *** cCampaign_XML_Handler *** *** *** *** *** *** *** *** *** *** */
-
-cCampaign_XML_Handler :: cCampaign_XML_Handler( const fs::path &filename )
-{
-	m_campaign = new cCampaign();
-
-	try
-	{
-	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Campaign.xsd")), "" );
-	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Campaign.xsd")), "" );
-	#endif
-	}
-	// catch CEGUI Exceptions
-	catch( CEGUI::Exception &ex )
-	{
-		std::cerr << "Loading Campaign" << path_to_utf8(filename) << "failed with CEGUI exception: " << ex.getMessage() << std::cerr;
-		pHud_Debug->Set_Text( _("Campaign Loading failed : ") + (const std::string)ex.getMessage().c_str() );
-	}
-}
-
-cCampaign_XML_Handler :: ~cCampaign_XML_Handler( void )
-{
-	if( m_campaign )
-	{
-		delete m_campaign;
-	}
-}
-
-void cCampaign_XML_Handler :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
-{
-	if( element == "property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-	}
-}
-
-void cCampaign_XML_Handler :: elementEnd( const CEGUI::String &element )
-{
-	if( element == "property" )
-	{
-		return;
-	}
-
-	if( element == "information" )
-	{
-		m_campaign->m_name = m_xml_attributes.getValueAsString( "name" ).c_str();
-		m_campaign->m_description = m_xml_attributes.getValueAsString( "description" ).c_str();
-		m_campaign->m_last_saved = string_to_int64( m_xml_attributes.getValueAsString( "save_time" ).c_str() );
-	}
-	else if( element == "target" )
-	{
-		m_campaign->m_target = m_xml_attributes.getValueAsString( "name" ).c_str();
-		m_campaign->m_is_target_level = m_xml_attributes.getValueAsBool( "is_level" );
-	}
-	else if( element == "campaign" )
-	{
-		// ignore
-	}
-	else if( element.length() )
-	{
-		printf( "Warning : Campaign Unknown Element : %s\n", element.c_str() );
-	}
-
-	// clear
-	m_xml_attributes = CEGUI::XMLAttributes();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
