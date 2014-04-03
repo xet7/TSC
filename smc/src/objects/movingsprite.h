@@ -63,7 +63,7 @@ public:
 	// constructor
 	cMovingSprite( cSprite_Manager *sprite_manager, std::string type_name = "sprite" );
 	// create from stream
-	cMovingSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, std::string type_name = "sprite" );
+	cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 	// destructor
 	virtual ~cMovingSprite( void );
 	
