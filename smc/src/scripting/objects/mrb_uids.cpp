@@ -138,7 +138,7 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
 	mrb_value arg;
 	mrb_get_args(p_state, "o", &arg);
 
-	mrb_value cache = mrb_iv_get(p_state, self, mrb_intern(p_state, "cache"));
+	mrb_value cache = mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "cache"));
 
 	// C++ does not allow us to declare variables inside a `case:' :-(
 	mrb_value start = mrb_nil_value();
@@ -179,7 +179,7 @@ static mrb_value Index(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Cache_Size(mrb_state* p_state, mrb_value self)
 {
-	mrb_value keys = mrb_hash_keys(p_state, mrb_iv_get(p_state, self, mrb_intern(p_state, "cache")));
+	mrb_value keys = mrb_hash_keys(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "cache")));
 	return mrb_fixnum_value(mrb_ary_len(p_state, keys));
 }
 
@@ -193,14 +193,14 @@ static mrb_value Cache_Size(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Cached_UIDs(mrb_state* p_state, mrb_value self)
 {
-	return mrb_hash_keys(p_state, mrb_iv_get(p_state, self, mrb_intern(p_state, "cache")));
+	return mrb_hash_keys(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "cache")));
 }
 
 // FIXME: Call Scripting::Delete_UID_From_Cache for sprites
 // being removed from a level’s cSprite_Manager!
 void SMC::Scripting::Delete_UID_From_Cache(mrb_state* p_state, int uid)
 {
-	mrb_value cache = mrb_iv_get(p_state, mrb_obj_value(p_rmUIDS), mrb_intern(p_state, "cache"));
+	mrb_value cache = mrb_iv_get(p_state, mrb_obj_value(p_rmUIDS), mrb_intern_cstr(p_state, "cache"));
 	mrb_hash_delete_key(p_state, cache, mrb_fixnum_value(uid));
 }
 
@@ -212,10 +212,10 @@ void SMC::Scripting::Init_UIDS(mrb_state* p_state)
 	// This is where the cached sprite instances will be stored,
 	// visible for the GC.
 	mrb_value cache = mrb_hash_new(p_state);
-	mrb_iv_set(p_state, mrb_obj_value(p_rmUIDS), mrb_intern(p_state, "cache"), cache);
+	mrb_iv_set(p_state, mrb_obj_value(p_rmUIDS), mrb_intern_cstr(p_state, "cache"), cache);
 
 	// UID 0 is always the player
-	mrb_hash_set(p_state, cache, mrb_fixnum_value(0), mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern(p_state, "Player")));
+	mrb_hash_set(p_state, cache, mrb_fixnum_value(0), mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern_cstr(p_state, "Player")));
 
 	mrb_define_class_method(p_state, p_rmUIDS, "[]", Index, MRB_ARGS_REQ(1));
 	mrb_define_class_method(p_state, p_rmUIDS, "cache_size", Cache_Size, MRB_ARGS_NONE());

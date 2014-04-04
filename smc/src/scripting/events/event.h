@@ -18,7 +18,7 @@
 	mrb_value arg = mrb_str_new_cstr(p_state, #evtname); \
 	return mrb_funcall_with_block(p_state, \
 		self, \
-		mrb_intern(p_state, "bind"), \
+		mrb_intern_cstr(p_state, "bind"), \
 		1, \
 		&arg, \
 		callback); \

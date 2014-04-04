@@ -323,8 +323,8 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	// to ourselves (the GC doesn’t see the reference in the C++ cTimer
 	// instance).
 	mrb_value klass = mrb_obj_value(mrb_obj_class(p_state, self));
-	mrb_ary_push(p_state, mrb_iv_get(p_state, klass, mrb_intern(p_state, "instances")), self);
-	mrb_iv_set(p_state, self, mrb_intern(p_state, "callback"), block);
+	mrb_ary_push(p_state, mrb_iv_get(p_state, klass, mrb_intern_cstr(p_state, "instances")), self);
+	mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "callback"), block);
 
 	return self;
 }
@@ -522,7 +522,7 @@ void SMC::Scripting::Init_Timer(mrb_state* p_state)
 
 	// Invisible (for MRuby) class instance variable for storing the
 	// Timer instances so they don’t get GC’ed.
-	mrb_iv_set(p_state, mrb_obj_value(p_rcTimer), mrb_intern(p_state, "instances"), mrb_ary_new(p_state));
+	mrb_iv_set(p_state, mrb_obj_value(p_rcTimer), mrb_intern_cstr(p_state, "instances"), mrb_ary_new(p_state));
 
 	mrb_define_class_method(p_state, p_rcTimer, "after", After, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
 	mrb_define_class_method(p_state, p_rcTimer, "every", Every, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());

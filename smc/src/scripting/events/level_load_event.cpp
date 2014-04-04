@@ -23,7 +23,7 @@ std::string cLevel_Load_Event::Get_Save_Data()
 void cLevel_Load_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback)
 {
 	mrb_state* p_state = p_mruby->Get_MRuby_State();
-	mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern(p_state, "JSON"));
+	mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern_cstr(p_state, "JSON"));
 
 	// Deserialise from the JSON representation into an MRuby hash
 	mrb_value target_str = mrb_str_new_cstr(p_state, m_save_data.c_str());

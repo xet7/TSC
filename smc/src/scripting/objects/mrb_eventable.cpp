@@ -48,7 +48,7 @@ mrb_value Bind(mrb_state* p_state, mrb_value self)
 
 	// Set `callbacks' instance variable (without @, so invisible to the Ruby
 	// side) to an empty array if it isn’t set already.
-	mrb_sym callbacks_sym = mrb_intern(p_state, "callbacks");
+	mrb_sym callbacks_sym = mrb_intern_cstr(p_state, "callbacks");
 	if (!mrb_iv_defined(p_state, self, callbacks_sym))
 		mrb_iv_set(p_state, self, callbacks_sym, mrb_ary_new(p_state));
 

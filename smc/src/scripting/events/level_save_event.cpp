@@ -17,7 +17,7 @@ std::string cLevel_Save_Event::Get_Save_Data()
 void cLevel_Save_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback)
 {
 	mrb_state* p_state = p_mruby->Get_MRuby_State();
-	mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern(p_state, "JSON"));
+	mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern_cstr(p_state, "JSON"));
 
 	// Create a hash that can be filled by the callback
 	mrb_value target_hsh = mrb_hash_new(p_state);
