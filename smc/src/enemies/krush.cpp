@@ -1,7 +1,7 @@
 /***************************************************************************
  * krush.cpp  -  The little dinosaur
  *
- * Copyright (C) 2004 - 2011 Florian Richter
+ * Copyright © 2004 - 2011 The SMC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

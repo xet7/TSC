@@ -195,7 +195,7 @@ License
 
 SMC is a two-dimensional jump’n’run platform game.
 
-Copyright © 2003-2011, 2013-2014 The SMC Team
+Copyright © 2003-2011, 2013-2014 The SMC Contributors
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

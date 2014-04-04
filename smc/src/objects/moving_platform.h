@@ -1,7 +1,7 @@
 /***************************************************************************
  * moving_platform.h
  *
- * Copyright (C) 2005 - 2011 Florian Richter
+ * Copyright © 2005 - 2011 The SMC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

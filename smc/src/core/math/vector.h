@@ -1,7 +1,7 @@
 /***************************************************************************
  * vector.h
  *
- * Copyright (C) 2006 - 2011 Florian Richter
+ * Copyright © 2006 - 2011 The SMC Contributors
  * Copyright (C) 2007 Clanlib Team ( original Vector class )
  ***************************************************************************/
 /*

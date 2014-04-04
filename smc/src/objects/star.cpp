@@ -1,7 +1,7 @@
 /***************************************************************************
  * star.cpp  -  jumping star class
  *
- * Copyright (C) 2006 - 2011 Florian Richter
+ * Copyright © 2006 - 2011 The SMC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

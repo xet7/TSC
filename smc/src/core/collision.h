@@ -1,7 +1,7 @@
 /***************************************************************************
  * collision.h
  *
- * Copyright (C) 2005 - 2011 Florian Richter
+ * Copyright © 2005 - 2011 The SMC Contributors
  * Copyright (C) 2005 Amir Taaki ( Circle Collision tests ) - MIT License
  * Copyright (C) 2005 Magnus Norddahl ( Line Collision tests ) - BSD License
  ***************************************************************************/

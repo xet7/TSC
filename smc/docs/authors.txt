@@ -5,6 +5,12 @@ This file lists all people who have contributed to Secret Maryo
 Chronicles and hence hold copyright on it. All names are shown in
 alphabetical order.
 
+Apart from this, code taken from other projects under specific
+licenses is marked as such in the code. To find these, issue
+this command from the "smc" directory:
+
+  $ grep -nr Copyright src | grep -v "SMC Contributors"
+
 Coders
 ------
 
