@@ -25,6 +25,26 @@ cPreferences* cPreferencesLoader::Get_Preferences()
 	return mp_preferences;
 }
 
+float cPreferencesLoader::Get_Video_Geometry_Detail()
+{
+	return m_video_geometry_detail;
+}
+
+float cPreferencesLoader::Get_Video_Texture_Detail()
+{
+	return m_video_texture_detail;
+}
+
+int cPreferencesLoader::Get_Audio_Music_Volume()
+{
+	return m_audio_music_volume;
+}
+
+int cPreferencesLoader::Get_Audio_Sound_Volume()
+{
+	return m_audio_sound_volume;
+}
+
 /***************************************
  * SAX parser callbacks
  ***************************************/

@@ -21,6 +21,10 @@ namespace SMC {
 		virtual void parse_file(boost::filesystem::path filename);
 
 		cPreferences* Get_Preferences();
+		float Get_Video_Geometry_Detail();
+		float Get_Video_Texture_Detail();
+		int Get_Audio_Music_Volume();
+		int Get_Audio_Sound_Volume();
 
 	protected:
 		// SAX parser callbacks

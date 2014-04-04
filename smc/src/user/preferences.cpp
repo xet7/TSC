@@ -124,6 +124,17 @@ cPreferences* cPreferences :: Load_From_File(fs::path filename /* = fs::path() *
 
 	cPreferencesLoader loader;
 	loader.parse_file(filename);
+
+	// FIXME: Merge these settings with the other ordinary settings
+	// in a cPreferences instance! The following lines set global
+	// variables, which from the outside is totally unexpected.
+	// This must be done in main.cpp instead, where the preferences
+	// are loaded!
+	pVideo->m_geometry_quality = loader.Get_Video_Geometry_Detail();
+	pVideo->m_texture_quality  = loader.Get_Video_Texture_Detail();
+	pAudio->m_music_volume     = loader.Get_Audio_Music_Volume();
+	pAudio->m_sound_volume     = loader.Get_Audio_Sound_Volume();
+
 	return loader.Get_Preferences();
 }
 
