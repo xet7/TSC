@@ -35,13 +35,6 @@ cRandom_Sound :: cRandom_Sound( cSprite_Manager *sprite_manager )
 	cRandom_Sound::Init();
 }
 
-cRandom_Sound :: cRandom_Sound( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cSprite( sprite_manager, "sound" )
-{
-	cRandom_Sound::Init();
-	cRandom_Sound::Load_From_XML( attributes );
-}
-
 cRandom_Sound :: cRandom_Sound( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cSprite( sprite_manager, "sound" )
 {
@@ -122,50 +115,11 @@ cRandom_Sound *cRandom_Sound :: Copy( void ) const
 	return random_sound;
 }
 
-void cRandom_Sound :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// filename
-	Set_Filename( attributes.getValueAsString( "file" ).c_str() );
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "pos_x" )), static_cast<float>(attributes.getValueAsInteger( "pos_y" )), 1 );
-	// 
-	Set_Continuous( attributes.getValueAsBool( "continuous", m_continuous ) );
-	// delay
-	Set_Delay_Min( attributes.getValueAsInteger( "delay_min", m_delay_min ) );
-	Set_Delay_Max( attributes.getValueAsInteger( "delay_max", m_delay_max ) );
-	// volume
-	Set_Volume_Min( attributes.getValueAsFloat( "volume_min", m_volume_min ) );
-	Set_Volume_Max( attributes.getValueAsFloat( "volume_max", m_volume_max ) );
-	// volume reduction
-	Set_Volume_Reduction_Begin( attributes.getValueAsFloat( "volume_reduction_begin", m_volume_reduction_begin ) );
-	Set_Volume_Reduction_End( attributes.getValueAsFloat( "volume_reduction_end", m_volume_reduction_end ) );
-}
-
 std::string cRandom_Sound :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cRandom_Sound :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
-	cSprite::Do_XML_Saving(stream);
-
-	// filename
-	Write_Property( stream, "file", m_filename.c_str() );
-	// continuous
-	Write_Property( stream, "continuous", m_continuous );
-	// delay
-	Write_Property( stream, "delay_min", m_delay_min );
-	Write_Property( stream, "delay_max", m_delay_max );
-	// volume
-	Write_Property( stream, "volume_min", m_volume_min );
-	Write_Property( stream, "volume_max", m_volume_max );
-	// volume reduction
-	Write_Property( stream, "volume_reduction_begin", m_volume_reduction_begin );
-	Write_Property( stream, "volume_reduction_end", m_volume_reduction_end );
-}
-
-#ifdef ENABLE_NEW_LOADER
 xmlpp::Element* cRandom_Sound :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
@@ -187,8 +141,6 @@ xmlpp::Element* cRandom_Sound :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	return p_node;
 }
-#endif
-
 
 void cRandom_Sound :: Set_Filename( const std::string &str )
 {

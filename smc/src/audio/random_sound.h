@@ -31,7 +31,6 @@ public:
 	cRandom_Sound( cSprite_Manager *sprite_manager );
 	// create from stream
 	cRandom_Sound( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	cRandom_Sound( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cRandom_Sound( void );
 
@@ -39,9 +38,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cRandom_Sound *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Set filename
 	void Set_Filename( const std::string &str );
@@ -112,14 +108,10 @@ public:
 	// editor volume reduction end text changed event
 	bool Editor_Volume_Reduction_End_Text_Changed( const CEGUI::EventArgs &event );
 
-#ifdef ENABLE_NEW_LOADER
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-#endif
 
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 
 private:

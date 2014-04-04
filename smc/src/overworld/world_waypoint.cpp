@@ -38,13 +38,6 @@ cWaypoint :: cWaypoint( cSprite_Manager *sprite_manager )
 	cWaypoint::Init();
 }
 
-cWaypoint :: cWaypoint( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
-: cSprite( sprite_manager, "waypoint" )
-{
-	cWaypoint::Init();
-	cWaypoint::Load_From_XML( attributes );
-}
-
 cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cSprite( sprite_manager, "waypoint" )
 {
@@ -126,72 +119,25 @@ cWaypoint *cWaypoint :: Copy( void ) const
 	return waypoint;
 }
 
-void cWaypoint :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "x" )), static_cast<float>(attributes.getValueAsInteger( "y" )), 1 );
-	// image
-	/*if( attributes.exists( "image" ) )
-	{
-		Set_Image( pVideo->Get_Surface( attributes.getValueAsString( "image" ).c_str() ), 1 ) ;
-	}*/
-	// type
-	m_waypoint_type = static_cast<Waypoint_type>(attributes.getValueAsInteger( "type", WAYPOINT_NORMAL ));
-	// destination
-	// pre 0.99.6 : world
-	if( attributes.exists( "world" ) )
-	{
-		Set_Destination( attributes.getValueAsString( "world" ).c_str() );
-	}
-	// pre 0.99.6 : level
-	else if( attributes.exists( "level" ) )
-	{
-		Set_Destination( attributes.getValueAsString( "level" ).c_str() );
-	}
-	// default : destination
-	else
-	{
-		Set_Destination( attributes.getValueAsString( "destination" ).c_str() );
-	}
-	// backward direction
-	Set_Direction_Backward( Get_Direction_Id( attributes.getValueAsString( "direction_backward", "left" ).c_str() ) );
-	// forward direction
-	Set_Direction_Forward( Get_Direction_Id( attributes.getValueAsString( "direction_forward", "right" ).c_str() ) );
-
-	// access
-	Set_Access( attributes.getValueAsBool( "access", 1 ), 1 );
-}
-
 std::string cWaypoint :: Get_XML_Type_Name()
 {
 	return int_to_string(m_waypoint_type);
 }
 
-void cWaypoint :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cWaypoint :: Save_To_XML_Node( xmlpp::Element* p_element)
 {
-	cSprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
 
-	// image
-	/*if( start_image )
-	{
-		string img_filename = start_image->filename;
-
-		// remove pixmaps directory from string
-		if( img_filename.find( PIXMAPS_DIR ) == 0 )
-		{
-			img_filename.erase( 0, strlen( PIXMAPS_DIR ) + 1 );
-		}
-
-		Write_Property( stream, "image", img_filename );
-	}*/
 	// destination
-	Write_Property( stream, "destination", m_destination );
+	Add_Property(p_node, "destination", m_destination);
 	// direction backward
-	Write_Property( stream, "direction_backward", Get_Direction_Name( m_direction_backward ) );
+	Add_Property(p_node, "direction_backward", Get_Direction_Name(m_direction_backward));
 	// direction forward
-	Write_Property( stream, "direction_forward", Get_Direction_Name( m_direction_forward ) );
+	Add_Property(p_node, "direction_forward", Get_Direction_Name(m_direction_forward));
 	// access
-	Write_Property( stream, "access", m_access_default );
+	Add_Property(p_node, "access", m_access_default);
+
+	return p_node;
 }
 
 void cWaypoint :: Update( void )

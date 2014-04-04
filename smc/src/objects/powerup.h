@@ -168,9 +168,6 @@ public:
 	// copy
 	virtual cMoon *Copy( void ) const;
 
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
-
 	// Activates the item
 	virtual void Activate( void );
 

@@ -38,7 +38,8 @@ cMovingSprite :: cMovingSprite( cSprite_Manager *sprite_manager, std::string typ
 	cMovingSprite::Init();
 }
 
-cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
+cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
+	: cSprite( sprite_manager, type_name )
 {
 	cMovingSprite::Init();
 
