@@ -88,6 +88,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 {
 	// set world directory
 	vector<fs::path> subdirs = Get_Directory_Files( dir, "", true, false );
+	std::sort( subdirs.begin(), subdirs.end() );
 
 	for( vector<fs::path>::iterator curdir = subdirs.begin(); curdir != subdirs.end(); ++curdir )
 	{
