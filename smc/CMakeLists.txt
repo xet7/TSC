@@ -12,7 +12,6 @@ include(ExternalProject)
 # Flags & Options
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
-option(ENABLE_NEW_LOADER "Enable the new EXPERIMENTAL libxml++ level loader" OFF)
 set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having SMC determine it dynamically.")
 
 #FIXME: Actually use ENABLE_MRUBY
