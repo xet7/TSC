@@ -15,6 +15,7 @@
 
 #include "../enemies/furball.h"
 #include "../core/game_core.h"
+#include "../core/xml_attributes.h"
 #include "../level/level_player.h"
 #include "../gui/hud.h"
 #include "../core/i18n.h"
@@ -35,11 +36,28 @@ cFurball :: cFurball( cSprite_Manager *sprite_manager )
 	cFurball::Init();
 }
 
-cFurball :: cFurball( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cFurball :: cFurball( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
 	cFurball::Init();
-	cFurball::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	if( m_type == TYPE_FURBALL_BOSS )
+	{
+		// max downgrade count
+		Set_Max_Downgrade_Count(string_to_int(attributes.fetch("max_downgrade_count", int_to_string(m_max_downgrade_count))));
+
+		// level ends if killed
+		Set_Level_Ends_If_Killed(string_to_bool(attributes.fetch("level_ends_if_killed", bool_to_string(m_level_ends_if_killed))));
+	}
 }
 
 cFurball :: ~cFurball( void )
@@ -81,43 +99,24 @@ cFurball *cFurball :: Copy( void ) const
 	return furball;
 }
 
-void cFurball :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	if( m_type == TYPE_FURBALL_BOSS )
-	{
-		// max downgrade count
-		Set_Max_Downgrade_Count( attributes.getValueAsInteger( "max_downgrade_count", m_max_downgrade_count ) );
-		// level ends if killed
-		Set_Level_Ends_If_Killed( attributes.getValueAsBool( "level_ends_if_killed", m_level_ends_if_killed ) );
-	}
-}
-
 std::string cFurball :: Get_XML_Type_Name()
 {
 	return "furball";
 }
 
-void cFurball :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cFurball :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	if( m_type == TYPE_FURBALL_BOSS )
-	{
-		// max downgrade count
-		Write_Property( stream, "max_downgrade_count", m_max_downgrade_count );
-		// level ends if killed
-		Write_Property( stream, "level_ends_if_killed", m_level_ends_if_killed );
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	if (m_type == TYPE_FURBALL_BOSS) {
+		Add_Property(p_node, "max_downgrade_count", m_max_downgrade_count);
+		Add_Property(p_node, "level_ends_if_killed", m_level_ends_if_killed);
 	}
+
+	return p_node;
 }
 
 void cFurball :: Load_From_Savegame( cSave_Level_Object *save_object )

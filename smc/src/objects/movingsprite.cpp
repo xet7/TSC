@@ -38,11 +38,18 @@ cMovingSprite :: cMovingSprite( cSprite_Manager *sprite_manager, std::string typ
 	cMovingSprite::Init();
 }
 
-cMovingSprite :: cMovingSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
-: cSprite( sprite_manager, type_name )
+cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
+	: cSprite( sprite_manager, type_name )
 {
 	cMovingSprite::Init();
-	cMovingSprite::Load_From_XML( attributes );
+
+	// TODO: This is the same as in the cSprite constructor!
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
+	// image
+	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
+	// type
+	Set_Sprite_Type( Get_Sprite_Type_Id( attributes["type"] ) );
 }
 
 cMovingSprite :: ~cMovingSprite( void )

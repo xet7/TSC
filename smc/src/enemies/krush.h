@@ -33,7 +33,7 @@ public:
 	// constructor
 	cKrush( cSprite_Manager *sprite_manager );
 	// create from stream
-	cKrush( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cKrush( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cKrush( void );
 
@@ -41,9 +41,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cKrush *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -99,9 +96,11 @@ public:
 	// editor direction option selected event
 	bool Editor_Direction_Select( const CEGUI::EventArgs &event );
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 };
 

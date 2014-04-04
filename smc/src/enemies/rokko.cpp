@@ -22,6 +22,7 @@
 #include "../video/renderer.h"
 #include "../input/mouse.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -34,12 +35,21 @@ cRokko :: cRokko( cSprite_Manager *sprite_manager )
 	cRokko::Init();
 }
 
-cRokko :: cRokko( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cRokko :: cRokko( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
 	cRokko::Init();
-	cRokko::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
 }
+
 
 cRokko :: ~cRokko( void )
 {
@@ -84,30 +94,21 @@ cRokko *cRokko :: Copy( void ) const
 	return rokko;
 }
 
-void cRokko :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	// speed
-	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
-}
-
 std::string cRokko :: Get_XML_Type_Name()
 {
   return "rokko";
 }
 
-void cRokko :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cRokko :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-  cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// speed
-	Write_Property( stream, "speed", m_speed );
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "speed", m_speed);
+
+	return p_node;
 }
+
 
 void cRokko :: Load_From_Savegame( cSave_Level_Object *save_object )
 {

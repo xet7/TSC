@@ -20,6 +20,7 @@
 #include "../gui/hud.h"
 #include "../input/mouse.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -32,12 +33,33 @@ cGee :: cGee( cSprite_Manager *sprite_manager )
 	cGee::Init();
 }
 
-cGee :: cGee( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cGee :: cGee( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
 	cGee::Init();
-	cGee::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// max distance
+	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(m_max_distance))));
+
+	// always fly
+	m_always_fly = string_to_bool(attributes.fetch("always_fly", bool_to_string(m_always_fly)));
+
+	// wait time
+	m_wait_time = string_to_float(attributes.fetch("wait_time", float_to_string(m_wait_time)));
+
+	// fly distance
+	m_fly_distance = string_to_int(attributes.fetch("fly_distance", int_to_string(m_fly_distance)));
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
 }
+
 
 cGee :: ~cGee( void )
 {
@@ -82,45 +104,23 @@ cGee *cGee :: Copy( void ) const
 	return gee;
 }
 
-void cGee :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	// max distance
-	Set_Max_Distance( attributes.getValueAsInteger( "max_distance", m_max_distance ) );
-	// always fly
-	m_always_fly = attributes.getValueAsBool( "always_fly", m_always_fly );
-	// wait time
-	m_wait_time = attributes.getValueAsFloat( "wait_time", m_wait_time );
-	// fly distance
-	m_fly_distance = attributes.getValueAsInteger( "fly_distance", m_fly_distance );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-}
-
 std::string cGee :: Get_XML_Type_Name()
 {
 	return "gee";
 }
 
-void cGee :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cGee :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// max distance
-	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
-	// always fly
-	Write_Property( stream, "always_fly", m_always_fly );
-	// wait time
-	Write_Property( stream, "wait_time", m_wait_time );
-	// fly distance
-	Write_Property( stream, "fly_distance", static_cast<int>(m_fly_distance) );
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "max_distance", static_cast<int>(m_max_distance));
+	Add_Property(p_node, "always_fly", m_always_fly);
+	Add_Property(p_node, "wait_time", m_wait_time);
+	Add_Property(p_node, "fly_distance", static_cast<int>(m_fly_distance));
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+
+	return p_node;
 }
 
 void cGee :: Load_From_Savegame( cSave_Level_Object *save_object )

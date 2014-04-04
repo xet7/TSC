@@ -31,7 +31,7 @@ public:
 	// constructor
 	cSpikeball( cSprite_Manager *sprite_manager );
 	// create from stream
-	cSpikeball( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cSpikeball( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cSpikeball( void );
 
@@ -39,9 +39,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cSpikeball *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -108,9 +105,11 @@ public:
 	// Color
 	DefaultColor m_color_type;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 
 private:

@@ -39,7 +39,7 @@ public:
 	// constructor
 	cWaypoint( cSprite_Manager *sprite_manager );
 	// create from stream
-	cWaypoint( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
 	// destructor
 	virtual ~cWaypoint( void );
 	
@@ -48,9 +48,6 @@ public:
 
 	// copy this object
 	virtual cWaypoint *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Update
 	virtual void Update( void );
@@ -111,9 +108,9 @@ public:
 	// arrow backward
 	cGL_Surface *m_arrow_backward;
 
+	// Save to node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 };
 

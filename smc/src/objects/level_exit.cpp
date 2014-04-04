@@ -26,6 +26,7 @@
 #include "../level/level.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -40,11 +41,45 @@ cLevel_Exit :: cLevel_Exit( cSprite_Manager *sprite_manager )
 	cLevel_Exit::Init();
 }
 
-cLevel_Exit :: cLevel_Exit( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cLevel_Exit :: cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "levelexit" )
 {
 	cLevel_Exit::Init();
-	cLevel_Exit::Load_From_XML( attributes );
+
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// type
+	Level_Exit_type type = m_exit_type;
+	if ( attributes.count( "type" ) > 0 )
+		type = static_cast<Level_Exit_type>( string_to_int( attributes["type"] ) );
+	Set_Type( type );
+
+	// motion
+	Camera_movement cm = m_exit_motion;
+	if ( attributes.count( "camera_motion" ) > 0 )
+		cm = static_cast<Camera_movement>( string_to_int( attributes["camera_motion"] ) );
+	Set_Camera_Motion( cm );
+
+	// destination level
+	Set_Level( attributes["level_name"] );
+
+	// destination entry
+	Set_Entry( attributes["entry"] );
+
+	// path identifier
+	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
+		Set_Path_Identifier( attributes["path_identifier"] );
+
+	// direction
+	if( m_exit_type == LEVEL_EXIT_WARP ) {
+		ObjectDirection dir = m_start_direction;
+
+		if (attributes.count("direction") > 0)
+			dir = Get_Direction_Id( attributes["direction"] );
+
+		Set_Direction( dir );
+	}
 }
 
 cLevel_Exit :: ~cLevel_Exit( void )
@@ -96,69 +131,33 @@ cLevel_Exit *cLevel_Exit :: Copy( void ) const
 	return level_exit;
 }
 
-void cLevel_Exit :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// type
-	Set_Type( static_cast<Level_Exit_type>(attributes.getValueAsInteger( "type", m_exit_type )) );
-	// motion
-	Set_Camera_Motion( static_cast<Camera_movement>(attributes.getValueAsInteger( "camera_motion", m_exit_motion )) );
-	// destination level
-	Set_Level( attributes.getValueAsString( "level_name" ).c_str() );
-	// destination entry
-	Set_Entry( attributes.getValueAsString( "entry" ).c_str() );
-	// path identifier
-	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
-	{
-		Set_Path_Identifier( attributes.getValueAsString( "path_identifier" ).c_str() );
-	}
-	// direction
-	if( m_exit_type == LEVEL_EXIT_WARP )
-	{
-		Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	}
-}
-
 std::string cLevel_Exit :: Get_XML_Type_Name()
 {
 	return int_to_string(m_exit_type);
 }
 
-void cLevel_Exit :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
 	// camera motion
-	Write_Property( stream, "camera_motion", m_exit_motion );
-
-	// destination level name
-	std::string str_level = Get_Level();
-	if( !str_level.empty() )
-	{
-		Write_Property( stream, "level_name", str_level );
-	}
+	Add_Property(p_node, "camera_motion", m_exit_motion);
 
 	// destination entry name
-	if( !m_dest_entry.empty() )
-	{
-		Write_Property( stream, "entry", m_dest_entry );
-	}
+	if (!m_dest_entry.empty())
+		Add_Property(p_node, "entry", m_dest_entry);
 
 	// path identifier
-	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
-	{
-		if( !m_path_identifier.empty() )
-		{
-			Write_Property( stream, "path_identifier", m_path_identifier );
+	if (m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS) {
+		if (!m_path_identifier.empty()) {
+			Add_Property(p_node, "path_identifier", m_path_identifier);
 		}
 	}
 
-	if( m_exit_type == LEVEL_EXIT_WARP )
-	{
-		// direction
-		Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	}
+	if (m_exit_type == LEVEL_EXIT_WARP)
+		Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	return p_node;
 }
 
 	void cLevel_Exit :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )

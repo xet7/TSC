@@ -23,6 +23,7 @@
 #include "../../video/gl_surface.h"
 #include "../../core/sprite_manager.h"
 #include "../../core/i18n.h"
+#include "../../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -35,12 +36,33 @@ cTurtleBoss :: cTurtleBoss( cSprite_Manager *sprite_manager )
 	cTurtleBoss::Init();
 }
 
-cTurtleBoss :: cTurtleBoss( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cTurtleBoss :: cTurtleBoss( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
 	cTurtleBoss::Init();
-	cTurtleBoss::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
+
+	// color
+	Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+
+	// max hits
+	Set_Max_Hits(string_to_int(attributes.fetch("max_hit_count", int_to_string(m_max_hits))));
+
+	// max downgrade count
+	Set_Max_Downgrade_Counts(string_to_int(attributes.fetch("max_downgrade_count", int_to_string(m_max_downgrade_count))));
+
+	// shell time
+	Set_Shell_Time(string_to_int(attributes.fetch("shell_time", int_to_string(m_shell_time))));
+
+	// level ends if killed
+	Set_Level_Ends_If_Killed(string_to_bool(attributes.fetch("level_ends_if_killed", bool_to_string(m_level_ends_if_killed))));
 }
+
 
 cTurtleBoss :: ~cTurtleBoss( void )
 {
@@ -90,45 +112,23 @@ cTurtleBoss *cTurtleBoss :: Copy( void ) const
 	return turtle;
 }
 
-void cTurtleBoss :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ), 1 );
-	// color
-	Set_Color( static_cast<DefaultColor>(Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() )) );
-	// max hits
-	Set_Max_Hits( attributes.getValueAsInteger( "max_hit_count", m_max_hits ) );
-	// max downgrade count
-	Set_Max_Downgrade_Counts( attributes.getValueAsInteger( "max_downgrade_count", m_max_downgrade_count ) );
-	// shell time
-	Set_Shell_Time( attributes.getValueAsFloat( "shell_time", m_shell_time ) );
-	// level ends if killed
-	Set_Level_Ends_If_Killed( attributes.getValueAsBool( "level_ends_if_killed", m_level_ends_if_killed ) );
-}
-
 std::string cTurtleBoss :: Get_XML_Type_Name()
 {
 	return "turtleboss";
 }
 
-void cTurtleBoss :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cTurtleBoss :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// max hit count
-	Write_Property( stream, "max_hit_count", m_max_hits );
-	// max downgrade count
-	Write_Property( stream, "max_downgrade_count", m_max_downgrade_count );
-	// shell time
-	Write_Property( stream, "shell_time", m_shell_time );
-	// level ends if killed
-	Write_Property( stream, "level_ends_if_killed", m_level_ends_if_killed );
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "max_hit_count", m_max_hits);
+	Add_Property(p_node, "max_downgrade_count", m_max_downgrade_count);
+	Add_Property(p_node, "shell_time", m_shell_time);
+	Add_Property(p_node, "level_ends_if_killed", m_level_ends_if_killed);
+
+	return p_node;
 }
 
 void cTurtleBoss :: Set_Max_Hits( int nmax_hits )

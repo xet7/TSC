@@ -42,7 +42,7 @@ public:
 	// constructor
 	cLevel_Exit( cSprite_Manager *sprite_manager );
 	// create from stream
-	cLevel_Exit( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cLevel_Exit( void );
 
@@ -50,9 +50,6 @@ public:
 	void Init( void );
 	// copy this sprite
 	virtual cLevel_Exit *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Set direction
 	virtual void Set_Direction( const ObjectDirection dir, bool initial = true );
@@ -116,9 +113,11 @@ public:
 	// editor entry name text
 	cGL_Surface *m_editor_entry_name;
 
+	// Save to node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
 	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 
 private:

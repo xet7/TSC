@@ -64,19 +64,21 @@ cBaseBox :: ~cBaseBox( void )
 	//
 }
 
-void cBaseBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
+void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
 {
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	if( box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX )
-	{
-		// animation
-		Set_Animation_Type( attributes.getValueAsString( "animation", m_anim_type ).c_str() );
-	}
-	// invisible
-	Set_Invisible( static_cast<Box_Invisible_Type>(attributes.getValueAsInteger( "invisible" )) );
-	// useable count
-	Set_Useable_Count( attributes.getValueAsInteger( "useable_count", m_start_useable_count ), 1 );
+	// Position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// animation (`box_type' is set by subclasses’ constructors’ as default values)
+	// FIXME: This should be in the respective subclasses somehow
+	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX)
+		Set_Animation_Type(attributes.fetch("animation", m_anim_type));
+
+	// Invisible
+	Set_Invisible(static_cast<Box_Invisible_Type>(string_to_float(attributes["invisible"])));
+
+	// Usable count
+	Set_Useable_Count(attributes.fetch<int>("useable_count", m_start_useable_count));
 }
 
 std::string cBaseBox :: Get_XML_Type_Name()
@@ -92,21 +94,23 @@ std::string cBaseBox :: Get_XML_Type_Name()
 	}
 }
 
-void cBaseBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cBaseBox :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
-	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX)
-	{
+	if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX) {
 		// animation type
-		Write_Property( stream, "animation", m_anim_type );
+		Add_Property(p_node, "animation", m_anim_type);
 		// best possible item
-		Write_Property( stream, "item", box_type );
+		Add_Property(p_node, "item", box_type);
 	}
+
 	// invisible
-	Write_Property( stream, "invisible", m_box_invisible );
+	Add_Property(p_node, "invisible", m_box_invisible);
 	// useable count
-	Write_Property( stream, "useable_count", m_start_useable_count );
+	Add_Property(p_node, "useable_count", m_start_useable_count);
+
+	return p_node;
 }
 
 void cBaseBox :: Load_From_Savegame( cSave_Level_Object *save_object )

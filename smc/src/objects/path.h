@@ -149,7 +149,7 @@ public:
 	// constructor
 	cPath( cSprite_Manager *sprite_manager );
 	// create from stream
-	cPath( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cPath( void );
 
@@ -157,9 +157,6 @@ public:
 	void Init( void );
 	// copy this sprite
 	virtual cPath *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -241,9 +238,10 @@ public:
 	typedef vector<cPath_State *> PathStateList;
 	PathStateList m_linked_path_states;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 
 private:

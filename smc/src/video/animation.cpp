@@ -23,6 +23,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 #include "../input/mouse.h"
 
 namespace fs = boost::filesystem;
@@ -518,11 +519,92 @@ cParticle_Emitter :: cParticle_Emitter( cSprite_Manager *sprite_manager )
 	cParticle_Emitter::Init();
 }
 
-cParticle_Emitter :: cParticle_Emitter( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cParticle_Emitter :: cParticle_Emitter( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimation( sprite_manager, "particle_emitter" )
 {
 	cParticle_Emitter::Init();
-	cParticle_Emitter::Load_From_XML( attributes );
+
+	// Particle image filename
+	Set_Image_Filename(utf8_to_path(attributes["particle_image"]));
+
+
+	// position z
+	Set_Pos_Z(	attributes.fetch<float>("pos_z", m_pos_z),
+				attributes.fetch<float>("pos_z_rand", m_pos_z_rand));
+
+	// emitter based on camera pos
+	Set_Based_On_Camera_Pos(attributes.fetch<bool>("emitter_based_on_camera_pos", m_emitter_based_on_camera_pos));
+
+	// particle based on emitter pos
+	Set_Particle_Based_On_Emitter_Pos(attributes.fetch<float>("particle_based_on_emitter_pos", m_particle_based_on_emitter_pos));
+
+	// emitter rect
+	Set_Emitter_Rect(	static_cast<float>(attributes.fetch<int>("posx", static_cast<int>(m_pos_x))),
+						static_cast<float>(attributes.fetch<int>("posy", static_cast<int>(m_pos_y))),
+						static_cast<float>(attributes.fetch<int>("sizex", static_cast<int>(m_start_rect.m_w))),
+						static_cast<float>(attributes.fetch<int>("sizey", static_cast<int>(m_start_rect.m_h))));
+
+	// emitter time to live
+	Set_Emitter_Time_to_Live(attributes.fetch<float>("emitter_time_to_live", m_emitter_time_to_live));
+
+	// emitter interval
+	Set_Emitter_Iteration_Interval(attributes.fetch<float>("emitter_interval", m_emitter_iteration_interval));
+
+	// quota/count
+	Set_Quota(attributes.fetch<int>("quota", m_emitter_quota));
+
+	// time for particle to live
+	Set_Time_to_Live(	attributes.fetch<float>("time_to_live", m_time_to_live),
+						attributes.fetch<float>("time_to_live_rand", m_time_to_live_rand));
+
+	// velocity
+	Set_Speed(	attributes.fetch<float>("vel", m_vel),
+				attributes.fetch<float>("vel_rand", m_vel_rand));
+
+	// start rotation
+	Set_Rotation(	attributes.fetch<float>("rot_x", m_start_rot_x),
+					attributes.fetch<float>("rot_y", m_start_rot_y),
+					attributes.fetch<float>("rot_z", m_start_rot_z),
+					true);
+
+	Set_Start_Rot_Z_Uses_Direction(attributes.fetch<bool>("start_rot_z_uses_direction", m_start_rot_z_uses_direction));
+
+	// constant rotation x
+	Set_Const_Rotation_X(	attributes.fetch<float>("const_rot_x", m_const_rot_x),
+							attributes.fetch<float>("const_rot_x_rand", m_const_rot_x_rand));
+
+	// constant rotation y
+	Set_Const_Rotation_X(	attributes.fetch<float>("const_rot_y", m_const_rot_y),
+							attributes.fetch<float>("const_rot_y_rand", m_const_rot_y_rand));
+
+	// constant rotation z
+	Set_Const_Rotation_X(	attributes.fetch<float>("const_rot_z", m_const_rot_z),
+							attributes.fetch<float>("const_rot_z_rand", m_const_rot_z_rand));
+
+	// angle
+	Set_Direction_Range(	attributes.fetch<float>("angle_start", m_angle_start),
+							attributes.fetch<float>("angle_range", m_angle_range));
+
+	// scale
+	Set_Scale(	attributes.fetch<float>("size_scale", m_size_scale),
+				attributes.fetch<float>("size_scale_rand", m_size_scale_rand));
+
+	// horizontal gravity
+	Set_Horizontal_Gravity(	attributes.fetch<float>("gravity_x", m_gravity_x),
+							attributes.fetch<float>("gravity_x_rand", m_gravity_x_rand));
+
+	// vertical gravity
+	Set_Horizontal_Gravity(	attributes.fetch<float>("gravity_y", m_gravity_y),
+							attributes.fetch<float>("gravity_y_rand", m_gravity_y_rand));
+
+	// clip rect
+	Set_Clip_Rect(	static_cast<float>(attributes.fetch<int>("clip_x", static_cast<int>(m_clip_rect.m_x))),
+					static_cast<float>(attributes.fetch<int>("clip_y", static_cast<int>(m_clip_rect.m_y))),
+					static_cast<float>(attributes.fetch<int>("clip_w", static_cast<int>(m_clip_rect.m_w))),
+					static_cast<float>(attributes.fetch<int>("clip_h", static_cast<int>(m_clip_rect.m_h))));
+
+	// clip mode
+	Set_Clip_Mode(static_cast<ParticleClipMode>(attributes.fetch<int>("clip_mode", m_clip_mode)));
 }
 
 cParticle_Emitter :: ~cParticle_Emitter( void )
@@ -623,117 +705,73 @@ cParticle_Emitter *cParticle_Emitter :: Copy( void ) const
 	return particle_animation;
 }
 
-void cParticle_Emitter :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// Particle image filename
-	Set_Image_Filename( utf8_to_path( attributes.getValueAsString( "particle_image" ).c_str() ) );
-	// position z
-	Set_Pos_Z( attributes.getValueAsFloat( "pos_z", m_pos_z ), attributes.getValueAsFloat( "pos_z_rand", m_pos_z_rand ) );
-	// emitter based on camera pos
-	Set_Based_On_Camera_Pos( attributes.getValueAsBool( "emitter_based_on_camera_pos", m_emitter_based_on_camera_pos ) );
-	// particle based on emitter pos
-	Set_Particle_Based_On_Emitter_Pos( attributes.getValueAsFloat( "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos ) );
-	// emitter rect
-	Set_Emitter_Rect( static_cast<float>(attributes.getValueAsInteger( "posx", static_cast<int>(m_pos_x) )), static_cast<float>(attributes.getValueAsInteger( "posy", static_cast<int>(m_pos_y) )), static_cast<float>(attributes.getValueAsInteger( "sizex", static_cast<int>(m_start_rect.m_w) )), static_cast<float>(attributes.getValueAsInteger( "sizey", static_cast<int>(m_start_rect.m_h) )) );
-	// emitter time to live
-	Set_Emitter_Time_to_Live( attributes.getValueAsFloat( "emitter_time_to_live", m_emitter_time_to_live ) );
-	// emitter interval
-	Set_Emitter_Iteration_Interval( attributes.getValueAsFloat( "emitter_interval", m_emitter_iteration_interval ) );
-	// quota/count
-	Set_Quota( attributes.getValueAsInteger( "quota", m_emitter_quota ) );
-	// time for particle to live
-	Set_Time_to_Live( attributes.getValueAsFloat( "time_to_live", m_time_to_live ), attributes.getValueAsFloat( "time_to_live_rand", m_time_to_live_rand ) );
-	// velocity
-	Set_Speed( attributes.getValueAsFloat( "vel", m_vel ), attributes.getValueAsFloat( "vel_rand", m_vel_rand ) );
-	// start rotation
-	Set_Rotation( attributes.getValueAsFloat( "rot_x", m_start_rot_x ), attributes.getValueAsFloat( "rot_y", m_start_rot_y ), attributes.getValueAsFloat( "rot_z", m_start_rot_z ), 1 );
-	Set_Start_Rot_Z_Uses_Direction( attributes.getValueAsBool( "start_rot_z_uses_direction", m_start_rot_z_uses_direction ) );
-	// constant rotation x
-	Set_Const_Rotation_X( attributes.getValueAsFloat( "const_rot_x", m_const_rot_x ), attributes.getValueAsFloat( "const_rot_x_rand", m_const_rot_x_rand ) );
-	// constant rotation y
-	Set_Const_Rotation_Y( attributes.getValueAsFloat( "const_rot_y", m_const_rot_y ), attributes.getValueAsFloat( "const_rot_y_rand", m_const_rot_y_rand ) );
-	// constant rotation z
-	Set_Const_Rotation_Z( attributes.getValueAsFloat( "const_rot_z", m_const_rot_z ), attributes.getValueAsFloat( "const_rot_z_rand", m_const_rot_z_rand ) );
-	// angle
-	Set_Direction_Range( attributes.getValueAsFloat( "angle_start", m_angle_start ), attributes.getValueAsFloat( "angle_range", m_angle_range ) );
-	// scale
-	Set_Scale( attributes.getValueAsFloat( "size_scale", m_size_scale ), attributes.getValueAsFloat( "size_scale_rand", m_size_scale_rand ) );
-	// horizontal gravity
-	Set_Horizontal_Gravity( attributes.getValueAsFloat( "gravity_x", m_gravity_x ), attributes.getValueAsFloat( "gravity_x_rand", m_gravity_x_rand )  );
-	// vertical gravity
-	Set_Vertical_Gravity( attributes.getValueAsFloat( "gravity_y", m_gravity_y ), attributes.getValueAsFloat( "gravity_y_rand", m_gravity_y_rand ) );
-	// clip rect
-	Set_Clip_Rect( static_cast<float>(attributes.getValueAsInteger( "clip_x", static_cast<int>(m_clip_rect.m_x) )), static_cast<float>(attributes.getValueAsInteger( "clip_y", static_cast<int>(m_clip_rect.m_y) )), static_cast<float>(attributes.getValueAsInteger( "clip_w", static_cast<int>(m_clip_rect.m_w) )), static_cast<float>(attributes.getValueAsInteger( "clip_h", static_cast<int>(m_clip_rect.m_h) )) );
-	// clip mode
-	Set_Clip_Mode( static_cast<ParticleClipMode>(attributes.getValueAsInteger( "clip_mode", m_clip_mode )) );
-}
-
 std::string cParticle_Emitter :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cParticle_Emitter :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cParticle_Emitter :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimation::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimation::Save_To_XML_Node(p_element);
 
 	// particle image filename
-	Write_Property( stream, "particle_image", path_to_utf8( m_image_filename ) );
+	Add_Property(p_node, "particle_image", path_to_utf8(m_image_filename));
 	// position z
-	Write_Property( stream, "pos_z", m_pos_z );
-	Write_Property( stream, "pos_z_rand", m_pos_z_rand );
+	Add_Property(p_node, "pos_z",      m_pos_z);
+	Add_Property(p_node, "pos_z_rand", m_pos_z_rand);
 	// emitter based on camera pos
-	Write_Property( stream, "emitter_based_on_camera_pos", m_emitter_based_on_camera_pos );
+	Add_Property(p_node, "emitter_based_on_camera_pos", m_emitter_based_on_camera_pos);
 	// particle based on emitter pos
-	Write_Property( stream, "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos );
-	// emitter rect (X and Y positions are saved by cSprite::Do_XML_Saving())
-	Write_Property( stream, "sizex", static_cast<int>(m_start_rect.m_w) );
-	Write_Property( stream, "sizey", static_cast<int>(m_start_rect.m_h) );
-	// emitter time to live
-	Write_Property( stream, "emitter_time_to_live", m_emitter_time_to_live );
+	Add_Property(p_node, "particle_based_on_emitter_pos", m_particle_based_on_emitter_pos);
+	// emitter rect (X and Y positions are saved by cSprite::Save_To_XML_Node())
+	Add_Property(p_node, "sizex", static_cast<int>(m_start_rect.m_w));
+	Add_Property(p_node, "sizey", static_cast<int>(m_start_rect.m_h));
 	// emitter interval
-	Write_Property( stream, "emitter_interval", m_emitter_iteration_interval );
+	Add_Property(p_node, "emitter_time_to_live", m_emitter_time_to_live);
+	Add_Property(p_node, "emitter_interval",     m_emitter_iteration_interval);
 	// quota/count
-	Write_Property( stream, "quota", m_emitter_quota );
+	Add_Property(p_node, "quota", m_emitter_quota);
 	// time to live
-	Write_Property( stream, "time_to_live", m_time_to_live );
-	Write_Property( stream, "time_to_live_rand", m_time_to_live_rand );
+	Add_Property(p_node, "time_to_live", m_time_to_live);
+	Add_Property(p_node, "time_to_live_rand", m_time_to_live_rand);
 	// velocity
-	Write_Property( stream, "vel", m_vel );
-	Write_Property( stream, "vel_rand", m_vel_rand );
+	Add_Property(p_node, "vel", m_vel);
+	Add_Property(p_node, "vel_rand", m_vel_rand);
 	// start rotation
-	Write_Property( stream, "rot_x", m_start_rot_x );
-	Write_Property( stream, "rot_y", m_start_rot_y );
-	Write_Property( stream, "rot_z", m_start_rot_z );
-	Write_Property( stream, "start_rot_z_uses_direction", m_start_rot_z_uses_direction );
+	Add_Property(p_node, "rot_x", m_start_rot_x);
+	Add_Property(p_node, "rot_y", m_start_rot_y);
+	Add_Property(p_node, "rot_z", m_start_rot_z);
+	Add_Property(p_node, "start_rot_z_uses_direction", m_start_rot_z_uses_direction);
 	// constant rotation x
-	Write_Property( stream, "const_rot_x", m_const_rot_x );
-	Write_Property( stream, "const_rot_x_rand", m_const_rot_x_rand );
+	Add_Property(p_node, "const_rot_x", m_const_rot_x);
+	Add_Property(p_node, "const_rot_x_rand", m_const_rot_x_rand);
 	// constant rotation y
-	Write_Property( stream, "const_rot_y", m_const_rot_y );
-	Write_Property( stream, "const_rot_y_rand", m_const_rot_y_rand );
+	Add_Property(p_node, "const_rot_y", m_const_rot_y);
+	Add_Property(p_node, "const_rot_y_rand", m_const_rot_y_rand);
 	// constant rotation z
-	Write_Property( stream, "const_rot_z", m_const_rot_z );
-	Write_Property( stream, "const_rot_z_rand", m_const_rot_z_rand );
+	Add_Property(p_node, "const_rot_z", m_const_rot_z);
+	Add_Property(p_node, "const_rot_z_rand", m_const_rot_z_rand);
 	// angle
-	Write_Property( stream, "angle_start", m_angle_start  );
-	Write_Property( stream, "angle_range", m_angle_range );
+	Add_Property(p_node, "angle_start", m_angle_start );
+	Add_Property(p_node, "angle_range", m_angle_range);
 	// scale
-	Write_Property( stream, "size_scale", m_size_scale );
-	Write_Property( stream, "size_scale_rand", m_size_scale_rand );
+	Add_Property(p_node, "size_scale", m_size_scale);
+	Add_Property(p_node, "size_scale_rand", m_size_scale_rand);
 	// horizontal gravity
-	Write_Property( stream, "gravity_x", m_gravity_x );
-	Write_Property( stream, "gravity_x_rand", m_gravity_x_rand );
+	Add_Property(p_node, "gravity_x", m_gravity_x);
+	Add_Property(p_node, "gravity_x_rand", m_gravity_x_rand);
 	// vertical gravity
-	Write_Property( stream, "gravity_y", m_gravity_y );
-	Write_Property( stream, "gravity_y_rand", m_gravity_y_rand );
+	Add_Property(p_node, "gravity_y", m_gravity_y);
+	Add_Property(p_node, "gravity_y_rand", m_gravity_y_rand);
 	// clip rect
-	Write_Property( stream, "clip_x", static_cast<int>(m_clip_rect.m_x) );
-	Write_Property( stream, "clip_y", static_cast<int>(m_clip_rect.m_y) );
-	Write_Property( stream, "clip_w", static_cast<int>(m_clip_rect.m_w) );
-	Write_Property( stream, "clip_h", static_cast<int>(m_clip_rect.m_h) );
+	Add_Property(p_node, "clip_x", static_cast<int>(m_clip_rect.m_x));
+	Add_Property(p_node, "clip_y", static_cast<int>(m_clip_rect.m_y));
+	Add_Property(p_node, "clip_w", static_cast<int>(m_clip_rect.m_w));
+	Add_Property(p_node, "clip_h", static_cast<int>(m_clip_rect.m_h));
 	// clip mode
-	Write_Property( stream, "clip_mode", m_clip_mode );
+	Add_Property(p_node, "clip_mode", m_clip_mode);
+
+	return p_node;
 }
 
 void cParticle_Emitter :: Pre_Update( void )

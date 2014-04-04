@@ -28,7 +28,7 @@ cSpinBox :: cSpinBox( cSprite_Manager *sprite_manager )
 	cSpinBox::Init();
 }
 
-cSpinBox :: cSpinBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cSpinBox :: cSpinBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cBaseBox( sprite_manager )
 {
 	cSpinBox::Init();
@@ -70,14 +70,14 @@ cSpinBox *cSpinBox :: Copy( void ) const
 	return spinbox;
 }
 
-void cSpinBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
+void cSpinBox :: Load_From_XML( XmlAttributes &attributes )
 {
 	cBaseBox::Load_From_XML( attributes );
 }
 
-void cSpinBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cSpinBox :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cBaseBox::Do_XML_Saving( stream );
+	return cBaseBox::Save_To_XML_Node(p_element);
 }
 
 void cSpinBox :: Activate( void )

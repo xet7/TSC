@@ -20,7 +20,7 @@
 #include "../gui/generic.h"
 #include "../video/font.h"
 #include "../overworld/overworld.h"
-#include "../core/campaign_manager.h"
+#include "../campaign/campaign_manager.h"
 #include "../user/preferences.h"
 #include "../input/joystick.h"
 #include "../input/mouse.h"

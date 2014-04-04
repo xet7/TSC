@@ -27,6 +27,8 @@
 #include "../level/level_player.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/editor/editor_items_loader.h"
+#include "level_loader.h"
 
 namespace SMC
 {
@@ -285,11 +287,6 @@ void cEditor_Level :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 	}
 }
 
-cSprite *cEditor_Level :: Get_Object( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version )
-{
-	return Create_Level_Object_From_XML( element, attributes, engine_version, m_sprite_manager );
-}
-
 bool cEditor_Level :: Switch_Object_State( cSprite *obj ) const
 {
 	// empty object
@@ -491,7 +488,8 @@ void cEditor_Level :: Function_Reload( void )
 		return;
 	}
 
-	if( pActive_Level->Load( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, false ) ) ) )
+	pActive_Level = cLevel::Load_From_File( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, false ) ) );
+	if( pActive_Level )
 	{
 		pActive_Level->Init();
 	}
@@ -504,6 +502,20 @@ void cEditor_Level :: Function_Settings( void )
 	Game_Action_Data_Start.add( "screen_fadeout_speed", "3" );
 	Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
+}
+
+// static
+std::vector<cSprite*> cEditor_Level :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+{
+	return cLevelLoader::Create_Level_Objects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+}
+
+// virtual
+void cEditor_Level :: Parse_Items_File( boost::filesystem::path filename )
+{
+	cEditorItemsLoader parser;
+	parser.parse_file(filename, m_sprite_manager, NULL, items_loader_callback);
+	m_tagged_item_objects = parser.get_tagged_sprites();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

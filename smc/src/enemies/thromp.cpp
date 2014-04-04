@@ -26,6 +26,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -40,12 +41,27 @@ cThromp :: cThromp( cSprite_Manager *sprite_manager )
 	cThromp::Init();
 }
 
-cThromp :: cThromp( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cThromp :: cThromp( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
 	cThromp::Init();
-	cThromp::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// image directory
+	Set_Image_Dir(utf8_to_path(attributes.fetch("image_dir", path_to_utf8(m_img_dir))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// max distance
+	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(static_cast<int>(m_max_distance)))));
+
+	// speed
+	string_to_float(attributes.fetch("speed", float_to_string(m_speed)));
 }
+
 
 cThromp :: ~cThromp( void )
 {
@@ -84,37 +100,21 @@ cThromp *cThromp :: Copy( void ) const
 	return thromp;
 }
 
-void cThromp :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// image directory
-	Set_Image_Dir( utf8_to_path( attributes.getValueAsString( "image_dir", path_to_utf8( m_img_dir ) ).c_str() ) );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	// max distance
-	Set_Max_Distance( static_cast<float>(attributes.getValueAsInteger( "max_distance", static_cast<int>(m_max_distance) )) );
-	// speed
-	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
-}
-
 std::string cThromp :: Get_XML_Type_Name()
 {
 	return "thromp";
 }
 
-void cThromp :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cThromp :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// image directory
-	Write_Property( stream, "image_dir", path_to_utf8( m_img_dir ) );
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// max distance
-	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
-	// speed
-	Write_Property( stream, "speed", m_speed );
+	Add_Property(p_node, "image_dir", path_to_utf8(m_img_dir));
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "max_distance", static_cast<int>(m_max_distance));
+	Add_Property(p_node, "speed", m_speed);
+
+	return p_node;
 }
 
 void cThromp :: Load_From_Savegame( cSave_Level_Object *save_object )

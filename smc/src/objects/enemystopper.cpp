@@ -17,6 +17,7 @@
 #include "../level/level_editor.h"
 #include "../core/game_core.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -29,16 +30,16 @@ cEnemyStopper :: cEnemyStopper( cSprite_Manager *sprite_manager )
 	cEnemyStopper::Init();
 }
 
-cEnemyStopper :: cEnemyStopper( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cEnemyStopper :: cEnemyStopper( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "enemystopper" )
 {
 	cEnemyStopper::Init();
-	cEnemyStopper::Load_From_XML( attributes );
+	Set_Pos( string_to_float( attributes["posx"] ), string_to_float( attributes["posy"] ), true );
 }
 
 cEnemyStopper :: ~cEnemyStopper( void )
 {
-
+	//
 }
 
 cEnemyStopper *cEnemyStopper :: Copy( void ) const
@@ -66,11 +67,6 @@ void cEnemyStopper :: Init( void )
 	m_start_rect.m_h = m_rect.m_h;
 
 	m_editor_color = Color( static_cast<Uint8>(0), 0, 255, 128 );
-}
-
-void cEnemyStopper :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 }
 
 void cEnemyStopper :: Draw( cSurface_Request *request /* = NULL */ )

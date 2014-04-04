@@ -29,22 +29,27 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** *** cOverworld_description *** *** *** *** *** *** *** *** *** */
 
-class cOverworld_description : public CEGUI::XMLHandler
+class cOverworld_description
 {
 public:
 	cOverworld_description( void );
 	virtual ~cOverworld_description( void );
 
-	// Load
-	void Load( void );
-
 	// Save
 	void Save( void );
 
-	// Full path to the world file
-	boost::filesystem::path Get_Path();
+	// Save to the given file. Raises xmlpp::exception on error.
+	void Save_To_File(boost::filesystem::path path);
 
-	// Full path to the world file
+	// Full path to the world directory
+	boost::filesystem::path Get_Path();
+	// Set path to the world directory, optionally overwriting the world’s name.
+	void Set_Path(boost::filesystem::path directory, bool set_name = false);
+
+	// Full path to the world directory
+  // FIXME: This should really be in cOverworld itself as it has
+  // exactly NOTHING to do with the description stuff handled by
+  // this object.
 	boost::filesystem::path m_path;
 	// world name
 	std::string m_name;
@@ -58,16 +63,6 @@ public:
 
 	// world comment
 	std::string m_comment;
-private:
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-	// handle world description
-	void handle_world( const CEGUI::XMLAttributes& attributes );
-
-	// XML element property list
-	CEGUI::XMLAttributes m_xml_attributes;
 };
 
 /* *** *** *** *** *** *** *** *** cOverworld *** *** *** *** *** *** *** *** *** */
@@ -77,24 +72,37 @@ class cAnimation_Manager;
 
 typedef vector<cWaypoint *> WaypointList;
 
-class cOverworld : public CEGUI::XMLHandler
+class cOverworld
 {
 public:
 	cOverworld( void );
+
+  /// Load an overworld from a world directory.
+  /// The returned instance must be freed by you.
+  static cOverworld* Load_From_Directory(boost::filesystem::path directory, int user_dir = 0);
+
 	virtual ~cOverworld( void );
 
 	// New
 	bool New( std::string name );
-	// Load
-	bool Load( void );
 	// Unload
 	void Unload( void );
 	// Save
 	void Save( void );
+
+	// Save to the given directory. Raises xmlpp::exception on error.
+	void Save_To_Directory(boost::filesystem::path path);
+
 	// Enter
 	void Enter( const GameMode old_mode = MODE_NOTHING );
 	// Leave
 	void Leave( const GameMode next_mode = MODE_NOTHING );
+
+  // Replace the default description (which is always the
+  // one of world_1) with something more useful.
+  // FIXME: This method needs to be removed when m_path is
+  // transferred from cOverworld_description to cOverworld.
+  void Replace_Description(cOverworld_description* p_desc);
 
 	// Draw
 	void Draw( void );
@@ -190,6 +198,7 @@ public:
 	// background color
 	Color m_background_color;
 	// music filename
+	// FIXME: Should be boost::filesystem::path
 	std::string m_musicfile;
 
 	// settings
@@ -207,21 +216,12 @@ public:
 	cHudSprite *m_hud_level_name;
 
 private:
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
- 
-	// XML element property list
-	CEGUI::XMLAttributes m_xml_attributes;
-};
+	// Common stuff for constructors
+	void Init();
 
-/* Returns a World Object if element name is available else NULL
- * engine_version : engine version of the data and if it's below the current version it converts it
- * sprite_manager : needed if the engine version is below the current version and data conversion creates multiple objects
- * overworld : the parent overworld
-*/
-cSprite *Create_World_Object_From_XML( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager, cOverworld *overworld );
+	// Save only the main overworld file, not layers and description files.
+	void Save_To_File(boost::filesystem::path path);
+};
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

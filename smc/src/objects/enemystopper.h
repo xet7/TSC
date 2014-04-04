@@ -30,7 +30,7 @@ public:
 	// constructor
 	cEnemyStopper( cSprite_Manager *sprite_manager );
 	// create from stream
-	cEnemyStopper( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cEnemyStopper( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cEnemyStopper( void );
 	
@@ -38,9 +38,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cEnemyStopper *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );
@@ -52,7 +49,7 @@ public:
 	Color m_editor_color;
 
 protected:
-	// save to stream inherited
+	// save to XML node inherited
 	virtual std::string Get_XML_Type_Name(){return "";}
 };
 

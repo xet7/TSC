@@ -13,26 +13,28 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/editor.h"
-#include "../core/game_core.h"
-#include "../gui/generic.h"
-#include "../core/framerate.h"
-#include "../audio/audio.h"
-#include "../video/font.h"
-#include "../video/animation.h"
-#include "../input/keyboard.h"
-#include "../input/mouse.h"
-#include "../input/joystick.h"
-#include "../user/preferences.h"
-#include "../level/level.h"
-#include "../level/level_player.h"
-#include "../overworld/world_manager.h"
-#include "../video/renderer.h"
-#include "../core/sprite_manager.h"
-#include "../overworld/overworld.h"
-#include "../core/i18n.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
+#include "editor.h"
+#include "editor_items_loader.h"
+#include "../game_core.h"
+#include "../../gui/generic.h"
+#include "../framerate.h"
+#include "../../audio/audio.h"
+#include "../../video/font.h"
+#include "../../video/animation.h"
+#include "../../input/keyboard.h"
+#include "../../input/mouse.h"
+#include "../../input/joystick.h"
+#include "../../user/preferences.h"
+#include "../../level/level.h"
+#include "../../level/level_player.h"
+#include "../../overworld/world_manager.h"
+#include "../../video/renderer.h"
+#include "../sprite_manager.h"
+#include "../../overworld/overworld.h"
+#include "../i18n.h"
+#include "../filesystem/filesystem.h"
+#include "../filesystem/resource_manager.h"
+#include "../errors.h"
 
 namespace fs = boost::filesystem;
 
@@ -247,20 +249,10 @@ void cEditor :: Init( void )
 		std::cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
 		return;
 	}
-	// Parse Items
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_items_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Items.xsd")).c_str(), "" );
 
-	// Get all image items
+	Parse_Items_File(path_to_utf8(m_items_filename));
 	Load_Image_Items(pResource_Manager->Get_Game_Pixmaps_Directory());
-
-	// Get Menu
-	if( !File_Exists( m_menu_filename ) )
-	{
-		std::cerr << "Error : Editor Loading : No Menu file found : " << path_to_utf8(m_menu_filename) << std::endl;
-		return;
-	}
-	// Parse Menu
-	CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_menu_filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("Editor_Menu.xsd")).c_str(), "" );
+	Parse_Menu_File(path_to_utf8(m_menu_filename));
 }
 
 void cEditor :: Unload( void )
@@ -1375,12 +1367,6 @@ void cEditor :: Activate_Item( cEditor_Item_Object *entry )
 	pMouseCursor->Set_Hovered_Object( new_sprite );
 }
 
-cSprite *cEditor :: Get_Object( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version )
-{
-	// virtual
-	return NULL;
-}
-
 cSprite_List cEditor :: Copy_Direction( const cSprite_List &objects, const ObjectDirection dir ) const
 {
 	// additional direction objects offset
@@ -1694,80 +1680,42 @@ bool cEditor :: Window_Help_Exit_Clicked( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cEditor :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
+// virtual
+// This function must set m_tagged_item_objects in the subclasses!
+// Instanciate cEditorItemsLoader for parsing the items file.
+void cEditor :: Parse_Items_File( fs::path filename )
 {
-	if( element == "property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-	}
-	else if( element == "Property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "Name" ), attributes.getValueAsString( "Value" ) );
-	}
+	throw(NotImplementedError("Parse_Items_File() must be overridden in a subclass."));
+	//cEditorItemsLoader parser;
+	//parser.parse_file(filename, cLevelLoader::Create_Level_Objects_From_XML_Tag);
+	//m_tagged_item_objects = parser.get_tagged_sprites();
 }
 
-void cEditor :: elementEnd( const CEGUI::String &element )
+void cEditor :: Parse_Menu_File( fs::path filename )
 {
-	if( element == "property" || element == "Property" )
-	{
-		return;
+	// The menu XML file is so dead simple that a SAX parser would
+	// simply be overkill. Leightweight XPath queries are enough.
+	xmlpp::DomParser parser;
+	parser.parse_file(path_to_utf8(filename));
+
+	xmlpp::Element* p_root = parser.get_document()->get_root_node();
+	xmlpp::NodeSet items = p_root->find("item");
+
+	xmlpp::NodeSet::const_iterator iter;
+	for(iter=items.begin(); iter != items.end(); iter++) {
+		xmlpp::Element* p_node = dynamic_cast<xmlpp::Element*>(*iter);
+
+		std::string name = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='name']")[0])->get_attribute("value")->get_value();
+		std::string tags = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='tags']")[0])->get_attribute("value")->get_value();
+
+		// Set color if available (---header--- elements have no color property)
+		std::string color = "FFFFFFFF";
+		xmlpp::NodeSet results = p_node->find("property[@name='color']");
+		if (!results.empty())
+			color = dynamic_cast<xmlpp::Element*>(results[0])->get_attribute("value")->get_value();
+
+		Add_Menu_Object(name, tags, CEGUI::PropertyHelper::stringToColour(color));
 	}
-
-	if( element == "item" || element == "Item" )
-	{
-		// Menu Item
-		if( m_xml_attributes.getValueAsString( "tags" ).length() )
-		{
-			Handle_Menu( m_xml_attributes );
-		}
-		// Items Item
-		else
-		{
-			Handle_Item( m_xml_attributes );
-		}
-	}
-	else if( element == "items" || element == "menu" || element == "Items" || element == "Menu" )
-	{
-		// ignore
-	}
-	else if( element.length() )
-	{
-		printf( "Warning : Unknown editor item element : %s\n", element.c_str() );
-	}
-
-	// clear
-	m_xml_attributes = CEGUI::XMLAttributes();
-}
-
-void cEditor :: Handle_Item( const CEGUI::XMLAttributes &attributes )
-{
-	// element name must be given
-	CEGUI::String name = m_xml_attributes.getValueAsString( "object_name" );
-	CEGUI::String tags = m_xml_attributes.getValueAsString( "object_tags" );
-
-	// create
-	cSprite *object = Get_Object( name, m_xml_attributes, level_engine_version );
-
-	// if creation failed
-	if( !object )
-	{
-		printf( "Warning : Editor Item could not be created : %s\n", name.c_str() );
-		return;
-	}
-
-	// set editor tags
-	object->m_editor_tags = tags.c_str();
-
-	// Add Item Object
-	m_tagged_item_objects.push_back( object );
-}
-
-void cEditor :: Handle_Menu( const CEGUI::XMLAttributes &attributes )
-{
-	std::string name = m_xml_attributes.getValueAsString( "name" ).c_str();
-	std::string tags = m_xml_attributes.getValueAsString( "tags" ).c_str();
-
-	Add_Menu_Object( name, tags, CEGUI::PropertyHelper::stringToColour( m_xml_attributes.getValueAsString( "color", "FFFFFFFF" ) ) );
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -17,6 +17,7 @@
 #define SMC_POWERUP_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/animated_sprite.h"
 #include "../scripting/objects/powerups/mrb_powerup.h"
 #include "../scripting/objects/powerups/mrb_mushroom.h"
@@ -63,6 +64,8 @@ public:
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 
 	float m_counter;
+
+	// node saving inherited
 };
 
 /* *** *** *** *** *** cMushroom *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -73,7 +76,7 @@ public:
 	// constructor
 	cMushroom( cSprite_Manager *sprite_manager );
 	// create from stream
-	cMushroom( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cMushroom( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cMushroom( void );
 
@@ -81,9 +84,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cMushroom *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -110,9 +110,10 @@ public:
 	// glim animation modifier
 	bool m_glim_mod;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
   virtual std::string Get_XML_Type_Name();
 };
 
@@ -124,7 +125,7 @@ public:
 	// constructor
 	cFirePlant( cSprite_Manager *sprite_manager );
 	// create from stream
-	cFirePlant( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cFirePlant( XmlAttributes &attributes, cSprite_Manager *sprite_manager);
 	// destructor
 	virtual ~cFirePlant( void );
 
@@ -132,9 +133,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cFirePlant *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Activates the item
 	virtual void Activate( void );
@@ -147,9 +145,9 @@ public:
 
 	float m_particle_counter;
 
+	// node saving inherited
+
 protected:
-	// save to stream
-	// stream saving inherited
   virtual std::string Get_XML_Type_Name(){return "fireplant";}
 };
 
@@ -161,7 +159,7 @@ public:
 	// constructor
 	cMoon( cSprite_Manager *sprite_manager );
 	// create from stream
-	cMoon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cMoon( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cMoon( void );
 
@@ -169,9 +167,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cMoon *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Activates the item
 	virtual void Activate( void );
@@ -183,6 +178,8 @@ public:
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_particle_counter;
+
+	// node saving inherited
 
 protected:
 	// save to stream

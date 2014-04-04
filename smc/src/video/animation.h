@@ -168,7 +168,7 @@ public:
 	// constructor
 	cParticle_Emitter( cSprite_Manager *sprite_manager );
 	// create from stream
-	cParticle_Emitter( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cParticle_Emitter( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cParticle_Emitter( void );
 
@@ -176,9 +176,6 @@ public:
 	virtual void Init( void );
 	// copy
 	virtual cParticle_Emitter *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// pre-update animation
 	void Pre_Update( void );
@@ -364,9 +361,10 @@ public:
 	// clip mode
 	ParticleClipMode m_clip_mode;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 
 private:

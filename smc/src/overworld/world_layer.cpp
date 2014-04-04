@@ -20,6 +20,7 @@
 #include "../core/i18n.h"
 #include "../overworld/world_editor.h"
 #include "../core/filesystem/resource_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -125,11 +126,19 @@ cLayer_Line_Point_Start :: cLayer_Line_Point_Start( cSprite_Manager *sprite_mana
 	cLayer_Line_Point_Start::Init();
 }
 
-cLayer_Line_Point_Start :: cLayer_Line_Point_Start( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld )
+cLayer_Line_Point_Start :: cLayer_Line_Point_Start( XmlAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld )
 : cLayer_Line_Point( sprite_manager, overworld, TYPE_OW_LINE_START )
 {
 	cLayer_Line_Point_Start::Init();
-	cLayer_Line_Point_Start::Load_From_XML( attributes );
+
+	// Start
+	Set_Pos(static_cast<float>(attributes.retrieve<int>("X1")) - 2, static_cast<float>(attributes.retrieve<int>("Y1")) -2, true);
+
+	// End
+	m_linked_point->Set_Pos(static_cast<float>(attributes.retrieve<int>("X2")) - 2, static_cast<float>(attributes.retrieve<int>("Y2")) -2, true);
+
+	// origin
+	m_origin = attributes.retrieve<int>("origin");
 }
 
 cLayer_Line_Point_Start :: ~cLayer_Line_Point_Start( void )
@@ -165,16 +174,6 @@ cLayer_Line_Point_Start *cLayer_Line_Point_Start :: Copy( void ) const
 	// origin
 	layer_line->m_origin = m_origin;
 	return layer_line;
-}
-
-void cLayer_Line_Point_Start :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// Start
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "X1" )) - 2, static_cast<float>(attributes.getValueAsInteger( "Y1" )) - 2, 1 );
-	// End
-	m_linked_point->Set_Pos( static_cast<float>(attributes.getValueAsInteger( "X2" )) - 2, static_cast<float>(attributes.getValueAsInteger( "Y2" )) - 2, 1 );
-	// origin
-	m_origin = attributes.getValueAsInteger( "origin" );
 }
 
 void cLayer_Line_Point_Start :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
@@ -322,68 +321,29 @@ void cLayer :: Add( cLayer_Line_Point_Start *line_point )
 	}
 }
 
-void cLayer :: Load( const fs::path &filename )
+void cLayer :: Save_To_File( const fs::path& path )
 {
-	Delete_All();
-
-	try
-	{
-		// parse layer
-	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
-	#ifdef _WIN32
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, (const CEGUI::utf8*)path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Lines.xsd")), "" );
-	#else
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename).c_str(), path_to_utf8(pResource_Manager->Get_Game_Schema("World/Lines.xsd")), "" );
-	#endif
-	}
-	// catch CEGUI Exceptions
-	catch( CEGUI::Exception &ex )
-	{
-		std::cerr << "Loading Line Layer " << path_to_utf8(filename) << " failed with CEGUI exception: " << ex.getMessage() << std::endl;
-		pHud_Debug->Set_Text( _("Line Layer Loading failed : ") + (const std::string)ex.getMessage().c_str() );
-	}
-}
-
-bool cLayer :: Save( const fs::path &filename )
-{
-	fs::ofstream file(filename, ios::out | ios::trunc);
-
-	if( !file )
-	{
-		pHud_Debug->Set_Text( _("Couldn't save world layer ") + path_to_utf8(filename) );
-		return 0;
-	}
-
-	CEGUI::XMLSerializer stream( file );
-
-	// begin layer
-	stream.openTag( "layer" );
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("layer");
 
 	// lines
-	for( LayerLineList::iterator itr = objects.begin(); itr != objects.end(); ++itr )
-	{
-		cLayer_Line_Point_Start *line = (*itr);
+	LayerLineList::const_iterator iter;
+	for(iter=objects.begin(); iter != objects.end(); iter++) {
+		cLayer_Line_Point_Start* p_line = *iter;
+		xmlpp::Element* p_node = p_root->add_child("line");
 
-		// begin
-		stream.openTag( "line" );
-			// start
-			Write_Property( stream, "X1", static_cast<int>(line->Get_Line_Pos_X()) );
-			Write_Property( stream, "Y1", static_cast<int>(line->Get_Line_Pos_Y()) );
-			// end
-			Write_Property( stream, "X2", static_cast<int>(line->m_linked_point->Get_Line_Pos_X()) );
-			Write_Property( stream, "Y2", static_cast<int>(line->m_linked_point->Get_Line_Pos_Y()) );
-			// origin
-			Write_Property( stream, "origin", line->m_origin );
-		// end line
-		stream.closeTag();
+		// start
+		Add_Property(p_node, "X1", static_cast<int>(p_line->Get_Line_Pos_X()));
+		Add_Property(p_node, "Y1", static_cast<int>(p_line->Get_Line_Pos_Y()));
+		// end
+		Add_Property(p_node, "X2", static_cast<int>(p_line->m_linked_point->Get_Line_Pos_X()));
+		Add_Property(p_node, "Y2", static_cast<int>(p_line->m_linked_point->Get_Line_Pos_Y()));
+		// origin
+		Add_Property(p_node, "origin", p_line->m_origin );
 	}
 
-	// end layer
-	stream.closeTag();
-
-	file.close();
-
-	return 1;
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(path)));
+	debug_print("Wrote world layer file '%s'.\n", path_to_utf8(path).c_str());
 }
 
 void cLayer :: Delete_All( void )
@@ -544,52 +504,6 @@ cLine_collision cLayer :: Get_Nearest_Line( cLayer_Line_Point_Start *map_layer_l
 
 	// not found
 	return cLine_collision();
-}
-
-void cLayer :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
-{
-	if( element == "property" || element == "Property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-	}
-}
-
-void cLayer :: elementEnd( const CEGUI::String &element )
-{
-	if( element == "property" || element == "Property" )
-	{
-		return;
-	}
-
-	if( element == "line" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( m_overworld->m_engine_version < 2 )
-		{
-			if( m_xml_attributes.exists( "Y1" ) )
-			{
-				m_xml_attributes.add( "Y1", CEGUI::PropertyHelper::floatToString( m_xml_attributes.getValueAsFloat( "Y1" ) - 600.0f ) );
-			}
-			if( m_xml_attributes.exists( "Y2" ) )
-			{
-				m_xml_attributes.add( "Y2", CEGUI::PropertyHelper::floatToString( m_xml_attributes.getValueAsFloat( "Y2" ) - 600.0f ) );
-			}
-		}
-
-		// add layer line
-		Add( new cLayer_Line_Point_Start( m_xml_attributes, m_overworld->m_sprite_manager, m_overworld ) );
-	}
-	else if( element == "layer" )
-	{
-		// ignore
-	}
-	else if( element.length() )
-	{
-		printf( "Warning : Overworld Layer unknown element : %s\n", element.c_str() );
-	}
-
-	// clear
-	m_xml_attributes = CEGUI::XMLAttributes();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

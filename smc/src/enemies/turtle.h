@@ -43,7 +43,7 @@ public:
 	// constructor
 	cTurtle( cSprite_Manager *sprite_manager );
 	// create from stream
-	cTurtle( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cTurtle( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cTurtle( void );
 
@@ -51,9 +51,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cTurtle *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -133,9 +130,11 @@ public:
 	// Color
 	DefaultColor m_color_type;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 
 private:

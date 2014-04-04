@@ -17,8 +17,9 @@
 # http://www.kernel.org/pub/software/scm/git/docs/gitignore.html
 #
 
-# The normal build directory
+# The normal build directories
 /smc/build
+/smc/crossbuild
 
 # Generated
 /smc/*.log
@@ -29,6 +30,12 @@
 /smc/stderr.txt
 /smc/docs/scripting/html/
 Thumbs.db
+
+# Arch package
+/smc/extras/archlinux/SMC
+/smc/extras/archlinux/pkg
+/smc/extras/archlinux/*.tar.xz
+/smc/extras/archlinux/src
 
 # Visual Studio
 /smc/makefiles/MSVC9.0/Debug

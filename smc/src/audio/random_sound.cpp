@@ -21,6 +21,7 @@
 #include "../input/mouse.h"
 #include "../core/math/utilities.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -34,11 +35,31 @@ cRandom_Sound :: cRandom_Sound( cSprite_Manager *sprite_manager )
 	cRandom_Sound::Init();
 }
 
-cRandom_Sound :: cRandom_Sound( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cRandom_Sound :: cRandom_Sound( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cSprite( sprite_manager, "sound" )
 {
 	cRandom_Sound::Init();
-	cRandom_Sound::Load_From_XML( attributes );
+
+	// filename
+	Set_Filename(attributes["file"]);
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// 
+	Set_Continuous(attributes.fetch<bool>("continuous", m_continuous));
+
+	// delay
+	Set_Delay_Min(attributes.fetch<int>("delay_min", m_delay_min));
+	Set_Delay_Min(attributes.fetch<int>("delay_max", m_delay_max));
+
+	// volume
+	Set_Volume_Min(attributes.fetch<float>("volume_min", m_volume_min));
+	Set_Volume_Max(attributes.fetch<float>("volume_min", m_volume_max));
+
+	// volume reduction
+	Set_Volume_Reduction_Begin(attributes.fetch<float>("volume_reduction_begin", m_volume_reduction_begin));
+	Set_Volume_Reduction_End(attributes.fetch<float>("volume_reduction_end", m_volume_reduction_end));
 }
 
 cRandom_Sound :: ~cRandom_Sound( void )
@@ -94,47 +115,31 @@ cRandom_Sound *cRandom_Sound :: Copy( void ) const
 	return random_sound;
 }
 
-void cRandom_Sound :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// filename
-	Set_Filename( attributes.getValueAsString( "file" ).c_str() );
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "pos_x" )), static_cast<float>(attributes.getValueAsInteger( "pos_y" )), 1 );
-	// 
-	Set_Continuous( attributes.getValueAsBool( "continuous", m_continuous ) );
-	// delay
-	Set_Delay_Min( attributes.getValueAsInteger( "delay_min", m_delay_min ) );
-	Set_Delay_Max( attributes.getValueAsInteger( "delay_max", m_delay_max ) );
-	// volume
-	Set_Volume_Min( attributes.getValueAsFloat( "volume_min", m_volume_min ) );
-	Set_Volume_Max( attributes.getValueAsFloat( "volume_max", m_volume_max ) );
-	// volume reduction
-	Set_Volume_Reduction_Begin( attributes.getValueAsFloat( "volume_reduction_begin", m_volume_reduction_begin ) );
-	Set_Volume_Reduction_End( attributes.getValueAsFloat( "volume_reduction_end", m_volume_reduction_end ) );
-}
-
 std::string cRandom_Sound :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cRandom_Sound :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cRandom_Sound :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cSprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
+
 
 	// filename
-	Write_Property( stream, "file", m_filename.c_str() );
+	Add_Property(p_node, "file", m_filename);
 	// continuous
-	Write_Property( stream, "continuous", m_continuous );
+	Add_Property(p_node, "continuous", m_continuous);
 	// delay
-	Write_Property( stream, "delay_min", m_delay_min );
-	Write_Property( stream, "delay_max", m_delay_max );
+	Add_Property(p_node, "delay_min", m_delay_min);
+	Add_Property(p_node, "delay_max", m_delay_max);
 	// volume
-	Write_Property( stream, "volume_min", m_volume_min );
-	Write_Property( stream, "volume_max", m_volume_max );
+	Add_Property(p_node, "volume_min", m_volume_min);
+	Add_Property(p_node, "volume_max", m_volume_max);
 	// volume reduction
-	Write_Property( stream, "volume_reduction_begin", m_volume_reduction_begin );
-	Write_Property( stream, "volume_reduction_end", m_volume_reduction_end );
+	Add_Property(p_node, "volume_reduction_begin", m_volume_reduction_begin);
+	Add_Property(p_node, "volume_reduction_end", m_volume_reduction_end);
+
+	return p_node;
 }
 
 void cRandom_Sound :: Set_Filename( const std::string &str )

@@ -37,12 +37,25 @@ cBall :: cBall( cSprite_Manager *sprite_manager )
 	cBall::Init();
 }
 
-cBall :: cBall( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cBall :: cBall( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "ball" )
 {
 	cBall::Init();
-	cBall::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	m_direction = static_cast<ObjectDirection>(string_to_int(attributes["direction"]));
+
+	// origin array and type
+	Set_Origin(	static_cast<ArrayType>(string_to_int(attributes["origin_array"])),
+				static_cast<SpriteType>(string_to_int(attributes["origin_type"])));
+
+	// type
+	Set_Ball_Type(static_cast<ball_effect>(string_to_int(attributes["ball_type"])));
 }
+
 
 cBall :: ~cBall( void )
 {
@@ -82,34 +95,24 @@ cBall *cBall :: Copy( void ) const
 	return ball;
 }
 
-void cBall :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	m_direction = static_cast<ObjectDirection>(attributes.getValueAsInteger( "direction" ));
-	// origin array and type
-	Set_Origin( static_cast<ArrayType>(attributes.getValueAsInteger( "origin_array" )), static_cast<SpriteType>(attributes.getValueAsInteger( "origin_type" )) );
-	// type
-	Set_Ball_Type( static_cast<ball_effect>(attributes.getValueAsInteger( "ball_type" )) );
-}
-
 std::string cBall :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cBall :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cBall :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
 	// direction
-	Write_Property( stream, "direction", m_direction );
+	Add_Property(p_node, "direction", m_direction);
 	// origin array and type
-	Write_Property( stream, "origin_array", m_origin_array );
-	Write_Property( stream, "origin_type", m_origin_type );
+	Add_Property(p_node, "origin_array", m_origin_array);
+	Add_Property(p_node, "origin_type", m_origin_type);
 	// type
-	Write_Property( stream, "ball_type", m_ball_type );
+	Add_Property(p_node, "ball_type", m_ball_type);
+
+	return p_node;
 }
 
 void cBall :: Load_From_Savegame( cSave_Level_Object *save_object )

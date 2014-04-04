@@ -17,6 +17,7 @@
 #define SMC_LEVEL_H
 
 #include "../core/global_basic.h"
+#include "../core/global_game.h"
 #include "../level/level_background.h"
 #include "../level/level_manager.h"
 #include "../objects/level_entry.h"
@@ -29,9 +30,13 @@ namespace SMC
 
 /* *** *** *** *** *** cLevel *** *** *** *** *** *** *** *** *** *** *** *** */
 
-class cLevel : public CEGUI::XMLHandler
+class cLevel
 {
 public:
+
+	/// Loads a level from the given file.
+	static cLevel* Load_From_File( boost::filesystem::path filename );
+
 	cLevel( void );
 	virtual ~cLevel( void );
 
@@ -40,13 +45,16 @@ public:
 	 * returns true if successful
 	*/
 	bool New( std::string levelname );
-	// Load an existing level by name (file extension and user or
-  // game directory are automatically added).
-	bool Load( std::string levelname );
+
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
 	*/
 	void Unload( bool delayed = 0 );
+
+	// Save the level to a file as XML.
+	// Raises xmlpp::exception on failure to write the XML file.
+	boost::filesystem::path Save_To_File(boost::filesystem::path filename = boost::filesystem::path());
+
 	// Save the Level
 	void Save( void );
 	// Delete and unload
@@ -197,27 +205,7 @@ public:
 	// camera
 	GL_rect m_camera_limits;
 	float m_fixed_camera_hor_vel;
-
-private:
-	// XML element start (called by CEGUI on XML loading)
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end (called by CEGUI on XML loading)
-	virtual void elementEnd( const CEGUI::String &element );
-	// XML text element (called by CEGUI on XML loading)
-	virtual void text( const CEGUI::String &element );
-
-	// XML element Item Tag list
-	CEGUI::XMLAttributes m_xml_attributes;
-
-	// XML: Indicates whether the <script> tag has been opened
-	bool m_start_script_tag;
 };
-
-/* Return the Level Object if element name is available else NULL
- * engine_version : engine version of the data and if it's below the current version it converts it
- * sprite_manager : needed if the engine version is below the current version and data conversion creates multiple objects
-*/
-cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

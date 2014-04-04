@@ -66,6 +66,13 @@ std::string int_to_string( const int number )
 	return os.str();
 }
 
+std::string uint_to_string( const unsigned int number)
+{
+	std::ostringstream os;
+	os << number;
+	return os.str();
+}
+
 std::string int64_to_string( const Uint64 number )
 {
 	std::ostringstream os;
@@ -265,6 +272,14 @@ int string_to_int( const std::string &str )
 	int num = 0;
 	// use helper
 	from_string<int>( num, str, std::dec );
+	return num;
+}
+
+unsigned int string_to_uint( const std::string& str )
+{
+	unsigned int num = 0;
+	// use helper
+	from_string<unsigned int>(num, str, std::dec);
 	return num;
 }
 
@@ -477,6 +492,44 @@ std::string Time_to_String( time_t t, const char *format )
 	strftime( str_time, 60, format, localtime( &t ) );
 
 	return str_time;
+}
+
+// Specifications for the template-converters
+
+template<>
+std::string type_to_string(bool value)
+{
+  return value ? "1" : "0";
+}
+
+template<>
+float string_to_type(const std::string& value)
+{
+  return string_to_float(value);
+}
+
+template<>
+int string_to_type(const std::string& value)
+{
+  return string_to_int(value);
+}
+
+template<>
+long string_to_type(const std::string& value)
+{
+	return string_to_long(value);
+}
+
+template<>
+bool string_to_type(const std::string& value)
+{
+  return string_to_bool(value);
+}
+
+template<>
+std::string string_to_type(const std::string& value)
+{
+	return std::string(value); // copy
 }
 
 ObjectDirection Get_Opposite_Direction( const ObjectDirection direction )

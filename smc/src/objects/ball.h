@@ -30,7 +30,7 @@ public:
 	// constructor
 	cBall( cSprite_Manager *sprite_manager );
 	// create from stream
-	cBall( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cBall( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cBall( void );
 
@@ -38,8 +38,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cBall *Copy( void ) const;
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -83,6 +81,9 @@ public:
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 
+	// Save below given XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 	// origin
 	ArrayType m_origin_array;
 	SpriteType m_origin_type;
@@ -97,9 +98,7 @@ public:
 	float m_fire_counter;
 
 protected:
-	// save to stream
 	virtual std::string Get_XML_Type_Name();
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

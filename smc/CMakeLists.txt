@@ -12,6 +12,7 @@ include(ExternalProject)
 # Flags & Options
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
+option(ENABLE_NEW_LOADER "Enable the new EXPERIMENTAL libxml++ level loader" OFF)
 set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having SMC determine it dynamically.")
 
 #FIXME: Actually use ENABLE_MRUBY
@@ -99,6 +100,7 @@ pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
 pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
 #pkg_check_modules(FREEIMAGE REQUIRED freeimage)
 pkg_check_modules(PCRE REQUIRED libpcre)
+pkg_check_modules(LibXmlPP REQUIRED libxml++-2.6)
 
 ###############################################
 # Definitions etc.
@@ -121,6 +123,7 @@ include_directories(
   ${SDL_TTF_INCLUDE_DIRS}
   ${FreeImage_INCLUDE_DIRS}
   ${PCRE_INCLUDE_DIRS}
+  ${LibXmlPP_INCLUDE_DIRS}
   )
 
 ###############################################
@@ -191,6 +194,7 @@ if (WIN32)
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
     ${PCRE_STATIC_LIBRARIES}
+    ${LibXmlPP_STATIC_LIBRARIES}
     ${PNG_STATIC_LIBRARIES}
     intl
     ws2_32
@@ -210,6 +214,7 @@ else()
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
     ${PCRE_LIBRARIES}
+    ${LibXmlPP_LIBRARIES}
     ${PNG_LIBRARIES}
     )
 endif()

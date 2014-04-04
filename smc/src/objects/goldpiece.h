@@ -17,6 +17,7 @@
 #define SMC_GOLDPIECE_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/animated_sprite.h"
 
 namespace SMC
@@ -30,14 +31,12 @@ public:
 	// constructor
 	cGoldpiece( cSprite_Manager *sprite_manager );
 	// create from stream
-	cGoldpiece( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cGoldpiece( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cGoldpiece( void );
 
 	// init defaults
 	void Init( void );
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// copy
 	virtual cGoldpiece *Copy( void ) const;
@@ -67,9 +66,11 @@ public:
 	// gold color
 	DefaultColor m_color_type;
 
+	// Save to node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
 	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 };
 

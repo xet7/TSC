@@ -20,6 +20,7 @@
 #include "../core/framerate.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -34,11 +35,11 @@ cBackground :: cBackground( cSprite_Manager *sprite_manager )
 	cBackground::Set_Sprite_Manager( sprite_manager );
 }
 
-cBackground :: cBackground( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cBackground :: cBackground( XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 {
 	cBackground::Init();
 	cBackground::Set_Sprite_Manager( sprite_manager );
-	cBackground::Load_From_XML( attributes );
+	cBackground::Load_From_Attributes( attributes );
 }
 
 cBackground :: ~cBackground( void )
@@ -68,76 +69,75 @@ void cBackground :: Init( void )
 	m_const_vel_y = 0.0f;
 }
 
-void cBackground :: Load_From_XML( CEGUI::XMLAttributes &attributes )
+void cBackground :: Load_From_Attributes( XmlAttributes &attributes )
 {
-	Set_Type( static_cast<BackgroundType>(attributes.getValueAsInteger( "type" )) );
+	Set_Type( static_cast<BackgroundType>( string_to_int( attributes["type"] ) ) );
 
-	if( m_type == BG_GR_HOR || m_type == BG_GR_VER )
+	if ( m_type == BG_GR_HOR || m_type == BG_GR_VER )
 	{
-		Set_Color_1( Color( static_cast<Uint8>(attributes.getValueAsInteger( "bg_color_1_red" )), attributes.getValueAsInteger( "bg_color_1_green" ), attributes.getValueAsInteger( "bg_color_1_blue" ) ) );
-		Set_Color_2( Color( static_cast<Uint8>(attributes.getValueAsInteger( "bg_color_2_red" )), attributes.getValueAsInteger( "bg_color_2_green" ), attributes.getValueAsInteger( "bg_color_2_blue" ) ) );
+		int r, g, b;
+
+		r = string_to_int(attributes["bg_color_1_red"]);
+		g = string_to_int(attributes["bg_color_1_green"]);
+		b = string_to_int(attributes["bg_color_1_blue"]);
+		Set_Color_1(Color(static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b)));
+
+		r = string_to_int(attributes["bg_color_2_red"]);
+		g = string_to_int(attributes["bg_color_2_green"]);
+		b = string_to_int(attributes["bg_color_2_blue"]);
+		Set_Color_2(Color(static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b)));
 	}
-	else if( m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL )
+	else if ( m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL )
 	{
-		Set_Start_Pos( attributes.getValueAsFloat( "posx" ), attributes.getValueAsFloat( "posy" ) );
-		Set_Pos_Z( attributes.getValueAsFloat( "posz" ) );
+		Set_Start_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]) );
+		Set_Pos_Z( string_to_float(attributes["posz"]) );
 
-		Set_Image( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) );
-		Set_Scroll_Speed( attributes.getValueAsFloat( "speedx" ), attributes.getValueAsFloat( "speedy" ) );
-		Set_Const_Velocity_X( attributes.getValueAsFloat( "const_velx" ) );
-		Set_Const_Velocity_Y( attributes.getValueAsFloat( "const_vely" ) );
+		Set_Image( utf8_to_path(attributes["image"]) );
+		Set_Scroll_Speed( string_to_float(attributes["speedx"]), string_to_float(attributes["speedy"]) );
+		Set_Const_Velocity_X( string_to_float(attributes["const_velx"]) );
+		Set_Const_Velocity_Y( string_to_float(attributes["const_vely"]) );
 	}
 }
 
-void cBackground :: Save_To_XML( CEGUI::XMLSerializer &stream )
+void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 {
-	if( m_type == BG_NONE )
-	{
+	if (m_type == BG_NONE)
 		return;
-	}
 
-	// begin
-	stream.openTag( "background" );
-
-	// type
-	Write_Property( stream, "type", m_type );
+	// <background>
+	xmlpp::Element* p_node = p_parent->add_child("background");
+	Add_Property(p_node, "type", m_type);
 
 	// gradient
-	if( m_type == BG_GR_HOR || m_type == BG_GR_VER )
-	{
+	if (m_type == BG_GR_HOR || m_type == BG_GR_VER) {
 		// background color 1
-		Write_Property( stream, "bg_color_1_red", static_cast<int>(m_color_1.red) );
-		Write_Property( stream, "bg_color_1_green", static_cast<int>(m_color_1.green) );
-		Write_Property( stream, "bg_color_1_blue", static_cast<int>(m_color_1.blue) );
+		Add_Property( p_node, "bg_color_1_red", static_cast<int>(m_color_1.red) );
+		Add_Property( p_node, "bg_color_1_green", static_cast<int>(m_color_1.green) );
+		Add_Property( p_node, "bg_color_1_blue", static_cast<int>(m_color_1.blue) );
 		// background color 2
-		Write_Property( stream, "bg_color_2_red", static_cast<int>(m_color_2.red) );
-		Write_Property( stream, "bg_color_2_green", static_cast<int>(m_color_2.green) );
-		Write_Property( stream, "bg_color_2_blue", static_cast<int>(m_color_2.blue) );
+		Add_Property( p_node, "bg_color_2_red", static_cast<int>(m_color_2.red) );
+		Add_Property( p_node, "bg_color_2_green", static_cast<int>(m_color_2.green) );
+		Add_Property( p_node, "bg_color_2_blue", static_cast<int>(m_color_2.blue) );
 	}
 	// image
-	else if( m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL )
-	{
+	else if (m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL) {
 		// position
-		Write_Property( stream, "posx", m_start_pos_x );
-		Write_Property( stream, "posy", m_start_pos_y );
-		Write_Property( stream, "posz", m_pos_z );
+		Add_Property( p_node, "posx", m_start_pos_x );
+		Add_Property( p_node, "posy", m_start_pos_y );
+		Add_Property( p_node, "posz", m_pos_z );
 
 		// image filename
-		Write_Property( stream, "image", path_to_utf8( m_image_1_filename ) );
+		Add_Property( p_node, "image", path_to_utf8( m_image_1_filename ) );
 		// speed
-		Write_Property( stream, "speedx", m_speed_x );
-		Write_Property( stream, "speedy", m_speed_y );
+		Add_Property( p_node, "speedx", m_speed_x );
+		Add_Property( p_node, "speedy", m_speed_y );
 		// constant velocity
-		Write_Property( stream, "const_velx", m_const_vel_x );
-		Write_Property( stream, "const_vely", m_const_vel_y );
+		Add_Property( p_node, "const_velx", m_const_vel_x );
+		Add_Property( p_node, "const_vely", m_const_vel_y );
 	}
 	else
-	{
-		printf( "Error : Unknown Background Type %d\n", m_type );
-	}
-
-	// end background
-	stream.closeTag();
+		std::cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
+	// </background>
 }
 
 void cBackground :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )

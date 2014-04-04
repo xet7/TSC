@@ -25,6 +25,7 @@
 #include "../level/level.h"
 #include "../core/i18n.h"
 #include "../core/sprite_manager.h"
+#include "../core/xml_attributes.h"
 
 namespace SMC
 {
@@ -37,11 +38,19 @@ cLevel_Entry :: cLevel_Entry( cSprite_Manager *sprite_manager )
 	cLevel_Entry::Init();
 }
 
-cLevel_Entry :: cLevel_Entry( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cLevel_Entry :: cLevel_Entry( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "level_entry" )
 {
 	cLevel_Entry::Init();
-	cLevel_Entry::Load_From_XML( attributes );
+
+	// position
+	Set_Pos( string_to_float( attributes["posx"] ), string_to_float( attributes["posy"] ), true );
+	// type
+	Set_Type(static_cast<Level_Entry_type>(attributes.fetch<int>("type", m_entry_type)));
+	// name
+	Set_Name( attributes["name"] );
+	// direction
+	Set_Direction( Get_Direction_Id( attributes.fetch( "direction", Get_Direction_Name( m_start_direction ) ) ) );
 }
 
 cLevel_Entry :: ~cLevel_Entry( void )
@@ -88,37 +97,23 @@ cLevel_Entry *cLevel_Entry :: Copy( void ) const
 	return level_entry;
 }
 
-void cLevel_Entry :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// type
-	Set_Type( static_cast<Level_Entry_type>(attributes.getValueAsInteger( "type", m_entry_type )) );
-	// name
-	Set_Name( attributes.getValueAsString( "name" ).c_str() );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-}
-
 std::string cLevel_Entry :: Get_XML_Type_Name()
 {
 	return int_to_string(m_entry_type);
 }
 
-void cLevel_Entry :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cLevel_Entry :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
-	if( m_entry_type == LEVEL_ENTRY_WARP )
-	{
-		// direction
-		Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	}
+	// direction
+	if (m_entry_type == LEVEL_ENTRY_WARP)
+		Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
 	// name
-	if( !m_entry_name.empty() )
-	{
-		Write_Property( stream, "name", m_entry_name );
-	}
+	if (!m_entry_name.empty())
+		Add_Property(p_node, "name", m_entry_name);
+
+	return p_node;
 }
 
 void cLevel_Entry :: Set_Direction( const ObjectDirection dir )

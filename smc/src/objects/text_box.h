@@ -30,7 +30,7 @@ public:
 	// constructor
 	cText_Box( cSprite_Manager *sprite_manager );
 	// create from stream
-	cText_Box( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cText_Box( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cText_Box( void );
 
@@ -40,7 +40,7 @@ public:
 	virtual cText_Box *Copy( void ) const;
 
 	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// Activate
 	virtual void Activate( void );
@@ -59,9 +59,10 @@ public:
 	// the text
 	std::string m_text;
 
+	// Save to node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	// typename inherited
 };
 

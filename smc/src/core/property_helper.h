@@ -61,6 +61,7 @@ std::string int_to_string( const int number );
 std::string int64_to_string( const Uint64 number );
 std::string long_to_string( const long number );
 std::string bool_to_string( const bool val);
+std::string uint_to_string( const unsigned int number );
 /* Return the float as a string
  * prec: the precision after the decimal point
  * keep_zeros: keep trailing zeros in the fractional part
@@ -70,6 +71,7 @@ std::string float_to_string( double value, int prec = 6, bool keep_zeros = 1 );
 int string_to_int( const std::string &str );
 Uint64 string_to_int64( const std::string &str );
 long string_to_long( const std::string &str );
+unsigned int string_to_uint( const std::string& str );
 // Return the string as a float
 float string_to_float( const std::string &str );
 // Return the string as a double
@@ -78,7 +80,7 @@ double string_to_double( const std::string &str );
 bool string_to_bool( const std::string &str);
 // Return the version number
 unsigned int string_to_version_number( std::string str );
-// Return the non-xml string
+// Replaces the <br/> found in XML strings with \n.
 std::string xml_string_to_string( std::string str );
 #ifdef _WIN32
 // Return it as UTF-8 string
@@ -98,6 +100,27 @@ boost::filesystem::path utf8_to_path( const std::string &str );
 std::string path_to_utf8(const boost::filesystem::path& path);
 // Return the given time as string
 std::string Time_to_String( time_t t, const char *format );
+
+// Return it as a string
+template <typename T>
+std::string type_to_string(T value)
+{
+  std::stringstream ss;
+  ss << value;
+  return ss.str();
+}
+
+// Return it as something else. This function is specifically
+// implemented for some types in property_helper.cpp; the raw
+// prototype declared here is only for the signature.
+// It CANNOT be used raw; be sure to implement it for a specific
+// type if you need that type (most likely because XmlAttributes::fetch()
+// delegates to this function?).
+template <typename T>
+T string_to_type(const std::string& value)
+{
+  throw std::runtime_error("Cannot use string_to_type() template raw.");
+}
 
 // Return the opposite Direction
 ObjectDirection Get_Opposite_Direction( const ObjectDirection direction );

@@ -24,6 +24,7 @@
 #include "../video/gl_surface.h"
 #include "../core/i18n.h"
 #include "../core/filesystem/filesystem.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -38,11 +39,25 @@ cFlyon :: cFlyon( cSprite_Manager *sprite_manager )
 	cFlyon::Init();
 }
 
-cFlyon :: cFlyon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cFlyon :: cFlyon( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager )
 {
 	cFlyon::Init();
-	cFlyon::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// image directory
+	Set_Image_Dir(utf8_to_path(attributes.fetch("image_dir", path_to_utf8(m_img_dir))));
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+
+	// max distance
+	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(m_max_distance))));
+
+	// speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
 }
 
 cFlyon :: ~cFlyon( void )
@@ -84,37 +99,21 @@ cFlyon *cFlyon :: Copy( void ) const
 	return jpiranha;
 }
 
-void cFlyon :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// direction
-	Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ) );
-	// image directory
-	Set_Image_Dir( utf8_to_path( attributes.getValueAsString( "image_dir", path_to_utf8( m_img_dir ) ).c_str() ) );
-	// max distance
-	Set_Max_Distance( attributes.getValueAsFloat( "max_distance", m_max_distance ) );
-	// speed
-	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
-}
-
 std::string cFlyon :: Get_XML_Type_Name()
 {
 	return "flyon";
 }
 
-void cFlyon :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cFlyon :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// direction
-	Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-	// image directory
-	Write_Property( stream, "image_dir", path_to_utf8( m_img_dir ) );
-	// max distance
-	Write_Property( stream, "max_distance", static_cast<int>(m_max_distance) );
-	// speed
-	Write_Property( stream, "speed", m_speed );
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "image_dir", path_to_utf8(m_img_dir));
+	Add_Property(p_node, "max_distance", static_cast<int>(m_max_distance));
+	Add_Property(p_node, "speed", m_speed);
+
+	return p_node;
 }
 
 void cFlyon :: Load_From_Savegame( cSave_Level_Object *save_object )

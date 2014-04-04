@@ -35,11 +35,15 @@ cGoldpiece :: cGoldpiece( cSprite_Manager *sprite_manager )
 	cGoldpiece::Init();
 }
 
-cGoldpiece :: cGoldpiece( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cGoldpiece :: cGoldpiece( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "item" )
 {
 	cGoldpiece::Init();
-	cGoldpiece::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+	// gold color
+	Set_Gold_Color( Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type))) );
 }
 
 cGoldpiece :: ~cGoldpiece( void )
@@ -66,25 +70,19 @@ cGoldpiece *cGoldpiece :: Copy( void ) const
 	return goldpiece;
 }
 
-void cGoldpiece :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// gold color
-	Set_Gold_Color( Get_Color_Id( attributes.getValueAsString( "color", Get_Color_Name( m_color_type ) ).c_str() ) );
-}
-
 std::string cGoldpiece :: Get_XML_Type_Name()
 {
 	return "goldpiece";
 }
 
-void cGoldpiece :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cGoldpiece :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
 	// color
-	Write_Property( stream, "color", Get_Color_Name( m_color_type ) );
+	Add_Property(p_node, "color", Get_Color_Name(m_color_type));
+
+	return p_node;
 }
 
 void cGoldpiece :: Load_From_Savegame( cSave_Level_Object *save_object )

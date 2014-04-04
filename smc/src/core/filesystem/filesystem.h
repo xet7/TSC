@@ -55,9 +55,6 @@ vector<boost::filesystem::path> Get_Directory_Files( const boost::filesystem::pa
 
 // Return the operating system temporary files directory
 boost::filesystem::path Get_Temp_Directory( void );
-// Return the default smc user directory in the operating system application/home directory
-// FIXME: This should return a boost::filesystem::path
-std::string Get_User_Directory( void );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

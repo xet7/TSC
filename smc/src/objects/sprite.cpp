@@ -23,12 +23,12 @@
 #include "../video/gl_surface.h"
 #include "../video/renderer.h"
 #include "../core/sprite_manager.h"
-#include "../core/editor.h"
+#include "../core/editor/editor.h"
 #include "../core/i18n.h"
 #include "../scripting/events/touch_event.h"
 #include "../level/level_editor.h"
 #include "../core/filesystem/resource_manager.h"
-#include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -330,11 +330,17 @@ cSprite :: cSprite( cSprite_Manager *sprite_manager, const std::string type_name
 	cSprite::Init();
 }
 
-cSprite :: cSprite( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
-: cCollidingSprite( sprite_manager ), m_type_name( type_name )
+cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
+	: cCollidingSprite( sprite_manager ), m_type_name( type_name )
 {
 	cSprite::Init();
-	cSprite::Load_From_XML( attributes );
+
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
+	// image
+	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
+	// type
+	Set_Sprite_Type( Get_Sprite_Type_Id( attributes["type"] ) );
 }
 
 cSprite :: ~cSprite( void )
@@ -420,7 +426,7 @@ void cSprite :: Init( void )
 
 	m_editor_window_name_width = 0.0f;
 
-	m_uid = 0;
+	m_uid = -1;
 }
 
 cSprite *cSprite :: Copy( void ) const
@@ -440,69 +446,42 @@ cSprite *cSprite :: Copy( void ) const
 	basic_sprite->Set_Shadow_Color( m_shadow_color );
 	basic_sprite->Set_Spawned( m_spawned );
 
-	basic_sprite->m_uid = 0;
+	basic_sprite->m_uid = -1;
 
 	return basic_sprite;
 }
 
-void cSprite :: Load_From_XML( CEGUI::XMLAttributes &attributes )
+xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// image
-	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image" ).c_str() ) ), true ) ;
-	// type
-	Set_Sprite_Type( Get_Sprite_Type_Id( attributes.getValueAsString( "type" ).c_str() ) );
-	// FIXME: Not all sprite subclasses call the chain upto cSprite::Load_From_XML()!
-	// See https://github.com/Quintus/SMC/issues/12#issuecomment-23027306
-}
+	xmlpp::Element* p_node = p_element->add_child(m_type_name);
 
-void cSprite :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
-{
 	// position
-	Write_Property( stream, "posx", static_cast<int>( m_start_pos_x ) );
-	Write_Property( stream, "posy", static_cast<int>( m_start_pos_y ) );
+	Add_Property(p_node, "posx", static_cast<int>(m_start_pos_x));
+	Add_Property(p_node, "posy", static_cast<int>(m_start_pos_y));
 	// UID
-	Write_Property( stream, "uid", m_uid );
+	Add_Property(p_node, "uid", m_uid);
+
 	// image
 	boost::filesystem::path img_filename;
-
-	if( m_start_image )
-	{
+	if (m_start_image)
 		img_filename = m_start_image->m_path;
-	}
-	else if( m_image )
-	{
+	else if (m_image)
 		img_filename = m_image->m_path;
-	}
 	else
-	{
-		printf( "Warning: cSprite::Do_XML_Saving() no image from type %d\n", m_type );
-	}
+		std::cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
 
 	// remove pixmaps directory from string
 	if (img_filename.is_absolute())
 		img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
 
-	Write_Property( stream, "image", path_to_utf8(img_filename) );
-	// type (only if Get_XML_Type_Name() returns something
-	// meaningful)
+	Add_Property(p_node, "image", path_to_utf8(img_filename));
+
+	// type (only if Get_XML_Type_Name() returns something meaningful)
 	std::string type = Get_XML_Type_Name();
 	if (!type.empty())
-		Write_Property( stream, "type", type );
-}
+		Add_Property(p_node, "type", type);
 
-void cSprite :: Save_To_XML( CEGUI::XMLSerializer &stream )
-{
-	// m_type_name is set by subclasses, so the main opening
-	// tag is detected automatically.
-	stream.openTag( m_type_name );
-
-	// Main saving. Subclasses add to this method.
-	Do_XML_Saving(stream);
-
-	// End tag
-	stream.closeTag();
+	return p_node;
 }
 
 void cSprite :: Set_Image( cGL_Surface *new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */ )

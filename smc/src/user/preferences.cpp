@@ -23,6 +23,7 @@
 #include "../core/i18n.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/filesystem.h"
+#include "preferences_loader.h"
 
 namespace fs = boost::filesystem;
 
@@ -31,6 +32,8 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** */
 
+// Default preferences path
+const fs::path cPreferences::DEFAULT_PREFERENCES_FILENAME = utf8_to_path("config.xml");
 // Game
 const bool cPreferences::m_always_run_default = 0;
 const std::string cPreferences::m_menu_level_default = "menu_green_1";
@@ -105,139 +108,107 @@ cPreferences :: ~cPreferences( void )
 	//
 }
 
-bool cPreferences :: Load( const fs::path &filename /* = fs::path() */ )
+cPreferences* cPreferences :: Load_From_File(fs::path filename /* = fs::path() */)
 {
-	Reset_All();
-	
-	// if config file is given
-	if( !filename.empty() )
-	{
-		m_config_filename = filename;
+	// If filename is empty, use the default preferences file.
+	if (filename.empty())
+		filename = fs::absolute(DEFAULT_PREFERENCES_FILENAME, pResource_Manager->Get_User_Data_Directory());
+
+	debug_print("Determined preferences filename: '%s'\n", path_to_utf8(filename).c_str());
+
+	// If the preferences file doesn’t exist, use default values.
+	if (!File_Exists(filename)) {
+		std::cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << std::endl;
+		return new cPreferences();
 	}
 
-	// prefer local config file
-	if( File_Exists( m_config_filename ) )
-	{
-		std::cout << "Using local preferences file : " << m_config_filename << std::endl;
-	}
-	// user dir
-	else
-	{
-		m_config_filename = fs::absolute(m_config_filename, pResource_Manager->Get_User_Data_Directory());
+	cPreferencesLoader loader;
+	loader.parse_file(filename);
 
-		// does not exist in user dir
-		if( !File_Exists( m_config_filename ) )
-		{
-			// only print warning if file is given
-			if( !filename.empty() )
-			{
-				std::cerr << "Couldn't open preferences file “" << m_config_filename << "”" << std::endl;
-			}
-			return 0;
-		}
-	}
+	// FIXME: Merge these settings with the other ordinary settings
+	// in a cPreferences instance! The following lines set global
+	// variables, which from the outside is totally unexpected.
+	// This must be done in main.cpp instead, where the preferences
+	// are loaded!
+	pVideo->m_geometry_quality = loader.Get_Video_Geometry_Detail();
+	pVideo->m_texture_quality  = loader.Get_Video_Texture_Detail();
+	pAudio->m_music_volume     = loader.Get_Audio_Music_Volume();
+	pAudio->m_sound_volume     = loader.Get_Audio_Sound_Volume();
 
-	try
-	{
-		CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(m_config_filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Config.xsd")), "" );
-	}
-	// catch CEGUI Exceptions
-	catch( CEGUI::Exception &ex )
-	{
-		printf( "Preferences Loading CEGUI Exception %s\n", ex.getMessage().c_str() );
-		pHud_Debug->Set_Text( _("Preferences Loading failed : ") + (const std::string)ex.getMessage().c_str() );
-	}
-
-	// if user data dir is set
-	if( !m_force_user_data_dir.empty() )
-	{
-		pResource_Manager->Set_User_Directory( m_force_user_data_dir );
-	}
-
-	return 1;
+	return loader.Get_Preferences();
 }
 
 void cPreferences :: Save( void )
 {
 	Update();
 
-	fs::ofstream file(m_config_filename, ios::out | ios::trunc);
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("config");
 
-	if( !file.is_open() )
-	{
-		std::cerr << "Error : couldn't open config “" << m_config_filename << "” for saving. Is the file read-only ?" << std::endl;
-		return;
-	}
-
-	CEGUI::XMLSerializer stream( file );
-
-	// begin
-	stream.openTag( "config" );
 	// Game
-	Write_Property( stream, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH) );
-	Write_Property( stream, "game_language", m_language );
-	Write_Property( stream, "game_always_run", m_always_run );
-	Write_Property( stream, "game_menu_level", m_menu_level );
-	Write_Property( stream, "game_user_data_dir", path_to_utf8(m_force_user_data_dir) );
-	Write_Property( stream, "game_camera_hor_speed", m_camera_hor_speed );
-	Write_Property( stream, "game_camera_ver_speed", m_camera_ver_speed );
+	Add_Property(p_root, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+	Add_Property(p_root, "game_language", m_language);
+	Add_Property(p_root, "game_always_run", m_always_run);
+	Add_Property(p_root, "game_menu_level", m_menu_level);
+	Add_Property(p_root, "game_user_data_dir", path_to_utf8(m_force_user_data_dir));
+	Add_Property(p_root, "game_camera_hor_speed", m_camera_hor_speed);
+	Add_Property(p_root, "game_camera_ver_speed", m_camera_ver_speed);
 	// Video
-	Write_Property( stream, "video_fullscreen", m_video_fullscreen );
-	Write_Property( stream, "video_screen_w", m_video_screen_w );
-	Write_Property( stream, "video_screen_h", m_video_screen_h );
-	Write_Property( stream, "video_screen_bpp", static_cast<int>(m_video_screen_bpp) );
-	Write_Property( stream, "video_vsync", m_video_vsync );
-	Write_Property( stream, "video_fps_limit", m_video_fps_limit );
-	Write_Property( stream, "video_geometry_quality", pVideo->m_geometry_quality );
-	Write_Property( stream, "video_texture_quality", pVideo->m_texture_quality );
+	Add_Property(p_root, "video_fullscreen", m_video_fullscreen);
+	Add_Property(p_root, "video_screen_w", m_video_screen_w);
+	Add_Property(p_root, "video_screen_h", m_video_screen_h);
+	Add_Property(p_root, "video_screen_bpp", static_cast<int>(m_video_screen_bpp));
+	Add_Property(p_root, "video_vsync", m_video_vsync);
+	Add_Property(p_root, "video_fps_limit", m_video_fps_limit);
+	Add_Property(p_root, "video_geometry_quality", pVideo->m_geometry_quality);
+	Add_Property(p_root, "video_texture_quality", pVideo->m_texture_quality);
 	// Audio
-	Write_Property( stream, "audio_music", m_audio_music );
-	Write_Property( stream, "audio_sound", m_audio_sound );
-	Write_Property( stream, "audio_sound_volume", static_cast<int>(pAudio->m_sound_volume) );
-	Write_Property( stream, "audio_music_volume", static_cast<int>(pAudio->m_music_volume) );
-	Write_Property( stream, "audio_hz", m_audio_hz );
+	Add_Property(p_root, "audio_music", m_audio_music);
+	Add_Property(p_root, "audio_sound", m_audio_sound);
+	Add_Property(p_root, "audio_sound_volume", static_cast<int>(pAudio->m_sound_volume));
+	Add_Property(p_root, "audio_music_volume", static_cast<int>(pAudio->m_music_volume));
+	Add_Property(p_root, "audio_hz", m_audio_hz);
 	// Keyboard
-	Write_Property( stream, "keyboard_key_up", m_key_up );
-	Write_Property( stream, "keyboard_key_down", m_key_down );
-	Write_Property( stream, "keyboard_key_left", m_key_left );
-	Write_Property( stream, "keyboard_key_right", m_key_right );
-	Write_Property( stream, "keyboard_key_jump", m_key_jump );
-	Write_Property( stream, "keyboard_key_shoot", m_key_shoot );
-	Write_Property( stream, "keyboard_key_item", m_key_item );
-	Write_Property( stream, "keyboard_key_action", m_key_action );
-	Write_Property( stream, "keyboard_scroll_speed", m_scroll_speed );
-	Write_Property( stream, "keyboard_key_screenshot", m_key_screenshot );
-	Write_Property( stream, "keyboard_key_editor_fast_copy_up", m_key_editor_fast_copy_up );
-	Write_Property( stream, "keyboard_key_editor_fast_copy_down", m_key_editor_fast_copy_down );
-	Write_Property( stream, "keyboard_key_editor_fast_copy_left", m_key_editor_fast_copy_left );
-	Write_Property( stream, "keyboard_key_editor_fast_copy_right", m_key_editor_fast_copy_right );
-	Write_Property( stream, "keyboard_key_editor_pixel_move_up", m_key_editor_pixel_move_up );
-	Write_Property( stream, "keyboard_key_editor_pixel_move_down", m_key_editor_pixel_move_down );
-	Write_Property( stream, "keyboard_key_editor_pixel_move_left", m_key_editor_pixel_move_left );
-	Write_Property( stream, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right );
+	Add_Property(p_root, "keyboard_key_up", m_key_up);
+	Add_Property(p_root, "keyboard_key_down", m_key_down);
+	Add_Property(p_root, "keyboard_key_left", m_key_left);
+	Add_Property(p_root, "keyboard_key_right", m_key_right);
+	Add_Property(p_root, "keyboard_key_jump", m_key_jump);
+	Add_Property(p_root, "keyboard_key_shoot", m_key_shoot);
+	Add_Property(p_root, "keyboard_key_item", m_key_item);
+	Add_Property(p_root, "keyboard_key_action", m_key_action);
+	Add_Property(p_root, "keyboard_scroll_speed", m_scroll_speed);
+	Add_Property(p_root, "keyboard_key_screenshot", m_key_screenshot);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_up", m_key_editor_fast_copy_up);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_down", m_key_editor_fast_copy_down);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_left", m_key_editor_fast_copy_left);
+	Add_Property(p_root, "keyboard_key_editor_fast_copy_right", m_key_editor_fast_copy_right);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_up", m_key_editor_pixel_move_up);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_down", m_key_editor_pixel_move_down);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_left", m_key_editor_pixel_move_left);
+	Add_Property(p_root, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right);
 	// Joystick/Gamepad
-	Write_Property( stream, "joy_enabled", m_joy_enabled );
-	Write_Property( stream, "joy_name", m_joy_name );
-	Write_Property( stream, "joy_analog_jump", m_joy_analog_jump );
-	Write_Property( stream, "joy_axis_hor", m_joy_axis_hor );
-	Write_Property( stream, "joy_axis_ver", m_joy_axis_ver );
-	Write_Property( stream, "joy_axis_threshold", m_joy_axis_threshold );
-	Write_Property( stream, "joy_button_jump", static_cast<int>(m_joy_button_jump) );
-	Write_Property( stream, "joy_button_item", static_cast<int>(m_joy_button_item) );
-	Write_Property( stream, "joy_button_shoot", static_cast<int>(m_joy_button_shoot) );
-	Write_Property( stream, "joy_button_action", static_cast<int>(m_joy_button_action) );
-	Write_Property( stream, "joy_button_exit", static_cast<int>(m_joy_button_exit) );
+	Add_Property(p_root, "joy_enabled", m_joy_enabled);
+	Add_Property(p_root, "joy_name", m_joy_name);
+	Add_Property(p_root, "joy_analog_jump", m_joy_analog_jump);
+	Add_Property(p_root, "joy_axis_hor", m_joy_axis_hor);
+	Add_Property(p_root, "joy_axis_ver", m_joy_axis_ver);
+	Add_Property(p_root, "joy_axis_threshold", m_joy_axis_threshold);
+	Add_Property(p_root, "joy_button_jump", static_cast<int>(m_joy_button_jump));
+	Add_Property(p_root, "joy_button_item", static_cast<int>(m_joy_button_item));
+	Add_Property(p_root, "joy_button_shoot", static_cast<int>(m_joy_button_shoot));
+	Add_Property(p_root, "joy_button_action", static_cast<int>(m_joy_button_action));
+	Add_Property(p_root, "joy_button_exit", static_cast<int>(m_joy_button_exit));
 	// Special
-	Write_Property( stream, "level_background_images", m_level_background_images );
-	Write_Property( stream, "image_cache_enabled", m_image_cache_enabled );
+	Add_Property(p_root, "level_background_images", m_level_background_images);
+	Add_Property(p_root, "image_cache_enabled", m_image_cache_enabled);
 	// Editor
-	Write_Property( stream, "editor_mouse_auto_hide", m_editor_mouse_auto_hide );
-	Write_Property( stream, "editor_show_item_images", m_editor_show_item_images );
-	Write_Property( stream, "editor_item_image_size", m_editor_item_image_size );
-	// end config
-	stream.closeTag();
+	Add_Property(p_root, "editor_mouse_auto_hide", m_editor_mouse_auto_hide);
+	Add_Property(p_root, "editor_show_item_images", m_editor_show_item_images);
+	Add_Property(p_root, "editor_item_image_size", m_editor_item_image_size);
 
-	file.close();
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(m_config_filename)));
+	debug_print("Wrote preferences file '%s'.\n", path_to_utf8(m_config_filename).c_str());
 }
 
 void cPreferences :: Reset_All( void )
@@ -258,7 +229,7 @@ void cPreferences :: Reset_All( void )
 	m_image_cache_enabled = 1;
 
 	// filename
-	m_config_filename = "config.xml";
+	m_config_filename = DEFAULT_PREFERENCES_FILENAME;
 }
 
 void cPreferences :: Reset_Game( void )
@@ -425,434 +396,6 @@ void cPreferences :: Apply_Audio( bool sound, bool music )
 
 	// init audio settings
 	pAudio->Init();
-}
-
-void cPreferences :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
-{
-	if( element == "property" || element == "Item" )
-	{
-		handle_item( attributes );
-	}
-}
-
-void cPreferences :: elementEnd( const CEGUI::String &element )
-{
-	
-}
-
-void cPreferences :: handle_item( CEGUI::XMLAttributes attributes )
-{
-	std::string name;
-
-	if( attributes.exists( "name" ) )
-	{
-		name = attributes.getValueAsString( "name" ).c_str();
-	}
-	// V.1.9 and lower
-	else
-	{
-		name = attributes.getValueAsString( "Name" ).c_str();
-		attributes.add( "value", attributes.getValueAsString( "Value" ) );
-	}
-
-	// Game
-	if( name.compare( "game_version" ) == 0 )
-	{
-		m_game_version = string_to_version_number( attributes.getValueAsString( "value" ).c_str() );
-	}
-	else if( name.compare( "game_language" ) == 0 )
-	{
-		m_language = attributes.getValueAsString( "value" ).c_str();
-	}
-	else if( name.compare( "game_always_run" ) == 0 || name.compare( "always_run" ) == 0 )
-	{
-		m_always_run = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "game_menu_level" ) == 0 )
-	{
-		m_menu_level = attributes.getValueAsString( "value" ).c_str();
-	}
-	else if( name.compare( "game_user_data_dir" ) == 0 || name.compare( "user_data_dir" ) == 0 )
-	{
-		std::string str = attributes.getValueAsString( "value" ).c_str();
-		Convert_Path_Separators(str);
-		m_force_user_data_dir = utf8_to_path(str);
-	}
-	else if( name.compare( "game_camera_hor_speed" ) == 0 || name.compare( "camera_hor_speed" ) == 0 )
-	{
-		m_camera_hor_speed = attributes.getValueAsFloat( "value" );
-	}
-	else if( name.compare( "game_camera_ver_speed" ) == 0 || name.compare( "camera_ver_speed" ) == 0 )
-	{
-		m_camera_ver_speed = attributes.getValueAsFloat( "value" );
-	}
-	// Video
-	else if( name.compare( "video_screen_h" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val < 200 )
-		{
-			val = 200;
-		}
-		else if( val > 2560 )
-		{
-			val = 2560;
-		}
-		
-		m_video_screen_h = val;
-	}
-	else if( name.compare( "video_screen_w" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val < 200 )
-		{
-			val = 200;
-		}
-		else if( val > 2560 )
-		{
-			val = 2560;
-		}
-
-		m_video_screen_w = val;
-	}
-	else if( name.compare( "video_screen_bpp" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val < 8 )
-		{
-			val = 8;
-		}
-		else if( val > 32 )
-		{
-			val = 32;
-		}
-
-		m_video_screen_bpp = val;
-	}
-	else if( name.compare( "video_vsync" ) == 0 )
-	{
-		m_video_vsync = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "video_fps_limit" ) == 0 )
-	{
-		m_video_fps_limit = attributes.getValueAsInteger( "value" );
-	}
-	else if( name.compare( "video_fullscreen" ) == 0 )
-	{
-		m_video_fullscreen = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "video_geometry_detail" ) == 0 || name.compare( "video_geometry_quality" ) == 0 )
-	{
-		pVideo->m_geometry_quality = attributes.getValueAsFloat( "value" );
-	}
-	else if( name.compare( "video_texture_detail" ) == 0 || name.compare( "video_texture_quality" ) == 0 )
-	{
-		pVideo->m_texture_quality = attributes.getValueAsFloat( "value" );
-	}
-	// Audio
-	else if( name.compare( "audio_music" ) == 0 )
-	{
-		m_audio_music = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "audio_sound" ) == 0 )
-	{
-		m_audio_sound = attributes.getValueAsBool( "value" );
-	}
-	if( name.compare( "audio_music_volume" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= MIX_MAX_VOLUME )
-		{
-			pAudio->m_music_volume = val;
-		}
-	}
-	else if( name.compare( "audio_sound_volume" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= MIX_MAX_VOLUME )
-		{
-			pAudio->m_sound_volume = val;
-		}
-	}
-	else if( name.compare( "audio_hz" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 96000 )
-		{
-			m_audio_hz = val;
-		}
-	}
-	// Keyboard
-	else if( name.compare( "keyboard_key_up" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_up = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_down" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_down = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_left" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_left = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_right" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_right = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_jump" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_jump = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_shoot" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_shoot = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_item" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_item = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_action" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_action = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_scroll_speed" ) == 0 )
-	{
-		m_scroll_speed = attributes.getValueAsFloat( "value" );
-	}
-	else if( name.compare( "keyboard_key_screenshot" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_screenshot = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_fast_copy_up" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_fast_copy_up = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_fast_copy_down" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_fast_copy_down = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_fast_copy_left" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_fast_copy_left = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_fast_copy_right" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_fast_copy_right = static_cast<SDLKey>(val);
-		}
-	}
-		else if( name.compare( "keyboard_key_editor_pixel_move_up" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_pixel_move_up = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_pixel_move_down" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_pixel_move_down = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_pixel_move_left" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_pixel_move_left = static_cast<SDLKey>(val);
-		}
-	}
-	else if( name.compare( "keyboard_key_editor_pixel_move_right" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= SDLK_LAST )
-		{
-			m_key_editor_pixel_move_right = static_cast<SDLKey>(val);
-		}
-	}
-	// Joypad
-	else if( name.compare( "joy_enabled" ) == 0 )
-	{
-		m_joy_enabled = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "joy_name" ) == 0 )
-	{
-		m_joy_name = attributes.getValueAsString( "value" ).c_str();
-	}
-	else if( name.compare( "joy_analog_jump" ) == 0 )
-	{
-		m_joy_analog_jump = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "joy_axis_hor" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_axis_hor = val;
-		}
-	}
-	else if( name.compare( "joy_axis_ver" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_axis_ver = val;
-		}
-	}
-	else if( name.compare( "joy_axis_threshold" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 32767 )
-		{
-			m_joy_axis_threshold = val;
-		}
-	}
-	else if( name.compare( "joy_button_jump" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_jump = val;
-		}
-	}
-	else if( name.compare( "joy_button_item" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_item = val;
-		}
-	}
-	else if( name.compare( "joy_button_shoot" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_shoot = val;
-		}
-	}
-	else if( name.compare( "joy_button_action" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_action = val;
-		}
-	}
-	else if( name.compare( "joy_button_exit" ) == 0 )
-	{
-		int val = attributes.getValueAsInteger( "value" );
-
-		if( val >= 0 && val <= 256 )
-		{
-			m_joy_button_exit = val;
-		}
-	}
-	// Special
-	else if( name.compare( "level_background_images" ) == 0 )
-	{
-		m_level_background_images = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "image_cache_enabled" ) == 0 )
-	{
-		m_image_cache_enabled = attributes.getValueAsBool( "value" );
-	}
-	// Editor
-	else if( name.compare( "editor_mouse_auto_hide" ) == 0 )
-	{
-		m_editor_mouse_auto_hide = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "editor_show_item_images" ) == 0 )
-	{
-		m_editor_show_item_images = attributes.getValueAsBool( "value" );
-	}
-	else if( name.compare( "editor_item_image_size" ) == 0 )
-	{
-		m_editor_item_image_size = attributes.getValueAsInteger( "value" );
-	}
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

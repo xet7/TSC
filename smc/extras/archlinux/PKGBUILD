@@ -1,0 +1,43 @@
+# Maintainer: Quintus <quintus@quintilianus.eu>
+pkgname=smc-quintus-git
+pkgver=r558
+pkgrel=1
+pkgdesc="Quintus' fork of the jump'n'run game."
+arch=("i686" "x86_64")
+url="https://github.com/Quintus/SMC"
+license=('GPL')
+depends=("sdl" "sdl_image" "sdl_ttf" "sdl_mixer" "freeimage" "libpng" "cegui-0.7" "boost-libs" "libgl" "libxml++" "gettext" "pcre")
+makedepends=("cmake" "ruby" "gperf" "pkg-config" "bison")
+optdepends=()
+provides=("smc" "smc-git")
+conflicts=("smc" "smc-git")
+options=()
+source=("git+https://github.com/Quintus/SMC.git" "smc.desktop")
+noextract=()
+md5sums=("SKIP"
+         "eed8e75ad75ae05cbd1e16ddfbb54ef1")
+
+pkgver() {
+    cd "$srcdir/SMC"
+    echo -n "r"
+    git rev-list HEAD --count
+}
+
+prepare() {
+    cd "$srcdir/SMC"
+    git submodule init
+    git submodule update
+}
+
+build() {
+    cd "$srcdir/SMC/smc"
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug ..
+    make
+}
+
+package() {
+    cd "$srcdir/SMC/smc/build"
+    make install DESTDIR="$pkgdir/"
+}

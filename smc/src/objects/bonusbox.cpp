@@ -37,7 +37,7 @@ cBonusBox :: cBonusBox( cSprite_Manager *sprite_manager )
 	cBonusBox::Init();
 }
 
-cBonusBox :: cBonusBox( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cBonusBox :: cBonusBox( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cBaseBox( sprite_manager )
 {
 	cBonusBox::Init();
@@ -81,32 +81,30 @@ cBonusBox *cBonusBox :: Copy( void ) const
 	return bonusbox;
 }
 
-void cBonusBox :: Load_From_XML( CEGUI::XMLAttributes &attributes )
+void cBonusBox :: Load_From_XML( XmlAttributes &attributes )
 {
 	cBaseBox::Load_From_XML( attributes );
 
 	// item
-	Set_Bonus_Type( static_cast<SpriteType>(attributes.getValueAsInteger( "item" )) );
+	Set_Bonus_Type( static_cast<SpriteType>( string_to_int( attributes["item"] ) ) );
 	// force best possible item
-	Set_Force_Best_Item( attributes.getValueAsBool( "force_best_item" ) );
+	Set_Force_Best_Item( string_to_int( attributes["force_best_item"] ) );
 	// gold color
-	if( box_type == TYPE_GOLDPIECE )
-	{
-		Set_Goldcolor( Get_Color_Id( attributes.getValueAsString( "gold_color", Get_Color_Name( m_gold_color ) ).c_str() ) );
-	}
+	if ( box_type == TYPE_GOLDPIECE )
+		Set_Goldcolor(Get_Color_Id(attributes.fetch("gold_color", Get_Color_Name(m_gold_color))));
 }
 
-void cBonusBox :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cBonusBox :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cBaseBox::Do_XML_Saving( stream );
+	xmlpp::Element* p_node = cBaseBox::Save_To_XML_Node(p_element);
 
 	// force best possible item
-	Write_Property( stream, "force_best_item", m_force_best_item );
+	Add_Property(p_node, "force_best_item", m_force_best_item);
 	// gold color
-	if( box_type == TYPE_GOLDPIECE )
-	{
-		Write_Property( stream, "gold_color", Get_Color_Name( m_gold_color ) );
-	}
+	if (box_type == TYPE_GOLDPIECE)
+		Add_Property(p_node, "gold_color", Get_Color_Name(m_gold_color));
+
+	return p_node;
 }
 
 void cBonusBox :: Set_Useable_Count( int count, bool new_startcount /* = 0 */ )

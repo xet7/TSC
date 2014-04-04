@@ -103,22 +103,23 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 				// already available
 				if( overworld )
 				{
-					overworld->m_description->m_user = 2;
+					overworld->m_description->m_user = 2; // 2 = available in system *and* in user dir
 					continue;
 				}
 
+#ifdef ENABLE_NEW_LOADER
+				overworld = cOverworld::Load_From_Directory( current_dir, user_dir );
+				objects.push_back( overworld );
+#else
+				// FIXME: OO-violating (secrecy principle) post-initialization
 				overworld = new cOverworld();
-
-				// set directory path
-				overworld->m_description->m_path = fs::path(current_dir);
-				// default name is the path
-				overworld->m_description->m_name = path_to_utf8(current_dir.filename());
-				// set user
+				overworld->m_description->Set_Path(current_dir, true);
 				overworld->m_description->m_user = user_dir;
 
 				objects.push_back( overworld );
 
 				overworld->Load();
+#endif
 			}
 		}
 		catch( const std::exception &ex )

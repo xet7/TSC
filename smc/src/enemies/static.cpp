@@ -25,6 +25,7 @@
 #include "../core/filesystem/filesystem.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -39,11 +40,32 @@ cStaticEnemy :: cStaticEnemy( cSprite_Manager *sprite_manager )
 	cStaticEnemy::Init();
 }
 
-cStaticEnemy :: cStaticEnemy( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+
+cStaticEnemy :: cStaticEnemy( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cEnemy( sprite_manager ), m_path_state( sprite_manager )
 {
 	cStaticEnemy::Init();
-	cStaticEnemy::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// rotation speed
+	Set_Rotation_Speed(string_to_float(attributes.fetch("rotation_speed", "-7.5")));
+
+	// image
+	Set_Static_Image(utf8_to_path(attributes.fetch("static_image", "enemy/static/saw/default.png")));
+
+    // path
+	Set_Path_Identifier(attributes["path"]);
+
+    // movement speed
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
+
+	// fire resistant
+	m_fire_resistant = string_to_bool(attributes.fetch("fire_resistant", bool_to_string(m_fire_resistant)));
+
+	// ice resistance
+	m_ice_resistance = string_to_float(attributes.fetch("ice_resistance", float_to_string(m_ice_resistance)));
 }
 
 cStaticEnemy :: ~cStaticEnemy( void )
@@ -83,46 +105,25 @@ cStaticEnemy *cStaticEnemy :: Copy( void ) const
 	return static_enemy;
 }
 
-void cStaticEnemy :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// rotation speed
-	Set_Rotation_Speed( static_cast<float>( attributes.getValueAsFloat( "rotation_speed", -7.5f ) ) );
-	// image
-	Set_Static_Image( utf8_to_path( attributes.getValueAsString( "static_image", "enemy/static/saw/default.png" ).c_str() ) );
-    // path
-    Set_Path_Identifier( attributes.getValueAsString( "path", "" ).c_str() );
-    // movement speed
-    Set_Speed( static_cast<float>( attributes.getValueAsFloat( "speed", m_speed ) ) );
-	// fire resistant
-	m_fire_resistant = attributes.getValueAsBool( "fire_resistant", m_fire_resistant );
-	// ice resistance
-	m_ice_resistance = static_cast<float>( attributes.getValueAsFloat( "ice_resistance", m_ice_resistance ) );
-}
-
 std::string cStaticEnemy :: Get_XML_Type_Name()
 {
 	return "static";
 }
 
-void cStaticEnemy :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cStaticEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cEnemy::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-	// rotation speed
-	Write_Property( stream, "rotation_speed", m_rotation_speed );
-	// image
-	Write_Property( stream, "static_image", path_to_utf8(m_img_filename).c_str() );
-	// path
-		Write_Property( stream, "path", m_path_state.m_path_identifier );
-		// speed
-		Write_Property( stream, "speed", m_speed );
-	// fire resistant
-	Write_Property( stream, "fire_resistant", m_fire_resistant );
-	// ice resistance
-	Write_Property( stream, "ice_resistance", m_ice_resistance );
+	Add_Property(p_node, "rotation_speed", m_rotation_speed);
+	Add_Property(p_node, "static_image", path_to_utf8(m_img_filename));
+	Add_Property(p_node, "path", m_path_state.m_path_identifier);
+	Add_Property(p_node, "speed", m_speed);
+	Add_Property(p_node, "fire_resistant", m_fire_resistant); // sic! fire_resistant!
+	Add_Property(p_node, "ice_resistance", m_ice_resistance);
+
+	return p_node;
 }
+
 
 void cStaticEnemy :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
 {

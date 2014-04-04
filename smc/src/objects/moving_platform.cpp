@@ -28,6 +28,7 @@
 #include "../input/mouse.h"
 #include "../core/filesystem/resource_manager.h"
 #include "../core/filesystem/boost_relative.h"
+#include "../core/xml_attributes.h"
 
 namespace fs = boost::filesystem;
 
@@ -42,11 +43,56 @@ cMoving_Platform :: cMoving_Platform( cSprite_Manager *sprite_manager )
 	cMoving_Platform::Init();
 }
 
-cMoving_Platform :: cMoving_Platform( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cAnimated_Sprite( sprite_manager, "moving_platform" ), m_path_state( sprite_manager )
 {
 	cMoving_Platform::Init();
-	cMoving_Platform::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// move type
+	Set_Move_Type(static_cast<Moving_Platform_Type>(attributes.fetch<int>("move_type", m_move_type)));
+
+	// massive type
+	Set_Massive_Type(Get_Massive_Type_Id(attributes.fetch("massive_type", Get_Massive_Type_Name(m_massive_type))));
+
+	// if move type is line or circle
+	if (m_move_type == MOVING_PLATFORM_TYPE_LINE || m_move_type == MOVING_PLATFORM_TYPE_CIRCLE) {
+		// direction
+		Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
+
+		// max distance
+		Set_Max_Distance(attributes.fetch<int>("max_distance", m_max_distance));
+	}
+
+	// path identifier
+	if (m_move_type == MOVING_PLATFORM_TYPE_PATH || m_move_type == MOVING_PLATFORM_TYPE_PATH_BACKWARDS)
+		Set_Path_Identifier(attributes["path_identifier"]);
+
+	// speed
+	Set_Speed(attributes.fetch<float>("speed", m_speed));
+
+	// touch_time
+	Set_Touch_Time(attributes.fetch<float>("touch_time", m_touch_time));
+
+	// shake time
+	Set_Shake_Time(attributes.fetch<float>("shake_time", m_shake_time));
+
+	// touch move time
+	Set_Touch_Move_Time(attributes.fetch<float>("touch_move_time", m_touch_move_time));
+
+	// middle image count
+	Set_Middle_Count(attributes.fetch<int>("middle_img_count", m_middle_count));
+
+	// image top left
+	Set_Image_Top_Left(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_left", path_to_utf8(m_images[0].m_image->Get_Path())))));
+
+	// image top middle
+	Set_Image_Top_Middle(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_middle", path_to_utf8(m_images[1].m_image->Get_Path())))));
+
+	// image top right
+	Set_Image_Top_Right(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_right", path_to_utf8(m_images[2].m_image->Get_Path())))));
 }
 
 cMoving_Platform :: ~cMoving_Platform( void )
@@ -124,95 +170,54 @@ cMoving_Platform *cMoving_Platform :: Copy( void ) const
 	return moving_platform;
 }
 
-void cMoving_Platform :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// move type
-	Set_Move_Type( static_cast<Moving_Platform_Type>(attributes.getValueAsInteger( "move_type", m_move_type )) );
-	// massive type
-	Set_Massive_Type( Get_Massive_Type_Id( attributes.getValueAsString( "massive_type", Get_Massive_Type_Name( m_massive_type ) ).c_str() ) );
-	// if move type is line or circle
-	if( m_move_type == MOVING_PLATFORM_TYPE_LINE || m_move_type == MOVING_PLATFORM_TYPE_CIRCLE )
-	{
-		// direction
-		Set_Direction( Get_Direction_Id( attributes.getValueAsString( "direction", Get_Direction_Name( m_start_direction ) ).c_str() ), 1 );
-		// max distance
-		Set_Max_Distance( attributes.getValueAsInteger( "max_distance", m_max_distance ) );
-	}
-	// path identifier
-	if( m_move_type == MOVING_PLATFORM_TYPE_PATH || m_move_type == MOVING_PLATFORM_TYPE_PATH_BACKWARDS )
-	{
-		Set_Path_Identifier( attributes.getValueAsString( "path_identifier" ).c_str() );
-	}
-	// speed
-	Set_Speed( attributes.getValueAsFloat( "speed", m_speed ) );
-	// touch_time
-	Set_Touch_Time( attributes.getValueAsFloat( "touch_time", m_touch_time ) );
-	// shake time
-	Set_Shake_Time( attributes.getValueAsFloat( "shake_time", m_shake_time ) );
-	// touch move time
-	Set_Touch_Move_Time( attributes.getValueAsFloat( "touch_move_time", m_touch_move_time ) );
-	// middle image count
-	Set_Middle_Count( attributes.getValueAsInteger( "middle_img_count", m_middle_count ) );
-	// image top left
-	Set_Image_Top_Left( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_left", path_to_utf8( m_images[0].m_image->Get_Path() ) ).c_str() ) ) );
-	// image top middle
-	Set_Image_Top_Middle( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_middle", path_to_utf8( m_images[1].m_image->Get_Path() ) ).c_str() ) ) );
-	// image top right
-	Set_Image_Top_Right( pVideo->Get_Surface( utf8_to_path( attributes.getValueAsString( "image_top_right", path_to_utf8( m_images[2].m_image->Get_Path() ) ).c_str() ) ) );
-}
-
 std::string cMoving_Platform :: Get_XML_Type_Name()
 {
 	return int_to_string(m_move_type);
 }
 
-void cMoving_Platform :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cMoving_Platform :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
 	// massive type
-	Write_Property( stream, "massive_type", Get_Massive_Type_Name( m_massive_type ) );
+	Add_Property(p_node, "massive_type", Get_Massive_Type_Name(m_massive_type));
 
+	switch(m_move_type) {
 	// path identifier
-	if( m_move_type == MOVING_PLATFORM_TYPE_PATH || m_move_type == MOVING_PLATFORM_TYPE_PATH_BACKWARDS )
-	{
-		if( !m_path_state.m_path_identifier.empty() )
-		{
-			Write_Property( stream, "path_identifier", m_path_state.m_path_identifier );
-		}
-	}
+	case MOVING_PLATFORM_TYPE_PATH: // fallthrough
+	case MOVING_PLATFORM_TYPE_PATH_BACKWARDS:
+		if (!m_path_state.m_path_identifier.empty())
+			Add_Property(p_node, "path_identifier", m_path_state.m_path_identifier);
+		break;
 	// if move type is line or circle
-	if( m_move_type == MOVING_PLATFORM_TYPE_LINE || m_move_type == MOVING_PLATFORM_TYPE_CIRCLE )
-	{
-		// direction
-		Write_Property( stream, "direction", Get_Direction_Name( m_start_direction ) );
-		// max distance
-		Write_Property( stream, "max_distance", m_max_distance );
+	case MOVING_PLATFORM_TYPE_LINE: // fallthrough
+	case MOVING_PLATFORM_TYPE_CIRCLE:
+		Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+		Add_Property(p_node, "max_distance", m_max_distance);
+		break;
 	}
-	// speed
-	Write_Property( stream, "speed", m_speed );
-	// touch time
-	Write_Property( stream, "touch_time", m_touch_time );
-	// shake time
-	Write_Property( stream, "shake_time", m_shake_time );
-	// touch move time
-	Write_Property( stream, "touch_move_time", m_touch_move_time );
-	// middle image count
-	Write_Property( stream, "middle_img_count", m_middle_count );
+
+	// Other properties
+	Add_Property(p_node, "speed", m_speed);
+	Add_Property(p_node, "touch_time", m_touch_time);
+	Add_Property(p_node, "shake_time", m_shake_time);
+	Add_Property(p_node, "touch_move_time", m_touch_move_time);
+	Add_Property(p_node, "middle_img_count", m_middle_count);
 
 	fs::path rel;
 	// image top left
 	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
-	Write_Property( stream, "image_top_left", path_to_utf8( rel ) );
+	Add_Property(p_node, "image_top_left", path_to_utf8(rel));
 	// image top middle
 	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
-	Write_Property( stream, "image_top_middle", path_to_utf8( rel ) );
+	Add_Property(p_node, "image_top_middle", path_to_utf8(rel));
 	// image top right
 	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
-	Write_Property( stream, "image_top_right", path_to_utf8( rel ) );
+	Add_Property(p_node, "image_top_right", path_to_utf8(rel));
+
+	return p_node;
 }
+
 
 void cMoving_Platform :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
 {

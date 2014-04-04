@@ -33,7 +33,7 @@ public:
 	// constructor
 	cSpika( cSprite_Manager *sprite_manager );
 	// create from stream
-	cSpika( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager );
+	cSpika( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
 	// destructor
 	virtual ~cSpika( void );
 
@@ -41,9 +41,6 @@ public:
 	void Init( void );
 	// copy
 	virtual cSpika *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -93,9 +90,11 @@ public:
 	// counter for walking
 	float m_walk_count;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
+	
 	virtual std::string Get_XML_Type_Name();
 };
 

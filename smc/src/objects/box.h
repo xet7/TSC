@@ -17,6 +17,7 @@
 #define SMC_BOX_H
 
 #include "../core/global_basic.h"
+#include "../core/xml_attributes.h"
 #include "../objects/animated_sprite.h"
 #include "../scripting/objects/boxes/mrb_box.h"
 
@@ -46,7 +47,7 @@ public:
 	virtual ~cBaseBox( void );
 
 	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
+	virtual void Load_From_XML( XmlAttributes &attributes );
 
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
@@ -139,11 +140,12 @@ public:
 	// active particle animation counter
 	float m_particle_counter_active;
 
+	// Save to XML node
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 protected:
 	// Create the Name from the current settings
 	void Create_Name( void );
-	// save to stream
-	virtual void Do_XML_Saving( CEGUI::XMLSerializer &stream );
 	virtual std::string Get_XML_Type_Name();
 };
 

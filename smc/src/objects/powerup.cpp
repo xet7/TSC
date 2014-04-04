@@ -214,12 +214,17 @@ cMushroom :: cMushroom( cSprite_Manager *sprite_manager )
 	cMushroom::Init();
 }
 
-cMushroom :: cMushroom( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cMushroom :: cMushroom( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cPowerUp( sprite_manager )
 {
 	cMushroom::Init();
-	cMushroom::Load_From_XML( attributes );
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+	// type
+	Set_Type(static_cast<SpriteType>(attributes.fetch<int>("mushroom_type", TYPE_MUSHROOM_DEFAULT)));
 }
+
 
 cMushroom :: ~cMushroom( void )
 {
@@ -246,25 +251,18 @@ cMushroom *cMushroom :: Copy( void ) const
 	return mushroom;
 }
 
-void cMushroom :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )) );
-	// type
-	Set_Type( static_cast<SpriteType>(attributes.getValueAsInteger( "mushroom_type", TYPE_MUSHROOM_DEFAULT )) );
-}
-
 std::string cMushroom :: Get_XML_Type_Name()
 {
 	return "mushroom";
 }
 
-void cMushroom :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cMushroom :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cAnimated_Sprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cPowerUp::Save_To_XML_Node(p_element);
 
-	// mushroom type
-	Write_Property( stream, "mushroom_type", m_type );
+	Add_Property(p_node, "mushroom_type", m_type);
+
+	return p_node;
 }
 
 void cMushroom :: Set_Type( SpriteType new_type )
@@ -524,11 +522,13 @@ cFirePlant :: cFirePlant( cSprite_Manager *sprite_manager )
 	cFirePlant::Init();
 }
 
-cFirePlant :: cFirePlant( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cFirePlant :: cFirePlant( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cPowerUp( sprite_manager )
 {
 	cFirePlant::Init();
-	cFirePlant::Load_From_XML( attributes );
+
+	// position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 }
 
 cFirePlant :: ~cFirePlant( void )
@@ -558,12 +558,6 @@ cFirePlant *cFirePlant :: Copy( void ) const
 	cFirePlant *fireplant = new cFirePlant( m_sprite_manager );
 	fireplant->Set_Pos( m_start_pos_x, m_start_pos_y, 1 );
 	return fireplant;
-}
-
-void cFirePlant :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
 }
 
 void cFirePlant :: Activate( void )
@@ -668,11 +662,13 @@ cMoon :: cMoon( cSprite_Manager *sprite_manager )
 	cMoon::Init();
 }
 
-cMoon :: cMoon( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cMoon :: cMoon( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cPowerUp( sprite_manager )
 {
 	cMoon::Init();
-	cMoon::Load_From_XML( attributes );
+
+	// Position
+	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 }
 
 cMoon :: ~cMoon( void )
@@ -703,12 +699,6 @@ cMoon *cMoon :: Copy( void ) const
 	cMoon *moon = new cMoon( m_sprite_manager );
 	moon->Set_Pos( m_start_pos_x, m_start_pos_y );
 	return moon;
-}
-
-void cMoon :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )) );
 }
 
 void cMoon :: Activate( void )

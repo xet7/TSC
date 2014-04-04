@@ -15,6 +15,7 @@
 
 #include "../level/level.h"
 #include "../level/level_editor.h"
+#include "level_loader.h"
 #include "../core/game_core.h"
 #include "../gui/menu.h"
 #include "../user/preferences.h"
@@ -185,64 +186,43 @@ cLevel :: ~cLevel( void )
 	return 0;
 }
 
-bool cLevel :: Load( std::string levelname )
+cLevel* cLevel :: Load_From_File( fs::path filename )
 {
-	m_next_level_filename.clear();
-
-	fs::path filename = pLevel_Manager->Get_Path( levelname );
 	if( filename.empty() )
-	{
-		// show error without directory and file type
-		std::cerr << "Couldn't load level : " << levelname << std::endl;
-		return 0;
+		throw(InvalidLevelError("Empty level filename!"));
+	if (!File_Exists(filename)) {
+		std::string msg = "Level file not found: " + path_to_utf8(filename);
+		throw(InvalidLevelError(msg));
 	}
 
-	Unload();
+	// This is our loader
+	cLevelLoader loader;
 
 	// new level format
-	if (filename.extension() == fs::path(".smclvl"))
-	{
-		// No <script> tag starting yet
-		m_start_script_tag = false;
-		try
-		{
-			CEGUI::System::getSingleton().getXMLParser()->parseXMLFile( *this, path_to_utf8(filename), path_to_utf8(pResource_Manager->Get_Game_Schema("Level.xsd")), "" );
-		}
-		// catch CEGUI Exceptions
-		catch( CEGUI::Exception &ex )
-		{
-			std::cerr << "Loading Level “" << path_to_utf8(filename) << "” resulted in CEGUI exception: " << ex.getMessage() << std::endl;
-			pHud_Debug->Set_Text( _("Loading Level failed : ") + (const std::string)ex.getMessage().c_str() );
-			return 0;
-		}
+	if (filename.extension() == fs::path(".smclvl")) {
+		loader.parse_file(filename);
 	}
-	// old level format
-	else
-	{
+	else { // old level format
 		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const std::string)path_to_utf8(filename) );
-		return 0;
+		return NULL;
 	}
 
+	// Our level
+	cLevel* p_level = loader.Get_Level();
+
+	// FIXME: Move this into cLevelLoader::on_end_document()
 	/* late initialization
 	 * needed to create links to other objects
 	*/
-	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
-	{
+	for( cSprite_List::iterator itr = p_level->m_sprite_manager->objects.begin(); itr != p_level->m_sprite_manager->objects.end(); ++itr ) {
 		cSprite *obj = (*itr);
 
 		obj->Init_Links();
 	}
 
-	m_level_filename = filename;
-	debug_print("Loaded level: %s\n", path_to_utf8(m_level_filename).c_str());
+	debug_print("Loaded level: %s\n", path_to_utf8(p_level->m_level_filename).c_str());
 
-	// engine version entry not set
-	if( m_engine_version < 0 )
-	{
-		m_engine_version = 0;
-	}
-
-	return 1;
+	return p_level;
 }
 
 void cLevel :: Unload( bool delayed /* = 0 */ )
@@ -300,6 +280,73 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 	m_sprite_manager->Delete_All();
 }
 
+fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
+{
+	xmlpp::Document doc;
+	xmlpp::Element* p_root = doc.create_root_node("level");
+	xmlpp::Element* p_node = NULL;
+
+	// <information>
+	p_node = p_root->add_child("information");
+		Add_Property(p_node, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+		Add_Property(p_node, "engine_version", level_engine_version);
+		Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
+	// </information>
+
+	// <settings>
+	p_node = p_root->add_child("settings");
+		Add_Property(p_node, "lvl_author", m_author);
+		Add_Property(p_node, "lvl_version", m_version);
+		Add_Property(p_node, "lvl_music", path_to_utf8(Get_Music_Filename()));
+		Add_Property(p_node, "lvl_description", m_description);
+		Add_Property(p_node, "lvl_difficulty", static_cast<int>(m_difficulty));
+		Add_Property(p_node, "lvl_land_type", Get_Level_Land_Type_Name(m_land_type));
+		Add_Property(p_node, "cam_limit_x", static_cast<int>(m_camera_limits.m_x));
+		Add_Property(p_node, "cam_limit_y", static_cast<int>(m_camera_limits.m_y));
+		Add_Property(p_node, "cam_limit_w", static_cast<int>(m_camera_limits.m_w));
+		Add_Property(p_node, "cam_limit_h", static_cast<int>(m_camera_limits.m_h));
+		Add_Property(p_node, "cam_fixed_hor_vel", m_fixed_camera_hor_vel);
+	// </settings>
+
+	// backgrounds
+	vector<cBackground*>::iterator iter;
+	for(iter=m_background_manager->objects.begin(); iter != m_background_manager->objects.end(); iter++)
+		(*iter)->Save_To_XML_Node(p_root);
+
+	// <player>
+	p_node = p_root->add_child("player");
+		Add_Property(p_node, "posx", static_cast<int>(pLevel_Player->m_start_pos_x));
+		Add_Property(p_node, "posy", static_cast<int>(pLevel_Player->m_start_pos_y));
+		Add_Property(p_node, "direction", Get_Direction_Name(pLevel_Player->m_start_direction));
+	// </player>
+
+	cSprite_List::iterator iter2;
+	for(iter2=m_sprite_manager->objects.begin(); iter2 != m_sprite_manager->objects.end(); iter2++) {
+		cSprite* p_obj = *iter2;
+
+		// skip spawned and destroyed objects
+		if (p_obj->m_spawned || p_obj->m_auto_destroy)
+			continue;
+
+		// save to XML node
+		p_obj->Save_To_XML_Node(p_root);
+	}
+
+	// MRuby script code
+	// <script>
+	p_node = p_root->add_child("script");
+		p_node->add_child_text(m_script);
+	// </script>
+
+	// Write to file (raises xmlpp::exception on write error)
+	doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(filename)));
+	debug_print("Wrote level file '%s'.\n", path_to_utf8(filename).c_str());
+
+	return filename;
+}
+
+// TODO: Merge Save() with Save_To_File() after ENABLE_NEW_LOADER
+// is the only variant?
 void cLevel :: Save( void )
 {
 	pAudio->Play_Sound( "editor/save.ogg" );
@@ -313,95 +360,19 @@ void cLevel :: Save( void )
 		m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
 	}
 
-	fs::ofstream file(m_level_filename, ios::out | ios::trunc);
-
-	if( !file )
-	{
-		printf( "Error : Couldn't open level file for saving. Is the file read-only ?" );
+	try{
+		Save_To_File(m_level_filename);
+	}
+	catch(xmlpp::exception& e) {
+		std::cerr << "Error: Couldn't save level file: " << e.what() << std::endl;
+		std::cerr << "Is the file read-only?" << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save level ") + path_to_utf8(m_level_filename), speedfactor_fps * 5.0f );
+
+		// Abort
 		return;
 	}
 
-	CEGUI::XMLSerializer stream( file );
-
-	// begin
-	stream.openTag( "level" );
-
-	// begin
-	stream.openTag( "information" );
-		// game version
-		Write_Property( stream, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH) );
-		// engine version
-		Write_Property( stream, "engine_version", level_engine_version );
-		// time ( seconds since 1970 )
-		Write_Property( stream, "save_time", static_cast<Uint64>( time( NULL ) ) );
-	// end information
-	stream.closeTag();
-
-	// begin
-	stream.openTag( "settings" );
-		// level author
-		Write_Property( stream, "lvl_author", m_author );
-		// level version
-		Write_Property( stream, "lvl_version", m_version );
-		// music
-		Write_Property( stream, "lvl_music", path_to_utf8(Get_Music_Filename()) );
-		// description
-		Write_Property( stream, "lvl_description", m_description );
-		// difficulty
-		Write_Property( stream, "lvl_difficulty", static_cast<int>(m_difficulty) );
-		// land type
-		Write_Property( stream, "lvl_land_type", Get_Level_Land_Type_Name( m_land_type ) );
-		// camera limits
-		Write_Property( stream, "cam_limit_x", static_cast<int>(m_camera_limits.m_x) );
-		Write_Property( stream, "cam_limit_y", static_cast<int>(m_camera_limits.m_y) );
-		Write_Property( stream, "cam_limit_w", static_cast<int>(m_camera_limits.m_w) );
-		Write_Property( stream, "cam_limit_h", static_cast<int>(m_camera_limits.m_h) );
-		// fixed camera horizontal velocity
-		Write_Property( stream, "cam_fixed_hor_vel", m_fixed_camera_hor_vel );
-	// end settings
-	stream.closeTag();
-
-	// backgrounds
-	for( vector<cBackground *>::iterator itr = m_background_manager->objects.begin(); itr != m_background_manager->objects.end(); ++itr )
-	{
-		(*itr)->Save_To_XML( stream );
-	}
-
-	// begin
-	stream.openTag( "player" );
-		// position
-		Write_Property( stream, "posx", static_cast<int>(pLevel_Player->m_start_pos_x) );
-		Write_Property( stream, "posy", static_cast<int>(pLevel_Player->m_start_pos_y) );
-		// direction
-		Write_Property( stream, "direction", Get_Direction_Name( pLevel_Player->m_start_direction ) );
-	// end player
-	stream.closeTag();
-
-	// objects
-	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
-	{
-		cSprite *obj = (*itr);
-
-		// skip spawned and destroyed objects
-		if( obj->m_spawned || obj->m_auto_destroy )
-		{
-			continue;
-		}
-
-		// save to file stream
-		obj->Save_To_XML( stream );
-	}
-
-	// MRuby script code
-	stream.openTag( "script" )
-		.text(m_script)
-		.closeTag();
-
-	// end level
-	stream.closeTag();
-
-	file.close();
+	// Display nice completion message
 	pHud_Debug->Set_Text( _("Level ") + path_to_utf8(Trim_Filename( m_level_filename, false, false )) + _(" saved") );
 }
 
@@ -606,7 +577,10 @@ void cLevel :: Update( void )
 
 	if( !m_next_level_filename.empty() )
 	{
-		Load( path_to_utf8(m_next_level_filename) );
+		// TODO: This should NOT be in cLevel::Update()!
+		// Level changing belongs to the game loop or so!
+		throw(NotImplementedError("Cannot load next level yet!"));
+		//Load( path_to_utf8(m_next_level_filename) );
 	}
 
 	// if level-editor is not active
@@ -1123,918 +1097,6 @@ bool cLevel :: Is_Loaded( void ) const
 	}
 
 	return 0;
-}
-
-void cLevel :: elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes )
-{
-	if( element == "property" || element == "Property" )
-	{
-		m_xml_attributes.add( attributes.getValueAsString( "name" ), attributes.getValueAsString( "value" ) );
-	}
-	else if ( element == "script" )
-	{
-		m_start_script_tag = true;
-	}
-}
-
-void cLevel :: elementEnd( const CEGUI::String &element )
-{
-	if( element == "property" || element == "Property" )
-	{
-		return;
-	}
-
-	if( element == "information" )
-	{
-		// support V.1.7 and lower which used float
-		float engine_version_float = m_xml_attributes.getValueAsFloat( "engine_version" );
-
-		// if float engine version
-		if( engine_version_float < 3 )
-		{
-			// change to new format
-			engine_version_float *= 10;
-		}
-
-		m_engine_version = static_cast<int>(engine_version_float);
-		m_last_saved = string_to_int64( m_xml_attributes.getValueAsString( "save_time" ).c_str() );
-	}
-	else if( element == "settings" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( m_engine_version < 35 )
-		{
-			if( m_xml_attributes.exists( "cam_limit_h" ) )
-			{
-				m_xml_attributes.add( "cam_limit_h", CEGUI::PropertyHelper::floatToString( m_xml_attributes.getValueAsFloat( "cam_limit_h" ) - 600.0f ) );
-			}
-		}
-
-		Set_Author( xml_string_to_string( m_xml_attributes.getValueAsString( "lvl_author" ).c_str() ) );
-		Set_Version( xml_string_to_string( m_xml_attributes.getValueAsString( "lvl_version" ).c_str() ) );
-		Set_Music( xml_string_to_string( m_xml_attributes.getValueAsString( "lvl_music" ).c_str() ) );
-		Set_Description( xml_string_to_string( m_xml_attributes.getValueAsString( "lvl_description" ).c_str() ) );
-		Set_Difficulty( m_xml_attributes.getValueAsInteger( "lvl_difficulty" ) );
-		Set_Land_Type( Get_Level_Land_Type_Id( m_xml_attributes.getValueAsString( "lvl_land_type", "undefined" ).c_str() ) );
-		m_camera_limits = GL_rect( static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_x" )), static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_y" )), static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_w" )), static_cast<float>(m_xml_attributes.getValueAsInteger( "cam_limit_h" )) );
-		m_fixed_camera_hor_vel = m_xml_attributes.getValueAsFloat( "cam_fixed_hor_vel" );
-	}
-	else if( element == "background" )
-	{
-		BackgroundType bg_type = static_cast<BackgroundType>(m_xml_attributes.getValueAsInteger( "type" ));
-
-		// use gradient background
-		if( bg_type == BG_GR_HOR || bg_type == BG_GR_VER )
-		{
-			m_background_manager->Get_Pointer(0)->Load_From_XML( m_xml_attributes );
-		}
-		// default background
-		else
-		{
-			m_background_manager->Add( new cBackground( m_xml_attributes, m_sprite_manager ) );
-		}
-	}
-	else if( element == "player" )
-	{
-		// position
-		m_player_start_pos_x = static_cast<float>(m_xml_attributes.getValueAsInteger( "posx", static_cast<int>(cLevel_Player::m_default_pos_x) ));
-		m_player_start_pos_y = static_cast<float>(m_xml_attributes.getValueAsInteger( "posy", static_cast<int>(cLevel_Player::m_default_pos_y) ));
-
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( m_engine_version < 35 )
-		{
-			m_player_start_pos_y = m_player_start_pos_y - 600.0f;
-		}
-
-		// check level engine version
-		// 10 and lower
-		if( m_engine_version <= 10 )
-		{
-			m_player_start_pos_y += 58.0f;
-		}
-		// 20 and lower
-		else if( m_engine_version <= 20 )
-		{
-			m_player_start_pos_y -= 48.0f;
-		}
-
-		// direction
-		m_player_start_direction = Get_Direction_Id( m_xml_attributes.getValueAsString( "direction" ).c_str() );
-
-		// if invalid set default
-		if( m_player_start_direction != DIR_LEFT && m_player_start_direction != DIR_RIGHT )
-		{
-			m_player_start_direction = DIR_RIGHT;
-		}
-	}
-	else if( Is_Level_Object_Element( element ) )
-	{
-		// create sprite
-		cSprite *object = Create_Level_Object_From_XML( element, m_xml_attributes, m_engine_version, m_sprite_manager );
-		
-		// valid
-		if( object )
-		{
-			/* If a static UID has been set, assign it to the sprite.
-			 * -1 means "no UID set" and instructs cSprite_Manager to
-			 * assign a new, free one to the object. Note that in the
-			 * unlikely case of intermixed static and dynamic UIDs (i.e.
-			 * some sprites have UIDs assigned, others not — this can only
-			 * be achieved by editing the level XML by hand, the editor does
-			 * not allow this) it could happen that cSprite_Manager’s UID
-			 * generator generates a UID (and assignes it to the object) that
-			 * is later set as a static UID for another sprite — causing this
-			 * sprite to have the same UID as the one with the generated UID
-			 * (this will print a warning to the console if SMC is compiled
-			 * in debug mode). We cannot know this in advance, but as said
-			 * you have to edit the XML by hand and therefore we can ignore
-			 * this case safely. */
-			object->m_uid = m_xml_attributes.getValueAsInteger("uid", -1);
-			m_sprite_manager->Add( object );
-		}
-	}
-	else if( element == "level" )
-	{
-		// ignore
-	}
-	else if ( element == "script" )
-	{
-		// indicate the <script> tag is finished, stops
-		// text() from further appending to m_script.
-		m_start_script_tag = false;
-	}
-	else if( element.length() )
-	{
-		printf( "Warning : Level Unknown element : %s\n", element.c_str() );
-	}
-
-	// clear
-	m_xml_attributes = CEGUI::XMLAttributes();
-}
-
-void cLevel :: text( const CEGUI::String &text )
-{
-	/* If we’re currently in the <script> tag, read its
-	 * text (may be called multiple times for each token,
-	 * so append rather then set directly).*/
-	if (m_start_script_tag)
-		m_script.append(text.c_str());
-}
-
-cSprite *Create_Level_Object_From_XML( const CEGUI::String &xml_element, CEGUI::XMLAttributes &attributes, int engine_version, cSprite_Manager *sprite_manager )
-{
-	// element content could change
-	CEGUI::String element = xml_element;
-
-	if( element == "sprite" )
-	{
-		// if V.1.4 and lower : change some image paths
-		if( engine_version < 25 )
-		{
-			// change stone8 to metal stone 2 violet
-			Relocate_Image( attributes, "game/box/stone8.png", "blocks/metal/stone_2_violet.png" );
-			// move jungle_1 trees into a directory
-			Relocate_Image( attributes, "ground/jungle_1/tree_type_1.png", "ground/jungle_1/tree/1.png" );
-			Relocate_Image( attributes, "ground/jungle_1/tree_type_1_front.png", "ground/jungle_1/tree/1_front.png" );
-			Relocate_Image( attributes, "ground/jungle_1/tree_type_2.png", "ground/jungle_1/tree/2.png" );
-			// move yoshi_1 extra to jungle_2 hedge
-			Relocate_Image( attributes, "ground/yoshi_1/extra_1_blue.png", "ground/jungle_2/hedge/1_blue.png" );
-			Relocate_Image( attributes, "ground/yoshi_1/extra_1_green.png", "ground/jungle_2/hedge/1_green.png" );
-			Relocate_Image( attributes, "ground/yoshi_1/extra_1_red.png", "ground/jungle_2/hedge/1_red.png" );
-			Relocate_Image( attributes, "ground/yoshi_1/extra_1_yellow.png", "ground/jungle_2/hedge/1_yellow.png" );
-			// move yoshi_1 rope to jungle_2
-			Relocate_Image( attributes, "ground/yoshi_1/rope_1_leftright.png", "ground/jungle_2/rope_1_hor.png" );
-		}
-		// if V.1.5 and lower : change pipe connection image paths
-		if( engine_version < 28 )
-		{
-			Relocate_Image( attributes, "blocks/pipe/connection_left_down.png", "blocks/pipe/connection/plastic_1/orange/right_up.png" );
-			Relocate_Image( attributes, "blocks/pipe/connection_left_up.png", "blocks/pipe/connection/plastic_1/orange/right_down.png" );
-			Relocate_Image( attributes, "blocks/pipe/connection_right_down.png", "blocks/pipe/connection/plastic_1/orange/left_up.png" );
-			Relocate_Image( attributes, "blocks/pipe/connection_right_up.png", "blocks/pipe/connection/plastic_1/orange/left_down.png" );
-			Relocate_Image( attributes, "blocks/pipe/metal_connector.png", "blocks/pipe/connection/metal_1/grey/middle.png" );
-		}
-		// if V.1.7 and lower : change yoshi_1 hill_up to jungle_1 slider image paths
-		if( engine_version < 31 )
-		{
-			Relocate_Image( attributes, "ground/yoshi_1/hill_up_1.png", "ground/jungle_1/slider/2_green_left.png" );
-			Relocate_Image( attributes, "ground/yoshi_1/hill_up_2.png", "ground/jungle_1/slider/2_blue_left.png" );
-			Relocate_Image( attributes, "ground/yoshi_1/hill_up_3.png", "ground/jungle_1/slider/2_brown_left.png" );
-		}
-		// if V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
-		if( engine_version < 32 )
-		{
-			Relocate_Image( attributes, "slider/grey_1/slider_left.png", "ground/green_1/slider/1/brown/left.png" );
-			Relocate_Image( attributes, "slider/grey_1/slider_middle.png", "ground/green_1/slider/1/brown/middle.png" );
-			Relocate_Image( attributes, "slider/grey_1/slider_right.png", "ground/green_1/slider/1/brown/right.png" );
-		}
-		// if V.1.7 and lower : change green_1 ground to green_3 ground image paths
-		if( engine_version < 34 )
-		{
-			// normal
-			Relocate_Image( attributes, "ground/green_1/ground/left_up.png", "ground/green_3/ground/top/left.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/left_down.png", "ground/green_3/ground/bottom/left.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/right_up.png", "ground/green_3/ground/top/right.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/right_down.png", "ground/green_3/ground/bottom/right.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/up.png", "ground/green_3/ground/top/1.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/down.png", "ground/green_3/ground/bottom/1.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/right.png", "ground/green_3/ground/middle/right.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/left.png", "ground/green_3/ground/middle/left.png" );
-			Relocate_Image( attributes, "ground/green_1/ground/middle.png", "ground/green_3/ground/middle/1.png" );
-
-			// hill (not available)
-			//Relocate_Image( attributes, "ground/green_1/ground/hill_left_up.png", "ground/green_3/ground/" );
-			//Relocate_Image( attributes, "ground/green_1/ground/hill_right_up.png", "ground/green_3/ground/" );
-			//Relocate_Image( attributes, "ground/green_1/ground/hill_right.png", "ground/green_3/ground/" );
-			//Relocate_Image( attributes, "ground/green_1/ground/hill_left.png", "ground/green_3/ground/" );
-		}
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-		// if V.1.9 and lower : change fire_1 animation to particles
-		if( engine_version < 37 )
-		{
-			Relocate_Image( attributes, "animation/fire_1/1.png", "animation/particles/fire_1.png" );
-			Relocate_Image( attributes, "animation/fire_1/2.png", "animation/particles/fire_2.png" );
-			Relocate_Image( attributes, "animation/fire_1/3.png", "animation/particles/fire_3.png" );
-			Relocate_Image( attributes, "animation/fire_1/4.png", "animation/particles/fire_4.png" );
-		}
-		// always : fix sprite with undefined massive-type
-		if( attributes.exists( "type" ) && attributes.getValueAsString( "type" ) == "undefined" )
-		{
-			// change to passive
-			attributes.add( "type", "passive" );
-		}
-
-		cSprite *sprite = new cSprite( attributes, sprite_manager );
-
-		// if image not available display its filename
-		if( !sprite->m_start_image )
-		{
-			std::string text = attributes.getValueAsString( "image" ).c_str();
-
-			if( text.empty() )
-			{
-				text = "Invalid image here";
-			}
-
-			cGL_Surface *text_image = pFont->Render_Text( pFont->m_font_small, text );
-			text_image->m_path = utf8_to_path(text);
-			// set text image
-			sprite->Set_Image( text_image, 1, 1 );
-			// display it as front passive
-			sprite->Set_Sprite_Type( TYPE_FRONT_PASSIVE );
-			// only display it in the editor
-			sprite->Set_Active( 0 );
-		}
-
-		// needs image
-		if( sprite->m_image )
-		{
-			// if V.1.2 and lower : change pipe position
-			if( engine_version < 22 )
-			{
-				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/up.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/ver.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/down.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/up.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/ver.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/down.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/up.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/ver.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/down.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/up.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/ver.png")) == 0 ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/down.png")) == 0 )
-				{
-					sprite->Move( -6, 0, 1 );
-					sprite->m_start_pos_x = sprite->m_pos_x;
-				}
-				else if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/right.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/hor.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/green/left.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/right.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/hor.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/blue/left.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/right.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/hor.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/yellow/left.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/right.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/hor.png")) == 0 ||
-								 sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("pipes/grey/left.png")) == 0)
-				{
-					sprite->Move( 0, -6, 1 );
-					sprite->m_start_pos_y = sprite->m_pos_y;
-				}
-			}
-			// if V.1.2 and lower : change some hill positions
-			if( engine_version < 23 )
-			{
-				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("hills/green_1/head.png")) ||
-						sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("hills/light_blue_1/head.png")) == 0 )
-				{
-					sprite->Move( 0, -6, 1 );
-					sprite->m_start_pos_y = sprite->m_pos_y;
-				}
-			}
-			// if V.1.7 and lower : change yoshi_1 hill_up to jungle_1 slider image paths
-			if( engine_version < 31 )
-			{
-				// image filename is already changed but we need to add the middle and right tiles
-				if( sprite_manager && ( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png")) == 0 ||
-																sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png")) == 0 ||
-																sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_brown_left.png")) == 0 ))
-				{
-					std::string color;
-
-					// green
-					if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png" )) == 0 )
-					{
-						color = "green";
-					}
-					// blue
-					else if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png") ) == 0 )
-					{
-						color = "blue";
-					}
-					// brown
-					else
-					{
-						color = "brown";
-					}
-
-					cSprite *copy = sprite;
-
-					// add middle tiles
-					for( unsigned int i = 0; i < 4; i++ )
-					{
-						copy = copy->Copy();
-						copy->Set_Image( pVideo->Get_Surface( "ground/jungle_1/slider/2_" + color + "_middle.png" ), 1 );
-						copy->Set_Pos_X( copy->m_start_pos_x + 22, 1 );
-						sprite_manager->Add( copy );
-					}
-
-					// add end tile
-					copy = copy->Copy();
-					copy->Set_Image( pVideo->Get_Surface( "ground/jungle_1/slider/2_" + color + "_right.png" ), 1 );
-					copy->Set_Pos_X( copy->m_start_pos_x + 22, 1 );
-					sprite_manager->Add( copy );
-				}
-			}
-			// if V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
-			if( engine_version < 32 )
-			{
-				// image filename is already changed but we need to add an additional middle tile for left and right
-				if( sprite_manager && ( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0 ||
-																sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 ) )
-				{
-					// add middle tile
-					cSprite *copy = sprite->Copy();
-					copy->Set_Image( pVideo->Get_Surface( "ground/green_1/slider/1/brown/middle.png" ), 1 );
-					// if from left tile it must be moved
-					if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png") ) == 0 )
-					{
-						copy->Set_Pos_X( copy->m_start_pos_x + 18, 1 );
-					}
-					sprite_manager->Add( copy );
-				}
-				// move right tile
-				if( sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 )
-				{
-					sprite->Move( 18, 0, 1 );
-					sprite->m_start_pos_x = sprite->m_pos_x;
-				}
-			}
-		}
-
-		return sprite;
-	}
-	else if( element == "enemystopper" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		return new cEnemyStopper( attributes, sprite_manager );
-	}
-	else if( element == "levelexit" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		// if V.1.9 and lower : change "motion" to "camera_motion"
-		if( engine_version < 36 )
-		{
-			if( attributes.exists( "motion" ) )
-			{
-				attributes.add( "camera_motion", CEGUI::PropertyHelper::intToString( attributes.getValueAsInteger( "motion" ) + 1 ) );
-				attributes.remove( "motion" );
-			}
-		}
-
-		return new cLevel_Exit( attributes, sprite_manager );
-	}
-	else if( element == "level_entry" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		return new cLevel_Entry( attributes, sprite_manager );
-	}
-	else if( element == "box" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		CEGUI::String str_type = attributes.getValueAsString( "type" );
-
-		if( str_type == "bonus" )
-		{
-			return new cBonusBox( attributes, sprite_manager );
-		}
-		// gold is somewhere pre V.0.99.5
-		else if( str_type == "gold" )
-		{
-			// update old values
-			attributes.add( "type", "bonus" );
-			attributes.add( "animation", "Default" );
-			attributes.add( "item", int_to_string( TYPE_GOLDPIECE ) );
-			// renamed color to gold_color
-			if( attributes.exists( "color" ) )
-			{
-				attributes.add( "gold_color", attributes.getValue( "color" ) );
-				attributes.remove( "color" );
-			}
-
-			return new cBonusBox( attributes, sprite_manager );
-		}
-		else if( str_type == "spin" )
-		{
-			return new cSpinBox( attributes, sprite_manager );
-		}
-		else if( str_type == "text" )
-		{
-			return new cText_Box( attributes, sprite_manager );
-		}
-		// pre V.0.99.4
-		else if ( str_type == "empty" )
-		{
-			// update old values
-			attributes.add( "type", "bonus" );
-			attributes.add( "item", "0" );
-
-			return new cBonusBox( attributes, sprite_manager );
-		}
-		// pre V.0.99.4
-		else if ( str_type == "invisible" )
-		{
-			// update old values
-			attributes.add( "type", "bonus" );
-			attributes.add( "item", "0" );
-			attributes.add( "invisible", "1" );
-
-			return new cBonusBox( attributes, sprite_manager );
-		}
-		else
-		{
-			printf( "Warning : Unknown Level Box type : %s\n", str_type.c_str() );
-		}
-	}
-	// powerup is pre V.0.99.5
-	else if( element == "item" || element == "powerup" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		CEGUI::String str_type = attributes.getValueAsString( "type" );
-
-		if( str_type == "goldpiece" )
-		{
-			return new cGoldpiece( attributes, sprite_manager );
-		}
-		else if( str_type == "mushroom" )
-		{
-			return new cMushroom( attributes, sprite_manager );
-		}
-		else if( str_type == "fireplant" )
-		{
-			return new cFirePlant( attributes, sprite_manager );
-		}
-		else if( str_type == "jstar" )
-		{
-			return new cjStar( attributes, sprite_manager );
-		}
-		else if( str_type == "moon" )
-		{
-			return new cMoon( attributes, sprite_manager );
-		}
-		else
-		{
-			printf( "Warning : Unknown Level Item type : %s\n", str_type.c_str() );
-		}
-	}
-	else if( element == "moving_platform" )
-	{
-		// if V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
-		if( engine_version < 32 )
-		{
-			Relocate_Image( attributes, "slider/grey_1/slider_left.png", "ground/green_1/slider/1/brown/left.png", "image_top_left" );
-			Relocate_Image( attributes, "slider/grey_1/slider_middle.png", "ground/green_1/slider/1/brown/middle.png", "image_top_middle" );
-			Relocate_Image( attributes, "slider/grey_1/slider_right.png", "ground/green_1/slider/1/brown/right.png", "image_top_right" );
-		}
-
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString(  attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		cMoving_Platform *moving_platform = new cMoving_Platform( attributes, sprite_manager );
-
-		// if V.1.7 and lower : change new slider middle count because start and end image is now half the width
-		if( engine_version < 32 )
-		{
-			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png") ) == 0 )
-			{
-				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
-			}
-			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png") ) == 0 )
-			{
-				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
-			}
-		}
-
-		return moving_platform;
-	}
-	// falling platform is pre V.1.5
-	else if( element == "falling_platform" )
-	{
-		// it's not moving
-		attributes.add( "speed", "0" );
-		// renamed time_fall to touch_time and change to the new value
-		if( attributes.exists( "time_fall" ) )
-		{
-			attributes.add( "touch_time", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "time_fall" ) * speedfactor_fps ) );
-			attributes.remove( "time_fall" );
-		}
-		else
-		{
-			attributes.add( "touch_time", "48" );
-		}
-		// enable falling
-		attributes.add( "shake_time", "12" );
-
-		// if V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
-		if( engine_version < 32 )
-		{
-			Relocate_Image( attributes, "slider/grey_1/slider_left.png", "ground/green_1/slider/1/brown/left.png", "image_top_left" );
-			Relocate_Image( attributes, "slider/grey_1/slider_middle.png", "ground/green_1/slider/1/brown/middle.png", "image_top_middle" );
-			Relocate_Image( attributes, "slider/grey_1/slider_right.png", "ground/green_1/slider/1/brown/right.png", "image_top_right" );
-		}
-
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		cMoving_Platform *moving_platform = new cMoving_Platform( attributes, sprite_manager );
-
-		// if V.1.7 and lower : change new slider middle count because start and end image is now half the width
-		if( engine_version < 32 )
-		{
-			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0 )
-			{
-				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
-			}
-			if( moving_platform->m_images[0].m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0 )
-			{
-				moving_platform->Set_Middle_Count( moving_platform->m_middle_count + 1 );
-			}
-		}
-
-		return moving_platform;
-	}
-	else if( element == "enemy" )
-	{
-		CEGUI::String str_type = attributes.getValueAsString( "type" );
-
-		// if V.1.5 and lower
-		if( engine_version < 26 )
-		{
-			// change gumba to furball
-			if( str_type == "gumba" )
-			{
-				// change type
-				str_type = "furball";
-				attributes.add( "type", "furball" );
-				// fix color : red was used in pre 1.0 but later became blue
-				if( attributes.exists( "color" ) && attributes.getValueAsString( "color" ) == "red" )
-				{
-					attributes.add( "color", "blue" );
-				}
-			}
-			// change rex to krush
-			else if( str_type == "rex" )
-			{
-				// change type
-				str_type = "krush";
-				attributes.add( "type", "krush" );
-			}
-		}
-
-		// if V.1.7 and lower
-		if( engine_version < 29 )
-		{
-			// change jpiranha to flyon
-			if( str_type == "jpiranha" )
-			{
-				// change type
-				str_type = "flyon";
-				attributes.add( "type", "flyon" );
-
-				// change image dir
-				if( attributes.exists( "image_dir" ) )
-				{
-					std::string img_dir = attributes.getValueAsString( "image_dir" ).c_str();
-					std::string::size_type pos = img_dir.find( "jpiranha" );
-
-					// change if found
-					if( pos != std::string::npos )
-					{
-						img_dir.replace( pos, 8, "flyon" );
-						attributes.add( "image_dir", img_dir );
-					}
-				}
-			}
-		}
-
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		if( str_type == "eato" )
-		{
-			return new cEato( attributes, sprite_manager );
-		}
-		else if( str_type == "furball" )
-		{
-			return new cFurball( attributes, sprite_manager );
-		}
-		else if( str_type == "turtle" )
-		{
-			return new cTurtle( attributes, sprite_manager );
-		}
-		else if( str_type == "turtleboss" )
-		{
-			// if V.1.5 and lower : max_downgrade_time changed to shell_time
-			if( engine_version < 27 )
-			{
-				if( attributes.exists( "max_downgrade_time" ) )
-				{
-					attributes.add( "shell_time", attributes.getValueAsString( "max_downgrade_time" ) );
-					attributes.remove( "max_downgrade_time" );
-				}
-			}
-
-			return new cTurtleBoss( attributes, sprite_manager );
-		}
-		else if( str_type == "flyon" )
-		{
-			return new cFlyon( attributes, sprite_manager );
-		}
-		else if( str_type == "thromp" )
-		{
-			cThromp *thromp = new cThromp( attributes, sprite_manager );
-
-			// if V.1.4 and lower : fix thromp distance was smaller
-			if( engine_version < 25 )
-			{
-				thromp->Set_Max_Distance( thromp->m_max_distance + 36 );
-			}
-
-			return thromp;
-		}
-		else if( str_type == "rokko" )
-		{
-			return new cRokko( attributes, sprite_manager );
-		}
-		else if( str_type == "krush" )
-		{
-			return new cKrush( attributes, sprite_manager );
-		}
-		else if( str_type == "gee" )
-		{
-			return new cGee( attributes, sprite_manager );
-		}
-		else if( str_type == "spika" )
-		{
-			return new cSpika( attributes, sprite_manager );
-		}
-		else if( str_type == "static" )
-		{
-			return new cStaticEnemy( attributes, sprite_manager );
-		}
-		else if( str_type == "spikeball" )
-		{
-			return new cSpikeball( attributes, sprite_manager );
-		}
-		else
-		{
-			printf( "Warning : Unknown Level Enemy type : %s\n", str_type.c_str() );
-		}
-	}
-	else if( element == "sound" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "pos_y" ) )
-			{
-				attributes.add( "pos_y", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "pos_y" ) - 600.0f ) );
-			}
-		}
-
-		return new cRandom_Sound( attributes, sprite_manager );
-	}
-	else if( element == "particle_emitter" )
-	{
-		// Note : If you relocate images don't forget the global effect
-
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "pos_y" ) )
-			{
-				attributes.add( "pos_y", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "pos_y" ) - 600.0f ) );
-			}
-		}
-
-		// if V.1.9 and lower : change fire_1 animation to particles
-		if( engine_version < 37 )
-		{
-			Relocate_Image( attributes, "animation/fire_1/1.png", "animation/particles/fire_1.png", "file" );
-			Relocate_Image( attributes, "animation/fire_1/2.png", "animation/particles/fire_2.png", "file" );
-			Relocate_Image( attributes, "animation/fire_1/3.png", "animation/particles/fire_3.png", "file" );
-			Relocate_Image( attributes, "animation/fire_1/4.png", "animation/particles/fire_4.png", "file" );
-		}
-
-		// if V.1.9 and lower : change file to image
-		if( engine_version < 38 )
-		{
-			if( attributes.exists( "file" ) )
-			{
-				attributes.add( "image", attributes.getValueAsString( "file" ) );
-				attributes.remove( "file" );
-			}
-		}
-
-		cParticle_Emitter *particle_emitter = new cParticle_Emitter( attributes, sprite_manager );
-		// set to not spawned
-		particle_emitter->Set_Spawned( 0 );
-
-		return particle_emitter;
-	}
-	else if( element == "path" )
-	{
-		// if V.1.9 and lower : move y coordinate bottom to 0
-		if( engine_version < 35 )
-		{
-			if( attributes.exists( "posy" ) )
-			{
-				attributes.add( "posy", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "posy" ) - 600.0f ) );
-			}
-		}
-
-		return new cPath( attributes, sprite_manager );
-	}
-	// if V.1.9 and lower : convert global effect to an advanced particle emitter
-	else if( element == "global_effect" )
-	{
-		// if V.0.99.4 and lower : change lieftime mod to time to live
-		if( engine_version < 21 )
-		{
-			if( !attributes.exists( "time_to_live" ) )
-			{
-				attributes.add( "time_to_live", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "lifetime_mod", 20 ) * 0.3f ) );
-				attributes.remove( "lifetime_mod" );
-			}
-		}
-
-		// if V.0.99.7 and lower : change creation speed to emitter iteration interval
-		if( engine_version < 22 )
-		{
-			if( !attributes.exists( "emitter_iteration_interval" ) )
-			{
-				attributes.add( "emitter_iteration_interval", CEGUI::PropertyHelper::floatToString( ( 1.0f / attributes.getValueAsFloat( "creation_speed", 0.3f ) ) * 0.032f ) );
-				attributes.remove( "creation_speed" );
-			}
-		}
-
-		// if V.1.9 and lower : change fire_1 animation to particles
-		if( engine_version < 37 )
-		{
-			Relocate_Image( attributes, "animation/fire_1/1.png", "animation/particles/fire_1.png", "image" );
-			Relocate_Image( attributes, "animation/fire_1/2.png", "animation/particles/fire_2.png", "image" );
-			Relocate_Image( attributes, "animation/fire_1/3.png", "animation/particles/fire_3.png", "image" );
-			Relocate_Image( attributes, "animation/fire_1/4.png", "animation/particles/fire_4.png", "image" );
-		}
-
-		// change disabled type to quota 0
-		if( attributes.exists( "type" ) )
-		{
-			// if disabled
-			if( attributes.getValueAsInteger( "type" ) == 0 )
-			{
-				attributes.add( "quota", "0" );
-				attributes.remove( "type" );
-			}
-		}
-
-		// rename attributes
-		attributes.add( "pos_x", CEGUI::PropertyHelper::intToString( attributes.getValueAsInteger( "rect_x", 0 ) ) );
-		attributes.add( "pos_y", CEGUI::PropertyHelper::intToString( attributes.getValueAsInteger( "rect_y", 0 ) - 600 ) );
-		attributes.add( "size_x", CEGUI::PropertyHelper::intToString( attributes.getValueAsInteger( "rect_w", game_res_w ) ) );
-		attributes.add( "size_y", CEGUI::PropertyHelper::intToString( attributes.getValueAsInteger( "rect_h", 0 ) ) );
-		attributes.add( "emitter_time_to_live", CEGUI::PropertyHelper::floatToString( -1.0f ) );
-		attributes.add( "pos_z", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "z", 0.12f ) ) );
-		attributes.add( "pos_z_rand", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "z_rand", 0.0f ) ) );
-		if( !attributes.exists( "time_to_live" ) )
-		{
-			attributes.add( "time_to_live", CEGUI::PropertyHelper::floatToString( 7.0f ) );
-		}
-		attributes.add( "emitter_interval", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "emitter_iteration_interval", 0.3f ) ) );
-		attributes.add( "size_scale", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "scale", 0.2f ) ) );
-		attributes.add( "size_scale_rand", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "scale_rand", 0.2f ) ) );
-		attributes.add( "vel", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "speed", 2.0f ) ) );
-		attributes.add( "vel_rand", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "speed_rand", 8.0f ) ) );
-		attributes.add( "angle_start", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "dir_range_start", 0.0f ) ) );
-		attributes.add( "angle_range", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "dir_range_size", 90.0f ) ) );
-		attributes.add( "const_rot_z", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "const_rotz", -5.0f ) ) );
-		attributes.add( "const_rot_z_rand", CEGUI::PropertyHelper::floatToString( attributes.getValueAsFloat( "const_rotz_rand", 10.0f ) ) );
-
-
-		cParticle_Emitter *emitter = new cParticle_Emitter( attributes, sprite_manager );
-		emitter->Set_Spawned( 0 );
-
-		// clip to the camera
-		emitter->Set_Clip_Rect( GL_rect( 0.0f, 0.0f, static_cast<float>(game_res_w), static_cast<float>(game_res_h) + ( attributes.getValueAsInteger( "rect_y", 0 ) * -1 ) ) );
-		emitter->Set_Based_On_Camera_Pos( 1 );
-
-		return emitter;
-	}
-	else if( element == "ball" )
-	{
-		return new cBall( attributes, sprite_manager );
-	}
-	// keep in synch with cLevel::Is_Level_Object_Element()
-
-	return NULL;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -16,7 +16,7 @@
 #ifndef SMC_WORLD_EDITOR_H
 #define SMC_WORLD_EDITOR_H
 
-#include "../core/editor.h"
+#include "../core/editor/editor.h"
 
 namespace SMC
 {
@@ -48,8 +48,6 @@ public:
 	void Set_Overworld( cOverworld *overworld );
 	// Set Active Menu Entry
 	virtual void Activate_Menu_Item( cEditor_Menu_Object *entry );
-	// return the sprite object
-	virtual cSprite *Get_Object( const CEGUI::String &element, CEGUI::XMLAttributes &attributes, int engine_version );
 
 	// Menu functions
 	virtual bool Function_New( void );
@@ -61,6 +59,10 @@ public:
 
 	// parent overworld
 	cOverworld *m_overworld;
+
+protected:
+	static std::vector<cSprite*> items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data);
+	virtual void Parse_Items_File(boost::filesystem::path filename);
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

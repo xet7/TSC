@@ -16,6 +16,7 @@
 #include "../objects/path.h"
 #include "../core/game_core.h"
 #include "../core/i18n.h"
+#include "../core/xml_attributes.h"
 #include "../video/renderer.h"
 #include "../input/mouse.h"
 #include "../user/savegame.h"
@@ -458,11 +459,44 @@ cPath :: cPath( cSprite_Manager *sprite_manager )
 	cPath::Init();
 }
 
-cPath :: cPath( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager )
+cPath :: cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 : cSprite( sprite_manager, "path" )
 {
 	cPath::Init();
-	cPath::Load_From_XML( attributes );
+
+	m_segments.clear();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// identifier
+	Set_Identifier(attributes["identifier"]);
+
+	// show line
+	Set_Show_Line(attributes.fetch<bool>("show_line", m_show_line));
+
+	// rewind
+	Set_Rewind(attributes.fetch<bool>("rewind", m_rewind));
+
+	// load segments
+	unsigned int count;
+	while (true) {
+		std::string str_pos = int_to_string( count );
+
+		// next line not available
+		if (!attributes.exists("segment_" + str_pos + "_x1"))
+			break;
+
+		cPath_Segment obj;
+
+		obj.Set_Pos(	string_to_float(attributes["segment_" + str_pos + "_x1"]),
+						string_to_float(attributes["segment_" + str_pos + "_y1"]),
+						string_to_float(attributes["segment_" + str_pos + "_x2"]),
+						string_to_float(attributes["segment_" + str_pos + "_y2"]));
+
+		m_segments.push_back(obj);
+		count++;
+	}
 }
 
 cPath :: ~cPath( void )
@@ -503,69 +537,31 @@ cPath *cPath :: Copy( void ) const
 	return path;
 }
 
-void cPath :: Load_From_XML( CEGUI::XMLAttributes &attributes )
-{
-	m_segments.clear();
-
-	// position
-	Set_Pos( static_cast<float>(attributes.getValueAsInteger( "posx" )), static_cast<float>(attributes.getValueAsInteger( "posy" )), 1 );
-	// identifier
-	Set_Identifier( attributes.getValueAsString( "identifier" ).c_str() );
-	// show line
-	Set_Show_Line(attributes.getValueAsBool("show_line", m_show_line));
-	// rewind
-	Set_Rewind( attributes.getValueAsBool( "rewind", m_rewind ) );
-
-	unsigned int count = 0;
-	// load segments
-	while( 1 )
-	{
-		std::string str_pos = int_to_string( count );
-
-		// next line not available
-		if( !attributes.exists( "segment_" + str_pos + "_x1" ) )
-		{
-			break;
-		}
-
-		cPath_Segment obj;
-		
-		obj.Set_Pos( attributes.getValueAsFloat( "segment_" + str_pos + "_x1" ), attributes.getValueAsFloat( "segment_" + str_pos + "_y1" ), attributes.getValueAsFloat( "segment_" + str_pos + "_x2" ), attributes.getValueAsFloat( "segment_" + str_pos + "_y2" ) );
-
-		m_segments.push_back( obj );
-
-		count++;
-	}
-}
-
 std::string cPath :: Get_XML_Type_Name()
 {
 	return "";
 }
 
-void cPath :: Do_XML_Saving( CEGUI::XMLSerializer &stream )
+xmlpp::Element* cPath :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
-	cSprite::Do_XML_Saving(stream);
+	xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
 
-	// identifier
-	Write_Property( stream, "identifier", m_identifier );
-	// show line
-	Write_Property( stream, "show_line", m_show_line );
-	// rewind
-	Write_Property( stream, "rewind", m_rewind );
+	// Attributes
+	Add_Property(p_node, "identifier", m_identifier);
+	Add_Property(p_node, "show_line", m_show_line);
+	Add_Property(p_node, "rewind", m_rewind);
 
 	// segments
-	unsigned int count = m_segments.size();
+	for(unsigned int i=0; i < m_segments.size(); i++) {
+		std::string str_pos = int_to_string(i);
 
-	for( unsigned int pos = 0; pos < count; pos++ )
-	{
-		std::string str_pos = int_to_string( pos );
-
-		Write_Property( stream, "segment_" + str_pos + "_x1", m_segments[pos].m_x1 );
-		Write_Property( stream, "segment_" + str_pos + "_y1", m_segments[pos].m_y1 );
-		Write_Property( stream, "segment_" + str_pos + "_x2", m_segments[pos].m_x2 );
-		Write_Property( stream, "segment_" + str_pos + "_y2", m_segments[pos].m_y2 );
+		Add_Property(p_node, "segment_" + str_pos + "_x1", m_segments[i].m_x1);
+		Add_Property(p_node, "segment_" + str_pos + "_y1", m_segments[i].m_y1);
+		Add_Property(p_node, "segment_" + str_pos + "_x2", m_segments[i].m_x2);
+		Add_Property(p_node, "segment_" + str_pos + "_y2", m_segments[i].m_y2);
 	}
+
+	return p_node;
 }
 
 void cPath :: Load_From_Savegame( cSave_Level_Object *save_object )
