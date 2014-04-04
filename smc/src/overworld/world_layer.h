@@ -65,16 +65,12 @@ public:
 	virtual ~cLayer_Line_Point_Start( void );
 	// create from stream
 	cLayer_Line_Point_Start( XmlAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld );
-	cLayer_Line_Point_Start( CEGUI::XMLAttributes &attributes, cSprite_Manager *sprite_manager, cOverworld *overworld );
 
 	// init defaults
 	void Init( void );
 
 	// copy (end point can not be copied)
 	virtual cLayer_Line_Point_Start *Copy( void ) const;
-
-	// load from stream
-	virtual void Load_From_XML( CEGUI::XMLAttributes &attributes );
 
 	// Set the parent sprite manager
 	virtual void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
@@ -123,7 +119,7 @@ typedef vector<cLayer_Line_Point_Start *> LayerLineList;
 
 // Layer class
 // handles the line collision detection
-class cLayer : public CEGUI::XMLHandler, public cObject_Manager<cLayer_Line_Point_Start>
+class cLayer : public cObject_Manager<cLayer_Line_Point_Start>
 {
 public:
 	cLayer( cOverworld *origin );
@@ -132,16 +128,8 @@ public:
 	// Add a layer line
 	virtual void Add( cLayer_Line_Point_Start *line_point );
 
-	// Load from file
-	void Load( const boost::filesystem::path &filename );
-
-	// Save
-	bool Save( const boost::filesystem::path &filename );
-
-#ifdef ENABLE_NEW_LOADER
 	// Save to file, raises xmlpp::exception on failure
 	void Save_To_File( const boost::filesystem::path &filename );
-#endif
 
 	// Delete all objects
 	virtual void Delete_All( void );
@@ -165,15 +153,6 @@ public:
 
 	// parent overworld
 	cOverworld *m_overworld;
-
-private:
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-
-	// XML element property list
-	CEGUI::XMLAttributes m_xml_attributes;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
