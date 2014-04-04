@@ -1,0 +1,13 @@
+diff --git a/src/mruby_pcre_regexp.c b/src/mruby_pcre_regexp.c
+index 884d0fd..80b7e17 100644
+--- a/src/mruby_pcre_regexp.c
++++ b/src/mruby_pcre_regexp.c
+@@ -8,7 +8,7 @@
+ #include <mruby/data.h>
+ #include <mruby/variable.h>
+ #if defined(_WIN32) || defined(_WIN64)
+-#include <Shlwapi.h>
++#include <shlwapi.h>
+   #define STRCHR StrChr
+ #else
+   #define STRCHR strchr

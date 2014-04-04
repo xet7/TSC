@@ -130,12 +130,15 @@ include_directories(
 
 if (ENABLE_MRUBY)
   # Tell CMake how to compile mruby
-  set(MRUBY_ROOT_DIR ${SMC_SOURCE_DIR}/../mruby/mruby)
+  set(MRUBY_TOPDIR ${SMC_SOURCE_DIR}/../mruby)
+  set(MRUBY_ROOT_DIR ${MRUBY_TOPDIR}/mruby)
+  set(MRUBY_MGEMS_DIR ${MRUBY_TOPDIR}/mgems)
 
   ExternalProject_Add(
     mruby
     PREFIX "${SMC_BINARY_DIR}/mruby"
     DOWNLOAD_COMMAND ""
+    PATCH_COMMAND patch -d${MRUBY_MGEMS_DIR}/mruby-pcre-regexp -p1 < ${SMC_SOURCE_DIR}/mruby-pcre.patch
     UPDATE_COMMAND ""
     SOURCE_DIR "${MRUBY_ROOT_DIR}"
     BUILD_IN_SOURCE 1
