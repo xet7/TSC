@@ -165,6 +165,20 @@ std::string Get_Difficulty_Name( Uint8 difficulty );
 // This function does not call close() on `file'.
 std::string readfile(boost::filesystem::ifstream& file);
 
+#ifdef _DEBUG
+template <typename T>
+void print_hashmap(const std::map<std::string, T>& map)
+{
+  std::cout << "========== Debug Hashmap printout ==========" << std::endl;
+
+  typename std::map<std::string, T>::const_iterator iter;
+  for(iter=map.begin(); iter != map.end(); iter++)
+    std::cout << iter->first << " => " << iter->second << std::endl;
+
+  std::cout << "============================================" << std::endl;
+}
+#endif
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC
