@@ -1,0 +1,20 @@
+List of SMC contributors & copyright holders
+============================================
+
+This file lists all people who have contributed to Secret Maryo
+Chronicles and hence hold copyright on it. All names are shown in
+alphabetical order.
+
+Coders
+------
+
+Marvin Gülker (Quintus)
+Tristan Heaven (Nym)
+Luiji
+Florian Richter (FluXy)
+
+Translators
+-----------
+
+josephgbr (Portuguese translation)
+Florian Richter (FluXy — German translation)

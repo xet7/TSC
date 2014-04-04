@@ -195,9 +195,7 @@ License
 
 SMC is a two-dimensional jump’n’run platform game.
 
-Copyright © 2003-2011 Florian Richter
-
-Copyright © 2013 Marvin Gülker
+Copyright © 2003-2011, 2013-2014 The SMC Team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -212,4 +210,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-_See docs/license.txt for the full license text._
+_See smc/docs/license.txt for the full license text._
+
+_See smc/docs/authors.txt for the full list of authors._
