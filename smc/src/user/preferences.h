@@ -23,7 +23,7 @@ namespace SMC
 
 /* *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** *** *** */
 
-class cPreferences : public CEGUI::XMLHandler
+class cPreferences
 {
 public:
 	cPreferences( void );
@@ -34,12 +34,10 @@ public:
 	// Save the preferences to a file
 	void Save( void );
 
-#ifdef ENABLE_NEW_LOADER
 	// Load the preferences from a file. If no path is given, loads
 	// the default config file below the user directory.
 	// The returned instance must be freed by you.
 	static cPreferences* Load_From_File( boost::filesystem::path filename = boost::filesystem::path() );
-#endif
 
 	// Reset the settings
 	void Reset_All( void );
@@ -206,14 +204,6 @@ public:
 	static const bool m_editor_mouse_auto_hide_default;
 	static const bool m_editor_show_item_images_default;
 	static const unsigned int m_editor_item_image_size_default;
-
-private:
-	// XML element start
-	virtual void elementStart( const CEGUI::String &element, const CEGUI::XMLAttributes &attributes );
-	// XML element end
-	virtual void elementEnd( const CEGUI::String &element );
-	// handles an item
-	void handle_item( CEGUI::XMLAttributes attributes );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
