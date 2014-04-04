@@ -425,6 +425,8 @@ void cMenu_Start :: Init_GUI( void )
 		{
 			continue;
 		}
+#else
+		std::cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
 #endif
 		
 		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
