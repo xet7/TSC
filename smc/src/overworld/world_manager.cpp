@@ -183,11 +183,11 @@ cOverworld *cOverworld_Manager :: Get( const std::string &str )
 
 cOverworld *cOverworld_Manager :: Get_from_Path( const fs::path &path )
 {
-	for( vector<cOverworld *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
+	for( vector<cOverworld *>::const_iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
 		cOverworld *obj = (*itr);
 
-		if( obj->m_description->m_path.compare( path ) == 0 || obj->m_description->m_path.filename().compare( path ))
+		if (obj->m_description->m_path == path || obj->m_description->m_path.filename() == path)
 		{
 			return obj;
 		}
