@@ -615,34 +615,11 @@ void Preload_Sounds( bool draw_gui /* = 0 */ )
 	}
 }
 
-void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, CEGUI::String val )
-{
-	// CEGUI doesn't handle line breaks
-	cegui_string_replace_all( val, "\n", "<br/>" );
-
-	stream.openTag( "property" )
-		.attribute( "name", name )
-		.attribute( "value", val )
-		.closeTag();
-}
-
-#ifdef ENABLE_NEW_LOADER
 void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
 {
 	xmlpp::Element* p_propnode = p_element->add_child("property");
 	p_propnode->set_attribute("name", name);
 	p_propnode->set_attribute("value", value);
-}
-#endif
-
-void Relocate_Image( CEGUI::XMLAttributes &xml_attributes, const std::string &filename_old, const std::string &filename_new, const CEGUI::String &attribute_name /* = "image" */ )
-{
-	std::string pixmaps_dir = path_to_utf8( pResource_Manager->Get_Game_Pixmaps_Directory() );
-	if( xml_attributes.getValueAsString( attribute_name ).compare( filename_old ) == 0 || xml_attributes.getValueAsString( attribute_name ).compare( pixmaps_dir + "/" + filename_old ) == 0 )
-	{
-		xml_attributes.remove( attribute_name );
-		xml_attributes.add( attribute_name, filename_new );
-	}
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

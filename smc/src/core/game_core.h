@@ -100,7 +100,6 @@ void Preload_Images( bool draw_gui = 0 );
  */
 void Preload_Sounds( bool draw_gui = 0 );
 
-#ifdef ENABLE_NEW_LOADER
 /// Add a <property> node below the given XML node.
 void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value);
 
@@ -110,37 +109,6 @@ inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, l
 inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, float value){ Add_Property(p_element, name, float_to_string(value)); }
 inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, bool value){ Add_Property(p_element, name, bool_to_string(value)); }
 inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, unsigned int value){ Add_Property(p_element, name, uint_to_string(value)); }
-#endif
-
-// Write a property line to the serializer
-void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, CEGUI::String val );
-inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, int val )
-{
-	Write_Property( stream, name, CEGUI::PropertyHelper::intToString( val ) );
-};
-inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, unsigned int val )
-{
-	Write_Property( stream, name, CEGUI::PropertyHelper::uintToString( val ) );
-};
-inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, Uint64 val )
-{
-	Write_Property( stream, name, int64_to_string( val ) );
-};
-inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, long val )
-{
-	Write_Property( stream, name, long_to_string( val ) );
-};
-inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, float val )
-{
-	Write_Property( stream, name, CEGUI::PropertyHelper::floatToString( val ) );
-};
-inline void Write_Property( CEGUI::XMLSerializer &stream, const CEGUI::String &name, bool val)
-{
-  Write_Property(stream, name, bool_to_string(val));
-}
-
-// Changes the image path in the given xml attributes to the new one
-void Relocate_Image( CEGUI::XMLAttributes &xml_attributes, const std::string &filename_old, const std::string &filename_new, const CEGUI::String &attribute_name = "image" );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
