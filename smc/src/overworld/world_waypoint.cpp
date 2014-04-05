@@ -70,7 +70,7 @@ cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manag
 	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<std::string>("direction_backward", "left")));
 
 	// forward direction
-	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<std::string>("direction_forward", "right")));
+	Set_Direction_Forward(Get_Direction_Id(attributes.fetch<std::string>("direction_forward", "right")));
 
 	// access
 	Set_Access(attributes.fetch<bool>("access", true), true);
