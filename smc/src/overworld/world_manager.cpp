@@ -157,8 +157,9 @@ bool cOverworld_Manager :: Set_Active( cOverworld *world )
 
 void cOverworld_Manager :: Reset( void )
 {
+	// FIXME: Do not assume any specific overworld!
 	// default Overworld
-	Set_Active( "World 1" );
+	Set_Active("World 1");
 
 	// Set Player to first Waypoint
 	pOverworld_Player->Set_Waypoint( pActive_Overworld->m_player_start_waypoint );

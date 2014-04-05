@@ -644,24 +644,15 @@ void cMenuCore :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 		m_menu_data->Enter( old_mode );
 	}
 
-	if( !pAudio->Is_Music_Playing() || pAudio->Is_Music_Fading() == MIX_FADING_OUT )
-	{
-		if( m_menu_id == MENU_CREDITS )
-		{
+	// Do not play the menu music when the menu is entered from
+	// within a level.
+	// TODO: Also don’t play it when the menu is entered from
+	// an overworld.
+	if (!pActive_Level->Is_Loaded()) {
+		if (m_menu_id == MENU_CREDITS)
 			pAudio->Play_Music( "land/hyper_1.ogg", -1, 0, 1500 );
-		}
-		else if( m_menu_data && m_menu_data->m_exit_to_gamemode == MODE_LEVEL && pActive_Level->Is_Loaded() )
-		{
-			pAudio->Play_Music( pActive_Level->m_musicfile, -1, 0, 1500 );
-		}
-		else if( m_menu_data && m_menu_data->m_exit_to_gamemode == MODE_OVERWORLD && pActive_Overworld->Is_Loaded() )
-		{
-			pAudio->Play_Music( pActive_Overworld->m_musicfile, -1, 0, 1500 );
-		}
 		else
-		{
 			pAudio->Play_Music( "game/menu.ogg", -1, 0, 1500 );
-		}
 	}
 }
 
