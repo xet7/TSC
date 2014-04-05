@@ -171,9 +171,7 @@ void cTurtle :: Set_Color( DefaultColor col )
 
 	if( m_color_type == COL_RED )
 	{
-		// FIXME: We don’t have a graphic for the red armadillo!
-		//filename_dir = "red";
-		filename_dir = "green";
+		filename_dir = "red";
 		m_kill_points = 50;
 	}
 	else if( m_color_type == COL_GREEN )
@@ -191,6 +189,8 @@ void cTurtle :: Set_Color( DefaultColor col )
 
 	Clear_Images();
 
+	// FIXME: Red armadillo currently has not enough images!
+	// Hence many images are duplicate for the red armadillo.
 	// Walk
 	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_1.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_2.png" ) );
