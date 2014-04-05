@@ -64,7 +64,7 @@ endif()
 # FIXME: Detect CEGUI via pkg-config when the NullRenderer dependency is gone
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(CEGUI COMPONENTS NULL OPENGL REQUIRED)
+find_package(CEGUI COMPONENTS OPENGL REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
 find_package(FreeImage REQUIRED)
