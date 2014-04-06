@@ -245,6 +245,62 @@
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="up" />
+		<property name="image_dir" value="enemy/flyon/blue" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="down" />
+		<property name="image_dir" value="enemy/flyon/blue" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="left" />
+		<property name="image_dir" value="enemy/flyon/blue" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="right" />
+		<property name="image_dir" value="enemy/flyon/blue" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="up" />
+		<property name="image_dir" value="enemy/flyon/mecha" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="down" />
+		<property name="image_dir" value="enemy/flyon/mecha" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="left" />
+		<property name="image_dir" value="enemy/flyon/mecha" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="flyon" />
+		<property name="direction" value="right" />
+		<property name="image_dir" value="enemy/flyon/mecha" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
 		<property name="type" value="eato" />
 		<property name="direction" value="top_left" />
 	</item>
