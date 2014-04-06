@@ -30,6 +30,7 @@
 #include "objects/enemies/mrb_thromp.hpp"
 #include "objects/enemies/mrb_turtle.hpp"
 #include "objects/enemies/mrb_turtle_boss.hpp"
+#include "objects/enemies/mrb_pip.hpp"
 #include "objects/powerups/mrb_powerup.hpp"
 #include "objects/powerups/mrb_mushroom.hpp"
 #include "objects/powerups/mrb_fireplant.hpp"
@@ -249,6 +250,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Furball(p_state);
 	Init_Gee(p_state);
 	Init_Krush(p_state);
+	Init_Pip(p_state);
 	Init_Rokko(p_state);
 	Init_Spika(p_state);
 	Init_Spikeball(p_state);
