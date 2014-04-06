@@ -322,6 +322,7 @@ the MRuby scripting API, grouped by topic:
 | [Furball](furball.html)               |                                             |
 | [Gee](gee.html)                       |                                             |
 | [Krush](krush.html)                   |                                             |
+| [Pip](pip.html)                       |                                             |
 | [Rokko](rokko.html)                   |                                             |
 | [Spika](spika.html)                   |                                             |
 | [Spikeball](spikeball.html)           |                                             |
