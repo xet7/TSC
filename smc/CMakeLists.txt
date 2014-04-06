@@ -138,7 +138,7 @@ if (ENABLE_MRUBY)
     mruby
     PREFIX "${SMC_BINARY_DIR}/mruby"
     DOWNLOAD_COMMAND ""
-    PATCH_COMMAND patch -d${MRUBY_MGEMS_DIR}/mruby-pcre-regexp -p1 < ${SMC_SOURCE_DIR}/mruby-pcre.patch
+    PATCH_COMMAND git -C ${MRUBY_MGEMS_DIR}/mruby-pcre-regexp checkout -- src && patch -d${MRUBY_MGEMS_DIR}/mruby-pcre-regexp -p1 < ${SMC_SOURCE_DIR}/mruby-pcre.patch
     UPDATE_COMMAND ""
     SOURCE_DIR "${MRUBY_ROOT_DIR}"
     BUILD_IN_SOURCE 1
