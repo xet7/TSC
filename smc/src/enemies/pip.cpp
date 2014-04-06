@@ -271,8 +271,14 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
 	if (p_collision->m_direction == DIR_UNDEFINED)
 		return;
 
-	// Downgrade us if hit on top
+	// Hit from the top. Downgrade if Maryo is not small.
 	if (p_collision->m_direction == DIR_TOP && pLevel_Player->m_state != STA_FLY) {
+		if (pLevel_Player->m_maryo_type == MARYO_SMALL) {
+			pAudio->Play_Sound("wall_hit.wav");
+			pLevel_Player->Action_Jump(true);
+			return;
+		}
+
 		pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), true);
 		pAudio->Play_Sound(m_kill_sound);
 
