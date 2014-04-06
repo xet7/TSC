@@ -17,9 +17,6 @@
 // FIXME: This option currently does nothing.
 #cmakedefine ENABLE_MRUBY
 
-// Enables the new EXPERIMENTAL libxml++ level loader.
-#cmakedefine ENABLE_NEW_LOADER
-
 // Enforce a specifc, static directory for graphics, music,
 // etc. If this is unset, SMC determines the data directory
 // dynamically by looking for a directory ../share/smc,
