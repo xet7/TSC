@@ -1,5 +1,5 @@
-#ifndef SMC_PREFERENCES_LOADER_H
-#define SMC_PREFERENCES_LOADER_H
+#ifndef SMC_PREFERENCES_LOADER_HPP
+#define SMC_PREFERENCES_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "preferences.hpp"

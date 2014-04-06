@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LEVEL_EXIT_H
-#define SMC_LEVEL_EXIT_H
+#ifndef SMC_LEVEL_EXIT_HPP
+#define SMC_LEVEL_EXIT_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"

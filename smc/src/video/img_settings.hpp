@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_IMG_SETTINGS_H
-#define SMC_IMG_SETTINGS_H
+#ifndef SMC_IMG_SETTINGS_HPP
+#define SMC_IMG_SETTINGS_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/file_parser.hpp"

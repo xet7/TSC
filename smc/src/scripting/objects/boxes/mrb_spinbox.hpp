@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_SPINBOX_H
-#define SMC_SCRIPTING_SPINBOX_H
+#ifndef SMC_SCRIPTING_SPINBOX_HPP
+#define SMC_SCRIPTING_SPINBOX_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

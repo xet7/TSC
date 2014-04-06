@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_FURBALL_H
-#define SMC_SCRIPTING_FURBALL_H
+#ifndef SMC_SCRIPTING_FURBALL_HPP
+#define SMC_SCRIPTING_FURBALL_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

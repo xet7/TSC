@@ -1,5 +1,5 @@
-#ifndef SMC_CAMPAIGN_LOADER_H
-#define SMC_CAMPAIGN_LOADER_H
+#ifndef SMC_CAMPAIGN_LOADER_HPP
+#define SMC_CAMPAIGN_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "campaign_manager.hpp"

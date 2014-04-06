@@ -1,5 +1,5 @@
-#ifndef SMC_ERRORS_H
-#define SMC_ERRORS_H
+#ifndef SMC_ERRORS_HPP
+#define SMC_ERRORS_HPP
 #include "global_game.hpp"
 
 namespace SMC {

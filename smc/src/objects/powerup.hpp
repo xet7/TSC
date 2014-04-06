@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_POWERUP_H
-#define SMC_POWERUP_H
+#ifndef SMC_POWERUP_HPP
+#define SMC_POWERUP_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"

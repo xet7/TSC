@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_LEVEL_H
-#define SMC_SCRIPTING_LEVEL_H
+#ifndef SMC_SCRIPTING_LEVEL_HPP
+#define SMC_SCRIPTING_LEVEL_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

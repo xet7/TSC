@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MOUSE_H
-#define SMC_MOUSE_H
+#ifndef SMC_MOUSE_HPP
+#define SMC_MOUSE_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/movingsprite.hpp"

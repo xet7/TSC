@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MENU_H
-#define SMC_MENU_H
+#ifndef SMC_MENU_HPP
+#define SMC_MENU_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/animation.hpp"

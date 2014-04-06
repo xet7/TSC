@@ -5,8 +5,8 @@
  * touch it for version bumps.
  */
 
-#ifndef SMC_CONFIG_H
-#define SMC_CONFIG_H
+#ifndef SMC_CONFIG_HPP
+#define SMC_CONFIG_HPP
 
 // SMC version number
 #define SMC_VERSION_MAJOR 2

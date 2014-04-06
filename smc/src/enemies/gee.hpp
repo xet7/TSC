@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GEE_H
-#define SMC_GEE_H
+#ifndef SMC_GEE_HPP
+#define SMC_GEE_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_gee.hpp"

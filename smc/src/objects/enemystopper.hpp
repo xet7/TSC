@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ENEMYSTOPPER_H
-#define SMC_ENEMYSTOPPER_H
+#ifndef SMC_ENEMYSTOPPER_HPP
+#define SMC_ENEMYSTOPPER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"

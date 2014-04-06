@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MAIN_H
-#define SMC_MAIN_H
+#ifndef SMC_MAIN_HPP
+#define SMC_MAIN_HPP
 
 namespace SMC
 {

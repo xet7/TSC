@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_TURTLE_BOSS_H
-#define SMC_SCRIPTING_TURTLE_BOSS_H
+#ifndef SMC_SCRIPTING_TURTLE_BOSS_HPP
+#define SMC_SCRIPTING_TURTLE_BOSS_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

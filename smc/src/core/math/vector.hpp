@@ -14,8 +14,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_VECTOR_H
-#define SMC_VECTOR_H
+#ifndef SMC_VECTOR_HPP
+#define SMC_VECTOR_HPP
 
 #include "../../core/global_game.hpp"
 #include "../../core/math/utilities.hpp"

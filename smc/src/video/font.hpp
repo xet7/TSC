@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FONT_H
-#define SMC_FONT_H
+#ifndef SMC_FONT_HPP
+#define SMC_FONT_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/img_manager.hpp"

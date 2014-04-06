@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FRAMERATE_H
-#define SMC_FRAMERATE_H
+#ifndef SMC_FRAMERATE_HPP
+#define SMC_FRAMERATE_HPP
 
 #include "../core/global_game.hpp"
 

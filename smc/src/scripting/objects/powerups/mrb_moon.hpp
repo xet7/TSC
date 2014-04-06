@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_MOON_H
-#define SMC_SCRIPTING_MOON_H
+#ifndef SMC_SCRIPTING_MOON_HPP
+#define SMC_SCRIPTING_MOON_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

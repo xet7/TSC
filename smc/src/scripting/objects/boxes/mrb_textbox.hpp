@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_TEXTBOX_H
-#define SMC_SCRIPTING_TEXTBOX_H
+#ifndef SMC_SCRIPTING_TEXTBOX_HPP
+#define SMC_SCRIPTING_TEXTBOX_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

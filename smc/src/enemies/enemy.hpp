@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ENEMY_H
-#define SMC_ENEMY_H
+#ifndef SMC_ENEMY_HPP
+#define SMC_ENEMY_HPP
 
 #include "../objects/animated_sprite.hpp"
 #include "../core/framerate.hpp"

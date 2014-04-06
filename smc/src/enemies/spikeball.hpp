@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPIKEBALL_H
-#define SMC_SPIKEBALL_H
+#ifndef SMC_SPIKEBALL_HPP
+#define SMC_SPIKEBALL_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_spikeball.hpp"

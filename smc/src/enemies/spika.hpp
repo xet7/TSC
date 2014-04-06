@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPIKA_H
-#define SMC_SPIKA_H
+#ifndef SMC_SPIKA_HPP
+#define SMC_SPIKA_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_spika.hpp"

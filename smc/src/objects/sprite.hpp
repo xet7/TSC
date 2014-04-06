@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPRITE_H
-#define SMC_SPRITE_H
+#ifndef SMC_SPRITE_HPP
+#define SMC_SPRITE_HPP
 
 #include "../core/global_game.hpp"
 #include "../core/math/rect.hpp"

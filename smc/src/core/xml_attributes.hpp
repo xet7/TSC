@@ -1,5 +1,5 @@
-#ifndef SMC_XML_ATTRIBUTES_H
-#define SMC_XML_ATTRIBUTES_H
+#ifndef SMC_XML_ATTRIBUTES_HPP
+#define SMC_XML_ATTRIBUTES_HPP
 #include "global_game.hpp"
 #include "errors.hpp"
 #include "property_helper.hpp"

@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_COLOR_H
-#define SMC_COLOR_H
+#ifndef SMC_COLOR_HPP
+#define SMC_COLOR_HPP
 
 namespace SMC
 {

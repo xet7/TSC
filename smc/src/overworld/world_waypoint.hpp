@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_WORLD_WAYPOINT_H
-#define SMC_WORLD_WAYPOINT_H
+#ifndef SMC_WORLD_WAYPOINT_HPP
+#define SMC_WORLD_WAYPOINT_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/video.hpp"

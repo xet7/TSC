@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_JUMP_EVENT_H
-#define SMC_SCRIPTING_JUMP_EVENT_H
+#ifndef SMC_SCRIPTING_JUMP_EVENT_HPP
+#define SMC_SCRIPTING_JUMP_EVENT_HPP
 #include "../scripting.hpp"
 #include "event.hpp"
 

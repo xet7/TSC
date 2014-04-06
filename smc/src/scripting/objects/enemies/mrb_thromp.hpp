@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_THROMP_H
-#define SMC_SCRIPTING_THROMP_H
+#ifndef SMC_SCRIPTING_THROMP_HPP
+#define SMC_SCRIPTING_THROMP_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

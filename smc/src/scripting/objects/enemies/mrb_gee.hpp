@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_GEE_H
-#define SMC_SCRIPTING_GEE_H
+#ifndef SMC_SCRIPTING_GEE_HPP
+#define SMC_SCRIPTING_GEE_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

@@ -1,5 +1,5 @@
-#ifndef SMC_EDITOR_ITEMS_LOADER_H
-#define SMC_EDITOR_ITEMS_LOADER_H
+#ifndef SMC_EDITOR_ITEMS_LOADER_HPP
+#define SMC_EDITOR_ITEMS_LOADER_HPP
 #include "../global_game.hpp"
 #include "../xml_attributes.hpp"
 

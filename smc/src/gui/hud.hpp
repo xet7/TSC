@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_HUD_H
-#define SMC_HUD_H
+#ifndef SMC_HUD_HPP
+#define SMC_HUD_HPP
 
 #include "../objects/movingsprite.hpp"
 #include "../core/obj_manager.hpp"

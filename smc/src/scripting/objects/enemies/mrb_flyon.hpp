@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_FLYON_H
-#define SMC_SCRIPTING_FLYON_H
+#ifndef SMC_SCRIPTING_FLYON_HPP
+#define SMC_SCRIPTING_FLYON_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

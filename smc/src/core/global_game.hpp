@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GLOBAL_GAME_H
-#define SMC_GLOBAL_GAME_H
+#ifndef SMC_GLOBAL_GAME_HPP
+#define SMC_GLOBAL_GAME_HPP
 #include "global_basic.hpp"
 
 namespace SMC

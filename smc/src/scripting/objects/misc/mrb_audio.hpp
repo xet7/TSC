@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_AUDIO_H
-#define SMC_SCRIPTING_AUDIO_H
+#ifndef SMC_SCRIPTING_AUDIO_HPP
+#define SMC_SCRIPTING_AUDIO_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

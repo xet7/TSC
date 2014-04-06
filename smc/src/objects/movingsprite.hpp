@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MOVINGSPRITE_H
-#define SMC_MOVINGSPRITE_H
+#ifndef SMC_MOVINGSPRITE_HPP
+#define SMC_MOVINGSPRITE_HPP
 
 #include "../objects/sprite.hpp"
 #include "../scripting/objects/sprites/mrb_moving_sprite.hpp"

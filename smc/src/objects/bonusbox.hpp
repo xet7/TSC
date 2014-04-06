@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BONUSBOX_H
-#define SMC_BONUSBOX_H
+#ifndef SMC_BONUSBOX_HPP
+#define SMC_BONUSBOX_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"

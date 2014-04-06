@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_STAR_H
-#define SMC_SCRIPTING_STAR_H
+#ifndef SMC_SCRIPTING_STAR_HPP
+#define SMC_SCRIPTING_STAR_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

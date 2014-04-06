@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_LEVEL_PLAYER_H
-#define SMC_SCRIPTING_LEVEL_PLAYER_H
+#ifndef SMC_SCRIPTING_LEVEL_PLAYER_HPP
+#define SMC_SCRIPTING_LEVEL_PLAYER_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

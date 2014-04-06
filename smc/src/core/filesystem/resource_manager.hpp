@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RESOURCE_MANAGER_H
-#define SMC_RESOURCE_MANAGER_H
+#ifndef SMC_RESOURCE_MANAGER_HPP
+#define SMC_RESOURCE_MANAGER_HPP
 
 #include "../../core/global_basic.hpp"
 #include "../../core/global_game.hpp"

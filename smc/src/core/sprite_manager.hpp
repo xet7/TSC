@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPRITE_MANAGER_H
-#define SMC_SPRITE_MANAGER_H
+#ifndef SMC_SPRITE_MANAGER_HPP
+#define SMC_SPRITE_MANAGER_HPP
 
 #include "../core/global_game.hpp"
 #include "../core/obj_manager.hpp"

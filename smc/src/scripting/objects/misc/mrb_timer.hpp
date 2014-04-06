@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_TIMER_H
-#define SMC_SCRIPTING_TIMER_H
+#ifndef SMC_SCRIPTING_TIMER_HPP
+#define SMC_SCRIPTING_TIMER_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_BONUSBOX_H
-#define SMC_SCRIPTING_BONUSBOX_H
+#ifndef SMC_SCRIPTING_BONUSBOX_HPP
+#define SMC_SCRIPTING_BONUSBOX_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

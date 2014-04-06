@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_EATO_H
-#define SMC_SCRIPTING_EATO_H
+#ifndef SMC_SCRIPTING_EATO_HPP
+#define SMC_SCRIPTING_EATO_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

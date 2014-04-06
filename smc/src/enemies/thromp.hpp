@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_THROMP_H
-#define SMC_THROMP_H
+#ifndef SMC_THROMP_HPP
+#define SMC_THROMP_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_thromp.hpp"

@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_KRUSH_H
-#define SMC_SCRIPTING_KRUSH_H
+#ifndef SMC_SCRIPTING_KRUSH_HPP
+#define SMC_SCRIPTING_KRUSH_HPP
 #include "../../scripting.hpp"
 
 namespace SMC {

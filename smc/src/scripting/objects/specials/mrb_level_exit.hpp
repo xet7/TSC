@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_LEVEL_EXIT_H
-#define SMC_SCRIPTING_LEVEL_EXIT_H
+#ifndef SMC_SCRIPTING_LEVEL_EXIT_HPP
+#define SMC_SCRIPTING_LEVEL_EXIT_HPP
 namespace SMC {
   namespace Scripting {
     extern struct RClass* p_rcLevel_Exit;

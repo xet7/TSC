@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FURBALL_H
-#define SMC_FURBALL_H
+#ifndef SMC_FURBALL_HPP
+#define SMC_FURBALL_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_furball.hpp"

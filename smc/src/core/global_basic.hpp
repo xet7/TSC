@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GLOBAL_BASIC_H
-#define SMC_GLOBAL_BASIC_H
+#ifndef SMC_GLOBAL_BASIC_HPP
+#define SMC_GLOBAL_BASIC_HPP
 
 #ifdef _WIN32
 // We use some features from IE 5, sadly.

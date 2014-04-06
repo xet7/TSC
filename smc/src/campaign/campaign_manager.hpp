@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_CAMPAIGN_MANAGER_H
-#define SMC_CAMPAIGN_MANAGER_H
+#ifndef SMC_CAMPAIGN_MANAGER_HPP
+#define SMC_CAMPAIGN_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"

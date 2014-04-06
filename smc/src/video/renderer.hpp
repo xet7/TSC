@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RENDERER_H
-#define SMC_RENDERER_H
+#ifndef SMC_RENDERER_HPP
+#define SMC_RENDERER_HPP
 
 #include "../video/video.hpp"
 #include "../core/math/line.hpp"
