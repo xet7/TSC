@@ -21,6 +21,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../video/animation.hpp"
+#include "../video/gl_surface.hpp"
 #include "../gui/hud.hpp"
 #include "../level/level_player.hpp"
 #include "pip.hpp"
@@ -68,6 +69,10 @@ void cPip::Init()
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_8.png")));
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_9.png")));
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_10.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_1.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_2.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_3.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_4.png")));
 
 	m_state = STA_FALL;
 	Set_Moving_State(STA_WALK);
@@ -131,9 +136,46 @@ void cPip::DownGrade(bool force /* = false */)
 		Set_Rotation_Z(180.0f);
 	}
 	else {
-		// TODO
-		Set_Dead(true);
-		Set_Rotation_Z(180.0f);
+		if (m_state == STA_WALK) { // Split big up into two small ones
+			Set_Moving_State(STA_RUN);
+			Col_Move(m_images[10].m_image->m_col_w - m_images[0].m_image->m_col_w, 0.0f, true, true);
+
+			// Spawn a second pip so it looks as if cut in twice
+			cPip* p_newpip = Copy();
+			p_newpip->Set_Spawned(true); // Do not save into level file when editor is activated + saved!
+			p_newpip->Set_Moving_State(STA_RUN);
+			p_newpip->m_pos_x = m_pos_x;
+			p_newpip->m_pos_y = m_pos_y;
+
+			// Accelerate us up-left
+			m_pos_y -= 5.0f;
+			m_velx = -15.0f;
+			m_vely = -15.0f;
+
+			// Accelerate the new one up-right
+			p_newpip->m_pos_y -= 60;
+			p_newpip->m_velx = 15.0f; // Opposite direction than above!
+			p_newpip->m_vely = -15.0f;
+			m_sprite_manager->Add(p_newpip);
+
+			// animation
+			cParticle_Emitter* p_anim = new cParticle_Emitter(m_sprite_manager);
+			Generate_Hit_Animation(p_anim);
+			p_anim->Set_Speed(3.5f, 0.6f);
+			p_anim->Set_Fading_Alpha(true);
+			p_anim->Emit();
+			pActive_Animation_Manager->Add(p_anim);
+		}
+		else { // == STA_RUN
+			Set_Scale_Directions(true, false, true, true);
+			Set_Dead(true);
+			cParticle_Emitter* p_anim = new cParticle_Emitter(m_sprite_manager);
+			Generate_Hit_Animation(p_anim);
+			p_anim->Set_Speed(4.5f, 1.6f);
+			p_anim->Set_Scale(0.6f);
+			p_anim->Emit();
+			pActive_Animation_Manager->Add(p_anim);
+		}
 	}
 
 	if (m_dead) {
@@ -174,7 +216,6 @@ void cPip::Update_Dying()
 
 void cPip::Set_Moving_State(Moving_state new_state)
 {
-	std::cout << "COL RECT:" << m_col_rect.m_x << " / " << m_col_rect.m_y << " / " << m_col_rect.m_w << " / " << m_col_rect.m_h << std::endl;
 	if (new_state == m_state)
 		return;
 
@@ -190,7 +231,7 @@ void cPip::Set_Moving_State(Moving_state new_state)
 	else if (new_state == STA_RUN) {
 		// TODO: Other images for small pip!
 		Set_Animation(true);
-		Set_Animation_Image_Range(0, 9);
+		Set_Animation_Image_Range(10, 13);
 		Set_Time_All(70, true);
 		Reset_Animation();
 		Set_Image_Num(m_anim_img_start);
@@ -283,15 +324,17 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
 		pAudio->Play_Sound(m_kill_sound);
 
 		// big walking
-		if (m_state == STA_WALK)
+		if (m_state == STA_WALK) {
 			DownGrade();
-		else if (m_state == STA_RUN) {
+			pLevel_Player->Action_Jump(true);
+		}
+		else if (m_state == STA_RUN) { // small walking
 			DownGrade();
 			pLevel_Player->Add_Kill_Multiplier();
-			pLevel_Player->m_vely = 30.0f;
+			// Whoooohooooo!
+			pLevel_Player->m_vely = -60.0f;
+			pAudio->Play_Sound("player/jump_big_power.ogg");
 		}
-
-		pLevel_Player->Action_Jump(true);
 	}
 	else { // Otherwise downgrade Maryo
 		pLevel_Player->DownGrade_Player();
