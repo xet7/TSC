@@ -172,7 +172,6 @@ include_directories(${SMC_BINARY_DIR})
 file(GLOB_RECURSE smc_sources
   "src/*.cpp"
   "src/*.hpp"
-  "src/*.h"
   )
 
 ###############################################
