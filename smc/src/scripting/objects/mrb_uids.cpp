@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_uids.hpp"
 #include "../../level/level.hpp"
 #include "../../objects/sprite.hpp"

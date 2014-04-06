@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_TIMER_H
 #define SMC_SCRIPTING_TIMER_H
 #include "../../scripting.hpp"

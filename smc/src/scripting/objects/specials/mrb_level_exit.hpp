@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_LEVEL_EXIT_H
 #define SMC_SCRIPTING_LEVEL_EXIT_H
 namespace SMC {

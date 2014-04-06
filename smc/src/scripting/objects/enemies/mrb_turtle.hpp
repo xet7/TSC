@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_TURTLE_H
 #define SMC_SCRIPTING_TURTLE_H
 #include "../../scripting.hpp"

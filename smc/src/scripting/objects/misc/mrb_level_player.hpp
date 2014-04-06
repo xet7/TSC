@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_LEVEL_PLAYER_H
 #define SMC_SCRIPTING_LEVEL_PLAYER_H
 #include "../../scripting.hpp"

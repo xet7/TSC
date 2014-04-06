@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_BOX_H
 #define SMC_SCRIPTING_BOX_H
 #include "../../scripting.hpp"

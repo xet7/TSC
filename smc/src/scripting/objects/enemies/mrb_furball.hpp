@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_FURBALL_H
 #define SMC_SCRIPTING_FURBALL_H
 #include "../../scripting.hpp"

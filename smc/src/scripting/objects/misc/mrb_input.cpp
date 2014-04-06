@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../../events/event.hpp"
 #include "../../../input/keyboard.hpp"
 #include "../mrb_eventable.hpp"

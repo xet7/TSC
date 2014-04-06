@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_GOLD_100_EVENT_H
 #define SMC_SCRIPTING_GOLD_100_EVENT_H
 #include "../scripting.hpp"

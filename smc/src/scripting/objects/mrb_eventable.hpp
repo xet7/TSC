@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_EVENTABLE_H
 #define SMC_SCRIPTING_EVENTABLES_H
 #include "../scripting.hpp"

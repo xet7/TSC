@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_LEVEL_H
 #define SMC_SCRIPTING_LEVEL_H
 #include "../../scripting.hpp"

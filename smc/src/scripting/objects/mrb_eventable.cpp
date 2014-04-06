@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_eventable.hpp"
 #include "../scriptable_object.hpp"
 #include "../../core/global_basic.hpp"

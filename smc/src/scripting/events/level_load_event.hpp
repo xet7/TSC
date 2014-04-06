@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_LEVEL_LOAD_EVENT_H
 #define SMC_SCRIPTING_LEVEL_LOAD_EVENT_H
 #include "../scripting.hpp"

@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_MRB_MOVING_SPRITE_H
 #define SMC_SCRIPTING_MRB_MOVING_SPRITE_H
 

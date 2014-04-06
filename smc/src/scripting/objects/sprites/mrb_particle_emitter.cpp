@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../../../video/animation.hpp"
 #include "../../../level/level.hpp"
 #include "../../../core/sprite_manager.hpp"

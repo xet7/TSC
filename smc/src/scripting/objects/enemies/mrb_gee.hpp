@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_GEE_H
 #define SMC_SCRIPTING_GEE_H
 #include "../../scripting.hpp"

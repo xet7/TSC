@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_PATH_H
 #define SMC_SCRIPTING_PATH_H
 #include "../../scripting.hpp"

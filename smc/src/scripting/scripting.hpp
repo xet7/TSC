@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_HPP
 #define SMC_SCRIPTING_HPP
 #include "../core/global_basic.hpp"

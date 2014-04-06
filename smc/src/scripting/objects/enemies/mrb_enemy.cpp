@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "mrb_enemy.hpp"
 #include "../sprites/mrb_animated_sprite.hpp"
 #include "../../../enemies/enemy.hpp"

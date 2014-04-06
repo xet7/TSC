@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_MOON_H
 #define SMC_SCRIPTING_MOON_H
 #include "../../scripting.hpp"

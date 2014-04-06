@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_AUDIO_H
 #define SMC_SCRIPTING_AUDIO_H
 #include "../../scripting.hpp"

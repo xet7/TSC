@@ -1,4 +1,3 @@
-// -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
 #include "../../../level/level.hpp"
 #include "../../../user/savegame.hpp"
 #include "../../../gui/hud.hpp"

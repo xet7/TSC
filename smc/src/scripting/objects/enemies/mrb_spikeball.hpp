@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_SPIKEBALL_H
 #define SMC_SCRIPTING_SPIKEBALL_H
 #include "../../scripting.hpp"

@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_WORLD_LOADER_H
 #define SMC_WORLD_LOADER_H
 #include "../core/global_game.hpp"

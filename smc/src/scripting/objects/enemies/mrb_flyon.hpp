@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_SCRIPTING_FLYON_H
 #define SMC_SCRIPTING_FLYON_H
 #include "../../scripting.hpp"

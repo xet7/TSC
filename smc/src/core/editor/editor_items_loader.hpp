@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_EDITOR_ITEMS_LOADER_H
 #define SMC_EDITOR_ITEMS_LOADER_H
 #include "../global_game.hpp"

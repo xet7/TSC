@@ -1,4 +1,3 @@
-// -*- c++ -*-
 #ifndef SMC_XML_ATTRIBUTES_H
 #define SMC_XML_ATTRIBUTES_H
 #include "global_game.hpp"
