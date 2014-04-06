@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "campaign_manager.h"
-#include "campaign_loader.h"
-#include "../gui/hud.h"
-#include "../core/game_core.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/i18n.h"
+#include "campaign_manager.hpp"
+#include "campaign_loader.hpp"
+#include "../gui/hud.hpp"
+#include "../core/game_core.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/i18n.hpp"
 
 namespace fs = boost::filesystem;
 

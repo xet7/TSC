@@ -16,8 +16,8 @@
 #ifndef SMC_ANIMATED_SPRITE_H
 #define SMC_ANIMATED_SPRITE_H
 
-#include "../objects/movingsprite.h"
-#include "../scripting/objects/sprites/mrb_animated_sprite.h"
+#include "../objects/movingsprite.hpp"
+#include "../scripting/objects/sprites/mrb_animated_sprite.hpp"
 
 namespace SMC
 {

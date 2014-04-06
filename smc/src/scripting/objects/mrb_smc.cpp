@@ -1,8 +1,8 @@
-#include "mrb_smc.h"
-#include "../../core/game_core.h"
-#include "../../core/property_helper.h"
-#include "../../core/filesystem/resource_manager.h"
-#include "../../core/framerate.h"
+#include "mrb_smc.hpp"
+#include "../../core/game_core.hpp"
+#include "../../core/property_helper.hpp"
+#include "../../core/filesystem/resource_manager.hpp"
+#include "../../core/framerate.hpp"
 
 /**
  * Module: SMC

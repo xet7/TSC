@@ -13,22 +13,22 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/global_basic.h"
-#include "../level/level_editor.h"
-#include "../level/level.h"
-#include "../core/game_core.h"
-#include "../gui/generic.h"
-#include "../core/sprite_manager.h"
-#include "../user/preferences.h"
-#include "../input/mouse.h"
-#include "../input/keyboard.h"
-#include "../audio/audio.h"
-#include "../core/i18n.h"
-#include "../level/level_player.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/editor/editor_items_loader.h"
-#include "level_loader.h"
+#include "../core/global_basic.hpp"
+#include "../level/level_editor.hpp"
+#include "../level/level.hpp"
+#include "../core/game_core.hpp"
+#include "../gui/generic.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../user/preferences.hpp"
+#include "../input/mouse.hpp"
+#include "../input/keyboard.hpp"
+#include "../audio/audio.hpp"
+#include "../core/i18n.hpp"
+#include "../level/level_player.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/editor/editor_items_loader.hpp"
+#include "level_loader.hpp"
 
 namespace SMC
 {

@@ -13,10 +13,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
  
-#include "../video/font.h"
-#include "../video/gl_surface.h"
-#include "../core/property_helper.h"
-#include "../core/filesystem/resource_manager.h"
+#include "../video/font.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/filesystem/resource_manager.hpp"
 
 namespace SMC
 {

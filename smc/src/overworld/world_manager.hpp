@@ -16,9 +16,9 @@
 #ifndef SMC_WORLD_MANAGER_H
 #define SMC_WORLD_MANAGER_H
 
-#include "../core/global_basic.h"
-#include "../core/obj_manager.h"
-#include "../core/camera.h"
+#include "../core/global_basic.hpp"
+#include "../core/obj_manager.hpp"
+#include "../core/camera.hpp"
 
 namespace SMC
 {

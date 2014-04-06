@@ -16,10 +16,10 @@
 #ifndef SMC_WORLD_LAYER_H
 #define SMC_WORLD_LAYER_H
 
-#include "../core/global_basic.h"
-#include "../objects/movingsprite.h"
-#include "../core/obj_manager.h"
-#include "../overworld/world_waypoint.h"
+#include "../core/global_basic.hpp"
+#include "../objects/movingsprite.hpp"
+#include "../core/obj_manager.hpp"
+#include "../overworld/world_waypoint.hpp"
 
 namespace SMC
 {

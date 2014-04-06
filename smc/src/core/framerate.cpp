@@ -13,9 +13,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/global_basic.h"
-#include "../core/framerate.h"
-#include "../core/math/utilities.h"
+#include "../core/global_basic.hpp"
+#include "../core/framerate.hpp"
+#include "../core/math/utilities.hpp"
 
 namespace SMC
 {

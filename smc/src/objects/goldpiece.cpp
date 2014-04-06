@@ -13,16 +13,16 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/goldpiece.h"
-#include "../core/game_core.h"
-#include "../level/level_player.h"
-#include "../audio/audio.h"
-#include "../core/framerate.h"
-#include "../video/animation.h"
-#include "../gui/hud.h"
-#include "../user/savegame.h"
-#include "../core/math/utilities.h"
-#include "../core/i18n.h"
+#include "../objects/goldpiece.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_player.hpp"
+#include "../audio/audio.hpp"
+#include "../core/framerate.hpp"
+#include "../video/animation.hpp"
+#include "../gui/hud.hpp"
+#include "../user/savegame.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/i18n.hpp"
 
 namespace SMC
 {

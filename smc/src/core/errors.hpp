@@ -1,7 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_ERRORS_H
 #define SMC_ERRORS_H
-#include "global_game.h"
+#include "global_game.hpp"
 
 namespace SMC {
 

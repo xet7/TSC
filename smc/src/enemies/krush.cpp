@@ -13,16 +13,16 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../enemies/krush.h"
-#include "../core/game_core.h"
-#include "../video/animation.h"
-#include "../gui/hud.h"
-#include "../level/level_player.h"
-#include "../video/gl_surface.h"
-#include "../user/savegame.h"
-#include "../core/i18n.h"
-#include "../core/sprite_manager.h"
-#include "../core/xml_attributes.h"
+#include "../enemies/krush.hpp"
+#include "../core/game_core.hpp"
+#include "../video/animation.hpp"
+#include "../gui/hud.hpp"
+#include "../level/level_player.hpp"
+#include "../video/gl_surface.hpp"
+#include "../user/savegame.hpp"
+#include "../core/i18n.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace SMC
 {

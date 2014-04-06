@@ -16,9 +16,9 @@
 #ifndef SMC_LEVEL_BACKGROUND_H
 #define SMC_LEVEL_BACKGROUND_H
 
-#include "../core/global_basic.h"
-#include "../video/video.h"
-#include "../core/obj_manager.h"
+#include "../core/global_basic.hpp"
+#include "../video/video.hpp"
+#include "../core/obj_manager.hpp"
 
 namespace SMC
 {

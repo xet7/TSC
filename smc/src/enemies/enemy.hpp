@@ -16,10 +16,10 @@
 #ifndef SMC_ENEMY_H
 #define SMC_ENEMY_H
 
-#include "../objects/animated_sprite.h"
-#include "../core/framerate.h"
-#include "../audio/audio.h"
-#include "../scripting/objects/enemies/mrb_enemy.h"
+#include "../objects/animated_sprite.hpp"
+#include "../core/framerate.hpp"
+#include "../audio/audio.hpp"
+#include "../scripting/objects/enemies/mrb_enemy.hpp"
 
 namespace SMC
 {

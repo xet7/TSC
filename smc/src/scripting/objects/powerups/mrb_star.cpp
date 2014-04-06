@@ -1,8 +1,8 @@
-#include "mrb_star.h"
-#include "mrb_powerup.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../objects/star.h"
+#include "mrb_star.hpp"
+#include "mrb_powerup.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../objects/star.hpp"
 
 /**
  * Class: Star

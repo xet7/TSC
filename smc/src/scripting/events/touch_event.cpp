@@ -1,7 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "touch_event.h"
-#include "../objects/mrb_uids.h"
-#include "../../objects/sprite.h"
+#include "touch_event.hpp"
+#include "../objects/mrb_uids.hpp"
+#include "../../objects/sprite.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;

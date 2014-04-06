@@ -1,4 +1,4 @@
-#include "preferences_loader.h"
+#include "preferences_loader.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;

@@ -16,8 +16,8 @@
 #ifndef SMC_BALL_H
 #define SMC_BALL_H
 
-#include "../video/video.h"
-#include "../objects/animated_sprite.h"
+#include "../video/video.hpp"
+#include "../objects/animated_sprite.hpp"
 
 namespace SMC
 {

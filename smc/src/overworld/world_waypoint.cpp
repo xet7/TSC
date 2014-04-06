@@ -13,19 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
  
-#include "../overworld/world_waypoint.h"
-#include "../overworld/overworld.h"
-#include "../core/game_core.h"
-#include "../core/framerate.h"
-#include "../user/preferences.h"
-#include "../video/renderer.h"
-#include "../level/level.h"
-#include "../core/math/utilities.h"
-#include "../core/i18n.h"
-#include "../video/gl_surface.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/xml_attributes.h"
+#include "../overworld/world_waypoint.hpp"
+#include "../overworld/overworld.hpp"
+#include "../core/game_core.hpp"
+#include "../core/framerate.hpp"
+#include "../user/preferences.hpp"
+#include "../video/renderer.hpp"
+#include "../level/level.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/i18n.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace SMC
 {

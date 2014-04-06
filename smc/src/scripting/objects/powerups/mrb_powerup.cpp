@@ -1,6 +1,6 @@
-#include "mrb_powerup.h"
-#include "../sprites/mrb_animated_sprite.h"
-#include "../../../objects/powerup.h"
+#include "mrb_powerup.hpp"
+#include "../sprites/mrb_animated_sprite.hpp"
+#include "../../../objects/powerup.hpp"
 
 /**
  * Class: Powerup

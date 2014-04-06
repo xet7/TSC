@@ -16,8 +16,8 @@
 #ifndef SMC_SOUND_MANAGER_H
 #define SMC_SOUND_MANAGER_H
 
-#include "../core/global_basic.h"
-#include "../core/obj_manager.h"
+#include "../core/global_basic.hpp"
+#include "../core/obj_manager.hpp"
 
 namespace SMC
 {

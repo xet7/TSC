@@ -1,9 +1,9 @@
 // -*- c++ -*-
 #ifndef SMC_WORLD_LAYER_LOADER_H
 #define SMC_WORLD_LAYER_LOADER_H
-#include "../core/global_game.h"
-#include "../core/xml_attributes.h"
-#include "world_layer.h"
+#include "../core/global_game.hpp"
+#include "../core/xml_attributes.hpp"
+#include "world_layer.hpp"
 
 namespace SMC {
 

@@ -13,19 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/global_basic.h"
-#include "../core/game_core.h"
-#include "../level/level_settings.h"
-#include "../input/mouse.h"
-#include "../level/level.h"
-#include "../video/font.h"
-#include "../video/renderer.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/framerate.h"
-#include "../audio/audio.h"
-#include "../gui/generic.h"
-#include "../core/i18n.h"
+#include "../core/global_basic.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_settings.hpp"
+#include "../input/mouse.hpp"
+#include "../level/level.hpp"
+#include "../video/font.hpp"
+#include "../video/renderer.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/framerate.hpp"
+#include "../audio/audio.hpp"
+#include "../gui/generic.hpp"
+#include "../core/i18n.hpp"
 
 namespace fs = boost::filesystem;
 

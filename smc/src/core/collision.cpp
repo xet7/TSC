@@ -14,12 +14,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/collision.h"
-#include "../core/game_core.h"
-#include "../level/level.h"
-#include "../level/level_player.h"
-#include "../video/gl_surface.h"
-#include "../core/sprite_manager.h"
+#include "../core/collision.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level.hpp"
+#include "../level/level_player.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/sprite_manager.hpp"
 
 namespace SMC
 {

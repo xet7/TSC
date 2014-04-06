@@ -13,9 +13,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/animated_sprite.h"
-#include "../core/game_core.h"
-#include "../core/framerate.h"
+#include "../objects/animated_sprite.hpp"
+#include "../core/game_core.hpp"
+#include "../core/framerate.hpp"
 
 namespace SMC
 {

@@ -1,9 +1,9 @@
-#include "../../../enemies/static.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../core/property_helper.h"
-#include "mrb_enemy.h"
-#include "mrb_static.h"
+#include "../../../enemies/static.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../core/property_helper.hpp"
+#include "mrb_enemy.hpp"
+#include "mrb_static.hpp"
 
 /**
  * Class: StaticEnemy

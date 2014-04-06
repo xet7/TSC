@@ -1,9 +1,9 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_HPP
 #define SMC_SCRIPTING_HPP
-#include "../core/global_basic.h"
-#include "../core/global_game.h"
-#include "objects/mrb_smc.h"
+#include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "objects/mrb_smc.hpp"
 
 // Some defines to ease use of mruby
 #define MRB_ARGUMENT_ERROR(mrb) (mrb_class_get(mrb, "ArgumentError"))

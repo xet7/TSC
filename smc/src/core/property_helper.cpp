@@ -13,10 +13,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/property_helper.h"
-#include "../core/i18n.h"
-#include "../video/color.h"
-#include "../objects/sprite.h"
+#include "../core/property_helper.hpp"
+#include "../core/i18n.hpp"
+#include "../video/color.hpp"
+#include "../objects/sprite.hpp"
 
 namespace SMC
 {

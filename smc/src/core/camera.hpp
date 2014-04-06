@@ -16,8 +16,8 @@
 #ifndef SMC_CAMERA_H
 #define SMC_CAMERA_H
 
-#include "../core/global_game.h"
-#include "../core/math/rect.h"
+#include "../core/global_game.hpp"
+#include "../core/math/rect.hpp"
 
 namespace SMC
 {

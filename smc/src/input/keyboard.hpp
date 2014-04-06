@@ -16,10 +16,10 @@
 #ifndef SMC_KEYBOARD_H
 #define SMC_KEYBOARD_H
 
-#include "../core/global_basic.h"
-#include "../core/global_game.h"
-#include "../scripting/scriptable_object.h"
-#include "../scripting/objects/misc/mrb_input.h"
+#include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../scripting/objects/misc/mrb_input.hpp"
 
 namespace SMC
 {

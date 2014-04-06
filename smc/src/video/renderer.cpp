@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/renderer.h"
-#include "../core/game_core.h"
+#include "../video/renderer.hpp"
+#include "../core/game_core.hpp"
 
 namespace SMC
 {

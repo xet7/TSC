@@ -16,8 +16,8 @@
 #ifndef SMC_SPIKA_H
 #define SMC_SPIKA_H
 
-#include "../enemies/enemy.h"
-#include "../scripting/objects/enemies/mrb_spika.h"
+#include "../enemies/enemy.hpp"
+#include "../scripting/objects/enemies/mrb_spika.hpp"
 
 namespace SMC
 {

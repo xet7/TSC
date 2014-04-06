@@ -1,7 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../../../audio/audio.h"
-#include "../mrb_eventable.h"
-#include "mrb_audio.h"
+#include "../../../audio/audio.hpp"
+#include "../mrb_eventable.hpp"
+#include "mrb_audio.hpp"
 
 /**
  * Class: AudioClass

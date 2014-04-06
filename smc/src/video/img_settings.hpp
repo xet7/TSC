@@ -16,10 +16,10 @@
 #ifndef SMC_IMG_SETTINGS_H
 #define SMC_IMG_SETTINGS_H
 
-#include "../core/global_basic.h"
-#include "../core/file_parser.h"
-#include "../video/gl_surface.h"
-#include "../core/math/rect.h"
+#include "../core/global_basic.hpp"
+#include "../core/file_parser.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/math/rect.hpp"
 
 namespace SMC
 {

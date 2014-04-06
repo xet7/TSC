@@ -1,8 +1,8 @@
-#include "../video/gl_surface.h"
-#include "../core/filesystem/resource_manager.h"
-#include "overworld_loader.h"
-#include "overworld_description_loader.h"
-#include "overworld.h"
+#include "../video/gl_surface.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "overworld_loader.hpp"
+#include "overworld_description_loader.hpp"
+#include "overworld.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;

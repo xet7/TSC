@@ -13,9 +13,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/img_manager.h"
-#include "../video/renderer.h"
-#include "../core/i18n.h"
+#include "../video/img_manager.hpp"
+#include "../video/renderer.hpp"
+#include "../core/i18n.hpp"
 
 namespace fs = boost::filesystem;
 

@@ -16,9 +16,9 @@
 #ifndef SMC_CAMPAIGN_MANAGER_H
 #define SMC_CAMPAIGN_MANAGER_H
 
-#include "../core/global_basic.h"
-#include "../core/global_game.h"
-#include "../core/obj_manager.h"
+#include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../core/obj_manager.hpp"
 
 namespace SMC
 {

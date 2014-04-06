@@ -13,17 +13,17 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../level/level_manager.h"
-#include "../core/main.h"
-#include "../core/game_core.h"
-#include "../core/filesystem/filesystem.h"
-#include "../overworld/overworld.h"
-#include "../core/framerate.h"
-#include "../objects/path.h"
-#include "../audio/audio.h"
-#include "../level/level_editor.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../input/mouse.h"
+#include "../level/level_manager.hpp"
+#include "../core/main.hpp"
+#include "../core/game_core.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../overworld/overworld.hpp"
+#include "../core/framerate.hpp"
+#include "../objects/path.hpp"
+#include "../audio/audio.hpp"
+#include "../level/level_editor.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../input/mouse.hpp"
 
 namespace fs = boost::filesystem;
 

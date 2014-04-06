@@ -16,13 +16,13 @@
 #ifndef SMC_OVERWORLD_H
 #define SMC_OVERWORLD_H
 
-#include "../overworld/world_manager.h"
-#include "../overworld/world_waypoint.h"
-#include "../overworld/world_layer.h"
-#include "../overworld/world_player.h"
-#include "../overworld/world_sprite_manager.h"
-#include "../gui/hud.h"
-#include "../audio/random_sound.h"
+#include "../overworld/world_manager.hpp"
+#include "../overworld/world_waypoint.hpp"
+#include "../overworld/world_layer.hpp"
+#include "../overworld/world_player.hpp"
+#include "../overworld/world_sprite_manager.hpp"
+#include "../gui/hud.hpp"
+#include "../audio/random_sound.hpp"
 
 namespace SMC
 {

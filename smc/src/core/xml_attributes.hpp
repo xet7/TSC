@@ -1,9 +1,9 @@
 // -*- c++ -*-
 #ifndef SMC_XML_ATTRIBUTES_H
 #define SMC_XML_ATTRIBUTES_H
-#include "global_game.h"
-#include "errors.h"
-#include "property_helper.h"
+#include "global_game.hpp"
+#include "errors.hpp"
+#include "property_helper.hpp"
 
 namespace SMC {
 

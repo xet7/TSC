@@ -1,13 +1,13 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../../scripting.h"
-#include "mrb_sprite.h"
-#include "../mrb_eventable.h"
-#include "../../events/event.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../core/property_helper.h"
-#include "../../../level/level_player.h"
-#include "../../../video/gl_surface.h"
+#include "../../scripting.hpp"
+#include "mrb_sprite.hpp"
+#include "../mrb_eventable.hpp"
+#include "../../events/event.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../core/property_helper.hpp"
+#include "../../../level/level_player.hpp"
+#include "../../../video/gl_surface.hpp"
 
 /**
  * Class: Sprite

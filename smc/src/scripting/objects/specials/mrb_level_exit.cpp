@@ -1,8 +1,8 @@
-#include "../../../objects/level_exit.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../level/level.h"
-#include "mrb_level_exit.h"
-#include "../sprites/mrb_animated_sprite.h"
+#include "../../../objects/level_exit.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../level/level.hpp"
+#include "mrb_level_exit.hpp"
+#include "../sprites/mrb_animated_sprite.hpp"
 
 /**
  * Class: LevelExit

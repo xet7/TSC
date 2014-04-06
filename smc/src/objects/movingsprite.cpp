@@ -13,19 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/global_basic.h"
-#include "../objects/movingsprite.h"
-#include "../core/framerate.h"
-#include "../core/game_core.h"
-#include "../level/level.h"
-#include "../user/preferences.h"
-#include "../audio/audio.h"
-#include "../level/level_player.h"
-#include "../enemies/turtle.h"
-#include "../objects/box.h"
-#include "../video/renderer.h"
-#include "../video/gl_surface.h"
-#include "../core/sprite_manager.h"
+#include "../core/global_basic.hpp"
+#include "../objects/movingsprite.hpp"
+#include "../core/framerate.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level.hpp"
+#include "../user/preferences.hpp"
+#include "../audio/audio.hpp"
+#include "../level/level_player.hpp"
+#include "../enemies/turtle.hpp"
+#include "../objects/box.hpp"
+#include "../video/renderer.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/sprite_manager.hpp"
 
 namespace SMC
 {

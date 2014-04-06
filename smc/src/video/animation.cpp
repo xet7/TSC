@@ -13,18 +13,18 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/animation.h"
-#include "../core/framerate.h"
-#include "../core/game_core.h"
-#include "../video/gl_surface.h"
-#include "../video/renderer.h"
-#include "../core/math/utilities.h"
-#include "../core/i18n.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/filesystem/boost_relative.h"
-#include "../core/xml_attributes.h"
-#include "../input/mouse.h"
+#include "../video/animation.hpp"
+#include "../core/framerate.hpp"
+#include "../core/game_core.hpp"
+#include "../video/gl_surface.hpp"
+#include "../video/renderer.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/i18n.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/boost_relative.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../input/mouse.hpp"
 
 namespace fs = boost::filesystem;
 

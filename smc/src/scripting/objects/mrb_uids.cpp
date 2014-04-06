@@ -1,8 +1,8 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "mrb_uids.h"
-#include "../../level/level.h"
-#include "../../objects/sprite.h"
-#include "../../core/sprite_manager.h"
+#include "mrb_uids.hpp"
+#include "../../level/level.hpp"
+#include "../../objects/sprite.hpp"
+#include "../../core/sprite_manager.hpp"
 
 /*****************************************************************************
  Sprite management

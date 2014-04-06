@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/gl_surface.h"
-#include "../video/video.h"
-#include "../video/renderer.h"
-#include "../video/img_manager.h"
-#include "../objects/sprite.h"
-#include "../core/property_helper.h"
+#include "../video/gl_surface.hpp"
+#include "../video/video.hpp"
+#include "../video/renderer.hpp"
+#include "../video/img_manager.hpp"
+#include "../objects/sprite.hpp"
+#include "../core/property_helper.hpp"
 
 namespace fs = boost::filesystem;
 

@@ -15,7 +15,7 @@
 
 #ifndef SMC_GLOBAL_GAME_H
 #define SMC_GLOBAL_GAME_H
-#include "global_basic.h"
+#include "global_basic.hpp"
 
 namespace SMC
 {

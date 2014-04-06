@@ -16,10 +16,10 @@
 #ifndef SMC_BOX_H
 #define SMC_BOX_H
 
-#include "../core/global_basic.h"
-#include "../core/xml_attributes.h"
-#include "../objects/animated_sprite.h"
-#include "../scripting/objects/boxes/mrb_box.h"
+#include "../core/global_basic.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../objects/animated_sprite.hpp"
+#include "../scripting/objects/boxes/mrb_box.hpp"
 
 namespace SMC
 {

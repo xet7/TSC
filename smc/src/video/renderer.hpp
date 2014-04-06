@@ -16,9 +16,9 @@
 #ifndef SMC_RENDERER_H
 #define SMC_RENDERER_H
 
-#include "../video/video.h"
-#include "../core/math/line.h"
-#include "../core/math/rect.h"
+#include "../video/video.hpp"
+#include "../core/math/line.hpp"
+#include "../core/math/rect.hpp"
 
 namespace SMC
 {

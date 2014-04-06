@@ -1,8 +1,8 @@
-#include "mrb_textbox.h"
-#include "../../../objects/text_box.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "mrb_box.h"
+#include "mrb_textbox.hpp"
+#include "../../../objects/text_box.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "mrb_box.hpp"
 
 /**
  * Class: TextBox

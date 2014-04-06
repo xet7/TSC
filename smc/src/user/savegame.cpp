@@ -13,20 +13,20 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "savegame.h"
-#include "savegame_loader.h"
-#include "preferences.h"
-#include "../core/game_core.h"
-#include "../core/obj_manager.h"
-#include "../level/level.h"
-#include "../overworld/world_manager.h"
-#include "../level/level_player.h"
-#include "../overworld/overworld.h"
-#include "../core/i18n.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../scripting/events/level_load_event.h"
-#include "../scripting/events/level_save_event.h"
+#include "savegame.hpp"
+#include "savegame_loader.hpp"
+#include "preferences.hpp"
+#include "../core/game_core.hpp"
+#include "../core/obj_manager.hpp"
+#include "../level/level.hpp"
+#include "../overworld/world_manager.hpp"
+#include "../level/level_player.hpp"
+#include "../overworld/overworld.hpp"
+#include "../core/i18n.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../scripting/events/level_load_event.hpp"
+#include "../scripting/events/level_save_event.hpp"
 
 namespace fs = boost::filesystem;
 

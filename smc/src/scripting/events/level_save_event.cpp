@@ -1,5 +1,5 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "level_save_event.h"
+#include "level_save_event.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;

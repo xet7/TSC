@@ -13,18 +13,18 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/bonusbox.h"
-#include "../objects/star.h"
-#include "../gui/hud.h"
-#include "../level/level_player.h"
-#include "../audio/audio.h"
-#include "../core/framerate.h"
-#include "../level/level.h"
-#include "../level/level_editor.h"
-#include "../core/game_core.h"
-#include "../objects/goldpiece.h"
-#include "../core/sprite_manager.h"
-#include "../core/i18n.h"
+#include "../objects/bonusbox.hpp"
+#include "../objects/star.hpp"
+#include "../gui/hud.hpp"
+#include "../level/level_player.hpp"
+#include "../audio/audio.hpp"
+#include "../core/framerate.hpp"
+#include "../level/level.hpp"
+#include "../level/level_editor.hpp"
+#include "../core/game_core.hpp"
+#include "../objects/goldpiece.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/i18n.hpp"
 
 namespace SMC
 {

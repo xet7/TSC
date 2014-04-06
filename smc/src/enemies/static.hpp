@@ -16,9 +16,9 @@
 #ifndef SMC_STATIC_ENEMY_H
 #define SMC_STATIC_ENEMY_H
 
-#include "../enemies/enemy.h"
-#include "../objects/path.h"
-#include "../scripting/objects/enemies/mrb_static.h"
+#include "../enemies/enemy.hpp"
+#include "../objects/path.hpp"
+#include "../scripting/objects/enemies/mrb_static.hpp"
 
 namespace SMC
 {

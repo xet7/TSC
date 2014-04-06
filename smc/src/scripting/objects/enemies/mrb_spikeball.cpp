@@ -1,9 +1,9 @@
-#include "../../../enemies/spikeball.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../core/property_helper.h"
-#include "mrb_enemy.h"
-#include "mrb_spikeball.h"
+#include "../../../enemies/spikeball.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../core/property_helper.hpp"
+#include "mrb_enemy.hpp"
+#include "mrb_spikeball.hpp"
 
 /**
  * Class: Spikeball

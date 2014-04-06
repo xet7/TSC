@@ -70,7 +70,7 @@
 #include <boost/filesystem/convenience.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/chrono.hpp>
-#include "filesystem/boost_relative.h"
+#include "filesystem/boost_relative.hpp"
 
 // libxml++ (with its prerequisite glibmm)
 #include <glibmm.h>
@@ -135,7 +135,7 @@
 #endif
 
 // SMC build configuration header
-#include "config.h"
+#include "config.hpp"
 
 // Redefine None to 0L (see note on including SDL_syswm.h above)
 #ifdef __unix__

@@ -16,7 +16,7 @@
 #ifndef SMC_SPINNER_H
 #define SMC_SPINNER_H
 
-#include "../core/global_basic.h"
+#include "../core/global_basic.hpp"
 
 namespace CEGUI
 {

@@ -16,8 +16,8 @@
 #ifndef SMC_FLYON_H
 #define SMC_FLYON_H
 
-#include "../enemies/enemy.h"
-#include "../scripting/objects/enemies/mrb_flyon.h"
+#include "../enemies/enemy.hpp"
+#include "../scripting/objects/enemies/mrb_flyon.hpp"
 
 namespace SMC
 {

@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../level/level_background.h"
-#include "../user/preferences.h"
-#include "../core/game_core.h"
-#include "../video/gl_surface.h"
-#include "../core/framerate.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/filesystem/boost_relative.h"
-#include "../core/xml_attributes.h"
+#include "../level/level_background.hpp"
+#include "../user/preferences.hpp"
+#include "../core/game_core.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/framerate.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/boost_relative.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
 

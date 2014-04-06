@@ -13,11 +13,11 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/sprite_manager.h"
-#include "../core/game_core.h"
-#include "../level/level_player.h"
-#include "../input/mouse.h"
-#include "../overworld/world_player.h"
+#include "../core/sprite_manager.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_player.hpp"
+#include "../input/mouse.hpp"
+#include "../overworld/world_player.hpp"
 
 namespace SMC
 {

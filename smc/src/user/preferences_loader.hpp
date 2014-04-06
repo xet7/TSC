@@ -1,9 +1,9 @@
 // -*- c++ -*-
 #ifndef SMC_PREFERENCES_LOADER_H
 #define SMC_PREFERENCES_LOADER_H
-#include "../core/global_game.h"
-#include "../core/xml_attributes.h"
-#include "preferences.h"
+#include "../core/global_game.hpp"
+#include "../core/xml_attributes.hpp"
+#include "preferences.hpp"
 
 namespace SMC {
 

@@ -1,7 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_STATIC_H
 #define SMC_SCRIPTING_STATIC_H
-#include "../../scripting.h"
+#include "../../scripting.hpp"
 
 namespace SMC {
 	namespace Scripting {

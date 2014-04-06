@@ -13,16 +13,16 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../enemies/rokko.h"
-#include "../core/game_core.h"
-#include "../level/level_player.h"
-#include "../video/animation.h"
-#include "../gui/hud.h"
-#include "../video/gl_surface.h"
-#include "../video/renderer.h"
-#include "../input/mouse.h"
-#include "../core/i18n.h"
-#include "../core/xml_attributes.h"
+#include "../enemies/rokko.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_player.hpp"
+#include "../video/animation.hpp"
+#include "../gui/hud.hpp"
+#include "../video/gl_surface.hpp"
+#include "../video/renderer.hpp"
+#include "../input/mouse.hpp"
+#include "../core/i18n.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace SMC
 {

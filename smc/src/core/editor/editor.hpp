@@ -16,10 +16,10 @@
 #ifndef SMC_EDITOR_H
 #define SMC_EDITOR_H
 
-#include "../../core/global_basic.h"
-#include "../../objects/sprite.h"
-#include "../../gui/hud.h"
-#include "../../video/img_settings.h"
+#include "../../core/global_basic.hpp"
+#include "../../objects/sprite.hpp"
+#include "../../gui/hud.hpp"
+#include "../../video/img_settings.hpp"
 
 namespace SMC
 {

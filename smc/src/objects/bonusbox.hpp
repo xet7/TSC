@@ -16,11 +16,11 @@
 #ifndef SMC_BONUSBOX_H
 #define SMC_BONUSBOX_H
 
-#include "../core/global_basic.h"
-#include "../core/xml_attributes.h"
-#include "../objects/box.h"
-#include "../objects/powerup.h"
-#include "../scripting/objects/boxes/mrb_bonusbox.h"
+#include "../core/global_basic.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../objects/box.hpp"
+#include "../objects/powerup.hpp"
+#include "../scripting/objects/boxes/mrb_bonusbox.hpp"
 
 namespace SMC
 {

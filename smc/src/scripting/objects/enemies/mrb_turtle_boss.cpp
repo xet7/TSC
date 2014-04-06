@@ -1,9 +1,9 @@
-#include "../../../enemies/bosses/turtle_boss.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../core/property_helper.h"
-#include "mrb_enemy.h"
-#include "mrb_turtle_boss.h"
+#include "../../../enemies/bosses/turtle_boss.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../core/property_helper.hpp"
+#include "mrb_enemy.hpp"
+#include "mrb_turtle_boss.hpp"
 
 /**
  * Class: TurtleBoss

@@ -1,5 +1,5 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "downgrade_event.h"
+#include "downgrade_event.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;

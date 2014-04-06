@@ -1,6 +1,6 @@
-#include "xml_attributes.h"
-#include "filesystem/resource_manager.h"
-#include "property_helper.h"
+#include "xml_attributes.hpp"
+#include "filesystem/resource_manager.hpp"
+#include "property_helper.hpp"
 
 namespace SMC {
 

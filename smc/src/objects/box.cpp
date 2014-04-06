@@ -13,21 +13,21 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/box.h"
-#include "../audio/audio.h"
-#include "../core/camera.h"
-#include "../core/framerate.h"
-#include "../level/level.h"
-#include "../core/game_core.h"
-#include "../level/level_player.h"
-#include "../video/gl_surface.h"
-#include "../user/savegame.h"
-#include "../core/sprite_manager.h"
-#include "../core/math/utilities.h"
-#include "../core/i18n.h"
-#include "../enemies/turtle.h"
-#include "../enemies/bosses/turtle_boss.h"
-#include "../gui/hud.h"
+#include "../objects/box.hpp"
+#include "../audio/audio.hpp"
+#include "../core/camera.hpp"
+#include "../core/framerate.hpp"
+#include "../level/level.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_player.hpp"
+#include "../video/gl_surface.hpp"
+#include "../user/savegame.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/i18n.hpp"
+#include "../enemies/turtle.hpp"
+#include "../enemies/bosses/turtle_boss.hpp"
+#include "../gui/hud.hpp"
 
 namespace SMC
 {

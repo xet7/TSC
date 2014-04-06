@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/star.h"
-#include "../level/level_player.h"
-#include "../core/framerate.h"
-#include "../video/animation.h"
-#include "../core/i18n.h"
-#include "../core/game_core.h"
+#include "../objects/star.hpp"
+#include "../level/level_player.hpp"
+#include "../core/framerate.hpp"
+#include "../video/animation.hpp"
+#include "../core/i18n.hpp"
+#include "../core/game_core.hpp"
 
 namespace SMC
 {

@@ -16,11 +16,11 @@
 #ifndef SMC_LEVEL_PLAYER_H
 #define SMC_LEVEL_PLAYER_H
 
-#include "../core/global_basic.h"
-#include "../objects/ball.h"
-#include "../objects/animated_sprite.h"
-#include "../scripting/scripting.h"
-#include "../scripting/objects/misc/mrb_level_player.h"
+#include "../core/global_basic.hpp"
+#include "../objects/ball.hpp"
+#include "../objects/animated_sprite.hpp"
+#include "../scripting/scripting.hpp"
+#include "../scripting/objects/misc/mrb_level_player.hpp"
 
 namespace SMC
 {

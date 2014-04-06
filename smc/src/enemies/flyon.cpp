@@ -13,18 +13,18 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../enemies/flyon.h"
-#include "../core/game_core.h"
-#include "../level/level_player.h"
-#include "../video/animation.h"
-#include "../user/savegame.h"
-#include "../core/math/utilities.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../input/mouse.h"
-#include "../video/gl_surface.h"
-#include "../core/i18n.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/xml_attributes.h"
+#include "../enemies/flyon.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_player.hpp"
+#include "../video/animation.hpp"
+#include "../user/savegame.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../input/mouse.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/i18n.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
 

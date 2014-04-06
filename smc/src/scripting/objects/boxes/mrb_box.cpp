@@ -1,6 +1,6 @@
-#include "mrb_box.h"
-#include "../../../objects/box.h"
-#include "../sprites/mrb_animated_sprite.h"
+#include "mrb_box.hpp"
+#include "../../../objects/box.hpp"
+#include "../sprites/mrb_animated_sprite.hpp"
 
 /**
  * Class: Box

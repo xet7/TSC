@@ -1,7 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_MUSHROOM_H
 #define SMC_SCRIPTING_MUSHROOM_H
-#include "../../scripting.h"
+#include "../../scripting.hpp"
 
 namespace SMC {
   namespace Scripting {

@@ -1,8 +1,8 @@
-#include "mrb_spinbox.h"
-#include "../../../objects/spinbox.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "mrb_box.h"
+#include "mrb_spinbox.hpp"
+#include "../../../objects/spinbox.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "mrb_box.hpp"
 
 /**
  * Class: SpinBox

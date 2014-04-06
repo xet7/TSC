@@ -16,10 +16,10 @@
 #ifndef SMC_MOUSE_H
 #define SMC_MOUSE_H
 
-#include "../core/global_basic.h"
-#include "../objects/movingsprite.h"
-#include "../core/math/rect.h"
-#include "../core/math/vector.h"
+#include "../core/global_basic.hpp"
+#include "../objects/movingsprite.hpp"
+#include "../core/math/rect.hpp"
+#include "../core/math/vector.hpp"
 
 namespace SMC
 {

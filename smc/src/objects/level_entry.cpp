@@ -13,19 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/level_entry.h"
-#include "../level/level_player.h"
-#include "../core/game_core.h"
-#include "../audio/audio.h"
-#include "../core/framerate.h"
-#include "../core/main.h"
-#include "../video/gl_surface.h"
-#include "../video/font.h"
-#include "../video/renderer.h"
-#include "../level/level.h"
-#include "../core/i18n.h"
-#include "../core/sprite_manager.h"
-#include "../core/xml_attributes.h"
+#include "../objects/level_entry.hpp"
+#include "../level/level_player.hpp"
+#include "../core/game_core.hpp"
+#include "../audio/audio.hpp"
+#include "../core/framerate.hpp"
+#include "../core/main.hpp"
+#include "../video/gl_surface.hpp"
+#include "../video/font.hpp"
+#include "../video/renderer.hpp"
+#include "../level/level.hpp"
+#include "../core/i18n.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace SMC
 {

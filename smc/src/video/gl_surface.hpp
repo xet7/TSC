@@ -16,8 +16,8 @@
 #ifndef SMC_GL_SURFACE_H
 #define SMC_GL_SURFACE_H
 
-#include "../core/global_basic.h"
-#include "../core/math/point.h"
+#include "../core/global_basic.hpp"
+#include "../core/math/point.hpp"
 
 namespace SMC
 {

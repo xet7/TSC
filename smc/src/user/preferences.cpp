@@ -13,17 +13,17 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../user/preferences.h"
-#include "../audio/audio.h"
-#include "../video/video.h"
-#include "../core/game_core.h"
-#include "../input/joystick.h"
-#include "../gui/hud.h"
-#include "../level/level_manager.h"
-#include "../core/i18n.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/filesystem/filesystem.h"
-#include "preferences_loader.h"
+#include "../user/preferences.hpp"
+#include "../audio/audio.hpp"
+#include "../video/video.hpp"
+#include "../core/game_core.hpp"
+#include "../input/joystick.hpp"
+#include "../gui/hud.hpp"
+#include "../level/level_manager.hpp"
+#include "../core/i18n.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "preferences_loader.hpp"
 
 namespace fs = boost::filesystem;
 

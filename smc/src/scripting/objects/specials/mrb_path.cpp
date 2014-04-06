@@ -1,9 +1,9 @@
-#include "mrb_path.h"
-#include "../sprites/mrb_sprite.h"
-#include "../../../objects/sprite.h"
-#include "../../../objects/path.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../level/level.h"
+#include "mrb_path.hpp"
+#include "../sprites/mrb_sprite.hpp"
+#include "../../../objects/sprite.hpp"
+#include "../../../objects/path.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../level/level.hpp"
 
 /**
  * Class: Path

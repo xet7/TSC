@@ -13,22 +13,22 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/moving_platform.h"
-#include "../core/camera.h"
-#include "../core/game_core.h"
-#include "../video/gl_surface.h"
-#include "../core/framerate.h"
-#include "../video/renderer.h"
-#include "../user/savegame.h"
-#include "../core/i18n.h"
-#include "../level/level_player.h"
-#include "../core/sprite_manager.h"
-#include "../level/level.h"
-#include "../objects/path.h"
-#include "../input/mouse.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/filesystem/boost_relative.h"
-#include "../core/xml_attributes.h"
+#include "../objects/moving_platform.hpp"
+#include "../core/camera.hpp"
+#include "../core/game_core.hpp"
+#include "../video/gl_surface.hpp"
+#include "../core/framerate.hpp"
+#include "../video/renderer.hpp"
+#include "../user/savegame.hpp"
+#include "../core/i18n.hpp"
+#include "../level/level_player.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../level/level.hpp"
+#include "../objects/path.hpp"
+#include "../input/mouse.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/boost_relative.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
 

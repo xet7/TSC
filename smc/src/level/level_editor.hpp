@@ -16,8 +16,8 @@
 #ifndef SMC_LEVEL_EDITOR_H
 #define SMC_LEVEL_EDITOR_H
 
-#include "../core/editor/editor.h"
-#include "../level/level_settings.h"
+#include "../core/editor/editor.hpp"
+#include "../level/level_settings.hpp"
 
 namespace SMC
 {

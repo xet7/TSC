@@ -16,9 +16,9 @@
 #ifndef SMC_VIDEO_H
 #define SMC_VIDEO_H
 
-#include "../core/global_basic.h"
-#include "../core/global_game.h"
-#include "../video/color.h"
+#include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../video/color.hpp"
 
 namespace SMC
 {

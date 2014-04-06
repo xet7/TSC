@@ -1,11 +1,11 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../../../level/level.h"
-#include "../../../user/savegame.h"
-#include "../../../gui/hud.h"
-#include "../../../core/property_helper.h"
-#include "../../events/event.h"
-#include "../mrb_eventable.h"
-#include "mrb_level.h"
+#include "../../../level/level.hpp"
+#include "../../../user/savegame.hpp"
+#include "../../../gui/hud.hpp"
+#include "../../../core/property_helper.hpp"
+#include "../../events/event.hpp"
+#include "../mrb_eventable.hpp"
+#include "mrb_level.hpp"
 
 /**
  * Class: LevelClass

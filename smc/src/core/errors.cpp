@@ -1,4 +1,4 @@
-#include "errors.h"
+#include "errors.hpp"
 
 using namespace SMC;
 

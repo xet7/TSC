@@ -16,7 +16,7 @@
 #ifndef SMC_WORLD_EDITOR_H
 #define SMC_WORLD_EDITOR_H
 
-#include "../core/editor/editor.h"
+#include "../core/editor/editor.hpp"
 
 namespace SMC
 {

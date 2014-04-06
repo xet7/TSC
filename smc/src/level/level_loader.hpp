@@ -1,9 +1,9 @@
 // -*- c++ -*-
 #ifndef SMC_LEVEL_LOADER_H
 #define SMC_LEVEL_LOADER_H
-#include "../core/global_game.h"
-#include "../core/xml_attributes.h"
-#include "level.h"
+#include "../core/global_game.hpp"
+#include "../core/xml_attributes.hpp"
+#include "level.hpp"
 
 namespace SMC {
 

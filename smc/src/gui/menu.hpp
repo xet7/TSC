@@ -16,11 +16,11 @@
 #ifndef SMC_MENU_H
 #define SMC_MENU_H
 
-#include "../core/global_basic.h"
-#include "../video/animation.h"
-#include "../video/video.h"
-#include "../gui/hud.h"
-#include "../core/camera.h"
+#include "../core/global_basic.hpp"
+#include "../video/animation.hpp"
+#include "../video/video.hpp"
+#include "../gui/hud.hpp"
+#include "../core/camera.hpp"
 
 namespace SMC
 {

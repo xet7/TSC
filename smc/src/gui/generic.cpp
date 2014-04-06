@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../gui/generic.h"
-#include "../core/game_core.h"
-#include "../core/main.h"
-#include "../core/framerate.h"
-#include "../input/mouse.h"
-#include "../input/keyboard.h"
-#include "../video/renderer.h"
-#include "../user/preferences.h"
+#include "../gui/generic.hpp"
+#include "../core/game_core.hpp"
+#include "../core/main.hpp"
+#include "../core/framerate.hpp"
+#include "../input/mouse.hpp"
+#include "../input/keyboard.hpp"
+#include "../video/renderer.hpp"
+#include "../user/preferences.hpp"
 
 namespace SMC
 {

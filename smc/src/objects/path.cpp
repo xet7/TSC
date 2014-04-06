@@ -13,17 +13,17 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/path.h"
-#include "../core/game_core.h"
-#include "../core/i18n.h"
-#include "../core/xml_attributes.h"
-#include "../video/renderer.h"
-#include "../input/mouse.h"
-#include "../user/savegame.h"
-#include "../level/level.h"
-#include "../core/sprite_manager.h"
-#include "../enemies/static.h"
-#include "../objects/moving_platform.h"
+#include "../objects/path.hpp"
+#include "../core/game_core.hpp"
+#include "../core/i18n.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../video/renderer.hpp"
+#include "../input/mouse.hpp"
+#include "../user/savegame.hpp"
+#include "../level/level.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../enemies/static.hpp"
+#include "../objects/moving_platform.hpp"
 
 namespace SMC
 {

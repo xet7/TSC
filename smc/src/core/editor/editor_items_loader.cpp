@@ -1,5 +1,5 @@
-#include "editor_items_loader.h"
-#include "../../objects/sprite.h"
+#include "editor_items_loader.hpp"
+#include "../../objects/sprite.hpp"
 
 using namespace SMC;
 namespace fs = boost::filesystem;

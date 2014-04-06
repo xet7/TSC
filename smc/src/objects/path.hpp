@@ -16,9 +16,9 @@
 #ifndef SMC_PATH_H
 #define SMC_PATH_H
 
-#include "../core/global_basic.h"
-#include "../objects/sprite.h"
-#include "../scripting/objects/specials/mrb_path.h"
+#include "../core/global_basic.hpp"
+#include "../objects/sprite.hpp"
+#include "../scripting/objects/specials/mrb_path.hpp"
 
 namespace SMC
 {

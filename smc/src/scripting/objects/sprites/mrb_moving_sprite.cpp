@@ -1,8 +1,8 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../../scripting.h"
-#include "mrb_sprite.h"
-#include "mrb_moving_sprite.h"
-#include "../../../objects/movingsprite.h"
+#include "../../scripting.hpp"
+#include "mrb_sprite.hpp"
+#include "mrb_moving_sprite.hpp"
+#include "../../../objects/movingsprite.hpp"
 
 /**
  * Class: MovingSprite

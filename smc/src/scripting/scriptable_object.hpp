@@ -1,7 +1,7 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_SCRIPTABLE_OBJECT_H
 #define SMC_SCRIPTING_SCRIPTABLE_OBJECT_H
-#include "../core/global_basic.h"
+#include "../core/global_basic.hpp"
 
 namespace SMC{
 	namespace Scripting{

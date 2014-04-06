@@ -19,9 +19,9 @@
 #include <limits.h>
 #endif
 
-#include "resource_manager.h"
-#include "filesystem.h"
-#include "../property_helper.h"
+#include "resource_manager.hpp"
+#include "filesystem.hpp"
+#include "../property_helper.hpp"
 
 namespace fs = boost::filesystem;
 

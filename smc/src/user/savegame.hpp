@@ -16,9 +16,9 @@
 #ifndef SMC_SAVEGAME_H
 #define SMC_SAVEGAME_H
 
-#include "../objects/sprite.h"
-#include "../scripting/scriptable_object.h"
-#include "../scripting/objects/misc/mrb_level.h"
+#include "../objects/sprite.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../scripting/objects/misc/mrb_level.hpp"
 
 namespace SMC
 {

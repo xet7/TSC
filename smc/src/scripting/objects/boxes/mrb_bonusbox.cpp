@@ -1,8 +1,8 @@
-#include "mrb_bonusbox.h"
-#include "../../../objects/bonusbox.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "mrb_box.h"
+#include "mrb_bonusbox.hpp"
+#include "../../../objects/bonusbox.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "mrb_box.hpp"
 
 /**
  * Class: BonusBox

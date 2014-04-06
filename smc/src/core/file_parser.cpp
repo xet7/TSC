@@ -16,9 +16,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
-#include "../core/global_basic.h"
-#include "../core/file_parser.h"
-#include "../core/game_core.h"
+#include "../core/global_basic.hpp"
+#include "../core/file_parser.hpp"
+#include "../core/game_core.hpp"
 
 namespace fs = boost::filesystem;
 

@@ -16,8 +16,8 @@
 #ifndef SMC_ANIMATION_H
 #define SMC_ANIMATION_H
 
-#include "../objects/animated_sprite.h"
-#include "../core/obj_manager.h"
+#include "../objects/animated_sprite.hpp"
+#include "../core/obj_manager.hpp"
 
 namespace SMC
 {

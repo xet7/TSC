@@ -13,20 +13,20 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/global_basic.h"
-#include "../gui/menu.h"
-#include "../gui/menu_data.h"
-#include "../core/game_core.h"
-#include "../core/framerate.h"
-#include "../input/mouse.h"
-#include "../audio/audio.h"
-#include "../level/level_player.h"
-#include "../video/gl_surface.h"
-#include "../level/level.h"
-#include "../overworld/overworld.h"
-#include "../user/preferences.h"
-#include "../input/keyboard.h"
-#include "../core/filesystem/resource_manager.h"
+#include "../core/global_basic.hpp"
+#include "../gui/menu.hpp"
+#include "../gui/menu_data.hpp"
+#include "../core/game_core.hpp"
+#include "../core/framerate.hpp"
+#include "../input/mouse.hpp"
+#include "../audio/audio.hpp"
+#include "../level/level_player.hpp"
+#include "../video/gl_surface.hpp"
+#include "../level/level.hpp"
+#include "../overworld/overworld.hpp"
+#include "../user/preferences.hpp"
+#include "../input/keyboard.hpp"
+#include "../core/filesystem/resource_manager.hpp"
 
 namespace SMC
 {

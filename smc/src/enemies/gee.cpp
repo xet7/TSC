@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../enemies/gee.h"
-#include "../core/game_core.h"
-#include "../video/animation.h"
-#include "../level/level_player.h"
-#include "../gui/hud.h"
-#include "../input/mouse.h"
-#include "../core/i18n.h"
-#include "../core/xml_attributes.h"
+#include "../enemies/gee.hpp"
+#include "../core/game_core.hpp"
+#include "../video/animation.hpp"
+#include "../level/level_player.hpp"
+#include "../gui/hud.hpp"
+#include "../input/mouse.hpp"
+#include "../core/i18n.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace SMC
 {

@@ -1,9 +1,9 @@
 // -*- c++ -*-
 #ifndef SMC_SAVEGAME_LOADER_H
 #define SMC_SAVEGAME_LOADER_H
-#include "../core/global_game.h"
-#include "../core/xml_attributes.h"
-#include "savegame.h"
+#include "../core/global_game.hpp"
+#include "../core/xml_attributes.hpp"
+#include "savegame.hpp"
 
 namespace SMC {
 

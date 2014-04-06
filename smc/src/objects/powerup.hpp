@@ -16,11 +16,11 @@
 #ifndef SMC_POWERUP_H
 #define SMC_POWERUP_H
 
-#include "../core/global_basic.h"
-#include "../core/xml_attributes.h"
-#include "../objects/animated_sprite.h"
-#include "../scripting/objects/powerups/mrb_powerup.h"
-#include "../scripting/objects/powerups/mrb_mushroom.h"
+#include "../core/global_basic.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../objects/animated_sprite.hpp"
+#include "../scripting/objects/powerups/mrb_powerup.hpp"
+#include "../scripting/objects/powerups/mrb_mushroom.hpp"
 
 namespace SMC
 {

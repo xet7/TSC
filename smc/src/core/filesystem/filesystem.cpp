@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../../core/filesystem/filesystem.h"
-#include "../../core/game_core.h"
+#include "../../core/filesystem/filesystem.hpp"
+#include "../../core/game_core.hpp"
 
 namespace fs = boost::filesystem;
 

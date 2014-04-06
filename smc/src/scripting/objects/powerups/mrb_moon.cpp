@@ -1,8 +1,8 @@
-#include "mrb_moon.h"
-#include "mrb_powerup.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../objects/powerup.h"
+#include "mrb_moon.hpp"
+#include "mrb_powerup.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../objects/powerup.hpp"
 
 /**
  * Class: Moon

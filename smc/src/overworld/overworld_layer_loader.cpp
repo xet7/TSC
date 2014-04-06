@@ -1,6 +1,6 @@
-#include "overworld_layer_loader.h"
-#include "world_layer.h"
-#include "overworld.h"
+#include "overworld_layer_loader.hpp"
+#include "world_layer.hpp"
+#include "overworld.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;

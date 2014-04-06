@@ -16,8 +16,8 @@
 #ifndef SMC_HUD_H
 #define SMC_HUD_H
 
-#include "../objects/movingsprite.h"
-#include "../core/obj_manager.h"
+#include "../objects/movingsprite.hpp"
+#include "../core/obj_manager.hpp"
 
 namespace SMC
 {

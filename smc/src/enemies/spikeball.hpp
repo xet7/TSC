@@ -16,8 +16,8 @@
 #ifndef SMC_SPIKEBALL_H
 #define SMC_SPIKEBALL_H
 
-#include "../enemies/enemy.h"
-#include "../scripting/objects/enemies/mrb_spikeball.h"
+#include "../enemies/enemy.hpp"
+#include "../scripting/objects/enemies/mrb_spikeball.hpp"
 
 namespace SMC
 {

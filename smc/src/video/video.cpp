@@ -13,22 +13,22 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/video.h"
-#include "../gui/hud.h"
-#include "../user/preferences.h"
-#include "../core/framerate.h"
-#include "../video/font.h"
-#include "../core/game_core.h"
-#include "../video/img_settings.h"
-#include "../input/mouse.h"
-#include "../video/renderer.h"
-#include "../core/main.h"
-#include "../core/math/utilities.h"
-#include "../core/i18n.h"
-#include "../core/math/size.h"
-#include "../core/filesystem/filesystem.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../gui/spinner.h"
+#include "../video/video.hpp"
+#include "../gui/hud.hpp"
+#include "../user/preferences.hpp"
+#include "../core/framerate.hpp"
+#include "../video/font.hpp"
+#include "../core/game_core.hpp"
+#include "../video/img_settings.hpp"
+#include "../input/mouse.hpp"
+#include "../video/renderer.hpp"
+#include "../core/main.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/i18n.hpp"
+#include "../core/math/size.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../gui/spinner.hpp"
 
 namespace fs = boost::filesystem;
 

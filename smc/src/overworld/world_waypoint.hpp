@@ -16,9 +16,9 @@
 #ifndef SMC_WORLD_WAYPOINT_H
 #define SMC_WORLD_WAYPOINT_H
 
-#include "../core/global_basic.h"
-#include "../video/video.h"
-#include "../objects/movingsprite.h"
+#include "../core/global_basic.hpp"
+#include "../video/video.hpp"
+#include "../objects/movingsprite.hpp"
 
 namespace SMC
 {

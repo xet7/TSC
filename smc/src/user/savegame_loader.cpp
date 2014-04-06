@@ -1,8 +1,8 @@
-#include "../core/i18n.h"
-#include "../level/level_loader.h"
-#include "../overworld/world_manager.h"
-#include "savegame_loader.h"
-#include "savegame.h"
+#include "../core/i18n.hpp"
+#include "../level/level_loader.hpp"
+#include "../overworld/world_manager.hpp"
+#include "savegame_loader.hpp"
+#include "savegame.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;

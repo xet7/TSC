@@ -16,8 +16,8 @@
 #ifndef SMC_TURTLEBOSS_H
 #define SMC_TURTLEBOSS_H
 
-#include "../../enemies/enemy.h"
-#include "../../scripting/objects/enemies/mrb_turtle_boss.h"
+#include "../../enemies/enemy.hpp"
+#include "../../scripting/objects/enemies/mrb_turtle_boss.hpp"
 
 namespace SMC
 {

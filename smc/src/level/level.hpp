@@ -16,14 +16,14 @@
 #ifndef SMC_LEVEL_H
 #define SMC_LEVEL_H
 
-#include "../core/global_basic.h"
-#include "../core/global_game.h"
-#include "../level/level_background.h"
-#include "../level/level_manager.h"
-#include "../objects/level_entry.h"
-#include "../audio/random_sound.h"
-#include "../video/animation.h"
-#include "../scripting/scripting.h"
+#include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../level/level_background.hpp"
+#include "../level/level_manager.hpp"
+#include "../objects/level_entry.hpp"
+#include "../audio/random_sound.hpp"
+#include "../video/animation.hpp"
+#include "../scripting/scripting.hpp"
 
 namespace SMC
 {

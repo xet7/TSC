@@ -1,9 +1,9 @@
-#include "../../../enemies/flyon.h"
-#include "../../../level/level.h"
-#include "../../../core/sprite_manager.h"
-#include "../../../core/property_helper.h"
-#include "mrb_enemy.h"
-#include "mrb_flyon.h"
+#include "../../../enemies/flyon.hpp"
+#include "../../../level/level.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../core/property_helper.hpp"
+#include "mrb_enemy.hpp"
+#include "mrb_flyon.hpp"
 
 /**
  * Class: Flyon

@@ -1,8 +1,8 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_EVENT_H
 #define SMC_SCRIPTING_EVENT_H
-#include "../scripting.h"
-#include "../../scripting/scriptable_object.h"
+#include "../scripting.hpp"
+#include "../../scripting/scriptable_object.hpp"
 
 // Defines an event handler function that forwards to the Eventable#bind
 // method, passing `evtname' as the first argument. Effectively implements

@@ -13,11 +13,11 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/img_settings.h"
-#include "../core/game_core.h"
-#include "../core/math/utilities.h"
-#include "../core/math/size.h"
-#include "../core/filesystem/filesystem.h"
+#include "../video/img_settings.hpp"
+#include "../core/game_core.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/math/size.hpp"
+#include "../core/filesystem/filesystem.hpp"
 
 namespace fs = boost::filesystem;
 

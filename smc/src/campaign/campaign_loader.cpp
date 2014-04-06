@@ -1,4 +1,4 @@
-#include "campaign_loader.h"
+#include "campaign_loader.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;

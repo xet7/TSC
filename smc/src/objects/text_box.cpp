@@ -13,16 +13,16 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/text_box.h"
-#include "../core/framerate.h"
-#include "../core/game_core.h"
-#include "../user/preferences.h"
-#include "../input/joystick.h"
-#include "../core/main.h"
-#include "../input/keyboard.h"
-#include "../core/i18n.h"
-#include "../audio/audio.h"
-#include "../level/level.h"
+#include "../objects/text_box.hpp"
+#include "../core/framerate.hpp"
+#include "../core/game_core.hpp"
+#include "../user/preferences.hpp"
+#include "../input/joystick.hpp"
+#include "../core/main.hpp"
+#include "../input/keyboard.hpp"
+#include "../core/i18n.hpp"
+#include "../audio/audio.hpp"
+#include "../level/level.hpp"
 
 namespace SMC
 {

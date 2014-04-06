@@ -1,7 +1,7 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "../../scripting.h"
-#include "mrb_moving_sprite.h"
-#include "mrb_animated_sprite.h"
+#include "../../scripting.hpp"
+#include "mrb_moving_sprite.hpp"
+#include "mrb_animated_sprite.hpp"
 
 /**
  * Class: AnimatedSprite

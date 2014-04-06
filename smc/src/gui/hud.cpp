@@ -13,19 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../gui/hud.h"
-#include "../core/game_core.h"
-#include "../level/level_player.h"
-#include "../audio/audio.h"
-#include "../video/font.h"
-#include "../core/framerate.h"
-#include "../level/level.h"
-#include "../core/sprite_manager.h"
-#include "../objects/bonusbox.h"
-#include "../video/renderer.h"
-#include "../core/i18n.h"
-#include "../core/filesystem/filesystem.h"
-#include "../scripting/events/gold_100_event.h"
+#include "../gui/hud.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level_player.hpp"
+#include "../audio/audio.hpp"
+#include "../video/font.hpp"
+#include "../core/framerate.hpp"
+#include "../level/level.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../objects/bonusbox.hpp"
+#include "../video/renderer.hpp"
+#include "../core/i18n.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../scripting/events/gold_100_event.hpp"
 
 namespace SMC
 {

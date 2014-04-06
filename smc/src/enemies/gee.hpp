@@ -16,8 +16,8 @@
 #ifndef SMC_GEE_H
 #define SMC_GEE_H
 
-#include "../enemies/enemy.h"
-#include "../scripting/objects/enemies/mrb_gee.h"
+#include "../enemies/enemy.hpp"
+#include "../scripting/objects/enemies/mrb_gee.hpp"
 
 namespace SMC
 {

@@ -16,8 +16,8 @@
 #ifndef SMC_FONT_H
 #define SMC_FONT_H
 
-#include "../core/global_basic.h"
-#include "../video/img_manager.h"
+#include "../core/global_basic.hpp"
+#include "../video/img_manager.hpp"
 
 namespace SMC
 {

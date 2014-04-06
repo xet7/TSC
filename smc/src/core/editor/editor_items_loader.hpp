@@ -1,8 +1,8 @@
 // -*- c++ -*-
 #ifndef SMC_EDITOR_ITEMS_LOADER_H
 #define SMC_EDITOR_ITEMS_LOADER_H
-#include "../global_game.h"
-#include "../xml_attributes.h"
+#include "../global_game.hpp"
+#include "../xml_attributes.hpp"
 
 namespace SMC {
 

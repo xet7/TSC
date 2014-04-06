@@ -16,13 +16,13 @@
 #ifndef SMC_SPRITE_H
 #define SMC_SPRITE_H
 
-#include "../core/global_game.h"
-#include "../core/math/rect.h"
-#include "../video/video.h"
-#include "../core/collision.h"
-#include "../scripting/scriptable_object.h"
-#include "../scripting/scripting.h"
-#include "../scripting/objects/sprites/mrb_sprite.h"
+#include "../core/global_game.hpp"
+#include "../core/math/rect.hpp"
+#include "../video/video.hpp"
+#include "../core/collision.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../scripting/scripting.hpp"
+#include "../scripting/objects/sprites/mrb_sprite.hpp"
 
 namespace SMC
 {

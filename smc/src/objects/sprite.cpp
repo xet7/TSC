@@ -13,22 +13,22 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../objects/sprite.h"
-#include "../objects/movingsprite.h"
-#include "../core/game_core.h"
-#include "../level/level.h"
-#include "../core/framerate.h"
-#include "../level/level_player.h"
-#include "../gui/hud.h"
-#include "../video/gl_surface.h"
-#include "../video/renderer.h"
-#include "../core/sprite_manager.h"
-#include "../core/editor/editor.h"
-#include "../core/i18n.h"
-#include "../scripting/events/touch_event.h"
-#include "../level/level_editor.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/xml_attributes.h"
+#include "../objects/sprite.hpp"
+#include "../objects/movingsprite.hpp"
+#include "../core/game_core.hpp"
+#include "../level/level.hpp"
+#include "../core/framerate.hpp"
+#include "../level/level_player.hpp"
+#include "../gui/hud.hpp"
+#include "../video/gl_surface.hpp"
+#include "../video/renderer.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/editor/editor.hpp"
+#include "../core/i18n.hpp"
+#include "../scripting/events/touch_event.hpp"
+#include "../level/level_editor.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
 

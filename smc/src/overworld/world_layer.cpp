@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
  
-#include "../overworld/world_layer.h"
-#include "../video/renderer.h"
-#include "../core/game_core.h"
-#include "../overworld/overworld.h"
-#include "../core/i18n.h"
-#include "../overworld/world_editor.h"
-#include "../core/filesystem/resource_manager.h"
-#include "../core/xml_attributes.h"
+#include "../overworld/world_layer.hpp"
+#include "../video/renderer.hpp"
+#include "../core/game_core.hpp"
+#include "../overworld/overworld.hpp"
+#include "../core/i18n.hpp"
+#include "../overworld/world_editor.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
 

@@ -1,6 +1,6 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "level_load_event.h"
-#include "../../core/property_helper.h"
+#include "level_load_event.hpp"
+#include "../../core/property_helper.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;

@@ -14,8 +14,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../../core/global_basic.h"
-#include "../../core/math/vector.h"
+#include "../../core/global_basic.hpp"
+#include "../../core/math/vector.hpp"
 
 namespace SMC
 {

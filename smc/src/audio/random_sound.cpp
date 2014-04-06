@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../audio/random_sound.h"
-#include "../core/game_core.h"
-#include "../core/framerate.h"
-#include "../audio/audio.h"
-#include "../video/renderer.h"
-#include "../input/mouse.h"
-#include "../core/math/utilities.h"
-#include "../core/i18n.h"
-#include "../core/xml_attributes.h"
+#include "../audio/random_sound.hpp"
+#include "../core/game_core.hpp"
+#include "../core/framerate.hpp"
+#include "../audio/audio.hpp"
+#include "../video/renderer.hpp"
+#include "../input/mouse.hpp"
+#include "../core/math/utilities.hpp"
+#include "../core/i18n.hpp"
+#include "../core/xml_attributes.hpp"
 
 namespace SMC
 {

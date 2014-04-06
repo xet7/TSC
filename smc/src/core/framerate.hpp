@@ -17,7 +17,7 @@
 #ifndef SMC_FRAMERATE_H
 #define SMC_FRAMERATE_H
 
-#include "../core/global_game.h"
+#include "../core/global_game.hpp"
 
 namespace SMC
 {

@@ -1,8 +1,8 @@
 // -*- c++ -*-
 #ifndef SMC_SCRIPTING_GOLD_100_EVENT_H
 #define SMC_SCRIPTING_GOLD_100_EVENT_H
-#include "../scripting.h"
-#include "event.h"
+#include "../scripting.hpp"
+#include "event.hpp"
 
 namespace SMC {
 	namespace Scripting {

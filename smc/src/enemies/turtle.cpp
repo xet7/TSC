@@ -13,17 +13,17 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../enemies/turtle.h"
-#include "../core/game_core.h"
-#include "../objects/box.h"
-#include "../video/animation.h"
-#include "../level/level_player.h"
-#include "../level/level.h"
-#include "../gui/hud.h"
-#include "../video/gl_surface.h"
-#include "../user/savegame.h"
-#include "../core/sprite_manager.h"
-#include "../core/i18n.h"
+#include "../enemies/turtle.hpp"
+#include "../core/game_core.hpp"
+#include "../objects/box.hpp"
+#include "../video/animation.hpp"
+#include "../level/level_player.hpp"
+#include "../level/level.hpp"
+#include "../gui/hud.hpp"
+#include "../video/gl_surface.hpp"
+#include "../user/savegame.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/i18n.hpp"
 
 namespace SMC
 {

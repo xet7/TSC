@@ -1,9 +1,9 @@
 // -*- mode: c++; indent-tabs-mode: t; tab-width: 4; c-basic-offset: 4 -*-
-#include "mrb_level_player.h"
-#include "../sprites/mrb_animated_sprite.h"
-#include "../../../level/level_player.h"
-#include "../../../gui/hud.h"
-#include "../../events/event.h"
+#include "mrb_level_player.hpp"
+#include "../sprites/mrb_animated_sprite.hpp"
+#include "../../../level/level_player.hpp"
+#include "../../../gui/hud.hpp"
+#include "../../events/event.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;

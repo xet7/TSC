@@ -16,10 +16,10 @@
 #ifndef SMC_AUDIO_H
 #define SMC_AUDIO_H
 
-#include "../core/global_basic.h"
-#include "../audio/sound_manager.h"
-#include "../scripting/scriptable_object.h"
-#include "../scripting/objects/misc/mrb_audio.h"
+#include "../core/global_basic.hpp"
+#include "../audio/sound_manager.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../scripting/objects/misc/mrb_audio.hpp"
 
 namespace SMC
 {

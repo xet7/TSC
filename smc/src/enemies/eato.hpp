@@ -16,8 +16,8 @@
 #ifndef SMC_EATO_H
 #define SMC_EATO_H
 
-#include "../enemies/enemy.h"
-#include "../scripting/objects/enemies/mrb_eato.h"
+#include "../enemies/enemy.hpp"
+#include "../scripting/objects/enemies/mrb_eato.hpp"
 
 namespace SMC
 {
