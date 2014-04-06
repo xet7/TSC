@@ -1,5 +1,5 @@
 /***************************************************************************
- * krush.cpp  -  The worm
+ * pip.cpp  -  The worm
  *
  * Copyright © 2014 The SMC Contributors
  ***************************************************************************/
@@ -24,6 +24,7 @@
 #include "../video/gl_surface.hpp"
 #include "../gui/hud.hpp"
 #include "../level/level_player.hpp"
+#include "../user/savegame.hpp"
 #include "pip.hpp"
 
 using namespace SMC;
@@ -98,13 +99,25 @@ std::string cPip::Get_XML_Type_Name()
 xmlpp::Element* cPip::Save_To_XML_Node(xmlpp::Element* p_element)
 {
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
-	throw(NotImplementedError("Cannot save pip to XML node yet"));
+
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
 	return p_node;
 }
 
 void cPip::Load_From_Savegame(cSave_Level_Object* p_save_object)
 {
-	throw(NotImplementedError("Cannot restore pip from savegame yet"));
+	// pip_state
+	if(p_save_object->exists("state")) {
+		Moving_state mov_state = static_cast<Moving_state>(string_to_int(p_save_object->Get_Value("state")));
+
+		if(mov_state == STA_RUN)
+			Set_Moving_State(mov_state);
+	}
+
+	cEnemy::Load_From_Savegame( p_save_object );
+
+	Update_Rotation_Hor();
 }
 
 void cPip::Set_Direction(const ObjectDirection dir)
@@ -229,7 +242,6 @@ void cPip::Set_Moving_State(Moving_state new_state)
 		m_kill_points = 35;
 	}
 	else if (new_state == STA_RUN) {
-		// TODO: Other images for small pip!
 		Set_Animation(true);
 		Set_Animation_Image_Range(10, 13);
 		Set_Time_All(70, true);
