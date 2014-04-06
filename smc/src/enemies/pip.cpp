@@ -1,0 +1,348 @@
+/***************************************************************************
+ * krush.cpp  -  The worm
+ *
+ * Copyright © 2014 The SMC Contributors
+ ***************************************************************************/
+/*
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 3 of the License, or
+   (at your option) any later version.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "../core/global_game.hpp"
+#include "../core/game_core.hpp"
+#include "../core/errors.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/i18n.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../video/animation.hpp"
+#include "../gui/hud.hpp"
+#include "../level/level_player.hpp"
+#include "pip.hpp"
+
+using namespace SMC;
+
+/* *** *** *** *** *** cPip *** *** *** *** *** *** *** *** *** *** *** *** */
+
+cPip::cPip(cSprite_Manager* p_sprite_manager)
+	: cEnemy(p_sprite_manager)
+{
+	cPip::Init();
+}
+
+cPip::cPip(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
+	: cEnemy(p_sprite_manager)
+{
+	cPip::Init();
+
+	// position
+	Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+}
+
+cPip::~cPip()
+{
+	//
+}
+
+void cPip::Init()
+{
+	m_type = TYPE_PIP;
+	m_pos_z = 0.093f;
+	m_gravity_max = 13.0f;
+
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_1.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_2.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_3.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_4.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_5.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_6.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_7.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_8.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_9.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_10.png")));
+
+	m_state = STA_FALL;
+	Set_Moving_State(STA_WALK);
+	Set_Direction(DIR_RIGHT);
+
+	// FIXME: Own die sound
+	m_kill_sound = "enemy/krush/die.ogg";
+}
+
+cPip* cPip::Copy() const
+{
+	cPip* p_pip = new cPip(m_sprite_manager);
+	p_pip->Set_Pos(m_start_pos_x, m_start_pos_y);
+	p_pip->Set_Direction(m_start_direction);
+	return p_pip;
+}
+
+std::string cPip::Get_XML_Type_Name()
+{
+	return "pip";
+}
+
+xmlpp::Element* cPip::Save_To_XML_Node(xmlpp::Element* p_element)
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+	throw(NotImplementedError("Cannot save pip to XML node yet"));
+	return p_node;
+}
+
+void cPip::Load_From_Savegame(cSave_Level_Object* p_save_object)
+{
+	throw(NotImplementedError("Cannot restore pip from savegame yet"));
+}
+
+void cPip::Set_Direction(const ObjectDirection dir)
+{
+	// already set
+	if (m_start_direction == dir)
+		return;
+
+	cEnemy::Set_Direction(dir, true);
+	m_name = "Pip ";
+	m_name += _(Get_Direction_Name(m_start_direction).c_str());
+	Update_Rotation_Hor(true);
+}
+
+void cPip::Turn_Around(ObjectDirection col_dir /* DIR_UNDEFINED */)
+{
+	cEnemy::Turn_Around(col_dir);
+
+	if (col_dir == DIR_LEFT || col_dir == DIR_RIGHT || col_dir == DIR_UNDEFINED) {
+		m_velx *= 0.5f;
+		Update_Rotation_Hor();
+	}
+}
+
+void cPip::DownGrade(bool force /* = false */)
+{
+	if (force) { // Falling death
+		Set_Dead(true);
+		Set_Rotation_Z(180.0f);
+	}
+	else {
+		// TODO
+		Set_Dead(true);
+		Set_Rotation_Z(180.0f);
+	}
+
+	if (m_dead) {
+		m_massive_type = MASS_PASSIVE;
+		m_velx = 0.0f;
+		m_vely = 0.0f;
+	}
+}
+
+void cPip::Update_Dying()
+{
+	// stomp death
+	if (!Is_Float_Equal(m_rot_z, 180.0f)) {
+		float speed = pFramerate->m_speed_factor * 0.05f;
+
+		Add_Scale_X(-speed * 0.5f);
+		Add_Scale_Y(-speed);
+
+		if (m_scale_y < 0.01f) {
+			Set_Scale(1.0f);
+			Set_Active(false);
+		}
+	}
+	else { // falling death
+		// A little bit upwards first
+		if (m_counter < 5.0f)
+			Move(0.0f, 5.0f);
+		// if not below the ground: fall
+		else if (m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y)
+			Move(0.0f, 20.0f);
+		// if below disable
+		else {
+			m_rot_z = 0.0f;
+			Set_Active(false);
+		}
+	}
+}
+
+void cPip::Set_Moving_State(Moving_state new_state)
+{
+	std::cout << "COL RECT:" << m_col_rect.m_x << " / " << m_col_rect.m_y << " / " << m_col_rect.m_w << " / " << m_col_rect.m_h << std::endl;
+	if (new_state == m_state)
+		return;
+
+	if (new_state == STA_WALK) {
+		Set_Animation(true);
+		Set_Animation_Image_Range(0, 9);
+		Set_Time_All(120, true);
+		Reset_Animation();
+		Set_Image_Num(m_anim_img_start);
+
+		m_kill_points = 35;
+	}
+	else if (new_state == STA_RUN) {
+		// TODO: Other images for small pip!
+		Set_Animation(true);
+		Set_Animation_Image_Range(0, 9);
+		Set_Time_All(70, true);
+		Reset_Animation();
+		Set_Image_Num(m_anim_img_start);
+		m_kill_points = 70;
+	}
+
+	m_state = new_state;
+	Update_Velocity_Max();
+}
+
+void cPip::Update()
+{
+	cEnemy::Update();
+
+	if (!m_valid_update || !Is_In_Range())
+		return;
+
+	Update_Velocity();
+	Update_Animation();
+	Update_Gravity();
+}
+
+void cPip::Update_Velocity_Max()
+{
+	if (m_state == STA_WALK) {
+		m_velx_max = 2.0f;
+		m_velx_gain = 0.2f;
+	}
+	else if (m_state == STA_RUN) {
+		m_velx_max = 7.0f;
+		m_velx_gain = 0.5f;
+	}
+}
+
+bool cPip::Is_Update_Valid()
+{
+	if (m_dead || m_freeze_counter)
+		return false;
+	else
+		return true;
+}
+
+Col_Valid_Type cPip::Validate_Collision(cSprite* p_obj)
+{
+	// basic validation checking
+	Col_Valid_Type basic_valid = Validate_Collision_Ghost(p_obj);
+
+	// found valid collision
+	if (basic_valid != COL_VTYPE_NOT_POSSIBLE)
+		return basic_valid;
+
+	if (p_obj->m_massive_type == MASS_MASSIVE) {
+		switch(p_obj->m_type) {
+		case TYPE_FLYON:
+		case TYPE_ROKKO: // fallthrough
+		case TYPE_GEE:   // fallthrough
+			return COL_VTYPE_NOT_VALID;
+		default:
+			return COL_VTYPE_BLOCKING;
+		}
+	}
+	else if (p_obj->m_massive_type == MASS_HALFMASSIVE) {
+		// if moving downwards and the object is on bottom
+		if (m_vely >= 0.0f && Is_On_Top(p_obj))
+			return COL_VTYPE_BLOCKING;
+	}
+	else if (p_obj->m_massive_type == MASS_PASSIVE) {
+		if (p_obj->m_type == TYPE_ENEMY_STOPPER)
+			return COL_VTYPE_BLOCKING;
+	}
+
+	return COL_VTYPE_NOT_VALID;
+}
+
+void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
+{
+	// invalid
+	if (p_collision->m_direction == DIR_UNDEFINED)
+		return;
+
+	// Downgrade us if hit on top
+	if (p_collision->m_direction == DIR_TOP && pLevel_Player->m_state != STA_FLY) {
+		pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), true);
+		pAudio->Play_Sound(m_kill_sound);
+
+		// big walking
+		if (m_state == STA_WALK)
+			DownGrade();
+		else if (m_state == STA_RUN) {
+			DownGrade();
+			pLevel_Player->Add_Kill_Multiplier();
+			pLevel_Player->m_vely = 30.0f;
+		}
+
+		pLevel_Player->Action_Jump(true);
+	}
+	else { // Otherwise downgrade Maryo
+		pLevel_Player->DownGrade_Player();
+		Turn_Around(p_collision->m_direction);
+	}
+}
+
+void cPip::Handle_Collision_Enemy(cObjectCollision* p_collision)
+{
+	if (p_collision->m_direction == DIR_RIGHT || p_collision->m_direction == DIR_LEFT)
+		Turn_Around(p_collision->m_direction);
+
+	Send_Collision(p_collision);
+}
+
+void cPip::Handle_Collision_Massive(cObjectCollision* p_collision)
+{
+	if (m_state == STA_OBJ_LINKED)
+		return;
+
+	Send_Collision(p_collision);
+
+	// get colliding object
+	cSprite* p_colobj = m_sprite_manager->Get_Pointer(p_collision->m_number);
+	if (p_colobj->m_type == TYPE_BALL)
+		return;
+
+	if (p_collision->m_direction == DIR_TOP && m_vely < 0.0f)
+		m_vely = 0.0f;
+	else if (p_collision->m_direction == DIR_BOTTOM && m_vely > 0.0f)
+		m_vely = 0.0f;
+	else if (p_collision->m_direction == DIR_RIGHT || p_collision->m_direction == DIR_LEFT)
+		Turn_Around(p_collision->m_direction);
+}
+
+void cPip::Editor_Activate()
+{
+	CEGUI::WindowManager& wm = CEGUI::WindowManager::getSingleton();
+
+	// direction
+	CEGUI::Combobox* p_combo = static_cast<CEGUI::Combobox*>(wm.createWindow("TaharezLook/Combobox", "editor_pip_direction"));
+	Editor_Add(UTF8_("Direction"), UTF8_("Starting direction"), p_combo, 100, 75);
+
+	p_combo->addItem(new CEGUI::ListboxTextItem("left"));
+	p_combo->addItem(new CEGUI::ListboxTextItem("right"));
+	p_combo->setText(Get_Direction_Name(m_start_direction));
+	p_combo->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cPip::Editor_Direction_Select, this));
+
+	// init
+	Editor_Init();
+}
+
+bool cPip::Editor_Direction_Select(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs& args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	CEGUI::ListboxItem* p_item = static_cast<CEGUI::Combobox*>(args.window)->getSelectedItem();
+
+	Set_Direction(Get_Direction_Id(p_item->getText().c_str()));
+	return true;
+}
