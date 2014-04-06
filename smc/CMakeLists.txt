@@ -160,8 +160,8 @@ endif()
 ###############################################
 # Configuration header
 
-configure_file(${SMC_SOURCE_DIR}/config.h.in
-  ${SMC_BINARY_DIR}/config.h)
+configure_file(${SMC_SOURCE_DIR}/config.hpp.in
+  ${SMC_BINARY_DIR}/config.hpp)
 include_directories(${SMC_BINARY_DIR})
 
 ###############################################
