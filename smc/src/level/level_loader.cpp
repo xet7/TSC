@@ -68,6 +68,7 @@ void cLevelLoader::on_start_document()
 		throw("Restarted XML parser after already starting it."); // FIXME: proper exception
 
 	mp_level = new cLevel();
+	m_in_script_tag = false;
 }
 
 void cLevelLoader::on_end_document()
