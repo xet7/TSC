@@ -130,6 +130,8 @@ void cLevel_Player :: Init( void )
 	Load_Images();
 	// default direction : right
 	Set_Direction( DIR_RIGHT, 1 );
+	// default uid 0
+	m_uid = 0;
 }
 
 void cLevel_Player :: Hold( void )
