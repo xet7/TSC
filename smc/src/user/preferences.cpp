@@ -229,7 +229,7 @@ void cPreferences :: Reset_All( void )
 	m_image_cache_enabled = 1;
 
 	// filename
-	m_config_filename = DEFAULT_PREFERENCES_FILENAME;
+	m_config_filename = fs::absolute(DEFAULT_PREFERENCES_FILENAME, pResource_Manager->Get_User_Data_Directory());
 }
 
 void cPreferences :: Reset_Game( void )
