@@ -209,7 +209,8 @@ void cSavegameLoader::handle_player()
 	mp_save->m_player_state	= m_current_properties.retrieve<int>("state");
 	mp_save->m_itembox_item	= m_current_properties.retrieve<int>("itembox_item");
 	// New in V.11
-	mp_save->m_level_time = m_current_properties.retrieve<int>("level_time");
+	if (m_current_properties.exists("level_time"))
+		mp_save->m_level_time = m_current_properties.retrieve<int>("level_time");
 
 	// See handle_old_format_overworld_data() for the old format handler
 	if (!m_is_old_format) {
