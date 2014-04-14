@@ -15,13 +15,19 @@
 find_package(PkgConfig)
 
 # Check if we can find it with pkg-config.
-pkg_check_modules(PKG_CEGUI QUIET CEGUI)
+# (No, I don’t know why they decided to rename
+# themselves to CEGUI-0, really!)
+pkg_search_module(PKG_CEGUI CEGUI CEGUI-0)
 
 ########################################
 # Include dir
 
+# CEGUI’s pkg-config file is broken -- it says /usr/include/cegui-0/cegui,
+# but the real include dir is /usr/include/cegui-0/CEGUI. I hate Windows
+# devs who don’t care about casefolding. So we just give CMake a hint
+# here to look where CEGUI.h is on my personal system.
 find_path( CEGUI_INCLUDE_DIR CEGUI.h
-           HINTS ${PKG_CEGUI_INCLUDE_DIRS} )
+           HINTS ${PKG_CEGUI_INCLUDE_DIRS} /usr/include/cegui-0/CEGUI )
 
 ########################################
 # The libraries
@@ -31,9 +37,13 @@ find_path( CEGUI_INCLUDE_DIR CEGUI.h
 macro(find_cegui_library LIBNAME)
   message("-- Searching for ${LIBNAME} CEGUI library")
 
+  # CEGUI 0.8 scattered its libraries over /usr/lib and
+  # /usr/lib/cegui-0.8, AND it sometimes has a "-0" appended
+  # to the library name.
   find_library( CEGUI_${LIBNAME}_LIBRARY
-                NAMES CEGUI${LIBNAME}
-		HINTS ${PKG_CEGUI_LIBRARY_DIRS} )
+                NAMES CEGUI${LIBNAME} CEGUI${LIBNAME}-0
+                HINTS ${PKG_CEGUI_LIBRARY_DIRS}
+                PATH_SUFFIXES cegui-0.8 )
 
   # Error message if not found
   if(CEGUI_${LIBNAME}_LIBRARY)
@@ -45,7 +55,7 @@ endmacro()
 
 # CEGUI consists of a wealth of libraries.
 find_cegui_library(Base)
-find_cegui_library(FalagardWRBase)
+#find_cegui_library(FalagardWRBase) # TODO: Removed in 0.8.0 ?
 find_cegui_library(FreeImageImageCodec)
 find_cegui_library(TinyXMLParser)
 
