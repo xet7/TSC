@@ -64,7 +64,7 @@ endif()
 # FIXME: Detect CEGUI via pkg-config when the NullRenderer dependency is gone
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(CEGUI COMPONENTS OPENGL REQUIRED)
+find_package(CEGUI COMPONENTS OpenGL REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
 find_package(FreeImage REQUIRED)
@@ -84,10 +84,6 @@ else()
     COMPONENTS filesystem chrono thread system
     REQUIRED)
 endif()
-
-
-
-
 
 # pkg-config is really the better way to check for libs.
 # Unfortunetly, the above libraries don’t support it
@@ -184,7 +180,7 @@ endif()
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
 if (WIN32)
   target_link_libraries(smc
-    ${CEGUI_LIBRARY}
+    ${CEGUI_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${FreeImage_LIBRARIES}
     ${SDL_STATIC_LIBRARIES}
@@ -204,7 +200,7 @@ if (WIN32)
   # should be safe.
 else()
   target_link_libraries(smc
-    ${CEGUI_LIBRARY}
+    ${CEGUI_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${FreeImage_LIBRARIES}
     ${SDL_LIBRARIES}
