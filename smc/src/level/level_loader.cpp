@@ -362,8 +362,10 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 		attributes.relocate_image( "animation/fire_1/4.png", "animation/particles/fire_4.png" );
 	}
 	// always: fix sprite with undefined massive-type
-	if (attributes.count("type") > 0 && attributes["type"] == "undefined")
+	if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
+		std::cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << std::endl;
 		attributes["type"] = "passive"; // So it doesn’t hinder gameplay
+	}
 
 	cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
 
