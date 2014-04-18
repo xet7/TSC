@@ -402,10 +402,15 @@ public:
 	// returns true if this is a basic sprite type
 	inline bool Is_Basic_Sprite( void ) const
 	{
+		// TODO: There are no basic sprites anymore due to code cleanup.
+		// Instead, we need a new cSprite subclass cStaticSprite that
+		// is specifically intended for just displaying images.
+		/*
 		if( m_type == TYPE_PASSIVE || m_type == TYPE_FRONT_PASSIVE || m_type == TYPE_MASSIVE || m_type == TYPE_CLIMBABLE || m_type == TYPE_HALFMASSIVE )
 		{
 			return 1;
 		}
+		*/
 
 		return 0;
 	};

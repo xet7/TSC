@@ -124,7 +124,7 @@ cMenuHandler :: cMenuHandler( void )
 	sprite->Set_Image( pVideo->Get_Surface( "game/logo/smc_big_1.png" ) );
 	sprite->Set_Pos( 180.0f, 20.0f );
 	sprite->Set_Scale( 0.8f );
-	sprite->Set_Sprite_Type( TYPE_FRONT_PASSIVE );
+	sprite->Set_Massive_Type( MASS_FRONT_PASSIVE );
 	m_level->m_sprite_manager->Add( sprite );
 }
 

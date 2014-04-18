@@ -98,8 +98,8 @@ public:
 	std::string m_editor_tags;
 	// name
 	std::string m_name;
-	// default sprite type
-	unsigned int m_type;
+	// default sprite massivity
+	MassiveType m_massive_type;
 	// ground type
 	GroundType m_ground_type;
 private:

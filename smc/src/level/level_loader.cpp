@@ -376,7 +376,7 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 		cGL_Surface* p_text_image = pFont->Render_Text(pFont->m_font_small, text);
 		p_text_image->m_path = utf8_to_path(text);
 		p_sprite->Set_Image(p_text_image, true, true);
-		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE); // It shouldn't hinder gameplay
+		p_sprite->Set_Massive_Type(MASS_PASSIVE); // It shouldn't hinder gameplay
 		p_sprite->Set_Active(false); // Only display it in the editor
 	}
 

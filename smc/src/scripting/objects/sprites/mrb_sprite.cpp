@@ -101,7 +101,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 	}
 
 	// Default massivity type is front passive
-	p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+	p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
 
 	// Hidden by default
 	p_sprite->Set_Active(false);
@@ -187,16 +187,16 @@ static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
 	type = mrb_sym2name(p_state, typesym);
 
 	if (type == "passive")
-		p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+		p_sprite->Set_Massive_Type(MASS_PASSIVE);
 	else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
-		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+		p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
 	else if (type == "massive")
-		p_sprite->Set_Sprite_Type(TYPE_MASSIVE);
+		p_sprite->Set_Massive_Type(MASS_MASSIVE);
 	else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
-		p_sprite->Set_Sprite_Type(TYPE_HALFMASSIVE);
+		p_sprite->Set_Massive_Type(MASS_HALFMASSIVE);
 	else if (type == "climbable")
-		p_sprite->Set_Sprite_Type(TYPE_CLIMBABLE);
-	else // Non-standard types like TYPE_ENEMY are not allowed here
+		p_sprite->Set_Massive_Type(MASS_CLIMBABLE);
+	else // Non-standard types are not allowed here
 		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid massive type '%s'.", type.c_str());
 
 	return mrb_symbol_value(typesym);

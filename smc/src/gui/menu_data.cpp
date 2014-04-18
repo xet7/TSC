@@ -3598,7 +3598,9 @@ void cMenu_Credits :: Menu_Fade( bool fade_in /* = 1 */ )
 	}
 
 	// get logo
-	cSprite *logo = pMenuCore->m_handler->m_level->m_sprite_manager->Get_from_Position( 180, logo_pos_y, TYPE_FRONT_PASSIVE, 2 );
+	// FIXME: We shouldn’t have to search this in the sprite manager. It
+	// should be referenced at some central place.
+	cSprite *logo = pMenuCore->m_handler->m_level->m_sprite_manager->Get_from_Position( 180, logo_pos_y, TYPE_UNDEFINED, 2 );
 
 	// fade out
 	while( 1 )

@@ -165,8 +165,6 @@ std::string Get_Direction_Name( const ObjectDirection dir );
 // Return the Direction identifier
 ObjectDirection Get_Direction_Id( const std::string &str_direction );
 
-// Return the SpriteType identifier
-SpriteType Get_Sprite_Type_Id( const std::string &str_type );
 /* Return the Color of the given Sprite
  * based mostly on sprite array
 */
