@@ -339,6 +339,9 @@ cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, 
 	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 	// image
 	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
+	// Massivity.
+	// FIXME: Should be separate "massivity" attribute or so.
+	Set_Massive_Type( Get_Massive_Type_Id( attributes["type"] ) );
 }
 
 cSprite :: ~cSprite( void )
