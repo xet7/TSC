@@ -315,6 +315,11 @@ void cCollidingSprite :: Handle_Collision( cObjectCollision *collision )
 	{
 		Handle_Collision_Passive( collision );
 	}
+	// Lava
+	else if (collision->m_array == ARRAY_LAVA )
+	{
+		Handle_Collision_Lava( collision );
+	}
 }
 
 /* *** *** *** *** *** *** *** cSprite *** *** *** *** *** *** *** *** *** *** */

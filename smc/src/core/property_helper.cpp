@@ -650,6 +650,10 @@ Color Get_Sprite_Color( const cSprite *sprite )
 		{
 			return blackalpha128;
 		}
+		case ARRAY_LAVA:
+		{
+			return red;
+		}
 		default:
 		{
 			break;

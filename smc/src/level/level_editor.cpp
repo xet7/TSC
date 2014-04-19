@@ -289,8 +289,8 @@ void cEditor_Level :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 
 bool cEditor_Level :: Switch_Object_State( cSprite *obj ) const
 {
-	// empty object
-	if( !obj )
+	// empty object or lava
+	if( !obj || obj->m_sprite_array == ARRAY_LAVA )
 	{
 		return 0;
 	}

@@ -94,6 +94,8 @@ public:
 	virtual void Handle_Collision_Massive( cObjectCollision *collision ) {};
 	// collision with passive
 	virtual void Handle_Collision_Passive( cObjectCollision *collision ) {};
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision ) {};
 	// collision from a box
 	virtual void Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 ) {};
 
@@ -417,12 +419,12 @@ public:
 	// returns true if this is a sprite that is in the sprite manager
 	inline bool Is_Sprite_Managed( void ) const
 	{
-		if( m_sprite_array == ARRAY_MASSIVE || m_sprite_array == ARRAY_PASSIVE || m_sprite_array == ARRAY_ENEMY || m_sprite_array == ARRAY_ACTIVE )
+		if( m_sprite_array == ARRAY_MASSIVE || m_sprite_array == ARRAY_PASSIVE || m_sprite_array == ARRAY_ENEMY || m_sprite_array == ARRAY_ACTIVE || m_sprite_array == ARRAY_LAVA )
 		{
-			return 1;
+			return true;
 		}
 
-		return 0;
+		return false;
 	};
 
 	/* set this sprite to destroyed and completely disable it
