@@ -295,7 +295,7 @@ bool cEditor_Level :: Switch_Object_State( cSprite *obj ) const
 		return 0;
 	}
 
-	if( obj->m_massive_type == MASS_PASSIVE )
+	if( obj->m_massive_type == MASS_FRONT_PASSIVE )
 	{
 		obj->Set_Massive_Type( MASS_MASSIVE );
 	}
@@ -310,6 +310,10 @@ bool cEditor_Level :: Switch_Object_State( cSprite *obj ) const
 	else if( obj->m_massive_type == MASS_CLIMBABLE )
 	{
 		obj->Set_Massive_Type( MASS_PASSIVE );
+	}
+	else if ( obj->m_massive_type == MASS_PASSIVE )
+	{
+		obj->Set_Massive_Type( MASS_FRONT_PASSIVE );
 	}
 	// invalid object type
 	else

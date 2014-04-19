@@ -667,7 +667,7 @@ std::string Get_Massive_Type_Name( const MassiveType mtype )
 		case MASS_MASSIVE:		return "massive";
 		case MASS_HALFMASSIVE:	return "halfmassive";
 		case MASS_CLIMBABLE:	return "climbable";
-		case MASS_FRONT_PASSIVE: return "frontpassive";
+		case MASS_FRONT_PASSIVE: return "front_passive";
 		default:				break;
 	}
 
@@ -680,7 +680,7 @@ MassiveType Get_Massive_Type_Id( const std::string &str_massivetype )
 	{
 		return MASS_PASSIVE;
 	}
-	else if ( str_massivetype.compare( "passive" ) == 0 )
+	else if ( str_massivetype.compare( "front_passive" ) == 0 )
 	{
 		return MASS_FRONT_PASSIVE;
 	}

@@ -478,8 +478,11 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	Add_Property(p_node, "image", path_to_utf8(img_filename));
 
 	// type (only if Get_XML_Type_Name() returns something meaningful)
+	// type is massive type in real. Should probably have an own XML attribute.
 	std::string type = Get_XML_Type_Name();
-	if (!type.empty())
+	if (type.empty())
+		Add_Property(p_node, "type", Get_Massive_Type_Name(m_massive_type));
+	else
 		Add_Property(p_node, "type", type);
 
 	return p_node;
