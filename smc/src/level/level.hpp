@@ -150,7 +150,7 @@ public:
 			element == "global_effect" || element == "player" || element == "sound" || element == "particle_emitter" ||
 			element == "path" || element == "sprite" || element == "powerup" || element == "item" || element == "enemy" ||
 			element == "levelexit" || element == "level_entry" || element == "enemystopper" || element == "box" ||
-			element == "moving_platform" || element == "falling_platform" || element == "ball" )
+			element == "moving_platform" || element == "falling_platform" || element == "ball" || element == "lava" )
 		{
 			return 1;
 		}

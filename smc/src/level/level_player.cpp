@@ -4523,8 +4523,8 @@ void cLevel_Player :: Handle_Collision_Lava( cObjectCollision *p_collision )
 	if (p_collision->m_direction == DIR_UNDEFINED)
 		return;
 
-	// Lava collision means instant death.
-	DownGrade(true);
+	// Delegate to cLava::Handle_Collision_Player().
+	Send_Collision(p_collision);
 }
 
 void cLevel_Player :: Handle_out_of_Level( ObjectDirection dir )
