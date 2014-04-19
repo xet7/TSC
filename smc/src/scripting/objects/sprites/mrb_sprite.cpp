@@ -51,6 +51,18 @@
  *
  *   The event handler gets passed an instance of this class (or one of
  *   its subclasses) representing the other collision "partner".
+ *
+ * Constants
+ * ---------
+ *
+ * [PASSIVE_Z_START]
+ *   Lowest valid Z coordinate for passive sprites.
+ * [MASSIVE_Z_START]
+ *   Lowest valid Z coordinate for massive sprites.
+ * [FRONTPASSIVE_Z_START]
+ *   Lowest valid Z coordinate for front-passive sprites.
+ * [HALFMASSIVE_Z_START]
+ *   Lowest valid Z coordinate for half-massive sprites.
  */
 
 using namespace SMC;
@@ -555,6 +567,11 @@ void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 	p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
 	mrb_include_module(p_state, p_rcSprite, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
+
+	mrb_define_const(p_state, p_rcSprite, "PASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_passive_start));
+	mrb_define_const(p_state, p_rcSprite, "MASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_massive_start));
+	mrb_define_const(p_state, p_rcSprite, "FRONTPASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_front_passive_start));
+	mrb_define_const(p_state, p_rcSprite, "HALFMASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_halfmassive_start));
 
 	mrb_define_method(p_state, p_rcSprite, "initialize", Initialize, MRB_ARGS_OPT(2));
 	mrb_define_method(p_state, p_rcSprite, "show", Show, MRB_ARGS_NONE());
