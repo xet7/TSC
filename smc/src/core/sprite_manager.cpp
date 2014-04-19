@@ -18,6 +18,7 @@
 #include "../level/level_player.hpp"
 #include "../input/mouse.hpp"
 #include "../overworld/world_player.hpp"
+#include "../enemies/enemy.hpp"
 
 namespace SMC
 {
@@ -112,13 +113,17 @@ cSprite *cSprite_Manager :: Copy( unsigned int identifier )
 
 void cSprite_Manager :: Ensure_Different_Z( cSprite *sprite )
 {
-	// don't set particle effect z position
-	if( sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER )
-	{
+	/*The following sprites should never be placed over one another,
+	 * so they are excluded from the Z correction any may well have
+	 * equal Z coordinates. As the Z correction focuses on the
+	 * massivity, we would otherwise e.g. have the enemies (which are
+	 * mostly massive) given Z coordinates from the line of normal
+	 * massive tiles, causing for example flyons to appear over their
+	 * containing pipe (given that the flyon sprite was added after
+	 * the pipe sprite). */
+	if ( dynamic_cast<cEnemy*>(sprite) || sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER )
 		return;
-	}
-
-	std::cout << "OLD Z: " << sprite->m_pos_z << std::endl;
+	// TODO: Replace that with dynamic_cast<> alltogether? See issue #44.
 
 	// set new Z position if not higher than a prior Z of
 	// the same massivity.
@@ -142,7 +147,7 @@ void cSprite_Manager :: Ensure_Different_Z( cSprite *sprite )
 	{
 		m_z_pos_data[sprite->m_massive_type] = sprite->m_pos_z;
 	}
-	std::cout << "NEW Z: " << sprite->m_pos_z << std::endl;
+
 	// Same for editor Z memory
 	if( sprite->m_editor_pos_z > 0.0f )
 	{
