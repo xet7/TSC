@@ -616,36 +616,6 @@ ObjectDirection Get_Direction_Id( const std::string &str_direction )
 	return DIR_UNDEFINED;
 }
 
-SpriteType Get_Sprite_Type_Id( const std::string &str_type )
-{
-	if( str_type.compare( "massive" ) == 0 )
-	{
-		return TYPE_MASSIVE;
-	}
-	else if( str_type.compare( "passive" ) == 0 )
-	{
-		return TYPE_PASSIVE;
-	}
-	else if( str_type.compare( "front_passive" ) == 0 )
-	{
-		return TYPE_FRONT_PASSIVE;
-	}
-	else if( str_type.compare( "halfmassive" ) == 0 )
-	{
-		return TYPE_HALFMASSIVE;
-	}
-	else if( str_type.compare( "climbable" ) == 0 )
-	{
-		return TYPE_CLIMBABLE;
-	}
-	else
-	{
-		printf( "Warning : Unknown Sprite Type String %s\n", str_type.c_str() );
-	}
-	
-	return TYPE_UNDEFINED;
-}
-
 Color Get_Sprite_Color( const cSprite *sprite )
 {
 	switch( sprite->m_sprite_array )
@@ -669,7 +639,7 @@ Color Get_Sprite_Color( const cSprite *sprite )
 		}
 		case ARRAY_PASSIVE:
 		{
-			if( sprite->m_type == TYPE_FRONT_PASSIVE )
+			if( sprite->m_massive_type == MASS_FRONT_PASSIVE )
 			{
 				return greenyellow;
 			}
@@ -697,6 +667,7 @@ std::string Get_Massive_Type_Name( const MassiveType mtype )
 		case MASS_MASSIVE:		return "massive";
 		case MASS_HALFMASSIVE:	return "halfmassive";
 		case MASS_CLIMBABLE:	return "climbable";
+		case MASS_FRONT_PASSIVE: return "front_passive";
 		default:				break;
 	}
 
@@ -708,6 +679,10 @@ MassiveType Get_Massive_Type_Id( const std::string &str_massivetype )
 	if( str_massivetype.compare( "passive" ) == 0 )
 	{
 		return MASS_PASSIVE;
+	}
+	else if ( str_massivetype.compare( "front_passive" ) == 0 )
+	{
+		return MASS_FRONT_PASSIVE;
 	}
 	else if( str_massivetype.compare( "massive" ) == 0 )
 	{
@@ -733,6 +708,7 @@ Color Get_Massive_Type_Color( MassiveType mtype )
 		case MASS_HALFMASSIVE:	return orange;
 		case MASS_PASSIVE:		return lightgreen;
 		case MASS_CLIMBABLE:	return lila;
+		case MASS_FRONT_PASSIVE: return greenyellow;
 		default:				break;
 	}
 

@@ -339,8 +339,9 @@ cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, 
 	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 	// image
 	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
-	// type
-	Set_Sprite_Type( Get_Sprite_Type_Id( attributes["type"] ) );
+	// Massivity.
+	// FIXME: Should be separate "massivity" attribute or so.
+	Set_Massive_Type( Get_Massive_Type_Id( attributes["type"] ) );
 }
 
 cSprite :: ~cSprite( void )
@@ -477,8 +478,11 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	Add_Property(p_node, "image", path_to_utf8(img_filename));
 
 	// type (only if Get_XML_Type_Name() returns something meaningful)
+	// type is massive type in real. Should probably have an own XML attribute.
 	std::string type = Get_XML_Type_Name();
-	if (!type.empty())
+	if (type.empty())
+		Add_Property(p_node, "type", Get_Massive_Type_Name(m_massive_type));
+	else
 		Add_Property(p_node, "type", type);
 
 	return p_node;
@@ -585,39 +589,7 @@ void cSprite :: Set_Image( cGL_Surface *new_image, bool new_start_image /* = 0 *
 
 void cSprite :: Set_Sprite_Type( SpriteType type )
 {
-	// set first because of massive-type z calculation
 	m_type = type;
-
-	if( m_type == TYPE_MASSIVE )
-	{
-		m_sprite_array = ARRAY_MASSIVE;
-		Set_Massive_Type( MASS_MASSIVE );
-		m_can_be_ground = 1;
-	}
-	else if( m_type == TYPE_PASSIVE )
-	{
-		m_sprite_array = ARRAY_PASSIVE;
-		Set_Massive_Type( MASS_PASSIVE );
-		m_can_be_ground = 0;
-	}
-	else if( m_type == TYPE_FRONT_PASSIVE )
-	{
-		m_sprite_array = ARRAY_PASSIVE;
-		Set_Massive_Type( MASS_PASSIVE );
-		m_can_be_ground = 0;
-	}
-	else if( m_type == TYPE_HALFMASSIVE )
-	{
-		m_sprite_array = ARRAY_ACTIVE;
-		Set_Massive_Type( MASS_HALFMASSIVE );
-		m_can_be_ground = 1;
-	}
-	else if( m_type == TYPE_CLIMBABLE )
-	{
-		m_sprite_array = ARRAY_ACTIVE;
-		Set_Massive_Type( MASS_CLIMBABLE );
-		m_can_be_ground = 0;
-	}
 }
 
 std::string cSprite :: Get_XML_Type_Name()
@@ -625,35 +597,6 @@ std::string cSprite :: Get_XML_Type_Name()
 	if( m_sprite_array == ARRAY_UNDEFINED )
 	{
 		return "undefined";
-	}
-	else if( m_sprite_array == ARRAY_PASSIVE )
-	{
-		if( m_type == TYPE_FRONT_PASSIVE )
-		{
-			return "front_passive";
-		}
-
-		return "passive";
-	}
-	else if( m_sprite_array == ARRAY_ACTIVE )
-	{
-		if( m_type == TYPE_HALFMASSIVE )
-		{
-			return "halfmassive";
-		}
-		else if( m_type == TYPE_CLIMBABLE )
-		{
-			return "climbable";
-		}
-		else
-		{
-			printf( "Warning : Sprite array set as active but unknown type %d\n", m_type );
-			return "active";
-		}
-	}
-	else if( m_sprite_array == ARRAY_MASSIVE )
-	{
-		return "massive";
 	}
 	else if( m_sprite_array == ARRAY_HUD )
 	{
@@ -1308,22 +1251,33 @@ void cSprite :: Set_Massive_Type( MassiveType type )
 	// set massive-type z position
 	if( m_massive_type == MASS_MASSIVE )
 	{
+		m_sprite_array = ARRAY_MASSIVE;
 		m_pos_z = m_pos_z_massive_start;
+		m_can_be_ground = true;
 	}
 	else if( m_massive_type == MASS_PASSIVE )
 	{
-		if( m_type == TYPE_FRONT_PASSIVE )
-		{
-			m_pos_z = m_pos_z_front_passive_start;
-		}
-		else
-		{
-			m_pos_z = m_pos_z_passive_start;
-		}
+		m_sprite_array = ARRAY_PASSIVE;
+		m_pos_z = m_pos_z_passive_start;
+		m_can_be_ground = false;
 	}
-	else if( m_massive_type == MASS_CLIMBABLE || m_massive_type == MASS_HALFMASSIVE )
+	else if ( m_massive_type == MASS_FRONT_PASSIVE )
 	{
+		m_sprite_array = ARRAY_PASSIVE;
+		m_pos_z = m_pos_z_front_passive_start;
+		m_can_be_ground = false;
+	}
+	else if ( m_massive_type == MASS_HALFMASSIVE )
+	{
+		m_sprite_array = ARRAY_ACTIVE;
 		m_pos_z = m_pos_z_halfmassive_start;
+		m_can_be_ground = true;
+	}
+	else if( m_massive_type == MASS_CLIMBABLE )
+	{
+		m_sprite_array = ARRAY_ACTIVE;
+		m_pos_z = m_pos_z_halfmassive_start;
+		m_can_be_ground = false;
 	}
 
 	// make it the latest sprite

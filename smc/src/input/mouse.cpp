@@ -1740,7 +1740,7 @@ void cMouseCursor :: Editor_Update( void )
 		{
 			// ignore
 		}
-		else if( col->m_obj->m_type == TYPE_FRONT_PASSIVE )
+		else if( col->m_obj->m_massive_type == MASS_FRONT_PASSIVE )
 		{
 			display_name.insert( 0, _("Front Passive - ") );
 		}
@@ -1751,11 +1751,11 @@ void cMouseCursor :: Editor_Update( void )
 	}
 	else if( col->m_array == ARRAY_ACTIVE )
 	{
-		if( col->m_obj->m_type == TYPE_HALFMASSIVE )
+		if( col->m_obj->m_massive_type == MASS_HALFMASSIVE )
 		{
 			display_name.insert( 0, _("Halfmassive - ") );
 		}
-		else if( col->m_obj->m_type == TYPE_CLIMBABLE )
+		else if( col->m_obj->m_massive_type == MASS_CLIMBABLE )
 		{
 			display_name.insert( 0, _("Climbable - ") );
 		}

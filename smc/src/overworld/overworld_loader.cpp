@@ -189,7 +189,7 @@ cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes,
 	// Create sprite
 	cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
 	// Set sprite type
-	p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+	p_sprite->Set_Massive_Type(MASS_PASSIVE);
 
 	// needs image. If V.1.9 and lower: change old bridge to bridge 1 vertical
 	if (p_sprite->m_image && engine_version < 3 && p_sprite->m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("world/objects/bridge/bridge_1_ver_start.png")) == 0) {

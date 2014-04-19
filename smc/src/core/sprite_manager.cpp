@@ -18,6 +18,7 @@
 #include "../level/level_player.hpp"
 #include "../input/mouse.hpp"
 #include "../overworld/world_player.hpp"
+#include "../enemies/enemy.hpp"
 
 namespace SMC
 {
@@ -47,7 +48,10 @@ void cSprite_Manager :: Add( cSprite *sprite )
 		return;
 	}
 
-	Set_Pos_Z( sprite );
+	// Ensure sprites of the same layer get slightly different Z
+	// coordinates. See method docs in sprite_manager.hpp for more
+	//information.
+	Ensure_Different_Z( sprite );
 
 	/* If the sprite already has a UID set, we accept it as-is. This is
 	 * usually the case when loading a level from the XML file. Otherwise
@@ -107,40 +111,49 @@ cSprite *cSprite_Manager :: Copy( unsigned int identifier )
 	return objects[identifier]->Copy();
 }
 
-void cSprite_Manager :: Set_Pos_Z( cSprite *sprite )
+void cSprite_Manager :: Ensure_Different_Z( cSprite *sprite )
 {
-	// don't set particle effect z position
-	if( sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER )
-	{
+	/*The following sprites should never be placed over one another,
+	 * so they are excluded from the Z correction any may well have
+	 * equal Z coordinates. As the Z correction focuses on the
+	 * massivity, we would otherwise e.g. have the enemies (which are
+	 * mostly massive) given Z coordinates from the line of normal
+	 * massive tiles, causing for example flyons to appear over their
+	 * containing pipe (given that the flyon sprite was added after
+	 * the pipe sprite). */
+	if ( dynamic_cast<cEnemy*>(sprite) || sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER )
 		return;
-	}
+	// TODO: Replace that with dynamic_cast<> alltogether? See issue #44.
 
-	// set new z position if unset
-	if( sprite->m_pos_z <= m_z_pos_data[sprite->m_type] )
+	// set new Z position if not higher than a prior Z of
+	// the same massivity.
+	if( sprite->m_pos_z <= m_z_pos_data[sprite->m_massive_type] )
 	{
-		sprite->m_pos_z = m_z_pos_data[sprite->m_type] + 0.000001f;
+		sprite->m_pos_z = m_z_pos_data[sprite->m_massive_type] + 0.000001f;
 	}
-	// if editor z position is given
+	// Same for editor
 	if( sprite->m_editor_pos_z > 0.0f )
 	{
-		if( sprite->m_editor_pos_z <= m_z_pos_data_editor[sprite->m_type] )
+		if( sprite->m_editor_pos_z <= m_z_pos_data_editor[sprite->m_massive_type] )
 		{
-			sprite->m_editor_pos_z = m_z_pos_data_editor[sprite->m_type] + 0.000001f;
+			sprite->m_editor_pos_z = m_z_pos_data_editor[sprite->m_massive_type] + 0.000001f;
 		}
 	}
 
 
-	// update z position
-	if( sprite->m_pos_z > m_z_pos_data[sprite->m_type] )
+	// Update our Z memory for the next call of this method
+	// (so this Z is not given out again!)
+	if( sprite->m_pos_z > m_z_pos_data[sprite->m_massive_type] )
 	{
-		m_z_pos_data[sprite->m_type] = sprite->m_pos_z;
+		m_z_pos_data[sprite->m_massive_type] = sprite->m_pos_z;
 	}
-	// if editor z position is given
+
+	// Same for editor Z memory
 	if( sprite->m_editor_pos_z > 0.0f )
 	{
-		if( sprite->m_editor_pos_z > m_z_pos_data_editor[sprite->m_type] )
+		if( sprite->m_editor_pos_z > m_z_pos_data_editor[sprite->m_massive_type] )
 		{
-			m_z_pos_data_editor[sprite->m_type] = sprite->m_editor_pos_z;
+			m_z_pos_data_editor[sprite->m_massive_type] = sprite->m_editor_pos_z;
 		}
 	}
 }

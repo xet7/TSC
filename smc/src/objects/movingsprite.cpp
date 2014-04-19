@@ -48,8 +48,6 @@ cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *spri
 	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 	// image
 	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
-	// type
-	Set_Sprite_Type( Get_Sprite_Type_Id( attributes["type"] ) );
 }
 
 cMovingSprite :: ~cMovingSprite( void )
@@ -60,6 +58,7 @@ cMovingSprite :: ~cMovingSprite( void )
 void cMovingSprite :: Init( void )
 {
 	m_state = STA_STAY;
+	m_type = TYPE_UNDEFINED;
 
 	m_velx = 0.0f;
 	m_vely = 0.0f;

@@ -55,8 +55,8 @@ cGL_Surface :: cGL_Surface( void )
 	m_managed = 0;
 	m_obsolete = 0;
 
-	// default type is passive
-	m_type = TYPE_PASSIVE;
+	// default massive type is passive
+	m_massive_type = MASS_PASSIVE;
 
 	m_ground_type = GROUND_NORMAL;
 
@@ -104,7 +104,7 @@ cGL_Surface *cGL_Surface :: Copy( void ) const
 	new_surface->m_obsolete = m_obsolete;
 	new_surface->m_editor_tags = m_editor_tags;
 	new_surface->m_name = m_name;
-	new_surface->m_type = m_type;
+	new_surface->m_massive_type = m_massive_type;
 	new_surface->Set_Ground_Type( m_ground_type );
 
 	return new_surface;

@@ -1151,7 +1151,7 @@ bool cEditor :: Load_Item_Menu( std::string item_tags )
 				cSprite *new_sprite = new cSprite( m_sprite_manager );
 				new_sprite->Set_Image( image );
 				// default massivetype
-				new_sprite->Set_Sprite_Type( static_cast<SpriteType>(image->m_type) );
+				new_sprite->Set_Massive_Type( static_cast<MassiveType>(image->m_massive_type) );
 				// Add new Sprite
 				Add_Item_Object( new_sprite );
 
@@ -1232,27 +1232,10 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 		}
 	}
 
-	// set correct type if not given
+	// warn if correct type is not given
 	if( sprite->m_type == TYPE_UNDEFINED )
 	{
 		printf( "Warning : Editor sprite %s type not set\n", sprite->m_name.c_str() );
-
-		if( sprite->m_massive_type == MASS_PASSIVE )
-		{
-			sprite->m_type = TYPE_PASSIVE;
-		}
-		else if( sprite->m_massive_type == MASS_MASSIVE )
-		{
-			sprite->m_type = TYPE_MASSIVE;
-		}
-		else if( sprite->m_massive_type == MASS_HALFMASSIVE )
-		{
-			sprite->m_type = TYPE_HALFMASSIVE;
-		}
-		else if( sprite->m_massive_type == MASS_CLIMBABLE )
-		{
-			sprite->m_type = TYPE_CLIMBABLE;
-		}
 	}
 
 	// if no image is given use the sprite start image

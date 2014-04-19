@@ -295,50 +295,25 @@ bool cEditor_Level :: Switch_Object_State( cSprite *obj ) const
 		return 0;
 	}
 
-	// from Passive to Front Passive
-	if( obj->m_type == TYPE_PASSIVE )
+	if( obj->m_massive_type == MASS_FRONT_PASSIVE )
 	{
-		obj->Set_Sprite_Type( TYPE_FRONT_PASSIVE );
+		obj->Set_Massive_Type( MASS_MASSIVE );
 	}
-	// from Front Passive to Massive
-	else if( obj->m_type == TYPE_FRONT_PASSIVE )
+	else if( obj->m_massive_type == MASS_MASSIVE )
 	{
-		obj->Set_Sprite_Type( TYPE_MASSIVE );
+		obj->Set_Massive_Type( MASS_HALFMASSIVE );
 	}
-	// from Massive to Halfmassive
-	else if( obj->m_type == TYPE_MASSIVE )
+	else if( obj->m_massive_type == MASS_HALFMASSIVE )
 	{
-		obj->Set_Sprite_Type( TYPE_HALFMASSIVE );
+		obj->Set_Massive_Type( MASS_CLIMBABLE );
 	}
-	// from Halfmassive to Climbable
-	else if( obj->m_type == TYPE_HALFMASSIVE )
+	else if( obj->m_massive_type == MASS_CLIMBABLE )
 	{
-		obj->Set_Sprite_Type( TYPE_CLIMBABLE );
+		obj->Set_Massive_Type( MASS_PASSIVE );
 	}
-	// from Climbable to Passive
-	else if( obj->m_type == TYPE_CLIMBABLE )
+	else if ( obj->m_massive_type == MASS_PASSIVE )
 	{
-		obj->Set_Sprite_Type( TYPE_PASSIVE );
-	}
-	// moving platform
-	else if( obj->m_type == TYPE_MOVING_PLATFORM )
-	{
-		if( obj->m_massive_type == MASS_PASSIVE )
-		{
-			obj->Set_Massive_Type( MASS_MASSIVE );
-		}
-		else if( obj->m_massive_type == MASS_MASSIVE )
-		{
-			obj->Set_Massive_Type( MASS_HALFMASSIVE );
-		}
-		else if( obj->m_massive_type == MASS_HALFMASSIVE )
-		{
-			obj->Set_Massive_Type( MASS_CLIMBABLE );
-		}
-		else if( obj->m_massive_type == MASS_CLIMBABLE )
-		{
-			obj->Set_Massive_Type( MASS_PASSIVE );
-		}
+		obj->Set_Massive_Type( MASS_FRONT_PASSIVE );
 	}
 	// invalid object type
 	else
