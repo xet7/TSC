@@ -57,12 +57,12 @@ void cLava::Init()
 	m_can_be_ground = true;
 	Set_Scale_Directions(1, 1, 1, 1);
 
-	Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/1.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/2.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/3.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/4.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/5.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/6.png" ) );
+	Add_Image( pVideo->Get_Surface( "lava/red/red_1.png" ) );
+	Add_Image( pVideo->Get_Surface( "lava/red/red_2.png" ) );
+	Add_Image( pVideo->Get_Surface( "lava/red/red_3.png" ) );
+	Add_Image( pVideo->Get_Surface( "lava/red/red_4.png" ) );
+	Add_Image( pVideo->Get_Surface( "lava/red/red_5.png" ) );
+	Add_Image( pVideo->Get_Surface( "lava/red/red_6.png" ) );
 
 	Set_Animation(true);
 	Set_Animation_Image_Range(0, 5);
