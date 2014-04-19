@@ -267,6 +267,8 @@ enum SpriteType
 };
 
 /* *** Massive Types *** */
+// Massive types primaryly define the Z coordinate of a sprite.
+// Collision checking is done with the array types below.
 
 enum MassiveType
 {
@@ -290,6 +292,7 @@ enum GroundType
 };
 
 /* *** Array Types *** */
+// Array types define how an object behaves on collisions.
 
 enum ArrayType
 {
@@ -307,7 +310,9 @@ enum ArrayType
 	// animation
 	ARRAY_ANIM = 6,
 	// player
-	ARRAY_PLAYER = 7
+	ARRAY_PLAYER = 7,
+	// lava
+	ARRAY_LAVA = 8
 };
 
 /* *** collision validation types *** */

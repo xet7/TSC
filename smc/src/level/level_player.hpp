@@ -242,6 +242,8 @@ public:
 	virtual void Handle_Collision_Massive( cObjectCollision *collision );
 	// collision with passive
 	virtual void Handle_Collision_Passive( cObjectCollision *collision );
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision );
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 

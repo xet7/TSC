@@ -331,6 +331,15 @@ void cEnemy :: Handle_Collision( cObjectCollision *collision )
 	cAnimated_Sprite::Handle_Collision( collision );
 }
 
+void cEnemy :: Handle_Collision_Lava( cObjectCollision *p_collision )
+{
+	if (p_collision->m_direction == DIR_UNDEFINED)
+		return;
+
+	// What comes in contact with lava dies. Period.
+	Set_Dead(true);
+}
+
 void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 {
 	if( dir == DIR_LEFT )

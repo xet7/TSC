@@ -94,6 +94,8 @@ public:
 	virtual void Handle_Collision_Massive( cObjectCollision *collision ) {};
 	// collision with passive
 	virtual void Handle_Collision_Passive( cObjectCollision *collision ) {};
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision ) {};
 	// collision from a box
 	virtual void Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 ) {};
 
