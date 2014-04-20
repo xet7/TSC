@@ -35,6 +35,7 @@
 #include "../core/math/size.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/main.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -3232,117 +3233,36 @@ void cMenu_Credits :: Init( void )
 	// clear credits
 	m_draw_list.clear();
 
-	// add credits text
-	Add_Credits_Line( "Florian Richter (FluXy)", 0, 20, black, 1.0f );
-	Add_Credits_Line( " - Project Leader", 0, -3 );
-	Add_Credits_Line( " - Dedicated Developer", 0, -3 );
+	// Load all our credits from the g_credits global string.
+	size_t position = 0;
+	size_t last_position = 0;
+	while (true) {
+		position = g_credits.find("\n", last_position + 1);
 
-	Add_Credits_Line( "Robert W... (BowserJr)", 0, 20, lightgreen, 1.0f );
-	Add_Credits_Line( " - Forum and Wiki Moderator", 0, -3 );
-	Add_Credits_Line( " - Game Tester", 0, -3 );
+		if (position == std::string::npos)
+			break;
 
-	Add_Credits_Line( "Anthony Smith (mrvertigo27)", 0, 20, Color( 0.58f, 0.52f, 1.0f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
+		if (position != last_position + 1) { // Not empty line
+			std::string line = g_credits.substr(last_position, position - last_position);
 
-	Add_Credits_Line( "Fabian ... (Fabianius)", 0, 20, Color( 0.5f, 0.9f, 0.0f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
+			// Strip leading newline if any (first line has none)
+			if (line[0] == '\n')
+				line = line.substr(1, std::string::npos);
 
-	// Most Valued Persons (MVP)
-	Add_Credits_Line( "-- Most Valued Persons (MVP) --", 0, 20, lightgrey, 1.0f );
+			if (line[0] == ' ') // Continuation line
+				Add_Credits_Line(line, 0, -3, white);
+			else if (line[0] == '-') // Separator line
+				Add_Credits_Line(line, 0, 20, red);
+			else {
+				float r =  rand() % 80 / 100.0; // Don’t conflict with separator line color
+				float g = rand() % 255 / 100.0;
+				float b = rand() % 255 / 100.0;
+				Add_Credits_Line(line, 0, 20, Color(r, g, b));
+			}
+		}
 
-	Add_Credits_Line( "... (Crabmaster)", 0, 20, Color( 0.8f, 0.35f, 0.25f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Norbu Tsering (Naerbu)", 0, 20, Color( 0.8f, 0.0f, 0.0f ), 1.0f );
-	Add_Credits_Line( " - Music Artist", 0, -3 );
-
-	Add_Credits_Line( "Tristan Heaven (nyhm)", 0, 20, lightblue, 1.0f );
-	Add_Credits_Line( " - Gentoo eBuild Maintainer", 0, -3 );
-
-	Add_Credits_Line( "Muammar El Khatib (muammar)", 0, 20, lightred, 1.0f );
-	Add_Credits_Line( " - Debian Package Maintainer", 0, -3 );
-
-	Add_Credits_Line( "... (Yoshis_Fan)", 0, 20, Color( 0.8f, 1.0f, 0.4f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Holger Fey (Nemo)", 0, 20, lila, 1.0f );
-	Add_Credits_Line( " - Game Tester", 0, -3 );
-	Add_Credits_Line( " - German Publicity", 0, -3 );
-	Add_Credits_Line( " - Torrent Packager", 0, -3 );
-
-	// Retired
-	Add_Credits_Line( "-- Retired --", 0, 20, lightgrey, 1.0f );
-
-	Add_Credits_Line( "Grant ... (youngheart80)", 0, 20, green, 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "... (Sauer2)", 0, 20, Color( 0.1f, 0.6f, 0.1f ), 1.0f );
-	Add_Credits_Line( " - Level Contributor", 0, -3 );
-
-	Add_Credits_Line( "... (Simpletoon)", 0, 20, Color( 0.2f, 0.2f, 0.8f ), 1.0f );
-	Add_Credits_Line( " - Developer", 0, -3 );
-
-	Add_Credits_Line( "David Hernandez (vencabot_teppoo)", 0, 20, Color( 0.8f, 0.6f, 0.2f ), 1.0f );
-	Add_Credits_Line( " - Music Artist", 0, -3 );
-
-	Add_Credits_Line( "Markus Hiebl (Frostbringer)", 0, 20, Color( 0.9f, 0.1f, 0.8f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-	Add_Credits_Line( " - Level Contributor", 0, -3 );
-
-	Add_Credits_Line( "... (Helios)", 0, 20, Color( 0.8f, 0.8f, 0.1f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Mark Richards (dteck)", 0, 20, blue, 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Mario Fink (maYO)", 0, 20, blue, 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-	Add_Credits_Line( " - Website Graphic Designer", 0, -3 );
-	Add_Credits_Line( " - Other Support", 0, -3 );
-
-	Add_Credits_Line( "... (Polilla86)", 0, 20, Color( 0.7f, 0.1f, 0.2f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Ursula ... (Pipgirl)", 0, 20, Color( 0.2f, 0.9f, 0.2f ), 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Tobias Maasland (Weirdnose)", 0, 20, Color( 0.9f, 0.7f, 0.2f ), 1.0f );
-	Add_Credits_Line( " - Level and World Contributor", 0, -3 );
-	Add_Credits_Line( " - Assistant Developer", 0, -3 );
-
-	Add_Credits_Line( "Robert ... (Consonance)", 0, 20, lightred, 1.0f );
-	Add_Credits_Line( " - Sound and Music Artist", 0, -3 );
-
-	Add_Credits_Line( "Justin ... (LoXodonte)", 0, 20, lightblue, 1.0f );
-	Add_Credits_Line( " - Music Artist", 0, -3 );
-
-	Add_Credits_Line( "Matt J... (mattwj)", 0, 20, red, 1.0f );
-	Add_Credits_Line( " - eDonkey Packager", 0, -3 );
-	Add_Credits_Line( " - Quality Assurance", 0, -3 );
-
-	Add_Credits_Line( "Bodhi Crandall-Rus (Boder)", 0, 20, green, 1.0f );
-	Add_Credits_Line( " - All Hands Person", 0, -3 );
-	Add_Credits_Line( " - Game Tester", 0, -3 );
-	Add_Credits_Line( " - Assistant Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "John Daly (Johnlein)", 0, 20, yellow, 1.0f );
-	Add_Credits_Line( " - Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Gustavo Gutierrez (Enzakun)", 0, 20, lightred, 1.0f );
-	Add_Credits_Line( " - Maryo Graphic Designer", 0, -3 );
-
-	Add_Credits_Line( "Thomas Huth (Thothy)", 0, 20, greenyellow, 1.0f );
-	Add_Credits_Line( " - Linux Maintainer", 0, -3 );
-
-	// Thanks
-	Add_Credits_Line( "-- Thanks --", 0, 20, lightblue, 1.0f );
-
-	Add_Credits_Line( "Jason Cox (XOC)", 0, 0 );
-	Add_Credits_Line( "Ricardo Cruz", 0, 0 );
-	Add_Credits_Line( "Devendra (Yuki),", 0, 0 );
-	Add_Credits_Line( "Hans de Goede (Hans)", 0, 0 );
-	Add_Credits_Line( "... (xPatrickx)", 0, 0 );
-	Add_Credits_Line( "Rolando Gonzalez (rolosworld)", 0, 0 );
+		last_position = position;
+	}
 
 	m_menu_pos_y = game_res_h * 1.1f;
 
@@ -3563,10 +3483,10 @@ void cMenu_Credits :: Draw( void )
 	Draw_End();
 }
 
-void cMenu_Credits :: Add_Credits_Line( const std::string &text, float posx, float posy, const Color &shadow_color /* = black */, float shadow_pos /* = 0.0f */ )
+void cMenu_Credits :: Add_Credits_Line( const std::string &text, float posx, float posy, const Color &color /* = black */, float shadow_pos /* = 0.0f */, const Color &shadow_color /* = black */ )
 {
 	cHudSprite *temp = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	temp->Set_Image( pFont->Render_Text( pFont->m_font_normal, text, white ), 1, 1 );
+	temp->Set_Image( pFont->Render_Text( pFont->m_font_normal, text, color ), 1, 1 );
 	temp->Set_Pos( posx, posy );
 	if( !Is_Float_Equal( shadow_pos, 0.0f ) )
 	{
