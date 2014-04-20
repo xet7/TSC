@@ -25,6 +25,11 @@
 		<property name="color" value="FFA89469" />
 	</item>
 	<item>
+		<property name="name" value="Cave Ground" />
+		<property name="tags" value="cave;ground" />
+		<property name="color" value="FFA894F6" />
+	</item>
+	<item>
 		<property name="name" value="Underground" />
 		<property name="tags" value="underground;ground" />
 		<property name="color" value="FFBC5C00" />
