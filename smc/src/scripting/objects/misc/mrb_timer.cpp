@@ -153,8 +153,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-static void Free_Timer(mrb_state* p_state, void* ptr);
-
 // Extern
 struct RClass* SMC::Scripting::p_rcTimer = NULL;
 
@@ -220,7 +218,15 @@ void cTimer::Interrupt()
 	if (!mp_thread)
 		return;
 
+	/* A oneshot-timer may has ended when Interrupt()
+	 * gets called, but terminated threads can still be
+	 * interrupted and joined -- these method then just
+	 * do nothing. */
 	mp_thread->interrupt();
+	mp_thread->join();
+
+	delete mp_thread;
+	mp_thread = NULL;
 }
 
 bool cTimer::Is_Active()
@@ -344,12 +350,6 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 	return self;
 }
 
-static void Free_Timer(mrb_state* p_state, void* ptr)
-{
-	cTimer* p_timer = (cTimer*) ptr;
-	delete p_timer;
-}
-
 /**
  * Method: Timer::every
  *
@@ -373,9 +373,15 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
 	mrb_get_args(p_state, "i&", &interval, &block);
 
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, true);
-	p_timer->Start();
 
-	return mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
+	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
+
+	// Prevent mruby timer from getting out of scope
+	mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
+	mrb_iv_set(p_state, instance, mrb_intern_cstr(p_state, "callback"), block);
+
+	p_timer->Start();
+	return instance;
 }
 
 /**
@@ -402,9 +408,14 @@ static mrb_value After(mrb_state* p_state,  mrb_value self)
 	mrb_get_args(p_state, "i&", &secs, &block);
 
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
-	p_timer->Start();
+	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
 
-	return mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
+	// Prevent mruby timer from getting out of scope
+	mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
+	mrb_iv_set(p_state, instance, mrb_intern_cstr(p_state, "callback"), block);
+
+	p_timer->Start();
+	return instance;
 }
 
 /**

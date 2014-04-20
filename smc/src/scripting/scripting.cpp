@@ -103,6 +103,25 @@ namespace SMC
 
 		cMRuby_Interpreter::~cMRuby_Interpreter()
 		{
+			// Get all the registered timers from mruby
+			mrb_value klass = mrb_obj_value(p_rcTimer);
+			mrb_value rb_timers = mrb_iv_get(mp_mruby, klass, mrb_intern_cstr(mp_mruby, "instances"));
+
+			// Stop ’em all! (and free them)
+			while(true) {
+				// Retrieve timer
+				mrb_value rb_timer = mrb_ary_shift(mp_mruby, rb_timers);
+				if (mrb_nil_p(rb_timer))
+					break;
+
+				// Free C++ part. The mruby part is out of scope now (shifted from
+				// the instance array) and will be GC’ed (would anyway due to termination
+				// further below). Note cTimer’s destructor calls Interrupt() on the timer.
+				cTimer* p_timer = Get_Data_Ptr<cTimer>(mp_mruby, rb_timer);
+				delete p_timer;
+			}
+
+			// Terminate mruby interpreter
 			mrb_close(mp_mruby);
 		}
 
