@@ -163,6 +163,16 @@ configure_file(${SMC_SOURCE_DIR}/config.hpp.in
   ${SMC_BINARY_DIR}/config.hpp)
 include_directories(${SMC_BINARY_DIR})
 
+
+########################################
+# Credits file
+
+set_source_files_properties(${SMC_SOURCE_DIR}/src/credits.cpp
+  PROPERTIES GENERATED true)
+add_custom_command(OUTPUT ${SMC_SOURCE_DIR}/src/credits.cpp
+  COMMAND rake src/credits.cpp
+  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt)
+
 ###############################################
 # Source files
 
@@ -177,7 +187,7 @@ file(GLOB_RECURSE smc_sources
 # Targets
 
 # Now add our build targets and their dependencies.
-add_executable(smc ${smc_sources})
+add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp)
 if (ENABLE_MRUBY)
   add_dependencies(smc mruby)
 endif()

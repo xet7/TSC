@@ -1,0 +1,35 @@
+# -*- ruby -*-
+require "rake"
+
+# This task is called from CMake.
+file "src/credits.cpp" => "docs/authors.txt" do
+  puts "Converting docs/authors.txt to C++ source file"
+
+  File.open("src/credits.cpp", "w") do |f|
+    # Write first part
+    f.puts(%Q!#include "core/global_game.hpp"
+#include "core/main.hpp"
+
+namespace SMC {
+
+	const std::string g_credits = "\\\n!)
+
+    File.open("docs/authors.txt") do |f2|
+      # Skip to real content
+      loop do
+        line = f2.gets
+        break if line.start_with?("=-=-=-")
+      end
+      f2.gets
+
+      # Write out the remaining part to the cpp file
+      while (line = f2.gets)
+        f.write(line.chomp)
+        f.puts("\\n\\")
+      end
+
+      # Write final part
+      f.write("\";\n}\n")
+    end
+  end
+end

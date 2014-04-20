@@ -44,6 +44,8 @@ void Update_Game( void );
 */
 void Draw_Game( void );
 
+extern const std::string g_credits;
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC
