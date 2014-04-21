@@ -361,6 +361,7 @@ the MRuby scripting API, grouped by topic:
 | [Eventable](eventable.html)           |                                             |
 | Input → InputClass                    | Singleton                                   |
 | [InputClass](inputclass.html)         |                                             |
+| [Lava](lava.html)                     |                                             |
 | [Path](path.html)                     |                                             |
 | [Path::Segment](path_segment.html)    |                                             |
 | [Timer](timer.html)                   |                                             |

@@ -55,14 +55,17 @@
  * Constants
  * ---------
  *
- * [PASSIVE_Z_START]
- *   Lowest valid Z coordinate for passive sprites.
- * [MASSIVE_Z_START]
- *   Lowest valid Z coordinate for massive sprites.
- * [FRONTPASSIVE_Z_START]
- *   Lowest valid Z coordinate for front-passive sprites.
- * [HALFMASSIVE_Z_START]
- *   Lowest valid Z coordinate for half-massive sprites.
+ * PASSIVE_Z_START
+ * : Lowest valid Z coordinate for passive sprites.
+ *
+ * MASSIVE_Z_START
+ * : Lowest valid Z coordinate for massive sprites.
+ *
+ * FRONTPASSIVE_Z_START
+ * : Lowest valid Z coordinate for front-passive sprites.
+ *
+ * HALFMASSIVE_Z_START
+ * : Lowest valid Z coordinate for half-massive sprites.
  */
 
 using namespace SMC;

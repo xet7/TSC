@@ -25,7 +25,7 @@ class Parser
   attr_reader :classes
   # After the call to #parse! a sorted array of ModuleDoc instances.
   attr_reader :modules
-  # After the call to #ptase! a sorted array of MethodDoc instances.
+  # After the call to #parse! a sorted array of MethodDoc instances.
   attr_reader :methods
 
   # Instruct the parser to parse the given files. Directories

@@ -18,6 +18,16 @@ using namespace SMC::Scripting;
 // Extern
 struct RClass* SMC::Scripting::p_rcLava = NULL;
 
+/**
+ * Method: Lava::new
+ *
+ *   new() → a_lava
+ *
+ * Creates a new piece of lava.
+ *
+ * ##### Return value
+ * The newly created instance.
+ */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
 	cLava* p_lava = new cLava(pActive_Level->m_sprite_manager);
