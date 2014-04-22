@@ -74,7 +74,7 @@ void cVideo :: Init_CEGUI( void ) const
 	// create renderer
 	try
 	{
-		pGuiRenderer = &CEGUI::OpenGLRenderer::create( CEGUI::Size( screen->w, screen->h ) );
+		pGuiRenderer = &CEGUI::OpenGLRenderer::create( CEGUI::Sizef( screen->w, screen->h ) );
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
@@ -109,11 +109,6 @@ void cVideo :: Init_CEGUI( void ) const
 #else
 	logger->setLoggingLevel( CEGUI::Errors );
 #endif
-
-	// set initial mouse position
-	int mouse_x, mouse_y;
-	SDL_GetMouseState( &mouse_x, &mouse_y );
-	CEGUI::MouseCursor::setInitialMousePosition( CEGUI::Point( mouse_x, mouse_y ) );
 	// add custom widgets
 	CEGUI::WindowFactoryManager::addFactory<CEGUI::SMC_SpinnerFactory>();
 
@@ -133,13 +128,18 @@ void cVideo :: Init_CEGUI( void ) const
 		printf( "CEGUI Exception occurred : %s\n", ex.getMessage().c_str() );
 		exit( EXIT_FAILURE );
 	}
+
+	// set initial mouse position
+	int mouse_x, mouse_y;
+	SDL_GetMouseState( &mouse_x, &mouse_y );
+	pGuiSystem->getDefaultGUIContext().getMouseCursor().setInitialMousePosition( CEGUI::Vector2f( mouse_x, mouse_y ) );
 }
 
 void cVideo :: Init_CEGUI_Data( void ) const
 {
 	// set the default resource groups to be used
 	CEGUI::Scheme::setDefaultResourceGroup( "schemes" );
-	CEGUI::Imageset::setDefaultResourceGroup( "imagesets" );
+	CEGUI::ImageManager::setImagesetDefaultResourceGroup( "imagesets" );
 	CEGUI::Font::setDefaultResourceGroup( "fonts" );
 	CEGUI::WidgetLookManager::setDefaultResourceGroup( "looknfeels" );
 	CEGUI::WindowManager::setDefaultResourceGroup( "layouts" );
@@ -147,7 +147,7 @@ void cVideo :: Init_CEGUI_Data( void ) const
 	// load the scheme file, which auto-loads the imageset
 	try
 	{
-		CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
+		CEGUI::SchemeManager::getSingleton().createFromFile( "TaharezLook.scheme" );
 	}
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
@@ -157,15 +157,15 @@ void cVideo :: Init_CEGUI_Data( void ) const
 	}
 
 	// default mouse cursor
-	pGuiSystem->setDefaultMouseCursor( "TaharezLook", "MouseArrow" );
+	pGuiSystem->getDefaultGUIContext().getMouseCursor().setDefaultImage( "TaharezLook/MouseArrow" );
 	// force new mouse image
-	CEGUI::MouseCursor::getSingleton().setImage( &CEGUI::ImagesetManager::getSingleton().get( "TaharezLook" ).getImage( "MouseArrow" ) );
-	// default tooltip
-	pGuiSystem->setDefaultTooltip( "TaharezLook/Tooltip" );
+	pGuiSystem->getDefaultGUIContext().getMouseCursor().setImage( &CEGUI::ImageManager::getSingleton().get( "TaharezLook/MouseArrow" ) );
+	// default tooltip (TODO : re-enable when understand equivalent in 0.8.x)
+	//pGuiSystem->setDefaultTooltip( "TaharezLook/Tooltip" );
 
 	// create default root window
-	CEGUI::Window *window_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "default.layout" );
-	pGuiSystem->setGUISheet( window_root );
+	CEGUI::Window *window_root = CEGUI::WindowManager::getSingleton().loadLayoutFromFile( "default.layout" );
+	pGuiSystem->getDefaultGUIContext().setRootWindow( window_root );
 	window_root->activate();
 }
 
@@ -344,7 +344,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	if( m_initialised )
 	{
 		// check if CEGUI is initialized
-		bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
+		bool cegui_initialized = pGuiSystem->getDefaultGUIContext().getRootWindow() != NULL;
 
 		// show loading screen
 		if( cegui_initialized )
@@ -472,10 +472,10 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		pFont->Restore_Textures();
 
 		// send new size to CEGUI
-		pGuiSystem->notifyDisplaySizeChanged( CEGUI::Size( static_cast<float>(screen_w), static_cast<float>(screen_h) ) );
+		pGuiSystem->notifyDisplaySizeChanged( CEGUI::Sizef( static_cast<float>(screen_w), static_cast<float>(screen_h) ) );
 
 		// check if CEGUI is initialized
-		bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
+		bool cegui_initialized = pGuiSystem->getDefaultGUIContext().getRootWindow() != NULL;
 
 		// show loading screen
 		if( cegui_initialized )
@@ -712,7 +712,7 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 	if( draw_gui )
 	{
 		// get progress bar
-		progress_bar = static_cast<CEGUI::ProgressBar *>(CEGUI::WindowManager::getSingleton().getWindow( "progress_bar" ));
+		progress_bar = static_cast<CEGUI::ProgressBar *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "progress_bar" ));
 		progress_bar->setProgress( 0 );
 
 		// set loading screen text
@@ -971,7 +971,7 @@ void cVideo :: Render( bool threaded /* = 0 */ )
 
 	if( threaded )
 	{
-		pGuiSystem->renderGUI();
+		pGuiSystem->getDefaultGUIContext().draw();
 
 		// update performance timer
 		pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
@@ -1006,7 +1006,7 @@ void cVideo :: Render( bool threaded /* = 0 */ )
 		// update performance timer
 		pFramerate->m_perf_timer[PERF_RENDER_GAME]->Update();
 
-		pGuiSystem->renderGUI();
+		pGuiSystem->getDefaultGUIContext().draw();
 
 		// update performance timer
 		pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
@@ -2336,33 +2336,33 @@ void Draw_Effect_In( Effect_Fadein effect /* = EFFECT_IN_RANDOM */, float speed 
 
 void Loading_Screen_Init( void )
 {
-	if( CEGUI::WindowManager::getSingleton().isWindowPresent( "loading" ) )
+	if( pGuiSystem->getDefaultGUIContext().getRootWindow()->isChild( "loading" ) )
 	{
 		printf( "Warning: Loading Screen already initialized." );
 		return;
 	}
 
-	CEGUI::Window *guisheet = pGuiSystem->getGUISheet();
+	CEGUI::Window *root = pGuiSystem->getDefaultGUIContext().getRootWindow();
 
 	// hide all windows
-	for( unsigned int i = 0, gui_windows = guisheet->getChildCount(); i < gui_windows; i++ )
+	for( unsigned int i = 0, gui_windows = root->getChildCount(); i < gui_windows; i++ )
 	{
-		guisheet->getChildAtIdx( i )->hide();
+		root->getChildAtIdx( i )->hide();
 	}
 
 	// Create loading window
-	CEGUI::Window *loading_window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "loading.layout" );
-	guisheet->addChildWindow( loading_window );
+	CEGUI::Window *loading_window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile( "loading.layout" );
+	root->addChild( loading_window );
 
 	// set info text
-	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "text_loading" ));
+	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "text_loading" ));
 	text_default->setText( _("Loading") );
 }
 
 void Loading_Screen_Draw_Text( const std::string &str_info /* = "Loading" */ )
 {
 	// set info text
-	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "text_loading" ));
+	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "text_loading" ));
 	if( !text_default )
 	{
 		printf( "Warning: Loading Screen not initialized." );
@@ -2388,28 +2388,27 @@ void Loading_Screen_Draw( void )
 
 	// Render
 	pRenderer->Render();
-	pGuiSystem->renderGUI();
+	pGuiSystem->getDefaultGUIContext().draw();
 	SDL_GL_SwapBuffers();
 }
 
 void Loading_Screen_Exit( void )
 {
-	CEGUI::Window *loading_window = CEGUI::WindowManager::getSingleton().getWindow( "loading" );
+	CEGUI::Window *root = pGuiSystem->getDefaultGUIContext().getRootWindow();
+	CEGUI::Window *loading_window = root->getChild( "loading" );
 
 	// loading window is present
 	if( loading_window )
 	{
-		CEGUI::Window *guisheet = pGuiSystem->getGUISheet();
-
 		// delete loading window
-		guisheet->removeChildWindow( loading_window );
+		root->removeChild( loading_window );
 		CEGUI::WindowManager::getSingleton().destroyWindow( loading_window );
 
 		// show windows again
 		// fixme : this should only show the hidden windows again
-		for( unsigned int i = 0, gui_windows = guisheet->getChildCount(); i < gui_windows; i++ )
+		for( unsigned int i = 0, gui_windows = root->getChildCount(); i < gui_windows; i++ )
 		{
-			guisheet->getChildAtIdx( i )->show();
+			root->getChildAtIdx( i )->show();
 		}
 	}
 }

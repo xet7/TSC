@@ -42,8 +42,8 @@ cDialogBox :: ~cDialogBox( void )
 void cDialogBox :: Init( void )
 {
 	// load layout
-	window = CEGUI::WindowManager::getSingleton().loadWindowLayout( layout_file );
-	pGuiSystem->getGUISheet()->addChildWindow( window );
+	window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile( layout_file );
+	pGuiSystem->getDefaultGUIContext().getRootWindow()->addChild( window );
 
 	// hide mouse on exit
 	if( !pMouseCursor->m_active )
@@ -61,7 +61,7 @@ void cDialogBox :: Exit( void )
 		pMouseCursor->Set_Active( 0 );
 	}
 
-	pGuiSystem->getGUISheet()->removeChildWindow( window );
+	pGuiSystem->getDefaultGUIContext().getRootWindow()->removeChild( window );
 	CEGUI::WindowManager::getSingleton().destroyWindow( window );
 }
 
@@ -99,13 +99,13 @@ void cDialogBox_Text :: Init( std::string title_text )
 	cDialogBox::Init();
 
 	// get window
-	CEGUI::FrameWindow *box_window = static_cast<CEGUI::FrameWindow *>(CEGUI::WindowManager::getSingleton().getWindow( "box_text_window" ));
+	CEGUI::FrameWindow *box_window = static_cast<CEGUI::FrameWindow *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_text_window" ));
 	box_window->setText( reinterpret_cast<const CEGUI::utf8*>(title_text.c_str()) );
 	box_window->setSizingEnabled( 0 );
 	box_window->getCloseButton()->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cDialogBox_Text::Button_window_quit_clicked, this ) );
 
 	// get editbox
-	box_editbox = static_cast<CEGUI::Editbox *>(CEGUI::WindowManager::getSingleton().getWindow( "box_text_editbox" ));
+	box_editbox = static_cast<CEGUI::Editbox *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_text_editbox" ));
 }
 
 std::string cDialogBox_Text :: Enter( std::string default_text, std::string title_text, bool auto_no_text /* = 1 */ )
@@ -116,7 +116,7 @@ std::string cDialogBox_Text :: Enter( std::string default_text, std::string titl
 	box_editbox->setText( reinterpret_cast<const CEGUI::utf8*>(default_text.c_str()) );
 	box_editbox->setTooltipText( reinterpret_cast<const CEGUI::utf8*>(title_text.c_str()) );
 	box_editbox->activate();
-	box_editbox->setCaratIndex( default_text.length() );
+	box_editbox->setCaretIndex( default_text.length() );
 
 	finished = 0;
 
@@ -194,7 +194,7 @@ void cDialogBox_Question :: Init( bool with_cancel )
 	cDialogBox::Init();
 
 	// get window
-	box_window = static_cast<CEGUI::FrameWindow *>(CEGUI::WindowManager::getSingleton().getWindow( "box_question_window" ));
+	box_window = static_cast<CEGUI::FrameWindow *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_question_window" ));
 	box_window->activate();
 
 	// subscribe close button
@@ -213,7 +213,7 @@ int cDialogBox_Question :: Enter( std::string text, bool with_cancel /* = 0 */ )
 	Init( with_cancel );
 
 	// get text
-	CEGUI::Editbox *box_text = static_cast<CEGUI::Editbox *>(CEGUI::WindowManager::getSingleton().getWindow( "box_question_text" ));
+	CEGUI::Editbox *box_text = static_cast<CEGUI::Editbox *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_question_text" ));
 	box_text->setText( reinterpret_cast<const CEGUI::utf8*>(text.c_str()) );
 
 
@@ -229,11 +229,11 @@ int cDialogBox_Question :: Enter( std::string text, bool with_cancel /* = 0 */ )
 	}
 
 	// Button Yes
-	CEGUI::PushButton *button_yes = static_cast<CEGUI::PushButton *>(CEGUI::WindowManager::getSingleton().getWindow( "box_question_button_yes" ));
+	CEGUI::PushButton *button_yes = static_cast<CEGUI::PushButton *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_question_button_yes" ));
 	// Button No
-	CEGUI::PushButton *button_no = static_cast<CEGUI::PushButton *>(CEGUI::WindowManager::getSingleton().getWindow( "box_question_button_no" ));
+	CEGUI::PushButton *button_no = static_cast<CEGUI::PushButton *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_question_button_no" ));
 	// Button Cancel
-	CEGUI::PushButton *button_cancel = static_cast<CEGUI::PushButton *>(CEGUI::WindowManager::getSingleton().getWindow( "box_question_button_cancel" ));
+	CEGUI::PushButton *button_cancel = static_cast<CEGUI::PushButton *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "box_question_button_cancel" ));
 
 	// if without cancel
 	if( !with_cancel )
@@ -329,6 +329,7 @@ void Gui_Handle_Time( void )
 
 	// inject the time that passed since the last call
 	CEGUI::System::getSingleton().injectTimePulse( t - last_time_pulse );
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectTimePulse( t - last_time_pulse );
 
 	// store the new time as the last time
 	last_time_pulse = t;
@@ -340,13 +341,13 @@ void Draw_Static_Text( const std::string &text, const Color *color_text /* = &wh
 	bool draw = 1;
 
 	// Statictext window
-	CEGUI::Window *window_statictext = CEGUI::WindowManager::getSingleton().loadWindowLayout( "statictext.layout" );
-	pGuiSystem->getGUISheet()->addChildWindow( window_statictext );
+	CEGUI::Window *window_statictext = CEGUI::WindowManager::getSingleton().loadLayoutFromFile( "statictext.layout" );
+	pGuiSystem->getDefaultGUIContext().getRootWindow()->addChild( window_statictext );
 	// get default text
-	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "text_default" ));
+	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(pGuiSystem->getDefaultGUIContext().getRootWindow()->getChild( "text_default" ));
 
 	// set text
-	text_default->setProperty( "TextColours", CEGUI::PropertyHelper::colourToString( CEGUI::colour( static_cast<float>(color_text->red) / 255, static_cast<float>(color_text->green) / 255, static_cast<float>(color_text->blue) / 255, 1 ) ) );
+	text_default->setProperty( "TextColours", CEGUI::PropertyHelper<CEGUI::Colour>::toString( CEGUI::Colour( static_cast<float>(color_text->red) / 255, static_cast<float>(color_text->green) / 255, static_cast<float>(color_text->blue) / 255, 1 ) ) );
 	CEGUI::String gui_text = reinterpret_cast<const CEGUI::utf8*>(text.c_str());
 	text_default->setText( gui_text );
 
@@ -412,7 +413,7 @@ void Draw_Static_Text( const std::string &text, const Color *color_text /* = &wh
 		Clear_Input_Events();
 	}
 
-	pGuiSystem->getGUISheet()->removeChildWindow( window_statictext );
+	pGuiSystem->getDefaultGUIContext().getRootWindow()->removeChild( window_statictext );
 	CEGUI::WindowManager::getSingleton().destroyWindow( window_statictext );
 }
 
@@ -599,7 +600,7 @@ void Set_Clipboard_Content( std::string str )
 
 bool GUI_Copy_To_Clipboard( bool cut )
 {
-	CEGUI::Window *sheet = CEGUI::System::getSingleton().getGUISheet();
+	CEGUI::Window *sheet = pGuiSystem->getDefaultGUIContext().getRootWindow();
 
 	// no sheet
 	if( !sheet )
@@ -669,7 +670,7 @@ bool GUI_Copy_To_Clipboard( bool cut )
 
 bool GUI_Paste_From_Clipboard( void )
 {
-	CEGUI::Window *sheet = CEGUI::System::getSingleton().getGUISheet();
+	CEGUI::Window *sheet = pGuiSystem->getDefaultGUIContext().getRootWindow();
 
 	// no sheet
 	if( !sheet )
@@ -708,8 +709,8 @@ bool GUI_Paste_From_Clipboard( void )
 		CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(Get_Clipboard_Content().c_str());
 		// set new text
 		editbox->setText( new_text.insert( beg, clipboard_text ) );
-		// set new carat index
-		editbox->setCaratIndex( editbox->getCaratIndex() + clipboard_text.length() );
+		// set new caret index
+		editbox->setCaretIndex( editbox->getCaretIndex() + clipboard_text.length() );
 	}
 	// Editbox
 	else if( type.find( "/Editbox" ) != CEGUI::String::npos )
@@ -732,8 +733,8 @@ bool GUI_Paste_From_Clipboard( void )
 		CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(Get_Clipboard_Content().c_str());
 		// set new text
 		editbox->setText( new_text.insert( beg, clipboard_text ) );
-		// set new carat index
-		editbox->setCaratIndex( editbox->getCaratIndex() + clipboard_text.length() );
+		// set new caret index
+		editbox->setCaretIndex( editbox->getCaretIndex() + clipboard_text.length() );
 	}
 	else
 	{

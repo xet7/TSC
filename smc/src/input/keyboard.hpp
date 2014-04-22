@@ -80,7 +80,7 @@ public:
 	};
 
 	// Translate a SDLKey to the proper CEGUI::Key
-	unsigned int SDLKey_to_CEGUIKey( const SDLKey key ) const;
+	CEGUI::Key::Scan SDLKey_to_CEGUIKey( const SDLKey key ) const;
 
 	// Pressed keys
 	Uint8 m_keys[SDLK_LAST];

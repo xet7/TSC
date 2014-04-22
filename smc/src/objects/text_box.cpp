@@ -100,7 +100,7 @@ void cText_Box :: Activate( void )
 	CEGUI::MultiLineEditbox *editbox = static_cast<CEGUI::MultiLineEditbox *>(wmgr.createWindow( "TaharezLook/MultiLineEditbox", "text_box_text" ));
 
 	// add to main window
-	pGuiSystem->getGUISheet()->addChildWindow( editbox );
+	pGuiSystem->getDefaultGUIContext().getRootWindow()->addChild( editbox );
 
 
 	// set on top

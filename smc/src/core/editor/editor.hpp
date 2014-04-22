@@ -40,18 +40,6 @@ public:
 	bool advance_row;
 };
 
-/* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
-
-// Todo : Needed for CEGUI 0.7.5 to not delete our opengl texture. Remove this if CEGUI 0.8 has an option for it.
-class cEditor_CEGUI_Texture : public CEGUI::OpenGLTexture
-{
-public:
-	cEditor_CEGUI_Texture( CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size );
-	~cEditor_CEGUI_Texture( void );
-
-	void cleanupOpenGLTexture( void );
-};
-
 /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 
 class cEditor_Item_Object : public CEGUI::ListboxItem
@@ -64,16 +52,16 @@ public:
 	void Init( cSprite *sprite );
 
 	// overridden from base class
-	virtual	CEGUI::Size getPixelSize( void ) const;
+	virtual	CEGUI::Sizef getPixelSize( void ) const;
 	// overridden from base class
-    void draw( CEGUI::GeometryBuffer& buffer, const CEGUI::Rect& targetRect, float alpha, const CEGUI::Rect* clipper ) const;
+    void draw( CEGUI::GeometryBuffer& buffer, const CEGUI::Rectf& targetRect, float alpha, const CEGUI::Rectf* clipper ) const;
 
 	// parent
 	const CEGUI::Listbox *m_parent;
 	// text
 	CEGUI::ListboxTextItem *list_text;
 	// cegui image
-	CEGUI::Imageset *m_image;
+	CEGUI::Image *m_image;
 	// sprite
 	cSprite *sprite_obj;
 	// preview image scale
@@ -153,7 +141,7 @@ public:
 	// ##### Main Menu
 
 	// Add Menu Entry
-	void Add_Menu_Object( const std::string &name, std::string tags, CEGUI::colour normal_color = CEGUI::colour( 1, 1, 1 ) );
+	void Add_Menu_Object( const std::string &name, std::string tags, CEGUI::Colour normal_color = CEGUI::Colour( 1, 1, 1 ) );
 	// Set Active Menu Entry
 	virtual void Activate_Menu_Item( cEditor_Menu_Object *entry );
 

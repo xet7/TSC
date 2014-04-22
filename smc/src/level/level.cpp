@@ -491,7 +491,7 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 
 	if( pLevel_Editor->m_enabled )
 	{
-		if( !pLevel_Editor->m_editor_window->isVisible() )
+		if( !pLevel_Editor->m_editor_window->isEffectiveVisible() )
 		{
 			pLevel_Editor->m_editor_window->show();
 			pMouseCursor->Set_Active( 1 );
@@ -560,7 +560,7 @@ void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
 	// hide editor window if visible
 	if( pLevel_Editor->m_enabled )
 	{
-		if( pLevel_Editor->m_editor_window->isVisible() )
+		if( pLevel_Editor->m_editor_window->isEffectiveVisible() )
 		{
 			pLevel_Editor->m_editor_window->hide();
 		}

@@ -380,7 +380,7 @@ void cOverworld :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 
 	if( pWorld_Editor->m_enabled )
 	{
-		if( !pWorld_Editor->m_editor_window->isVisible() )
+		if( !pWorld_Editor->m_editor_window->isEffectiveVisible() )
 		{
 			pWorld_Editor->m_editor_window->show();
 			pMouseCursor->Set_Active( 1 );
@@ -421,7 +421,7 @@ void cOverworld :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
 	// hide editor window if visible
 	if( pWorld_Editor->m_enabled )
 	{
-		if( pWorld_Editor->m_editor_window->isVisible() )
+		if( pWorld_Editor->m_editor_window->isEffectiveVisible() )
 		{
 			pWorld_Editor->m_editor_window->hide();
 		}

@@ -106,7 +106,7 @@ cMouseCursor :: ~cMouseCursor( void )
 void cMouseCursor :: Set_Active( bool enabled )
 {
 	cMovingSprite::Set_Active( enabled );
-	CEGUI::MouseCursor::getSingleton().setVisible( enabled );
+	pGuiSystem->getDefaultGUIContext().getMouseCursor().setVisible( enabled );
 }
 
 void cMouseCursor :: Reset( bool clear_copy_buffer /* = 1 */ )
@@ -123,7 +123,7 @@ void cMouseCursor :: Reset( bool clear_copy_buffer /* = 1 */ )
 	// change to default cursor
 	if( m_mover_mode )
 	{
-		CEGUI::MouseCursor::getSingleton().setImage( "TaharezLook", "MouseArrow" );
+		pGuiSystem->getDefaultGUIContext().getMouseCursor().setImage( "TaharezLook/MouseArrow" );
 	}
 
 	m_mover_mode = 0;
@@ -145,7 +145,7 @@ bool cMouseCursor :: Handle_Event( SDL_Event *ev )
 	{
 		case SDL_MOUSEMOTION:
 		{
-			pGuiSystem->injectMousePosition( static_cast<float>(ev->motion.x), static_cast<float>(ev->motion.y) );
+			pGuiSystem->getDefaultGUIContext().injectMousePosition( static_cast<float>(ev->motion.x), static_cast<float>(ev->motion.y) );
 			Update_Position();
 			break;
 		}
@@ -185,7 +185,7 @@ bool cMouseCursor :: Handle_Mouse_Down( Uint8 button )
 		// mouse buttons
 		case SDL_BUTTON_LEFT:
 		{
-			if( CEGUI::System::getSingleton().injectMouseButtonDown( CEGUI::LeftButton ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseButtonDown( CEGUI::LeftButton ) )
 			{
 				return 1;
 			}
@@ -194,7 +194,7 @@ bool cMouseCursor :: Handle_Mouse_Down( Uint8 button )
 		}
 		case SDL_BUTTON_MIDDLE:
 		{
-			if( CEGUI::System::getSingleton().injectMouseButtonDown( CEGUI::MiddleButton ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseButtonDown( CEGUI::MiddleButton ) )
 			{
 				return 1;
 			}
@@ -203,7 +203,7 @@ bool cMouseCursor :: Handle_Mouse_Down( Uint8 button )
 		}
 		case SDL_BUTTON_RIGHT:
 		{
-			if( CEGUI::System::getSingleton().injectMouseButtonDown( CEGUI::RightButton ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseButtonDown( CEGUI::RightButton ) )
 			{
 				return 1;
 			}
@@ -213,7 +213,7 @@ bool cMouseCursor :: Handle_Mouse_Down( Uint8 button )
 		// mouse wheel
 		case SDL_BUTTON_WHEELDOWN:
 		{
-			if( CEGUI::System::getSingleton().injectMouseWheelChange( -1 ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseWheelChange( -1 ) )
 			{
 				return 1;
 			}
@@ -221,7 +221,7 @@ bool cMouseCursor :: Handle_Mouse_Down( Uint8 button )
 		}
 		case SDL_BUTTON_WHEELUP:
 		{
-			if( CEGUI::System::getSingleton().injectMouseWheelChange( +1 ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseWheelChange( +1 ) )
 			{
 				return 1;
 			}
@@ -269,7 +269,7 @@ bool cMouseCursor :: Handle_Mouse_Up( Uint8 button )
 		case SDL_BUTTON_LEFT:
 		{
 			m_left = 0;
-			if( CEGUI::System::getSingleton().injectMouseButtonUp( CEGUI::LeftButton ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseButtonUp( CEGUI::LeftButton ) )
 			{
 				return 1;
 			}
@@ -278,7 +278,7 @@ bool cMouseCursor :: Handle_Mouse_Up( Uint8 button )
 		case SDL_BUTTON_MIDDLE:
 		{
 			m_middle = 0;
-			if( CEGUI::System::getSingleton().injectMouseButtonUp( CEGUI::MiddleButton ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseButtonUp( CEGUI::MiddleButton ) )
 			{
 				return 1;
 			}
@@ -287,7 +287,7 @@ bool cMouseCursor :: Handle_Mouse_Up( Uint8 button )
 		case SDL_BUTTON_RIGHT:
 		{
 			m_right = 0;
-			if( CEGUI::System::getSingleton().injectMouseButtonUp( CEGUI::RightButton ) )
+			if( pGuiSystem->getDefaultGUIContext().injectMouseButtonUp( CEGUI::RightButton ) )
 			{
 				return 1;
 			}
@@ -336,7 +336,9 @@ cObjectCollision *cMouseCursor :: Get_First_Editor_Collsion( float px /* = 0.0f 
 	}
 
 	// Get CEGUI Window containing the mouse
-	CEGUI::Window *mouse_window = pGuiSystem->getWindowContainingMouse();
+	// TODO : re-enable this after figuring out how to do it in 0.8.x
+	//CEGUI::Window *mouse_window = pGuiSystem->getWindowContainingMouse();
+	CEGUI::Window *mouse_window = NULL;
 
 	// if mouse is over a blocking CEGUI window
 	if( mouse_window && !mouse_window->isMousePassThroughEnabled() )
@@ -1620,11 +1622,11 @@ void cMouseCursor :: Toggle_Mover_Mode( void )
 
 	if( m_mover_mode )
 	{
-		CEGUI::MouseCursor::getSingleton().setImage( "TaharezLook", "MouseMoveCursor" );
+		pGuiSystem->getDefaultGUIContext().getMouseCursor().setImage( "TaharezLook/MouseMoveCursor" );
 	}
 	else
 	{
-		CEGUI::MouseCursor::getSingleton().setImage( "TaharezLook", "MouseArrow" );
+		pGuiSystem->getDefaultGUIContext().getMouseCursor().setImage( "TaharezLook/MouseArrow" );
 	}
 }
 

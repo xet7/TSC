@@ -564,10 +564,10 @@ void cBonusBox :: Editor_Activate( void )
 
 void cBonusBox :: Editor_State_Update( void )
 {
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window *root = pGuiSystem->getDefaultGUIContext().getRootWindow();
 
 	// Force best item
-	CEGUI::Combobox *combobox = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "editor_bonusbox_force_best_item" ));
+	CEGUI::Combobox *combobox = static_cast<CEGUI::Combobox *>(root->getChild( "editor_bonusbox_force_best_item" ));
 
 	if( box_type == TYPE_UNDEFINED || box_type == TYPE_POWERUP || box_type == TYPE_MUSHROOM_DEFAULT || box_type == TYPE_MUSHROOM_LIVE_1 || box_type == TYPE_MUSHROOM_POISON || 
 		box_type == TYPE_MUSHROOM_GHOST || box_type == TYPE_STAR || box_type == TYPE_GOLDPIECE )
@@ -580,7 +580,7 @@ void cBonusBox :: Editor_State_Update( void )
 	}
 
 	// gold color
-	combobox = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "editor_bonusbox_gold_color" ));
+	combobox = static_cast<CEGUI::Combobox *>(root->getChild( "editor_bonusbox_gold_color" ));
 
 	if( box_type != TYPE_GOLDPIECE )
 	{
