@@ -336,9 +336,7 @@ cObjectCollision *cMouseCursor :: Get_First_Editor_Collsion( float px /* = 0.0f 
 	}
 
 	// Get CEGUI Window containing the mouse
-	// TODO : re-enable this after figuring out how to do it in 0.8.x
-	//CEGUI::Window *mouse_window = pGuiSystem->getWindowContainingMouse();
-	CEGUI::Window *mouse_window = NULL;
+	CEGUI::Window *mouse_window = pGuiSystem->getDefaultGUIContext().getWindowContainingMouse();
 
 	// if mouse is over a blocking CEGUI window
 	if( mouse_window && !mouse_window->isMousePassThroughEnabled() )

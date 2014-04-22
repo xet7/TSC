@@ -80,6 +80,7 @@
 // Must be included before SDL/X11, which have #defines such as
 // None, True, and False that screw CEGUI declarations.
 #include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
 #include <CEGUI/RendererModules/OpenGL/Texture.h>
 
 // SDL

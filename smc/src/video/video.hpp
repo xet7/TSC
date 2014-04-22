@@ -19,7 +19,6 @@
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 #include "../video/color.hpp"
-#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
 
 namespace SMC
 {
