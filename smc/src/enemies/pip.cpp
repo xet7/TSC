@@ -127,7 +127,7 @@ void cPip::Set_Direction(const ObjectDirection dir)
 		return;
 
 	cEnemy::Set_Direction(dir, true);
-	m_name = "Pip ";
+	m_name = "Pip";
 	m_name += _(Get_Direction_Name(m_start_direction).c_str());
 	Update_Rotation_Hor(true);
 }

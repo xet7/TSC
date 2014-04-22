@@ -82,3 +82,20 @@ const char* RestartedXmlParserError::what() const throw()
 {
 	return "Restarted a one-time XML parser!";
 }
+
+InvalidMovingStateError::InvalidMovingStateError(Moving_state state)
+{
+	m_state = state;
+}
+
+InvalidMovingStateError::~InvalidMovingStateError() throw()
+{
+	//
+}
+
+const char* InvalidMovingStateError::what() const throw()
+{
+	std::stringstream ss;
+	ss << "Invalid moving state '" << m_state << "' for this object!\n";	
+	return ss.str().c_str();
+}

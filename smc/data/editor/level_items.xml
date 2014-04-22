@@ -210,6 +210,12 @@
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="beetle_barrage" />
+		<property name="direction" value="up" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
 		<property name="type" value="pip" />
 	</item>
 	<item>

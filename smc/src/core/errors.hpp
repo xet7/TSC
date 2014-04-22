@@ -1,6 +1,7 @@
 #ifndef SMC_ERRORS_HPP
 #define SMC_ERRORS_HPP
 #include "global_game.hpp"
+#include "../objects/movingsprite.hpp"
 
 namespace SMC {
 
@@ -61,6 +62,16 @@ namespace SMC {
 		RestartedXmlParserError();
 		virtual ~RestartedXmlParserError() throw();
 		virtual const char* what() const throw();
+	};
+
+	class InvalidMovingStateError: public SMCError
+	{
+	public:
+		InvalidMovingStateError(Moving_state state);
+		virtual ~InvalidMovingStateError() throw();
+		virtual const char* what() const throw();
+	protected:
+		Moving_state m_state;
 	};
 
 }
