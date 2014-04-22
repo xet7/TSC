@@ -2,6 +2,7 @@
 #include "../core/errors.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
+#include "../core/math/circle.hpp"
 #include "../level/level_player.hpp"
 
 using namespace SMC;
@@ -31,6 +32,7 @@ void cBeetleBarrage::Init()
 	m_type = TYPE_BEETLE_BARRAGE;
 	m_pos_z = 0.093f;
 	m_gravity_max = 24.0f;
+	m_editor_pos_z = 0.089f;
 	m_name = "Beetle Barrage";
 
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/1.png")));
@@ -45,8 +47,8 @@ void cBeetleBarrage::Init()
 	Set_Image_Num(0);
 	Set_Animation(false);
 
-	//Set_Moving_State(STA_STAY);
-	Set_Moving_State(STA_RUN);
+	Set_Active_Range(200);
+	Set_Moving_State(STA_STAY);
 	Set_Direction(DIR_UP);
 
 	// TODO: Own die sound
@@ -125,9 +127,32 @@ void cBeetleBarrage::Update()
 	if (!m_valid_update || !Is_In_Range())
 		return;
 
+	// Check if the player is in our range
+	Calculate_Active_Area(m_pos_x, m_pos_y);
+	if (m_active_area.Intersects(pLevel_Player->m_col_rect)) {
+		std::cout << "DO SOMETHING USEFUL!" << std::endl;
+	}
+
 	Update_Velocity();
 	Update_Animation();
 	Update_Gravity();
+}
+
+void cBeetleBarrage::Draw(cSurface_Request* p_request /* = NULL */)
+{
+	if (!m_valid_draw)
+		return;
+
+	if (editor_level_enabled) {
+		Calculate_Active_Area(m_start_pos_x, m_start_pos_y);
+		pVideo->Draw_Circle(	m_active_area.Get_X() - pActive_Camera->m_x,
+								m_active_area.Get_Y() - pActive_Camera->m_y,
+								m_active_area.Get_Radius(),
+								m_editor_pos_z - 0.000001f,
+								&whitealpha128);
+	}
+
+	cEnemy::Draw(p_request);
 }
 
 bool cBeetleBarrage::Is_Update_Valid()
@@ -215,4 +240,21 @@ void cBeetleBarrage::Set_Moving_State(Moving_state new_state)
 	Reset_Animation();
 	Set_Image_Num(0);
 	m_state = new_state;
+}
+
+void cBeetleBarrage::Set_Active_Range(float range)
+{
+	m_active_range = range;
+}
+
+float cBeetleBarrage::Get_Active_Range()
+{
+	return m_active_range;
+}
+
+void cBeetleBarrage::Calculate_Active_Area(const float& x, const float& y)
+{
+	m_active_area.Set_X(x + m_rect.m_w / 2.0);
+	m_active_area.Set_Y(y + m_rect.m_h / 2.0);
+	m_active_area.Set_Radius(m_active_range);
 }

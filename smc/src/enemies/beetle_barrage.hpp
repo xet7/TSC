@@ -28,6 +28,8 @@ namespace SMC {
 
 		virtual void DownGrade(bool force = false);
 		void Set_Moving_State(Moving_state new_state);
+		void Set_Active_Range(float range);
+		float Get_Active_Range();
 
 		virtual Col_Valid_Type Validate_Collision(cSprite* p_obj);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
@@ -35,6 +37,7 @@ namespace SMC {
 		virtual void Handle_Collision_Massive(cObjectCollision* p_collision);
 
 		virtual cBeetleBarrage* Copy() const;
+		virtual void Draw(cSurface_Request* p_request = NULL);
 		virtual void Update();
 		virtual void Update_Dying();
 		virtual bool Is_Update_Valid();
@@ -48,6 +51,19 @@ namespace SMC {
 		// Constructor common stuff
 		void Init();
 
+		/* Map m_active_range onto the current position for checking
+		 * whether Maryo is there. For performance reasons we don’t
+		 * return or reference it here, but set an instance member
+		 * m_active_area.
+		 * Depending on whether you want to calculate the circle for
+		 * the current or for the starting point coords, pass the
+		 * respective coordinates.
+		 */
+		void Calculate_Active_Area(const float& x, const float& y);
+
+		// The area we react on Maryo.
+		float m_active_range;
+		GL_Circle m_active_area;
 	};
 
 }
