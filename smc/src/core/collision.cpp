@@ -290,6 +290,22 @@ bool Col_Circle( float x1, float y1, float r1, float x2, float y2, float r2, int
 }
 
 // from SDL_collide ( Copyright (C) 2005 Amir Taaki ) - MIT License
+bool Col_Circle( const GL_Circle& c, const GL_rect& r, int offset /* = 1 */)
+{
+	/* if radius is not specified
+	we approximate them using SDL_Surface's
+	width and height average and divide by 2*/
+	float r2 = ( ( r.m_w + r.m_h ) / 4 ); // same as / 2) / 2;
+
+	float x2 = r.m_x + r.m_w / 2;		// offset x and y
+	float y2 = r.m_y + r.m_h / 2;		// co-ordinates into
+										// centre of image
+
+	return Col_Circle( c.Get_X(), c.Get_Y(), c.Get_Radius(), x2, y2, r2, offset );
+
+}
+
+// from SDL_collide ( Copyright (C) 2005 Amir Taaki ) - MIT License
 bool Col_Circle( cGL_Surface *a, float x1, float y1, cGL_Surface *b, float x2, float y2, int offset )
 {
 	/* if radius is not specified

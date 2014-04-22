@@ -22,6 +22,7 @@
 #include "../core/global_game.hpp"
 #include "../core/obj_manager.hpp"
 #include "../core/math/rect.hpp"
+#include "math/circle.hpp"
 
 namespace SMC
 {
@@ -210,6 +211,7 @@ bool Col_Circle( float x1, float y1, float r1, float x2, float y2, float r2, int
 */
 
 bool Col_Circle( cGL_Surface *a, float x1, float y1, cGL_Surface *b, float x2, float y2, int offset );
+bool Col_Circle( const GL_Circle& c, const GL_rect& r, int offset = 1 );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
