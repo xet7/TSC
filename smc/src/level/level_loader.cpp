@@ -27,6 +27,7 @@
 #include "../enemies/spikeball.hpp"
 #include "../enemies/pip.hpp"
 #include "../enemies/beetle_barrage.hpp"
+#include "../enemies/beetle.hpp"
 #include "../audio/random_sound.hpp"
 #include "../video/animation.hpp"
 #include "../core/game_core.hpp"
@@ -788,6 +789,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cPip(attributes, p_sprite_manager));
 	else if (type == "beetle_barrage")
 		result.push_back(new cBeetleBarrage(attributes, p_sprite_manager));
+	else if (type == "beetle")
+		result.push_back(new cBeetle(attributes, p_sprite_manager));
 	else // type == "X"
 		std::cerr << "Warning: Unknown level enemy type: " << type << std::endl;
 
