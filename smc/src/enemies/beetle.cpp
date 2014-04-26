@@ -19,6 +19,7 @@
 #include "../core/game_core.hpp"
 #include "../core/math/circle.hpp"
 #include "../core/global_game.hpp"
+#include "../core/i18n.hpp"
 #include "../level/level_player.hpp"
 #include "../gui/hud.hpp"
 
@@ -39,6 +40,10 @@ cBeetle::cBeetle(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
 	Set_Pos(attributes.fetch<float>("posx", 0), attributes.fetch<float>("posy", 0), true);
 	// color
 	Set_Color(Get_Color_Id(attributes.fetch<std::string>("color", "blue")));
+	// direction
+	Set_Direction(Get_Direction_Id(attributes.fetch<std::string>("direction", "left")), true);
+
+	Update_Rotation_Hor();
 }
 
 cBeetle::~cBeetle()
@@ -55,7 +60,7 @@ void cBeetle::Init()
 	m_name = "Beetle";
 	m_velx = -2.5;
 	m_rest_living_time = Get_Random_Float(150.0f, 250.0f);
-	m_direction = DIR_LEFT;
+	m_start_direction = m_direction = DIR_LEFT;
 
 	// Select random color
 	DefaultColor ary[] = {COL_RED, COL_YELLOW, COL_GREEN, COL_BLUE, COL_VIOLET};
@@ -152,11 +157,13 @@ void cBeetle::Update()
 		DownGrade(true);
 	}
 
-	// Make it go into random directions and random occasions
+	// Make it go into random directions on random occasions
 	if (rand() % 10 > 6) {
 		m_velx = Get_Random_Float(-10.0f, 10.0f);
 		m_vely = Get_Random_Float(-10.0f, 10.0f);
 
+		// Can’t use Set_Direction, because we set m_velx ourselves.
+		// Therefore we also need to call Update_Rotation_Hor() ourselves.
 		if (m_velx < 0)
 			m_direction = DIR_LEFT;
 		else
@@ -262,4 +269,49 @@ void cBeetle::Set_Color(DefaultColor color)
 DefaultColor cBeetle::Get_Color()
 {
 	return m_color;
+}
+
+void cBeetle::Editor_Activate()
+{
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+	// direction
+	CEGUI::Combobox* p_combo = static_cast<CEGUI::Combobox*>(wmgr.createWindow("TaharezLook/Combobox", "editor_beetle_direction"));
+	Editor_Add(UTF8_("Direction"), UTF8_("Starting direction."), p_combo, 100, 75);
+	p_combo->addItem(new CEGUI::ListboxTextItem("left"));
+	p_combo->addItem(new CEGUI::ListboxTextItem("right"));
+	p_combo->setText(Get_Direction_Name(m_start_direction));
+	p_combo->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&cBeetle::Editor_Direction_Select, this));
+
+	// color
+	p_combo = static_cast<CEGUI::Combobox*>(wmgr.createWindow("TaharezLook/Combobox", "editor_beetle_color"));
+	Editor_Add(UTF8_("Color"), UTF8_("Color."), p_combo, 100, 75);
+	p_combo->addItem(new CEGUI::ListboxTextItem("blue"));
+	p_combo->addItem(new CEGUI::ListboxTextItem("green"));
+	p_combo->addItem(new CEGUI::ListboxTextItem("red"));
+	p_combo->addItem(new CEGUI::ListboxTextItem("violet"));
+	p_combo->addItem(new CEGUI::ListboxTextItem("yellow"));
+	p_combo->setText(Get_Color_Name(m_color));
+	p_combo->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&cBeetle::Editor_Color_Select, this));
+
+	Editor_Init();
+}
+
+bool cBeetle::Editor_Direction_Select(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs& args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	CEGUI::ListboxItem* p_item = static_cast<CEGUI::Combobox*>(args.window)->getSelectedItem();
+	Set_Direction(Get_Direction_Id(p_item->getText().c_str()), true);
+
+	Update_Rotation_Hor();
+	return true;
+}
+
+bool cBeetle::Editor_Color_Select(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs& args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	CEGUI::ListboxItem* p_item = static_cast<CEGUI::Combobox*>(args.window)->getSelectedItem();
+	Set_Color(Get_Color_Id(p_item->getText().c_str()));
+
+	return true;
 }
