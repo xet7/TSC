@@ -150,6 +150,19 @@ void cBeetle::Update()
 		DownGrade(true);
 	}
 
+	// Make it go into random directions and random occasions
+	if (rand() % 10 > 6) {
+		m_velx = Get_Random_Float(-10.0f, 10.0f);
+		m_vely = Get_Random_Float(-10.0f, 10.0f);
+
+		if (m_velx < 0)
+			m_direction = DIR_LEFT;
+		else
+			m_direction = DIR_RIGHT;
+
+		Update_Rotation_Hor();
+	}
+
 	// This enemy is immune to both gravity and air resistance.
 	// We don’t update the velocity or gravity therefore.
 	Update_Animation();
