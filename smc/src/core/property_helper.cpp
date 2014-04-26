@@ -875,6 +875,7 @@ std::string Get_Color_Name( const DefaultColor color )
 		case COL_BLUE:		return N_("blue");
 		case COL_BROWN:		return N_("brown");
 		case COL_GREY:		return N_("grey");
+		case COL_VIOLET:	return N_("violet");
 		default:			break;
 	}
 
@@ -918,6 +919,10 @@ DefaultColor Get_Color_Id( const std::string &str_color )
 	else if( str_color.compare( "grey" ) == 0 )
 	{
 		return COL_GREY;
+	}
+	else if (str_color.compare( "violet" ) == 0 )
+	{
+		return COL_VIOLET;
 	}
 
 	return COL_DEFAULT;

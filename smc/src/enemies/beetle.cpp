@@ -37,6 +37,8 @@ cBeetle::cBeetle(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
 
 	// position
 	Set_Pos(attributes.fetch<float>("posx", 0), attributes.fetch<float>("posy", 0), true);
+	// color
+	Set_Color(Get_Color_Id(attributes.fetch<std::string>("color", "blue")));
 }
 
 cBeetle::~cBeetle()
@@ -53,6 +55,7 @@ void cBeetle::Init()
 	m_name = "Beetle";
 	m_velx = -2.5;
 	m_rest_living_time = Get_Random_Float(150.0f, 250.0f);
+	m_direction = DIR_LEFT;
 
 	// Select random color
 	DefaultColor ary[] = {COL_RED, COL_YELLOW, COL_GREEN, COL_BLUE, COL_VIOLET};
@@ -66,10 +69,7 @@ void cBeetle::Init()
 	m_kill_points = 100;
 
 	Set_Animation(true);
-	Set_Animation_Image_Range(0, 2);
 	Set_Time_All(140, true);
-	Reset_Animation();
-	Set_Image_Num(0, true);
 }
 
 cBeetle* cBeetle::Copy() const
@@ -77,6 +77,7 @@ cBeetle* cBeetle::Copy() const
 	cBeetle* p_beetle = new cBeetle(m_sprite_manager);
 	p_beetle->Set_Pos(m_start_pos_x, m_start_pos_y);
 	p_beetle->Set_Direction(m_start_direction);
+	p_beetle->Set_Color(m_color);
 	return p_beetle;
 }
 
@@ -90,6 +91,7 @@ xmlpp::Element* cBeetle::Save_To_XML_Node(xmlpp::Element* p_element)
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
 	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "color", Get_Color_Name(m_color));
 
 	return p_node;
 }
@@ -245,9 +247,14 @@ void cBeetle::Set_Rest_Living_Time(float time)
 
 void cBeetle::Set_Color(DefaultColor color)
 {
+	Clear_Images();
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/left_1.png")));
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/left_2.png")));
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/left_3.png")));
+
+	Set_Animation_Image_Range(0, 2);
+	Reset_Animation();
+	Set_Image_Num(0, true);
 
 	m_color = color;
 }
