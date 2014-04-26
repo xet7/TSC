@@ -34,6 +34,9 @@ void cBeetleBarrage::Init()
 	m_gravity_max = 24.0f;
 	m_editor_pos_z = 0.089f;
 	m_name = "Beetle Barrage";
+	m_beetle_interval = 100.0f;
+	m_beetle_interval_counter = 0.0f;
+	m_is_spitting_out_beetles = false;
 
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/1.png")));
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/2.png")));
@@ -41,7 +44,7 @@ void cBeetleBarrage::Init()
 
 	// Add an animation, but don’t yet play it. We will only
 	// play the animation when spitting out the beetles.
-	Set_Animation_Image_Range(0, 3);
+	Set_Animation_Image_Range(0, 2);
 	Set_Time_All(180, true);
 	Reset_Animation();
 	Set_Image_Num(0);
@@ -130,7 +133,33 @@ void cBeetleBarrage::Update()
 	// Check if the player is in our range
 	Calculate_Active_Area(m_pos_x, m_pos_y);
 	if (m_active_area.Intersects(pLevel_Player->m_col_rect)) {
-		std::cout << "DO SOMETHING USEFUL!" << std::endl;
+		// Step through the action interval
+		m_beetle_interval_counter += pFramerate->m_speed_factor;
+
+		// When the counter reaches the target, spit out beetles.
+		if (m_beetle_interval_counter >= m_beetle_interval) {
+			m_beetle_interval_counter = 0.0f;
+			m_spitting_beetles_counter = 20.0f;
+
+			m_is_spitting_out_beetles = true;
+			Set_Animation(true);
+		}
+	}
+
+	if (m_is_spitting_out_beetles) {
+		if (m_spitting_beetles_counter <= 0.0f) {
+			m_spitting_beetles_counter = 0.0f;
+			Set_Animation(false);
+			Set_Image_Num(0);
+			Reset_Animation();
+
+			// TODO: Generate beetles. Or just one-after-another
+			// during animation?
+
+			m_is_spitting_out_beetles = false;
+		}
+		else
+			m_spitting_beetles_counter -= pFramerate->m_speed_factor;
 	}
 
 	Update_Velocity();
@@ -257,4 +286,9 @@ void cBeetleBarrage::Calculate_Active_Area(const float& x, const float& y)
 	m_active_area.Set_X(x + m_rect.m_w / 2.0);
 	m_active_area.Set_Y(y + m_rect.m_h / 2.0);
 	m_active_area.Set_Radius(m_active_range);
+}
+
+void cBeetleBarrage::Set_Beetle_Interval(float time)
+{
+	m_beetle_interval = time;
 }
