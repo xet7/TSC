@@ -30,6 +30,8 @@ namespace SMC {
 
 		float Get_Rest_Living_Time();
 		void Set_Rest_Living_Time(float time);
+		void Set_Color(DefaultColor color);
+		DefaultColor Get_Color();
 
 		virtual Col_Valid_Type Validate_Collision(cSprite* p_obj);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
@@ -51,6 +53,7 @@ namespace SMC {
 		void Init();
 
 		float m_rest_living_time;
+		DefaultColor m_color;
 	};
 
 }

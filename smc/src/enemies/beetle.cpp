@@ -18,6 +18,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
 #include "../core/math/circle.hpp"
+#include "../core/global_game.hpp"
 #include "../level/level_player.hpp"
 #include "../gui/hud.hpp"
 
@@ -53,10 +54,9 @@ void cBeetle::Init()
 	m_velx = -2.5;
 	m_rest_living_time = Get_Random_Float(150.0f, 250.0f);
 
-	// TODO: Randomize color
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/blue/left_1.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/blue/left_2.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/blue/left_3.png")));
+	// Select random color
+	DefaultColor ary[] = {COL_RED, COL_YELLOW, COL_GREEN, COL_BLUE, COL_VIOLET};
+	Set_Color(ary[rand() % 5]);
 
 	m_state = STA_FLY;
 	Set_Direction(DIR_LEFT);
@@ -241,4 +241,18 @@ float cBeetle::Get_Rest_Living_Time()
 void cBeetle::Set_Rest_Living_Time(float time)
 {
 	m_rest_living_time = time;
+}
+
+void cBeetle::Set_Color(DefaultColor color)
+{
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/left_1.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/left_2.png")));
+	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/left_3.png")));
+
+	m_color = color;
+}
+
+DefaultColor cBeetle::Get_Color()
+{
+	return m_color;
 }

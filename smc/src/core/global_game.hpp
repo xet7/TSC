@@ -91,7 +91,8 @@ enum DefaultColor
 	COL_GREEN	= 5,
 	COL_BLUE	= 6,
 	COL_BROWN	= 7,
-	COL_GREY	= 8
+	COL_GREY	= 8,
+	COL_VIOLET	= 9
 };
 
 /* *** *** *** *** *** *** *** Game Mode *** *** *** *** *** *** *** *** *** *** */
