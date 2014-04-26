@@ -28,6 +28,9 @@ namespace SMC {
 
 		virtual void DownGrade(bool force = false);
 
+		float Get_Rest_Living_Time();
+		void Set_Rest_Living_Time(float time);
+
 		virtual Col_Valid_Type Validate_Collision(cSprite* p_obj);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
 		virtual void Handle_Collision_Massive(cObjectCollision* p_collision);
@@ -46,6 +49,8 @@ namespace SMC {
 	private:
 		// Constructor common stuff
 		void Init();
+
+		float m_rest_living_time;
 	};
 
 }

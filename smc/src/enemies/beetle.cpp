@@ -51,6 +51,7 @@ void cBeetle::Init()
 	m_editor_pos_z = 0.089f;
 	m_name = "Beetle";
 	m_velx = -2.5;
+	m_rest_living_time = Get_Random_Float(150.0f, 250.0f);
 
 	// TODO: Randomize color
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle/blue/left_1.png")));
@@ -142,6 +143,13 @@ void cBeetle::Update()
 	if (!m_valid_update || !Is_In_Range())
 		return;
 
+	// When living time is up, die.
+	m_rest_living_time -= pFramerate->m_speed_factor;
+	if (m_rest_living_time <= 0) {
+		m_rest_living_time = 0;
+		DownGrade(true);
+	}
+
 	// This enemy is immune to both gravity and air resistance.
 	// We don’t update the velocity or gravity therefore.
 	Update_Animation();
@@ -210,4 +218,14 @@ void cBeetle::Handle_Collision_Player(cObjectCollision* p_collision)
 void cBeetle::Handle_Collision_Massive(cObjectCollision* p_collision)
 {
 	Send_Collision(p_collision);
+}
+
+float cBeetle::Get_Rest_Living_Time()
+{
+	return m_rest_living_time;
+}
+
+void cBeetle::Set_Rest_Living_Time(float time)
+{
+	m_rest_living_time = time;
 }
