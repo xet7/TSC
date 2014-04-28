@@ -17,6 +17,7 @@
 #define SMC_BEETLE_BARRAGE_HPP
 #include "enemy.hpp"
 #include "beetle.hpp"
+#include "../scripting/objects/enemies/mrb_beetle_barrage.hpp"
 
 namespace SMC {
 
@@ -50,6 +51,12 @@ namespace SMC {
 		virtual bool Is_Update_Valid();
 
 		virtual void Editor_Activate();
+
+		// Create the MRuby object for this
+		virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+		{
+			return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcBeetleBarrage, &Scripting::rtSMC_Scriptable, this));
+		}
 
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 

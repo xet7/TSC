@@ -8,6 +8,7 @@
 #include "../level/level_player.hpp"
 #include "../level/level.hpp"
 #include "beetle.hpp"
+#include "../scripting/events/spit_event.hpp"
 
 using namespace SMC;
 
@@ -337,6 +338,8 @@ int cBeetleBarrage::Get_Beetle_Spit_Count()
 
 void cBeetleBarrage::Generate_Beetles()
 {
+	Scripting::cSpit_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
 
 	for(int i=0; i < m_beetle_spit_count; i++) {
 		cBeetle* p_beetle = new cBeetle(m_sprite_manager);

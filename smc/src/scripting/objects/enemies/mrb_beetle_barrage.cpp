@@ -4,6 +4,7 @@
 #include "../../../core/property_helper.hpp"
 #include "mrb_enemy.hpp"
 #include "mrb_beetle_barrage.hpp"
+#include "../../events/event.hpp"
 
 /**
  * Class: BeetleBarrage
@@ -16,6 +17,14 @@
  * range. They generally don’t move (unless you script them
  * to), but the bugs are very vivid (see [Beetle](beetle.html) if
  * you want to generate some of them standalone).
+ *
+ * Events
+ * ------
+ *
+ * Spit
+ * : Whenever this enemy spits out beetles, this event is triggered.
+ *   Note there is only one event for one beetle bulk, the event
+ *   is not triggered for each single beetle.
  */
 
 using namespace SMC;
@@ -23,6 +32,8 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcBeetleBarrage = NULL;
+
+MRUBY_IMPLEMENT_EVENT(spit);
 
 /**
  * Method: BeetleBarrage::new
@@ -175,4 +186,6 @@ void SMC::Scripting::Init_BeetleBarrage(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcBeetleBarrage, "spit_count=", Set_Spit_Count, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcBeetleBarrage, "fly_distance", Get_Fly_Distance, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcBeetleBarrage, "fly_distance=", Set_Fly_Distance, MRB_ARGS_REQ(1));
+
+	mrb_define_method(p_state, p_rcBeetleBarrage, "on_spit", MRUBY_EVENT_HANDLER(spit), MRB_ARGS_NONE());
 }
