@@ -4196,8 +4196,8 @@ void cLevel_Player :: Handle_Collision_Enemy( cObjectCollision *collision )
 	{
 		bool hit_enemy = 1;
 
-		// spika and eato ignore top collisions
-		if( ( enemy->m_type == TYPE_SPIKA || enemy->m_type == TYPE_EATO || enemy->m_type == TYPE_THROMP ) && collision->m_direction == DIR_DOWN )
+		// These enemies ignore top collisions
+		if( ( enemy->m_type == TYPE_SPIKA || enemy->m_type == TYPE_EATO || enemy->m_type == TYPE_THROMP || enemy->m_type == TYPE_BEETLE_BARRAGE) && collision->m_direction == DIR_DOWN )
 		{
 			hit_enemy = 0;
 		}

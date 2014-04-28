@@ -91,7 +91,8 @@ enum DefaultColor
 	COL_GREEN	= 5,
 	COL_BLUE	= 6,
 	COL_BROWN	= 7,
-	COL_GREY	= 8
+	COL_GREY	= 8,
+	COL_VIOLET	= 9
 };
 
 /* *** *** *** *** *** *** *** Game Mode *** *** *** *** *** *** *** *** *** *** */
@@ -236,6 +237,8 @@ enum SpriteType
 	TYPE_STATIC_ENEMY = 50,
 	TYPE_SPIKEBALL = 64,
 	TYPE_PIP = 67,
+	TYPE_BEETLE_BARRAGE = 68,
+	TYPE_BEETLE = 69,
 	// items
 	TYPE_POWERUP = 23,
 	TYPE_MUSHROOM_DEFAULT = 25,

@@ -34,6 +34,7 @@ enum Moving_state
 {
 	STA_STAY	= 0,
 	STA_WALK	= 1,
+	// This one is abused special movements
 	STA_RUN		= 2,
 	STA_FALL	= 3,
 	STA_FLY		= 4,
