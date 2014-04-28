@@ -18,6 +18,7 @@
 #include "objects/misc/mrb_input.hpp"
 #include "objects/misc/mrb_timer.hpp"
 #include "objects/enemies/mrb_enemy.hpp"
+#include "objects/enemies/mrb_beetle.hpp"
 #include "objects/enemies/mrb_beetle_barrage.hpp"
 #include "objects/enemies/mrb_eato.hpp"
 #include "objects/enemies/mrb_flyon.hpp"
@@ -266,6 +267,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Audio(p_state);
 	Init_Timer(p_state);
 	Init_Enemy(p_state);
+	Init_Beetle(p_state);
 	Init_BeetleBarrage(p_state);
 	Init_Eato(p_state);
 	Init_Flyon(p_state);
