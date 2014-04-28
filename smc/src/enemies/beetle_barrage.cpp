@@ -320,6 +320,11 @@ void cBeetleBarrage::Set_Beetle_Interval(float time)
 	m_beetle_interval = time;
 }
 
+float cBeetleBarrage::Get_Beetle_Interval()
+{
+	return m_beetle_interval;
+}
+
 void cBeetleBarrage::Set_Beetle_Spit_Count(int count)
 {
 	m_beetle_spit_count = count;
@@ -374,6 +379,19 @@ void cBeetleBarrage::Editor_Activate()
 	p_editbox->setText(int_to_string(static_cast<int>(m_beetle_fly_distance)));
 	p_editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&cBeetleBarrage::Editor_Fly_Distance_Text_Changed, this));
 
+	// action area
+	p_editbox = static_cast<CEGUI::Editbox*>(wmgr.createWindow("TaharezLook/Editbox", "editor_beetlebarrage_range"));
+	Editor_Add(UTF8_("Action range"), _("Radius in which it reacts on Maryo"), p_editbox, 90);
+	p_editbox->setValidationString("^\\d+$");
+	p_editbox->setText(int_to_string(static_cast<int>(m_active_range)));
+	p_editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&cBeetleBarrage::Editor_Range_Text_Changed, this));
+
+	p_editbox = static_cast<CEGUI::Editbox*>(wmgr.createWindow("TaharezLook/Editbox", "editor_beetlebarrage_count"));
+	Editor_Add(UTF8_("Count"), _("Number of beetles spit out at a time"), p_editbox, 90);
+	p_editbox->setValidationString("^\\d+$");
+	p_editbox->setText(int_to_string(m_beetle_spit_count));
+	p_editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&cBeetleBarrage::Editor_Spit_Count_Text_Changed, this));
+
 	Editor_Init();
 }
 
@@ -383,5 +401,24 @@ bool cBeetleBarrage::Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& ev
 	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
 
 	Set_Beetle_Fly_Distance(string_to_float(str_text));
+	return true;
+}
+
+
+bool cBeetleBarrage::Editor_Range_Text_Changed(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
+
+	Set_Active_Range(string_to_float(str_text));
+	return true;
+}
+
+bool cBeetleBarrage::Editor_Spit_Count_Text_Changed(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
+
+	Set_Beetle_Spit_Count(string_to_int(str_text));
 	return true;
 }

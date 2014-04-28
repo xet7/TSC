@@ -32,7 +32,7 @@ namespace SMC {
 		void Set_Active_Range(float range);
 		float Get_Active_Range();
 		void Set_Beetle_Interval(float time);
-		float Get_Beelte_Interval();
+		float Get_Beetle_Interval();
 		void Set_Beetle_Spit_Count(int count);
 		int Get_Beetle_Spit_Count();
 		void Set_Beetle_Fly_Distance(float distance);
@@ -76,6 +76,8 @@ namespace SMC {
 
 		// Editor event handlers
 		bool Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& event);
+		bool Editor_Range_Text_Changed(const CEGUI::EventArgs& event);
+		bool Editor_Spit_Count_Text_Changed(const CEGUI::EventArgs& event);
 
 		// The area we react on Maryo.
 		float m_active_range;
