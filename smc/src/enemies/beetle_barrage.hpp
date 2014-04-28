@@ -32,6 +32,8 @@ namespace SMC {
 		float Get_Active_Range();
 		void Set_Beetle_Interval(float time);
 		float Get_Beelte_Interval();
+		void Set_Beetle_Spit_Count(int count);
+		int Get_Beetle_Spit_Count();
 
 		virtual Col_Valid_Type Validate_Collision(cSprite* p_obj);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
@@ -63,6 +65,8 @@ namespace SMC {
 		 */
 		void Calculate_Active_Area(const float& x, const float& y);
 
+		void Generate_Beetles();
+
 		// The area we react on Maryo.
 		float m_active_range;
 		GL_Circle m_active_area;
@@ -70,6 +74,7 @@ namespace SMC {
 		float m_beetle_interval_counter;
 		float m_spitting_beetles_counter;
 		bool m_is_spitting_out_beetles;
+		int m_beetle_spit_count;
 	};
 
 }

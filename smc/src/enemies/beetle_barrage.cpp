@@ -3,7 +3,10 @@
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
 #include "../core/math/circle.hpp"
+#include "../core/sprite_manager.hpp"
 #include "../level/level_player.hpp"
+#include "../level/level.hpp"
+#include "beetle.hpp"
 
 using namespace SMC;
 
@@ -37,6 +40,7 @@ void cBeetleBarrage::Init()
 	m_beetle_interval = 100.0f;
 	m_beetle_interval_counter = 0.0f;
 	m_is_spitting_out_beetles = false;
+	m_beetle_spit_count = 5;
 
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/1.png")));
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/2.png")));
@@ -153,8 +157,7 @@ void cBeetleBarrage::Update()
 			Set_Image_Num(0);
 			Reset_Animation();
 
-			// TODO: Generate beetles. Or just one-after-another
-			// during animation?
+			Generate_Beetles();
 
 			m_is_spitting_out_beetles = false;
 		}
@@ -291,4 +294,27 @@ void cBeetleBarrage::Calculate_Active_Area(const float& x, const float& y)
 void cBeetleBarrage::Set_Beetle_Interval(float time)
 {
 	m_beetle_interval = time;
+}
+
+void cBeetleBarrage::Set_Beetle_Spit_Count(int count)
+{
+	m_beetle_spit_count = count;
+}
+
+int cBeetleBarrage::Get_Beetle_Spit_Count()
+{
+	return m_beetle_spit_count;
+}
+
+void cBeetleBarrage::Generate_Beetles()
+{
+	for(int i=0; i < m_beetle_spit_count; i++) {
+		cBeetle* p_beetle = new cBeetle(m_sprite_manager);
+
+		p_beetle->Set_Spawned(true);
+		p_beetle->Set_Pos(m_pos_x, m_pos_y - 35.0f, true);
+		p_beetle->Set_Active(true);
+
+		pActive_Level->m_sprite_manager->Add(p_beetle);
+	}
 }
