@@ -54,13 +54,15 @@ cBeetle::~cBeetle()
 void cBeetle::Init()
 {
 	m_type = TYPE_BEETLE;
-	m_pos_z = 0.093f;
+	m_pos_z = 0.092f; // Ensure this is behind cBeetleBarrage
 	m_gravity_max = 0.0f;
 	m_editor_pos_z = 0.089f;
 	m_name = "Beetle";
 	m_velx = -2.5;
 	m_rest_living_time = Get_Random_Float(150.0f, 250.0f);
 	m_start_direction = m_direction = DIR_LEFT;
+	m_generation_max_y = 0.0f;
+	m_generation_in_progress = false;
 
 	// Select random color
 	DefaultColor ary[] = {COL_RED, COL_YELLOW, COL_GREEN, COL_BLUE, COL_VIOLET};
@@ -150,26 +152,38 @@ void cBeetle::Update()
 	if (!m_valid_update || !Is_In_Range())
 		return;
 
-	// When living time is up, die.
-	m_rest_living_time -= pFramerate->m_speed_factor;
-	if (m_rest_living_time <= 0) {
-		m_rest_living_time = 0;
-		DownGrade(true);
+	// This will be true if the beetle is generated from a beetle barrage
+	if (m_generation_in_progress) {
+		// Let our beetle fly upwards until the requested position is reached.
+		if (m_pos_y <= m_generation_max_y) {
+			m_generation_in_progress = false;
+			m_generation_max_y = 0.0f;
+			m_vely = 0.0f;
+			m_pos_z = 0.094f; // Ensure this is now in front of cBeetleBarrage -- looks weird if they fly behind the plant
+		}
 	}
+	else {
+		// When living time is up, die.
+		m_rest_living_time -= pFramerate->m_speed_factor;
+		if (m_rest_living_time <= 0) {
+			m_rest_living_time = 0;
+			DownGrade(true);
+		}
 
-	// Make it go into random directions on random occasions
-	if (rand() % 10 > 6) {
-		m_velx = Get_Random_Float(-10.0f, 10.0f);
-		m_vely = Get_Random_Float(-10.0f, 10.0f);
+		// Make it go into random directions on random occasions
+		if (rand() % 10 > 6) {
+			m_velx = Get_Random_Float(-10.0f, 10.0f);
+			m_vely = Get_Random_Float(-10.0f, 10.0f);
 
-		// Can’t use Set_Direction, because we set m_velx ourselves.
-		// Therefore we also need to call Update_Rotation_Hor() ourselves.
-		if (m_velx < 0)
-			m_direction = DIR_LEFT;
-		else
-			m_direction = DIR_RIGHT;
+			// Can’t use Set_Direction, because we set m_velx ourselves.
+			// Therefore we also need to call Update_Rotation_Hor() ourselves.
+			if (m_velx < 0)
+				m_direction = DIR_LEFT;
+			else
+				m_direction = DIR_RIGHT;
 
-		Update_Rotation_Hor();
+			Update_Rotation_Hor();
+		}
 	}
 
 	// This enemy is immune to both gravity and air resistance.
@@ -314,4 +328,18 @@ bool cBeetle::Editor_Color_Select(const CEGUI::EventArgs& event)
 	Set_Color(Get_Color_Id(p_item->getText().c_str()));
 
 	return true;
+}
+
+bool cBeetle::Is_Doing_Beetle_Barrage_Generation()
+{
+	return m_generation_in_progress;
+}
+
+void cBeetle::Do_Beetle_Barrage_Generation(float distance)
+{
+	m_generation_max_y = m_pos_y - distance;
+	m_generation_in_progress = true;
+	// Slowly move up
+	m_vely = -2.0f;
+	m_velx = 0.0f;
 }

@@ -33,7 +33,7 @@ cBeetleBarrage::~cBeetleBarrage()
 void cBeetleBarrage::Init()
 {
 	m_type = TYPE_BEETLE_BARRAGE;
-	m_pos_z = 0.093f;
+	m_pos_z = 0.093f; // Ensure this is in front of cBeetle
 	m_gravity_max = 24.0f;
 	m_editor_pos_z = 0.089f;
 	m_name = "Beetle Barrage";
@@ -311,8 +311,13 @@ void cBeetleBarrage::Generate_Beetles()
 	for(int i=0; i < m_beetle_spit_count; i++) {
 		cBeetle* p_beetle = new cBeetle(m_sprite_manager);
 
+		// m_pos_y - 35.0f
+
 		p_beetle->Set_Spawned(true);
-		p_beetle->Set_Pos(m_pos_x, m_pos_y - 35.0f, true);
+		p_beetle->Set_Pos(	m_pos_x + m_rect.m_w / 2.0f - p_beetle->m_rect.m_w / 2.0f,
+							m_pos_y + m_rect.m_h / 2.0f - p_beetle->m_rect.m_h / 2.0f - 5.0f,
+							true);
+		p_beetle->Do_Beetle_Barrage_Generation(35.0f);
 		p_beetle->Set_Active(true);
 
 		pActive_Level->m_sprite_manager->Add(p_beetle);
