@@ -192,9 +192,9 @@ void cBeetleBarrage::Draw(cSurface_Request* p_request /* = NULL */)
 		float x, y;
 		Calculate_Fly_Start(&temp_beetle, x, y);
 		pVideo->Draw_Rect(	x + temp_beetle.m_rect.m_w / 2.0 - 5.0f - pActive_Camera->m_x,
-							y - pActive_Camera->m_y,
+							y + temp_beetle.m_rect.m_h - pActive_Camera->m_y,
 							10.0f,
-							m_beetle_fly_distance,
+							-m_beetle_fly_distance,
 							m_editor_pos_z - 0.000002f,
 							&whitealpha128);
 	}
