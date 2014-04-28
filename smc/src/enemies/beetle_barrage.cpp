@@ -40,6 +40,7 @@ void cBeetleBarrage::Init()
 	m_beetle_interval = 100.0f;
 	m_beetle_interval_counter = 0.0f;
 	m_is_spitting_out_beetles = false;
+	m_beetle_fly_distance = 35.0f;
 	m_beetle_spit_count = 5;
 
 	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/1.png")));
@@ -176,6 +177,7 @@ void cBeetleBarrage::Draw(cSurface_Request* p_request /* = NULL */)
 		return;
 
 	if (editor_level_enabled) {
+		// Draw the action area
 		Calculate_Active_Area(m_start_pos_x, m_start_pos_y);
 		pVideo->Draw_Circle(	m_active_area.Get_X() - pActive_Camera->m_x,
 								m_active_area.Get_Y() - pActive_Camera->m_y,
@@ -308,18 +310,33 @@ int cBeetleBarrage::Get_Beetle_Spit_Count()
 
 void cBeetleBarrage::Generate_Beetles()
 {
+
 	for(int i=0; i < m_beetle_spit_count; i++) {
 		cBeetle* p_beetle = new cBeetle(m_sprite_manager);
-
-		// m_pos_y - 35.0f
+		float x, y;
+		Calculate_Fly_Start(p_beetle, x, y);
 
 		p_beetle->Set_Spawned(true);
-		p_beetle->Set_Pos(	m_pos_x + m_rect.m_w / 2.0f - p_beetle->m_rect.m_w / 2.0f,
-							m_pos_y + m_rect.m_h / 2.0f - p_beetle->m_rect.m_h / 2.0f - 5.0f,
-							true);
-		p_beetle->Do_Beetle_Barrage_Generation(35.0f);
+		p_beetle->Set_Pos(x, y, true);
+		p_beetle->Do_Beetle_Barrage_Generation(m_beetle_fly_distance);
 		p_beetle->Set_Active(true);
 
 		pActive_Level->m_sprite_manager->Add(p_beetle);
 	}
+}
+
+void cBeetleBarrage::Set_Beetle_Fly_Distance(float distance)
+{
+	m_beetle_fly_distance = distance;
+}
+
+float cBeetleBarrage::Get_Beetle_Fly_Distance()
+{
+	return m_beetle_fly_distance;
+}
+
+void cBeetleBarrage::Calculate_Fly_Start(const cBeetle* p_beetle, float& x, float& y)
+{
+	x = m_pos_x + m_rect.m_w / 2.0f - p_beetle->m_rect.m_w / 2.0f;
+	y = m_pos_y + m_rect.m_h / 2.0f - p_beetle->m_rect.m_h / 2.0f - 5.0f;
 }

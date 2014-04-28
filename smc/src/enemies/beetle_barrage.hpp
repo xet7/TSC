@@ -16,6 +16,7 @@
 #ifndef SMC_BEETLE_BARRAGE_HPP
 #define SMC_BEETLE_BARRAGE_HPP
 #include "enemy.hpp"
+#include "beetle.hpp"
 
 namespace SMC {
 
@@ -34,6 +35,8 @@ namespace SMC {
 		float Get_Beelte_Interval();
 		void Set_Beetle_Spit_Count(int count);
 		int Get_Beetle_Spit_Count();
+		void Set_Beetle_Fly_Distance(float distance);
+		float Get_Beetle_Fly_Distance();
 
 		virtual Col_Valid_Type Validate_Collision(cSprite* p_obj);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
@@ -64,6 +67,8 @@ namespace SMC {
 		 * respective coordinates.
 		 */
 		void Calculate_Active_Area(const float& x, const float& y);
+		// The point beetles start flying upwards from (in the plant)
+		void Calculate_Fly_Start(const cBeetle* p_beetle, float& x, float& y);
 
 		void Generate_Beetles();
 
@@ -75,6 +80,7 @@ namespace SMC {
 		float m_spitting_beetles_counter;
 		bool m_is_spitting_out_beetles;
 		int m_beetle_spit_count;
+		float m_beetle_fly_distance;
 	};
 
 }
