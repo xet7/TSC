@@ -317,6 +317,8 @@ the MRuby scripting API, grouped by topic:
 | ***Enemies***                         | ***Enemies***                               |
 |---------------------------------------|---------------------------------------------|
 | [Enemy](enemy.html)                   | Base class for all enemies                  |
+| [Beetle](beetle.html)                 |                                             |
+| [BeetleBarrage](beetlebarrage.html)   |                                             |
 | [Eato](eato.html)                     |                                             |
 | [Flyon](flyon.html)                   |                                             |
 | [Furball](furball.html)               |                                             |
