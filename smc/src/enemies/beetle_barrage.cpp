@@ -24,6 +24,11 @@ cBeetleBarrage::cBeetleBarrage(XmlAttributes& attributes, cSprite_Manager* p_spr
 
 	// position
 	Set_Pos(attributes.fetch<float>("posx", 0), attributes.fetch<float>("posy", 0), true);
+
+	Set_Active_Range(attributes.fetch<float>("active_range", 0.0f));
+	Set_Beetle_Interval(attributes.fetch<float>("interval", 100.0f));
+	Set_Beetle_Spit_Count(attributes.fetch<int>("spit_count", 1));
+	Set_Beetle_Fly_Distance(attributes.fetch<float>("fly_distance", 0.0f));
 }
 
 cBeetleBarrage::~cBeetleBarrage()
@@ -83,6 +88,10 @@ xmlpp::Element* cBeetleBarrage::Save_To_XML_Node(xmlpp::Element* p_element)
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
 	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+	Add_Property(p_node, "active_range", m_active_range);
+	Add_Property(p_node, "interval", m_beetle_interval);
+	Add_Property(p_node, "spit_count", m_beetle_spit_count);
+	Add_Property(p_node, "fly_distance", m_beetle_fly_distance);
 
 	return p_node;
 }
@@ -373,6 +382,6 @@ bool cBeetleBarrage::Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& ev
 	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
 	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
 
-	m_beetle_fly_distance = string_to_float(str_text);
+	Set_Beetle_Fly_Distance(string_to_float(str_text));
 	return true;
 }
