@@ -3,6 +3,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
 #include "../core/math/circle.hpp"
+#include "../core/i18n.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../level/level_player.hpp"
 #include "../level/level.hpp"
@@ -351,4 +352,27 @@ void cBeetleBarrage::Calculate_Fly_Start(const cBeetle* p_beetle, float& x, floa
 {
 	x = m_pos_x + m_rect.m_w / 2.0f - p_beetle->m_rect.m_w / 2.0f;
 	y = m_pos_y + m_rect.m_h / 2.0f - p_beetle->m_rect.m_h / 2.0f - 5.0f;
+}
+
+void cBeetleBarrage::Editor_Activate()
+{
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+	// range
+	CEGUI::Editbox* p_editbox = static_cast<CEGUI::Editbox*>(wmgr.createWindow("TaharezLook/Editbox", "editor_beetlebarrage_fly_distance"));
+	Editor_Add(UTF8_("Fly distance"), _("Initial beetle flying distance"), p_editbox, 90);
+	p_editbox->setValidationString("^\\d+$");
+	p_editbox->setText(int_to_string(static_cast<int>(m_beetle_fly_distance)));
+	p_editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&cBeetleBarrage::Editor_Fly_Distance_Text_Changed, this));
+
+	Editor_Init();
+}
+
+bool cBeetleBarrage::Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
+
+	m_beetle_fly_distance = string_to_float(str_text);
+	return true;
 }

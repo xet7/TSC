@@ -49,6 +49,8 @@ namespace SMC {
 		virtual void Update_Dying();
 		virtual bool Is_Update_Valid();
 
+		virtual void Editor_Activate();
+
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 	protected:
@@ -71,6 +73,9 @@ namespace SMC {
 		void Calculate_Fly_Start(const cBeetle* p_beetle, float& x, float& y);
 
 		void Generate_Beetles();
+
+		// Editor event handlers
+		bool Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& event);
 
 		// The area we react on Maryo.
 		float m_active_range;
