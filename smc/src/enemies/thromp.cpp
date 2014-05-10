@@ -266,35 +266,9 @@ void cThromp :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cThromp :: Update_Dying( void )
+void cThromp :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor;
-
-	// default death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		Set_Active( 0 );
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
-	}
+	Set_Active(false);
 }
 
 void cThromp :: Update( void )

@@ -185,49 +185,8 @@ void cKrush :: DownGrade( bool force /* = 0 */ )
 	if( m_dead )
 	{
 		m_massive_type = MASS_PASSIVE;
-		m_counter = 0.0f;
 		m_velx = 0.0f;
 		m_vely = 0.0f;
-	}
-}
-
-void cKrush :: Update_Dying( void )
-{
-	m_counter += pFramerate->m_speed_factor;
-
-	// stomp death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		float speed = pFramerate->m_speed_factor * 0.05f;
-
-		Add_Scale_X( -speed * 0.5f );
-		Add_Scale_Y( -speed );
-
-		if( m_scale_y < 0.01f )
-		{
-			Set_Scale( 1.0f );
-			Set_Active( 0 );
-		}
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
 	}
 }
 

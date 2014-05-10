@@ -269,14 +269,12 @@ void cTurtle :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cTurtle :: Update_Dying( void )
+void cTurtle :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor * 0.5f;
-
 	// if not below the ground : fall
 	if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
 	{
-		float speed_y = m_counter;
+		float speed_y = m_dying_counter;
 
 		// first a little bit upwards
 		if( speed_y < 10.0f )
@@ -307,6 +305,11 @@ void cTurtle :: Update_Dying( void )
 		m_state = STA_STAY;
 		m_turtle_state = TURTLE_DEAD;
 	}
+}
+
+void cTurtle :: Update_Instant_Dying()
+{
+	Update_Normal_Dying();
 }
 
 void cTurtle :: Set_Turtle_Moving_State( Turtle_state new_state )

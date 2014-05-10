@@ -49,7 +49,15 @@ public:
 	virtual void Set_Dead( bool enable = 1 );
 
 	// dying animation update
-	virtual void Update_Dying( void ) {};
+	void Update_Dying( void );
+	// Animation update for an enemy killed regularlyly.
+	// Default animation squishes the enemy.
+	virtual void Update_Normal_Dying();
+	// Animation update for an enemy killed with DownGrade(true),
+	// e.g. abyss or lava.
+	// Default animation makes the enemy move upwards a bit, then immediately
+	// fall off the screen quickly.
+	virtual void Update_Instant_Dying();
 	// handle basic enemy updates
 	virtual void Update( void );
 	/* late update
@@ -100,6 +108,10 @@ public:
 	bool m_can_be_hit_from_shell;
 	// if this moves into an abyss
 	//bool m_moves_into_abyss;
+
+protected:
+	// Counter for dying animation
+	float m_dying_counter;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

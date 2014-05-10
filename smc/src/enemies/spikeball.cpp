@@ -209,49 +209,6 @@ void cSpikeball :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cSpikeball :: Update_Dying( void )
-{
-	// stomp death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		// scale out
-		float speed = pFramerate->m_speed_factor * 0.05f;
-
-		Add_Scale_X( -speed * 0.5f );
-		Add_Scale_Y( -speed );
-
-		if( m_scale_y < 0.01f )
-		{
-			Set_Scale( 1.0f );
-			Set_Active( 0 );
-		}
-	}
-	// falling death
-	else
-	{
-		m_counter += pFramerate->m_speed_factor * 0.1f;
-
-		// a little bit upwards first
-		if( m_counter < 0.3f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-			Add_Scale( -pFramerate->m_speed_factor * 0.01f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Scale( 1.0f );
-			Set_Active( 0 );
-		}
-	}
-}
-
 void cSpikeball :: Set_Moving_State( Moving_state new_state )
 {
 	if( new_state == m_state )

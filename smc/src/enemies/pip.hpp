@@ -42,8 +42,6 @@ namespace SMC {
 		// Downgrade state (dies if already in weakest state).
 		// force forces death.
 		virtual void DownGrade(bool force = false);
-		// dying animation update
-		virtual void Update_Dying();
 
 		void Set_Moving_State(Moving_state new_state);
 

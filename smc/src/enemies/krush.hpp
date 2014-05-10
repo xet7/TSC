@@ -63,8 +63,6 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
 
 	// set the moving state
 	void Set_Moving_State( Moving_state new_state );

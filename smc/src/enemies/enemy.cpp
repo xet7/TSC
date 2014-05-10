@@ -41,6 +41,7 @@ cEnemy :: cEnemy( cSprite_Manager *sprite_manager )
 	m_can_be_ground = 1;
 	m_dead = 0;
 	m_counter = 0.0f;
+	m_dying_counter = 0.0f;
 	m_color = COL_DEFAULT;
 
 	m_kill_sound = "enemy/furball/die.ogg";
@@ -191,6 +192,48 @@ void cEnemy :: Update( void )
 				m_velx -= (m_velx * 0.06f) * pFramerate->m_speed_factor;
 			}
 		}
+	}
+}
+
+void cEnemy :: Update_Dying()
+{
+	// Increase dying animation counter
+	m_dying_counter += pFramerate->m_speed_factor;
+
+	// By convention, enemies’ DownGrade(true) implementation
+	// turns them upside down.
+	// FIXME: Use a proper boolean for this.
+	if (Is_Float_Equal(m_rot_z, 180.0f))
+		Update_Instant_Dying();
+	else
+		Update_Normal_Dying();
+}
+
+void cEnemy :: Update_Normal_Dying()
+{
+	float speed = pFramerate->m_speed_factor * 0.05f;
+
+	Add_Scale_X( -speed * 0.5f );
+	Add_Scale_Y( -speed );
+
+	if( m_scale_y < 0.01f ) {
+		Set_Scale(1.0f);
+		Set_Active(false);
+	}
+}
+
+void cEnemy :: Update_Instant_Dying()
+{
+	// a little bit upwards first
+	if( m_dying_counter < 5.0f )
+		Move( 0.0f, -5.0f );
+	// if not below the ground : fall
+	else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
+		Move( 0.0f, 20.0f );
+	// if below disable
+	else {
+		m_rot_z = 0.0f;
+		Set_Active( false );
 	}
 }
 

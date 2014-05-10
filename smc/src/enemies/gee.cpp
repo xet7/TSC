@@ -276,35 +276,10 @@ void cGee :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cGee :: Update_Dying( void )
+void cGee :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor;
-
-	// default death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		Set_Active( 0 );
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the screen fall
-		else if( m_pos_y < game_res_h + m_col_rect.m_h )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
-	}
+	// Instantly disappear
+	Set_Active(false);
 }
 
 void cGee :: Set_Moving_State( Moving_state new_state )

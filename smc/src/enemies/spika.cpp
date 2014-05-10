@@ -176,32 +176,6 @@ void cSpika :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cSpika :: Update_Dying( void )
-{
-	m_counter += pFramerate->m_speed_factor * 0.1f;
-
-	// falling death
-
-	// a little bit upwards first
-	if( m_counter < 0.3f )
-	{
-		cSprite::Move( 0.0f, -5.0f );
-	}
-	// if not below the ground : fall
-	else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-	{
-		cSprite::Move( 0.0f, 20.0f );
-		Add_Scale( -pFramerate->m_speed_factor * 0.01f );
-	}
-	// if below disable
-	else
-	{
-		m_rot_z = 0.0f;
-		Set_Scale( 1.0f );
-		Set_Active( 0 );
-	}
-}
-
 void cSpika :: Update( void )
 {
 	cEnemy::Update();

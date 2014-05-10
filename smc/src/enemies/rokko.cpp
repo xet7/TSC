@@ -250,7 +250,7 @@ void cRokko :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cRokko :: Update_Dying( void )
+void cRokko :: Update_Normal_Dying( void )
 {
 	if( m_vely < m_gravity_max )
 	{
@@ -281,6 +281,11 @@ void cRokko :: Update_Dying( void )
 		Set_Active( 0 );
 		m_velx = 0.0f;
 	}
+}
+
+void cRokko :: Update_Instant_Dying()
+{
+	Update_Normal_Dying();
 }
 
 void cRokko :: Update( void )

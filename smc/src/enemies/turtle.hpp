@@ -78,8 +78,9 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special dying animations
+	virtual void Update_Normal_Dying( void );
+	virtual void Update_Instant_Dying( void );
 
 	// set the turtle moving state
 	void Set_Turtle_Moving_State( Turtle_state new_state );

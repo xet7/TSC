@@ -308,10 +308,8 @@ void cTurtleBoss :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cTurtleBoss :: Update_Dying( void )
+void cTurtleBoss :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor * 0.5f;
-
 	if( m_scale_x > 0.1f )
 	{
 		float speed_x = pFramerate->m_speed_factor * 10.0f;
@@ -325,10 +323,10 @@ void cTurtleBoss :: Update_Dying( void )
 		Add_Scale( -pFramerate->m_speed_factor * 0.025f );
 
 		// star animation
-		if( m_counter >= 1.0f )
+		if( m_dying_counter >= 1.0f )
 		{
-			Generate_Stars( static_cast<unsigned int>(m_counter), 0.1f );
-			m_counter -= static_cast<int>(m_counter);
+			Generate_Stars( static_cast<unsigned int>(m_dying_counter), 0.1f );
+			m_dying_counter -= static_cast<int>(m_dying_counter);
 		}
 
 		// finished scale out animation
@@ -343,14 +341,14 @@ void cTurtleBoss :: Update_Dying( void )
 			// set empty image
 			cMovingSprite::Set_Image( NULL, 0, 0 );
 			// reset counter
-			m_counter = 0.0f;
+			m_dying_counter = 0.0f;
 		}
 	}
 	// after scale animation
 	else
 	{
 		// wait some time
-		if( m_counter > 20.0f )
+		if( m_dying_counter > 20.0f )
 		{
 			Set_Active( 0 );
 			m_turtle_state = TURTLEBOSS_DEAD;
@@ -365,6 +363,11 @@ void cTurtleBoss :: Update_Dying( void )
 			Set_Scale_Affects_Rect( 0 );
 		}
 	}
+}
+
+void cTurtleBoss :: Update_Instant_Dying()
+{
+	Update_Normal_Dying();
 }
 
 void cTurtleBoss :: Set_Turtle_Moving_State( TurtleBoss_state new_state )

@@ -114,37 +114,6 @@ void cBeetle::DownGrade(bool force /* = false */)
 	m_vely = 0.0f;
 }
 
-void cBeetle::Update_Dying()
-{
-	m_counter += pFramerate->m_speed_factor;
-
-	// Forced death
-	if (Is_Float_Equal(m_rot_z, 180.0f)) {
-		// A little bit upwards first
-		if (m_counter < 5.0f)
-			Move(0.0f, 5.0f);
-		// if not below the ground: fall
-		else if (m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y)
-			Move(0.0f, 20.0f);
-		// if below disable
-		else {
-			m_rot_z = 0.0f;
-			Set_Active(false);
-		}
-	}
-	// Normal death
-	else {
-		float speed = pFramerate->m_speed_factor * 0.05f;
-		Add_Scale_X(-speed * 0.5f);
-		Add_Scale_Y(-speed);
-
-		if (m_scale_y < 0.01f) {
-			Set_Scale(1.0f);
-			Set_Active(false);
-		}
-	}
-}
-
 void cBeetle::Update()
 {
 	cEnemy::Update();
