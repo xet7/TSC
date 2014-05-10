@@ -56,6 +56,7 @@ cSpikeball :: ~cSpikeball( void )
 void cSpikeball :: Init( void )
 {
 	m_type = TYPE_SPIKEBALL;
+	m_name = "Spikeball";
 	m_pos_z = 0.09f;
 	m_gravity_max = 29.0f;
 
@@ -113,7 +114,6 @@ void cSpikeball :: Load_From_Savegame( cSave_Level_Object *save_object )
 	cEnemy::Set_Direction( dir, initial );
 
 	Update_Rotation_Hor( 1 );
-	Create_Name();
 }
 
 void cSpikeball :: Set_Color( const DefaultColor &col )
@@ -159,7 +159,6 @@ void cSpikeball :: Set_Color( const DefaultColor &col )
 	//Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/dead.png" ) );
 
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cSpikeball :: Turn_Around( ObjectDirection col_dir /* = DIR_UNDEFINED */ )
@@ -647,14 +646,6 @@ bool cSpikeball :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 	Set_Direction( Get_Direction_Id( item->getText().c_str() ) );
 
 	return 1;
-}
-
-void cSpikeball :: Create_Name( void )
-{
-	m_name = "Spikeball ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
-	m_name += " ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

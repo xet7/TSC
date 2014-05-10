@@ -174,8 +174,6 @@ void cGee :: Set_Direction( const ObjectDirection dir )
 	Stop();
 	// set to start position
 	Set_Pos( m_start_pos_x, m_start_pos_y );
-
-	Create_Name();
 }
 
 void cGee :: Set_Max_Distance( int nmax_distance )
@@ -233,8 +231,6 @@ void cGee :: Set_Color( DefaultColor col )
 
 		m_fire_resistant = 0;
 	}
-
-	Create_Name();
 
 	Add_Image( pVideo->Get_Surface( "enemy/gee/" + filename_dir + "/1.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/gee/" + filename_dir + "/2.png" ) );
@@ -778,33 +774,6 @@ bool cGee :: Editor_Fly_Distance_Text_Changed( const CEGUI::EventArgs &event )
 	m_fly_distance = string_to_int( str_text );
 
 	return 1;
-}
-
-void cGee :: Create_Name( void )
-{
-	m_name = "Gee";
-
-	if( m_color_type == COL_YELLOW )
-	{
-		m_name += "lectro";
-	}
-	else if( m_color_type == COL_RED )
-	{
-		m_name += "lava";
-	}
-	else if( m_color_type == COL_GREEN )
-	{
-		m_name += "venom";
-	}
-
-	if( m_start_direction == DIR_HORIZONTAL )
-	{
-		m_name += " Hor";
-	}
-	else if( m_start_direction == DIR_VERTICAL )
-	{
-		m_name += " Ver";
-	}
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

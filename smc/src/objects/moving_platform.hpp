@@ -187,14 +187,12 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	virtual std::string Create_Name( void ) const;
 
 protected:
 	virtual std::string Get_XML_Type_Name();
 
 private:
-	// Create the Name from the current settings
-	void Create_Name( void );
-
 	// position when movement should slow down
 	float m_max_distance_slow_down_pos;
 	// lowest possible speed when moving

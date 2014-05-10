@@ -1216,7 +1216,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// set correct array if not given
 	if( sprite->m_sprite_array == ARRAY_UNDEFINED )
 	{
-		printf( "Warning : Editor sprite %s array not set\n", sprite->m_name.c_str() );
+		std::cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << std::endl;
 
 		if( sprite->m_massive_type == MASS_PASSIVE )
 		{
@@ -1235,7 +1235,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// warn if correct type is not given
 	if( sprite->m_type == TYPE_UNDEFINED )
 	{
-		printf( "Warning : Editor sprite %s type not set\n", sprite->m_name.c_str() );
+		std::cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << std::endl;
 	}
 
 	// if no image is given use the sprite start image
@@ -1258,9 +1258,9 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	{
 		obj_name = new_name;
 	}
-	else if( sprite->m_name.length() )
+	else if( sprite->Create_Name().length() )
 	{
-		obj_name = sprite->m_name;
+		obj_name = sprite->Create_Name();
 	}
 	// no object name available
 	else
@@ -1316,20 +1316,14 @@ void cEditor :: Activate_Item( cEditor_Item_Object *entry )
 {
 	// invalid
 	if( !entry )
-	{
-		printf( "Error : Invalid Editor Item\n" );
-		return;
-	}
+		throw(EditorError("Invalid Editor Item!"));
 
 	// create copy from editor item
 	cSprite *new_sprite = entry->sprite_obj->Copy();
 
 	// if copying failed
 	if( !new_sprite )
-	{
-		printf( "Error : Editor Sprite %s copy failed\n", entry->sprite_obj->m_name.c_str() );
-		return;
-	}
+		throw(EditorSpriteCopyFailedError(entry->sprite_obj));
 
 	new_sprite->Set_Sprite_Manager( m_sprite_manager );
 	new_sprite->Set_Pos( pMouseCursor->m_pos_x, pMouseCursor->m_pos_y, 1 );

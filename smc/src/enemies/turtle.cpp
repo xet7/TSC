@@ -60,6 +60,7 @@ cTurtle :: ~cTurtle( void )
 void cTurtle :: Init( void )
 {
 	m_type = TYPE_TURTLE;
+	m_name = "Armadillo";
 	m_pos_z = 0.091f;
 	m_gravity_max = 24.0f;
 
@@ -150,11 +151,6 @@ void cTurtle :: Set_Direction( const ObjectDirection dir, bool new_start_directi
 	{
 		Update_Rotation_Hor( new_start_direction );
 	}
-
-	if( new_start_direction )
-	{
-		Create_Name();
-	}
 }
 
 void cTurtle :: Set_Color( DefaultColor col )
@@ -211,7 +207,6 @@ void cTurtle :: Set_Color( DefaultColor col )
 	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/roll.png" ) );
 
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cTurtle :: Turn_Around( ObjectDirection col_dir /* = DIR_UNDEFINED */ )
@@ -1082,14 +1077,6 @@ bool cTurtle :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 	Set_Direction( Get_Direction_Id( item->getText().c_str() ), 1 );
 
 	return 1;
-}
-
-void cTurtle :: Create_Name( void )
-{
-	m_name = "Turtle ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
-	m_name += " ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

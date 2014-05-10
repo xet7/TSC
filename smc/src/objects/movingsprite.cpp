@@ -960,7 +960,7 @@ void cMovingSprite :: Update_Anti_Stuck( void )
 			continue;
 		}
 
-		debug_print( "Anti Stuck detected object %s on %s side\n", col_obj->m_name.c_str(), Get_Direction_Name( collision->m_direction ).c_str() );
+		debug_print( "Anti Stuck detected object %s on %s side\n", col_obj->Create_Name().c_str(), Get_Direction_Name( collision->m_direction ).c_str() );
 
 		if( collision->m_direction == DIR_LEFT ) 
 		{

@@ -56,6 +56,7 @@ cKrush :: ~cKrush( void )
 void cKrush :: Init( void  )
 {
 	m_type = TYPE_KRUSH;
+	m_name = "Krush";
 	m_pos_z = 0.093f;
 	m_gravity_max = 27.0f;
 
@@ -125,9 +126,6 @@ void cKrush :: Set_Direction( const ObjectDirection dir )
 	}
 
 	cEnemy::Set_Direction( dir, 1 );
-
-	m_name = "Krush ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	Update_Rotation_Hor( 1 );
 }

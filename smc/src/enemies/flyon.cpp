@@ -68,6 +68,7 @@ cFlyon :: ~cFlyon( void )
 void cFlyon :: Init( void  )
 {
 	m_type = TYPE_FLYON;
+	m_name = "Flyon";
 	m_pos_z = 0.06f;
 	Set_Rotation_Affects_Rect( 1 );
 	m_editor_pos_z = 0.089f;
@@ -170,8 +171,6 @@ void cFlyon :: Set_Image_Dir( fs::path dir )
 	Set_Animation_Image_Range( 0, 3 );
 	Set_Time_All( 130, 1 );
 	Reset_Animation();
-
-	Create_Name();
 }
 
 void cFlyon :: Set_Direction( const ObjectDirection dir )
@@ -212,7 +211,6 @@ void cFlyon :: Set_Direction( const ObjectDirection dir )
 
 	Set_Velocity( 0.0f, 0.0f );
 	Update_Dest_Vel();
-	Create_Name();
 }
 
 void cFlyon :: Set_Max_Distance( float nmax_distance )
@@ -729,15 +727,17 @@ bool cFlyon :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cFlyon :: Create_Name( void )
+std::string cFlyon :: Create_Name( void ) const
 {
-	m_name = "Flyon ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
+	std::string name = "Flyon "; // dup
+	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

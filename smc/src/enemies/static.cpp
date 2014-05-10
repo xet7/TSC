@@ -76,6 +76,7 @@ cStaticEnemy :: ~cStaticEnemy( void )
 void cStaticEnemy :: Init( void )
 {
 	m_type = TYPE_STATIC_ENEMY;
+	m_name = "Static Enemy";
 	m_pos_z = 0.094f;
 	m_can_be_on_ground = 0;
 	m_can_be_hit_from_shell = 0;
@@ -83,7 +84,6 @@ void cStaticEnemy :: Init( void )
 	Set_Rotation_Speed( 0.0f );
 	Set_Speed( 0.0f );
 	Set_Static_Image( utf8_to_path("enemy/static/blocks/spike_1/2_grey.png") );
-	Create_Name();
 }
 
 void cStaticEnemy :: Init_Links( void )
@@ -165,7 +165,6 @@ void cStaticEnemy :: Set_Static_Image( const fs::path &filename )
 
 	Add_Image( pVideo->Get_Surface( filename ) );
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cStaticEnemy :: Set_Path_Identifier( const std::string &path )
@@ -492,14 +491,16 @@ bool cStaticEnemy :: Editor_Ice_Resistance_Text_Changed( const CEGUI::EventArgs 
 	return 1;
 }
 
-void cStaticEnemy :: Create_Name( void )
+std::string cStaticEnemy :: Create_Name( void ) const
 {
-	m_name = "Static Enemy";
+	std::string name = m_name; // dup
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

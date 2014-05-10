@@ -515,8 +515,7 @@ public:
 	ArrayType m_sprite_array;
 	// massive collision type
 	MassiveType m_massive_type;
-	// visible name for the user
-	std::string m_name;
+
 	// sprite editor tags
 	std::string m_editor_tags;
 
@@ -566,7 +565,17 @@ public:
 	static const float m_pos_z_front_passive_start;
 	static const float m_pos_z_halfmassive_start;
 
+	// This method should append all necessary components
+	// to m_name and return the result as a new string.
+	// This is how the object is presented to the user
+	// in the editor. By default it just returns `m_name'.
+	virtual std::string Create_Name() const;
+
 protected:
+	// visible main name component for the user.
+	// Additions such as direction are added behind this.
+	std::string m_name;
+
 	// Returns the string to use for the XML `type' property of
 	// the sprite. Override in subclasses and do not call
 	// the parent method. Returning an empty string causes

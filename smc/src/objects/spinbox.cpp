@@ -44,6 +44,7 @@ void cSpinBox :: Init( void )
 {
 	m_type = TYPE_SPIN_BOX;
 	box_type = m_type;
+	m_name = "Spinbox";
 	m_camera_range = 5000;
 	m_can_be_on_ground = 0;
 
@@ -57,8 +58,6 @@ void cSpinBox :: Init( void )
 
 	// editor image
 	m_item_image = pVideo->Get_Surface( "game/arrow/small/white/up.png" );
-
-	Create_Name();
 }
 
 cSpinBox *cSpinBox :: Copy( void ) const

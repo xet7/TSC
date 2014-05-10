@@ -420,7 +420,7 @@ void cSprite_Manager :: Handle_Collision_Items( void )
 		{
 			if( obj->m_collisions.size() )
 			{
-				debug_print( "Collision with a destroyed object (%s)\n", obj->m_name.c_str() );
+				debug_print( "Collision with a destroyed object (%s)\n", obj->Create_Name().c_str() );
 				obj->Clear_Collisions();
 			}
 

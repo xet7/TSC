@@ -1616,6 +1616,11 @@ bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
+std::string cSprite :: Create_Name() const
+{
+	return m_name;
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

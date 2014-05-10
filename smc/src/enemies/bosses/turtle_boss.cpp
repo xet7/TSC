@@ -72,6 +72,7 @@ cTurtleBoss :: ~cTurtleBoss( void )
 void cTurtleBoss :: Init( void )
 {
 	m_type = TYPE_TURTLE_BOSS;
+	m_name = "Turtle Boss";
 	m_pos_z = 0.092f;
 	m_gravity_max = 19.0f;
 
@@ -171,11 +172,6 @@ void cTurtleBoss :: Set_Direction( const ObjectDirection dir, bool new_start_dir
 
 	cEnemy::Set_Direction( dir, new_start_direction );
 	Update_Rotation_Hor( new_start_direction );
-
-	if( new_start_direction )
-	{
-		Create_Name();
-	}
 }
 
 void cTurtleBoss :: Set_Color( DefaultColor col )
@@ -1273,10 +1269,11 @@ bool cTurtleBoss :: Editor_Level_Ends_If_Killed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cTurtleBoss :: Create_Name( void )
+std::string cTurtleBoss :: Create_Name( void ) const
 {
-	m_name = _("Turtle Boss");
-	m_name += " " + Get_Direction_Name( m_start_direction );
+	std::string name = m_name; // dup
+	name += " " + Get_Direction_Name( m_start_direction );
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

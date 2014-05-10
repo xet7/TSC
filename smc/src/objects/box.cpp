@@ -40,6 +40,7 @@ cBaseBox :: cBaseBox( cSprite_Manager *sprite_manager )
 	m_type = TYPE_ACTIVE_SPRITE;
 	m_sprite_array = ARRAY_ACTIVE;
 	m_massive_type = MASS_MASSIVE;
+	m_name = "Box";
 	m_can_be_ground = 1;
 	Set_Scale_Directions( 1, 1, 1, 1 );
 
@@ -279,9 +280,6 @@ void cBaseBox :: Set_Invisible( Box_Invisible_Type type )
 		Set_Color( 192, 192, 255, 128 );
 		Set_Color_Combine( 0.2f, 0.2f, 0.55f, GL_ADD );
 	}
-
-	// create name again
-	Create_Name();
 }
 
 void cBaseBox :: Activate_Collision( ObjectDirection col_direction )
@@ -893,73 +891,77 @@ bool cBaseBox :: Editor_Invisible_Select( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cBaseBox :: Create_Name( void )
+std::string cBaseBox :: Create_Name( void ) const
 {
+	std::string name = m_name; // dup
+
 	if( box_type == TYPE_UNDEFINED )
 	{
-		m_name = _("Box Empty");
+		name += " Empty";
 	}
 	else if( box_type == TYPE_POWERUP )
 	{
-		m_name = _("Box Random");
+		name += " Random";
 	}
 	else if( box_type == TYPE_SPIN_BOX )
 	{
-		m_name = _("Spinbox");
+		name += " Spinning";
 	}
 	else if( box_type == TYPE_TEXT_BOX )
 	{
-		m_name = _("Textbox");
+		name += " Text";
 	}
 	else if( box_type == TYPE_MUSHROOM_DEFAULT )
 	{
-		m_name = _("Box Mushroom");
+		name += " Mushroom";
 	}
 	else if( box_type == TYPE_FIREPLANT )
 	{
-		m_name = _("Box Mushroom - Fireplant");
+		name += " Mushroom - Fireplant";
 	}
 	else if( box_type == TYPE_MUSHROOM_BLUE )
 	{
-		m_name = _("Box Mushroom - Blue Mushroom");
+		name += " Mushroom - Blue Mushroom";
 	}
 	else if( box_type == TYPE_MUSHROOM_GHOST )
 	{
-		m_name = _("Box Mushroom - Ghost Mushroom");
+		name = " Mushroom - Ghost Mushroom";
 	}
 	else if( box_type == TYPE_MUSHROOM_LIVE_1 )
 	{
-		m_name = _("Box 1-UP");
+		name += " 1-UP";
 	}
 	else if( box_type == TYPE_STAR )
 	{
-		m_name = _("Box Star");
+		name += " Star";
 	}
 	else if( box_type == TYPE_GOLDPIECE )
 	{
-		m_name = _("Box Goldpiece");
+		name += " Goldpiece";
 	}
 	else if( box_type == TYPE_MUSHROOM_POISON )
 	{
-		m_name = _("Box Mushroom Poison");
+		name += " Mushroom Poison";
 	}
-	else
+	else // Shouldn't happen
 	{
-		m_name = _("Box Unknown Item Type");
+		name += " Unknown Item Type";
 	}
 
 	if( m_box_invisible == BOX_INVISIBLE_MASSIVE )
 	{
-		m_name.insert( 0, _("Invisible ") );
+		name.insert( 0, _("Invisible ") );
 	}
 	else if( m_box_invisible == BOX_GHOST )
 	{
-		m_name.insert( 0, _("Ghost ") );
+		name.insert( 0, _("Ghost ") );
 	}
 	else if( m_box_invisible == BOX_INVISIBLE_SEMI_MASSIVE )
 	{
-		m_name.insert( 0, _("Invisible Semi Massive ") );
+		name.insert( 0, _("Invisible Semi Massive ") );
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

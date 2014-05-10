@@ -155,10 +155,9 @@ public:
   int Get_Max_Downgrade_Count();
   float Get_Shell_Time();
   bool Get_Level_Ends_If_Killed();
+  virtual std::string Create_Name( void ) const;
 
 protected:
-	// Create the Name from the current settings
-	void Create_Name( void );
 
 	// times downgraded
 	int m_downgrade_count;

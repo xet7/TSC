@@ -71,6 +71,7 @@ cThromp :: ~cThromp( void )
 void cThromp :: Init( void  )
 {
 	m_type = TYPE_THROMP;
+	m_name = "Thromp";
 	m_pos_z = 0.093f;
 	m_camera_range = 1000;
 	m_can_be_on_ground = 0;
@@ -439,8 +440,6 @@ void cThromp :: Update_Images( void )
 	{
 		Set_Image_Num( 1 );
 	}
-
-	Create_Name();
 }
 
 void cThromp :: Update_Dest_Vel( void )
@@ -841,15 +840,17 @@ bool cThromp :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cThromp :: Create_Name( void )
+std::string cThromp :: Create_Name( void ) const
 {
-	m_name = "Thromp ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
+	std::string name = m_name; // dup
+	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

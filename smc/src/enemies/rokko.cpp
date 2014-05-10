@@ -59,6 +59,7 @@ cRokko :: ~cRokko( void )
 void cRokko :: Init( void  )
 {
 	m_type = TYPE_ROKKO;
+	m_name = "Rokko";
 	m_massive_type = MASS_PASSIVE;
 	m_pos_z = 0.03f;
 	m_gravity_max = 26.0f;
@@ -139,8 +140,6 @@ void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_directio
 	Clear_Images();
 
 	cEnemy::Set_Direction( dir, new_start_direction );
-	m_name = "Rokko ";
-	m_name += _(Get_Direction_Name(m_start_direction).c_str());
 
 	Add_Image( pVideo->Get_Surface( "enemy/rokko/r.png" ) );
 	if( m_direction == DIR_LEFT )

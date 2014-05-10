@@ -91,12 +91,10 @@ public:
 
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	virtual std::string  Create_Name( void ) const;
 
 protected:
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

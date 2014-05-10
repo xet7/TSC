@@ -56,6 +56,7 @@ cSpika :: ~cSpika( void )
 void cSpika :: Init( void )
 {
 	m_type = TYPE_SPIKA;
+	m_name = "Spika";
 	m_pos_z = 0.09f;
 	m_gravity_max = 25.0f;
 
@@ -152,9 +153,6 @@ void cSpika :: Set_Color( DefaultColor col )
 	}
 
 	Set_Image_Num( 0, 1 );
-
-	m_name = "Spika ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
 }
 
 void cSpika :: DownGrade( bool force /* = 0 */ )

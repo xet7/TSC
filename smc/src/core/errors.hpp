@@ -74,6 +74,26 @@ namespace SMC {
 		Moving_state m_state;
 	};
 
+	class EditorError: public SMCError
+	{
+	public:
+		EditorError(std::string msg);
+		virtual ~EditorError() throw();
+		virtual const char* what() const throw();
+	protected:
+		std::string m_msg;
+	};
+
+	class EditorSpriteCopyFailedError: public EditorError
+	{
+	public:
+		EditorSpriteCopyFailedError(cSprite* p_sprite);
+		virtual ~EditorSpriteCopyFailedError() throw();
+		cSprite* Get_Sprite();
+	protected:
+		cSprite* mp_sprite;
+	};
+
 }
 
 #endif

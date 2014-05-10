@@ -113,9 +113,6 @@ protected:
 	virtual std::string Get_XML_Type_Name();
 
 private:
-	// Create the Name from the current settings
-	void Create_Name( void );
-
 	// counter if staying
 	float m_counter_stay;
 	// counter if walking

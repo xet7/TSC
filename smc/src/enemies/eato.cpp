@@ -59,6 +59,7 @@ cEato :: ~cEato( void )
 void cEato :: Init( void )
 {
 	m_type = TYPE_EATO;
+	m_name = "Eato";
 	m_camera_range = 1000;
 	m_pos_z = 0.087f;
 	m_can_be_on_ground = 0;
@@ -127,8 +128,6 @@ void cEato :: Set_Image_Dir( fs::path dir )
 	Set_Animation_Image_Range( 0, 3 );
 	Set_Time_All( 180, 1 );
 	Reset_Animation();
-
-	Create_Name();
 }
 
 void cEato :: Set_Direction( const ObjectDirection dir )
@@ -178,8 +177,6 @@ void cEato :: Set_Direction( const ObjectDirection dir )
 	{
 		Set_Rotation_Z( 180.0f, 1 );
 	}
-
-	Create_Name();
 }
 
 void cEato :: DownGrade( bool force /* = 0 */ )
@@ -358,15 +355,18 @@ bool cEato :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cEato :: Create_Name( void )
+std::string cEato :: Create_Name( void ) const
 {
-	m_name = "Eato ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
+	std::string name = m_name; // dup
+	name += " ";
+	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

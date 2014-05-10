@@ -18,6 +18,7 @@
 #include "../video/animation.hpp"
 #include "../user/savegame.hpp"
 #include "../core/game_core.hpp"
+#include "../core/i18n.hpp"
 #include "../level/level_player.hpp"
 #include "../level/level_manager.hpp"
 #include "../scripting/events/die_event.hpp"
@@ -40,6 +41,7 @@ cEnemy :: cEnemy( cSprite_Manager *sprite_manager )
 	m_can_be_ground = 1;
 	m_dead = 0;
 	m_counter = 0.0f;
+	m_color = COL_DEFAULT;
 
 	m_kill_sound = "enemy/furball/die.ogg";
 	m_kill_points = 10;
@@ -360,6 +362,15 @@ void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 xmlpp::Element* cEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	return cAnimated_Sprite::Save_To_XML_Node(p_element);
+}
+
+std::string cEnemy :: Create_Name() const
+{
+	std::stringstream ss;
+	ss << m_name
+	   << " " << _(Get_Direction_Name(m_start_direction).c_str());
+
+	return ss.str();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

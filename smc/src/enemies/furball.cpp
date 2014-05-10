@@ -68,6 +68,7 @@ cFurball :: ~cFurball( void )
 void cFurball :: Init( void )
 {
 	m_type = TYPE_FURBALL;
+	m_name = "Furball";
 	m_pos_z = 0.09f;
 	m_gravity_max = 19.0f;
 
@@ -152,7 +153,6 @@ void cFurball :: Set_Direction( const ObjectDirection dir )
 	cEnemy::Set_Direction( dir, 1 );
 
 	Update_Rotation_Hor( 1 );
-	Create_Name();
 }
 
 void cFurball :: Set_Color( const DefaultColor &col )
@@ -227,7 +227,6 @@ void cFurball :: Set_Color( const DefaultColor &col )
 	}
 
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cFurball :: Turn_Around( ObjectDirection col_dir /* = DIR_UNDEFINED */ )
@@ -972,14 +971,6 @@ bool cFurball :: Editor_Max_Downgrade_Count_Text_Changed( const CEGUI::EventArgs
 	Set_Max_Downgrade_Count( string_to_int( str_text ) );
 
 	return 1;
-}
-
-void cFurball :: Create_Name( void )
-{
-	m_name = "Furball ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
-	m_name += " ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
