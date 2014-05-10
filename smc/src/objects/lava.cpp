@@ -97,7 +97,7 @@ void cLava::Handle_Collision_Enemy(cObjectCollision* p_collision)
 	cEnemy* p_enemy = static_cast<cEnemy*>(p_collision->m_obj);
 
 	// Lava collision means instant death.
-	p_enemy->Set_Dead(true);
+	p_enemy->DownGrade(true);
 }
 
 xmlpp::Element* cLava::Save_To_XML_Node(xmlpp::Element* p_element)
