@@ -62,6 +62,8 @@ public:
 
 	// collision from player
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision);
 
 	// gold color
 	DefaultColor m_color_type;

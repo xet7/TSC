@@ -330,6 +330,11 @@ void cGoldpiece :: Handle_Collision_Player( cObjectCollision *collision )
 	Activate();
 }
 
+void cGoldpiece :: Handle_Collision_Lava( cObjectCollision *collision )
+{
+	Set_Active(false);
+}
+
 /* *** *** *** *** *** *** cJGoldpiecee *** *** *** *** *** *** *** *** *** *** *** */
 
 cJGoldpiece :: cJGoldpiece( cSprite_Manager *sprite_manager )
