@@ -605,6 +605,15 @@ void cBall :: Handle_Collision_Massive( cObjectCollision *collision )
 	}
 }
 
+void cBall :: Handle_Collision_Lava( cObjectCollision *collision )
+{
+	// Fireballs jump when colliding with lava, ice balls melt.
+	if (m_ball_type == FIREBALL_DEFAULT)
+		m_vely = -25.0f;
+	else
+		Destroy_Ball(true);
+}
+
 void cBall :: Handle_out_of_Level( ObjectDirection dir )
 {
 	// ignore top
