@@ -82,7 +82,7 @@ public:
 	virtual void Draw( cSurface_Request *request = NULL );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 
 	// editor activation
 	virtual void Editor_Activate( void );

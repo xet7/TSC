@@ -1218,7 +1218,7 @@ void cParticle_Emitter :: Keep_Particles_In_Rect( const GL_rect &clip_rect, Part
 	}
 }
 
-bool cParticle_Emitter :: Is_Update_Valid( void )
+bool cParticle_Emitter :: Is_Update_Valid()
 {
 	// if not active
 	if( !m_active )

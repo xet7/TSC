@@ -416,6 +416,14 @@ std::string cEnemy :: Create_Name() const
 	return ss.str();
 }
 
+bool cEnemy :: Is_Update_Valid()
+{
+	if (m_dead || m_freeze_counter)
+		return false;
+
+	return true;
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

@@ -972,7 +972,7 @@ void cMoving_Platform :: Update_Velocity( void )
 	}
 }
 
-bool cMoving_Platform :: Is_Update_Valid( void )
+bool cMoving_Platform :: Is_Update_Valid()
 {
 	// if not visible
 	if( !m_active )

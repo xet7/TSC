@@ -308,7 +308,7 @@ void cGoldpiece :: Draw( cSurface_Request *request /* = NULL */ )
 	cAnimated_Sprite::Draw( request );
 }
 
-bool cGoldpiece :: Is_Update_Valid( void )
+bool cGoldpiece :: Is_Update_Valid()
 {
 	// if not visible
 	if( !m_active )

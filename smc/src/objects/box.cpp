@@ -641,7 +641,7 @@ void cBaseBox :: Generate_Activation_Particles( void )
 	}
 }
 
-bool cBaseBox :: Is_Update_Valid( void )
+bool cBaseBox :: Is_Update_Valid()
 {
 	// if not activateable and not animating
 	if( !m_useable_count && m_move_col_dir == DIR_UNDEFINED )

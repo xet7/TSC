@@ -168,14 +168,6 @@ void cBeetle::Draw(cSurface_Request* p_request /* = NULL */)
 	cEnemy::Draw(p_request);
 }
 
-bool cBeetle::Is_Update_Valid()
-{
-	if (m_dead || m_freeze_counter)
-		return false;
-	else
-		return true;
-}
-
 Col_Valid_Type cBeetle::Validate_Collision(cSprite* p_obj)
 {
 	if (p_obj->m_massive_type == MASS_MASSIVE) {

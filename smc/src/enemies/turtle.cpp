@@ -585,14 +585,14 @@ void cTurtle :: Update_Velocity_Max( void )
 	}
 }
 
-bool cTurtle :: Is_Update_Valid( void )
+bool cTurtle :: Is_Update_Valid()
 {
 	if( m_dead || m_freeze_counter || m_state == STA_OBJ_LINKED )
 	{
-		return 0;
+		return false;
 	}
 
-	return 1;
+	return true;
 }
 
 Col_Valid_Type cTurtle :: Validate_Collision( cSprite *obj )

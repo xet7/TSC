@@ -68,7 +68,7 @@ public:
 	void Update_Velocity( void );
 	// update gravity velocity
 	virtual void Update_Gravity( void );
-	
+
 	// Generates the default Hit Animation Particles
 	void Generate_Hit_Animation( cParticle_Emitter *anim = NULL ) const;
 
@@ -112,6 +112,10 @@ public:
 protected:
 	// Counter for dying animation
 	float m_dying_counter;
+
+	// Will not execute update if this returns true. By default
+	// this checks for m_dead and m_freeze_counter.
+	virtual bool Is_Update_Valid();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

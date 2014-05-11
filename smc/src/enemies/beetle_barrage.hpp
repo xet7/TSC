@@ -47,7 +47,6 @@ namespace SMC {
 		virtual cBeetleBarrage* Copy() const;
 		virtual void Draw(cSurface_Request* p_request = NULL);
 		virtual void Update();
-		virtual bool Is_Update_Valid();
 
 		virtual void Editor_Activate();
 

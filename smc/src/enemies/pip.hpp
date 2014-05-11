@@ -47,7 +47,6 @@ namespace SMC {
 
 		// update
 		virtual void Update();
-		virtual bool Is_Update_Valid();
 
 		void Update_Velocity_Max();
 

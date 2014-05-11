@@ -181,14 +181,6 @@ void cBeetleBarrage::Draw(cSurface_Request* p_request /* = NULL */)
 	cEnemy::Draw(p_request);
 }
 
-bool cBeetleBarrage::Is_Update_Valid()
-{
-	if (m_dead || m_freeze_counter)
-		return false;
-	else
-		return true;
-}
-
 Col_Valid_Type cBeetleBarrage::Validate_Collision(cSprite* p_obj)
 {
 	Col_Valid_Type basic_valid = Validate_Collision_Ghost(p_obj);

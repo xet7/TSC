@@ -251,16 +251,6 @@ void cKrush :: Update_Velocity_Max( void )
 	}
 }
 
-bool cKrush :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 Col_Valid_Type cKrush :: Validate_Collision( cSprite *obj )
 {
 	// basic validation checking

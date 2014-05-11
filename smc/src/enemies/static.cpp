@@ -244,16 +244,6 @@ void cStaticEnemy :: Draw( cSurface_Request *request /* = NULL */ )
 	cEnemy::Draw( request );
 }
 
-bool cStaticEnemy :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 Col_Valid_Type cStaticEnemy :: Validate_Collision( cSprite *obj )
 {
 	if( obj->m_massive_type == MASS_MASSIVE )

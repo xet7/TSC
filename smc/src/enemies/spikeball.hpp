@@ -77,9 +77,6 @@ public:
 	// update maximum velocity values
 	void Update_Velocity_Max( void );
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
-
 	/* Validate the given collision object
 	 * returns 0 if not valid
 	 * returns 1 if an internal collision with this object is valid

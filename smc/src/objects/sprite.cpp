@@ -1364,7 +1364,7 @@ bool cSprite :: Is_In_Range( void ) const
 	return 1;
 }
 
-bool cSprite :: Is_Update_Valid( void )
+bool cSprite :: Is_Update_Valid()
 {
 	// if destroyed
 	if( m_auto_destroy )

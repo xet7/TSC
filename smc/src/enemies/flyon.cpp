@@ -554,16 +554,6 @@ void cFlyon :: Update_Dest_Vel( void )
 	}
 }
 
-bool cFlyon :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 bool cFlyon :: Is_Draw_Valid( void )
 {
 	bool valid = cEnemy::Is_Draw_Valid();

@@ -493,16 +493,6 @@ void cRokko :: Generate_Sparks( unsigned int amount /* = 5 */ ) const
 	pActive_Animation_Manager->Add( anim );
 }
 
-bool cRokko :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 bool cRokko :: Is_Draw_Valid( void )
 {
 	bool valid = cEnemy::Is_Draw_Valid();

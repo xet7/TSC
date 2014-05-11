@@ -99,7 +99,7 @@ public:
 	void Update_Velocity_Max( void );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 
 	/* Validate the given collision object
 	 * returns 0 if not valid

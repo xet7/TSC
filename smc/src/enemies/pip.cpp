@@ -248,14 +248,6 @@ void cPip::Update_Velocity_Max()
 	}
 }
 
-bool cPip::Is_Update_Valid()
-{
-	if (m_dead || m_freeze_counter)
-		return false;
-	else
-		return true;
-}
-
 Col_Valid_Type cPip::Validate_Collision(cSprite* p_obj)
 {
 	// basic validation checking

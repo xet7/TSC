@@ -88,8 +88,6 @@ public:
 	// Generates Spark Particles
 	void Generate_Sparks( unsigned int amount = 5 ) const;
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 

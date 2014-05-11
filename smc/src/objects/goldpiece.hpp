@@ -58,7 +58,7 @@ public:
 	virtual void Draw( cSurface_Request *request = NULL );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 
 	// collision from player
 	virtual void Handle_Collision_Player( cObjectCollision *collision );

@@ -87,8 +87,6 @@ public:
 	// Check if position is beyond the max distance
 	bool Is_At_Max_Distance( void ) const;
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 

@@ -498,16 +498,6 @@ GL_rect cThromp :: Get_Final_Distance_Rect( void ) const
 	return final_distance;
 }
 
-bool cThromp :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 bool cThromp :: Is_Draw_Valid( void )
 {
 	bool valid = cEnemy::Is_Draw_Valid();

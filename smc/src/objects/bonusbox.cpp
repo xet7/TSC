@@ -437,7 +437,7 @@ void cBonusBox :: Draw( cSurface_Request *request /* = NULL */ )
 	cBaseBox::Draw( request );
 }
 
-bool cBonusBox :: Is_Update_Valid( void )
+bool cBonusBox :: Is_Update_Valid()
 {
 	// if item is in animation
 	if( !m_active_items.empty() )

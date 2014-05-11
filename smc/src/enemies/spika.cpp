@@ -254,16 +254,6 @@ void cSpika :: Update( void )
 	Update_Gravity();
 }
 
-bool cSpika :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 Col_Valid_Type cSpika :: Validate_Collision( cSprite *obj )
 {
 	// basic validation checking

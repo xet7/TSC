@@ -81,8 +81,6 @@ public:
 	// update destination velocity from the speed
 	void Update_Dest_Vel( void );
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 

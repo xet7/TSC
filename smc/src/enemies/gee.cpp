@@ -527,16 +527,6 @@ bool cGee :: Is_At_Max_Distance( void ) const
 	return 0;
 }
 
-bool cGee :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 bool cGee :: Is_Draw_Valid( void )
 {
 	bool valid = cEnemy::Is_Draw_Valid();
