@@ -26,6 +26,7 @@
 #include "../core/i18n.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../scripting/events/enter_event.hpp"
 
 namespace SMC
 {
@@ -310,6 +311,10 @@ void cLevel_Entry :: Activate( void )
 	}
 
 	pLevel_Player->Clear_Collisions();
+
+	// Fire entry event
+	Scripting::cEnter_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
 }
 
 void cLevel_Entry :: Set_Type( Level_Entry_type new_type )

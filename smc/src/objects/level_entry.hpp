@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"
+#include "../scripting/objects/specials/mrb_level_entry.hpp"
 
 namespace SMC
 {
@@ -49,6 +50,12 @@ public:
 	void Init( void );
 	// copy this sprite
 	virtual cLevel_Entry *Copy( void ) const;
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLevel_Entry, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// Set direction
 	void Set_Direction( const ObjectDirection dir );

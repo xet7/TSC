@@ -352,6 +352,7 @@ the MRuby scripting API, grouped by topic:
 |---------------------------------------|---------------------------------------------|
 | Level → LevelClass                    | The level itself; singleton                 |
 | [LevelClass](levelclass.html)         |                                             |
+| [LevelEntry](levelentry.html)         |                                             |
 | [LevelExit](levelexit.html)           |                                             |
 | [LevelPlayer](levelplayer.html)       |                                             |
 | Player → LevelPlayer                  | Maryo; singleton                            |
