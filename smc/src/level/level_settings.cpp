@@ -70,8 +70,9 @@ void cLevel_Settings :: Init( void )
 	m_tabcontrol->addTab( wmgr.loadWindowLayout( "level_settings/tab_main.layout" ) );
 	m_tabcontrol->addTab( wmgr.loadWindowLayout( "level_settings/tab_background.layout" ) );
 	m_tabcontrol->addTab( wmgr.loadWindowLayout( "level_settings/tab_global_effect.layout" ) );
+	m_tabcontrol->addTab( wmgr.loadWindowLayout( "level_settings/tab_script.layout") );
 
-	// Main
+	//////////////////// Main ////////////////////
 	// level filename
 	CEGUI::Editbox *editbox_level_filename = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_level_filename" ));
 	editbox_level_filename->setText( m_level->Get_Level_Name().c_str() );
@@ -131,7 +132,7 @@ void cLevel_Settings :: Init( void )
 	CEGUI::PushButton *button_apply = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "button_apply" ));
 	button_apply->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cLevel_Settings::Button_Apply, this ) );
 
-	// Background
+	//////////////////// Background ////////////////////
 	// listbox
 	CEGUI::Listbox *listbox = static_cast<CEGUI::Listbox *>(wmgr.getWindow( "listbox_backgrounds" ));
 	listbox->setSortingEnabled( 1 );
@@ -187,6 +188,11 @@ void cLevel_Settings :: Init( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_bg_color_end_blue" ));
 	editbox->subscribeEvent( CEGUI::Editbox::EventKeyUp, CEGUI::Event::Subscriber( &cLevel_Settings::Update_BG_Colors, this ) );
 	editbox->setText( int_to_string( m_bg_color_2.blue ).c_str() );
+
+	//////////////////// Script ////////////////////
+	// script edit field
+	CEGUI::MultiLineEditbox *multieditbox_script = static_cast<CEGUI::MultiLineEditbox *>(wmgr.getWindow( "multieditbox_script" ));
+	multieditbox_script->setText( reinterpret_cast<const CEGUI::utf8*>(m_level->m_script.c_str()) );
 
 	Update_BG_Colors( CEGUI::EventArgs() );
 	Clear_Layer_Field();
@@ -272,6 +278,22 @@ void cLevel_Settings :: Leave( void )
 	// Gradient
 	m_level->m_background_manager->Get_Pointer(0)->Set_Color_1( m_bg_color_1 );
 	m_level->m_background_manager->Get_Pointer(0)->Set_Color_2( m_bg_color_2 );
+
+#ifdef ENABLE_MRUBY
+	// # Script tab
+	std::string new_code = static_cast<CEGUI::MultiLineEditbox*>(wmgr.getWindow("multieditbox_script"))->getText().c_str();
+
+	// Only force re-init when new code has been specified
+	if (m_level->m_script != new_code) {
+		m_level->m_script = new_code;
+		/* Wipe out the existing mruby context. This is necessary, because
+		 * if we don’t do this, we either have to ignore that the script code
+		 * has changed (requiring the user to reload the level) or we would
+		 * end up running unchanged code again (with unpredictable side effects
+		 * including event handlers to be registered twice). */
+		m_level->Reinitialize_MRuby_Interpreter();
+	}
+#endif
 
 	Unload();
 }
