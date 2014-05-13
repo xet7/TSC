@@ -27,6 +27,7 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../scripting/events/exit_event.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -337,6 +338,10 @@ void cLevel_Exit :: Activate( void )
 	}
 
 	pLevel_Player->Clear_Collisions();
+
+	// Fire exit event
+	Scripting::cExit_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
 
 	// exit level
 	if( m_dest_level.empty() && m_dest_entry.empty() )

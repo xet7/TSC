@@ -3,6 +3,7 @@
 #include "../../../level/level.hpp"
 #include "mrb_level_exit.hpp"
 #include "../sprites/mrb_animated_sprite.hpp"
+#include "../../events/event.hpp"
 
 /**
  * Class: LevelExit
@@ -14,6 +15,15 @@
  * win the level, without any scripting intervention. Level exits
  * however can also be used to warp Maryo to other points in the
  * same level or even into a sublevel of the current one.
+ *
+ * Events
+ * ------
+ *
+ * Exit
+ * : Called when this level exit is activated. If this is a warping
+ *   level exit, the event handler is executed after Maryo’s movements
+ *   are completed (but before the camera move and before the target
+ *   level entry is read from this object).
  */
 
 using namespace SMC;
@@ -21,6 +31,8 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcLevel_Exit = NULL;
+
+MRUBY_IMPLEMENT_EVENT(exit);
 
 /**
  * Method: LevelExit::new
@@ -327,4 +339,6 @@ void SMC::Scripting::Init_LevelExit(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel_Exit, "path=", Set_Path, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Exit, "path", Get_Path, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Exit, "activate", Activate, MRB_ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcLevel_Exit, "on_exit", MRUBY_EVENT_HANDLER(exit), MRB_ARGS_NONE());
 }

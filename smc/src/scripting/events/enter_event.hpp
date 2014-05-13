@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_ENTRY_EVENT_HPP
-#define SMC_SCRIPTING_ENTRY_EVENT_HPP
+#ifndef SMC_SCRIPTING_ENTER_EVENT_HPP
+#define SMC_SCRIPTING_ENTER_EVENT_HPP
 #include "../scripting.hpp"
 #include "event.hpp"
 
