@@ -218,6 +218,33 @@ static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
 }
 
 /**
+ * Method: Sprite#massive_type
+ *
+ *   massive_type() → a_symbol
+ *
+ * Returns the sprite’s current massive type. See #massive_type= for
+ * a list of possible return values; front passive will always be
+ * returned as `:frontpassive`, half massive will always be returned
+ * as `:half_massive`.
+ */
+static mrb_value Get_Massive_Type(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+	switch (p_sprite->m_massive_type) {
+	case MASS_PASSIVE:
+		return str2sym(p_state, "passive");
+	case MASS_FRONT_PASSIVE:
+		return str2sym(p_state, "frontpassive");
+	case MASS_MASSIVE:
+		return str2sym(p_state, "massive");
+	case MASS_CLIMBABLE:
+		return str2sym(p_state, "climbable");
+	default:
+		return mrb_nil_value();
+	}
+}
+
+/**
  * Method: Sprite#x
  *
  *   x() → an_integer
@@ -611,6 +638,7 @@ void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcSprite, "hide", Hide, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "massive_type=", Set_Massive_Type, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "massive_type", Get_Massive_Type, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "x", Get_X, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "y", Get_Y, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "x=", Set_X, MRB_ARGS_REQ(1));
