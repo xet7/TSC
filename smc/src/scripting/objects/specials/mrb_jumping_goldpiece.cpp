@@ -1,0 +1,49 @@
+#include "../../../objects/goldpiece.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../level/level.hpp"
+#include "mrb_jumping_goldpiece.hpp"
+#include "mrb_goldpiece.hpp"
+
+using namespace SMC;
+using namespace SMC::Scripting;
+
+/**
+ * Class: JumpingGoldpiece
+ *
+ * Parent: [Goldpiece](goldpiece.html)
+ * {: .superclass}
+ *
+ * This kind of goldpiece jumps around when it falls down
+ * something, i.e. it is subject to gravity. This is goldpiece
+ * type used when you eliminate an enemy using fireballs.
+ */
+
+// Extern
+struct RClass* SMC::Scripting::p_rcJumping_Goldpiece = NULL;
+
+/**
+ * Method: JumpingGoldpiece::new
+ *
+ *   new() → a_jumping_goldpiece
+ *
+ * Creates a new instance of this class.
+ */
+static mrb_value Initialize(mrb_state* p_state, mrb_value self)
+{
+	cJGoldpiece* p_jgp = new cJGoldpiece(pActive_Level->m_sprite_manager);
+	DATA_PTR(self) = p_jgp;
+	DATA_TYPE(self) = &rtSMC_Scriptable;
+
+	p_jgp->Set_Spawned(true);
+	pActive_Level->m_sprite_manager->Add(p_jgp);
+
+	return self;
+}
+
+void SMC::Scripting::Init_JumpingGoldpiece(mrb_state* p_state)
+{
+	p_rcJumping_Goldpiece = mrb_define_class(p_state, "JumpingGoldpiece", p_rcGoldpiece);
+	MRB_SET_INSTANCE_TT(p_rcJumping_Goldpiece, MRB_TT_DATA);
+
+	mrb_define_method(p_state, p_rcJumping_Goldpiece, "initialize", Initialize, MRB_ARGS_NONE());
+}
