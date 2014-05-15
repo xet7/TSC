@@ -47,6 +47,7 @@
 #include "objects/specials/mrb_path.hpp"
 #include "objects/specials/mrb_lava.hpp"
 #include "objects/specials/mrb_enemy_stopper.hpp"
+#include "objects/specials/mrb_goldpiece.hpp"
 
 /*****************************************************************************
  Scripting organisation
@@ -299,5 +300,6 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Path(p_state);
 	Init_Lava(p_state);
 	Init_EnemyStopper(p_state);
+	Init_Goldpiece(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }
