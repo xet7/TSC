@@ -23,6 +23,8 @@
 #include "../user/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"
+#include "../level/level.hpp"
+#include "../scripting/events/activate_event.hpp"
 
 namespace SMC
 {
@@ -269,6 +271,9 @@ void cGoldpiece :: Activate( void )
 	}
 
 	pHud_Points->Add_Points( points, m_pos_x + m_col_rect.m_w / 2, m_pos_y + 2 );
+
+	Scripting::cActivate_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
 
 	// if spawned destroy
 	if( m_spawned )

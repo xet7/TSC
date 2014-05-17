@@ -23,6 +23,8 @@
 #include "../user/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"
+#include "../level/level.hpp"
+#include "../scripting/events/activate_event.hpp"
 
 namespace SMC
 {
@@ -144,6 +146,15 @@ bool cPowerUp :: Is_Update_Valid( void )
 	return 1;
 }
 
+void cPowerUp :: Activate( void )
+{
+	if (!m_active)
+		return;
+
+	Scripting::cActivate_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
+}
+
 Col_Valid_Type cPowerUp :: Validate_Collision( cSprite *obj )
 {
 	// basic validation checking
@@ -204,6 +215,17 @@ void cPowerUp :: Handle_out_of_Level( ObjectDirection dir )
 	}
 
 	Turn_Around( dir );
+}
+
+void cPowerUp :: Handle_Collision_Player( cObjectCollision *collision )
+{
+	// invalid
+	if( collision->m_direction == DIR_UNDEFINED )
+	{
+		return;
+	}
+
+	Activate();
 }
 
 /* *** *** *** *** *** *** cMushroom *** *** *** *** *** *** *** *** *** *** *** */
@@ -318,6 +340,8 @@ void cMushroom :: Activate( void )
 	{
 		return;
 	}
+
+	cPowerUp::Activate();
 
 	pLevel_Player->Get_Item( m_type );
 
@@ -467,17 +491,6 @@ void cMushroom :: Update( void )
 	}
 }
 
-void cMushroom :: Handle_Collision_Player( cObjectCollision *collision )
-{
-	// invalid
-	if( collision->m_direction == DIR_UNDEFINED )
-	{
-		return;
-	}
-
-	Activate();
-}
-
 void cMushroom :: Handle_Collision_Massive( cObjectCollision *collision )
 {
 	Turn_Around( collision->m_direction );
@@ -567,6 +580,8 @@ void cFirePlant :: Activate( void )
 		return;
 	}
 
+	cPowerUp::Activate();
+
 	pLevel_Player->Get_Item( TYPE_FIREPLANT );
 
 	pHud_Points->Add_Points( 700, m_pos_x + m_image->m_w / 2, m_pos_y );
@@ -643,17 +658,6 @@ void cFirePlant :: Update( void )
 	}
 }
 
-void cFirePlant :: Handle_Collision_Player( cObjectCollision *collision )
-{
-	// invalid
-	if( collision->m_direction == DIR_UNDEFINED )
-	{
-		return;
-	}
-
-	Activate();
-}
-
 /* *** *** *** *** *** *** *** cMoon *** *** *** *** *** *** *** *** *** *** */
 
 cMoon :: cMoon( cSprite_Manager *sprite_manager )
@@ -708,6 +712,8 @@ void cMoon :: Activate( void )
 		return;
 	}
 
+	cPowerUp::Activate();
+
 	pLevel_Player->Get_Item( TYPE_MOON );
 
 	pHud_Points->Add_Points( 4000, m_pos_x + m_image->m_w / 2, m_pos_y );
@@ -755,16 +761,6 @@ void cMoon :: Update( void )
 	}
 }
 
-void cMoon :: Handle_Collision_Player( cObjectCollision *collision )
-{
-	// invalid
-	if( collision->m_direction == DIR_UNDEFINED )
-	{
-		return;
-	}
-
-	Activate();
-}
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
