@@ -3,6 +3,7 @@
 #include "../../../level/level.hpp"
 #include "mrb_goldpiece.hpp"
 #include "../sprites/mrb_animated_sprite.hpp"
+#include "../../events/event.hpp"
 
 /**
  * Class: Goldpiece
@@ -16,6 +17,14 @@
  * directly place via the level editor’s "special" category, i.e.
  * the goldpieces don’t move. You can employ
  * one of the subclasses to get a different behaviour.
+ *
+ * Events
+ * ------
+ *
+ * Activate
+ * : This event is fired when the player collects the coin. Do
+ *   not change the player’s gold amount inside an event handler
+ *   for this event, this will cause undefined behaviour.
  */
 
 using namespace SMC;
@@ -23,6 +32,8 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcGoldpiece = NULL;
+
+MRUBY_IMPLEMENT_EVENT(activate);
 
 /**
  * Method: Goldpiece::new
@@ -123,4 +134,6 @@ void SMC::Scripting::Init_Goldpiece(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcGoldpiece, "gold_color=", Set_Gold_Color, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcGoldpiece, "gold_color", Get_Gold_Color, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcGoldpiece, "activate", Activate, MRB_ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcGoldpiece, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
 }
