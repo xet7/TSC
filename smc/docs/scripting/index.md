@@ -348,6 +348,12 @@ the MRuby scripting API, grouped by topic:
 | [Mushroom](mushroom.html)             |                                             |
 | [Star](star.html)                     |                                             |
 |---------------------------------------|---------------------------------------------|
+| ***Gold/Waffles***                    | ***Gold/Waffles***                          |
+|---------------------------------------|---------------------------------------------|
+| [Goldpiece](goldpiece.html)           | Base class for all goldpieces/waffles       |
+| [FallingGoldpiece](fallinggoldpiece.html) |                                         |
+| [JumpingGoldpiece](jumpinggoldpiece.html) |                                         |
+|---------------------------------------|---------------------------------------------|
 | ***Level stuff***                     | ***Level stuff***                           |
 |---------------------------------------|---------------------------------------------|
 | Level → LevelClass                    | The level itself; singleton                 |
