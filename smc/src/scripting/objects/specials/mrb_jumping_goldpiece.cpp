@@ -13,9 +13,8 @@ using namespace SMC::Scripting;
  * Parent: [Goldpiece](goldpiece.html)
  * {: .superclass}
  *
- * This kind of goldpiece jumps around when it falls down
- * something, i.e. it is subject to gravity. This is goldpiece
- * type used when you eliminate an enemy using fireballs.
+ * These goldpieces are used by coin boxes. You will barely
+ * ever need them.
  */
 
 // Extern
