@@ -21,6 +21,7 @@
 #include "../objects/animated_sprite.hpp"
 #include "../scripting/objects/powerups/mrb_powerup.hpp"
 #include "../scripting/objects/powerups/mrb_mushroom.hpp"
+#include "../scripting/objects/powerups/mrb_fireplant.hpp"
 
 namespace SMC
 {
@@ -54,6 +55,9 @@ public:
 	// if update is valid for the current state
 	virtual bool Is_Update_Valid( void );
 
+	// Activate this powerup
+	virtual void Activate( void );
+
 	/* Validate the given collision object
 	 * returns 0 if not valid
 	 * returns 1 if an internal collision with this object is valid
@@ -62,6 +66,8 @@ public:
 	virtual Col_Valid_Type Validate_Collision( cSprite *obj );
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
+	// collision from player
+	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_counter;
 
@@ -100,8 +106,6 @@ public:
 	// update
 	virtual void Update( void );
 
-	// collision from player
-	virtual void Handle_Collision_Player( cObjectCollision *collision );
 	// collision with massive
 	virtual void Handle_Collision_Massive( cObjectCollision *collision );
 	// collision from a box
@@ -134,14 +138,18 @@ public:
 	// copy
 	virtual cFirePlant *Copy( void ) const;
 
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcFireplant, &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// Activates the item
 	virtual void Activate( void );
 
 	// update
 	virtual void Update( void );
-
-	// collision from player
-	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_particle_counter;
 
@@ -173,9 +181,6 @@ public:
 
 	// update
 	virtual void Update( void );
-
-	// collision from player
-	virtual void Handle_Collision_Player( cObjectCollision *collision );
 
 	float m_particle_counter;
 

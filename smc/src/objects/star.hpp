@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.hpp"
 #include "../objects/powerup.hpp"
+#include "../scripting/objects/powerups/mrb_star.hpp"
 
 namespace SMC
 {
@@ -39,6 +40,13 @@ public:
 	// copy
 	virtual cjStar *Copy( void ) const;
 
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcStar, &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// Activate the star
 	void Activate( void );
 
@@ -50,8 +58,6 @@ public:
 	// Adds Star Particles
 	void Generate_Particles( float x = 0.0f, float y = 0.0f, bool random = 1, unsigned int quota = 2 ) const;
 
-	// collision from player
-	virtual void Handle_Collision_Player( cObjectCollision *collision );
 	// collision with massive
 	virtual void Handle_Collision_Massive( cObjectCollision *collision );
 
