@@ -96,7 +96,7 @@ void Handle_Game_Events( void )
 		if( current_game_action == GA_DOWNGRADE_PLAYER )
 		{
 			Handle_Generic_Game_Events( current_game_action_data_start );
-			pLevel_Player->DownGrade_Player( 0, current_game_action_data_middle.getValueAsBool( "downgrade_force" ) );
+			pLevel_Player->DownGrade_Player( false, current_game_action_data_middle.getValueAsBool( "downgrade_force" ), current_game_action_data_middle.getValueAsBool( "downgrade_ignore_invincible" ));
 			Handle_Generic_Game_Events( current_game_action_data_middle );
 			Handle_Generic_Game_Events( current_game_action_data_end );
 		}

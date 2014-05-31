@@ -192,15 +192,15 @@ bool cLevel_Player :: Set_On_Ground( cSprite *obj, bool set_on_top /* = 1 */ )
 
 void cLevel_Player :: DownGrade( bool force /* = 0 */ )
 {
-	DownGrade_Player( 1, force );
+	DownGrade_Player( true, force );
 }
 
-void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 0 */ )
+void cLevel_Player :: DownGrade_Player( bool delayed /* = true */, bool force /* = false */, bool ignore_invincible /* = false */ )
 {
-	if( m_god_mode || m_invincible )
-	{
+	if ( m_god_mode )
 		return;
-	}
+	if ( m_invincible && !ignore_invincible )
+		return;
 
 	// already dead
 	if( m_maryo_type == MARYO_DEAD )
@@ -214,6 +214,10 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 		if( force )
 		{
 			Game_Action_Data_Middle.add( "downgrade_force", "1" );
+			if (ignore_invincible)
+			{
+				Game_Action_Data_Middle.add( "downgrade_ignore_invincible", "1" );
+			}
 		}
 
 		return;
@@ -4565,8 +4569,7 @@ void cLevel_Player :: Handle_out_of_Level( ObjectDirection dir )
 			// falling below ground
 			else
 			{*/
-				m_invincible = 0.0f;
-				DownGrade_Player( 1, 1 );
+				DownGrade_Player( true, true, true );
 			//}
 		}
 	}
