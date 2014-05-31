@@ -763,9 +763,9 @@ void cBaseBox :: Handle_Collision_Enemy( cObjectCollision *collision )
 	cEnemy *enemy = static_cast<cEnemy *>(m_sprite_manager->Get_Pointer( collision->m_number ));
 
 	// if turtle
-	if( enemy->m_type == TYPE_TURTLE )
+	if( enemy->m_type == TYPE_TURTLE || enemy->m_type == TYPE_SHELL)
 	{
-		cTurtle *turtle = static_cast<cTurtle *>(enemy);
+		cTurtle *turtle = static_cast<cTurtle *>(enemy); // Shell is a turtle anyway
 
 		// if not shell
 		if( turtle->m_turtle_state != TURTLE_SHELL_RUN && turtle->m_turtle_state != TURTLE_SHELL_STAND )

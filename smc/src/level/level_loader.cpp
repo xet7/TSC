@@ -16,6 +16,7 @@
 #include "../enemies/eato.hpp"
 #include "../enemies/furball.hpp"
 #include "../enemies/turtle.hpp"
+#include "../enemies/shell.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 #include "../enemies/flyon.hpp"
 #include "../enemies/thromp.hpp"
@@ -754,6 +755,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cFurball(attributes, p_sprite_manager));
 	else if (type == "turtle")
 		result.push_back(new cTurtle(attributes, p_sprite_manager));
+	else if (type == "shell")
+		result.push_back(new cShell(attributes, p_sprite_manager));
 	else if (type == "turtleboss"){
 		// if V.1.5 and lower : max_downgrade_time changed to shell_time
 		if (engine_version < 27 && attributes.exists("max_downgrade_time")) {

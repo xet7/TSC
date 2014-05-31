@@ -199,6 +199,17 @@
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="shell" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="shell" />
+		<property name="color" value="green" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
 		<property name="type" value="krush" />
 	</item>
 	<item>

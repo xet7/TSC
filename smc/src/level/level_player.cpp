@@ -1566,6 +1566,16 @@ void cLevel_Player :: Update_Item( void )
 						break;
 					}
 				}
+				else if (col->m_obj->m_type == TYPE_SHELL)
+				{
+					cEnemy *enemy = static_cast<cEnemy *>(col->m_obj);
+
+					if( enemy->m_state == STA_STAY )
+					{
+						Get_Item( TYPE_SHELL, 0, enemy );
+						break;
+					}
+				}
 			}
 			// other items here...
 		}
@@ -1601,7 +1611,7 @@ void cLevel_Player :: Release_Item( bool set_position /* = 1 */, bool no_action 
 	}
 
 	// add back to level
-	if( m_active_object->m_type == TYPE_TURTLE )
+	if( m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL)
 	{
 		cTurtle *turtle = static_cast<cTurtle *>(m_active_object);
 		
@@ -1747,7 +1757,7 @@ void cLevel_Player :: Release_Item( bool set_position /* = 1 */, bool no_action 
 		// check if still blocking objects on the final position
 		if( !col_list->empty() && ( col_list->Is_Included( ARRAY_MASSIVE ) || col_list->Is_Included( ARRAY_ACTIVE ) || col_list->Is_Included( ARRAY_ENEMY ) ) )
 		{
-			if( m_active_object->m_type == TYPE_TURTLE )
+			if( m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL )
 			{
 				// shell
 				if( m_active_object->m_state == STA_RUN )
@@ -3253,7 +3263,7 @@ void cLevel_Player :: Get_Item( SpriteType item_type, bool force /* = 0 */, cMov
 		m_invincible_star = speedfactor_fps * 15.0f;
 	}
 	// Turtle Shell
-	else if( item_type == TYPE_TURTLE ) 
+	else if( item_type == TYPE_TURTLE || item_type == TYPE_SHELL ) 
 	{
 		pAudio->Play_Sound( "player/pickup_item.wav" );
 
@@ -3266,7 +3276,7 @@ void cLevel_Player :: Get_Item( SpriteType item_type, bool force /* = 0 */, cMov
 		m_active_object->m_vely = 0.0f;
 		
 		
-		cTurtle *turtle = static_cast<cTurtle *>(m_active_object);
+		cTurtle *turtle = static_cast<cTurtle *>(m_active_object); // shells are turtles by inheritance anyway
 		// clear the standing counter
 		turtle->m_counter = 0.0f;
 		// clear player counter

@@ -67,7 +67,7 @@ public:
 	// Set Direction
 	virtual void Set_Direction( const ObjectDirection dir, bool new_start_direction = 0 );
 	// set color
-	void Set_Color( DefaultColor col );
+	virtual void Set_Color( DefaultColor col );
 
 	/* Move into the opposite Direction
 	 * if col_dir is given only turns around if the collision direction is in front
@@ -89,7 +89,7 @@ public:
 	virtual void Update( void );
 
 	// Change state to walking if it is shell
-	void Stand_Up( void );
+	virtual void Stand_Up( void );
 	/* Hit the given enemy
 	 * returns true if enemy could get hit
 	*/
