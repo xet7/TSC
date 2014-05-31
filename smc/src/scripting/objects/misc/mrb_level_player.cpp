@@ -286,7 +286,7 @@ static mrb_value Add_Points(mrb_state* p_state,  mrb_value self)
  * Forcibly kill the level player. This method kills Maryo
  * regardless of being big, fire, etc, but still honours
  * star and other invincibility effects. If you urgently
- * want to kill Maryo despito of those, use `#kill!`.
+ * want to kill Maryo despite of those, use `#kill!`.
  */
 static mrb_value Kill(mrb_state* p_state, mrb_value self)
 {
