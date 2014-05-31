@@ -88,8 +88,13 @@ void cLava::Draw(cSurface_Request* p_request /* = NULL */)
 
 void cLava::Handle_Collision_Player(cObjectCollision* p_collision)
 {
-	// Lava collision means instant death.
-	pLevel_Player->DownGrade(true);
+	if (pLevel_Player->m_god_mode)
+		pLevel_Player->m_vely = -35.0f; // Same as in cLevel_Player::Handle_out_of_Level()
+	else {
+		// Lava collision means instant death, even for invincible Maryo
+		// (i.e. star or hurt short-term invincibility).
+		pLevel_Player->DownGrade_Player(true, true, true);
+	}
 }
 
 void cLava::Handle_Collision_Enemy(cObjectCollision* p_collision)
