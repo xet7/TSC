@@ -281,13 +281,31 @@ static mrb_value Add_Points(mrb_state* p_state,  mrb_value self)
 /**
  * Method: LevelPlayer#kill
  *
- *   kill!()
+ *   kill()
  *
- * Immediately sends Maryo to heaven (or to hell; it depends).
+ * Forcibly kill the level player. This method kills Maryo
+ * regardless of being big, fire, etc, but still honours
+ * star and other invincibility effects. If you urgently
+ * want to kill Maryo despito of those, use `#kill!`.
  */
 static mrb_value Kill(mrb_state* p_state, mrb_value self)
 {
-	pLevel_Player->DownGrade(true);
+	pLevel_Player->DownGrade_Player(true, true);
+	return mrb_nil_value();
+}
+
+/**
+ * Method: LevelPlayer#kill!
+ *
+ *   kill!()
+ *
+ * Like `#kill`, but also ignore any invincibility status that
+ * Maryo may be in. That is, even kill Maryo if he has just been
+ * hurt and is thus invincible or despite star being in effect.
+ */
+static mrb_value Forced_Kill(mrb_state* p_state, mrb_value self)
+{
+	pLevel_Player->DownGrade_Player(true, true, true);
 	return mrb_nil_value();
 }
 
@@ -469,7 +487,8 @@ void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Kill, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "kill", Kill, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Forced_Kill, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, MRB_ARGS_REQ(1));
