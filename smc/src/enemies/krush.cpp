@@ -234,7 +234,6 @@ void cKrush :: Update( void )
 
 	Update_Velocity();
 	Update_Animation();
-	Update_Gravity();
 }
 
 void cKrush :: Update_Velocity_Max( void )

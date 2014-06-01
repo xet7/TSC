@@ -148,7 +148,6 @@ void cBeetleBarrage::Update()
 
 	Update_Velocity();
 	Update_Animation();
-	Update_Gravity();
 }
 
 void cBeetleBarrage::Draw(cSurface_Request* p_request /* = NULL */)

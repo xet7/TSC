@@ -468,8 +468,6 @@ void cTurtle :: Update( void )
 			}
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cTurtle :: Stand_Up( void )

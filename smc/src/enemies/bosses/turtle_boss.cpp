@@ -612,8 +612,6 @@ void cTurtleBoss :: Update( void )
 			Throw_Fireballs( 6 + ( m_downgrade_count * 2 ) );
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cTurtleBoss :: Stand_Up( void )

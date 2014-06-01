@@ -387,8 +387,6 @@ void cSpikeball :: Update( void )
 			Update_Velocity();
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cSpikeball :: Update_Velocity_Max( void )

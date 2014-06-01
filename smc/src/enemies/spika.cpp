@@ -250,8 +250,6 @@ void cSpika :: Update( void )
 
 		m_walk_count = m_rot_z;
 	}
-
-	Update_Gravity();
 }
 
 Col_Valid_Type cSpika :: Validate_Collision( cSprite *obj )

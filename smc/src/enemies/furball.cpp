@@ -574,8 +574,6 @@ void cFurball :: Update( void )
 			Update_Velocity();
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cFurball :: Generate_Smoke( unsigned int amount /* = 1 */, float particle_scale /* = 0.4f */ ) const

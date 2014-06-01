@@ -113,8 +113,6 @@ void cShell::Update()
 			}
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cShell::Stand_Up()

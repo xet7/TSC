@@ -168,30 +168,12 @@ void cEnemy :: Set_Dead( bool enable /* = 1 */ )
 
 void cEnemy :: Update( void )
 {
-	cMovingSprite::Update();
+	cAnimated_Sprite::Update();
 
 	// dying animation
 	if( m_dead && m_active )
 	{
 		Update_Dying();
-	}
-
-	// frozen
-	if( m_freeze_counter )
-	{
-		// update gravity
-		if( m_type == TYPE_FURBALL || m_type == TYPE_TURTLE || m_type == TYPE_KRUSH || m_type == TYPE_SPIKA || m_type == TYPE_SPIKEBALL )
-		{
-			Update_Gravity();
-
-			Col_Move( m_velx, m_vely );
-
-			if( m_velx )
-			{
-				// slow down
-				m_velx -= (m_velx * 0.06f) * pFramerate->m_speed_factor;
-			}
-		}
 	}
 }
 
@@ -286,31 +268,6 @@ void cEnemy :: Update_Velocity( void )
 	}
 }
 
-void cEnemy :: Update_Gravity( void )
-{
-	if( !m_ground_object )
-	{
-		if( m_vely < m_gravity_max )
-		{
-			Add_Velocity_Y_Max( 1.5f, m_gravity_max );
-		}
-		// below ground
-		if( m_col_rect.m_y > pActive_Camera->m_limit_rect.m_y )
-		{
-			DownGrade( 1 );
-		}
-	}
-	// has ground object
-	else
-	{
-		// stop falling
-		if( m_vely > 0.0f )
-		{
-			m_vely = 0.0f;
-		}
-	}
-}
-
 void cEnemy :: Generate_Hit_Animation( cParticle_Emitter *anim /* = NULL */ ) const
 {
 	bool create_anim = 0;
@@ -387,6 +344,12 @@ void cEnemy :: Handle_Collision_Lava( cObjectCollision *p_collision )
 
 void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 {
+	// abyss
+	if ( dir == DIR_BOTTOM )
+	{
+		DownGrade(true);
+	}
+
 	if( dir == DIR_LEFT )
 	{
 		Set_Pos_X( pActive_Camera->m_limit_rect.m_x - m_col_pos.m_x );

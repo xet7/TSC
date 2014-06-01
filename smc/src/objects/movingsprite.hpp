@@ -184,6 +184,8 @@ public:
 
 	// update
 	virtual void Update( void );
+	// Update gravity velocity
+	virtual void Update_Gravity( void );
 	/* draw
 	* if request is NULL automatically creates the request
 	*/

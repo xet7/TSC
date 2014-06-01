@@ -66,8 +66,6 @@ public:
 	virtual void Update_Late( void );
 	// update current velocity if needed
 	void Update_Velocity( void );
-	// update gravity velocity
-	virtual void Update_Gravity( void );
 
 	// Generates the default Hit Animation Particles
 	void Generate_Hit_Animation( cParticle_Emitter *anim = NULL ) const;

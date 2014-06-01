@@ -578,6 +578,32 @@ void cMovingSprite :: Update( void )
 			Update_Valid_Update();
 		}
 	}
+
+	Update_Gravity();
+}
+
+void cMovingSprite :: Update_Gravity( void )
+{
+	// Shortcut if this object is not subject to gravity at all
+	if (Is_Float_Equal(m_gravity_max, 0.0f))
+		return;
+
+	if( !m_ground_object )
+	{
+		if( m_vely < m_gravity_max )
+		{
+			Add_Velocity_Y_Max( 1.5f, m_gravity_max );
+		}
+	}
+	// has ground object
+	else
+	{
+		// stop falling
+		if( m_vely > 0.0f )
+		{
+			m_vely = 0.0f;
+		}
+	}
 }
 
 void cMovingSprite :: Draw( cSurface_Request *request /* = NULL */ )

@@ -233,7 +233,6 @@ void cPip::Update()
 
 	Update_Velocity();
 	Update_Animation();
-	Update_Gravity();
 }
 
 void cPip::Update_Velocity_Max()
