@@ -62,7 +62,7 @@ void cRokko :: Init( void  )
 	m_name = "Rokko";
 	m_massive_type = MASS_PASSIVE;
 	m_pos_z = 0.03f;
-	m_gravity_max = 26.0f;
+	m_gravity_max = 0;
 	m_editor_pos_z = 0.09f;
 	m_can_be_on_ground = 0;
 	m_camera_range = 4000;
@@ -234,6 +234,7 @@ void cRokko :: DownGrade( bool force /* = 0 */ )
 {
 	Set_Dead( 1 );
 	m_massive_type = MASS_PASSIVE;
+	m_gravity_max = 26.0f;
 	m_vely = 0;
 
 	if( !force )
