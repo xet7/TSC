@@ -20,6 +20,7 @@
 #include "../core/game_core.hpp"
 #include "../audio/audio.hpp"
 #include "../level/level_player.hpp"
+#include "../enemies/enemy.hpp"
 
 using namespace SMC;
 
@@ -122,14 +123,20 @@ void cCrate::Handle_Collision_Player(cObjectCollision* p_collision)
 
 void cCrate::Handle_Collision_Enemy(cObjectCollision* p_collision)
 {
-	// Ignore currently
+	// When a crate falls onto an enemy, it gets killed.
+	if (p_collision->m_direction == DIR_BOTTOM && m_vely > 0.5f) {
+		cEnemy *p_enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(p_collision->m_number));
+		p_enemy->DownGrade(true);
+	}
 }
 
 void cCrate::Handle_out_of_Level(ObjectDirection dir)
 {
 	// abyss
-	if (dir == DIR_BOTTOM)
+	if (dir == DIR_BOTTOM) {
 		m_crate_state = CRATE_DEAD;
+		m_massive_type = MASS_PASSIVE;
+	}
 
 	// Don’t move it outside right/left level edge
 	if( dir == DIR_LEFT )
