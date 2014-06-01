@@ -34,6 +34,7 @@
 #include "../core/game_core.hpp"
 #include "../objects/ball.hpp"
 #include "../objects/lava.hpp"
+#include "../objects/crate.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -297,6 +298,8 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Balls_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "lava")
 		return Create_Lavas_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "crate")
+		return Create_Crates_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else
 		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
 
@@ -919,5 +922,12 @@ std::vector<cSprite*> cLevelLoader::Create_Lavas_From_XML_Tag(const std::string&
 {
 	std::vector<cSprite*> result;
 	result.push_back(new cLava(attributes, p_sprite_manager));
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Crates_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+	result.push_back(new cCrate(attributes, p_sprite_manager));
 	return result;
 }

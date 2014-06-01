@@ -342,6 +342,14 @@ void cEnemy :: Handle_Collision_Lava( cObjectCollision *p_collision )
 	Send_Collision(p_collision);
 }
 
+void cEnemy :: Handle_Collision_Massive (cObjectCollision *p_collision )
+{
+	if (p_collision->m_obj->m_type == TYPE_CRATE)
+		Send_Collision(p_collision);
+	else
+		cAnimated_Sprite::Handle_Collision_Massive(p_collision);
+}
+
 void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 {
 	// abyss

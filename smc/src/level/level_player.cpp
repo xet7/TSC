@@ -4367,6 +4367,13 @@ void cLevel_Player :: Handle_Collision_Massive( cObjectCollision *collision )
 		return;
 	}
 
+	// send back if crate
+	if ( col_obj->m_type == TYPE_CRATE )
+	{
+		Send_Collision( collision );
+		return;
+	}
+
 	// send back if item
 	if( col_obj->m_type == TYPE_FIREPLANT || col_obj->m_type == TYPE_GOLDPIECE || col_obj->m_type == TYPE_MOON )
 	{

@@ -72,6 +72,8 @@ public:
 
 	// default collision handler
 	virtual void Handle_Collision( cObjectCollision *collision );
+	// collision with massive
+	virtual void Handle_Collision_Massive( cObjectCollision *collision);
 	// collision with lava
 	virtual void Handle_Collision_Lava( cObjectCollision *collision );
 	// handle moved out of Level event
