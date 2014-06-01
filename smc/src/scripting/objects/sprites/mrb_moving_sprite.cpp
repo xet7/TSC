@@ -424,6 +424,44 @@ static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
 	return str2sym(p_state, dir);
 }
 
+/**
+ * Method: MovingSprite#max_gravity
+ *
+ *   max_gravity() → a_float
+ *
+ * Returns the maximum possible velocity gravity may accelerate
+ * this object to.
+ */
+static mrb_value Get_Max_Gravity(mrb_state* p_state, mrb_value self)
+{
+	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+	return mrb_float_value(p_state, p_sprite->m_gravity_max);
+}
+
+/**
+ * Method: MovingSprite#max_gravity=
+ *
+ *   max_gravity=( val )
+ *
+ * Specify the maximum gravity that will be applied to this object.
+ * Setting this to 0 will exempt it from gravity, i.e. it will just
+ * stay whereever it currently is and not fall down.
+ *
+ * #### Parameters
+ *
+ * val
+ * : The new maximum gravity.
+ */
+static mrb_value Set_Max_Gravity(mrb_state* p_state, mrb_value self)
+{
+	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+	mrb_float grav;
+	mrb_get_args(p_state, "f", &grav);
+
+	p_sprite->m_gravity_max = grav;
+
+	return mrb_float_value(p_state, grav);
+}
 
 /**
  * Method: MovingSprite#velocity_x
@@ -667,6 +705,8 @@ void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcMoving_Sprite, "direction=", Set_Direction, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction", Get_Start_Direction, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction=", Set_Start_Direction, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcMoving_Sprite, "max_gravity", Get_Max_Gravity, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcMoving_Sprite, "max_gravity=", Set_Max_Gravity, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x", Get_Velocity_X, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y", Get_Velocity_Y, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity", Get_Velocity, MRB_ARGS_NONE());
