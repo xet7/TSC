@@ -77,12 +77,14 @@ void cCrate::Update()
 	cAnimated_Sprite::Update();
 
 	// Slow down if moving
-	if (!Is_Float_Equal(m_velx, 0.0f)) {
+	if (m_crate_state == CRATE_SLIDE && !Is_Float_Equal(m_velx, 0.0f)) {
 		Add_Velocity_X(-m_velx * 0.2f);
 
 		// Stop tolerance
-		if (m_velx > -0.3f && m_velx < 0.3f)
+		if (m_velx > -0.3f && m_velx < 0.3f) {
 			m_velx = 0.0f;
+			m_crate_state = CRATE_STAND;
+		}
 	}
 }
 
@@ -118,6 +120,7 @@ void cCrate::Handle_Collision_Player(cObjectCollision* p_collision)
 	else // unsupported direction
 		return;
 
+	m_crate_state = CRATE_SLIDE;
 	pAudio->Play_Sound("wood_1.ogg");
 }
 
