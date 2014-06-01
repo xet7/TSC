@@ -10,3 +10,4 @@ end
 SMC.require "std/enable"
 SMC.require "std/exit_door"
 SMC.require "std/immediate_sprite"
+SMC.require "std/switch"
