@@ -665,4 +665,9 @@
 	  <property name="object_tags" value="level;special"/>
 	  <property name="type" value="lava"/>
 	</item>
+	<item>
+	  <property name="object_name" value="crate"/>
+	  <property name="object_tags" value="level;special"/>
+	  <property name="type" value="crate"/>
+	</item>
 </items>
