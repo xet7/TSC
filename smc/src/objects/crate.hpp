@@ -18,6 +18,7 @@
 #include "animated_sprite.hpp"
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../scripting/objects/specials/mrb_crate.hpp"
 
 namespace SMC {
 
@@ -34,6 +35,12 @@ namespace SMC {
 		cCrate(cSprite_Manager* p_sprite_manager);
 		cCrate(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager);
 		virtual ~cCrate();
+
+		// Create the MRuby object for this
+		virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+		{
+			return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcCrate, &Scripting::rtSMC_Scriptable, this));
+		}
 
 		virtual void Update();
 		virtual cCrate* Copy() const;
