@@ -5,7 +5,7 @@
 #include "../../../core/sprite_manager.hpp"
 
 /**
- * Class Crate
+ * Class: Crate
  *
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
