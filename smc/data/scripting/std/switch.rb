@@ -21,6 +21,9 @@ module Std
     # The underlying Sprite instance.
     attr_reader :sprite
 
+    # The color of the pow switch.
+    attr_reader :color
+
     # call-seq:
     #   new(){...}       → a_switch
     #   new(sprite){...} → a_switch
@@ -41,6 +44,8 @@ module Std
     #     Move the switch to this X position.
     #   [y]
     #     Move the switch to this Y position.
+    #   [color]
+    #     Color of the switch. Defaults to <tt>:blue</tt>.
     #   If not sprite is passed, setting +x+ and +y+ is recommended,
     #   this will be used as the creation position for the new sprite.
     #
@@ -55,14 +60,16 @@ module Std
 
       # If a single sprite was given, transform for uniform opts handling
       opts = {:sprite => opts} if opts.kind_of?(Sprite)
+      opts[:color] ||= :blue
 
+      @color = opts[:color]
       if opts[:sprite]
         @sprite = opts[:sprite]
         @sprite.start_at(opts[:x], opts[:y]) if opts[:x] && opts[:y]
       else
         opts[:x] ||= 0
         opts[:y] ||= 0
-        @sprite = Sprite.new("ground/underground/pow.png")
+        @sprite = Sprite.new("ground/underground/pow/#{@color}.png")
         @sprite.massive_type = :massive
         @sprite.start_at(opts[:x], opts[:y])
         @sprite.show
@@ -70,7 +77,7 @@ module Std
 
       @sprite.on_touch do |other|
         if !@activated && other.player? && other.velocity_y > 0
-          @sprite.image = "ground/underground/pow_active.png"
+          @sprite.image = "ground/underground/pow/#{@color}_active.png"
           @activated = true
           @callback.call
         end
