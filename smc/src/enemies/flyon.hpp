@@ -92,6 +92,8 @@ public:
 	virtual Col_Valid_Type Validate_Collision( cSprite *obj );
 	// collision from player
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
+	// flyon does not die in abyss
+	virtual void Handle_out_of_Level( ObjectDirection dir );
 
 	// editor activation
 	virtual void Editor_Activate( void );

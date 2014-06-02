@@ -608,6 +608,15 @@ void cFlyon :: Handle_Collision_Player( cObjectCollision *collision )
 	pLevel_Player->DownGrade_Player();
 }
 
+void cFlyon :: Handle_out_of_Level( ObjectDirection dir )
+{
+	// Flyons don’t die in abyss.
+	if ( dir == DIR_BOTTOM )
+		return;
+	else
+		cEnemy::Handle_out_of_Level(dir);
+}
+
 void cFlyon :: Editor_Activate( void )
 {
 	// get window manager
