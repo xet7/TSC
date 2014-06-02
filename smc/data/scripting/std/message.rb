@@ -29,7 +29,7 @@ module Std
     # the text always appears above Maryo.
     def activate
       # Ensure we always appear above the player
-      self.start_at(Player.x, Player.y - 100)
+      self.start_at(Player.x, Player.y - 50)
 
       # Actual activation
       super
