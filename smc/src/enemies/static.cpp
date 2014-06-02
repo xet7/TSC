@@ -53,7 +53,7 @@ cStaticEnemy :: cStaticEnemy( XmlAttributes &attributes, cSprite_Manager *sprite
 	Set_Rotation_Speed(string_to_float(attributes.fetch("rotation_speed", "-7.5")));
 
 	// image
-	Set_Static_Image(utf8_to_path(attributes.fetch("static_image", "enemy/static/saw/default.png")));
+	Set_Static_Image(utf8_to_path(attributes.fetch("image", "enemy/static/saw/default.png")));
 
     // path
 	Set_Path_Identifier(attributes["path"]);
@@ -115,7 +115,6 @@ xmlpp::Element* cStaticEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
 	Add_Property(p_node, "rotation_speed", m_rotation_speed);
-	Add_Property(p_node, "static_image", path_to_utf8(m_img_filename));
 	Add_Property(p_node, "path", m_path_state.m_path_identifier);
 	Add_Property(p_node, "speed", m_speed);
 	Add_Property(p_node, "fire_resistant", m_fire_resistant); // sic! fire_resistant!
