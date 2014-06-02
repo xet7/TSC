@@ -479,7 +479,7 @@ cPath :: cPath( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 	Set_Rewind(attributes.fetch<bool>("rewind", m_rewind));
 
 	// load segments
-	unsigned int count;
+	unsigned int count = 0;
 	while (true) {
 		std::string str_pos = int_to_string( count );
 
