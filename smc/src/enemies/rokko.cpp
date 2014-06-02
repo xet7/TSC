@@ -79,6 +79,7 @@ void cRokko :: Init( void  )
 	Set_Max_Distance_Front( 1000 );
 	Set_Max_Distance_Sides( 400 );
 	m_state = STA_STAY;
+	m_manual = false;
 
 	m_smoke_counter = 0;
 
