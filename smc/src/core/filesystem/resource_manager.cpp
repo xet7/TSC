@@ -282,7 +282,7 @@ void cResource_Manager::init_directories()
 {
 	////////// The (usually unwritable) game data directory //////////
 #ifdef FIXED_DATA_DIR
-	return utf8_to_path(FIXED_DATA_DIR);
+	m_paths.game_data_dir = utf8_to_path(FIXED_DATA_DIR);
 #else
 #ifdef __unix__
 	char path_data[PATH_MAX];
@@ -333,6 +333,7 @@ void cResource_Manager::init_directories()
 	m_paths.user_cache_dir = app_path / utf8_to_path("cache");
 	m_paths.user_config_dir = app_path;
 #else
+#error Dont know how to determine the user data directories on this platform!
 #endif
 }
 
