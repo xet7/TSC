@@ -90,6 +90,12 @@ void cResource_Manager :: Init_User_Directory( void )
 	{
 		fs::create_directories( m_paths.user_config_dir );
 	}
+
+	// For those upgrading from an old version, move their stuff to
+	// the new paths.
+#ifdef __unix__
+	compat_move_directories();
+#endif
 }
 
 fs::path cResource_Manager :: Get_Game_Pixmaps_Directory()
@@ -101,41 +107,6 @@ fs::path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
 {
   return Get_Game_Pixmaps_Directory() / utf8_to_path(pixmap);
 }
-
-//fs::path cResource_Manager :: Get_User_Data_Directory()
-//{
-//	// If the directory has been forced, return that one and nothing else.
-//	if (!m_forced_user_data_dir.empty())
-//		return m_forced_user_data_dir;
-//
-//	// Otherwise, retrieve the default directory from the system.
-//#ifdef _WIN32
-//	wchar_t path_appdata[MAX_PATH + 1];
-//
-//	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
-//	{
-//		printf( "Error : Couldn't get Windows user data directory. Defaulting to the Application directory.\n" );
-//		return "";
-//	}
-//
-//	std::string str_path = ucs2_to_utf8( path_appdata );
-//	Convert_Path_Separators( str_path );
-//
-//	/*std::wstring str = utf8_to_ucs2( str_path );
-//	str.insert( str.length(), L"\n" );
-//	HANDLE std_out = GetStdHandle( STD_OUTPUT_HANDLE );
-//	unsigned long chars;
-//	WriteConsole( std_out, str.c_str(), lstrlen(str.c_str()), &chars, NULL );*/
-//
-//	return utf8_to_path(str_path + "/smc/");
-//#elif __unix__
-//	return utf8_to_path((std::string)getenv( "HOME" ) + "/.smc/");
-//#elif __APPLE__
-//	return utf8_to_path((std::string)getenv( "HOME" ) + "/Library/Application Support/smc/");
-//#else
-//#error Dont know how to determine the user data directory on this patform!
-//#endif
-//}
 
 fs::path cResource_Manager :: Get_User_Level_Directory()
 {
@@ -382,6 +353,59 @@ fs::path cResource_Manager::xdg_get_directory(const std::string& envvarname, con
 		else
 			throw(ConfigurationError("$HOME environment variable is not set!"));
 	}
+}
+
+void cResource_Manager::compat_move_directories()
+{
+	char* path = NULL;
+	path = getenv("HOME");
+
+	if (!path)
+		return;
+
+	fs::path olddir = utf8_to_path(path) / utf8_to_path(".smc");
+	if (!fs::exists(olddir))
+		return;
+
+	std::cout << "INFO: Old ~/.smc directory detected. Copying files." << std::endl;
+	fs::directory_iterator end_iter;
+
+	std::cout << "Copying levels." << std::endl;
+	fs::path dir = olddir / utf8_to_path("levels");
+	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+		fs::copy_file(iter->path(), Get_User_Level_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+
+	std::cout << "Copying savegames." << std::endl;
+	dir = olddir / utf8_to_path("savegames");
+	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+		fs::copy_file(iter->path(), Get_User_Savegame_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+
+	std::cout << "Copying screenshots." << std::endl;
+	dir = olddir / utf8_to_path("screenshots");
+	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+		fs::copy_file(iter->path(), Get_User_Screenshot_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+
+	std::cout << "Copying campaigns." << std::endl;
+	dir = olddir / utf8_to_path("campaign"); // sic! The old version had no trailing s.
+	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+		fs::copy_file(iter->path(), Get_User_Campaign_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+
+	std::cout << "Copying worlds." << std::endl;
+	dir = olddir / utf8_to_path("worlds");
+	for (fs::directory_iterator iter(dir); iter != end_iter; iter++) {
+		fs::create_directory(Get_User_World_Directory() / iter->path().filename());
+		fs::copy_file(iter->path() / utf8_to_path("description.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("description.xml"), fs::copy_option::overwrite_if_exists);
+		fs::copy_file(iter->path() / utf8_to_path("layer.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("layer.xml"), fs::copy_option::overwrite_if_exists);
+		fs::copy_file(iter->path() / utf8_to_path("world.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("world.xml"), fs::copy_option::overwrite_if_exists);
+	}
+
+	std::cout << "Copying config.xml." << std::endl;
+	fs::copy_file(olddir / utf8_to_path("config.xml"), Get_Preferences_File(), fs::copy_option::overwrite_if_exists);
+
+	// Leave the cache alone. It will be regenerated anyway.
+
+	std::cerr << "Warning: Removing old ~/.smc directory now." << std::endl;
+	fs::remove_all(olddir);
 }
 #endif
 

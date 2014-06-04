@@ -114,6 +114,12 @@ namespace SMC
 		// Retrieve the path from the given XDG env variable or
 		// return the default path relative to $HOME.
 		boost::filesystem::path xdg_get_directory(const std::string& envvarname, const boost::filesystem::path defaultpath);
+
+		// TODO:
+		// This function converts path from previous SMC versions to
+		// the handling of the current version. It should be removed
+		// some time after 2.0.0 is out.
+		void compat_move_directories();
 #endif
 	};
 
