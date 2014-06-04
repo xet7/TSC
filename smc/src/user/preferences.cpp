@@ -32,8 +32,6 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** */
 
-// Default preferences path
-const fs::path cPreferences::DEFAULT_PREFERENCES_FILENAME = utf8_to_path("config.xml");
 // Game
 const bool cPreferences::m_always_run_default = 0;
 const std::string cPreferences::m_menu_level_default = "menu_green_1";
@@ -108,18 +106,14 @@ cPreferences :: ~cPreferences( void )
 	//
 }
 
-cPreferences* cPreferences :: Load_From_File(fs::path filename /* = fs::path() */)
+cPreferences* cPreferences :: Load_From_File(fs::path filename)
 {
-	// If filename is empty, use the default preferences file.
-	if (filename.empty())
-		filename = fs::absolute(DEFAULT_PREFERENCES_FILENAME, pResource_Manager->Get_User_Data_Directory());
-
-	debug_print("Determined preferences filename: '%s'\n", path_to_utf8(filename).c_str());
-
 	// If the preferences file doesn’t exist, use default values.
 	if (!File_Exists(filename)) {
 		std::cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << std::endl;
-		return new cPreferences();
+		cPreferences* p_pref = new cPreferences();
+		p_pref->m_config_filename = filename;
+		return p_pref;
 	}
 
 	cPreferencesLoader loader;
@@ -150,7 +144,6 @@ void cPreferences :: Save( void )
 	Add_Property(p_root, "game_language", m_language);
 	Add_Property(p_root, "game_always_run", m_always_run);
 	Add_Property(p_root, "game_menu_level", m_menu_level);
-	Add_Property(p_root, "game_user_data_dir", path_to_utf8(m_force_user_data_dir));
 	Add_Property(p_root, "game_camera_hor_speed", m_camera_hor_speed);
 	Add_Property(p_root, "game_camera_ver_speed", m_camera_ver_speed);
 	// Video
@@ -215,7 +208,6 @@ void cPreferences :: Reset_All( void )
 {
 	// Game
 	m_game_version = smc_version;
-	m_force_user_data_dir.clear();
 
 	Reset_Game();
 	Reset_Video();
@@ -227,9 +219,6 @@ void cPreferences :: Reset_All( void )
 	// Special
 	m_level_background_images = 1;
 	m_image_cache_enabled = 1;
-
-	// filename
-	m_config_filename = fs::absolute(DEFAULT_PREFERENCES_FILENAME, pResource_Manager->Get_User_Data_Directory());
 }
 
 void cPreferences :: Reset_Game( void )

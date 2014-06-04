@@ -34,10 +34,10 @@ public:
 	// Save the preferences to a file
 	void Save( void );
 
-	// Load the preferences from a file. If no path is given, loads
-	// the default config file below the user directory.
+	// Load the preferences from a file, probably the one returned
+	// by cResource_Manager::Get_Preferences_File().
 	// The returned instance must be freed by you.
-	static cPreferences* Load_From_File( boost::filesystem::path filename = boost::filesystem::path() );
+	static cPreferences* Load_From_File( boost::filesystem::path filename );
 
 	// Reset the settings
 	void Reset_All( void );
@@ -67,8 +67,6 @@ public:
 	bool m_always_run;
 	// menu level name to load
 	std::string m_menu_level;
-	// force the given user data directory
-	boost::filesystem::path m_force_user_data_dir;
 	// smart camera speed
 	float m_camera_hor_speed;
 	float m_camera_ver_speed;
