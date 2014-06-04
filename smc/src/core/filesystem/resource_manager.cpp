@@ -37,10 +37,10 @@ cResource_Manager :: cResource_Manager( void )
 
 	// Note cResource_Manager is instanciated only once globally, therefore
 	// printing this information here is fine.
-	debug_print("Game data directory: %s\n", m_paths.game_data_dir.c_str());
-	debug_print("User data directory: %s\n", m_paths.user_data_dir.c_str());
-	debug_print("User cache directory: %s\n", m_paths.user_cache_dir.c_str());
-	debug_print("User config directory: %s\n", m_paths.user_config_dir.c_str());
+	debug_print("Game data directory: %s\n", path_to_utf8(m_paths.game_data_dir).c_str());
+	debug_print("User data directory: %s\n", path_to_utf8(m_paths.user_data_dir).c_str());
+	debug_print("User cache directory: %s\n", path_to_utf8(m_paths.user_cache_dir).c_str());
+	debug_print("User config directory: %s\n", path_to_utf8(m_paths.user_config_dir).c_str());
 }
 
 cResource_Manager :: ~cResource_Manager( void )
@@ -339,7 +339,28 @@ void cResource_Manager::init_directories()
 	m_paths.user_cache_dir = xdg_get_directory("XDG_CACHE_HOME", ".cache") / utf8_to_path("smc");
 	m_paths.user_config_dir = xdg_get_directory("XDG_CONFIG_HOME", ".config") / utf8_to_path("smc");
 #elif _WIN32
-	// TODO!
+	wchar_t path_appdata[MAX_PATH + 1];
+
+	// TODO: CSIDL_APPDATA has been deprecated with Windows Vista and upwards, and
+	// has been replaced by FOLDERID_RoamingAppData (which is not available
+	// on Windows XP). When dropping support for Windows XP, this should be changed.
+	// See http://msdn.microsoft.com/en-us/library/windows/desktop/bb762181.aspx.
+	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
+	{
+		std::cerr << "Error : Couldn't get Windows user data directory. Defaulting to ./data in the application directory." << std::endl;
+
+		m_paths.user_data_dir = fs::current_path() / utf8_to_path("data");
+		m_paths.user_cache_dir = fs::current_path() / utf8_to_path("data") / utf8_to_path("cache");
+		m_paths.user_config_dir = fs::current_path() / utf8_to_path("data");
+	}
+
+	std::string str_path = ucs2_to_utf8( path_appdata );
+	Convert_Path_Separators( str_path );
+	fs::path app_path = utf8_to_path(str_path) / utf8_to_path("smc");
+
+	m_paths.user_data_dir = app_path;
+	m_paths.user_cache_dir = app_path / utf8_to_path("cache");
+	m_paths.user_config_dir = app_path;
 #else
 #endif
 }
