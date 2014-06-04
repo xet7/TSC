@@ -2,6 +2,7 @@
 <GUIScheme Name="TaharezLook">
 	<Imageset Name="TaharezLook" Filename="SMCLook256.imageset" />
 	<Font Name="bluebold_medium" Filename="bluebold1024_medium.font" />
+	<Font Name="dejavu_sans_mono" Filename="DejaVuSansMono.font" />
 
 	<LookNFeel Filename="TaharezLook.looknfeel" />
 	<WindowRendererSet Filename="CEGUIFalagardWRBase" />

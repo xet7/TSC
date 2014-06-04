@@ -194,6 +194,9 @@ void cLevel_Settings :: Init( void )
 	CEGUI::MultiLineEditbox *multieditbox_script = static_cast<CEGUI::MultiLineEditbox *>(wmgr.getWindow( "multieditbox_script" ));
 	multieditbox_script->setText( reinterpret_cast<const CEGUI::utf8*>(m_level->m_script.c_str()) );
 
+	CEGUI::Font& monofont = CEGUI::FontManager::getSingleton().get("dejavu_sans_mono");
+	multieditbox_script->setFont(&monofont);
+
 	Update_BG_Colors( CEGUI::EventArgs() );
 	Clear_Layer_Field();
 	Load_BG_Image_List();
