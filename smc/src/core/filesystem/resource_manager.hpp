@@ -22,26 +22,41 @@
 namespace SMC
 {
 
+	struct PathInfo {
+		boost::filesystem::path game_data_dir;
+		boost::filesystem::path user_data_dir;
+		boost::filesystem::path user_cache_dir;
+		boost::filesystem::path user_config_dir;
+	};
+
 	/* *** *** *** *** *** cResource_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
+	/* This class manages SMC’s resource paths for graphics and other stuff.
+	 * It is divided in two parts: The files included with SMC itself,
+	 * and the files created by the user. The game files directory is usually
+	 * not writeable; it is determined by looking at the path of the running
+	 * executable and applying "../../share/smc" to it. If you don’t like this,
+	 * you can define the FIXED_DATA_DIR macro at compile time and point it
+	 * somewhere else.
+	 * The user directory is determined at runtime platform-specifically.
+	 */
 	class cResource_Manager
 	{
 	public:
 		cResource_Manager( void );
 		~cResource_Manager( void );
 
-		// Force the resource manager to use a user(-writable) directory different from
-		// the default one.
-		void Force_User_Directory( const boost::filesystem::path &dir );
 		// Create the necessary folders in the user directory
 		void Init_User_Directory( void );
 
-		// Return the path to the root directory containing graphics, music, etc.
-		// This path is normally determined relatively to the `smc' executable,
-		// but you can force a specific path at compile time by defining FIXED_DATA_DIR.
-		boost::filesystem::path Get_Data_Directory( void );
+		// Game data directory (files included with SMC)
+		boost::filesystem::path Get_Game_Data_Directory();
+
 		// The user’s data directory we can write to.
-		boost::filesystem::path Get_User_Data_Directory();
+		//boost::filesystem::path Get_User_Data_Directory();
+
+		// The path to the preferences file.
+		boost::filesystem::path Get_Preferences_File();
 
 		// Get the various uncached unwritable game directories.
 		boost::filesystem::path Get_Game_Pixmaps_Directory();
@@ -83,13 +98,23 @@ namespace SMC
 		boost::filesystem::path Get_User_World_Directory();
 		boost::filesystem::path Get_User_Campaign_Directory();
 		boost::filesystem::path Get_User_Imgcache_Directory();
+		boost::filesystem::path Get_User_CEGUI_Logfile();
 
 		// Get files from the various directories in the user’s data directory
 		boost::filesystem::path Get_User_Level(std::string level);
 
 	private:
-		// user data directory
-		boost::filesystem::path m_forced_user_data_dir;
+		// Main directory information
+		struct PathInfo m_paths;
+
+		// Sets up m_paths
+		void init_directories();
+
+#ifdef __unix__
+		// Retrieve the path from the given XDG env variable or
+		// return the default path relative to $HOME.
+		boost::filesystem::path xdg_get_directory(const std::string& envvarname, const boost::filesystem::path defaultpath);
+#endif
 	};
 
 	/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

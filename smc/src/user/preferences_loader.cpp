@@ -104,8 +104,6 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 		mp_preferences->m_always_run = string_to_bool(value);
 	else if (name == "game_menu_level")
 		mp_preferences->m_menu_level = value;
-	else if (name == "game_user_data_dir" || name == "user_data_dir")
-		mp_preferences->m_force_user_data_dir = utf8_to_path(value);
 	else if (name == "game_camera_hor_speed" || name == "camera_hor_speed")
 		mp_preferences->m_camera_hor_speed = string_to_float(value);
 	else if (name == "game_camera_ver_speed" || name == "camera_ver_speed")
