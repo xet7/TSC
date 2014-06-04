@@ -17,6 +17,21 @@ const char* SMCError::what() const throw()
 	return "Unknown SMC exception.\n";
 }
 
+ConfigurationError::ConfigurationError(std::string msg)
+{
+	m_message = msg;
+}
+
+ConfigurationError::~ConfigurationError() throw()
+{
+	//
+}
+
+const char* ConfigurationError::what() const throw()
+{
+	return m_message.c_str();
+}
+
 XmlKeyDoesNotExist::XmlKeyDoesNotExist(std::string key)
 {
 	m_key = key;

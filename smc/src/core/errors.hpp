@@ -17,6 +17,16 @@ namespace SMC {
     virtual const char* what() const throw();
   };
 
+  class ConfigurationError: public SMCError
+  {
+  public:
+	  ConfigurationError(std::string message);
+	  virtual ~ConfigurationError() throw();
+	  virtual const char* what() const throw();
+  protected:
+	  std::string m_message;
+  };
+
   /**
    * This exception is thrown when an expected XML
    * key is not found.

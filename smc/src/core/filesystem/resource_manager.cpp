@@ -22,6 +22,7 @@
 #include "resource_manager.hpp"
 #include "filesystem.hpp"
 #include "../property_helper.hpp"
+#include "../errors.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -97,7 +98,7 @@ fs::path cResource_Manager :: Get_Data_Directory( void )
   wchar_t path_data[MAX_PATH + 1];
 
   if (GetModuleFileNameW(NULL, path_data, MAX_PATH) == 0)
-    throw "Failed to retrieve the executable's path from the Win32API!";
+	  throw(ConfigurationError("Failed to retrieve the executable's path from the Win32API!"));
 
   std::string utf8_path = ucs2_to_utf8(path_data);
   //Convert_Path_Separators(utf8_path);
@@ -109,7 +110,7 @@ fs::path cResource_Manager :: Get_Data_Directory( void )
 
 	count = readlink("/proc/self/exe", path_data, PATH_MAX);
 	if (count < 0)
-		throw "Failed to retrieve the executable's path from /proc/self/exe!";
+		throw(ConfigurationError("Failed to retrieve the executable's path from /proc/self/exe!"));
 
 	return utf8_to_path(std::string(path_data, count)).parent_path().parent_path() / "share" / "smc";
 #elif __APPLE__
@@ -118,7 +119,7 @@ fs::path cResource_Manager :: Get_Data_Directory( void )
   int count;
 
   if (_NSGetExecutablePath(path_data, &size) == 0)
-    throw "Faileod to retrieve the executable's path from Mac OS!");
+	  throw(ConfigurationError("Faileod to retrieve the executable's path from Mac OS!"));
 
   return utf8_to_path(path_data).parent_path().parent_path() / "share" / "smc";
 #else
