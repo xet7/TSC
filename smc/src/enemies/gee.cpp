@@ -174,8 +174,6 @@ void cGee :: Set_Direction( const ObjectDirection dir )
 	Stop();
 	// set to start position
 	Set_Pos( m_start_pos_x, m_start_pos_y );
-
-	Create_Name();
 }
 
 void cGee :: Set_Max_Distance( int nmax_distance )
@@ -234,8 +232,6 @@ void cGee :: Set_Color( DefaultColor col )
 		m_fire_resistant = 0;
 	}
 
-	Create_Name();
-
 	Add_Image( pVideo->Get_Surface( "enemy/gee/" + filename_dir + "/1.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/gee/" + filename_dir + "/2.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/gee/" + filename_dir + "/3.png" ) );
@@ -280,35 +276,10 @@ void cGee :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cGee :: Update_Dying( void )
+void cGee :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor;
-
-	// default death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		Set_Active( 0 );
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the screen fall
-		else if( m_pos_y < game_res_h + m_col_rect.m_h )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
-	}
+	// Instantly disappear
+	Set_Active(false);
 }
 
 void cGee :: Set_Moving_State( Moving_state new_state )
@@ -556,16 +527,6 @@ bool cGee :: Is_At_Max_Distance( void ) const
 	return 0;
 }
 
-bool cGee :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 bool cGee :: Is_Draw_Valid( void )
 {
 	bool valid = cEnemy::Is_Draw_Valid();
@@ -778,33 +739,6 @@ bool cGee :: Editor_Fly_Distance_Text_Changed( const CEGUI::EventArgs &event )
 	m_fly_distance = string_to_int( str_text );
 
 	return 1;
-}
-
-void cGee :: Create_Name( void )
-{
-	m_name = "Gee";
-
-	if( m_color_type == COL_YELLOW )
-	{
-		m_name += "lectro";
-	}
-	else if( m_color_type == COL_RED )
-	{
-		m_name += "lava";
-	}
-	else if( m_color_type == COL_GREEN )
-	{
-		m_name += "venom";
-	}
-
-	if( m_start_direction == DIR_HORIZONTAL )
-	{
-		m_name += " Hor";
-	}
-	else if( m_start_direction == DIR_VERTICAL )
-	{
-		m_name += " Ver";
-	}
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

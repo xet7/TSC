@@ -428,7 +428,7 @@ void cRandom_Sound :: Draw( cSurface_Request *request /* = NULL */ )
 	pRenderer->Add( circle_request );
 }
 
-bool cRandom_Sound :: Is_Update_Valid( void )
+bool cRandom_Sound :: Is_Update_Valid()
 {
 	// if destroyed
 	if( m_auto_destroy )

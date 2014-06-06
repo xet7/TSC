@@ -53,7 +53,7 @@ cStaticEnemy :: cStaticEnemy( XmlAttributes &attributes, cSprite_Manager *sprite
 	Set_Rotation_Speed(string_to_float(attributes.fetch("rotation_speed", "-7.5")));
 
 	// image
-	Set_Static_Image(utf8_to_path(attributes.fetch("static_image", "enemy/static/saw/default.png")));
+	Set_Static_Image(utf8_to_path(attributes.fetch("image", "enemy/static/saw/default.png")));
 
     // path
 	Set_Path_Identifier(attributes["path"]);
@@ -76,6 +76,7 @@ cStaticEnemy :: ~cStaticEnemy( void )
 void cStaticEnemy :: Init( void )
 {
 	m_type = TYPE_STATIC_ENEMY;
+	m_name = "Static Enemy";
 	m_pos_z = 0.094f;
 	m_can_be_on_ground = 0;
 	m_can_be_hit_from_shell = 0;
@@ -83,7 +84,6 @@ void cStaticEnemy :: Init( void )
 	Set_Rotation_Speed( 0.0f );
 	Set_Speed( 0.0f );
 	Set_Static_Image( utf8_to_path("enemy/static/blocks/spike_1/2_grey.png") );
-	Create_Name();
 }
 
 void cStaticEnemy :: Init_Links( void )
@@ -115,7 +115,6 @@ xmlpp::Element* cStaticEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
 	Add_Property(p_node, "rotation_speed", m_rotation_speed);
-	Add_Property(p_node, "static_image", path_to_utf8(m_img_filename));
 	Add_Property(p_node, "path", m_path_state.m_path_identifier);
 	Add_Property(p_node, "speed", m_speed);
 	Add_Property(p_node, "fire_resistant", m_fire_resistant); // sic! fire_resistant!
@@ -165,7 +164,6 @@ void cStaticEnemy :: Set_Static_Image( const fs::path &filename )
 
 	Add_Image( pVideo->Get_Surface( filename ) );
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cStaticEnemy :: Set_Path_Identifier( const std::string &path )
@@ -190,32 +188,6 @@ void cStaticEnemy :: DownGrade( bool force /* = 0 */ )
 
 	// falling death
 	Set_Rotation_Z( 180.0f );
-}
-
-void cStaticEnemy :: Update_Dying( void )
-{
-	m_counter += pFramerate->m_speed_factor * 0.1f;
-
-	// falling death
-
-	// a little bit upwards first
-	if( m_counter < 0.3f )
-	{
-		Move( 0.0f, -5.0f );
-	}
-	// if not below the ground : fall
-	else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-	{
-		Move( 0.0f, 20.0f );
-		Add_Scale( -pFramerate->m_speed_factor * 0.01f );
-	}
-	// if below disable
-	else
-	{
-		m_rot_z = 0.0f;
-		Set_Scale( 1.0f );
-		Set_Active( 0 );
-	}
 }
 
 void cStaticEnemy :: Update( void )
@@ -269,16 +241,6 @@ void cStaticEnemy :: Draw( cSurface_Request *request /* = NULL */ )
 
 	// enemy
 	cEnemy::Draw( request );
-}
-
-bool cStaticEnemy :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 Col_Valid_Type cStaticEnemy :: Validate_Collision( cSprite *obj )
@@ -492,14 +454,16 @@ bool cStaticEnemy :: Editor_Ice_Resistance_Text_Changed( const CEGUI::EventArgs 
 	return 1;
 }
 
-void cStaticEnemy :: Create_Name( void )
+std::string cStaticEnemy :: Create_Name( void ) const
 {
-	m_name = "Static Enemy";
+	std::string name = m_name; // dup
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

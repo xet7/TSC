@@ -48,8 +48,6 @@ cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *spri
 	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 	// image
 	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
-	// type
-	Set_Sprite_Type( Get_Sprite_Type_Id( attributes["type"] ) );
 }
 
 cMovingSprite :: ~cMovingSprite( void )
@@ -60,6 +58,7 @@ cMovingSprite :: ~cMovingSprite( void )
 void cMovingSprite :: Init( void )
 {
 	m_state = STA_STAY;
+	m_type = TYPE_UNDEFINED;
 
 	m_velx = 0.0f;
 	m_vely = 0.0f;
@@ -579,6 +578,32 @@ void cMovingSprite :: Update( void )
 			Update_Valid_Update();
 		}
 	}
+
+	Update_Gravity();
+}
+
+void cMovingSprite :: Update_Gravity( void )
+{
+	// Shortcut if this object is not subject to gravity at all
+	if (Is_Float_Equal(m_gravity_max, 0.0f))
+		return;
+
+	if( !m_ground_object )
+	{
+		if( m_vely < m_gravity_max )
+		{
+			Add_Velocity_Y_Max( 1.5f, m_gravity_max );
+		}
+	}
+	// has ground object
+	else
+	{
+		// stop falling
+		if( m_vely > 0.0f )
+		{
+			m_vely = 0.0f;
+		}
+	}
 }
 
 void cMovingSprite :: Draw( cSurface_Request *request /* = NULL */ )
@@ -961,7 +986,7 @@ void cMovingSprite :: Update_Anti_Stuck( void )
 			continue;
 		}
 
-		debug_print( "Anti Stuck detected object %s on %s side\n", col_obj->m_name.c_str(), Get_Direction_Name( collision->m_direction ).c_str() );
+		debug_print( "Anti Stuck detected object %s on %s side\n", col_obj->Create_Name().c_str(), Get_Direction_Name( collision->m_direction ).c_str() );
 
 		if( collision->m_direction == DIR_LEFT ) 
 		{

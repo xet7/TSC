@@ -144,13 +144,27 @@ public:
 	// Return true if a level is loaded
 	bool Is_Loaded( void ) const;
 
+#ifdef ENABLE_MRUBY
+	/* This method wipes out the entire current mruby state (just
+	 * as if the level is finished), and sets up an entirely new
+	 * state, that also runs the script in `m_script' anew.
+	 * This method is intended for:
+	 *
+	 * 1) Initial level start, where no interpreter exists yet.
+	 * 2) The level settings to set the script code in the editor.
+	 *
+	 * It should NEVER be called outside one of these contexts.
+	 */
+	void Reinitialize_MRuby_Interpreter();
+#endif
+
 	static bool Is_Level_Object_Element( const CEGUI::String &element )
 	{
 		if( element == "information" || element == "settings" || element == "background" || element == "music" ||
 			element == "global_effect" || element == "player" || element == "sound" || element == "particle_emitter" ||
 			element == "path" || element == "sprite" || element == "powerup" || element == "item" || element == "enemy" ||
 			element == "levelexit" || element == "level_entry" || element == "enemystopper" || element == "box" ||
-			element == "moving_platform" || element == "falling_platform" || element == "ball" )
+			element == "moving_platform" || element == "falling_platform" || element == "ball" || element == "lava" || element == "crate")
 		{
 			return 1;
 		}

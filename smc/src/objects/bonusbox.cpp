@@ -57,6 +57,7 @@ cBonusBox :: ~cBonusBox( void )
 void cBonusBox :: Init( void )
 {
 	m_type = TYPE_BONUS_BOX;
+	m_name = "Bonus Box";
 	m_force_best_item = 0;
 	m_camera_range = 5000;
 	m_can_be_on_ground = 0;
@@ -64,8 +65,6 @@ void cBonusBox :: Init( void )
 	Set_Animation_Type( "Bonus" );
 	m_gold_color = COL_DEFAULT;
 	Set_Goldcolor( COL_YELLOW );
-
-	Create_Name();
 }
 
 cBonusBox *cBonusBox :: Copy( void ) const
@@ -192,9 +191,6 @@ void cBonusBox :: Set_Bonus_Type( SpriteType bonus_type )
 		m_item_image = NULL;
 		printf( "Error : Unknown BonusBox Item type : %d\n", box_type );
 	}
-
-	// recreate name
-	Create_Name();
 }
 
 void cBonusBox :: Set_Force_Best_Item( bool enable )
@@ -441,7 +437,7 @@ void cBonusBox :: Draw( cSurface_Request *request /* = NULL */ )
 	cBaseBox::Draw( request );
 }
 
-bool cBonusBox :: Is_Update_Valid( void )
+bool cBonusBox :: Is_Update_Valid()
 {
 	// if item is in animation
 	if( !m_active_items.empty() )

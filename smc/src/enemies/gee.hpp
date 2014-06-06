@@ -65,8 +65,8 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special normal dying
+	virtual void Update_Normal_Dying( void );
 
 	// set the moving state
 	void Set_Moving_State( Moving_state new_state );
@@ -87,8 +87,6 @@ public:
 	// Check if position is beyond the max distance
 	bool Is_At_Max_Distance( void ) const;
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 
@@ -143,10 +141,6 @@ public:
 protected:
 	
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	// Create the Name from the current settings
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

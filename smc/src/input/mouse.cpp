@@ -1306,7 +1306,7 @@ cSprite *cMouseCursor :: Copy( const cSprite *copy_object, float px, float py ) 
 	// only copy in editor mode
 	if( !editor_enabled )
 	{
-		printf( "Warning : No editor enabled for copy object: %s\n", copy_object->m_name.c_str() );
+		std::cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << std::endl;
 		return NULL;
 	}
 
@@ -1323,7 +1323,7 @@ cSprite *cMouseCursor :: Copy( const cSprite *copy_object, float px, float py ) 
 	// failed to copy
 	if( !new_sprite )
 	{
-		debug_print( "Warning : Mouse object copying failed for %s\n", copy_object->m_name.c_str() );
+		debug_print( "Warning : Mouse object copying failed for %s\n", copy_object->Create_Name().c_str() );
 		return NULL;
 	}
 
@@ -1714,7 +1714,7 @@ void cMouseCursor :: Editor_Update( void )
 	// set object data
 	if( col->m_obj )
 	{
-		display_name = col->m_obj->m_name;
+		display_name = col->m_obj->Create_Name();
 
 		if( ( !m_left || !m_hovering_object->m_obj ) && !( pKeyboard->Is_Shift_Down() && !pKeyboard->Is_Ctrl_Down() ) )
 		{
@@ -1740,7 +1740,7 @@ void cMouseCursor :: Editor_Update( void )
 		{
 			// ignore
 		}
-		else if( col->m_obj->m_type == TYPE_FRONT_PASSIVE )
+		else if( col->m_obj->m_massive_type == MASS_FRONT_PASSIVE )
 		{
 			display_name.insert( 0, _("Front Passive - ") );
 		}
@@ -1751,11 +1751,11 @@ void cMouseCursor :: Editor_Update( void )
 	}
 	else if( col->m_array == ARRAY_ACTIVE )
 	{
-		if( col->m_obj->m_type == TYPE_HALFMASSIVE )
+		if( col->m_obj->m_massive_type == MASS_HALFMASSIVE )
 		{
 			display_name.insert( 0, _("Halfmassive - ") );
 		}
-		else if( col->m_obj->m_type == TYPE_CLIMBABLE )
+		else if( col->m_obj->m_massive_type == MASS_CLIMBABLE )
 		{
 			display_name.insert( 0, _("Climbable - ") );
 		}

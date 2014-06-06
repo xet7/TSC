@@ -91,7 +91,7 @@ public:
 	void Generate_Activation_Particles( void );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 
@@ -142,10 +142,9 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	virtual std::string Create_Name( void ) const;
 
 protected:
-	// Create the Name from the current settings
-	void Create_Name( void );
 	virtual std::string Get_XML_Type_Name();
 };
 

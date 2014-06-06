@@ -68,6 +68,7 @@ cFlyon :: ~cFlyon( void )
 void cFlyon :: Init( void  )
 {
 	m_type = TYPE_FLYON;
+	m_name = "Flyon";
 	m_pos_z = 0.06f;
 	Set_Rotation_Affects_Rect( 1 );
 	m_editor_pos_z = 0.089f;
@@ -170,8 +171,6 @@ void cFlyon :: Set_Image_Dir( fs::path dir )
 	Set_Animation_Image_Range( 0, 3 );
 	Set_Time_All( 130, 1 );
 	Reset_Animation();
-
-	Create_Name();
 }
 
 void cFlyon :: Set_Direction( const ObjectDirection dir )
@@ -212,7 +211,6 @@ void cFlyon :: Set_Direction( const ObjectDirection dir )
 
 	Set_Velocity( 0.0f, 0.0f );
 	Update_Dest_Vel();
-	Create_Name();
 }
 
 void cFlyon :: Set_Max_Distance( float nmax_distance )
@@ -262,35 +260,10 @@ void cFlyon :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cFlyon :: Update_Dying( void )
+void cFlyon :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor;
-
-	// default death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		Set_Active( 0 );
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
-	}
+	// Immediately disappears
+	Set_Active(false);
 }
 
 void cFlyon :: Set_Moving_State( Moving_state new_state )
@@ -581,16 +554,6 @@ void cFlyon :: Update_Dest_Vel( void )
 	}
 }
 
-bool cFlyon :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
-}
-
 bool cFlyon :: Is_Draw_Valid( void )
 {
 	bool valid = cEnemy::Is_Draw_Valid();
@@ -643,6 +606,15 @@ void cFlyon :: Handle_Collision_Player( cObjectCollision *collision )
 	}
 
 	pLevel_Player->DownGrade_Player();
+}
+
+void cFlyon :: Handle_out_of_Level( ObjectDirection dir )
+{
+	// Flyons don’t die in abyss.
+	if ( dir == DIR_BOTTOM )
+		return;
+	else
+		cEnemy::Handle_out_of_Level(dir);
 }
 
 void cFlyon :: Editor_Activate( void )
@@ -729,15 +701,17 @@ bool cFlyon :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cFlyon :: Create_Name( void )
+std::string cFlyon :: Create_Name( void ) const
 {
-	m_name = "Flyon ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
+	std::string name = "Flyon "; // dup
+	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

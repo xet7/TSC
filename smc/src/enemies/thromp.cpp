@@ -71,6 +71,7 @@ cThromp :: ~cThromp( void )
 void cThromp :: Init( void  )
 {
 	m_type = TYPE_THROMP;
+	m_name = "Thromp";
 	m_pos_z = 0.093f;
 	m_camera_range = 1000;
 	m_can_be_on_ground = 0;
@@ -265,35 +266,9 @@ void cThromp :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cThromp :: Update_Dying( void )
+void cThromp :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor;
-
-	// default death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		Set_Active( 0 );
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
-	}
+	Set_Active(false);
 }
 
 void cThromp :: Update( void )
@@ -439,8 +414,6 @@ void cThromp :: Update_Images( void )
 	{
 		Set_Image_Num( 1 );
 	}
-
-	Create_Name();
 }
 
 void cThromp :: Update_Dest_Vel( void )
@@ -523,16 +496,6 @@ GL_rect cThromp :: Get_Final_Distance_Rect( void ) const
 	}
 
 	return final_distance;
-}
-
-bool cThromp :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 bool cThromp :: Is_Draw_Valid( void )
@@ -841,15 +804,17 @@ bool cThromp :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cThromp :: Create_Name( void )
+std::string cThromp :: Create_Name( void ) const
 {
-	m_name = "Thromp ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
+	std::string name = m_name; // dup
+	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

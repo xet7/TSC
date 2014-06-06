@@ -82,8 +82,9 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special dying animations
+	virtual void Update_Normal_Dying( void );
+	virtual void Update_Instant_Dying( void );
 
 	// set the turtle moving state
 	void Set_Turtle_Moving_State( TurtleBoss_state new_state );
@@ -104,9 +105,6 @@ public:
 
 	// update maximum velocity values
 	void Update_Velocity_Max( void );
-
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 
 	/* Validate the given collision object
 	 * returns 0 if not valid
@@ -155,10 +153,9 @@ public:
   int Get_Max_Downgrade_Count();
   float Get_Shell_Time();
   bool Get_Level_Ends_If_Killed();
+  virtual std::string Create_Name( void ) const;
 
 protected:
-	// Create the Name from the current settings
-	void Create_Name( void );
 
 	// times downgraded
 	int m_downgrade_count;

@@ -51,6 +51,21 @@
  *
  *   The event handler gets passed an instance of this class (or one of
  *   its subclasses) representing the other collision "partner".
+ *
+ * Constants
+ * ---------
+ *
+ * PASSIVE_Z_START
+ * : Lowest valid Z coordinate for passive sprites.
+ *
+ * MASSIVE_Z_START
+ * : Lowest valid Z coordinate for massive sprites.
+ *
+ * FRONTPASSIVE_Z_START
+ * : Lowest valid Z coordinate for front-passive sprites.
+ *
+ * HALFMASSIVE_Z_START
+ * : Lowest valid Z coordinate for half-massive sprites.
  */
 
 using namespace SMC;
@@ -101,7 +116,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 	}
 
 	// Default massivity type is front passive
-	p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+	p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
 
 	// Hidden by default
 	p_sprite->Set_Active(false);
@@ -187,19 +202,46 @@ static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
 	type = mrb_sym2name(p_state, typesym);
 
 	if (type == "passive")
-		p_sprite->Set_Sprite_Type(TYPE_PASSIVE);
+		p_sprite->Set_Massive_Type(MASS_PASSIVE);
 	else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
-		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE);
+		p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
 	else if (type == "massive")
-		p_sprite->Set_Sprite_Type(TYPE_MASSIVE);
+		p_sprite->Set_Massive_Type(MASS_MASSIVE);
 	else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
-		p_sprite->Set_Sprite_Type(TYPE_HALFMASSIVE);
+		p_sprite->Set_Massive_Type(MASS_HALFMASSIVE);
 	else if (type == "climbable")
-		p_sprite->Set_Sprite_Type(TYPE_CLIMBABLE);
-	else // Non-standard types like TYPE_ENEMY are not allowed here
+		p_sprite->Set_Massive_Type(MASS_CLIMBABLE);
+	else // Non-standard types are not allowed here
 		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid massive type '%s'.", type.c_str());
 
 	return mrb_symbol_value(typesym);
+}
+
+/**
+ * Method: Sprite#massive_type
+ *
+ *   massive_type() → a_symbol
+ *
+ * Returns the sprite’s current massive type. See #massive_type= for
+ * a list of possible return values; front passive will always be
+ * returned as `:frontpassive`, half massive will always be returned
+ * as `:half_massive`.
+ */
+static mrb_value Get_Massive_Type(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+	switch (p_sprite->m_massive_type) {
+	case MASS_PASSIVE:
+		return str2sym(p_state, "passive");
+	case MASS_FRONT_PASSIVE:
+		return str2sym(p_state, "frontpassive");
+	case MASS_MASSIVE:
+		return str2sym(p_state, "massive");
+	case MASS_CLIMBABLE:
+		return str2sym(p_state, "climbable");
+	default:
+		return mrb_nil_value();
+	}
 }
 
 /**
@@ -550,17 +592,53 @@ static mrb_value Get_Image(mrb_state* p_state, mrb_value self)
 		return mrb_str_new_cstr(p_state, path_to_utf8(imgpath).c_str());
 }
 
+/**
+ * Method: Sprite#active=
+ *
+ *   active=( bool ) → bool
+ *
+ * TODO: Docs
+ */
+static mrb_value Set_Active(mrb_state* p_state, mrb_value self)
+{
+	mrb_bool status;
+	mrb_get_args(p_state, "b", &status);
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+	p_sprite->Set_Active(status);
+
+	return mrb_bool_value(status);
+}
+
+/**
+ * Method: Sprite#active?
+ *
+ *   active?() → true or false
+ *
+ * TODO: Docs
+ */
+static mrb_value Is_Active(mrb_state* p_state, mrb_value self)
+{
+	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+	return mrb_bool_value(p_sprite->m_active);
+}
+
 void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 {
 	p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
 	mrb_include_module(p_state, p_rcSprite, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
 
+	mrb_define_const(p_state, p_rcSprite, "PASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_passive_start));
+	mrb_define_const(p_state, p_rcSprite, "MASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_massive_start));
+	mrb_define_const(p_state, p_rcSprite, "FRONTPASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_front_passive_start));
+	mrb_define_const(p_state, p_rcSprite, "HALFMASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_halfmassive_start));
+
 	mrb_define_method(p_state, p_rcSprite, "initialize", Initialize, MRB_ARGS_OPT(2));
 	mrb_define_method(p_state, p_rcSprite, "show", Show, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "hide", Hide, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "massive_type=", Set_Massive_Type, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "massive_type", Get_Massive_Type, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "x", Get_X, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "y", Get_Y, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "x=", Set_X, MRB_ARGS_REQ(1));
@@ -579,6 +657,8 @@ void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcSprite, "player?", Is_Player, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "image", Get_Image, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSprite, "image=", Set_Image, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "active=", Set_Active, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcSprite, "active?", Is_Active, MRB_ARGS_NONE());
 
 	mrb_define_method(p_state, p_rcSprite, "on_touch", MRUBY_EVENT_HANDLER(touch), MRB_ARGS_NONE());
 }

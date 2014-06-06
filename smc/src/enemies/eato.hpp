@@ -57,14 +57,11 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// Special normal death animation
+	virtual void Update_Normal_Dying( void );
 
 	// update
 	virtual void Update( void );
-
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 
 	/* Validate the given collision object
 	 * returns 0 if not valid
@@ -87,14 +84,11 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	virtual std::string Create_Name() const;
 
 protected:
 	
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	// Create the Name from the current settings
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

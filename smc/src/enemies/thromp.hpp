@@ -70,8 +70,8 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special normal dying animation
+	virtual void Update_Normal_Dying( void );
 
 	// update
 	virtual void Update( void );
@@ -90,8 +90,6 @@ public:
 	// Generates Smoke Particles
 	void Generate_Smoke( unsigned int amount = 20 ) const;
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 
@@ -137,14 +135,11 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	virtual std::string Create_Name( void ) const;
 
 protected:
 	
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	// Create the Name from the current settings
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

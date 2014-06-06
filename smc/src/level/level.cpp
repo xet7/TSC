@@ -95,7 +95,10 @@ cLevel :: cLevel( void )
 	Reset_Settings();
 
 	m_delayed_unload = 0;
+
+#ifdef ENABLE_MRUBY
 	m_mruby = NULL; // Initialized in Init()
+#endif
 
 	m_sprite_manager = new cSprite_Manager();
 	m_background_manager = new cBackground_Manager();
@@ -267,12 +270,14 @@ void cLevel :: Unload( bool delayed /* = 0 */ )
 
 	Reset_Settings();
 
+#ifdef ENABLE_MRUBY
 	/* Shutdown the mruby interpreter. The menu level (the one shown on the
 	 * startup screen) has not been Init()ialized and hence has no mruby
 	 * interpreter attached. Therefore we need to check the existance
 	 * of the mruby interpreter here. */
 	if (m_mruby)
 		delete m_mruby;
+#endif
 
 	/* delete sprites
 	 * do this at last
@@ -438,13 +443,7 @@ void cLevel :: Init( void )
 	}
 
 #ifdef ENABLE_MRUBY
-	// Initialize an mruby interpreter for this level. Each level has its own mruby
-	// interpreter to prevent unintended object exchange between levels.
-	m_mruby = new Scripting::cMRuby_Interpreter(this);
-
-	// Run the mruby code associated with this level (this sets up
-	// all the event handlers the user wants to register)
-	m_mruby->Run_Code(m_script, "(level script)");
+	Reinitialize_MRuby_Interpreter();
 #endif
 }
 
@@ -596,9 +595,12 @@ void cLevel :: Update( void )
 		m_sprite_manager->Update_Items();
 		// animations
 		m_animation_manager->Update();
+
+#ifdef ENABLE_MRUBY
 		// Scripted timers (if an MRuby interpreter is there)
 		if (m_mruby)
 			m_mruby->Evaluate_Timer_Callbacks();
+#endif
 	}
 	// if level-editor enabled
 	else
@@ -1098,6 +1100,24 @@ bool cLevel :: Is_Loaded( void ) const
 
 	return 0;
 }
+
+#ifdef ENABLE_MRUBY
+void cLevel :: Reinitialize_MRuby_Interpreter()
+{
+	// Delete any currently existing incarnation of an mruby
+	// stack and completely annihilate it.
+	if (m_mruby)
+		delete m_mruby;
+
+	// Initialize an mruby interpreter for this level. Each level has its own mruby
+	// interpreter to prevent unintended object exchange between levels.
+	m_mruby = new Scripting::cMRuby_Interpreter(this);
+
+	// Run the mruby code associated with this level (this sets up
+	// all the event handlers the user wants to register)
+	m_mruby->Run_Code(m_script, "(level script)");
+}
+#endif
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

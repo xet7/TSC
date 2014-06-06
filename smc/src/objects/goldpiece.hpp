@@ -19,6 +19,9 @@
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../objects/animated_sprite.hpp"
+#include "../scripting/objects/specials/mrb_goldpiece.hpp"
+#include "../scripting/objects/specials/mrb_jumping_goldpiece.hpp"
+#include "../scripting/objects/specials/mrb_falling_goldpiece.hpp"
 
 namespace SMC
 {
@@ -41,6 +44,12 @@ public:
 	// copy
 	virtual cGoldpiece *Copy( void ) const;
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcGoldpiece, &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// load from savegame
 	virtual void Load_From_Savegame( cSave_Level_Object *save_object );
 	// save to savegame
@@ -58,10 +67,12 @@ public:
 	virtual void Draw( cSurface_Request *request = NULL );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 
 	// collision from player
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision);
 
 	// gold color
 	DefaultColor m_color_type;
@@ -88,6 +99,12 @@ public:
 	// update
 	virtual void Update( void );
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcJumping_Goldpiece, &Scripting::rtSMC_Scriptable, this));
+	}
+
 	/* Validate the given collision object
 	 * returns 0 if not valid
 	 * returns 1 if an internal collision with this object is valid
@@ -108,6 +125,12 @@ public:
 
 	// update
 	virtual void Update( void );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcFalling_Goldpiece, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	/* Validate the given collision object
 	 * returns 0 if not valid

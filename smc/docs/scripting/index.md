@@ -317,6 +317,8 @@ the MRuby scripting API, grouped by topic:
 | ***Enemies***                         | ***Enemies***                               |
 |---------------------------------------|---------------------------------------------|
 | [Enemy](enemy.html)                   | Base class for all enemies                  |
+| [Beetle](beetle.html)                 |                                             |
+| [BeetleBarrage](beetlebarrage.html)   |                                             |
 | [Eato](eato.html)                     |                                             |
 | [Flyon](flyon.html)                   |                                             |
 | [Furball](furball.html)               |                                             |
@@ -346,10 +348,17 @@ the MRuby scripting API, grouped by topic:
 | [Mushroom](mushroom.html)             |                                             |
 | [Star](star.html)                     |                                             |
 |---------------------------------------|---------------------------------------------|
+| ***Gold/Waffles***                    | ***Gold/Waffles***                          |
+|---------------------------------------|---------------------------------------------|
+| [Goldpiece](goldpiece.html)           | Base class for all goldpieces/waffles       |
+| [FallingGoldpiece](fallinggoldpiece.html) |                                         |
+| [JumpingGoldpiece](jumpinggoldpiece.html) |                                         |
+|---------------------------------------|---------------------------------------------|
 | ***Level stuff***                     | ***Level stuff***                           |
 |---------------------------------------|---------------------------------------------|
 | Level → LevelClass                    | The level itself; singleton                 |
 | [LevelClass](levelclass.html)         |                                             |
+| [LevelEntry](levelentry.html)         |                                             |
 | [LevelExit](levelexit.html)           |                                             |
 | [LevelPlayer](levelplayer.html)       |                                             |
 | Player → LevelPlayer                  | Maryo; singleton                            |
@@ -358,9 +367,12 @@ the MRuby scripting API, grouped by topic:
 |---------------------------------------|---------------------------------------------|
 | Audio → AudioClass                    | Singleton                                   |
 | [AudioClass](audioclass.html)         |                                             |
+| [Crate](crate.html)                   |                                             |
+| [EnemyStopper](enemystopper.html)     |                                             |
 | [Eventable](eventable.html)           |                                             |
 | Input → InputClass                    | Singleton                                   |
 | [InputClass](inputclass.html)         |                                             |
+| [Lava](lava.html)                     |                                             |
 | [Path](path.html)                     |                                             |
 | [Path::Segment](path_segment.html)    |                                             |
 | [Timer](timer.html)                   |                                             |

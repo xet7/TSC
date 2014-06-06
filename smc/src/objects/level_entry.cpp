@@ -26,6 +26,7 @@
 #include "../core/i18n.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../scripting/events/enter_event.hpp"
 
 namespace SMC
 {
@@ -67,6 +68,7 @@ void cLevel_Entry :: Init( void )
 	m_sprite_array = ARRAY_ACTIVE;
 	m_type = TYPE_LEVEL_ENTRY;
 	m_massive_type = MASS_PASSIVE;
+	m_name = "Level Entry";
 	m_editor_pos_z = 0.112f;
 	m_camera_range = 1000;
 
@@ -125,39 +127,39 @@ void cLevel_Entry :: Set_Direction( const ObjectDirection dir )
 	}
 
 	cAnimated_Sprite::Set_Direction( dir, 1 );
-
-	Create_Name();
 }
 
-void cLevel_Entry :: Create_Name( void )
+std::string cLevel_Entry :: Create_Name( void ) const
 {
-	m_name = _("Level Entry");
+	std::string name = m_name; // Dup
 
 	if( m_entry_type == LEVEL_ENTRY_BEAM )
 	{
-		m_name += _(" Beam");
+		name += _(" Beam");
 	}
 	else if( m_entry_type == LEVEL_ENTRY_WARP )
 	{
-		m_name += _(" Warp");
+		name += _(" Warp");
 
 		if( m_direction == DIR_UP )
 		{
-			m_name += " U";
+			name += " U";
 		}
 		else if( m_direction == DIR_LEFT )
 		{
-			m_name += " L";
+			name += " L";
 		}
 		else if( m_direction == DIR_DOWN )
 		{
-			m_name += " D";
+			name += " D";
 		}
 		else if( m_direction == DIR_RIGHT )
 		{
-			m_name += " R";
+			name += " R";
 		}
 	}
+
+	return name;
 }
 
 void cLevel_Entry :: Draw( cSurface_Request *request /* = NULL */ )
@@ -309,13 +311,15 @@ void cLevel_Entry :: Activate( void )
 	}
 
 	pLevel_Player->Clear_Collisions();
+
+	// Fire entry event
+	Scripting::cEnter_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
 }
 
 void cLevel_Entry :: Set_Type( Level_Entry_type new_type )
 {
 	m_entry_type = new_type;
-
-	Create_Name();
 }
 
 float cLevel_Entry :: Get_Player_Pos_X( void ) const

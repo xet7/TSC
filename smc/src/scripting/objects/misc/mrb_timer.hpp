@@ -23,15 +23,19 @@ namespace SMC {
 			// periodic timers as well). Does nothing if the
 			// timer is already running.
 			void Start();
-			// Stop ticking to the next possible time. The
-			// callback; blocks until the timer has stopped. Does
-			// nothing if the timer has already been stopped.
-			// You must call this for a oneshot-timer even if
-			// it already fired if you want to restart it.
+			// Soft-stop the timer, i.e. wait until it executes once
+			// more and then stop it. This method blocks until the
+			// timer has stopped. Does nothing if the timer has
+			// already been stopped.
 			void Stop();
-			// Returns true if the timer shall terminate
+			// Returns true if the timer shall soft-stop
 			// as soon as possible.
 			bool Shall_Halt();
+			// Immediately stop the timer, without waiting for
+			// it to execute the callback once more. This method
+			// does _not_ block. Note you don’t know for sure
+			// when exactly the timer thread terminates.
+			void Interrupt();
 			// Returns true if the timer is running currently.
 			// This may still return true if a call to Stop()
 			// has not yet been honoured.

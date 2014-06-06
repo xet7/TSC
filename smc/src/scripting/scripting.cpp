@@ -18,6 +18,8 @@
 #include "objects/misc/mrb_input.hpp"
 #include "objects/misc/mrb_timer.hpp"
 #include "objects/enemies/mrb_enemy.hpp"
+#include "objects/enemies/mrb_beetle.hpp"
+#include "objects/enemies/mrb_beetle_barrage.hpp"
 #include "objects/enemies/mrb_eato.hpp"
 #include "objects/enemies/mrb_flyon.hpp"
 #include "objects/enemies/mrb_furball.hpp"
@@ -41,7 +43,13 @@
 #include "objects/boxes/mrb_textbox.hpp"
 #include "objects/boxes/mrb_bonusbox.hpp"
 #include "objects/specials/mrb_level_exit.hpp"
+#include "objects/specials/mrb_level_entry.hpp"
 #include "objects/specials/mrb_path.hpp"
+#include "objects/specials/mrb_lava.hpp"
+#include "objects/specials/mrb_enemy_stopper.hpp"
+#include "objects/specials/mrb_goldpiece.hpp"
+#include "objects/specials/mrb_jumping_goldpiece.hpp"
+#include "objects/specials/mrb_crate.hpp"
 
 /*****************************************************************************
  Scripting organisation
@@ -102,6 +110,25 @@ namespace SMC
 
 		cMRuby_Interpreter::~cMRuby_Interpreter()
 		{
+			// Get all the registered timers from mruby
+			mrb_value klass = mrb_obj_value(p_rcTimer);
+			mrb_value rb_timers = mrb_iv_get(mp_mruby, klass, mrb_intern_cstr(mp_mruby, "instances"));
+
+			// Stop ’em all! (and free them)
+			while(true) {
+				// Retrieve timer
+				mrb_value rb_timer = mrb_ary_shift(mp_mruby, rb_timers);
+				if (mrb_nil_p(rb_timer))
+					break;
+
+				// Free C++ part. The mruby part is out of scope now (shifted from
+				// the instance array) and will be GC’ed (would anyway due to termination
+				// further below). Note cTimer’s destructor calls Interrupt() on the timer.
+				cTimer* p_timer = Get_Data_Ptr<cTimer>(mp_mruby, rb_timer);
+				delete p_timer;
+			}
+
+			// Terminate mruby interpreter
 			mrb_close(mp_mruby);
 		}
 
@@ -235,6 +262,8 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 {
 	using namespace SMC::Scripting;
 
+	// When changing the order, ensure parent mruby classes get defined
+	// prior to their mruby subclasses!
 	Init_Eventable(p_state);
 	Init_Sprite(p_state);
 	Init_Moving_Sprite(p_state);
@@ -245,6 +274,8 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Audio(p_state);
 	Init_Timer(p_state);
 	Init_Enemy(p_state);
+	Init_Beetle(p_state);
+	Init_BeetleBarrage(p_state);
 	Init_Eato(p_state);
 	Init_Flyon(p_state);
 	Init_Furball(p_state);
@@ -269,6 +300,12 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_BonusBox(p_state);
 	Init_ParticleEmitter(p_state);
 	Init_LevelExit(p_state);
+	Init_LevelEntry(p_state);
 	Init_Path(p_state);
+	Init_Lava(p_state);
+	Init_EnemyStopper(p_state);
+	Init_Goldpiece(p_state);
+	Init_JumpingGoldpiece(p_state);
+	Init_Crate(p_state);
 	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }

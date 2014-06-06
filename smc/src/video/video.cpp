@@ -115,11 +115,12 @@ void cVideo :: Init_CEGUI( void ) const
 	// create system
 	try
 	{
+	debug_print("CEGUI log file is at '%s'.\n", path_to_utf8(pResource_Manager->Get_User_CEGUI_Logfile()).c_str());
 	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
 	#ifdef _WIN32
-		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", (const CEGUI::utf8*)(path_to_utf8((pResource_Manager->Get_User_Data_Directory() / "cegui.log")).c_str()) );
+		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", (const CEGUI::utf8*)(path_to_utf8(pResource_Manager->Get_User_CEGUI_Logfile()).c_str()) );
 	#else
-		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", path_to_utf8(pResource_Manager->Get_User_Data_Directory() / "cegui.log" ));
+		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", path_to_utf8(pResource_Manager->Get_User_CEGUI_Logfile()));
 	#endif
 	}
 	// catch CEGUI Exceptions
@@ -728,11 +729,9 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 	// create directories, load images and save to cache
 	for( vector<fs::path>::iterator itr = image_files.begin(); itr != image_files.end(); ++itr )
 	{
-		// get filename
-    fs::path filename = (*itr);
-
-		// remove data dir
-    fs::path cache_filename = imgcache_dir_active / fs::relative(pResource_Manager->Get_Data_Directory(), filename);
+		// get filenames
+		fs::path filename = (*itr);
+		fs::path cache_filename = imgcache_dir_active / fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename);
 
 		// if directory
     if ( fs::is_directory(filename) ) {
@@ -1105,7 +1104,7 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 		if (fs::exists(settings_file) && fs::is_regular_file(settings_file)) {
 			settings = pSettingsParser->Get( settings_file );
 
-			fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Data_Directory(), settings_file); // Why add .png here? Should be in the return value of fs::relative() anyway.
+			fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Game_Data_Directory(), settings_file); // Why add .png here? Should be in the return value of fs::relative() anyway.
 			// check if image cache file exists
 			if (fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
 				sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());

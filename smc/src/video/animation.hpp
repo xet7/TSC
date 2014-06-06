@@ -199,7 +199,7 @@ public:
 	void Keep_Particles_In_Rect( const GL_rect &clip_rect, ParticleClipMode mode = PCM_MOVE );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 

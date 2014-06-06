@@ -94,9 +94,14 @@ public:
 	virtual void DownGrade( bool force = 0 );
 	/* downgrade state ( if small maryo : dies )
 	 * if delayed is set the downgrade is handled on the next game update
-	 * force : dies or a complete downgrade
+	 * force : Also kill big/fire/ice/etc Maryo
+	 * ignore_invincible: If Maryo was just hurt, he is invicable for a short
+	 * time and this method immediately returns usually without doing anything
+	 * (this also applies to star effect). Setting `ignore_invicable' will make
+	 * this method ignore this restriction. This does *not* affect god mode, which
+	 * will always be honoured by this method (by doing nothing).
 	*/
-	void DownGrade_Player( bool delayed = 1, bool force = 0 );
+	void DownGrade_Player( bool delayed = true, bool force = false, bool ignore_invicible = false );
 
 	// moves in the current direction
 	void Move_Player( float velocity, float vel_wrongway );
@@ -242,6 +247,8 @@ public:
 	virtual void Handle_Collision_Massive( cObjectCollision *collision );
 	// collision with passive
 	virtual void Handle_Collision_Passive( cObjectCollision *collision );
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision );
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 

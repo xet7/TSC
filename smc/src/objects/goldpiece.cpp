@@ -23,6 +23,8 @@
 #include "../user/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"
+#include "../level/level.hpp"
+#include "../scripting/events/activate_event.hpp"
 
 namespace SMC
 {
@@ -270,6 +272,9 @@ void cGoldpiece :: Activate( void )
 
 	pHud_Points->Add_Points( points, m_pos_x + m_col_rect.m_w / 2, m_pos_y + 2 );
 
+	Scripting::cActivate_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
+
 	// if spawned destroy
 	if( m_spawned )
 	{
@@ -308,7 +313,7 @@ void cGoldpiece :: Draw( cSurface_Request *request /* = NULL */ )
 	cAnimated_Sprite::Draw( request );
 }
 
-bool cGoldpiece :: Is_Update_Valid( void )
+bool cGoldpiece :: Is_Update_Valid()
 {
 	// if not visible
 	if( !m_active )
@@ -328,6 +333,11 @@ void cGoldpiece :: Handle_Collision_Player( cObjectCollision *collision )
 	}
 
 	Activate();
+}
+
+void cGoldpiece :: Handle_Collision_Lava( cObjectCollision *collision )
+{
+	Set_Active(false);
 }
 
 /* *** *** *** *** *** *** cJGoldpiecee *** *** *** *** *** *** *** *** *** *** *** */

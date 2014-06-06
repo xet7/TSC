@@ -68,6 +68,7 @@ cFurball :: ~cFurball( void )
 void cFurball :: Init( void )
 {
 	m_type = TYPE_FURBALL;
+	m_name = "Furball";
 	m_pos_z = 0.09f;
 	m_gravity_max = 19.0f;
 
@@ -152,7 +153,6 @@ void cFurball :: Set_Direction( const ObjectDirection dir )
 	cEnemy::Set_Direction( dir, 1 );
 
 	Update_Rotation_Hor( 1 );
-	Create_Name();
 }
 
 void cFurball :: Set_Color( const DefaultColor &col )
@@ -227,7 +227,6 @@ void cFurball :: Set_Color( const DefaultColor &col )
 	}
 
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cFurball :: Turn_Around( ObjectDirection col_dir /* = DIR_UNDEFINED */ )
@@ -332,107 +331,65 @@ void cFurball :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cFurball :: Update_Dying( void )
+void cFurball :: Update_Normal_Dying()
 {
-	// stomp death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
+	// boss
+	if( m_type == TYPE_FURBALL_BOSS )
 	{
-		// boss
-		if( m_type == TYPE_FURBALL_BOSS )
+		if( m_scale_x > 0.1f )
 		{
-			m_counter += pFramerate->m_speed_factor * 0.5f;
+			float speed_x = pFramerate->m_speed_factor * 10.0f;
 
-			if( m_scale_x > 0.1f )
+			if( m_direction == DIR_LEFT )
 			{
-				float speed_x = pFramerate->m_speed_factor * 10.0f;
-
-				if( m_direction == DIR_LEFT )
-				{
-					speed_x *= -1;
-				}
-
-				Add_Rotation_Z( speed_x );
-				Add_Scale( -pFramerate->m_speed_factor * 0.025f );
-
-				// star animation
-				if( m_counter >= 1.0f )
-				{
-					Generate_Smoke( static_cast<unsigned int>(m_counter), 0.3f );
-					m_counter -= static_cast<int>(m_counter);
-				}
-
-				// finished scale out animation
-				if( m_scale_x <= 0.1f )
-				{
-					// sound
-					pAudio->Play_Sound( m_kill_sound );
-
-					// star explosion animation
-					Generate_Smoke( 30 );
-
-					// set empty image
-					cMovingSprite::Set_Image( NULL, 0, 0 );
-					// reset counter
-					m_counter = 0;
-				}
+				speed_x *= -1;
 			}
-			// after scale animation
-			else
-			{
-				// wait some time
-				if( m_counter > 20.0f )
-				{
-					if( m_level_ends_if_killed )
-					{
-						// exit level
-						pLevel_Manager->Finish_Level();
-					}
 
-					// reset scaling
-					Set_Scale_Affects_Rect( 0 );
-				}
+			Add_Rotation_Z( speed_x );
+			Add_Scale( -pFramerate->m_speed_factor * 0.025f );
+
+			// star animation
+			if( m_dying_counter >= 1.0f )
+			{
+				Generate_Smoke( static_cast<unsigned int>(m_dying_counter), 0.3f );
+				m_dying_counter -= static_cast<int>(m_dying_counter);
+			}
+
+			// finished scale out animation
+			if( m_scale_x <= 0.1f )
+			{
+				// sound
+				pAudio->Play_Sound( m_kill_sound );
+
+				// star explosion animation
+				Generate_Smoke( 30 );
+
+				// set empty image
+				cMovingSprite::Set_Image( NULL, 0, 0 );
+				// reset counter
+				m_dying_counter = 0;
 			}
 		}
-		// normal
+		// after scale animation
 		else
 		{
-			// scale out
-			float speed = pFramerate->m_speed_factor * 0.05f;
-
-			Add_Scale_X( -speed * 0.5f );
-			Add_Scale_Y( -speed );
-
-			if( m_scale_y < 0.01f )
+			// wait some time
+			if( m_dying_counter > 20.0f )
 			{
-				Set_Scale( 1.0f );
-				Set_Active( 0 );
+				if( m_level_ends_if_killed )
+				{
+					// exit level
+					pLevel_Manager->Finish_Level();
+				}
+
+				// reset scaling
+				Set_Scale_Affects_Rect( 0 );
 			}
 		}
 	}
-	// falling death
+	// normal
 	else
-	{
-		m_counter += pFramerate->m_speed_factor * 0.1f;
-
-		// a little bit upwards first
-		if( m_counter < 0.3f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-			Add_Scale( -pFramerate->m_speed_factor * 0.01f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Scale( 1.0f );
-			Set_Active( 0 );
-		}
-	}
+		cEnemy::Update_Normal_Dying();
 }
 
 void cFurball :: Set_Moving_State( Moving_state new_state )
@@ -617,8 +574,6 @@ void cFurball :: Update( void )
 			Update_Velocity();
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cFurball :: Generate_Smoke( unsigned int amount /* = 1 */, float particle_scale /* = 0.4f */ ) const
@@ -681,16 +636,6 @@ void cFurball :: Update_Velocity_Max( void )
 			m_velx_gain = 0.8f + ( m_downgrade_count * 0.25f );
 		}
 	}
-}
-
-bool cFurball :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 Col_Valid_Type cFurball :: Validate_Collision( cSprite *obj )
@@ -972,14 +917,6 @@ bool cFurball :: Editor_Max_Downgrade_Count_Text_Changed( const CEGUI::EventArgs
 	Set_Max_Downgrade_Count( string_to_int( str_text ) );
 
 	return 1;
-}
-
-void cFurball :: Create_Name( void )
-{
-	m_name = "Furball ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
-	m_name += " ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

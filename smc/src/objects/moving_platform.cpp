@@ -104,6 +104,7 @@ void cMoving_Platform :: Init( void )
 {
 	m_sprite_array = ARRAY_ACTIVE;
 	m_type = TYPE_MOVING_PLATFORM;
+	m_name = "Moving Platform";
 	m_pos_z = 0.085f;
 	m_gravity_max = 25.0f;
 	m_can_be_on_ground = 0;
@@ -140,8 +141,6 @@ void cMoving_Platform :: Init( void )
 	Set_Image_Num( 1, 1 );
 
 	Update_Rect();
-
-	Create_Name();
 }
 
 void cMoving_Platform :: Init_Links( void )
@@ -354,8 +353,6 @@ void cMoving_Platform :: Set_Massive_Type( MassiveType new_type )
 	{
 		m_can_be_ground = 0;
 	}
-
-	Create_Name();
 }
 
 void cMoving_Platform :: Set_Direction( const ObjectDirection dir, bool new_start_direction /* = 0 */ )
@@ -374,8 +371,6 @@ void cMoving_Platform :: Set_Direction( const ObjectDirection dir, bool new_star
 			Set_Pos( m_start_pos_x, m_start_pos_y );
 			// reset velocity
 			Set_Velocity( 0.0f, 0.0f );
-			// update name
-			Create_Name();
 		}
 	}
 
@@ -402,8 +397,6 @@ void cMoving_Platform :: Set_Speed( float val )
 
 	// set velocity
 	Update_Velocity();
-
-	Create_Name();
 }
 
 void cMoving_Platform :: Set_Touch_Time( float val )
@@ -414,8 +407,6 @@ void cMoving_Platform :: Set_Touch_Time( float val )
 	{
 		m_touch_time = 0;
 	}
-
-	Create_Name();
 }
 
 void cMoving_Platform :: Set_Shake_Time( float val )
@@ -441,8 +432,6 @@ void cMoving_Platform :: Set_Touch_Move_Time( float val )
 	Set_Pos( m_start_pos_x, m_start_pos_y );
 	// reset velocity
 	Set_Velocity( 0, 0 );
-
-	Create_Name();
 }
 
 void cMoving_Platform :: Set_Middle_Count( const unsigned int val )
@@ -983,7 +972,7 @@ void cMoving_Platform :: Update_Velocity( void )
 	}
 }
 
-bool cMoving_Platform :: Is_Update_Valid( void )
+bool cMoving_Platform :: Is_Update_Valid()
 {
 	// if not visible
 	if( !m_active )
@@ -1402,24 +1391,25 @@ bool cMoving_Platform :: Editor_Image_Top_Right_Text_Changed( const CEGUI::Event
 	return 1;
 }
 
-void cMoving_Platform :: Create_Name( void )
+std::string cMoving_Platform :: Create_Name( void ) const
 {
-	m_name.clear();
+	std::string name;
 
 	if( m_touch_time )
 	{
-		m_name = _("Falling ");
+		name = _("Falling ");
 	}
 	if( m_touch_move_time )
 	{
-		m_name += _("Delayed ");
+		name += _("Delayed ");
 	}
 	if( m_speed )
 	{
-		m_name += _("Moving ");
+		name += _("Moving ");
 	}
 
-	m_name += _("Platform - ") + Get_Direction_Name( m_start_direction ) + " - " + Get_Massive_Type_Name( m_massive_type );
+	name += _("Platform - ") + Get_Direction_Name( m_start_direction ) + " - " + Get_Massive_Type_Name( m_massive_type );
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

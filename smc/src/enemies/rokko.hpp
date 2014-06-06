@@ -69,8 +69,9 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special dying animations
+	virtual void Update_Normal_Dying( void );
+	virtual void Update_Instant_Dying( void );
 
 	// update
 	virtual void Update( void );
@@ -87,8 +88,6 @@ public:
 	// Generates Spark Particles
 	void Generate_Sparks( unsigned int amount = 5 ) const;
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 

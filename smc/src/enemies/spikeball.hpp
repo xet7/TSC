@@ -67,8 +67,6 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
 
 	// set the moving state
 	void Set_Moving_State( Moving_state new_state );
@@ -78,9 +76,6 @@ public:
 
 	// update maximum velocity values
 	void Update_Velocity_Max( void );
-
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 
 	/* Validate the given collision object
 	 * returns 0 if not valid
@@ -113,9 +108,6 @@ protected:
 	virtual std::string Get_XML_Type_Name();
 
 private:
-	// Create the Name from the current settings
-	void Create_Name( void );
-
 	// counter if staying
 	float m_counter_stay;
 	// counter if walking

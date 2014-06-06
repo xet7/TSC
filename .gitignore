@@ -78,6 +78,7 @@ Thumbs.db
 /smc/src/Makefile.in
 /smc/src/*.o
 /smc/src/smc
+/smc/src/credits.cpp
 /smc/stamp-h1
 /lua/src/*.o
 /lua/src/*.a

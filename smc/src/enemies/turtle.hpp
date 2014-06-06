@@ -67,7 +67,7 @@ public:
 	// Set Direction
 	virtual void Set_Direction( const ObjectDirection dir, bool new_start_direction = 0 );
 	// set color
-	void Set_Color( DefaultColor col );
+	virtual void Set_Color( DefaultColor col );
 
 	/* Move into the opposite Direction
 	 * if col_dir is given only turns around if the collision direction is in front
@@ -78,8 +78,9 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special dying animations
+	virtual void Update_Normal_Dying( void );
+	virtual void Update_Instant_Dying( void );
 
 	// set the turtle moving state
 	void Set_Turtle_Moving_State( Turtle_state new_state );
@@ -88,7 +89,7 @@ public:
 	virtual void Update( void );
 
 	// Change state to walking if it is shell
-	void Stand_Up( void );
+	virtual void Stand_Up( void );
 	/* Hit the given enemy
 	 * returns true if enemy could get hit
 	*/
@@ -98,7 +99,7 @@ public:
 	void Update_Velocity_Max( void );
 
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 
 	/* Validate the given collision object
 	 * returns 0 if not valid
@@ -136,10 +137,6 @@ public:
 protected:
 	
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	// Create the Name from the current settings
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

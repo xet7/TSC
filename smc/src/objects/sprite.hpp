@@ -94,6 +94,8 @@ public:
 	virtual void Handle_Collision_Massive( cObjectCollision *collision ) {};
 	// collision with passive
 	virtual void Handle_Collision_Passive( cObjectCollision *collision ) {};
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision ) {};
 	// collision from a box
 	virtual void Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 ) {};
 
@@ -395,29 +397,34 @@ public:
 	// if this is in range of the maximum camera distance
 	bool Is_In_Range( void ) const;
 	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
+	virtual bool Is_Update_Valid();
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 
 	// returns true if this is a basic sprite type
 	inline bool Is_Basic_Sprite( void ) const
 	{
+		// TODO: There are no basic sprites anymore due to code cleanup.
+		// Instead, we need a new cSprite subclass cStaticSprite that
+		// is specifically intended for just displaying images.
+		/*
 		if( m_type == TYPE_PASSIVE || m_type == TYPE_FRONT_PASSIVE || m_type == TYPE_MASSIVE || m_type == TYPE_CLIMBABLE || m_type == TYPE_HALFMASSIVE )
 		{
 			return 1;
 		}
+		*/
 
 		return 0;
 	};
 	// returns true if this is a sprite that is in the sprite manager
 	inline bool Is_Sprite_Managed( void ) const
 	{
-		if( m_sprite_array == ARRAY_MASSIVE || m_sprite_array == ARRAY_PASSIVE || m_sprite_array == ARRAY_ENEMY || m_sprite_array == ARRAY_ACTIVE )
+		if( m_sprite_array == ARRAY_MASSIVE || m_sprite_array == ARRAY_PASSIVE || m_sprite_array == ARRAY_ENEMY || m_sprite_array == ARRAY_ACTIVE || m_sprite_array == ARRAY_LAVA )
 		{
-			return 1;
+			return true;
 		}
 
-		return 0;
+		return false;
 	};
 
 	/* set this sprite to destroyed and completely disable it
@@ -508,8 +515,7 @@ public:
 	ArrayType m_sprite_array;
 	// massive collision type
 	MassiveType m_massive_type;
-	// visible name for the user
-	std::string m_name;
+
 	// sprite editor tags
 	std::string m_editor_tags;
 
@@ -559,7 +565,17 @@ public:
 	static const float m_pos_z_front_passive_start;
 	static const float m_pos_z_halfmassive_start;
 
+	// This method should append all necessary components
+	// to m_name and return the result as a new string.
+	// This is how the object is presented to the user
+	// in the editor. By default it just returns `m_name'.
+	virtual std::string Create_Name() const;
+
 protected:
+	// visible main name component for the user.
+	// Additions such as direction are added behind this.
+	std::string m_name;
+
 	// Returns the string to use for the XML `type' property of
 	// the sprite. Override in subclasses and do not call
 	// the parent method. Returning an empty string causes

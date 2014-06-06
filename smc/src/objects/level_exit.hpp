@@ -19,6 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"
 #include "../core/camera.hpp"
+#include "../scripting/objects/specials/mrb_level_exit.hpp"
 
 namespace SMC
 {
@@ -53,6 +54,12 @@ public:
 
 	// Set direction
 	virtual void Set_Direction( const ObjectDirection dir, bool initial = true );
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLevel_Exit, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );
@@ -115,13 +122,11 @@ public:
 
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	virtual std::string Create_Name( void ) const;
 
 protected:
 	// save to stream
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

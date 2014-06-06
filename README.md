@@ -51,7 +51,7 @@ improvement over the overly-complex autotool mess.
 * OpenGL.
 * CEGUI 0.7.9. CEGUI >= 0.8 is not supported yet.
 * GNU Gettext.
-* The FreeImage library.
+* The DevIL library.
 * The LibPNG library.
 * The SDL main library plus SDL_image and SDL_mixer,
   all <2.0, which is not supported yet. (Hey, it’s a large codebase

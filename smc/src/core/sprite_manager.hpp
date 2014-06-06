@@ -40,9 +40,6 @@ public:
 	// Return a sprite copy
 	cSprite *Copy( unsigned int identifier );
 
-	// Set the sprite z position and update the z pos list
-	void Set_Pos_Z( cSprite *sprite );
-
 	/* Move the sprite to the front of the array
 	 * the sprite is then behind other sprites on the screen
 	 * this also sets the z position
@@ -194,6 +191,19 @@ public:
 			return a->m_editor_pos_z < b->m_editor_pos_z;
 		}
 	};
+
+private:
+	/* When multiple sprites of the same massivity are placed
+	 * on the same place (think two hills before one another,
+	 * where one may be higher than the other), they would
+	 * have the same Z coordinate by default, resulting in
+	 * a floating-point precision race which one gets rendered
+	 * in front and which one behind. This method is called from
+	 * Add() and adds a very tiny amount of Z to every new sprite
+	 * of a given massivity so that sprites that are added later
+	 * are ensured to be placed in front of older ones.
+	 */
+	void Ensure_Different_Z( cSprite *sprite );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

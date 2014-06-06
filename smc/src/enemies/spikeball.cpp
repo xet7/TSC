@@ -56,6 +56,7 @@ cSpikeball :: ~cSpikeball( void )
 void cSpikeball :: Init( void )
 {
 	m_type = TYPE_SPIKEBALL;
+	m_name = "Spikeball";
 	m_pos_z = 0.09f;
 	m_gravity_max = 29.0f;
 
@@ -113,7 +114,6 @@ void cSpikeball :: Load_From_Savegame( cSave_Level_Object *save_object )
 	cEnemy::Set_Direction( dir, initial );
 
 	Update_Rotation_Hor( 1 );
-	Create_Name();
 }
 
 void cSpikeball :: Set_Color( const DefaultColor &col )
@@ -159,7 +159,6 @@ void cSpikeball :: Set_Color( const DefaultColor &col )
 	//Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/dead.png" ) );
 
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cSpikeball :: Turn_Around( ObjectDirection col_dir /* = DIR_UNDEFINED */ )
@@ -207,49 +206,6 @@ void cSpikeball :: DownGrade( bool force /* = 0 */ )
 	{
 		Set_Rotation_Z( 180 );
 		Set_Scale_Directions( 1, 1, 1, 1 );
-	}
-}
-
-void cSpikeball :: Update_Dying( void )
-{
-	// stomp death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		// scale out
-		float speed = pFramerate->m_speed_factor * 0.05f;
-
-		Add_Scale_X( -speed * 0.5f );
-		Add_Scale_Y( -speed );
-
-		if( m_scale_y < 0.01f )
-		{
-			Set_Scale( 1.0f );
-			Set_Active( 0 );
-		}
-	}
-	// falling death
-	else
-	{
-		m_counter += pFramerate->m_speed_factor * 0.1f;
-
-		// a little bit upwards first
-		if( m_counter < 0.3f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-			Add_Scale( -pFramerate->m_speed_factor * 0.01f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Scale( 1.0f );
-			Set_Active( 0 );
-		}
 	}
 }
 
@@ -431,8 +387,6 @@ void cSpikeball :: Update( void )
 			Update_Velocity();
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cSpikeball :: Update_Velocity_Max( void )
@@ -447,16 +401,6 @@ void cSpikeball :: Update_Velocity_Max( void )
 		m_velx_max = 3.7f;
 		m_velx_gain = 0.6f;
 	}
-}
-
-bool cSpikeball :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 Col_Valid_Type cSpikeball :: Validate_Collision( cSprite *obj )
@@ -647,14 +591,6 @@ bool cSpikeball :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 	Set_Direction( Get_Direction_Id( item->getText().c_str() ) );
 
 	return 1;
-}
-
-void cSpikeball :: Create_Name( void )
-{
-	m_name = "Spikeball ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
-	m_name += " ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

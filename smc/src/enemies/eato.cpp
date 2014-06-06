@@ -59,6 +59,7 @@ cEato :: ~cEato( void )
 void cEato :: Init( void )
 {
 	m_type = TYPE_EATO;
+	m_name = "Eato";
 	m_camera_range = 1000;
 	m_pos_z = 0.087f;
 	m_can_be_on_ground = 0;
@@ -127,8 +128,6 @@ void cEato :: Set_Image_Dir( fs::path dir )
 	Set_Animation_Image_Range( 0, 3 );
 	Set_Time_All( 180, 1 );
 	Reset_Animation();
-
-	Create_Name();
 }
 
 void cEato :: Set_Direction( const ObjectDirection dir )
@@ -178,8 +177,6 @@ void cEato :: Set_Direction( const ObjectDirection dir )
 	{
 		Set_Rotation_Z( 180.0f, 1 );
 	}
-
-	Create_Name();
 }
 
 void cEato :: DownGrade( bool force /* = 0 */ )
@@ -205,35 +202,10 @@ void cEato :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cEato :: Update_Dying( void )
+void cEato :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor;
-
-	// default death
-	if( !Is_Float_Equal( m_rot_z, 180.0f ) )
-	{
-		Set_Active( 0 );
-	}
-	// falling death
-	else
-	{
-		// a little bit upwards first
-		if( m_counter < 5.0f )
-		{
-			Move( 0.0f, -5.0f );
-		}
-		// if not below the ground : fall
-		else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-		{
-			Move( 0.0f, 20.0f );
-		}
-		// if below disable
-		else
-		{
-			m_rot_z = 0.0f;
-			Set_Active( 0 );
-		}
-	}
+	// Immediately disappears
+	Set_Active(false);
 }
 
 void cEato :: Update( void )
@@ -246,16 +218,6 @@ void cEato :: Update( void )
 	}
 
 	Update_Animation();
-}
-
-bool cEato :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 Col_Valid_Type cEato :: Validate_Collision( cSprite *obj )
@@ -358,15 +320,18 @@ bool cEato :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cEato :: Create_Name( void )
+std::string cEato :: Create_Name( void ) const
 {
-	m_name = "Eato ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
+	std::string name = m_name; // dup
+	name += " ";
+	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{
-		m_name += " " + m_start_image->m_name;
+		name += " " + m_start_image->m_name;
 	}
+
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

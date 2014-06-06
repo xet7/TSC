@@ -27,6 +27,7 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../scripting/events/exit_event.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -95,6 +96,7 @@ void cLevel_Exit :: Init( void )
 {
 	m_sprite_array = ARRAY_ACTIVE;
 	m_type = TYPE_LEVEL_EXIT;
+	m_name = "Level Exit";
 	m_massive_type = MASS_PASSIVE;
 	m_editor_pos_z = 0.111f;
 	m_camera_range = 1000;
@@ -169,39 +171,39 @@ xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
 	}
 
 	cAnimated_Sprite::Set_Direction( dir, initial );
-
-	Create_Name();
 }
 
-void cLevel_Exit :: Create_Name( void )
+std::string cLevel_Exit :: Create_Name( void ) const
 {
-	m_name = _("Level Exit");
+	std::string name = m_name; // dup
 
 	if( m_exit_type == LEVEL_EXIT_BEAM )
 	{
-		m_name += _(" Beam");
+		name += _(" Beam");
 	}
 	else if( m_exit_type == LEVEL_EXIT_WARP )
 	{
-		m_name += _(" Warp");
+		name += _(" Warp");
 
 		if( m_direction == DIR_UP )
 		{
-			m_name += " U";
+			name += " U";
 		}
 		else if( m_direction == DIR_LEFT )
 		{
-			m_name += " L";
+			name += " L";
 		}
 		else if( m_direction == DIR_DOWN )
 		{
-			m_name += " D";
+			name += " D";
 		}
 		else if( m_direction == DIR_RIGHT )
 		{
-			m_name += " R";
+			name += " R";
 		}
 	}
+
+	return name;
 }
 
 void cLevel_Exit :: Draw( cSurface_Request *request /* = NULL */ )
@@ -337,6 +339,10 @@ void cLevel_Exit :: Activate( void )
 
 	pLevel_Player->Clear_Collisions();
 
+	// Fire exit event
+	Scripting::cExit_Event evt;
+	evt.Fire(pActive_Level->m_mruby, this);
+
 	// exit level
 	if( m_dest_level.empty() && m_dest_entry.empty() )
 	{
@@ -352,8 +358,6 @@ void cLevel_Exit :: Activate( void )
 void cLevel_Exit :: Set_Type( Level_Exit_type exit_type )
 {
 	m_exit_type = exit_type;
-
-	Create_Name();
 }
 
 void cLevel_Exit :: Set_Camera_Motion( Camera_movement camera_motion )

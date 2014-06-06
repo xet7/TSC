@@ -40,7 +40,7 @@ cImage_Settings_Data :: cImage_Settings_Data( void )
 	m_rotation_z = 0;
 	m_mipmap = 0;
 
-	m_type = -1;
+	m_massive_type = MASS_PASSIVE;
 	m_ground_type = GROUND_NORMAL;
 	m_obsolete = 0;
 }
@@ -216,9 +216,9 @@ void cImage_Settings_Data :: Apply( cGL_Surface *image ) const
 		string_replace_all( image->m_name, "_", " " );
 	}
 
-	if( m_type > 0 )
+	if( m_massive_type > 0 )
 	{
-		image->m_type = m_type;
+		image->m_massive_type = m_massive_type;
 	}
 
 	image->m_ground_type = m_ground_type;
@@ -244,7 +244,7 @@ void cImage_Settings_Data :: Apply_Base( const cImage_Settings_Data *base_settin
 	m_mipmap = base_settings_data->m_mipmap;
 	m_editor_tags = base_settings_data->m_editor_tags;
 	m_name = base_settings_data->m_name;
-	m_type = base_settings_data->m_type;
+	m_massive_type = base_settings_data->m_massive_type;
 	m_ground_type = base_settings_data->m_ground_type;
 	m_author = base_settings_data->m_author;
 
@@ -539,7 +539,7 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 			return 0;
 		}
 
-		m_settings_temp->m_type = Get_Sprite_Type_Id( parts[1] );
+		m_settings_temp->m_massive_type = Get_Massive_Type_Id( parts[1] );
 	}
 	else if( parts[0].compare( "ground_type" ) == 0 )
 	{

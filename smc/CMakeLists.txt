@@ -61,13 +61,12 @@ if (ENABLE_MRUBY)
 endif()
 
 # Several libraries we depend on
-# FIXME: Detect CEGUI via pkg-config when the NullRenderer dependency is gone
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(CEGUI COMPONENTS OpenGL REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
-find_package(FreeImage REQUIRED)
+find_package(DevIL REQUIRED)
 
 if (WIN32)
   find_package(LibIntl REQUIRED)
@@ -85,15 +84,11 @@ else()
     REQUIRED)
 endif()
 
-# pkg-config is really the better way to check for libs.
-# Unfortunetly, the above libraries don’t support it
-# properly.
 pkg_check_modules(PNG REQUIRED libpng)
 pkg_check_modules(SDL REQUIRED sdl)
 pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
 pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
-#pkg_check_modules(FREEIMAGE REQUIRED freeimage)
 pkg_check_modules(PCRE REQUIRED libpcre)
 pkg_check_modules(LibXmlPP REQUIRED libxml++-2.6)
 
@@ -116,7 +111,7 @@ include_directories(
   ${SDL_IMAGE_INCLUDE_DIRS}
   ${SDL_MIXER_INCLUDE_DIRS}
   ${SDL_TTF_INCLUDE_DIRS}
-  ${FreeImage_INCLUDE_DIRS}
+  ${IL_INCLUDE_DIR}
   ${PCRE_INCLUDE_DIRS}
   ${LibXmlPP_INCLUDE_DIRS}
   )
@@ -159,6 +154,16 @@ configure_file(${SMC_SOURCE_DIR}/config.hpp.in
   ${SMC_BINARY_DIR}/config.hpp)
 include_directories(${SMC_BINARY_DIR})
 
+
+########################################
+# Credits file
+
+set_source_files_properties(${SMC_SOURCE_DIR}/src/credits.cpp
+  PROPERTIES GENERATED true)
+add_custom_command(OUTPUT ${SMC_SOURCE_DIR}/src/credits.cpp
+  COMMAND rake src/credits.cpp
+  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt)
+
 ###############################################
 # Source files
 
@@ -173,7 +178,7 @@ file(GLOB_RECURSE smc_sources
 # Targets
 
 # Now add our build targets and their dependencies.
-add_executable(smc ${smc_sources})
+add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp)
 if (ENABLE_MRUBY)
   add_dependencies(smc mruby)
 endif()
@@ -182,7 +187,8 @@ if (WIN32)
   target_link_libraries(smc
     ${CEGUI_LIBRARIES}
     ${OPENGL_LIBRARIES}
-    ${FreeImage_LIBRARIES}
+    ${IL_LIBRARIES}
+    ${ILU_LIBRARIES}
     ${SDL_STATIC_LIBRARIES}
     ${SDL_IMAGE_STATIC_LIBRARIES}
     ${SDL_MIXER_STATIC_LIBRARIES}
@@ -202,7 +208,8 @@ else()
   target_link_libraries(smc
     ${CEGUI_LIBRARIES}
     ${OPENGL_LIBRARIES}
-    ${FreeImage_LIBRARIES}
+    ${IL_LIBRARIES}
+    ${ILU_LIBRARIES}
     ${SDL_LIBRARIES}
     ${SDL_IMAGE_LIBRARIES}
     ${SDL_MIXER_LIBRARIES}

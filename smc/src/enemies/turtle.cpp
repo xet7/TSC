@@ -60,6 +60,7 @@ cTurtle :: ~cTurtle( void )
 void cTurtle :: Init( void )
 {
 	m_type = TYPE_TURTLE;
+	m_name = "Armadillo";
 	m_pos_z = 0.091f;
 	m_gravity_max = 24.0f;
 
@@ -150,11 +151,6 @@ void cTurtle :: Set_Direction( const ObjectDirection dir, bool new_start_directi
 	{
 		Update_Rotation_Hor( new_start_direction );
 	}
-
-	if( new_start_direction )
-	{
-		Create_Name();
-	}
 }
 
 void cTurtle :: Set_Color( DefaultColor col )
@@ -211,7 +207,6 @@ void cTurtle :: Set_Color( DefaultColor col )
 	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/roll.png" ) );
 
 	Set_Image_Num( 0, 1 );
-	Create_Name();
 }
 
 void cTurtle :: Turn_Around( ObjectDirection col_dir /* = DIR_UNDEFINED */ )
@@ -274,14 +269,12 @@ void cTurtle :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cTurtle :: Update_Dying( void )
+void cTurtle :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor * 0.5f;
-
 	// if not below the ground : fall
 	if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
 	{
-		float speed_y = m_counter;
+		float speed_y = m_dying_counter;
 
 		// first a little bit upwards
 		if( speed_y < 10.0f )
@@ -312,6 +305,11 @@ void cTurtle :: Update_Dying( void )
 		m_state = STA_STAY;
 		m_turtle_state = TURTLE_DEAD;
 	}
+}
+
+void cTurtle :: Update_Instant_Dying()
+{
+	Update_Normal_Dying();
 }
 
 void cTurtle :: Set_Turtle_Moving_State( Turtle_state new_state )
@@ -470,8 +468,6 @@ void cTurtle :: Update( void )
 			}
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cTurtle :: Stand_Up( void )
@@ -587,14 +583,14 @@ void cTurtle :: Update_Velocity_Max( void )
 	}
 }
 
-bool cTurtle :: Is_Update_Valid( void )
+bool cTurtle :: Is_Update_Valid()
 {
 	if( m_dead || m_freeze_counter || m_state == STA_OBJ_LINKED )
 	{
-		return 0;
+		return false;
 	}
 
-	return 1;
+	return true;
 }
 
 Col_Valid_Type cTurtle :: Validate_Collision( cSprite *obj )
@@ -1082,14 +1078,6 @@ bool cTurtle :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 	Set_Direction( Get_Direction_Id( item->getText().c_str() ), 1 );
 
 	return 1;
-}
-
-void cTurtle :: Create_Name( void )
-{
-	m_name = "Turtle ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
-	m_name += " ";
-	m_name += _(Get_Direction_Name( m_start_direction ).c_str());
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

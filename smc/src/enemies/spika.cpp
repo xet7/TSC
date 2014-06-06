@@ -56,6 +56,7 @@ cSpika :: ~cSpika( void )
 void cSpika :: Init( void )
 {
 	m_type = TYPE_SPIKA;
+	m_name = "Spika";
 	m_pos_z = 0.09f;
 	m_gravity_max = 25.0f;
 
@@ -152,9 +153,6 @@ void cSpika :: Set_Color( DefaultColor col )
 	}
 
 	Set_Image_Num( 0, 1 );
-
-	m_name = "Spika ";
-	m_name += _(Get_Color_Name( m_color_type ).c_str());
 }
 
 void cSpika :: DownGrade( bool force /* = 0 */ )
@@ -175,32 +173,6 @@ void cSpika :: DownGrade( bool force /* = 0 */ )
 	else
 	{
 		Set_Rotation_Z( 180.0f );
-	}
-}
-
-void cSpika :: Update_Dying( void )
-{
-	m_counter += pFramerate->m_speed_factor * 0.1f;
-
-	// falling death
-
-	// a little bit upwards first
-	if( m_counter < 0.3f )
-	{
-		cSprite::Move( 0.0f, -5.0f );
-	}
-	// if not below the ground : fall
-	else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
-	{
-		cSprite::Move( 0.0f, 20.0f );
-		Add_Scale( -pFramerate->m_speed_factor * 0.01f );
-	}
-	// if below disable
-	else
-	{
-		m_rot_z = 0.0f;
-		Set_Scale( 1.0f );
-		Set_Active( 0 );
 	}
 }
 
@@ -278,18 +250,6 @@ void cSpika :: Update( void )
 
 		m_walk_count = m_rot_z;
 	}
-
-	Update_Gravity();
-}
-
-bool cSpika :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 Col_Valid_Type cSpika :: Validate_Collision( cSprite *obj )

@@ -18,6 +18,7 @@
 
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"
+#include "../scripting/objects/specials/mrb_enemy_stopper.hpp"
 
 namespace SMC
 {
@@ -38,6 +39,12 @@ public:
 	void Init( void );
 	// copy
 	virtual cEnemyStopper *Copy( void ) const;
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcEnemy_Stopper, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );

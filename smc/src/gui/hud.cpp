@@ -1196,7 +1196,7 @@ void cDebugDisplay :: Draw_Debug_Mode( void )
 			// get object pointer
 			const cSprite *obj = (*itr);
 
-			if( obj->m_type == TYPE_HALFMASSIVE )
+			if( obj->m_massive_type == MASS_HALFMASSIVE )
 			{
 				halfmassive++;
 			}

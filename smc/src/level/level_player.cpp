@@ -192,15 +192,15 @@ bool cLevel_Player :: Set_On_Ground( cSprite *obj, bool set_on_top /* = 1 */ )
 
 void cLevel_Player :: DownGrade( bool force /* = 0 */ )
 {
-	DownGrade_Player( 1, force );
+	DownGrade_Player( true, force );
 }
 
-void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 0 */ )
+void cLevel_Player :: DownGrade_Player( bool delayed /* = true */, bool force /* = false */, bool ignore_invincible /* = false */ )
 {
-	if( m_god_mode || m_invincible )
-	{
+	if ( m_god_mode )
 		return;
-	}
+	if ( m_invincible && !ignore_invincible )
+		return;
 
 	// already dead
 	if( m_maryo_type == MARYO_DEAD )
@@ -214,6 +214,10 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = 1 */, bool force /* = 
 		if( force )
 		{
 			Game_Action_Data_Middle.add( "downgrade_force", "1" );
+			if (ignore_invincible)
+			{
+				Game_Action_Data_Middle.add( "downgrade_ignore_invincible", "1" );
+			}
 		}
 
 		return;
@@ -1562,6 +1566,16 @@ void cLevel_Player :: Update_Item( void )
 						break;
 					}
 				}
+				else if (col->m_obj->m_type == TYPE_SHELL)
+				{
+					cEnemy *enemy = static_cast<cEnemy *>(col->m_obj);
+
+					if( enemy->m_state == STA_STAY )
+					{
+						Get_Item( TYPE_SHELL, 0, enemy );
+						break;
+					}
+				}
 			}
 			// other items here...
 		}
@@ -1597,7 +1611,7 @@ void cLevel_Player :: Release_Item( bool set_position /* = 1 */, bool no_action 
 	}
 
 	// add back to level
-	if( m_active_object->m_type == TYPE_TURTLE )
+	if( m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL)
 	{
 		cTurtle *turtle = static_cast<cTurtle *>(m_active_object);
 		
@@ -1743,7 +1757,7 @@ void cLevel_Player :: Release_Item( bool set_position /* = 1 */, bool no_action 
 		// check if still blocking objects on the final position
 		if( !col_list->empty() && ( col_list->Is_Included( ARRAY_MASSIVE ) || col_list->Is_Included( ARRAY_ACTIVE ) || col_list->Is_Included( ARRAY_ENEMY ) ) )
 		{
-			if( m_active_object->m_type == TYPE_TURTLE )
+			if( m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL )
 			{
 				// shell
 				if( m_active_object->m_state == STA_RUN )
@@ -3249,7 +3263,7 @@ void cLevel_Player :: Get_Item( SpriteType item_type, bool force /* = 0 */, cMov
 		m_invincible_star = speedfactor_fps * 15.0f;
 	}
 	// Turtle Shell
-	else if( item_type == TYPE_TURTLE ) 
+	else if( item_type == TYPE_TURTLE || item_type == TYPE_SHELL ) 
 	{
 		pAudio->Play_Sound( "player/pickup_item.wav" );
 
@@ -3262,7 +3276,7 @@ void cLevel_Player :: Get_Item( SpriteType item_type, bool force /* = 0 */, cMov
 		m_active_object->m_vely = 0.0f;
 		
 		
-		cTurtle *turtle = static_cast<cTurtle *>(m_active_object);
+		cTurtle *turtle = static_cast<cTurtle *>(m_active_object); // shells are turtles by inheritance anyway
 		// clear the standing counter
 		turtle->m_counter = 0.0f;
 		// clear player counter
@@ -4196,8 +4210,8 @@ void cLevel_Player :: Handle_Collision_Enemy( cObjectCollision *collision )
 	{
 		bool hit_enemy = 1;
 
-		// spika and eato ignore top collisions
-		if( ( enemy->m_type == TYPE_SPIKA || enemy->m_type == TYPE_EATO || enemy->m_type == TYPE_THROMP ) && collision->m_direction == DIR_DOWN )
+		// These enemies ignore top collisions
+		if( ( enemy->m_type == TYPE_SPIKA || enemy->m_type == TYPE_EATO || enemy->m_type == TYPE_THROMP || enemy->m_type == TYPE_BEETLE_BARRAGE) && collision->m_direction == DIR_DOWN )
 		{
 			hit_enemy = 0;
 		}
@@ -4350,6 +4364,13 @@ void cLevel_Player :: Handle_Collision_Massive( cObjectCollision *collision )
 	// ignore ball
 	if( col_obj->m_type == TYPE_BALL )
 	{
+		return;
+	}
+
+	// send back if crate
+	if ( col_obj->m_type == TYPE_CRATE )
+	{
+		Send_Collision( collision );
 		return;
 	}
 
@@ -4518,6 +4539,15 @@ void cLevel_Player :: Handle_Collision_Passive( cObjectCollision *collision )
 	Send_Collision( collision );
 }
 
+void cLevel_Player :: Handle_Collision_Lava( cObjectCollision *p_collision )
+{
+	if (p_collision->m_direction == DIR_UNDEFINED)
+		return;
+
+	// Delegate to cLava::Handle_Collision_Player().
+	Send_Collision(p_collision);
+}
+
 void cLevel_Player :: Handle_out_of_Level( ObjectDirection dir )
 {
 	if( dir == DIR_LEFT )
@@ -4556,8 +4586,7 @@ void cLevel_Player :: Handle_out_of_Level( ObjectDirection dir )
 			// falling below ground
 			else
 			{*/
-				m_invincible = 0.0f;
-				DownGrade_Player( 1, 1 );
+				DownGrade_Player( true, true, true );
 			//}
 		}
 	}

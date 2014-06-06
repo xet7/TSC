@@ -59,9 +59,10 @@ cRokko :: ~cRokko( void )
 void cRokko :: Init( void  )
 {
 	m_type = TYPE_ROKKO;
+	m_name = "Rokko";
 	m_massive_type = MASS_PASSIVE;
 	m_pos_z = 0.03f;
-	m_gravity_max = 26.0f;
+	m_gravity_max = 0;
 	m_editor_pos_z = 0.09f;
 	m_can_be_on_ground = 0;
 	m_camera_range = 4000;
@@ -78,6 +79,7 @@ void cRokko :: Init( void  )
 	Set_Max_Distance_Front( 1000 );
 	Set_Max_Distance_Sides( 400 );
 	m_state = STA_STAY;
+	m_manual = false;
 
 	m_smoke_counter = 0;
 
@@ -139,8 +141,6 @@ void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_directio
 	Clear_Images();
 
 	cEnemy::Set_Direction( dir, new_start_direction );
-	m_name = "Rokko ";
-	m_name += _(Get_Direction_Name(m_start_direction).c_str());
 
 	Add_Image( pVideo->Get_Surface( "enemy/rokko/r.png" ) );
 	if( m_direction == DIR_LEFT )
@@ -235,6 +235,7 @@ void cRokko :: DownGrade( bool force /* = 0 */ )
 {
 	Set_Dead( 1 );
 	m_massive_type = MASS_PASSIVE;
+	m_gravity_max = 26.0f;
 	m_vely = 0;
 
 	if( !force )
@@ -251,7 +252,7 @@ void cRokko :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cRokko :: Update_Dying( void )
+void cRokko :: Update_Normal_Dying( void )
 {
 	if( m_vely < m_gravity_max )
 	{
@@ -282,6 +283,11 @@ void cRokko :: Update_Dying( void )
 		Set_Active( 0 );
 		m_velx = 0.0f;
 	}
+}
+
+void cRokko :: Update_Instant_Dying()
+{
+	Update_Normal_Dying();
 }
 
 void cRokko :: Update( void )
@@ -487,16 +493,6 @@ void cRokko :: Generate_Sparks( unsigned int amount /* = 5 */ ) const
 	anim->Set_Fading_Alpha( 0 );
 	anim->Emit();
 	pActive_Animation_Manager->Add( anim );
-}
-
-bool cRokko :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 bool cRokko :: Is_Draw_Valid( void )

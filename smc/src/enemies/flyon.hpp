@@ -65,8 +65,8 @@ public:
 	 * force : usually dies or a complete downgrade
 	*/
 	virtual void DownGrade( bool force = 0 );
-	// dying animation update
-	virtual void Update_Dying( void );
+	// special instant death animation
+	virtual void Update_Normal_Dying( void );
 
 	// set the moving state
 	void Set_Moving_State( Moving_state new_state );
@@ -81,8 +81,6 @@ public:
 	// update destination velocity from the speed
 	void Update_Dest_Vel( void );
 
-	// if update is valid for the current state
-	virtual bool Is_Update_Valid( void );
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
 
@@ -94,6 +92,8 @@ public:
 	virtual Col_Valid_Type Validate_Collision( cSprite *obj );
 	// collision from player
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
+	// flyon does not die in abyss
+	virtual void Handle_out_of_Level( ObjectDirection dir );
 
 	// editor activation
 	virtual void Editor_Activate( void );
@@ -123,14 +123,11 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+	std::string Create_Name( void ) const;
 
 protected:
 	
 	virtual std::string Get_XML_Type_Name();
-
-private:
-	// Create the Name from the current settings
-	void Create_Name( void );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

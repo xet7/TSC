@@ -18,6 +18,7 @@
 #include "../video/animation.hpp"
 #include "../user/savegame.hpp"
 #include "../core/game_core.hpp"
+#include "../core/i18n.hpp"
 #include "../level/level_player.hpp"
 #include "../level/level_manager.hpp"
 #include "../scripting/events/die_event.hpp"
@@ -40,6 +41,8 @@ cEnemy :: cEnemy( cSprite_Manager *sprite_manager )
 	m_can_be_ground = 1;
 	m_dead = 0;
 	m_counter = 0.0f;
+	m_dying_counter = 0.0f;
+	m_color = COL_DEFAULT;
 
 	m_kill_sound = "enemy/furball/die.ogg";
 	m_kill_points = 10;
@@ -165,30 +168,54 @@ void cEnemy :: Set_Dead( bool enable /* = 1 */ )
 
 void cEnemy :: Update( void )
 {
-	cMovingSprite::Update();
+	cAnimated_Sprite::Update();
 
 	// dying animation
 	if( m_dead && m_active )
 	{
 		Update_Dying();
 	}
+}
 
-	// frozen
-	if( m_freeze_counter )
-	{
-		// update gravity
-		if( m_type == TYPE_FURBALL || m_type == TYPE_TURTLE || m_type == TYPE_KRUSH || m_type == TYPE_SPIKA || m_type == TYPE_SPIKEBALL )
-		{
-			Update_Gravity();
+void cEnemy :: Update_Dying()
+{
+	// Increase dying animation counter
+	m_dying_counter += pFramerate->m_speed_factor;
 
-			Col_Move( m_velx, m_vely );
+	// By convention, enemies’ DownGrade(true) implementation
+	// turns them upside down.
+	// FIXME: Use a proper boolean for this.
+	if (Is_Float_Equal(m_rot_z, 180.0f))
+		Update_Instant_Dying();
+	else
+		Update_Normal_Dying();
+}
 
-			if( m_velx )
-			{
-				// slow down
-				m_velx -= (m_velx * 0.06f) * pFramerate->m_speed_factor;
-			}
-		}
+void cEnemy :: Update_Normal_Dying()
+{
+	float speed = pFramerate->m_speed_factor * 0.05f;
+
+	Add_Scale_X( -speed * 0.5f );
+	Add_Scale_Y( -speed );
+
+	if( m_scale_y < 0.01f ) {
+		Set_Scale(1.0f);
+		Set_Active(false);
+	}
+}
+
+void cEnemy :: Update_Instant_Dying()
+{
+	// a little bit upwards first
+	if( m_dying_counter < 5.0f )
+		Move( 0.0f, -5.0f );
+	// if not below the ground : fall
+	else if( m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y )
+		Move( 0.0f, 20.0f );
+	// if below disable
+	else {
+		m_rot_z = 0.0f;
+		Set_Active( false );
 	}
 }
 
@@ -237,31 +264,6 @@ void cEnemy :: Update_Velocity( void )
 		{
 			Add_Velocity_X_Max( m_velx_gain, -m_velx_max );
 			Set_Animation_Speed( m_velx / -m_velx_max );
-		}
-	}
-}
-
-void cEnemy :: Update_Gravity( void )
-{
-	if( !m_ground_object )
-	{
-		if( m_vely < m_gravity_max )
-		{
-			Add_Velocity_Y_Max( 1.5f, m_gravity_max );
-		}
-		// below ground
-		if( m_col_rect.m_y > pActive_Camera->m_limit_rect.m_y )
-		{
-			DownGrade( 1 );
-		}
-	}
-	// has ground object
-	else
-	{
-		// stop falling
-		if( m_vely > 0.0f )
-		{
-			m_vely = 0.0f;
 		}
 	}
 }
@@ -331,8 +333,31 @@ void cEnemy :: Handle_Collision( cObjectCollision *collision )
 	cAnimated_Sprite::Handle_Collision( collision );
 }
 
+void cEnemy :: Handle_Collision_Lava( cObjectCollision *p_collision )
+{
+	if (p_collision->m_direction == DIR_UNDEFINED)
+		return;
+
+	// Delegate to cLava::Handle_Collision_Enemy()
+	Send_Collision(p_collision);
+}
+
+void cEnemy :: Handle_Collision_Massive (cObjectCollision *p_collision )
+{
+	if (p_collision->m_obj->m_type == TYPE_CRATE)
+		Send_Collision(p_collision);
+	else
+		cAnimated_Sprite::Handle_Collision_Massive(p_collision);
+}
+
 void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 {
+	// abyss
+	if ( dir == DIR_BOTTOM )
+	{
+		DownGrade(true);
+	}
+
 	if( dir == DIR_LEFT )
 	{
 		Set_Pos_X( pActive_Camera->m_limit_rect.m_x - m_col_pos.m_x );
@@ -351,6 +376,23 @@ void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 xmlpp::Element* cEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	return cAnimated_Sprite::Save_To_XML_Node(p_element);
+}
+
+std::string cEnemy :: Create_Name() const
+{
+	std::stringstream ss;
+	ss << m_name
+	   << " " << _(Get_Direction_Name(m_start_direction).c_str());
+
+	return ss.str();
+}
+
+bool cEnemy :: Is_Update_Valid()
+{
+	if (m_dead || m_freeze_counter)
+		return false;
+
+	return true;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

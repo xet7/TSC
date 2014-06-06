@@ -16,6 +16,7 @@
 #include "../enemies/eato.hpp"
 #include "../enemies/furball.hpp"
 #include "../enemies/turtle.hpp"
+#include "../enemies/shell.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 #include "../enemies/flyon.hpp"
 #include "../enemies/thromp.hpp"
@@ -26,10 +27,14 @@
 #include "../enemies/static.hpp"
 #include "../enemies/spikeball.hpp"
 #include "../enemies/pip.hpp"
+#include "../enemies/beetle_barrage.hpp"
+#include "../enemies/beetle.hpp"
 #include "../audio/random_sound.hpp"
 #include "../video/animation.hpp"
 #include "../core/game_core.hpp"
 #include "../objects/ball.hpp"
+#include "../objects/lava.hpp"
+#include "../objects/crate.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -291,6 +296,10 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 		return Create_Global_Effects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else if (name == "ball")
 		return Create_Balls_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "lava")
+		return Create_Lavas_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+	else if (name == "crate")
+		return Create_Crates_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else
 		std::cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
 
@@ -362,8 +371,10 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 		attributes.relocate_image( "animation/fire_1/4.png", "animation/particles/fire_4.png" );
 	}
 	// always: fix sprite with undefined massive-type
-	if (attributes.count("type") > 0 && attributes["type"] == "undefined")
+	if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
+		std::cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << std::endl;
 		attributes["type"] = "passive"; // So it doesn’t hinder gameplay
+	}
 
 	cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
 
@@ -376,7 +387,7 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 		cGL_Surface* p_text_image = pFont->Render_Text(pFont->m_font_small, text);
 		p_text_image->m_path = utf8_to_path(text);
 		p_sprite->Set_Image(p_text_image, true, true);
-		p_sprite->Set_Sprite_Type(TYPE_FRONT_PASSIVE); // It shouldn't hinder gameplay
+		p_sprite->Set_Massive_Type(MASS_PASSIVE); // It shouldn't hinder gameplay
 		p_sprite->Set_Active(false); // Only display it in the editor
 	}
 
@@ -747,6 +758,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cFurball(attributes, p_sprite_manager));
 	else if (type == "turtle")
 		result.push_back(new cTurtle(attributes, p_sprite_manager));
+	else if (type == "shell")
+		result.push_back(new cShell(attributes, p_sprite_manager));
 	else if (type == "turtleboss"){
 		// if V.1.5 and lower : max_downgrade_time changed to shell_time
 		if (engine_version < 27 && attributes.exists("max_downgrade_time")) {
@@ -780,6 +793,10 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 		result.push_back(new cSpikeball(attributes, p_sprite_manager));
 	else if (type == "pip")
 		result.push_back(new cPip(attributes, p_sprite_manager));
+	else if (type == "beetle_barrage")
+		result.push_back(new cBeetleBarrage(attributes, p_sprite_manager));
+	else if (type == "beetle")
+		result.push_back(new cBeetle(attributes, p_sprite_manager));
 	else // type == "X"
 		std::cerr << "Warning: Unknown level enemy type: " << type << std::endl;
 
@@ -898,5 +915,19 @@ std::vector<cSprite*> cLevelLoader::Create_Balls_From_XML_Tag(const std::string&
 {
 	std::vector<cSprite*> result;
 	result.push_back(new cBall(attributes, p_sprite_manager));
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Lavas_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+	result.push_back(new cLava(attributes, p_sprite_manager));
+	return result;
+}
+
+std::vector<cSprite*> cLevelLoader::Create_Crates_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+{
+	std::vector<cSprite*> result;
+	result.push_back(new cCrate(attributes, p_sprite_manager));
 	return result;
 }

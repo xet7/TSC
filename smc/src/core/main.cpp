@@ -243,15 +243,10 @@ void Init_Game( void )
 	pSettingsParser = new cImage_Settings_Parser();
 
 	// Init Stage 2 - set preferences and init audio and the video screen
-	debug_print("Preliminary user data directory is '%s'.\n", pResource_Manager->Get_User_Data_Directory().c_str());
 
 	// load user data
-	pPreferences = cPreferences::Load_From_File();
-	// Set user data dir if requested by `game_user_data_dir' preferences option
-	if (!pPreferences->m_force_user_data_dir.empty()) {
-		std::cout << "Forcing user data directory to '" << path_to_utf8(pPreferences->m_force_user_data_dir) << "' as requested by preferences." << std::endl;
-		pResource_Manager->Force_User_Directory(pPreferences->m_force_user_data_dir);
-	}
+	pPreferences = cPreferences::Load_From_File(pResource_Manager->Get_Preferences_File());
+	debug_print("Configuration file is '%s'.\n", path_to_utf8(pPreferences->m_config_filename).c_str());
 
 	// set game language
 	I18N_Set_Language( pPreferences->m_language );

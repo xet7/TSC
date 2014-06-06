@@ -91,7 +91,8 @@ enum DefaultColor
 	COL_GREEN	= 5,
 	COL_BLUE	= 6,
 	COL_BROWN	= 7,
-	COL_GREY	= 8
+	COL_GREY	= 8,
+	COL_VIOLET	= 9
 };
 
 /* *** *** *** *** *** *** *** Game Mode *** *** *** *** *** *** *** *** *** *** */
@@ -181,8 +182,8 @@ enum LevelLandType
 #define USER_SCREENSHOT_DIR "screenshots"
 #define USER_LEVEL_DIR "levels"
 #define USER_WORLD_DIR "worlds"
-#define USER_CAMPAIGN_DIR "campaign"
-#define USER_IMGCACHE_DIR "cache"
+#define USER_CAMPAIGN_DIR "campaigns"
+#define USER_IMGCACHE_DIR "images"
 
 /* *** *** *** *** *** *** *** forward declarations *** *** *** *** *** *** *** *** *** *** */
 
@@ -204,11 +205,6 @@ enum SpriteType
 	TYPE_UNDEFINED = 0,
 	// global
 	TYPE_SPRITE = 1,
-	TYPE_PASSIVE = 44,
-	TYPE_FRONT_PASSIVE = 45,
-	TYPE_MASSIVE = 46,
-	TYPE_HALFMASSIVE = 5,
-	TYPE_CLIMBABLE = 47,
 	TYPE_ENEMY = 2,
 	TYPE_PLAYER = 3,
 	TYPE_ACTIVE_SPRITE = 4,
@@ -226,6 +222,7 @@ enum SpriteType
 	TYPE_SPIN_BOX = 27,
 	TYPE_TEXT_BOX = 59,
 	TYPE_MOVING_PLATFORM = 38,
+	TYPE_CRATE = 71,
 	// enemy
 	TYPE_FURBALL = 10,
 	TYPE_FURBALL_BOSS = 62,
@@ -241,6 +238,9 @@ enum SpriteType
 	TYPE_STATIC_ENEMY = 50,
 	TYPE_SPIKEBALL = 64,
 	TYPE_PIP = 67,
+	TYPE_BEETLE_BARRAGE = 68,
+	TYPE_BEETLE = 69,
+	TYPE_SHELL = 70,
 	// items
 	TYPE_POWERUP = 23,
 	TYPE_MUSHROOM_DEFAULT = 25,
@@ -272,13 +272,16 @@ enum SpriteType
 };
 
 /* *** Massive Types *** */
+// Massive types primaryly define the Z coordinate of a sprite.
+// Collision checking is done with the array types below.
 
 enum MassiveType
 {
 	MASS_PASSIVE = 0,
 	MASS_MASSIVE = 1,
 	MASS_HALFMASSIVE = 2,
-	MASS_CLIMBABLE = 3
+	MASS_CLIMBABLE = 3,
+	MASS_FRONT_PASSIVE = 4
 };
 
 /* *** Ground Types *** */
@@ -294,6 +297,7 @@ enum GroundType
 };
 
 /* *** Array Types *** */
+// Array types define how an object behaves on collisions.
 
 enum ArrayType
 {
@@ -311,7 +315,9 @@ enum ArrayType
 	// animation
 	ARRAY_ANIM = 6,
 	// player
-	ARRAY_PLAYER = 7
+	ARRAY_PLAYER = 7,
+	// lava
+	ARRAY_LAVA = 8
 };
 
 /* *** collision validation types *** */

@@ -57,6 +57,7 @@ cPip::~cPip()
 void cPip::Init()
 {
 	m_type = TYPE_PIP;
+	m_name = "Pip";
 	m_pos_z = 0.093f;
 	m_gravity_max = 13.0f;
 
@@ -127,8 +128,6 @@ void cPip::Set_Direction(const ObjectDirection dir)
 		return;
 
 	cEnemy::Set_Direction(dir, true);
-	m_name = "Pip ";
-	m_name += _(Get_Direction_Name(m_start_direction).c_str());
 	Update_Rotation_Hor(true);
 }
 
@@ -198,35 +197,6 @@ void cPip::DownGrade(bool force /* = false */)
 	}
 }
 
-void cPip::Update_Dying()
-{
-	// stomp death
-	if (!Is_Float_Equal(m_rot_z, 180.0f)) {
-		float speed = pFramerate->m_speed_factor * 0.05f;
-
-		Add_Scale_X(-speed * 0.5f);
-		Add_Scale_Y(-speed);
-
-		if (m_scale_y < 0.01f) {
-			Set_Scale(1.0f);
-			Set_Active(false);
-		}
-	}
-	else { // falling death
-		// A little bit upwards first
-		if (m_counter < 5.0f)
-			Move(0.0f, 5.0f);
-		// if not below the ground: fall
-		else if (m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y)
-			Move(0.0f, 20.0f);
-		// if below disable
-		else {
-			m_rot_z = 0.0f;
-			Set_Active(false);
-		}
-	}
-}
-
 void cPip::Set_Moving_State(Moving_state new_state)
 {
 	if (new_state == m_state)
@@ -263,7 +233,6 @@ void cPip::Update()
 
 	Update_Velocity();
 	Update_Animation();
-	Update_Gravity();
 }
 
 void cPip::Update_Velocity_Max()
@@ -276,14 +245,6 @@ void cPip::Update_Velocity_Max()
 		m_velx_max = 7.0f;
 		m_velx_gain = 0.5f;
 	}
-}
-
-bool cPip::Is_Update_Valid()
-{
-	if (m_dead || m_freeze_counter)
-		return false;
-	else
-		return true;
 }
 
 Col_Valid_Type cPip::Validate_Collision(cSprite* p_obj)

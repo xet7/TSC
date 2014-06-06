@@ -72,6 +72,7 @@ cTurtleBoss :: ~cTurtleBoss( void )
 void cTurtleBoss :: Init( void )
 {
 	m_type = TYPE_TURTLE_BOSS;
+	m_name = "Turtle Boss";
 	m_pos_z = 0.092f;
 	m_gravity_max = 19.0f;
 
@@ -171,11 +172,6 @@ void cTurtleBoss :: Set_Direction( const ObjectDirection dir, bool new_start_dir
 
 	cEnemy::Set_Direction( dir, new_start_direction );
 	Update_Rotation_Hor( new_start_direction );
-
-	if( new_start_direction )
-	{
-		Create_Name();
-	}
 }
 
 void cTurtleBoss :: Set_Color( DefaultColor col )
@@ -312,10 +308,8 @@ void cTurtleBoss :: DownGrade( bool force /* = 0 */ )
 	}
 }
 
-void cTurtleBoss :: Update_Dying( void )
+void cTurtleBoss :: Update_Normal_Dying()
 {
-	m_counter += pFramerate->m_speed_factor * 0.5f;
-
 	if( m_scale_x > 0.1f )
 	{
 		float speed_x = pFramerate->m_speed_factor * 10.0f;
@@ -329,10 +323,10 @@ void cTurtleBoss :: Update_Dying( void )
 		Add_Scale( -pFramerate->m_speed_factor * 0.025f );
 
 		// star animation
-		if( m_counter >= 1.0f )
+		if( m_dying_counter >= 1.0f )
 		{
-			Generate_Stars( static_cast<unsigned int>(m_counter), 0.1f );
-			m_counter -= static_cast<int>(m_counter);
+			Generate_Stars( static_cast<unsigned int>(m_dying_counter), 0.1f );
+			m_dying_counter -= static_cast<int>(m_dying_counter);
 		}
 
 		// finished scale out animation
@@ -347,14 +341,14 @@ void cTurtleBoss :: Update_Dying( void )
 			// set empty image
 			cMovingSprite::Set_Image( NULL, 0, 0 );
 			// reset counter
-			m_counter = 0.0f;
+			m_dying_counter = 0.0f;
 		}
 	}
 	// after scale animation
 	else
 	{
 		// wait some time
-		if( m_counter > 20.0f )
+		if( m_dying_counter > 20.0f )
 		{
 			Set_Active( 0 );
 			m_turtle_state = TURTLEBOSS_DEAD;
@@ -369,6 +363,11 @@ void cTurtleBoss :: Update_Dying( void )
 			Set_Scale_Affects_Rect( 0 );
 		}
 	}
+}
+
+void cTurtleBoss :: Update_Instant_Dying()
+{
+	Update_Normal_Dying();
 }
 
 void cTurtleBoss :: Set_Turtle_Moving_State( TurtleBoss_state new_state )
@@ -613,8 +612,6 @@ void cTurtleBoss :: Update( void )
 			Throw_Fireballs( 6 + ( m_downgrade_count * 2 ) );
 		}
 	}
-
-	Update_Gravity();
 }
 
 void cTurtleBoss :: Stand_Up( void )
@@ -746,16 +743,6 @@ void cTurtleBoss :: Update_Velocity_Max( void )
 			m_velx_gain = 0.0f;
 		}
 	}
-}
-
-bool cTurtleBoss :: Is_Update_Valid( void )
-{
-	if( m_dead || m_freeze_counter )
-	{
-		return 0;
-	}
-
-	return 1;
 }
 
 Col_Valid_Type cTurtleBoss :: Validate_Collision( cSprite *obj )
@@ -1273,10 +1260,11 @@ bool cTurtleBoss :: Editor_Level_Ends_If_Killed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cTurtleBoss :: Create_Name( void )
+std::string cTurtleBoss :: Create_Name( void ) const
 {
-	m_name = _("Turtle Boss");
-	m_name += " " + Get_Direction_Name( m_start_direction );
+	std::string name = m_name; // dup
+	name += " " + Get_Direction_Name( m_start_direction );
+	return name;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

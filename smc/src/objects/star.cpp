@@ -77,6 +77,8 @@ void cjStar :: Activate( void )
 		return;
 	}
 
+	cPowerUp::Activate();
+
 	// animation
 	Generate_Particles( m_pos_x + m_col_rect.m_w * 0.5f, m_pos_y + m_col_rect.m_h * 0.5f, 1, 20 );
 
@@ -237,17 +239,6 @@ void cjStar :: Handle_Collision_Massive( cObjectCollision *collision )
 
 		m_vely = -25.0f;
 	}
-}
-
-void cjStar :: Handle_Collision_Player( cObjectCollision *collision )
-{
-	// invalid
-	if( collision->m_direction == DIR_UNDEFINED )
-	{
-		return;
-	}
-
-	Activate();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

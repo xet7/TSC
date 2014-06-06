@@ -34,6 +34,7 @@ enum Moving_state
 {
 	STA_STAY	= 0,
 	STA_WALK	= 1,
+	// This one is abused special movements
 	STA_RUN		= 2,
 	STA_FALL	= 3,
 	STA_FLY		= 4,
@@ -183,6 +184,8 @@ public:
 
 	// update
 	virtual void Update( void );
+	// Update gravity velocity
+	virtual void Update_Gravity( void );
 	/* draw
 	* if request is NULL automatically creates the request
 	*/

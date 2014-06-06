@@ -49,7 +49,15 @@ public:
 	virtual void Set_Dead( bool enable = 1 );
 
 	// dying animation update
-	virtual void Update_Dying( void ) {};
+	void Update_Dying( void );
+	// Animation update for an enemy killed regularlyly.
+	// Default animation squishes the enemy.
+	virtual void Update_Normal_Dying();
+	// Animation update for an enemy killed with DownGrade(true),
+	// e.g. abyss or lava.
+	// Default animation makes the enemy move upwards a bit, then immediately
+	// fall off the screen quickly.
+	virtual void Update_Instant_Dying();
 	// handle basic enemy updates
 	virtual void Update( void );
 	/* late update
@@ -58,19 +66,23 @@ public:
 	virtual void Update_Late( void );
 	// update current velocity if needed
 	void Update_Velocity( void );
-	// update gravity velocity
-	virtual void Update_Gravity( void );
-	
+
 	// Generates the default Hit Animation Particles
 	void Generate_Hit_Animation( cParticle_Emitter *anim = NULL ) const;
 
 	// default collision handler
 	virtual void Handle_Collision( cObjectCollision *collision );
+	// collision with massive
+	virtual void Handle_Collision_Massive( cObjectCollision *collision);
+	// collision with lava
+	virtual void Handle_Collision_Lava( cObjectCollision *collision );
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
+	virtual std::string Create_Name() const;
 
 	// if dead
 	bool m_dead;
@@ -96,6 +108,14 @@ public:
 	bool m_can_be_hit_from_shell;
 	// if this moves into an abyss
 	//bool m_moves_into_abyss;
+
+protected:
+	// Counter for dying animation
+	float m_dying_counter;
+
+	// Will not execute update if this returns true. By default
+	// this checks for m_dead and m_freeze_counter.
+	virtual bool Is_Update_Valid();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -55,6 +55,7 @@ void cText_Box :: Init( void )
 	m_type = TYPE_TEXT_BOX;
 	box_type = m_type;
 	m_can_be_on_ground = 0;
+	m_name = "Text Box";
 
 	// default is infinite times activate-able
 	Set_Useable_Count( -1, 1 );
@@ -63,8 +64,6 @@ void cText_Box :: Init( void )
 
 	// todo : editor image needed
 	//item_image = NULL;
-
-	Create_Name();
 }
 
 cText_Box *cText_Box :: Copy( void ) const
