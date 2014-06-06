@@ -103,6 +103,21 @@ void cLarry::Update()
 
 	Update_Animation();
 	Update_Velocity();
+
+	// If currently turning ’round
+	if (m_curr_img == 3) {
+		m_anim_counter += pFramerate->m_elapsed_ticks;
+
+		// back to normal animation
+		if (m_anim_counter >= 600) {
+			Reset_Animation();
+			Set_Image_Num(m_anim_img_start);
+			Set_Animation(true);
+			m_velx_max = 1.5f;
+
+			Update_Rotation_Hor();
+		}
+	}
 }
 
 void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
@@ -134,9 +149,12 @@ void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
 void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
 	cEnemy::Turn_Around(col_dir);
-	//Set_Image_Num(3);
-	//Set_Animation(false);
-	//Reset_Animation();
+	Set_Image_Num(3);
+	Set_Animation(false);
+	Reset_Animation();
 
+	// Stop walking while turning (reset to normal in Update())
+	m_velx = 0.0f;
+	m_velx_max = 0.0f;
 	Update_Rotation_Hor();
 }
