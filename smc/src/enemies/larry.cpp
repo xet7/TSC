@@ -1,0 +1,142 @@
+/***************************************************************************
+ * spikeball.cpp
+ *
+ * Copyright © 2014 The SMC Contributors
+ ***************************************************************************/
+/*
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 3 of the License, or
+   (at your option) any later version.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "larry.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../core/game_core.hpp"
+#include "../core/sprite_manager.hpp"
+
+using namespace SMC;
+
+cLarry::cLarry(cSprite_Manager* p_sprite_manager)
+	: cEnemy(p_sprite_manager)
+{
+	Init();
+}
+
+cLarry::cLarry(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
+	: cEnemy(p_sprite_manager)
+{
+	Init();
+
+	Set_Pos(attributes.fetch<float>("posx", 0), attributes.fetch<float>("posy", 0), true);
+	Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
+}
+
+cLarry::~cLarry()
+{
+	//
+}
+
+void cLarry::Init()
+{
+	m_type = TYPE_LARRY;
+	m_name = "Larry";
+	m_pos_z = 0.09f;
+	m_gravity_max = 29.0f;
+	m_state = STA_FALL;
+	m_velx_gain = 0.3f;
+	m_velx_max = 1.5f;
+
+	m_kill_points = 300;
+	m_fire_resistant = false;
+	m_ice_resistance = 1.0f;
+	m_can_be_hit_from_shell = true;
+
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/walk_1.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/walk_2.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/walk_3.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/turn.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/action.png"));
+	Set_Animation(true);
+	Set_Animation_Image_Range(0, 2);
+	Set_Time_All(200, true);
+	Set_Image_Num(0, true);
+
+	Set_Direction(DIR_RIGHT);
+}
+
+cLarry* cLarry::Copy() const
+{
+	cLarry* p_larry = new cLarry(m_sprite_manager);
+	p_larry->Set_Pos(m_start_pos_x, m_start_pos_y);
+	p_larry->Set_Direction(m_start_direction);
+	return p_larry;
+}
+
+std::string cLarry::Get_XML_Type_Name()
+{
+	return "larry";
+}
+
+xmlpp::Element* cLarry::Save_To_XML_Node(xmlpp::Element* p_element)
+{
+	xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
+
+	Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
+
+	return p_node;
+}
+
+void cLarry::DownGrade(bool /* force = false */)
+{
+
+}
+
+void cLarry::Update()
+{
+	cEnemy::Update();
+	if (!m_valid_update || !Is_In_Range())
+		return;
+
+	Update_Animation();
+	Update_Velocity();
+}
+
+void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
+{
+	if (m_start_direction == dir)
+		return;
+
+	cEnemy::Set_Direction(dir, initial);
+	Update_Rotation_Hor(true);
+}
+
+void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
+{
+	cEnemy::Handle_Collision_Massive(p_collision);
+
+	//Send_Collision(p_collision);
+
+	// get colliding object
+	cSprite* p_collidor = m_sprite_manager->Get_Pointer(p_collision->m_number);
+
+	if (p_collidor->m_type == TYPE_BALL) {
+		// TODO
+	}
+
+	if (p_collision->m_direction == DIR_RIGHT || p_collision->m_direction == DIR_LEFT)
+		Turn_Around(p_collision->m_direction);
+}
+
+void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
+{
+	cEnemy::Turn_Around(col_dir);
+	//Set_Image_Num(3);
+	//Set_Animation(false);
+	//Reset_Animation();
+
+	Update_Rotation_Hor();
+}
