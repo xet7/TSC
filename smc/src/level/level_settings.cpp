@@ -192,7 +192,7 @@ void cLevel_Settings :: Init( void )
 
 	//////////////////// Script ////////////////////
 	// script edit field
-	CEGUI::MultiLineEditbox *multieditbox_script = static_cast<CEGUI::MultiLineEditbox *>(wmgr.getWindow( "multieditbox_script" ));
+	CEGUI::MultiLineEditbox *multieditbox_script = static_cast<CEGUI::MultiLineEditbox *>(root->getChild( "multieditbox_script" ));
 	multieditbox_script->setText( reinterpret_cast<const CEGUI::utf8*>(m_level->m_script.c_str()) );
 
 	CEGUI::Font& monofont = CEGUI::FontManager::getSingleton().get("dejavu_sans_mono");
@@ -286,7 +286,7 @@ void cLevel_Settings :: Leave( void )
 
 #ifdef ENABLE_MRUBY
 	// # Script tab
-	std::string new_code = static_cast<CEGUI::MultiLineEditbox*>(wmgr.getWindow("multieditbox_script"))->getText().c_str();
+	std::string new_code = static_cast<CEGUI::MultiLineEditbox*>(root->getChild("multieditbox_script"))->getText().c_str();
 
 	// Only force re-init when new code has been specified
 	if (m_level->m_script != new_code) {
