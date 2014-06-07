@@ -25,6 +25,7 @@
 #include "../errors.hpp"
 
 namespace fs = boost::filesystem;
+namespace errc = boost::system::errc;
 
 namespace SMC
 {
@@ -373,35 +374,90 @@ void cResource_Manager::compat_move_directories()
 
 	std::cout << "Copying levels." << std::endl;
 	fs::path dir = olddir / utf8_to_path("levels");
-	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-		fs::copy_file(iter->path(), Get_User_Level_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	try
+	{
+		fs::directory_iterator iter(dir);
+		for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+			fs::copy_file(iter->path(), Get_User_Level_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	}
+	catch (fs::filesystem_error &error)
+	{
+		if (error.code() != errc::no_such_file_or_directory)
+			throw error;
+		std::cout << "No levels detected." << std::endl;
+	}
 
 	std::cout << "Copying savegames." << std::endl;
 	dir = olddir / utf8_to_path("savegames");
-	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-		fs::copy_file(iter->path(), Get_User_Savegame_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	try
+	{
+		for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+			fs::copy_file(iter->path(), Get_User_Savegame_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	}
+	catch (fs::filesystem_error &error)
+	{
+		if (error.code() != errc::no_such_file_or_directory)
+			throw error;
+		std::cout << "No savegames detected." << std::endl;
+	}
 
 	std::cout << "Copying screenshots." << std::endl;
 	dir = olddir / utf8_to_path("screenshots");
-	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-		fs::copy_file(iter->path(), Get_User_Screenshot_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	try
+	{
+		for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+			fs::copy_file(iter->path(), Get_User_Screenshot_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	}
+	catch (fs::filesystem_error &error)
+	{
+		if (error.code() != errc::no_such_file_or_directory)
+			throw error;
+		std::cout << "No screenshots detected." << std::endl;
+	}
 
 	std::cout << "Copying campaigns." << std::endl;
 	dir = olddir / utf8_to_path("campaign"); // sic! The old version had no trailing s.
-	for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-		fs::copy_file(iter->path(), Get_User_Campaign_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	try
+	{
+		for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
+			fs::copy_file(iter->path(), Get_User_Campaign_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
+	}
+	catch (fs::filesystem_error &error)
+	{
+		if (error.code() != errc::no_such_file_or_directory)
+			throw error;
+		std::cout << "No campaigns detected." << std::endl;
+	}
 
 	std::cout << "Copying worlds." << std::endl;
 	dir = olddir / utf8_to_path("worlds");
-	for (fs::directory_iterator iter(dir); iter != end_iter; iter++) {
-		fs::create_directory(Get_User_World_Directory() / iter->path().filename());
-		fs::copy_file(iter->path() / utf8_to_path("description.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("description.xml"), fs::copy_option::overwrite_if_exists);
-		fs::copy_file(iter->path() / utf8_to_path("layer.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("layer.xml"), fs::copy_option::overwrite_if_exists);
-		fs::copy_file(iter->path() / utf8_to_path("world.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("world.xml"), fs::copy_option::overwrite_if_exists);
+	try
+	{
+		for (fs::directory_iterator iter(dir); iter != end_iter; iter++) {
+			fs::create_directory(Get_User_World_Directory() / iter->path().filename());
+			fs::copy_file(iter->path() / utf8_to_path("description.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("description.xml"), fs::copy_option::overwrite_if_exists);
+			fs::copy_file(iter->path() / utf8_to_path("layer.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("layer.xml"), fs::copy_option::overwrite_if_exists);
+			fs::copy_file(iter->path() / utf8_to_path("world.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("world.xml"), fs::copy_option::overwrite_if_exists);
+		}
+	}
+	catch (fs::filesystem_error &error)
+	{
+		if (error.code() != errc::no_such_file_or_directory)
+			throw error;
+		std::cout << "No worlds detected." << std::endl;
 	}
 
 	std::cout << "Copying config.xml." << std::endl;
-	fs::copy_file(olddir / utf8_to_path("config.xml"), Get_Preferences_File(), fs::copy_option::overwrite_if_exists);
+	try
+	{
+		fs::copy_file(olddir / utf8_to_path("config.xml"), Get_Preferences_File(), fs::copy_option::overwrite_if_exists);
+	}
+	catch (fs::filesystem_error &error)
+	{
+		if (error.code() != errc::no_such_file_or_directory)
+			throw error;
+		std::cout << "No configuration detected." << std::endl;
+	}
 
 	// Leave the cache alone. It will be regenerated anyway.
 

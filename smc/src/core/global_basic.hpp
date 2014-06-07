@@ -70,11 +70,19 @@
 #include <boost/filesystem/convenience.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/chrono.hpp>
+#include <boost/system/error_code.hpp>
 #include "filesystem/boost_relative.hpp"
 
 // libxml++ (with its prerequisite glibmm)
 #include <glibmm.h>
 #include <libxml++/libxml++.h>
+
+// CEGUI
+// Must be included before SDL/X11, which have #defines such as
+// None, True, and False that screw CEGUI declarations.
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
+#include <CEGUI/RendererModules/OpenGL/Texture.h>
 
 // SDL
 #ifdef __unix__
@@ -85,19 +93,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-
-// X.h, included by SDL_syswm.h on *nix, defines None (as 0L),
-// while CEGUI uses None as part of an enumeration. This
-// makes the CEGUI include explode if we leave None defined.
-// We redefine it at the end of this file.
 #include <SDL_syswm.h>
-#ifdef __unix__
-#undef None
-#endif
-
-// CEGUI
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
 
 // Other libs
 #include <png.h>
@@ -136,11 +132,6 @@
 
 // SMC build configuration header
 #include "config.hpp"
-
-// Redefine None to 0L (see note on including SDL_syswm.h above)
-#ifdef __unix__
-#define None 0L
-#endif
 
 using std::vector;
 using std::ifstream;
