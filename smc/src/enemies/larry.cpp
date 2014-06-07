@@ -165,6 +165,11 @@ void cLarry::Update_Normal_Dying()
 	}
 }
 
+void cLarry::Update_Instant_Dying()
+{
+	Update_Normal_Dying();
+}
+
 void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 {
 	if (m_start_direction == dir)
@@ -184,7 +189,11 @@ void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
 	cSprite* p_collidor = m_sprite_manager->Get_Pointer(p_collision->m_number);
 
 	if (p_collidor->m_type == TYPE_BALL) {
-		// TODO
+		cBall* p_ball = static_cast<cBall*>(p_collidor);
+
+		// Immediately explode if hit by a fireball
+		if (p_ball->m_ball_type == FIREBALL_DEFAULT)
+			DownGrade(true);
 	}
 
 	if (p_collision->m_direction == DIR_RIGHT || p_collision->m_direction == DIR_LEFT)
