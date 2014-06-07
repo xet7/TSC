@@ -217,6 +217,19 @@ void cLarry::Handle_Collision_Enemy(cObjectCollision* p_collision)
 		Turn_Around();
 }
 
+void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision)
+{
+	if (ball.m_ball_type != FIREBALL_DEFAULT)
+		return;
+
+	// Do NOT set larry to inactive here! This must be done in Update_Normal_Dying()
+	// in order to ensure he disappears in the smoke of the explosion and not beforehand.
+	Ball_Destroy_Animation(ball);
+	pAudio->Play_Sound(m_kill_sound);
+	DownGrade(true);
+	pLevel_Player->Add_Kill_Multiplier();
+}
+
 void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
 	cEnemy::Turn_Around(col_dir);

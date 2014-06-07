@@ -32,6 +32,7 @@ namespace SMC {
 		virtual void Handle_Collision_Massive(cObjectCollision* p_collision);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
 		virtual void Handle_Collision_Enemy(cObjectCollision* p_collision);
+		virtual void Handle_Ball_Hit(const cBall&, const cObjectCollision* p_collision);
 
 		void Fuse();
 		virtual void DownGrade(bool force = false);
