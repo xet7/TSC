@@ -76,11 +76,12 @@ public:
 	 * with_player : include player
 	*/
 	void Get_Objects_sorted( cSprite_List &new_objects, bool editor_sort = 0, bool with_player = 0 ) const;
-	/* Get objects colliding with the given rectangle
+	/* Get objects colliding with the given rectangle/circle
 	 * with_player : include player in check
 	 * exclude_sprite : exclude the given sprite from check
 	*/
 	void Get_Colliding_Objects( cSprite_List &col_objects, const GL_rect &rect, bool with_player = 0, const cSprite *exclude_sprite = NULL ) const;
+	void Get_Colliding_Objects( cSprite_List &col_objects, const GL_Circle &circle, bool with_player = 0, const cSprite *exclude_sprite = NULL ) const;
 
 	// Update items drawing validation
 	inline void Update_Items_Valid_Draw( void )

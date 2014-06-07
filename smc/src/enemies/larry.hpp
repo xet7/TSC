@@ -44,6 +44,9 @@ namespace SMC {
 
 	private:
 		void Init();
+		void Explode();
+
+		float m_explosion_counter;
 	};
 
 }

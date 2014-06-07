@@ -18,6 +18,7 @@
 #include "../core/game_core.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../level/level_player.hpp"
+#include "../level/level.hpp"
 
 using namespace SMC;
 
@@ -52,6 +53,7 @@ void cLarry::Init()
 	m_fire_resistant = false;
 	m_ice_resistance = 1.0f;
 	m_can_be_hit_from_shell = true;
+	m_explosion_counter = 0.0f;
 
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_1.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_2.png"));
@@ -89,9 +91,17 @@ xmlpp::Element* cLarry::Save_To_XML_Node(xmlpp::Element* p_element)
 	return p_node;
 }
 
-void cLarry::DownGrade(bool /* force = false */)
+void cLarry::DownGrade(bool force /* = false */)
 {
-	if (m_state == STA_WALK)
+	if (m_state == STA_RUN || force) {
+		Set_Dead(true);
+		m_massive_type = MASS_PASSIVE;
+		m_velx = 0.0f;
+		m_vely = 0.0f;
+
+		// Explosion
+	}
+	else if (m_state == STA_WALK)
 		Fuse();
 }
 
@@ -103,6 +113,13 @@ void cLarry::Update()
 
 	Update_Animation();
 	Update_Velocity();
+
+	if (m_state == STA_RUN) {
+		m_explosion_counter += pFramerate->m_speed_factor;
+
+		if (m_explosion_counter > 200.0f)
+			Explode();
+	}
 
 	// If currently turning ’round
 	if (m_curr_img == 3 || m_curr_img == 7) {
@@ -237,4 +254,29 @@ void cLarry::Fuse()
 	m_velx = 0.0f;
 	m_velx_max = 0.0f;
 	Update_Rotation_Hor();
+}
+
+void cLarry::Explode()
+{
+	GL_Circle explosion_radius(m_pos_x + m_rect.m_w / 2.0,
+							   m_pos_y + m_rect.m_h / 2.0,
+							   200.0f);
+
+	// Find all objects we can destroy (note that if another
+	// Larry is inside this radius, he will explode likewise
+	// and check himself for further destructions in his radius)
+	cSprite_List objects;
+	pActive_Level->m_sprite_manager->Get_Colliding_Objects(objects, explosion_radius, true, this);
+
+	// DESTROY ’EM ALL. No normal downgrades, only forced ones.
+	cSprite_List::iterator iter;
+	for(iter=objects.begin(); iter != objects.end(); iter++) {
+		cSprite* p_obj = *iter;
+		cEnemy* p_enemy = NULL;
+
+		if (p_obj->m_type == TYPE_PLAYER) // This means p_obj == pLevel_Player
+			pLevel_Player->DownGrade_Player(true, true);
+		else if ((p_enemy = dynamic_cast<cEnemy*>(p_obj)))
+			p_enemy->DownGrade(true);
+	}
 }

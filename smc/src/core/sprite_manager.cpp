@@ -409,6 +409,38 @@ void cSprite_Manager :: Get_Colliding_Objects( cSprite_List &col_objects, const 
 	}
 }
 
+void cSprite_Manager :: Get_Colliding_Objects( cSprite_List &col_objects, const GL_Circle &circle, bool with_player /* = 0 */, const cSprite *exclude_sprite /* = NULL */ ) const
+{
+	// Check objects
+	for( cSprite_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr )
+	{
+		// get object pointer
+		cSprite *obj = (*itr);
+
+		// if destroyed object
+		if( obj == exclude_sprite || obj->m_auto_destroy )
+		{
+			continue;
+		}
+
+		// if circles don't touch
+		if( !circle.Intersects( obj->m_col_rect ) )
+		{
+			continue;
+		}
+
+		col_objects.push_back( obj );
+	}
+
+	if( with_player && pActive_Player != exclude_sprite )
+	{
+		if( circle.Intersects( pActive_Player->m_col_rect ) )
+		{
+			col_objects.push_back( pActive_Player );
+		}
+	}
+}
+
 void cSprite_Manager :: Handle_Collision_Items( void )
 {
 	for( cSprite_List::iterator itr = objects.begin(); itr != objects.end(); ++itr )
