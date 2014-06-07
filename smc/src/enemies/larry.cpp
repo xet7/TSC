@@ -159,8 +159,14 @@ void cLarry::Update()
 
 void cLarry::Update_Normal_Dying()
 {
+	// Hide larry behind the explosion clouds
 	if (m_dying_counter > 12.0f) {
-		Set_Active(false); // Hide behind the explosion clouds
+		m_valid_draw = false;
+	}
+	// After a little more time, kill everything in range and completely
+	// remove larry from the game.
+	if (m_dying_counter > 24.0f) {
+		Set_Active(false);
 		Kill_Objects_in_Explosion_Range();
 	}
 }
