@@ -22,6 +22,9 @@
 #include "../level/level_player.hpp"
 #include "../level/level_manager.hpp"
 #include "../scripting/events/die_event.hpp"
+#include "../gui/hud.hpp"
+#include "../core/sprite_manager.hpp"
+#include "../objects/goldpiece.hpp"
 
 namespace SMC
 {
@@ -373,6 +376,34 @@ void cEnemy :: Handle_out_of_Level( ObjectDirection dir )
 	}
 }
 
+// Note that, depending on the ball type, this hook is only called
+// if the enemy is vulnerable to the given type of ball (m_fire_reistant
+// and m_ice_resistance).
+void cEnemy :: Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision)
+{
+	Ball_Destroy_Animation(ball);
+
+	// play enemy kill sound
+	pAudio->Play_Sound( m_kill_sound );
+
+	if( ball.m_ball_type == FIREBALL_DEFAULT )
+	{
+		// get points
+		pHud_Points->Add_Points( m_kill_points, ball.m_pos_x, ball.m_pos_y, "", static_cast<Uint8>(255), 1 );
+
+		// Generate goldpiece
+		Ball_Generate_Goldpiece(p_collision);
+
+		Set_Active( false );
+		DownGrade( true );
+		pLevel_Player->Add_Kill_Multiplier();
+	}
+	else if( ball.m_ball_type == ICEBALL_DEFAULT )
+	{
+		Freeze();
+	}
+}
+
 xmlpp::Element* cEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	return cAnimated_Sprite::Save_To_XML_Node(p_element);
@@ -393,6 +424,54 @@ bool cEnemy :: Is_Update_Valid()
 		return false;
 
 	return true;
+}
+
+void cEnemy :: Ball_Destroy_Animation(const cBall& ball)
+{
+	// animation
+	cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
+	anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+	anim->Set_Time_to_Live( 0.2f, 0.4f );
+	anim->Set_Fading_Alpha( 1 );
+	anim->Set_Fading_Size( 1 );
+	anim->Set_Speed( 0.5f, 2.2f );
+	anim->Set_Blending( BLEND_DRIVE );
+
+	// enemy rect particle animation
+	for( unsigned int w = 0; w < m_col_rect.m_w; w += 15 )
+	{
+		for( unsigned int h = 0; h < m_col_rect.m_h; h += 15 )
+		{
+			anim->Set_Pos( m_pos_x + w, m_pos_y + h );
+
+			Color anim_color, anim_color_rand;
+			if( ball.m_ball_type == FIREBALL_DEFAULT )
+			{
+				anim_color = Color( static_cast<Uint8>(250), 170, 150 );
+				anim_color_rand = Color( static_cast<Uint8>( rand() % 5 ), rand() % 85, rand() % 25, 0 );
+			}
+			else
+			{
+				anim_color = Color( static_cast<Uint8>(150), 150, 240 );
+				anim_color_rand = Color( static_cast<Uint8>( rand() % 80 ), rand() % 80, rand() % 10, 0 );
+			}
+			anim->Set_Color( anim_color, anim_color_rand );
+			anim->Emit();
+		}
+	}
+	
+	pActive_Animation_Manager->Add( anim );
+}
+
+void cEnemy :: Ball_Generate_Goldpiece(const cObjectCollision* p_collision)
+{
+		// create goldpiece
+		cMovingSprite *goldpiece = new cFGoldpiece( m_sprite_manager, p_collision->m_direction );
+		goldpiece->Set_Spawned( 1 );
+		// set optimal position
+		goldpiece->Set_Pos( m_rect.m_x + ( ( m_rect.m_w / 2 ) - ( goldpiece->m_rect.m_w / 2 ) ), m_rect.m_y + ( ( m_rect.m_h / 2 ) - ( goldpiece->m_rect.m_h / 2 ) ), 1 );
+		// add goldpiece
+		m_sprite_manager->Add( goldpiece );
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -20,6 +20,7 @@
 #include "../core/framerate.hpp"
 #include "../audio/audio.hpp"
 #include "../scripting/objects/enemies/mrb_enemy.hpp"
+#include "../objects/ball.hpp"
 
 namespace SMC
 {
@@ -78,6 +79,8 @@ public:
 	virtual void Handle_Collision_Lava( cObjectCollision *collision );
 	// handle moved out of Level event
 	virtual void Handle_out_of_Level( ObjectDirection dir );
+	// Handle hit by ball
+	virtual void Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision);
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
@@ -116,6 +119,9 @@ protected:
 	// Will not execute update if this returns true. By default
 	// this checks for m_dead and m_freeze_counter.
 	virtual bool Is_Update_Valid();
+
+	void Ball_Destroy_Animation(const cBall& ball);
+	void Ball_Generate_Goldpiece(const cObjectCollision* p_collision);
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

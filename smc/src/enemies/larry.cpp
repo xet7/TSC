@@ -165,11 +165,6 @@ void cLarry::Update_Normal_Dying()
 	}
 }
 
-void cLarry::Update_Instant_Dying()
-{
-	Update_Normal_Dying();
-}
-
 void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 {
 	if (m_start_direction == dir)
