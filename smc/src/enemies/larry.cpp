@@ -46,25 +46,23 @@ void cLarry::Init()
 	m_name = "Larry";
 	m_pos_z = 0.09f;
 	m_gravity_max = 29.0f;
-	m_state = STA_FALL;
-	m_velx_gain = 0.3f;
-	m_velx_max = 1.5f;
 
 	m_kill_points = 300;
 	m_fire_resistant = false;
 	m_ice_resistance = 1.0f;
 	m_can_be_hit_from_shell = true;
 
-	Add_Image(pVideo->Get_Surface("enemy/larry/grey/walk_1.png"));
-	Add_Image(pVideo->Get_Surface("enemy/larry/grey/walk_2.png"));
-	Add_Image(pVideo->Get_Surface("enemy/larry/grey/walk_3.png"));
-	Add_Image(pVideo->Get_Surface("enemy/larry/grey/turn.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_1.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_2.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_3.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_turn.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_1.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_2.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_3.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_turn.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/action.png"));
-	Set_Animation(true);
-	Set_Animation_Image_Range(0, 2);
-	Set_Time_All(200, true);
-	Set_Image_Num(0, true);
 
+	Set_Moving_State(STA_WALK);
 	Set_Direction(DIR_RIGHT);
 }
 
@@ -157,4 +155,28 @@ void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 	m_velx = 0.0f;
 	m_velx_max = 0.0f;
 	Update_Rotation_Hor();
+}
+
+void cLarry::Set_Moving_State(Moving_state new_state)
+{
+	if (new_state == m_state)
+		return;
+
+	m_state = new_state;
+
+	if (m_state == STA_WALK) {
+		Set_Animation(true);
+		Set_Animation_Image_Range(0, 2);
+		Set_Time_All(200, true);
+		Set_Image_Num(0, true);
+
+		m_velx_gain = 0.3f;
+		m_velx_max = 1.5f;
+	}
+	else if (m_state == STA_RUN) {
+		// TODO
+	}
+
+	Reset_Animation();
+	Update_Rotation_Hor(); // In case of change in turning animation
 }

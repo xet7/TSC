@@ -33,6 +33,7 @@ namespace SMC {
 		virtual void DownGrade(bool force = false);
 		virtual void Set_Direction(const ObjectDirection dir, bool initial = true);
 		virtual void Turn_Around(ObjectDirection col_dir = DIR_UNDEFINED);
+		virtual void Set_Moving_State(Moving_state new_state);
 
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
