@@ -28,8 +28,10 @@ namespace SMC {
 
 		virtual cLarry* Copy() const;
 		virtual void Update();
+		virtual void Update_Normal_Dying();
 		virtual void Handle_Collision_Massive(cObjectCollision* p_collision);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
+		virtual void Handle_Collision_Enemy(cObjectCollision* p_collision);
 
 		void Fuse();
 		virtual void DownGrade(bool force = false);
@@ -44,7 +46,8 @@ namespace SMC {
 
 	private:
 		void Init();
-		void Explode();
+		void Kill_Objects_in_Explosion_Range();
+		void Explosion_Animation();
 
 		float m_explosion_counter;
 	};

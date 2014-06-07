@@ -19,6 +19,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../level/level_player.hpp"
 #include "../level/level.hpp"
+#include "../video/animation.hpp"
 
 using namespace SMC;
 
@@ -99,7 +100,7 @@ void cLarry::DownGrade(bool force /* = false */)
 		m_velx = 0.0f;
 		m_vely = 0.0f;
 
-		// Explosion
+		Explosion_Animation();
 	}
 	else if (m_state == STA_WALK)
 		Fuse();
@@ -118,7 +119,7 @@ void cLarry::Update()
 		m_explosion_counter += pFramerate->m_speed_factor;
 
 		if (m_explosion_counter > 200.0f)
-			Explode();
+			DownGrade(true);
 	}
 
 	// If currently turning ’round
@@ -153,6 +154,14 @@ void cLarry::Update()
 
 			Update_Rotation_Hor();
 		}
+	}
+}
+
+void cLarry::Update_Normal_Dying()
+{
+	if (m_dying_counter > 6.0f) {
+		Set_Active(false); // Hide behind the explosion clouds
+		Kill_Objects_in_Explosion_Range();
 	}
 }
 
@@ -194,6 +203,12 @@ void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
 	else
 		pLevel_Player->DownGrade_Player();
 
+	if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
+		Turn_Around();
+}
+
+void cLarry::Handle_Collision_Enemy(cObjectCollision* p_collision)
+{
 	if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
 		Turn_Around();
 }
@@ -256,7 +271,7 @@ void cLarry::Fuse()
 	Update_Rotation_Hor();
 }
 
-void cLarry::Explode()
+void cLarry::Kill_Objects_in_Explosion_Range()
 {
 	GL_Circle explosion_radius(m_pos_x + m_rect.m_w / 2.0,
 							   m_pos_y + m_rect.m_h / 2.0,
@@ -279,4 +294,37 @@ void cLarry::Explode()
 		else if ((p_enemy = dynamic_cast<cEnemy*>(p_obj)))
 			p_enemy->DownGrade(true);
 	}
+}
+
+void cLarry::Explosion_Animation()
+{
+	cParticle_Emitter* p_em = new cParticle_Emitter(m_sprite_manager);
+	p_em->Set_Emitter_Rect(m_col_rect);
+	p_em->Set_Quota(10);
+	p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.01f);
+	p_em->Set_Image(pVideo->Get_Surface("animation/particles/smoke.png"));
+	p_em->Set_Time_to_Live(3.5f);
+	p_em->Set_Scale(1.5f);
+	p_em->Set_Emitter_Time_to_Live(2.0f);
+	pActive_Animation_Manager->Add(p_em);
+
+	p_em = new cParticle_Emitter(m_sprite_manager);
+	p_em->Set_Emitter_Rect(m_col_rect);
+	p_em->Set_Quota(5);
+	p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.01f);
+	p_em->Set_Image(pVideo->Get_Surface("animation/particles/smoke_grey_big.png"));
+	p_em->Set_Time_to_Live(5.0f);
+	p_em->Set_Scale(1.5f);
+	p_em->Set_Emitter_Time_to_Live(2.0f);
+	pActive_Animation_Manager->Add(p_em);
+
+	p_em = new cParticle_Emitter(m_sprite_manager);
+	p_em->Set_Emitter_Rect(m_col_rect);
+	p_em->Set_Quota(5);
+	p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.02f);
+	p_em->Set_Image(pVideo->Get_Surface("animation/particles/cloud.png"));
+	p_em->Set_Time_to_Live(7.0f);
+	p_em->Set_Scale(1.0f);
+	p_em->Set_Emitter_Time_to_Live(2.0f);
+	pActive_Animation_Manager->Add(p_em);
 }
