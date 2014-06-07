@@ -29,7 +29,9 @@ namespace SMC {
 		virtual cLarry* Copy() const;
 		virtual void Update();
 		virtual void Handle_Collision_Massive(cObjectCollision* p_collision);
+		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
 
+		void Fuse();
 		virtual void DownGrade(bool force = false);
 		virtual void Set_Direction(const ObjectDirection dir, bool initial = true);
 		virtual void Turn_Around(ObjectDirection col_dir = DIR_UNDEFINED);

@@ -17,6 +17,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
 #include "../core/sprite_manager.hpp"
+#include "../level/level_player.hpp"
 
 using namespace SMC;
 
@@ -90,7 +91,8 @@ xmlpp::Element* cLarry::Save_To_XML_Node(xmlpp::Element* p_element)
 
 void cLarry::DownGrade(bool /* force = false */)
 {
-
+	if (m_state == STA_WALK)
+		Fuse();
 }
 
 void cLarry::Update()
@@ -103,7 +105,26 @@ void cLarry::Update()
 	Update_Velocity();
 
 	// If currently turning ’round
-	if (m_curr_img == 3) {
+	if (m_curr_img == 3 || m_curr_img == 7) {
+		m_anim_counter += pFramerate->m_elapsed_ticks;
+
+		if ((m_state == STA_WALK && m_anim_counter >= 600) || /* normal walk */
+			(m_state == STA_RUN && m_anim_counter >= 100)) { /* fusing */
+			Reset_Animation();
+			Set_Image_Num(m_anim_img_start);
+			Set_Animation(true);
+
+			if (m_state == STA_WALK)
+				m_velx_max = 1.5f;
+			else if (m_state == STA_RUN)
+				m_velx_max = 3.0f;
+			else
+				throw(SMCError("Invalid larry walking state!"));
+
+			Update_Rotation_Hor();
+		}
+	}
+	else if (m_curr_img == 8) { // if currently activating
 		m_anim_counter += pFramerate->m_elapsed_ticks;
 
 		// back to normal animation
@@ -111,7 +132,7 @@ void cLarry::Update()
 			Reset_Animation();
 			Set_Image_Num(m_anim_img_start);
 			Set_Animation(true);
-			m_velx_max = 1.5f;
+			m_velx_max = 3.0f;
 
 			Update_Rotation_Hor();
 		}
@@ -144,10 +165,28 @@ void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
 		Turn_Around(p_collision->m_direction);
 }
 
+void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
+{
+	if (p_collision->m_direction == DIR_UNDEFINED)
+		return;
+
+	if (p_collision->m_direction == DIR_TOP)
+		DownGrade();
+	else
+		pLevel_Player->DownGrade_Player();
+
+	if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
+		Turn_Around();
+}
+
 void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
 	cEnemy::Turn_Around(col_dir);
-	Set_Image_Num(3);
+
+	if (m_state == STA_WALK)
+		Set_Image_Num(3);
+	else
+		Set_Image_Num(7);
 	Set_Animation(false);
 	Reset_Animation();
 
@@ -174,9 +213,26 @@ void cLarry::Set_Moving_State(Moving_state new_state)
 		m_velx_max = 1.5f;
 	}
 	else if (m_state == STA_RUN) {
-		// TODO
+		Set_Animation(true);
+		Set_Animation_Image_Range(4, 6);
+		Set_Time_All(100, true);
+		Set_Image_Num(4);
+		Reset_Animation();
 	}
 
 	Reset_Animation();
 	Update_Rotation_Hor(); // In case of change in turning animation
+}
+
+void cLarry::Fuse()
+{
+	Set_Moving_State(STA_RUN);
+
+	// Stop walking for a moment (reset to normal in Update())
+	Set_Animation(false);
+	Set_Image_Num(8); // Activation image
+	Reset_Animation();
+	m_velx = 0.0f;
+	m_velx_max = 0.0f;
+	Update_Rotation_Hor();
 }
