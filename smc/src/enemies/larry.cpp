@@ -55,6 +55,7 @@ void cLarry::Init()
 	m_ice_resistance = 1.0f;
 	m_can_be_hit_from_shell = true;
 	m_explosion_counter = 0.0f;
+	m_kill_sound = "ambient/thunder_1.ogg";
 
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_1.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_2.png"));
@@ -100,6 +101,7 @@ void cLarry::DownGrade(bool force /* = false */)
 		m_velx = 0.0f;
 		m_vely = 0.0f;
 
+		pAudio->Play_Sound(m_kill_sound);
 		Explosion_Animation();
 	}
 	else if (m_state == STA_WALK)
@@ -231,7 +233,6 @@ void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collis
 	// Do NOT set larry to inactive here! This must be done in Update_Normal_Dying()
 	// in order to ensure he disappears in the smoke of the explosion and not beforehand.
 	Ball_Destroy_Animation(ball);
-	pAudio->Play_Sound(m_kill_sound);
 	DownGrade(true);
 	pLevel_Player->Add_Kill_Multiplier();
 }
