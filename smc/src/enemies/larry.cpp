@@ -159,7 +159,7 @@ void cLarry::Update()
 
 void cLarry::Update_Normal_Dying()
 {
-	if (m_dying_counter > 6.0f) {
+	if (m_dying_counter > 12.0f) {
 		Set_Active(false); // Hide behind the explosion clouds
 		Kill_Objects_in_Explosion_Range();
 	}
