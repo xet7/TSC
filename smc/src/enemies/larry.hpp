@@ -16,6 +16,7 @@
 #ifndef SMC_LARRY_HPP
 #define SMC_LARRY_HPP
 #include "enemy.hpp"
+#include "../scripting/objects/enemies/mrb_larry.hpp"
 
 namespace SMC {
 
@@ -41,6 +42,12 @@ namespace SMC {
 		virtual void Set_Moving_State(Moving_state new_state);
 
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcLarry, &Scripting::rtSMC_Scriptable, this));
+	}
 
 	protected:
 		virtual std::string Get_XML_Type_Name();
