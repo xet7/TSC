@@ -56,7 +56,6 @@ endmacro()
 # CEGUI consists of a wealth of libraries.
 find_cegui_library(Base)
 #find_cegui_library(FalagardWRBase) # TODO: Removed in 0.8.0 ?
-find_cegui_library(FreeImageImageCodec)
 find_cegui_library(TinyXMLParser)
 
 ########################################
@@ -79,7 +78,6 @@ set(CEGUI_LIBRARIES
   ${CEGUI_RENDERER_LIBRARIES}
   ${CEGUI_Base_LIBRARY}
   ${CEGUI_FalagardWRBase_LIBRARY}
-  ${CEGUI_FreeImageImageCodec_LIBRARY}
   ${CEGUI_TinyXMLParser_LIBRARY}
  )
 
@@ -107,7 +105,6 @@ find_package_handle_standard_args(CEGUI
 mark_as_advanced(CEGUI_INCLUDE_DIR
   CEGUI_BASE_LIBRARY
   CEGUI_FALAGARD_LIBRARY
-  CEGUI_FREEIMAGE_CODEC_LIBRARY
   CEGUI_TINYXML_PARSER_LIBRARY
   CEGUI_RENDERER_LIBRARIES
   CEGUI_LIBRARIES)
