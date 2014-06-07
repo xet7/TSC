@@ -4,7 +4,13 @@ using namespace SMC;
 
 SMCError::SMCError()
 {
-	//
+	m_smc_errmsg = "Unknown SMC exception.";
+}
+
+
+SMCError::SMCError(std::string message)
+{
+	m_smc_errmsg = message;
 }
 
 SMCError::~SMCError() throw()
@@ -14,22 +20,18 @@ SMCError::~SMCError() throw()
 
 const char* SMCError::what() const throw()
 {
-	return "Unknown SMC exception.\n";
+	return m_smc_errmsg.c_str();
 }
 
 ConfigurationError::ConfigurationError(std::string msg)
+	: SMCError(msg)
 {
-	m_message = msg;
+	//
 }
 
 ConfigurationError::~ConfigurationError() throw()
 {
 	//
-}
-
-const char* ConfigurationError::what() const throw()
-{
-	return m_message.c_str();
 }
 
 XmlKeyDoesNotExist::XmlKeyDoesNotExist(std::string key)
@@ -54,8 +56,8 @@ const char* XmlKeyDoesNotExist::what() const throw()
 }
 
 NotImplementedError::NotImplementedError(std::string message)
+	: SMCError(message)
 {
-	m_message = message;
 }
 
 NotImplementedError::~NotImplementedError() throw()
@@ -63,24 +65,15 @@ NotImplementedError::~NotImplementedError() throw()
 	//
 }
 
-const char* NotImplementedError::what() const throw()
-{
-	return m_message.c_str();
-}
-
 InvalidLevelError::InvalidLevelError(std::string message)
+	: SMCError(message)
 {
-	m_message = message;
+	//
 }
 
 InvalidLevelError::~InvalidLevelError() throw()
 {
 	//
-}
-
-const char* InvalidLevelError::what() const throw()
-{
-	return m_message.c_str();
 }
 
 RestartedXmlParserError::RestartedXmlParserError()
@@ -116,18 +109,14 @@ const char* InvalidMovingStateError::what() const throw()
 }
 
 EditorError::EditorError(std::string msg)
+	: SMCError(msg)
 {
-	m_msg = msg;
+	//
 }
 
 EditorError::~EditorError() throw()
 {
 	//
-}
-
-const char* EditorError::what() const throw()
-{
-	return m_msg.c_str();
 }
 
 EditorSpriteCopyFailedError::EditorSpriteCopyFailedError(cSprite* p_sprite)
