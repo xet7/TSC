@@ -170,8 +170,10 @@ void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
 	if (p_collision->m_direction == DIR_UNDEFINED)
 		return;
 
-	if (p_collision->m_direction == DIR_TOP)
+	if (p_collision->m_direction == DIR_TOP) {
 		DownGrade();
+		pLevel_Player->Action_Jump(true);
+	}
 	else
 		pLevel_Player->DownGrade_Player();
 
