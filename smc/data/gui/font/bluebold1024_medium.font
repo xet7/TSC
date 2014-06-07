@@ -1,2 +1,2 @@
 <?xml version="1.0" ?>
-<Font Name="bluebold_medium" Filename="default_bold.ttf" Type="FreeType" Size="13" NativeHorzRes="1024" NativeVertRes="768" AutoScaled="true"/>
+<Font version="3" name="bluebold_medium" filename="default_bold.ttf" type="FreeType" size="13" nativehorzres="1024" nativevertres="768" autoscaled="true" />
