@@ -41,6 +41,7 @@ namespace SMC {
 		virtual void Turn_Around(ObjectDirection col_dir = DIR_UNDEFINED);
 		virtual void Set_Moving_State(Moving_state new_state);
 
+		virtual void Editor_Activate();
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 	// Create the MRuby object for this
@@ -56,6 +57,8 @@ namespace SMC {
 		void Init();
 		void Kill_Objects_in_Explosion_Range();
 		void Explosion_Animation();
+
+		bool On_Editor_Direction_Select(const CEGUI::EventArgs& event);
 
 		float m_explosion_counter;
 	};

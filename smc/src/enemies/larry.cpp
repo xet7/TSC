@@ -17,6 +17,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
 #include "../core/sprite_manager.hpp"
+#include "../core/i18n.hpp"
 #include "../level/level_player.hpp"
 #include "../level/level.hpp"
 #include "../video/animation.hpp"
@@ -351,4 +352,30 @@ void cLarry::Explosion_Animation()
 	p_em->Set_Scale(1.0f);
 	p_em->Set_Emitter_Time_to_Live(2.0f);
 	pActive_Animation_Manager->Add(p_em);
+}
+
+void cLarry::Editor_Activate()
+{
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+	// direction
+	CEGUI::Combobox* p_combobox = static_cast<CEGUI::Combobox*>(wmgr.createWindow("TaharezLook/Combobox", "editor_larry_direction"));
+	Editor_Add(UTF8_("Direction"), UTF8_("Starting direction."), p_combobox, 100, 75);
+
+	p_combobox->addItem(new CEGUI::ListboxTextItem("left"));
+	p_combobox->addItem(new CEGUI::ListboxTextItem("right"));
+	p_combobox->setText(Get_Direction_Name(m_start_direction));
+	p_combobox->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&cLarry::On_Editor_Direction_Select, this));
+
+	Editor_Init();
+}
+
+bool cLarry::On_Editor_Direction_Select(const CEGUI::EventArgs& event)
+{
+	const CEGUI::WindowEventArgs& args = static_cast<const CEGUI::WindowEventArgs&>(event);
+	CEGUI::ListboxItem* p_item = static_cast<CEGUI::Combobox*>(args.window)->getSelectedItem();
+
+	Set_Direction(Get_Direction_Id(p_item->getText().c_str()));
+
+	return true;
 }
