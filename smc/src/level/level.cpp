@@ -1104,6 +1104,14 @@ bool cLevel :: Is_Loaded( void ) const
 #ifdef ENABLE_MRUBY
 void cLevel :: Reinitialize_MRuby_Interpreter()
 {
+	// Wipe out all existing event handlers
+	cSprite_List::iterator iter;
+	for(iter = m_sprite_manager->objects.begin(); iter != m_sprite_manager->objects.end(); iter++) {
+		cSprite* p_sprite = *iter;
+		p_sprite->clear_event_handlers();
+	}
+	// TODO: Audio and other non-sprite cScriptableObject subclass instances
+
 	// Delete any currently existing incarnation of an mruby
 	// stack and completely annihilate it.
 	if (m_mruby)
