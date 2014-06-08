@@ -1110,7 +1110,9 @@ void cLevel :: Reinitialize_MRuby_Interpreter()
 		cSprite* p_sprite = *iter;
 		p_sprite->clear_event_handlers();
 	}
-	// TODO: Audio and other non-sprite cScriptableObject subclass instances
+	pAudio->clear_event_handlers();
+	pKeyboard->clear_event_handlers();
+	pSavegame->clear_event_handlers();
 
 	// Delete any currently existing incarnation of an mruby
 	// stack and completely annihilate it.
