@@ -1,0 +1,40 @@
+= SMC Scripting Standard Library (SSL)
+
+This is the documentation for SMC’s <i>Scripting Standard Library</i>, or
+SSL for short. Everything documented here ships with SMC and can be
+used in your level’s script code, but you have to explicitely
++require+ the components documented here.
+
+Contrary to the scripting API’s core, the SSL is written entirely in
+Ruby. It is mainly intended to be an additional layer of comfort on
+top of the bare core API, making it a bit easier to use. If you want
+to be hardcore, you can completely ignore the SSL and just do
+everything directly with the core. There is no magic here.
+
+== Requiring
+
+In order to load a script from the SSL, use the SMC::require method
+(which _is_ part of the core). That method will load any file relative
+to the <b>scripting/</b> directory in your SMC’s installation, so you
+could even place your own files there.
+
+For example, if you want to load the _switch_ library:
+
+  SMC.require "std/switch"
+
+Note you can leave off the ".rb" file extension.
+
+If you are lazy and don’t mind the performane impact, you can load the
+entire SSL with a single require:
+
+  SMC.require "std/all"
+
+== Usage
+
+Each component of the SSL is documented as how to use it. Refer to the
+sidebar for information on how to use what.
+
+== License
+
+The SSL and its accompanying documentation are licensed under SMC’s
+license unless noted otherwise.
