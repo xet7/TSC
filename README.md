@@ -59,6 +59,11 @@ improvement over the overly-complex autotool mess.
 * The SDL_ttf library.
 * The libPCRE regular expression library.
 * The libxml++ library.
+* For generating the docs:
+  * `kramdown` RubyGem.
+  * The `dot` program.
+  * The `doxygen` program.
+  * Ruby’s `rdoc` program.
 
 ### Checkout the repository ###
 
