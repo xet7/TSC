@@ -145,16 +145,7 @@ public:
 	bool Is_Loaded( void ) const;
 
 #ifdef ENABLE_MRUBY
-	/* This method wipes out the entire current mruby state (just
-	 * as if the level is finished), and sets up an entirely new
-	 * state, that also runs the script in `m_script' anew.
-	 * This method is intended for:
-	 *
-	 * 1) Initial level start, where no interpreter exists yet.
-	 * 2) The level settings to set the script code in the editor.
-	 *
-	 * It should NEVER be called outside one of these contexts.
-	 */
+	/// Delete existing (if any) and create new mruby interpreter.
 	void Reinitialize_MRuby_Interpreter();
 #endif
 
