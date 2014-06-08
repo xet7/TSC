@@ -60,7 +60,7 @@ mrb_value Bind(mrb_state* p_state, mrb_value self)
 	 * member of the C++ object instance, which *must* be kept in sync to
 	 * prevent bad side-effects like unexpected segmentation faults. */
 	mrb_ary_push(p_state, mrb_iv_get(p_state, self, callbacks_sym), callback);
-	p_obj->m_callbacks[evtname].push_back(callback);
+	p_obj->register_event_handler(evtname, callback);
 
 	return mrb_nil_value();
 }

@@ -13,9 +13,15 @@ namespace SMC{
 		class cScriptable_Object
 		{
 		public:
-			cScriptable_Object(){}
-			virtual ~cScriptable_Object(){}
+			cScriptable_Object();
+			virtual ~cScriptable_Object();
 
+			void clear_event_handlers();
+			void register_event_handler(const std::string& evtname, mrb_value callback);
+			std::vector<mrb_value>::iterator event_handlers_begin(const std::string& evtname);
+			std::vector<mrb_value>::iterator event_handlers_end(const std::string& evtname);
+
+		protected:
 			std::map<std::string, std::vector<mrb_value> > m_callbacks;
 		};
 	};
