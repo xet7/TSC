@@ -203,3 +203,8 @@ users, you can use the `MRUBY_IMPLEMENT_EVENT` and
 `MRUBY_EVENT_HANDLER` macros declared in scripting/events/event.hpp
 that wrap the call to `#bind` for you in an own method named
 `on_<evtname>` and return that name as a string, respectively.
+
+See also
+--------
+
+* <a href="md_docs_pages_mruby_sprite_management.html">Sprite management in the scripting API</a>

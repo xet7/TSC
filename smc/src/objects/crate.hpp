@@ -28,6 +28,9 @@ namespace SMC {
 		CRATE_SLIDE = 2
 	};
 
+	/**
+	 * Box that can be moved around by Maryo.
+	 */
 	class cCrate: public cAnimated_Sprite
 	{
 	public:

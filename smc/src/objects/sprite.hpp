@@ -193,20 +193,11 @@ public:
 	{
 		m_color = col;
 	};
-	/* Set a Color Combination ( GL_ADD, GL_MODULATE or GL_REPLACE )
-	 * Addition ( adds white to color )
-	 * 1.0 is the maximum and the given color will be white
-	 * 0.0 is the minimum and the color will have the default color
-	 * Modulation ( adds black to color )
-	 * 1.0 is the maximum and the color will have the default color
-	 * 0.0 is the minimum and the given color will be black
-	 * Replace ( replaces color value )
-	 * 1.0 is the maximum and the given color has maximum value
-	 * 0.0 is the minimum and the given color has minimum value
-	*/
+
+	/// Set a Color Combination ( GL_ADD, GL_MODULATE or GL_REPLACE )
 	void Set_Color_Combine( const float red, const float green, const float blue, const GLint com_type );
 
-	/* Set if rotation affects the collision rect
+	/** Set if rotation affects the collision rect
 	 * only supports 90° steps currently
 	 * if enabled col_pos, col_rect and rect must be reset manually before changing rotation
 	*/
@@ -214,7 +205,7 @@ public:
 	{
 		m_rotation_affects_rect = enable;
 	};
-	/* Set the rect rotation
+	/** Set the rect rotation
 	 * does not reset col_pos, col_rect and rect before rotation
 	 * default : disabled
 	*/
@@ -283,9 +274,12 @@ public:
 		Set_Rotation_Z( m_rot_z + z );
 	};
 
-	/* Set if scale affects the collision rect
-	 * if enabled previous scale is always undone from rect before setting the new value
+	/**
+	 * Set if scale affects the collision rect.
 	 * default : disabled
+	 *
+	 * \param enable
+	 *   if enabled previous scale is always undone from rect before setting the new value
 	*/
 	inline void Set_Scale_Affects_Rect( const bool enable = 0 )
 	{
@@ -329,9 +323,11 @@ public:
 	// Set this sprite on top of the given one
 	void Set_On_Top( const cSprite *sprite, bool optimize_hor_pos = 1 );
 
-	// Return the object that will be placed in the UIDS hash
-	// for this sprite. Be sure to override in relevant subclasses.
-	// See mrb_uids.cpp for a lengthy explanation.
+	/**
+	 * Return the object that will be placed in the UIDS hash
+	 * for this sprite. Be sure to override in relevant subclasses.
+	 * See mrb_uids.cpp for a lengthy explanation.
+	 */
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
 		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcSprite, &Scripting::rtSMC_Scriptable, this));
@@ -441,138 +437,131 @@ public:
 	// editor image text changed event
 	bool Editor_Image_Text_Changed( const CEGUI::EventArgs &event );
 
-	// current image used for drawing
+	/// current image used for drawing
 	cGL_Surface *m_image;
-	// editor and first image
+	/// editor and first image
 	cGL_Surface *m_start_image;
 
-	// complete image rect
+	/// complete image rect
 	GL_rect m_rect;
-	// editor and first image rect
+	/// editor and first image rect
 	GL_rect m_start_rect;
-	// collision rect
+	/// collision rect
 	GL_rect m_col_rect;
-	// collision start point
+	/// collision start point
 	GL_point m_col_pos;
 
-	// current position
+	/// current position
 	float m_pos_x;
 	float m_pos_y;
 	float m_pos_z;
-	// start position
+	/// start position
 	float m_start_pos_x;
 	float m_start_pos_y;
-	/* editor z position
+	/** editor z position
 	 * it's only used if not 0
 	*/
 	float m_editor_pos_z;
 
-	// if set rotation not only affects the image but also the rectangle
+	/// if set rotation not only affects the image but also the rectangle
 	bool m_rotation_affects_rect;
-	// editor and start rotation
+	/// editor and start rotation
 	float m_start_rot_x;
 	float m_start_rot_y;
 	float m_start_rot_z;
-	// rotation
+	/// rotation
 	float m_rot_x;
 	float m_rot_y;
 	float m_rot_z;
-	// if set scale not only affects the image but also the rectangle
+	/// if set scale not only affects the image but also the rectangle
 	bool m_scale_affects_rect;
-	/* which parts of the image get scaled
+	/** which parts of the image get scaled
 	 * if all are set scaling is centered
 	*/
 	bool m_scale_up;
 	bool m_scale_down;
 	bool m_scale_left;
 	bool m_scale_right;
-	// editor and start scale
+	/// editor and start scale
 	float m_start_scale_x;
 	float m_start_scale_y;
-	// scale
+	/// scale
 	float m_scale_x;
 	float m_scale_y;
 
-	// color
+	/// color
 	Color m_color;
-	// combine type
+	/// combine type
 	GLint m_combine_type;
-	// combine color
+	/// combine color
 	float m_combine_color[3];
 
-	// sprite type
+	/// sprite type
 	SpriteType m_type;
-	// internal type name
+	/// internal type name
 	const std::string m_type_name;
-	// sprite array type
+	/// sprite array type
 	ArrayType m_sprite_array;
-	// massive collision type
+	/// massive collision type
 	MassiveType m_massive_type;
 
-	// sprite editor tags
+	/// sprite editor tags
 	std::string m_editor_tags;
 
-	// true if not using the camera position
+	/// true if not using the camera position
 	bool m_no_camera;
-	// if true we are active and can be updated and drawn
+	/// if true we are active and can be updated and drawn
 	bool m_active;
-	// if spawned
+	/// if spawned
 	bool m_spawned;
-	// maximum distance to the camera to get updated
+	/// maximum distance to the camera to get updated
 	unsigned int m_camera_range;
-	// can be used as ground object
+	/// can be used as ground object
 	bool m_can_be_ground;
 
-	// delete the given image when it gets unloaded
+	/// delete the given image when it gets unloaded
 	bool m_delete_image;
-	// if this can not be auto-deleted because the object is controlled from elsewhere
+	/// if this can not be auto-deleted because the object is controlled from elsewhere
 	bool m_disallow_managed_delete;
-	/* if true this sprite is not used anywhere anymore
+	/** if true this sprite is not used anywhere anymore
 	 * and is ready to be replaced with a new sprite
 	 * should not be used for objects needed by the editor
 	 * should be used for not active spawned objects
 	*/
 	bool m_auto_destroy;
-	// shadow position
+	/// shadow position
 	float m_shadow_pos;
-	// shadow color
+	/// shadow color
 	Color m_shadow_color;
 
-	// if drawing is valid
+	/// if drawing is valid
 	bool m_valid_draw;
-	// if updating is valid
+	/// if updating is valid
 	bool m_valid_update;
 
-	// editor active window list
+	/// editor active window list
 	typedef vector<cEditor_Object_Settings_Item *> Editor_Object_Settings_List;
 	Editor_Object_Settings_List m_editor_windows;
-	// width for all name windows based on largest name text width
+	/// width for all name windows based on largest name text width
 	float m_editor_window_name_width;
 
-	// ID to uniquely identify this sprite (UIDS[idhere] uses this)
+	/// ID to uniquely identify this sprite (UIDS[idhere] uses this)
 	int m_uid;
 
-	// default z positions
-	static const float m_pos_z_passive_start;
-	static const float m_pos_z_massive_start;
-	static const float m_pos_z_front_passive_start;
-	static const float m_pos_z_halfmassive_start;
+	static const float m_pos_z_passive_start; ///< Start Z position for passive elements
+	static const float m_pos_z_massive_start; ///< Start Z position for massive elements
+	static const float m_pos_z_front_passive_start; ///< Start Z position for front passive elements
+	static const float m_pos_z_halfmassive_start; ///< Start Z position for half-massive elements
 
-	// This method should append all necessary components
-	// to m_name and return the result as a new string.
-	// This is how the object is presented to the user
-	// in the editor. By default it just returns `m_name'.
+	/// Name as shown in the editor.
 	virtual std::string Create_Name() const;
 
 protected:
-	// visible main name component for the user.
-	// Additions such as direction are added behind this.
+	/// visible main name component for the user.
+	/// Additions such as direction are added behind this.
 	std::string m_name;
 
-	// Returns the string to use for the XML `type' property of
-	// the sprite. Override in subclasses and do not call
-	// the parent method. Returning an empty string causes
-	// no `type' property to be written.
+	/// XML type property.
 	virtual std::string Get_XML_Type_Name();
 };
 

@@ -620,6 +620,12 @@ void cSprite :: Set_Sprite_Type( SpriteType type )
 	m_type = type;
 }
 
+/**
+ * Returns the string to use for the XML `type` property of
+ * the sprite. Override in subclasses and do not call
+ * the parent method. Returning an empty string causes
+ * no `type` property to be written.
+ */
 std::string cSprite :: Get_XML_Type_Name()
 {
 	if( m_sprite_array == ARRAY_UNDEFINED )
@@ -707,6 +713,17 @@ void cSprite :: Set_Active( bool enabled )
 	Update_Valid_Update();
 }
 
+/** Set a Color Combination ( GL_ADD, GL_MODULATE or GL_REPLACE ).
+ * Addition ( adds white to color )
+ * 1.0 is the maximum and the given color will be white
+ * 0.0 is the minimum and the color will have the default color
+ * Modulation ( adds black to color )
+ * 1.0 is the maximum and the color will have the default color
+ * 0.0 is the minimum and the given color will be black
+ * Replace ( replaces color value )
+ * 1.0 is the maximum and the given color has maximum value
+ * 0.0 is the minimum and the given color has minimum value
+ */
 void cSprite :: Set_Color_Combine( const float red, const float green, const float blue, const GLint com_type )
 {
 	m_combine_type = com_type;
@@ -1639,6 +1656,12 @@ bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
+/**
+ * This method should append all necessary components
+ * to m_name and return the result as a new string.
+ * This is how the object is presented to the user
+ * in the editor. By default it just returns `m_name`.
+ */
 std::string cSprite :: Create_Name() const
 {
 	return m_name;
