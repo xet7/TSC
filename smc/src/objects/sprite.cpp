@@ -456,7 +456,17 @@ cSprite *cSprite :: Copy( void ) const
 
 	return basic_sprite;
 }
-
+/**
+ * This method saves the object into XML for saving it inside a level
+ * XML file. Subclasses should override this *and* call the base class
+ * method.  The subclasses should then add attributes to the node the
+ * baseclass method returned and return that node themselves again.
+ *
+ * \param p_element libxml2’s node we are in currently.
+ *
+ * \return Exactly `p_element`.
+ * 
+*/
 xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = p_element->add_child(m_type_name);
@@ -493,6 +503,19 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	return p_node;
 }
 
+/**
+ * This method specifies the image that is used for
+ * drawing the sprite by default (you can override this
+ * by overriding the Draw() method).
+ *
+ * \param new_image The image to switch to now.
+ * \param new_start_image
+ *   The default start_image will be set to the given image,
+ *   i.e. not only the active image is changed, but the image
+ *   to return to after changes. This is also the image shown
+ *   in the editor.
+ * \param del_img The given image will be deleted.
+ */
 void cSprite :: Set_Image( cGL_Surface *new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */ )
 {
 	if( m_delete_image )

@@ -35,7 +35,7 @@ public:
 	cCollidingSprite( cSprite_Manager *sprite_manager );
 	virtual ~cCollidingSprite( void );
 
-	// Set the parent sprite manager
+	/// Set the parent sprite manager.
 	virtual void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
 
 	// Handle collision data
@@ -126,11 +126,7 @@ public:
 	// copy this sprite
 	virtual cSprite *Copy( void ) const;
 
-	/// Save the level below the given XML node. Subclasses
-	/// should override this *and* call the base class method.
-	/// The subclasses should then add attributes to the node
-	/// the baseclass method returned and return that node
-	/// themselves again.
+	/// Save the level below the given XML node.
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 	// load from savegame
@@ -141,10 +137,7 @@ public:
 		return NULL;
 	};
 
-	/* Sets the image for drawing
-	 * if new_start_image is set the default start_image will be set to the given image
-	 * if del_img is set the given image will be deleted
-	*/
+	/// Sets the image for drawing
 	virtual void Set_Image( cGL_Surface *new_image, bool new_start_image = 0, bool del_img = 0 );
 
 	// Set the sprite type

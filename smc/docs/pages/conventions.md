@@ -156,6 +156,41 @@ other headers of SMC, which include yet another SMC header, which then
 finally includes some library header, etc. `#include` statements for
 SMC-own headers can be done anywhere you need them.
 
+Documentation
+-------------
+
+SMC uses [Doxygen](http://www.stack.nl/~dimitri/doxygen) for
+documentation. Inside the header files, please only provide brief
+descriptions of the elements (if any) in order to not clutter the
+header files, which this way can be used as a short
+quick-reference. For the more complete descriptions, use doxygen
+documentation comments around the actual definitions in the `.cpp`
+files.
+
+Example `foo.hpp`:
+
+~~~~~~~~~~~~~~~~~~~~~~~~ c++
+class cFoo
+{
+  /// Does important things.
+  void Bar();
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Example `foo.cpp`:
+
+~~~~~~~~~~~~~~~~~~~~~~~~ c++
+/**
+ * This method does important things by
+ * implementing the XYZ pattern. It
+ * can be used...
+ */
+void cFoo::Bar()
+{
+  // Code...
+}
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 State of transition
 -------------------
 
