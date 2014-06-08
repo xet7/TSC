@@ -389,6 +389,7 @@ void cPreferences :: Apply_Audio( bool sound, bool music )
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
+/// User preferences, i.e. the content from the SMC configuration file.
 cPreferences *pPreferences = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

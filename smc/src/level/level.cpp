@@ -1142,6 +1142,7 @@ void cLevel :: Reinitialize_MRuby_Interpreter()
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
+/// Currently running level (NULL if no level is active).
 cLevel *pActive_Level = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
