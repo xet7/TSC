@@ -181,6 +181,9 @@ xmlpp::Element* cMoving_Platform :: Save_To_XML_Node( xmlpp::Element* p_element 
 	// massive type
 	Add_Property(p_node, "massive_type", Get_Massive_Type_Name(m_massive_type));
 
+	// Move type
+	Add_Property(p_node, "move_type", m_move_type);
+
 	switch(m_move_type) {
 	// path identifier
 	case MOVING_PLATFORM_TYPE_PATH: // fallthrough
