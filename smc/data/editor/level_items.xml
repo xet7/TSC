@@ -467,14 +467,20 @@
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="spikeball" />
+		<property name="color" value="grey" />
+		<property name="direction" value="right" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
 		<property name="type" value="larry" />
 		<property name="direction" value="left" />
 	</item>
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
-		<property name="type" value="spikeball" />
-		<property name="color" value="grey" />
+		<property name="type" value="larry" />
 		<property name="direction" value="right" />
 	</item>
 	<item>
