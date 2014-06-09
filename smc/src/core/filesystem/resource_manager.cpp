@@ -294,7 +294,7 @@ void cResource_Manager::init_directories()
 
 	m_paths.game_data_dir = utf8_to_path(std::string(path_data, count)).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("smc");
 #elif _WIN32
-  wchar_t path_data[MAX_PATH + 1];
+  wchar_t path_data[MAX_PATH];
   if (GetModuleFileNameW(NULL, path_data, MAX_PATH) == 0)
 	  throw(ConfigurationError("Failed to retrieve the executable's path from the Win32API!"));
   std::string utf8_path = ucs2_to_utf8(path_data);
