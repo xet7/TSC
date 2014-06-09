@@ -57,7 +57,7 @@ endmacro()
 find_cegui_library(Base)
 #find_cegui_library(FalagardWRBase) # TODO: Removed in 0.8.0 ?
 find_cegui_library(DevILImageCodec)
-find_cegui_library(TinyXMLParser)
+find_cegui_library(LibXMLParser)
 
 ########################################
 # The renderers
@@ -80,7 +80,7 @@ set(CEGUI_LIBRARIES
   ${CEGUI_Base_LIBRARY}
   ${CEGUI_FalagardWRBase_LIBRARY}
   ${CEGUI_DevILImageCodec_LIBRARY}
-  ${CEGUI_TinyXMLParser_LIBRARY}
+  ${CEGUI_LibXMLParser_LIBRARY}
  )
 
 ########################################
@@ -108,6 +108,6 @@ mark_as_advanced(CEGUI_INCLUDE_DIR
   CEGUI_BASE_LIBRARY
   CEGUI_FALAGARD_LIBRARY
   CEGUI_DEVIL_CODEC_LIBRARY
-  CEGUI_TINYXML_PARSER_LIBRARY
+  CEGUI_LIBXML_PARSER_LIBRARY
   CEGUI_RENDERER_LIBRARIES
   CEGUI_LIBRARIES)
