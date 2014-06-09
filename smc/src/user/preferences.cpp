@@ -34,7 +34,7 @@ namespace SMC
 
 // Game
 const bool cPreferences::m_always_run_default = 0;
-const std::string cPreferences::m_menu_level_default = "menu_green_1";
+const std::string cPreferences::m_menu_level_default = "menu_brown_1";
 const float cPreferences::m_camera_hor_speed_default = 0.3f;
 const float cPreferences::m_camera_ver_speed_default = 0.2f;
 // Video
