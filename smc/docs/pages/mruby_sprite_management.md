@@ -1,4 +1,4 @@
-Sprite management in the scripting API
+Sprite management in the scripting API {#mrubysprites}
 ======================================
 
 Each active sprite in SMC is assigned a unique number, the UID, available

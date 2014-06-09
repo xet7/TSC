@@ -207,4 +207,4 @@ that wrap the call to `#bind` for you in an own method named
 See also
 --------
 
-* <a href="md_docs_pages_mruby_sprite_management.html">Sprite management in the scripting API</a>
+* \ref mrubysprites "Sprite management in the scripting API"
