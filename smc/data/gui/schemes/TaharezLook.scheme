@@ -4,7 +4,7 @@
 	<Font name="bluebold_medium" filename="bluebold1024_medium.font" />
 	<Font name="dejavu_sans_mono" filename="DejaVuSansMono.font" />
 	<LookNFeel filename="TaharezLook.looknfeel" />
-	<WindowRendererSet filename="CEGUIFalagardWRBase" />
+	<WindowRendererSet filename="CEGUICoreWindowRendererSet" />
 	<FalagardMapping windowtype="TaharezLook/Button" targettype="CEGUI/PushButton" renderer="Core/Button" looknfeel="TaharezLook/Button" />
 	<FalagardMapping windowtype="TaharezLook/ToggleButton" targettype="CEGUI/ToggleButton" renderer="Core/ToggleButton" looknfeel="TaharezLook/ToggleButton" />
 	<FalagardMapping windowtype="TaharezLook/ImageButton" targettype="CEGUI/PushButton" renderer="Core/Button" looknfeel="TaharezLook/ImageButton" />

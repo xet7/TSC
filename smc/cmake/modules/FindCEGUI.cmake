@@ -55,7 +55,7 @@ endmacro()
 
 # CEGUI consists of a wealth of libraries.
 find_cegui_library(Base)
-#find_cegui_library(FalagardWRBase) # TODO: Removed in 0.8.0 ?
+find_cegui_library(CoreWindowRendererSet)
 find_cegui_library(DevILImageCodec)
 find_cegui_library(LibXMLParser)
 
@@ -78,7 +78,7 @@ endforeach(COMPONENT)
 set(CEGUI_LIBRARIES
   ${CEGUI_RENDERER_LIBRARIES}
   ${CEGUI_Base_LIBRARY}
-  ${CEGUI_FalagardWRBase_LIBRARY}
+  ${CEGUI_CoreWindowRendererSet_LIBRARY}
   ${CEGUI_DevILImageCodec_LIBRARY}
   ${CEGUI_LibXMLParser_LIBRARY}
  )
@@ -106,7 +106,7 @@ find_package_handle_standard_args(CEGUI
 # he knows what he is doing.
 mark_as_advanced(CEGUI_INCLUDE_DIR
   CEGUI_BASE_LIBRARY
-  CEGUI_FALAGARD_LIBRARY
+  CEGUI_CORE_WINDOW_RENDERER_SET_LIBRARY
   CEGUI_DEVIL_CODEC_LIBRARY
   CEGUI_LIBXML_PARSER_LIBRARY
   CEGUI_RENDERER_LIBRARIES
