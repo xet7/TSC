@@ -158,11 +158,11 @@ void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_directio
 	}
 	else if( m_direction == DIR_UP )
 	{
-		Set_Rotation( 0.0f, 0.0f, 270.0f, 1 );
+		Set_Rotation( 0.0f, 0.0f, 90.0f, 1 );
 	}
 	else if( m_direction == DIR_DOWN )
 	{
-		Set_Rotation( 0.0f, 0.0f, 90.0f, 1 );
+		Set_Rotation( 0.0f, 0.0f, 270.0f, 1 );
 	}
 	else
 	{
@@ -444,23 +444,23 @@ void cRokko :: Generate_Smoke( unsigned int amount /* = 10 */ ) const
 	{
 		if( m_direction == DIR_LEFT )
 		{
-			anim->Set_Emitter_Rect( m_pos_x + m_col_rect.m_w - 16, m_pos_y + 20, 6, m_rect.m_h - 40 );
+			anim->Set_Emitter_Rect( m_pos_x + m_col_rect.m_w + 20, m_pos_y + 20, 6, m_rect.m_h - 40 );
 			anim->Set_Direction_Range( 280, 100 );
 		}
 		else if( m_direction == DIR_RIGHT )
 		{
-			anim->Set_Emitter_Rect( m_pos_x + 10, m_pos_y + 20, 6, m_rect.m_h - 40 );
+			anim->Set_Emitter_Rect( m_pos_x + 80, m_pos_y + 20, 6, m_rect.m_h - 40 );
 			anim->Set_Direction_Range( 180, 100 );
 		}
 		else if( m_direction == DIR_UP )
 		{
-			anim->Set_Emitter_Rect( m_pos_x + 20, m_pos_y + m_col_rect.m_h - 16, m_rect.m_w - 40, 6 );
+			anim->Set_Emitter_Rect( m_pos_x + 150, m_pos_y + m_col_rect.m_h - 75, m_rect.m_w - 40, 6 );
 			anim->Set_Direction_Range( 50, 80 );
 		}
 		// down
 		else
 		{
-			anim->Set_Emitter_Rect( m_pos_x + 20, m_pos_y + 10, m_rect.m_w - 40, 6 );
+			anim->Set_Emitter_Rect( m_pos_x + 160, m_pos_y - 30, m_rect.m_w - 40, 6 );
 			anim->Set_Direction_Range( 240, 80 );
 		}
 
