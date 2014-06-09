@@ -85,6 +85,12 @@ void cRokko :: Init( void  )
 
 	m_kill_sound = "enemy/rokko/hit.wav";
 	m_kill_points = 250;
+
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/normal.png" ) );
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/break_1.png" ) );
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/break_2.png" ) );
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/break_3.png" ) );
+	Set_Image_Num(0, true);
 }
 
 cRokko *cRokko :: Copy( void ) const
@@ -138,18 +144,17 @@ void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_directio
 	}
 
 	// clear old images
-	Clear_Images();
+	//Clear_Images();
 
 	cEnemy::Set_Direction( dir, new_start_direction );
 
-	Add_Image( pVideo->Get_Surface( "enemy/rokko/r.png" ) );
 	if( m_direction == DIR_LEFT )
 	{
-		Set_Rotation( 0.0f, 180.0f, 0.0f, 1 );
+		Set_Rotation( 0.0f, 0.0f, 0.0f, 1 );
 	}
 	else if( m_direction == DIR_RIGHT )
 	{
-		Set_Rotation( 0.0f, 0.0f, 0.0f, 1 );
+		Set_Rotation( 0.0f, 180.0f, 0.0f, 1 );
 	}
 	else if( m_direction == DIR_UP )
 	{
@@ -164,8 +169,9 @@ void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_directio
 		printf( "Warning: Unknown Rokko direction %s\n", Get_Direction_Name( dir ).c_str() );
 	}
 
+	Update_Rotation_Hor();
 	Update_Distance_rect();
-	Set_Image_Num( 0, 1 );
+	//Set_Image_Num( 0, 1 );
 }
 
 void cRokko :: Set_Speed( float nspeed )
@@ -258,6 +264,11 @@ void cRokko :: Update_Normal_Dying( void )
 	{
 		Add_Velocity_Y_Max( 1.5f, m_gravity_max );
 	}
+
+	if (m_dying_counter >= 5.0f && m_curr_img == 0)
+		Set_Image_Num(1);
+	if (m_dying_counter >= 10.0f && m_curr_img == 1)
+		Set_Image_Num(2);
 
 	Move( m_velx, m_vely );
 
