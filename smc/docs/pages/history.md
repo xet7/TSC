@@ -1,4 +1,4 @@
-Version History and Changelog
+Version History and Changelog {#changelog}
 =============================
 
 1.9 (2009-08-17)
