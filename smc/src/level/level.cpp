@@ -1102,8 +1102,29 @@ bool cLevel :: Is_Loaded( void ) const
 }
 
 #ifdef ENABLE_MRUBY
+/**
+ * This method wipes out the entire current mruby state (just
+ * as if the level is finished), and sets up an entirely new
+ * state, that also runs the script in `m_script` anew.
+ * This method is intended for:
+ *
+ * 1. Initial level start, where no interpreter exists yet.
+ * 2. The level settings to set the script code in the editor.
+ *
+ * It should NEVER be called outside one of these contexts.
+ */
 void cLevel :: Reinitialize_MRuby_Interpreter()
 {
+	// Wipe out all existing event handlers
+	cSprite_List::iterator iter;
+	for(iter = m_sprite_manager->objects.begin(); iter != m_sprite_manager->objects.end(); iter++) {
+		cSprite* p_sprite = *iter;
+		p_sprite->clear_event_handlers();
+	}
+	pAudio->clear_event_handlers();
+	pKeyboard->clear_event_handlers();
+	pSavegame->clear_event_handlers();
+
 	// Delete any currently existing incarnation of an mruby
 	// stack and completely annihilate it.
 	if (m_mruby)
@@ -1121,6 +1142,7 @@ void cLevel :: Reinitialize_MRuby_Interpreter()
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
+/// Currently running level (NULL if no level is active).
 cLevel *pActive_Level = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

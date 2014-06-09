@@ -456,7 +456,17 @@ cSprite *cSprite :: Copy( void ) const
 
 	return basic_sprite;
 }
-
+/**
+ * This method saves the object into XML for saving it inside a level
+ * XML file. Subclasses should override this *and* call the base class
+ * method.  The subclasses should then add attributes to the node the
+ * baseclass method returned and return that node themselves again.
+ *
+ * \param p_element libxml2’s node we are in currently.
+ *
+ * \return Exactly `p_element`.
+ * 
+*/
 xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 {
 	xmlpp::Element* p_node = p_element->add_child(m_type_name);
@@ -493,6 +503,19 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	return p_node;
 }
 
+/**
+ * This method specifies the image that is used for
+ * drawing the sprite by default (you can override this
+ * by overriding the Draw() method).
+ *
+ * \param new_image The image to switch to now.
+ * \param new_start_image
+ *   The default start_image will be set to the given image,
+ *   i.e. not only the active image is changed, but the image
+ *   to return to after changes. This is also the image shown
+ *   in the editor.
+ * \param del_img The given image will be deleted.
+ */
 void cSprite :: Set_Image( cGL_Surface *new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */ )
 {
 	if( m_delete_image )
@@ -597,6 +620,12 @@ void cSprite :: Set_Sprite_Type( SpriteType type )
 	m_type = type;
 }
 
+/**
+ * Returns the string to use for the XML `type` property of
+ * the sprite. Override in subclasses and do not call
+ * the parent method. Returning an empty string causes
+ * no `type` property to be written.
+ */
 std::string cSprite :: Get_XML_Type_Name()
 {
 	if( m_sprite_array == ARRAY_UNDEFINED )
@@ -684,6 +713,17 @@ void cSprite :: Set_Active( bool enabled )
 	Update_Valid_Update();
 }
 
+/** Set a Color Combination ( GL_ADD, GL_MODULATE or GL_REPLACE ).
+ * Addition ( adds white to color )
+ * 1.0 is the maximum and the given color will be white
+ * 0.0 is the minimum and the color will have the default color
+ * Modulation ( adds black to color )
+ * 1.0 is the maximum and the color will have the default color
+ * 0.0 is the minimum and the given color will be black
+ * Replace ( replaces color value )
+ * 1.0 is the maximum and the given color has maximum value
+ * 0.0 is the minimum and the given color has minimum value
+ */
 void cSprite :: Set_Color_Combine( const float red, const float green, const float blue, const GLint com_type )
 {
 	m_combine_type = com_type;
@@ -1616,6 +1656,12 @@ bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
+/**
+ * This method should append all necessary components
+ * to m_name and return the result as a new string.
+ * This is how the object is presented to the user
+ * in the editor. By default it just returns `m_name`.
+ */
 std::string cSprite :: Create_Name() const
 {
 	return m_name;

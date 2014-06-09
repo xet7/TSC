@@ -225,7 +225,7 @@ private:
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-// The Overworld
+/// Active overworld, if any. NULL otherwise.
 extern cOverworld *pActive_Overworld;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

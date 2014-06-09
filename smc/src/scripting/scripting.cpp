@@ -51,43 +51,9 @@
 #include "objects/specials/mrb_jumping_goldpiece.hpp"
 #include "objects/specials/mrb_crate.hpp"
 
-/*****************************************************************************
- Scripting organisation
-
-Yeah, scripting! SMC embeds mruby (https://github.com/mruby/mruby), a minimal
-Ruby implementation for boosting your level design. The cMRubyInterpreter class
-wraps the mruby_state struct in a more convenient way and also initialises it for
-use with SMC. Each time a level is loaded, a new clean instance of this class
-is created (and of course destroyed on level ending).
-
-After the setup is done, the constructor calls the Load_Scripts()
-private member which in turn feeds the "main.rb" file in the scripting/ directory
-of your SMC installation into the mruby interpreter. This script, which may
-be added by users if they want to provide additional functionality globally,
-has access to a very minimalistic version of #require, which just allows for
-loading scripts relative to the scripting/ directory and also has some quirks,
-such as the inability to define toplevel constants without an explicit :: at
-the beginning, e.g.
-
-  module Foo
-  end
-
-will not work, but
-
-  module ::Foo
-  end
-
-will. The default main.rb file only contains the bare minimum needed to
-correctly initialise the scripting functionality and users are advised to
-not remove this code. Removing e.g. the Eventable module will have very bad
-effects, but on the other hand this gives you the full power of Ruby to
-hook in everything you want to. Finally, the main.rb script is required to
-call the SMC::setup method, which loads all the C++ wrapper classes (i.e.
-Sprite, LevelPlayer, etc.) into the interpreter.
-
-*****************************************************************************/
-
-
+////////////////////////////////////////
+// Be sure to review docs/scripting.md!
+////////////////////////////////////////
 
 // Extern
 mrb_data_type SMC::Scripting::rtSMC_Scriptable = {"SmcScriptable", NULL};

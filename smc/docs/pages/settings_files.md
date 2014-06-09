@@ -1,17 +1,23 @@
+Image settings files format
+===========================
+
 Images have associated settings files defining meta-data used by the game.
 They contain a list of key-value pairs on different lines. Each line is a
 space-separated list of terms where the first term is a word identifying the
 key and the following terms present an array of values.
 
-Here is an example of settings text, from pixmaps/enemy/eato/brown/1.settings:
+Here is an example of settings text, from `pixmaps/enemy/eato/brown/1.settings`:
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 width 36
 height 36
 col_rect 4 14 28 22
 author Helios
 name brown
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The attributes are as follows:
+
 * width: defines the width of the image in pixels
 * height: defines the height of the image in pixels
 * col_rect: defines the collision rectangle as X, Y, Width, and Height

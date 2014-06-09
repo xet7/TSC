@@ -33,3 +33,15 @@ namespace SMC {
     end
   end
 end
+
+desc "Generate the documentation."
+task :docs do
+  puts "Generating main API documentation"
+  sh "doxygen"
+  puts "Generating scripting API documentation"
+  cd "docs/scripting" do
+    sh "ruby gen_docs.rb"
+  end
+  puts "Generating SSL documentation"
+  sh "rdoc -o docs/ssl -m docs/scripting/ssl.rdoc -t 'SMC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
+end

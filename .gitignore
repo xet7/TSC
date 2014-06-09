@@ -29,6 +29,8 @@
 /smc/stdout.txt
 /smc/stderr.txt
 /smc/docs/scripting/html/
+/smc/docs/api/
+/smc/docs/ssl/
 Thumbs.db
 
 # Arch package
