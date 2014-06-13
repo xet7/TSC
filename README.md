@@ -49,7 +49,8 @@ improvement over the overly-complex autotool mess.
 * The `pkg-config` program.
 * The `bison` program.
 * OpenGL.
-* CEGUI 0.7.9. CEGUI >= 0.8 is not supported yet.
+* CEGUI 0.7.9. CEGUI >= 0.8 is not supported yet, but is being worked
+  on in a separate branch.
 * GNU Gettext.
 * The DevIL library.
 * The LibPNG library.
