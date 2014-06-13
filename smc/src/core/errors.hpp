@@ -12,9 +12,12 @@ namespace SMC {
   {
   public:
     SMCError();
+    SMCError(std::string message);
     virtual ~SMCError() throw();
 
     virtual const char* what() const throw();
+  protected:
+	  std::string m_smc_errmsg;
   };
 
   class ConfigurationError: public SMCError
@@ -22,9 +25,6 @@ namespace SMC {
   public:
 	  ConfigurationError(std::string message);
 	  virtual ~ConfigurationError() throw();
-	  virtual const char* what() const throw();
-  protected:
-	  std::string m_message;
   };
 
   /**
@@ -50,10 +50,6 @@ namespace SMC {
 	public:
 		NotImplementedError(std::string message);
 		virtual ~NotImplementedError() throw();
-
-		virtual const char* what() const throw();
-	protected:
-		std::string m_message;
 	};
 
 	class InvalidLevelError: public SMCError
@@ -61,9 +57,6 @@ namespace SMC {
 	public:
 		InvalidLevelError(std::string message);
 		virtual ~InvalidLevelError() throw();
-		virtual const char* what() const throw();
-	protected:
-		std::string m_message;
 	};
 
 	class RestartedXmlParserError: public SMCError
@@ -89,9 +82,6 @@ namespace SMC {
 	public:
 		EditorError(std::string msg);
 		virtual ~EditorError() throw();
-		virtual const char* what() const throw();
-	protected:
-		std::string m_msg;
 	};
 
 	class EditorSpriteCopyFailedError: public EditorError

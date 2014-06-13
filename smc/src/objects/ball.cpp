@@ -487,75 +487,17 @@ void cBall :: Handle_Collision_Enemy( cObjectCollision *collision )
 {
 	cEnemy *enemy = static_cast<cEnemy *>(m_sprite_manager->Get_Pointer( collision->m_number ));
 
-	// if enemy is not destroyable
+	// if enemy is not vulnerable
 	if( ( m_ball_type == FIREBALL_DEFAULT && enemy->m_fire_resistant ) || ( m_ball_type == ICEBALL_DEFAULT && enemy->m_ice_resistance >= 1 ) )
 	{
 		pAudio->Play_Sound( "item/fireball_repelled.wav" );
 	}
-	// destroy enemy
+	// make enemy handle the ball
 	else
 	{
-		// animation
-		cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
-		anim->Set_Time_to_Live( 0.2f, 0.4f );
-		anim->Set_Fading_Alpha( 1 );
-		anim->Set_Fading_Size( 1 );
-		anim->Set_Speed( 0.5f, 2.2f );
-		anim->Set_Blending( BLEND_DRIVE );
-
-		// enemy rect particle animation
-		for( unsigned int w = 0; w < enemy->m_col_rect.m_w; w += 15 )
-		{
-			for( unsigned int h = 0; h < enemy->m_col_rect.m_h; h += 15 )
-			{
-				anim->Set_Pos( enemy->m_pos_x + w, enemy->m_pos_y + h );
-
-				Color anim_color, anim_color_rand;
-				if( m_ball_type == FIREBALL_DEFAULT )
-				{
-					anim_color = Color( static_cast<Uint8>(250), 170, 150 );
-					anim_color_rand = Color( static_cast<Uint8>( rand() % 5 ), rand() % 85, rand() % 25, 0 );
-				}
-				else
-				{
-					anim_color = Color( static_cast<Uint8>(150), 150, 240 );
-					anim_color_rand = Color( static_cast<Uint8>( rand() % 80 ), rand() % 80, rand() % 10, 0 );
-				}
-				anim->Set_Color( anim_color, anim_color_rand );
-				anim->Emit();
-			}
-		}
-		
-		pActive_Animation_Manager->Add( anim );
-
-		// play enemy kill sound
-		pAudio->Play_Sound( enemy->m_kill_sound );
-
-		if( m_ball_type == FIREBALL_DEFAULT )
-		{
-			// get points
-			pHud_Points->Add_Points( enemy->m_kill_points, m_pos_x, m_pos_y, "", static_cast<Uint8>(255), 1 );
-
-			// create goldpiece
-			cMovingSprite *goldpiece = new cFGoldpiece( m_sprite_manager, collision->m_direction );
-			goldpiece->Set_Spawned( 1 );
-			// set optimal position
-			goldpiece->Set_Pos( enemy->m_rect.m_x + ( ( enemy->m_rect.m_w / 2 ) - ( goldpiece->m_rect.m_w / 2 ) ), enemy->m_rect.m_y + ( ( enemy->m_rect.m_h / 2 ) - ( goldpiece->m_rect.m_h / 2 ) ), 1 );
-			// add goldpiece
-			m_sprite_manager->Add( goldpiece );
-
-			enemy->Set_Active( 0 );
-			enemy->DownGrade( 1 );
-			pLevel_Player->Add_Kill_Multiplier();
-		}
-		else if( m_ball_type == ICEBALL_DEFAULT )
-		{
-			enemy->Freeze();
-		}
+		enemy->Handle_Ball_Hit(*this, collision);
+		Destroy();
 	}
-
-	Destroy();
 }
 
 void cBall :: Handle_Collision_Massive( cObjectCollision *collision )

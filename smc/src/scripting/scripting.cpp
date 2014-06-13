@@ -33,6 +33,7 @@
 #include "objects/enemies/mrb_turtle.hpp"
 #include "objects/enemies/mrb_turtle_boss.hpp"
 #include "objects/enemies/mrb_pip.hpp"
+#include "objects/enemies/mrb_larry.hpp"
 #include "objects/powerups/mrb_powerup.hpp"
 #include "objects/powerups/mrb_mushroom.hpp"
 #include "objects/powerups/mrb_fireplant.hpp"
@@ -255,6 +256,7 @@ void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
 	Init_Thromp(p_state);
 	Init_Turtle(p_state);
 	Init_TurtleBoss(p_state);
+	Init_Larry(p_state);
 	Init_Powerup(p_state);
 	Init_Mushroom(p_state);
 	Init_Fireplant(p_state);

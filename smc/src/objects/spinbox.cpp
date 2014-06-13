@@ -87,6 +87,8 @@ void cSpinBox :: Activate( void )
 		return;
 	}
 
+	cBaseBox::Activate();
+
 	m_spin = 1;
 	Update_Valid_Update();
 	// passive box for spinning

@@ -44,8 +44,8 @@ namespace SMC {
 
 		inline void Clear(){ m_x = m_y = m_radius = 0; }
 
-		bool Intersects(const GL_Circle& c);
-		bool Intersects(const GL_rect& r);
+		bool Intersects(const GL_Circle& c) const;
+		bool Intersects(const GL_rect& r) const;
 		// bool Intersects(const GL_point& p); // TODO
 
 	private:

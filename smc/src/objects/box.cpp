@@ -330,12 +330,6 @@ void cBaseBox :: Activate_Collision( ObjectDirection col_direction )
 
 	Check_Collision( Get_Opposite_Direction( m_move_col_dir ) );
 	Activate();
-
-	// set useable count
-	if( m_useable_count > 0 || m_useable_count == -1 )
-	{
-		Set_Useable_Count( m_useable_count - 1 );
-	}
 }
 
 void cBaseBox :: Update_Collision( void )
@@ -462,7 +456,11 @@ void cBaseBox :: Col_Enemy( cSprite *obj )
 
 void cBaseBox :: Activate( void )
 {
-	// virtual
+	// set useable count
+	if( m_useable_count > 0 || m_useable_count == -1 )
+	{
+		Set_Useable_Count( m_useable_count - 1 );
+	}
 }
 
 void cBaseBox :: Update( void )

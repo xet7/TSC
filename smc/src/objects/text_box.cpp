@@ -95,6 +95,8 @@ xmlpp::Element* cText_Box :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 void cText_Box :: Activate( void )
 {
+	cBaseBox::Activate();
+
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::MultiLineEditbox *editbox = static_cast<CEGUI::MultiLineEditbox *>(wmgr.createWindow( "TaharezLook/MultiLineEditbox", "text_box_text" ));
 
