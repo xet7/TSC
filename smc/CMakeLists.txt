@@ -69,10 +69,10 @@ find_package(OpenGL REQUIRED)
 find_package(CEGUI COMPONENTS OPENGL REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
-find_package(DevIL REQUIRED)
 
 if (WIN32)
   find_package(LibIntl REQUIRED)
+  find_package(FreeImage REQUIRED)
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread_win32 system
     REQUIRED)
@@ -82,6 +82,7 @@ if (WIN32)
   add_definitions(-DBOOST_THREAD_USE_LIB)
 else()
   set(Boost_USE_STATIC_LIBS OFF)
+  find_package(DevIL REQUIRED)
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread system
     REQUIRED)
@@ -114,10 +115,16 @@ include_directories(
   ${SDL_IMAGE_INCLUDE_DIRS}
   ${SDL_MIXER_INCLUDE_DIRS}
   ${SDL_TTF_INCLUDE_DIRS}
-  ${IL_INCLUDE_DIR}
+#  ${IL_INCLUDE_DIR}
   ${PCRE_INCLUDE_DIRS}
   ${LibXmlPP_INCLUDE_DIRS}
   )
+
+if (WIN32)
+  include_directories(${FreeImage_INCLUDE_DIRS})
+else()
+  include_directories(${IL_INCLUDE_DIR})
+endif()
 
 ###############################################
 # mruby
@@ -190,8 +197,7 @@ if (WIN32)
   target_link_libraries(smc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
-    ${IL_LIBRARIES}
-    ${ILU_LIBRARIES}
+    ${FreeImage_LIBRARIES}
     ${SDL_STATIC_LIBRARIES}
     ${SDL_IMAGE_STATIC_LIBRARIES}
     ${SDL_MIXER_STATIC_LIBRARIES}

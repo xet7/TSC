@@ -52,7 +52,7 @@ improvement over the overly-complex autotool mess.
 * CEGUI 0.7.9. CEGUI >= 0.8 is not supported yet, but is being worked
   on in a separate branch.
 * GNU Gettext.
-* The DevIL library.
+* The DevIL library. On Windows (see below), you will need FreeImage instead.
 * The LibPNG library.
 * The SDL main library plus SDL_image and SDL_mixer,
   all <2.0, which is not supported yet.
