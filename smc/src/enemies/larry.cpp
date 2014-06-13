@@ -21,6 +21,7 @@
 #include "../level/level_player.hpp"
 #include "../level/level.hpp"
 #include "../video/animation.hpp"
+#include "../objects/box.hpp"
 
 using namespace SMC;
 
@@ -315,11 +316,14 @@ void cLarry::Kill_Objects_in_Explosion_Range()
 	for(iter=objects.begin(); iter != objects.end(); iter++) {
 		cSprite* p_obj = *iter;
 		cEnemy* p_enemy = NULL;
+		cBaseBox* p_box = NULL;
 
 		if (p_obj->m_type == TYPE_PLAYER) // This means p_obj == pLevel_Player
 			pLevel_Player->DownGrade_Player(true, true);
 		else if ((p_enemy = dynamic_cast<cEnemy*>(p_obj)))
 			p_enemy->DownGrade(true);
+		else if ((p_box = dynamic_cast<cBaseBox*>(p_obj)))
+			p_box->Activate();
 	}
 }
 
