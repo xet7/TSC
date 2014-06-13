@@ -55,8 +55,7 @@ improvement over the overly-complex autotool mess.
 * The DevIL library.
 * The LibPNG library.
 * The SDL main library plus SDL_image and SDL_mixer,
-  all <2.0, which is not supported yet. (Hey, it’s a large codebase
-  and I’m working on it alone!)
+  all <2.0, which is not supported yet.
 * The SDL_ttf library.
 * The libPCRE regular expression library.
 * The libxml++ library.
