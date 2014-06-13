@@ -242,6 +242,8 @@ void cBonusBox :: Set_Goldcolor( DefaultColor new_color )
 
 void cBonusBox :: Activate( void )
 {
+	cBaseBox::Activate();
+
 	bool random = 0;
 
 	// random
