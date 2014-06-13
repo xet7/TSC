@@ -115,7 +115,10 @@ int main( int argc, char **argv )
 			// version
 			else if( arguments[i] == "--version" || arguments[i] == "-v" )
 			{
-				printf( "%s %d.%d.%d\n", CAPTION, SMC_VERSION_MAJOR, SMC_VERSION_MINOR, SMC_VERSION_PATCH );
+				std::cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH
+						  << " compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
+				if (SMC_VERSION_DEVELOPMENT)
+					std::cout << "This is a DEVELOPMENT built! It may eat your hamster!" << std::endl;
 				return EXIT_SUCCESS;
 			}
 			// debug
