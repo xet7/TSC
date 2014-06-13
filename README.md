@@ -17,7 +17,7 @@ see http://www.secretmaryo.org/index.php?page=about for a more
 comprehensive list. And for those still not getting enough, it
 provides a great in-game level editor.
 
-This repository contains my (@Quintus) fork of SMC, because upstream
+This repository contains my (Quintus) fork of SMC, because upstream
 development at https://github.com/FluXy/SMC seems to have more or less
 stalled and I’ve been missing some features, most notably the often
 requested scripting functionality for SMC. The final goal hover still
