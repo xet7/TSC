@@ -61,10 +61,12 @@ void cLarry::Init()
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_1.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_2.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_3.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_4.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_turn.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_1.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_2.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_3.png"));
+	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_4.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_turn.png"));
 	Add_Image(pVideo->Get_Surface("enemy/larry/grey/action.png"));
 
@@ -126,7 +128,7 @@ void cLarry::Update()
 	}
 
 	// If currently turning ’round
-	if (m_curr_img == 3 || m_curr_img == 7) {
+	if (m_curr_img == 4 || m_curr_img == 9) {
 		m_anim_counter += pFramerate->m_elapsed_ticks;
 
 		if ((m_state == STA_WALK && m_anim_counter >= 600) || /* normal walk */
@@ -145,7 +147,7 @@ void cLarry::Update()
 			Update_Rotation_Hor();
 		}
 	}
-	else if (m_curr_img == 8) { // if currently activating
+	else if (m_curr_img == 10) { // if currently activating
 		m_anim_counter += pFramerate->m_elapsed_ticks;
 
 		// back to normal animation
@@ -243,9 +245,9 @@ void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 	cEnemy::Turn_Around(col_dir);
 
 	if (m_state == STA_WALK)
-		Set_Image_Num(3);
+		Set_Image_Num(4);
 	else
-		Set_Image_Num(7);
+		Set_Image_Num(9);
 	Set_Animation(false);
 	Reset_Animation();
 
@@ -264,7 +266,7 @@ void cLarry::Set_Moving_State(Moving_state new_state)
 
 	if (m_state == STA_WALK) {
 		Set_Animation(true);
-		Set_Animation_Image_Range(0, 2);
+		Set_Animation_Image_Range(0, 3);
 		Set_Time_All(200, true);
 		Set_Image_Num(0, true);
 
@@ -273,9 +275,9 @@ void cLarry::Set_Moving_State(Moving_state new_state)
 	}
 	else if (m_state == STA_RUN) {
 		Set_Animation(true);
-		Set_Animation_Image_Range(4, 6);
+		Set_Animation_Image_Range(5, 8);
 		Set_Time_All(100, true);
-		Set_Image_Num(4);
+		Set_Image_Num(5);
 		Reset_Animation();
 	}
 
@@ -289,7 +291,7 @@ void cLarry::Fuse()
 
 	// Stop walking for a moment (reset to normal in Update())
 	Set_Animation(false);
-	Set_Image_Num(8); // Activation image
+	Set_Image_Num(10); // Activation image
 	Reset_Animation();
 	m_velx = 0.0f;
 	m_velx_max = 0.0f;
