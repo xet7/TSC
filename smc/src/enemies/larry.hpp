@@ -29,6 +29,7 @@ namespace SMC {
 
 		virtual cLarry* Copy() const;
 		virtual void Update();
+		virtual Col_Valid_Type Validate_Collision(cSprite* p_obj);
 		virtual void Update_Normal_Dying();
 		virtual void Handle_Collision_Massive(cObjectCollision* p_collision);
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);

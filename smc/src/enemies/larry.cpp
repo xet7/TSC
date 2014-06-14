@@ -186,6 +186,37 @@ void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 	Update_Rotation_Hor(true);
 }
 
+Col_Valid_Type cLarry::Validate_Collision(cSprite* p_sprite)
+{
+	Col_Valid_Type basic_valid = Validate_Collision_Ghost(p_sprite);
+	if (basic_valid != COL_VTYPE_NOT_POSSIBLE)
+		return basic_valid;
+
+	if (p_sprite->m_massive_type == MASS_MASSIVE) {
+		switch(p_sprite->m_type) {
+		case TYPE_FLYON: // fallthrough
+		case TYPE_ROKKO:
+		case TYPE_GEE:
+		case TYPE_SPIKA:
+		case TYPE_STATIC_ENEMY:
+		case TYPE_TURTLE_BOSS:
+			return COL_VTYPE_NOT_VALID;
+		default:
+			return COL_VTYPE_BLOCKING;
+		}
+	}
+	else if (p_sprite->m_massive_type == MASS_HALFMASSIVE) {
+		if (m_vely >= 0.0f && Is_On_Top(p_sprite))
+			return COL_VTYPE_BLOCKING;
+	}
+	else if (p_sprite->m_massive_type == MASS_PASSIVE) {
+		if (p_sprite->m_type == TYPE_ENEMY_STOPPER)
+			return COL_VTYPE_BLOCKING;
+	}
+
+	return COL_VTYPE_NOT_VALID;
+}
+
 void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
 {
 	cEnemy::Handle_Collision_Massive(p_collision);
