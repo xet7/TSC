@@ -1,5 +1,6 @@
 #include "mrb_box.hpp"
 #include "../../../objects/box.hpp"
+#include "../../events/event.hpp"
 #include "../sprites/mrb_animated_sprite.hpp"
 
 /**
@@ -12,6 +13,12 @@
  * from the scripting interface. Boxes are the little
  * blocks that contain coins, powerups, or just spin
  * around if jump against them.
+ *
+ * Events
+ * ------
+ *
+ * Activate
+ * : The box was activated by Maryo jumping against it or otherwise.
  */
 
 using namespace SMC;
@@ -19,6 +26,8 @@ using namespace SMC::Scripting;
 
 // Extern
 struct RClass* SMC::Scripting::p_rcBox = NULL;
+
+MRUBY_IMPLEMENT_EVENT(activate);
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
@@ -248,4 +257,6 @@ void SMC::Scripting::Init_Box(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcBox, "invisible=", Set_Invisible, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcBox, "invisible", Get_Invisible, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcBox, "activate", Activate, MRB_ARGS_NONE());
+
+	mrb_define_method(p_state, p_rcBox, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
 }

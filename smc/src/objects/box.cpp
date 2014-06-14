@@ -28,6 +28,8 @@
 #include "../enemies/turtle.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 #include "../gui/hud.hpp"
+#include "../scripting/events/activate_event.hpp"
+#include "../level/level.hpp"
 
 namespace SMC
 {
@@ -460,6 +462,9 @@ void cBaseBox :: Activate( void )
 	if( m_useable_count > 0 || m_useable_count == -1 )
 	{
 		Set_Useable_Count( m_useable_count - 1 );
+
+		Scripting::cActivate_Event evt;
+		evt.Fire(pActive_Level->m_mruby, this);
 	}
 }
 
