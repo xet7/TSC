@@ -11,14 +11,14 @@ module Std
     # Take the sprite off the game. Apart from visibility
     # and massivity all information remains set.
     def disable
-      self.massive_type = :passive
-      hide
+      @old_pos = start_pos
+      warp(-100, 100)
     end
 
     # Restore the sprite and set its massivity to +mass+.
-    def enable(mass)
-      self.massive_type = mass
-      show
+    def enable(mass = nil)
+      start_at(*@old_pos)
+      self.massive_type = mass if mass
     end
 
   end
