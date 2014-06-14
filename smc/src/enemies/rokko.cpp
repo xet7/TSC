@@ -86,11 +86,16 @@ void cRokko :: Init( void  )
 	m_kill_sound = "enemy/rokko/hit.wav";
 	m_kill_points = 250;
 
-	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/normal.png" ) );
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/fly_1.png" ) );
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/fly_2.png" ) );
+	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/fly_3.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/break_1.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/break_2.png" ) );
 	Add_Image( pVideo->Get_Surface( "enemy/rokko/yellow/break_3.png" ) );
 	Set_Image_Num(0, true);
+	Set_Animation(true);
+	Set_Animation_Image_Range(0, 2);
+	Set_Time_All(130, true);
 }
 
 cRokko *cRokko :: Copy( void ) const
@@ -239,6 +244,7 @@ void cRokko :: Activate( bool with_sound /* = 1 */ )
 
 void cRokko :: DownGrade( bool force /* = 0 */ )
 {
+	Set_Animation(false); // We will update this ourselves in Update_Normal_Dying()
 	Set_Dead( 1 );
 	m_massive_type = MASS_PASSIVE;
 	m_gravity_max = 26.0f;
@@ -265,10 +271,12 @@ void cRokko :: Update_Normal_Dying( void )
 		Add_Velocity_Y_Max( 1.5f, m_gravity_max );
 	}
 
-	if (m_dying_counter >= 5.0f && m_curr_img == 0)
-		Set_Image_Num(1);
-	if (m_dying_counter >= 10.0f && m_curr_img == 1)
-		Set_Image_Num(2);
+	if (m_dying_counter >= 5.0f && m_curr_img < 3)
+		Set_Image_Num(3);
+	else if (m_dying_counter >= 10.0f && m_curr_img == 3)
+		Set_Image_Num(4);
+	else if (m_dying_counter >= 15.0f && m_curr_img == 4)
+		Set_Image_Num(5);
 
 	Move( m_velx, m_vely );
 
@@ -324,6 +332,8 @@ void cRokko :: Update( void )
 		else
 			return;
 	}
+
+	Update_Animation();
 
 	// generate smoke
 	m_smoke_counter += pFramerate->m_speed_factor * 4.0f;
