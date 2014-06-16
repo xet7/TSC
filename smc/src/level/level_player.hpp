@@ -269,8 +269,8 @@ public:
 	void Push_Return( const std::string &level, const std::string &entry );
 	// Pop a return item off the stack. False if no more items
 	bool Pop_Return( std::string &level, std::string &entry );
-    // Clear return items off the stack.
-    void Clear_Return( void );
+	// Clear return items off the stack.
+	void Clear_Return( void );
 
 	// current Maryo type
 	Maryo_type m_maryo_type;

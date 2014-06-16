@@ -68,11 +68,11 @@ cLevel_Exit :: cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_m
 	// destination entry
 	Set_Entry( attributes["entry"] );
 
-    // return level
-    Set_Return_Level( attributes["return_level_name"] );
+	// return level
+	Set_Return_Level( attributes["return_level_name"] );
 
-    // return entry
-    Set_Return_Entry( attributes["return_entry"] );
+	// return entry
+	Set_Return_Entry( attributes["return_entry"] );
 
 	// path identifier
 	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
@@ -383,20 +383,19 @@ void cLevel_Exit :: Activate( void )
 	{
 		// Push return level/entry if any
 		if ( !m_return_level.empty() || !m_return_entry.empty() )
-        {
-            if ( m_return_level.empty() )
-            {
+		{
+			if ( m_return_level.empty() )
+			{
 				// If user does not specify level, we need to push this level onto the stack
 				// so when the exit is encountered in possbile another level, it will know
 				// which level to return to.
 				pLevel_Player->Push_Return( pActive_Level->Get_Level_Name(), m_return_entry );
-            }
-            else
+			}
+			else
 			{
 				pLevel_Player->Push_Return( m_return_level, m_return_entry );
 			}
 		}
-
 
 		pLevel_Manager->Goto_Sub_Level( m_dest_level, m_dest_entry, m_exit_motion, m_path_identifier );
 	}

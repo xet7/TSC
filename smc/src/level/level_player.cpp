@@ -4622,24 +4622,24 @@ bool cLevel_Player :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 
 void cLevel_Player :: Push_Return( const std::string &level, const std::string &entry)
 {
-    cLevel_Player_Return_Entry e;
-    e.level = level;
-    e.entry = entry;
+	cLevel_Player_Return_Entry e;
+	e.level = level;
+	e.entry = entry;
 
-    m_return_stack.push_back(e);
+	m_return_stack.push_back(e);
 }
 
 bool cLevel_Player :: Pop_Return( std::string &level, std::string &entry )
 {
-    if( !m_return_stack.empty() )
-    {
-        cLevel_Player_Return_Entry e = m_return_stack.back();
-        m_return_stack.pop_back();
+	if( !m_return_stack.empty() )
+	{
+		cLevel_Player_Return_Entry e = m_return_stack.back();
+		m_return_stack.pop_back();
 
-        level = e.level;
-        entry = e.entry;
-        return true;
-    }
+		level = e.level;
+		entry = e.entry;
+		return true;
+	}
     else
     {
         level = "";
