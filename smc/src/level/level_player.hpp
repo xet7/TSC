@@ -56,6 +56,14 @@ enum Maryo_imgpos
 	MARYO_IMG_SPECIAL_1 = 34
 };
 
+/* *** *** *** *** *** *** *** Level player return stack entry *** *** *** *** *** *** *** *** *** *** */
+class cLevel_Player_Return_Entry
+{
+public:
+	std::string level;
+	std::string entry;
+};
+
 /* *** *** *** *** *** *** *** Level player *** *** *** *** *** *** *** *** *** *** */
 
 class cLevel_Player : public cAnimated_Sprite
@@ -257,6 +265,13 @@ public:
 	// editor direction option selected event
 	bool Editor_Direction_Select( const CEGUI::EventArgs &event );
 
+	// Push a return stack
+	void Push_Return( const std::string &level, const std::string &entry );
+	// Pop a return item off the stack. False if no more items
+	bool Pop_Return( std::string &level, std::string &entry );
+    // Clear return items off the stack.
+    void Clear_Return( void );
+
 	// current Maryo type
 	Maryo_type m_maryo_type;
 	//	Maryo type after the temporary powerup
@@ -336,6 +351,9 @@ public:
 	// default position
 	static const float m_default_pos_x;
 	static const float m_default_pos_y;
+
+	// Level return stack
+	std::vector<cLevel_Player_Return_Entry> m_return_stack;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
