@@ -3,18 +3,18 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1402300963"/>
+    <property name="save_time" value="1402946667"/>
   </information>
   <settings>
     <property name="lvl_author" value="FluXy"/>
     <property name="lvl_version" value="1.0"/>
-    <property name="lvl_music" value="land/land_5.ogg"/>
+    <property name="lvl_music" value="game/menu.ogg"/>
     <property name="lvl_description" value="&#10;"/>
     <property name="lvl_difficulty" value="0"/>
     <property name="lvl_land_type" value="undefined"/>
     <property name="cam_limit_x" value="0"/>
     <property name="cam_limit_y" value="0"/>
-    <property name="cam_limit_w" value="20000"/>
+    <property name="cam_limit_w" value="832"/>
     <property name="cam_limit_h" value="-4000"/>
     <property name="cam_fixed_hor_vel" value="0.000000"/>
   </settings>
@@ -50,8 +50,8 @@
     <property name="const_vely" value="0.000000"/>
   </background>
   <player>
-    <property name="posx" value="-7"/>
-    <property name="posy" value="-122"/>
+    <property name="posx" value="31"/>
+    <property name="posy" value="-301"/>
     <property name="direction" value="right"/>
   </player>
   <particle_emitter>
@@ -387,6 +387,65 @@
     <property name="animation" value="Bonus"/>
     <property name="item" value="25"/>
     <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <levelexit>
+    <property name="posx" value="665"/>
+    <property name="posy" value="-218"/>
+    <property name="uid" value="32"/>
+    <property name="image" value=""/>
+    <property name="type" value="1"/>
+    <property name="camera_motion" value="2"/>
+    <property name="entry" value="A1"/>
+    <property name="level_name" value="menu_brown_1_2"/>
+    <property name="direction" value="down"/>
+  </levelexit>
+  <box>
+    <property name="posx" value="699"/>
+    <property name="posy" value="-543"/>
+    <property name="uid" value="43"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="1"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <box>
+    <property name="posx" value="742"/>
+    <property name="posy" value="-543"/>
+    <property name="uid" value="42"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="1"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <box>
+    <property name="posx" value="742"/>
+    <property name="posy" value="-500"/>
+    <property name="uid" value="44"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="1"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <box>
+    <property name="posx" value="699"/>
+    <property name="posy" value="-500"/>
+    <property name="uid" value="45"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="1"/>
     <property name="useable_count" value="1"/>
     <property name="force_best_item" value="0"/>
   </box>
