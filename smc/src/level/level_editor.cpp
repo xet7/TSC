@@ -455,6 +455,13 @@ void cEditor_Level :: Function_Delete( void )
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 }
 
+/* TODO: This method circumvents the level manager -- if you reload while
+ * being in a sublevel, then leave the sublevel, and re-enter it, you will
+ * be placed inside the OLD sublevel from BEFORE the reload, because the
+ * level manager does not know about the assignment of `pActive_Level' and
+ * searches its internal `objects' lists instead, where it finds the old
+ * level that has not yet been unloaded and removed from the level manager.
+ */
 void cEditor_Level :: Function_Reload( void )
 {
 	// if denied
