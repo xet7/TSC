@@ -149,6 +149,9 @@ xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
 	if (!m_dest_entry.empty())
 		Add_Property(p_node, "entry", m_dest_entry);
 
+	if (!m_dest_level.empty())
+		Add_Property(p_node, "level_name", m_dest_level);
+
 	// path identifier
 	if (m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS) {
 		if (!m_path_identifier.empty()) {
