@@ -70,10 +70,6 @@ namespace SMC {
 			// Runs all callbacks whose timers have fired.
 			// This method is threadsafe.
 			void Evaluate_Timer_Callbacks();
-			// Load all MRuby wrapper classes for the C++ classes
-			// into the given mruby state. Called by SMC::setup
-			// in mruby land, and should not be called from elsewhere.
-			void Load_Wrappers(mrb_state* p_state);
 			// Returns the underlying mrb_state*.
 			mrb_state* Get_MRuby_State();
 			// Returns the cLevel* we’re associated with.
@@ -92,7 +88,10 @@ namespace SMC {
 			boost::mutex m_callback_mutex;
 			std::map<std::string, struct RClass*> m_classes;
 
-			// Does basic setup and then executes the main.rb file.
+			// Load all MRuby wrapper classes for the C++ classes
+			// into the given mruby state.
+			void Load_Wrappers();
+			// Executes the main.rb file for custom startup scripts.
 			void Load_Scripts();
 		};
 	};
