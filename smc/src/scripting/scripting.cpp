@@ -227,51 +227,51 @@ namespace SMC
 
 			// When changing the order, ensure parent mruby classes get defined
 			// prior to their mruby subclasses!
-			Init_Eventable(p_state, this);
-			Init_Sprite(p_state, this);
-			Init_Moving_Sprite(p_state, this);
-			Init_Animated_Sprite(p_state, this);
-			Init_Level(p_state, this);
-			Init_Level_Player(p_state, this);
-			Init_Input(p_state, this);
-			Init_Audio(p_state, this);
-			Init_Timer(p_state, this);
-			Init_Enemy(p_state, this);
-			Init_Beetle(p_state, this);
-			Init_BeetleBarrage(p_state, this);
-			Init_Eato(p_state, this);
-			Init_Flyon(p_state, this);
-			Init_Furball(p_state, this);
-			Init_Gee(p_state, this);
-			Init_Krush(p_state, this);
-			Init_Pip(p_state, this);
-			Init_Rokko(p_state, this);
-			Init_Spika(p_state, this);
-			Init_Spikeball(p_state, this);
-			Init_StaticEnemy(p_state, this);
-			Init_Thromp(p_state, this);
-			Init_Turtle(p_state, this);
-			Init_TurtleBoss(p_state, this);
-			Init_Larry(p_state, this);
-			Init_Powerup(p_state, this);
-			Init_Mushroom(p_state, this);
-			Init_Fireplant(p_state, this);
-			Init_Moon(p_state, this);
-			Init_Star(p_state, this);
-			Init_Box(p_state, this);
-			Init_SpinBox(p_state, this);
-			Init_TextBox(p_state, this);
-			Init_BonusBox(p_state, this);
-			Init_ParticleEmitter(p_state, this);
-			Init_LevelExit(p_state, this);
-			Init_LevelEntry(p_state, this);
-			Init_Path(p_state, this);
-			Init_Lava(p_state, this);
-			Init_EnemyStopper(p_state, this);
-			Init_Goldpiece(p_state, this);
-			Init_JumpingGoldpiece(p_state, this);
-			Init_Crate(p_state, this);
-			Init_UIDS(p_state, this); // Call this last so it can rely on the other MRuby classes to be defined
+			Init_Eventable(p_state);
+			Init_Sprite(p_state);
+			Init_Moving_Sprite(p_state);
+			Init_Animated_Sprite(p_state);
+			Init_Level(p_state);
+			Init_Level_Player(p_state);
+			Init_Input(p_state);
+			Init_Audio(p_state);
+			Init_Timer(p_state);
+			Init_Enemy(p_state);
+			Init_Beetle(p_state);
+			Init_BeetleBarrage(p_state);
+			Init_Eato(p_state);
+			Init_Flyon(p_state);
+			Init_Furball(p_state);
+			Init_Gee(p_state);
+			Init_Krush(p_state);
+			Init_Pip(p_state);
+			Init_Rokko(p_state);
+			Init_Spika(p_state);
+			Init_Spikeball(p_state);
+			Init_StaticEnemy(p_state);
+			Init_Thromp(p_state);
+			Init_Turtle(p_state);
+			Init_TurtleBoss(p_state);
+			Init_Larry(p_state);
+			Init_Powerup(p_state);
+			Init_Mushroom(p_state);
+			Init_Fireplant(p_state);
+			Init_Moon(p_state);
+			Init_Star(p_state);
+			Init_Box(p_state);
+			Init_SpinBox(p_state);
+			Init_TextBox(p_state);
+			Init_BonusBox(p_state);
+			Init_ParticleEmitter(p_state);
+			Init_LevelExit(p_state);
+			Init_LevelEntry(p_state);
+			Init_Path(p_state);
+			Init_Lava(p_state);
+			Init_EnemyStopper(p_state);
+			Init_Goldpiece(p_state);
+			Init_JumpingGoldpiece(p_state);
+			Init_Crate(p_state);
+			Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 		}
 	}
 }
