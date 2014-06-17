@@ -24,8 +24,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcBox = NULL;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 
@@ -245,7 +243,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Box(mrb_state* p_state)
 {
-	p_rcBox = mrb_define_class(p_state, "Box", p_rcAnimated_Sprite);
+	struct RClass* p_rcBox = mrb_define_class(p_state, "Box", mrb_class_get(p_state, "AnimatedSprite"));
 	MRB_SET_INSTANCE_TT(p_rcBox, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcBox, "initialize", Initialize, MRB_ARGS_NONE());

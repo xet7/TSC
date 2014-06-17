@@ -17,8 +17,6 @@ using namespace SMC::Scripting;
  * ever need them.
  */
 
-// Extern
-struct RClass* SMC::Scripting::p_rcJumping_Goldpiece = NULL;
 
 /**
  * Method: JumpingGoldpiece::new
@@ -41,7 +39,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_JumpingGoldpiece(mrb_state* p_state)
 {
-	p_rcJumping_Goldpiece = mrb_define_class(p_state, "JumpingGoldpiece", p_rcGoldpiece);
+	struct RClass* p_rcJumping_Goldpiece = mrb_define_class(p_state, "JumpingGoldpiece", mrb_class_get(p_state, "Goldpiece"));
 	MRB_SET_INSTANCE_TT(p_rcJumping_Goldpiece, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcJumping_Goldpiece, "initialize", Initialize, MRB_ARGS_NONE());

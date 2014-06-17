@@ -16,8 +16,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcMushroom = NULL;
 
 /**
  * Method: Mushroom::new
@@ -178,7 +176,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Mushroom(mrb_state* p_state)
 {
-	p_rcMushroom = mrb_define_class(p_state, "Mushroom", p_rcPowerup);
+	struct RClass* p_rcMushroom = mrb_define_class(p_state, "Mushroom", mrb_class_get(p_state, "Powerup"));
 	MRB_SET_INSTANCE_TT(p_rcMushroom, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcMushroom, "initialize", Initialize, MRB_ARGS_NONE());

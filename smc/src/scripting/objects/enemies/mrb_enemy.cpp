@@ -30,8 +30,6 @@ using namespace SMC::Scripting;
 
 MRUBY_IMPLEMENT_EVENT(die);
 
-// Extern
-struct RClass* SMC::Scripting::p_rcEnemy = NULL;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
@@ -199,7 +197,7 @@ static mrb_value Is_Fire_Resistant(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Enemy(mrb_state* p_state)
 {
-	p_rcEnemy = mrb_define_class(p_state, "Enemy", p_rcAnimated_Sprite);
+	struct RClass* p_rcEnemy = mrb_define_class(p_state, "Enemy", mrb_class_get(p_state, "AnimatedSprite"));
 	MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcEnemy, "initialize", Initialize, MRB_ARGS_NONE());

@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcAudio;
 		void Init_Audio(mrb_state* p_state);
 	}
 }

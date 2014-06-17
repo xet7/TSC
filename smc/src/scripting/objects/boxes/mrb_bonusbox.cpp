@@ -17,8 +17,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcBonus_Box = NULL;
 
 /**
  * Method: BonusBox::new
@@ -259,7 +257,7 @@ static mrb_value Get_Goldcolor(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_BonusBox(mrb_state* p_state)
 {
-	p_rcBonus_Box = mrb_define_class(p_state, "BonusBox", p_rcBox);
+	struct RClass* p_rcBonus_Box = mrb_define_class(p_state, "BonusBox", mrb_class_get(p_state, "Box"));
 	MRB_SET_INSTANCE_TT(p_rcBonus_Box, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcBonus_Box, "initialize", Initialize, MRB_ARGS_NONE());

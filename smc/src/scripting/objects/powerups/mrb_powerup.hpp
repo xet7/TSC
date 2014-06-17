@@ -4,7 +4,6 @@
 
 namespace SMC {
   namespace Scripting {
-    extern struct RClass* p_rcPowerup;
     void Init_Powerup(mrb_state* p_state);
   }
 }

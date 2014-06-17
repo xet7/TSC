@@ -30,8 +30,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcGoldpiece = NULL;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 
@@ -127,7 +125,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Goldpiece(mrb_state* p_state)
 {
-	p_rcGoldpiece = mrb_define_class(p_state, "Goldpiece", p_rcAnimated_Sprite);
+	struct RClass* p_rcGoldpiece = mrb_define_class(p_state, "Goldpiece", mrb_class_get(p_state, "AnimatedSprite"));
 	MRB_SET_INSTANCE_TT(p_rcGoldpiece, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcGoldpiece, "initialize", Initialize, MRB_ARGS_NONE());

@@ -71,14 +71,16 @@ namespace SMC
 			mp_level = p_level;
 			mp_mruby = mrb_open();
 
-			// Load our extensions into mruby
+			// Load SMC classes into mruby
+			Load_Wrappers();
+			// Load scripting library
 			Load_Scripts();
 		}
 
 		cMRuby_Interpreter::~cMRuby_Interpreter()
 		{
 			// Get all the registered timers from mruby
-			mrb_value klass = mrb_obj_value(p_rcTimer);
+			mrb_value klass = mrb_obj_value(mrb_class_get(mp_mruby, "Timer"));
 			mrb_value rb_timers = mrb_iv_get(mp_mruby, klass, mrb_intern_cstr(mp_mruby, "instances"));
 
 			// Stop ’em all! (and free them)
@@ -162,27 +164,15 @@ namespace SMC
 
 		void cMRuby_Interpreter::Load_Scripts()
 		{
-			// Create the SMC module
-			Init_SMC(mp_mruby);
-
-			// Load the main scripting file. This file is required to call
-			// SMC::setup, which loads all of the wrapper classes into
-			// the interpreter.
+			// Load the main scripting file. This file is supposed to
+			// do any custom user scripting startup stuff.
 			boost::filesystem::path mainfile = pResource_Manager->Get_Game_Scripting("main.rb");
 
-			/* If the main file errors, we cannot know which classes are loaded and
-			 * which aren’t. We have no real information on the state of the scripting
-			 * environment. This may obscurely break scripting-based levels or even
-			 * segfault SMC. Hence we cannot ignore this case and must abort.
-			 */
-			// FIXME: Throw a proper exception, catch it on level loading and refuse to load the level.
+			// Warn user if user’s main.rb errors.
 			if (!Run_File(mainfile)) {
-				std::string msg;
-				msg.append("Error loading main mruby script '");
-				msg.append(path_to_utf8(mainfile));
-				msg.append("'. Cannot continue!");
-				std::cerr << "FATAL: " << msg << std::endl;
-				throw(msg);
+				std::cerr << "Warning: Error loading main mruby script '"
+						  << path_to_utf8(mainfile)
+						  << "'!" << std::endl;
 			}
 		}
 
@@ -221,59 +211,60 @@ namespace SMC
 			m_callbacks.clear();
 		}
 
+		void cMRuby_Interpreter::Load_Wrappers()
+		{
+			using namespace SMC::Scripting;
+
+			// Create the main SMC modules
+			Init_SMC(mp_mruby);
+			Init_Eventable(mp_mruby);
+
+			// When changing the order, ensure parent mruby classes get defined
+			// prior to their mruby subclasses!
+			Init_Sprite(mp_mruby);
+			Init_Moving_Sprite(mp_mruby);
+			Init_Animated_Sprite(mp_mruby);
+			Init_Level(mp_mruby);
+			Init_Level_Player(mp_mruby);
+			Init_Input(mp_mruby);
+			Init_Audio(mp_mruby);
+			Init_Timer(mp_mruby);
+			Init_Enemy(mp_mruby);
+			Init_Beetle(mp_mruby);
+			Init_BeetleBarrage(mp_mruby);
+			Init_Eato(mp_mruby);
+			Init_Flyon(mp_mruby);
+			Init_Furball(mp_mruby);
+			Init_Gee(mp_mruby);
+			Init_Krush(mp_mruby);
+			Init_Pip(mp_mruby);
+			Init_Rokko(mp_mruby);
+			Init_Spika(mp_mruby);
+			Init_Spikeball(mp_mruby);
+			Init_StaticEnemy(mp_mruby);
+			Init_Thromp(mp_mruby);
+			Init_Turtle(mp_mruby);
+			Init_TurtleBoss(mp_mruby);
+			Init_Larry(mp_mruby);
+			Init_Powerup(mp_mruby);
+			Init_Mushroom(mp_mruby);
+			Init_Fireplant(mp_mruby);
+			Init_Moon(mp_mruby);
+			Init_Star(mp_mruby);
+			Init_Box(mp_mruby);
+			Init_SpinBox(mp_mruby);
+			Init_TextBox(mp_mruby);
+			Init_BonusBox(mp_mruby);
+			Init_ParticleEmitter(mp_mruby);
+			Init_LevelExit(mp_mruby);
+			Init_LevelEntry(mp_mruby);
+			Init_Path(mp_mruby);
+			Init_Lava(mp_mruby);
+			Init_EnemyStopper(mp_mruby);
+			Init_Goldpiece(mp_mruby);
+			Init_JumpingGoldpiece(mp_mruby);
+			Init_Crate(mp_mruby);
+			Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined
+		}
 	}
-
-}
-
-void SMC::Scripting::Load_Wrappers(mrb_state* p_state)
-{
-	using namespace SMC::Scripting;
-
-	// When changing the order, ensure parent mruby classes get defined
-	// prior to their mruby subclasses!
-	Init_Eventable(p_state);
-	Init_Sprite(p_state);
-	Init_Moving_Sprite(p_state);
-	Init_Animated_Sprite(p_state);
-	Init_Level(p_state);
-	Init_Level_Player(p_state);
-	Init_Input(p_state);
-	Init_Audio(p_state);
-	Init_Timer(p_state);
-	Init_Enemy(p_state);
-	Init_Beetle(p_state);
-	Init_BeetleBarrage(p_state);
-	Init_Eato(p_state);
-	Init_Flyon(p_state);
-	Init_Furball(p_state);
-	Init_Gee(p_state);
-	Init_Krush(p_state);
-	Init_Pip(p_state);
-	Init_Rokko(p_state);
-	Init_Spika(p_state);
-	Init_Spikeball(p_state);
-	Init_StaticEnemy(p_state);
-	Init_Thromp(p_state);
-	Init_Turtle(p_state);
-	Init_TurtleBoss(p_state);
-	Init_Larry(p_state);
-	Init_Powerup(p_state);
-	Init_Mushroom(p_state);
-	Init_Fireplant(p_state);
-	Init_Moon(p_state);
-	Init_Star(p_state);
-	Init_Box(p_state);
-	Init_SpinBox(p_state);
-	Init_TextBox(p_state);
-	Init_BonusBox(p_state);
-	Init_ParticleEmitter(p_state);
-	Init_LevelExit(p_state);
-	Init_LevelEntry(p_state);
-	Init_Path(p_state);
-	Init_Lava(p_state);
-	Init_EnemyStopper(p_state);
-	Init_Goldpiece(p_state);
-	Init_JumpingGoldpiece(p_state);
-	Init_Crate(p_state);
-	Init_UIDS(p_state); // Call this last so it can rely on the other MRuby classes to be defined
 }

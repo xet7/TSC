@@ -37,7 +37,7 @@ public:
 	{
 		// Someone needs to hold the event table, hence I decided
 		// pKeyboard should do this.
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcInput, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "InputClass"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	// Reset all keys

@@ -4,7 +4,6 @@
 
 namespace SMC {
   namespace Scripting {
-    extern struct RClass* p_rcMoon;
     void Init_Moon(mrb_state* p_state);
   }
 }

@@ -18,8 +18,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcKrush = NULL;
 
 /**
  * Method: Krush::new
@@ -45,7 +43,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Krush(mrb_state* p_state)
 {
-	p_rcKrush = mrb_define_class(p_state, "Krush", p_rcEnemy);
+	struct RClass* p_rcKrush = mrb_define_class(p_state, "Krush", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcKrush, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcKrush, "initialize", Initialize, MRB_ARGS_NONE());

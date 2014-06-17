@@ -24,9 +24,6 @@ using namespace SMC::Scripting;
 // forward declare
 static void PS_Free(mrb_state* p_state, void* ptr);
 
-// Extern
-struct RClass* SMC::Scripting::p_rcPath = NULL;
-struct RClass* SMC::Scripting::p_rcPath_Segment = NULL;
 struct mrb_data_type SMC::Scripting::rtSMC_Path_Segment = {"SmcPathSegment", PS_Free};
 
 /***************************************
@@ -187,7 +184,7 @@ static mrb_value Add_Segment(mrb_state* p_state, mrb_value self)
 	mrb_value segment;
 	mrb_get_args(p_state, "o", &segment);
 
-	if (!mrb_obj_is_kind_of(p_state, segment, p_rcPath_Segment)) {
+	if (!mrb_obj_is_kind_of(p_state, segment, mrb_class_get_under(p_state, mrb_class_get(p_state, "Path"), "Segment"))) {
 		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a Path::Segment.");
 		return mrb_nil_value(); // Not reached
 	}
@@ -221,6 +218,7 @@ static mrb_value Each_Segment(mrb_state* p_state, mrb_value self)
 	cPath* p_path = Get_Data_Ptr<cPath>(p_state, self);
 
 	cPath::PathList::const_iterator iter;
+	struct RClass* p_rcPath_Segment = mrb_class_get_under(p_state, mrb_class_get(p_state, "Path"), "Segment");
 	for(iter = p_path->m_segments.begin(); iter != p_path->m_segments.end(); iter++) {
 		cPath_Segment segment = *iter;
 		cPath_Segment* p_segment = new cPath_Segment;
@@ -254,6 +252,7 @@ static mrb_value Segments(mrb_state* p_state, mrb_value self)
 	cPath* p_path = Get_Data_Ptr<cPath>(p_state, self);
 
 	cPath::PathList::const_iterator iter;
+	struct RClass* p_rcPath_Segment = mrb_class_get_under(p_state, mrb_class_get(p_state, "Path"), "Segment");
 	for(iter = p_path->m_segments.begin(); iter != p_path->m_segments.end(); iter++) {
 		cPath_Segment segment = *iter;
 		cPath_Segment* p_segment = new cPath_Segment;
@@ -389,8 +388,8 @@ static mrb_value PS_Get_Target_Y(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Path(mrb_state* p_state)
 {
-	p_rcPath = mrb_define_class(p_state, "Path", p_rcSprite);
-	p_rcPath_Segment = mrb_define_class_under(p_state, p_rcPath, "Segment", p_rcPath);
+	struct RClass* p_rcPath = mrb_define_class(p_state, "Path", mrb_class_get(p_state, "Sprite"));
+	struct RClass* p_rcPath_Segment = mrb_define_class_under(p_state, p_rcPath, "Segment", p_state->object_class);
 	MRB_SET_INSTANCE_TT(p_rcPath, MRB_TT_DATA);
 	MRB_SET_INSTANCE_TT(p_rcPath_Segment, MRB_TT_DATA);
 

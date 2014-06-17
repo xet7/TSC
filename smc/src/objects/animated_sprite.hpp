@@ -106,7 +106,7 @@ public:
 	// Create the MRuby instance for this object.
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcAnimated_Sprite, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AnimatedSprite"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	// currently set image array number

@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcLevel;
 		void Init_Level(mrb_state* p_state);
 	}
 }

@@ -19,8 +19,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcTurtleBoss = NULL;
 
 /**
  * Method: TurtleBoss::new
@@ -331,7 +329,7 @@ static mrb_value Get_Downgrade_Count(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_TurtleBoss(mrb_state* p_state)
 {
-	p_rcTurtleBoss = mrb_define_class(p_state, "TurtleBoss", p_rcEnemy);
+	struct RClass* p_rcTurtleBoss = mrb_define_class(p_state, "TurtleBoss", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcTurtleBoss, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcTurtleBoss, "initialize", Initialize, MRB_ARGS_NONE());

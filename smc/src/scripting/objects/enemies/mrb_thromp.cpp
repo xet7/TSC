@@ -19,8 +19,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcThromp = NULL;
 
 /**
  * Method: Thromp::new
@@ -178,7 +176,7 @@ static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Thromp(mrb_state* p_state)
 {
-	p_rcThromp = mrb_define_class(p_state, "Thromp", p_rcEnemy);
+	struct RClass* p_rcThromp = mrb_define_class(p_state, "Thromp", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcThromp, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcThromp, "initialize", Initialize, MRB_ARGS_NONE());
