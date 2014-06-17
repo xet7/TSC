@@ -330,7 +330,7 @@ public:
 	 */
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcSprite, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Sprite"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	/* Move this object

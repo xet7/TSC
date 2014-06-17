@@ -45,7 +45,7 @@ public:
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcPowerup, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Powerup"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	/* draw
@@ -95,7 +95,7 @@ public:
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcMushroom, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Mushroom"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	// Set the Mushroom Type
@@ -143,7 +143,7 @@ public:
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcFireplant, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Fireplant"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	// Activates the item
@@ -180,7 +180,7 @@ public:
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcMoon, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Moon"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 	// Activates the item
