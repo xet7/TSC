@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcText_Box;
 		void Init_TextBox(mrb_state* p_state);
 	}
 }

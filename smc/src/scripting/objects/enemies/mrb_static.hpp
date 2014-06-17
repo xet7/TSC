@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcStaticEnemy;
 		void Init_StaticEnemy(mrb_state* p_state);
 	}
 }

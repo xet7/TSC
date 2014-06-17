@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcParticleEmitter;
 		void Init_ParticleEmitter(mrb_state* p_state);
 	}
 }

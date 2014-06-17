@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcGee;
 		void Init_Gee(mrb_state* p_state);
 	}
 }

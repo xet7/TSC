@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcPip;
 		void Init_Pip(mrb_state* p_state);
 	}
 }

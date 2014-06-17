@@ -4,8 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rmEventable;
-
 		void Init_Eventable(mrb_state* p_state);
 	};
 };
