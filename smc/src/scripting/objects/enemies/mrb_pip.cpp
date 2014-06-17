@@ -20,8 +20,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcPip = NULL;
 
 /**
  * Method: Pip::new

@@ -7,8 +7,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcLevel_Player     = NULL;
 
 /**
  * Class: LevelPlayer

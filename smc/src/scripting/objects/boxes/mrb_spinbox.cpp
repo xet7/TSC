@@ -18,8 +18,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcSpin_Box = NULL;
 
 /**
  * Method: SpinBox::new

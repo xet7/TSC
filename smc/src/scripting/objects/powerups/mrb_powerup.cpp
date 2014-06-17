@@ -27,8 +27,6 @@ using namespace SMC::Scripting;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 
-// Extern
-struct RClass* SMC::Scripting::p_rcPowerup = NULL;
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {

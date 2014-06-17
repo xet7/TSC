@@ -71,8 +71,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcSprite = NULL;
 
 MRUBY_IMPLEMENT_EVENT(touch);
 

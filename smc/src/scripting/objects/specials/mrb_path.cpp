@@ -24,8 +24,6 @@ using namespace SMC::Scripting;
 // forward declare
 static void PS_Free(mrb_state* p_state, void* ptr);
 
-// Extern
-struct RClass* SMC::Scripting::p_rcPath = NULL;
 struct RClass* SMC::Scripting::p_rcPath_Segment = NULL;
 struct mrb_data_type SMC::Scripting::rtSMC_Path_Segment = {"SmcPathSegment", PS_Free};
 

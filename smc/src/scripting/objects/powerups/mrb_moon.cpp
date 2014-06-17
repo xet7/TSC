@@ -23,8 +23,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcMoon = NULL;
 
 /**
  * Method: Moon::new

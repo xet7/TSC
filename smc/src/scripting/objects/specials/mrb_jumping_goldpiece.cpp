@@ -17,8 +17,6 @@ using namespace SMC::Scripting;
  * ever need them.
  */
 
-// Extern
-struct RClass* SMC::Scripting::p_rcJumping_Goldpiece = NULL;
 
 /**
  * Method: JumpingGoldpiece::new

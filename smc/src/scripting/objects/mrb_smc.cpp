@@ -13,8 +13,6 @@
 using namespace SMC;
 namespace fs = boost::filesystem;
 
-// Extern
-struct RClass* SMC::Scripting::p_rmSMC = NULL;
 
 /**
  * Method: SMC::require

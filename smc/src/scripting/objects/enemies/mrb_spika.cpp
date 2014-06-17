@@ -21,8 +21,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcSpika = NULL;
 
 /**
  * Method: Spika::new

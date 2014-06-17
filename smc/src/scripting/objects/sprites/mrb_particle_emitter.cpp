@@ -51,8 +51,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcParticleEmitter = NULL;
 
 /***************************************
  * Helpers

@@ -19,8 +19,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcThromp = NULL;
 
 /**
  * Method: Thromp::new

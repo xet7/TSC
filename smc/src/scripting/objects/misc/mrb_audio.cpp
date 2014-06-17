@@ -43,8 +43,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcAudio = NULL;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {

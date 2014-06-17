@@ -22,8 +22,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcText_Box = NULL;
 
 /**
  * Method: TextBox::new

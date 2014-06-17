@@ -30,8 +30,6 @@ using namespace SMC::Scripting;
 
 MRUBY_IMPLEMENT_EVENT(die);
 
-// Extern
-struct RClass* SMC::Scripting::p_rcEnemy = NULL;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {

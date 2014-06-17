@@ -30,8 +30,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcGoldpiece = NULL;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 

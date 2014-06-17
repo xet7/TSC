@@ -27,8 +27,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcCrate = NULL;
 
 /**
  * Method: Crate::new

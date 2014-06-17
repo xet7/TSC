@@ -24,8 +24,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcBox = NULL;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 

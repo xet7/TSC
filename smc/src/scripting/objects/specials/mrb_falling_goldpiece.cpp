@@ -19,8 +19,6 @@ using namespace SMC::Scripting;
  * by means of a fireball.
  */
 
-// Extern
-struct RClass* SMC::Scripting::p_rcFalling_Goldpiece = NULL;
 
 /**
  * Method: FallingGoldpiece::new

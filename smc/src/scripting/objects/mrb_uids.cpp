@@ -33,8 +33,6 @@
 
 using namespace SMC;
 
-// Extern
-struct RClass* SMC::Scripting::p_rmUIDS = NULL;
 
 // Try to retrieve the given index UID from the cache, and if
 // that doesn’t work, do the long shot and insert that sprite
