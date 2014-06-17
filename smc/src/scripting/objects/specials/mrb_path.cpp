@@ -184,7 +184,7 @@ static mrb_value Add_Segment(mrb_state* p_state, mrb_value self)
 	mrb_value segment;
 	mrb_get_args(p_state, "o", &segment);
 
-	if (!mrb_obj_is_kind_of(p_state, segment, p_rcPath_Segment)) {
+	if (!mrb_obj_is_kind_of(p_state, segment, mrb_class_get_under(p_state, mrb_class_get(p_state, "Path"), "Segment"))) {
 		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a Path::Segment.");
 		return mrb_nil_value(); // Not reached
 	}
@@ -218,6 +218,7 @@ static mrb_value Each_Segment(mrb_state* p_state, mrb_value self)
 	cPath* p_path = Get_Data_Ptr<cPath>(p_state, self);
 
 	cPath::PathList::const_iterator iter;
+	struct RClass* p_rcPath_Segment = mrb_class_get_under(p_state, mrb_class_get(p_state, "Path"), "Segment");
 	for(iter = p_path->m_segments.begin(); iter != p_path->m_segments.end(); iter++) {
 		cPath_Segment segment = *iter;
 		cPath_Segment* p_segment = new cPath_Segment;
@@ -251,6 +252,7 @@ static mrb_value Segments(mrb_state* p_state, mrb_value self)
 	cPath* p_path = Get_Data_Ptr<cPath>(p_state, self);
 
 	cPath::PathList::const_iterator iter;
+	struct RClass* p_rcPath_Segment = mrb_class_get_under(p_state, mrb_class_get(p_state, "Path"), "Segment");
 	for(iter = p_path->m_segments.begin(); iter != p_path->m_segments.end(); iter++) {
 		cPath_Segment segment = *iter;
 		cPath_Segment* p_segment = new cPath_Segment;

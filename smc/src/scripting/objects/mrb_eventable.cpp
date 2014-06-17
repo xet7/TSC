@@ -65,6 +65,6 @@ mrb_value Bind(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Eventable(mrb_state* p_state)
 {
-	p_rmEventable = mrb_define_module(p_state, "Eventable");
+	struct RClass* p_rmEventable = mrb_define_module(p_state, "Eventable");
 	mrb_define_method(p_state, p_rmEventable, "bind", Bind, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
 }

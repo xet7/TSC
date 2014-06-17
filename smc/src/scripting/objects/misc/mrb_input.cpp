@@ -51,7 +51,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 void SMC::Scripting::Init_Input(mrb_state* p_state)
 {
 	struct RClass* p_rcInput = mrb_define_class(p_state, "InputClass", p_state->object_class);
-	mrb_include_module(p_state, p_rcInput, p_rmEventable);
+	mrb_include_module(p_state, p_rcInput, mrb_class_get(p_state, "Eventable"));
 	MRB_SET_INSTANCE_TT(p_rcInput, MRB_TT_DATA);
 
 	// Make the Input constant the only instance of InputClass

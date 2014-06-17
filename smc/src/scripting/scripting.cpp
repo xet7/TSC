@@ -78,7 +78,7 @@ namespace SMC
 		cMRuby_Interpreter::~cMRuby_Interpreter()
 		{
 			// Get all the registered timers from mruby
-			mrb_value klass = mrb_obj_value(p_rcTimer);
+			mrb_value klass = mrb_obj_value(mrb_class_get(mp_mruby, "Timer"));
 			mrb_value rb_timers = mrb_iv_get(mp_mruby, klass, mrb_intern_cstr(mp_mruby, "instances"));
 
 			// Stop ’em all! (and free them)
@@ -221,7 +221,7 @@ namespace SMC
 			m_callbacks.clear();
 		}
 
-		void cMruby_Interpreter::Load_Wrappers(mrb_state* p_state)
+		void cMRuby_Interpreter::Load_Wrappers(mrb_state* p_state)
 		{
 			using namespace SMC::Scripting;
 

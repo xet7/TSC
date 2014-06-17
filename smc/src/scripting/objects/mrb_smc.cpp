@@ -87,7 +87,7 @@ static mrb_value Setup(mrb_state* p_state, mrb_value self)
 	// Note that pActive_Level is not yet set when this
 	// method is called.
 
-	SMC::Scripting::Load_Wrappers(p_state);
+	//SMC::Scripting::Load_Wrappers(p_state); // FIXME! TODO! HERE!
 	return mrb_nil_value();
 }
 
@@ -231,7 +231,7 @@ static mrb_value Is_Debug_Mode(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_SMC(mrb_state* p_state)
 {
-	p_rmSMC = mrb_define_module(p_state, "SMC");
+	struct RClass* p_rmSMC = mrb_define_module(p_state, "SMC");
 
 	mrb_define_module_function(p_state, p_rmSMC, "require", Require, MRB_ARGS_REQ(1));
 	mrb_define_module_function(p_state, p_rmSMC, "setup", Setup, MRB_ARGS_NONE());

@@ -161,13 +161,13 @@ static mrb_value Cached_UIDs(mrb_state* p_state, mrb_value self)
 // being removed from a level’s cSprite_Manager!
 void SMC::Scripting::Delete_UID_From_Cache(mrb_state* p_state, int uid)
 {
-	mrb_value cache = mrb_iv_get(p_state, mrb_obj_value(p_rmUIDS), mrb_intern_cstr(p_state, "cache"));
+	mrb_value cache = mrb_iv_get(p_state, mrb_obj_value(mrb_class_get(p_state, "UIDS")), mrb_intern_cstr(p_state, "cache"));
 	mrb_hash_delete_key(p_state, cache, mrb_fixnum_value(uid));
 }
 
 void SMC::Scripting::Init_UIDS(mrb_state* p_state)
 {
-	p_rmUIDS = mrb_define_module(p_state, "UIDS");
+	struct RClass* p_rmUIDS = mrb_define_module(p_state, "UIDS");
 
 	// Create a `cache' instance variable invisible from Ruby.
 	// This is where the cached sprite instances will be stored,
