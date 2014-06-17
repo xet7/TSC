@@ -52,7 +52,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Input(mrb_state* p_state)
 {
-	p_rcInput = mrb_define_class(p_state, "InputClass", p_state->object_class);
+	struct RClass* p_rcInput = mrb_define_class(p_state, "InputClass", p_state->object_class);
 	mrb_include_module(p_state, p_rcInput, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcInput, MRB_TT_DATA);
 

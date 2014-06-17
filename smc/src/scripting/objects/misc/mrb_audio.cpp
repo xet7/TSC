@@ -168,7 +168,7 @@ static mrb_value Play_Music(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Audio(mrb_state* p_state)
 {
-	p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
+	struct RClass* p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
 	mrb_include_module(p_state, p_rcAudio, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcAudio, MRB_TT_DATA);
 

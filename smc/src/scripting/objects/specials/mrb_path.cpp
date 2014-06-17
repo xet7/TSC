@@ -389,8 +389,8 @@ static mrb_value PS_Get_Target_Y(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Path(mrb_state* p_state)
 {
-	p_rcPath = mrb_define_class(p_state, "Path", p_rcSprite);
-	p_rcPath_Segment = mrb_define_class_under(p_state, p_rcPath, "Segment", p_rcPath);
+	struct RClass* p_rcPath = mrb_define_class(p_state, "Path", p_rcSprite);
+	struct RClass* p_rcPath_Segment = mrb_define_class_under(p_state, p_rcPath, "Segment", p_rcPath);
 	MRB_SET_INSTANCE_TT(p_rcPath, MRB_TT_DATA);
 	MRB_SET_INSTANCE_TT(p_rcPath_Segment, MRB_TT_DATA);
 

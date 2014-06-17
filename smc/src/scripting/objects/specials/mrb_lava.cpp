@@ -45,7 +45,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Lava(mrb_state* p_state)
 {
-	p_rcLava = mrb_define_class(p_state, "Lava", p_rcAnimated_Sprite);
+	struct RClass* p_rcLava = mrb_define_class(p_state, "Lava", p_rcAnimated_Sprite);
 	MRB_SET_INSTANCE_TT(p_rcLava, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcLava, "initialize", Initialize, MRB_ARGS_NONE());

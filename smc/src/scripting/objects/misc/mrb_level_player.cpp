@@ -501,7 +501,7 @@ static mrb_value Release_Item(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 {
-	p_rcLevel_Player = mrb_define_class(p_state, "LevelPlayer", p_rcAnimated_Sprite);
+	struct RClass* p_rcLevel_Player = mrb_define_class(p_state, "LevelPlayer", p_rcAnimated_Sprite);
 	MRB_SET_INSTANCE_TT(p_rcLevel_Player, MRB_TT_DATA);
 
 	// Make the Player global the only instance of LevelPlayer

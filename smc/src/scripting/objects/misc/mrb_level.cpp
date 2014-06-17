@@ -327,7 +327,7 @@ static mrb_value Display_Info_Message(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Level(mrb_state* p_state)
 {
-	p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
+	struct RClass* p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
 	mrb_include_module(p_state, p_rcLevel, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcLevel, MRB_TT_DATA);
 

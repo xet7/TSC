@@ -56,7 +56,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Spikeball(mrb_state* p_state)
 {
-	p_rcSpikeball = mrb_define_class(p_state, "Spikeball", p_rcEnemy);
+	struct RClass* p_rcSpikeball = mrb_define_class(p_state, "Spikeball", p_rcEnemy);
 	MRB_SET_INSTANCE_TT(p_rcSpikeball, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcSpikeball, "initialize", Initialize, MRB_ARGS_NONE());

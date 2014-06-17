@@ -596,7 +596,7 @@ static mrb_value Emit(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 {
-	p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_state->object_class);
+	struct RClass* p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_state->object_class);
 	MRB_SET_INSTANCE_TT(p_rcParticleEmitter, MRB_TT_DATA);
 
 	// Methods

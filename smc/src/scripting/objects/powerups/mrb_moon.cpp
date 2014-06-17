@@ -68,7 +68,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Moon(mrb_state* p_state)
 {
-	p_rcMoon = mrb_define_class(p_state, "Moon", p_rcPowerup);
+	struct RClass* p_rcMoon = mrb_define_class(p_state, "Moon", p_rcPowerup);
 	MRB_SET_INSTANCE_TT(p_rcMoon, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcMoon, "initialize", Initialize, MRB_ARGS_NONE());

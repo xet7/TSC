@@ -624,7 +624,7 @@ static mrb_value Is_Active(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 {
-	p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
+	struct RClass* p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
 	mrb_include_module(p_state, p_rcSprite, p_rmEventable);
 	MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
 

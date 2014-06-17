@@ -571,7 +571,7 @@ static mrb_value Get_Interval(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Timer(mrb_state* p_state)
 {
-	p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
+	struct RClass* p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
 	MRB_SET_INSTANCE_TT(p_rcTimer, MRB_TT_DATA);
 
 	// Invisible (for MRuby) class instance variable for storing the

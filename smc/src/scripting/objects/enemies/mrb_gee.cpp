@@ -265,7 +265,7 @@ static mrb_value Get_Wait_Time(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Gee(mrb_state* p_state)
 {
-	p_rcGee = mrb_define_class(p_state, "Gee", p_rcEnemy);
+	struct RClass* p_rcGee = mrb_define_class(p_state, "Gee", p_rcEnemy);
 	MRB_SET_INSTANCE_TT(p_rcGee, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcGee, "initialize", Initialize, MRB_ARGS_NONE());

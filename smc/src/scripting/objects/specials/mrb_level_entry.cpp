@@ -156,7 +156,7 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_LevelEntry(mrb_state* p_state)
 {
-	p_rcLevel_Entry = mrb_define_class(p_state, "LevelEntry", p_rcAnimated_Sprite);
+	struct RClass* p_rcLevel_Entry = mrb_define_class(p_state, "LevelEntry", p_rcAnimated_Sprite);
 	MRB_SET_INSTANCE_TT(p_rcLevel_Entry, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcLevel_Entry, "initialize", Initialize, MRB_ARGS_NONE());

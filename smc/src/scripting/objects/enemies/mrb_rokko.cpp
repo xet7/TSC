@@ -271,7 +271,7 @@ static mrb_value Activate_Bang(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Rokko(mrb_state* p_state)
 {
-	p_rcRokko = mrb_define_class(p_state, "Rokko", p_rcEnemy);
+	struct RClass* p_rcRokko = mrb_define_class(p_state, "Rokko", p_rcEnemy);
 	MRB_SET_INSTANCE_TT(p_rcRokko, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcRokko, "initialize", Initialize, MRB_ARGS_NONE());
