@@ -324,7 +324,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_LevelExit(mrb_state* p_state)
 {
-	struct RClass* p_rcLevel_Exit = mrb_define_class(p_state, "LevelExit", p_rcAnimated_Sprite);
+	struct RClass* p_rcLevel_Exit = mrb_define_class(p_state, "LevelExit", mrb_class_get(p_state, "AnimatedSprite"));
 	MRB_SET_INSTANCE_TT(p_rcLevel_Exit, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcLevel_Exit, "initialize", Initialize, MRB_ARGS_NONE());

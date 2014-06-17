@@ -95,7 +95,7 @@ static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Star(mrb_state* p_state)
 {
-	struct RClass* p_rcStar = mrb_define_class(p_state, "Star", p_rcPowerup);
+	struct RClass* p_rcStar = mrb_define_class(p_state, "Star", mrb_class_get(p_state, "Powerup"));
 	MRB_SET_INSTANCE_TT(p_rcStar, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcStar, "initialize", Initialize, MRB_ARGS_NONE());

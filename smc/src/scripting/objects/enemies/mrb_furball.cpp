@@ -228,7 +228,7 @@ static mrb_value Does_Level_End_If_Killed(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Furball(mrb_state* p_state)
 {
-	struct RClass* p_rcFurball = mrb_define_class(p_state, "Furball", p_rcEnemy);
+	struct RClass* p_rcFurball = mrb_define_class(p_state, "Furball", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcFurball, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, MRB_ARGS_NONE());

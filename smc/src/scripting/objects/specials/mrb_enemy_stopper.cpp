@@ -48,7 +48,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_EnemyStopper(mrb_state* p_state)
 {
-	struct RClass* p_rcEnemy_Stopper = mrb_define_class(p_state, "EnemyStopper", p_rcAnimated_Sprite);
+	struct RClass* p_rcEnemy_Stopper = mrb_define_class(p_state, "EnemyStopper", mrb_class_get(p_state, "AnimatedSprite"));
 	MRB_SET_INSTANCE_TT(p_rcEnemy_Stopper, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcEnemy_Stopper, "initialize", Initialize, MRB_ARGS_NONE());

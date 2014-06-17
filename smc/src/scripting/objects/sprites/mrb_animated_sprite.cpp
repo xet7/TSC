@@ -27,7 +27,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Animated_Sprite(mrb_state* p_state)
 {
-	struct RClass* p_rcAnimated_Sprite = mrb_define_class(p_state, "AnimatedSprite", p_rcMoving_Sprite);
+	struct RClass* p_rcAnimated_Sprite = mrb_define_class(p_state, "AnimatedSprite", mrb_class_get(p_state, "MovingSprite"));
 
 	mrb_define_method(p_state, p_rcAnimated_Sprite, "initialize", Initialize, MRB_ARGS_NONE());
 }

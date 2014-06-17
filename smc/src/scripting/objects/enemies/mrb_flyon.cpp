@@ -224,7 +224,7 @@ static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Flyon(mrb_state* p_state)
 {
-	struct RClass* p_rcFlyon = mrb_define_class(p_state, "Flyon", p_rcEnemy);
+	struct RClass* p_rcFlyon = mrb_define_class(p_state, "Flyon", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcFlyon, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcFlyon, "initialize", Initialize, MRB_ARGS_NONE());
