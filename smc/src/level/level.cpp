@@ -1068,7 +1068,9 @@ cLevel_Entry *cLevel :: Get_Entry( const std::string &name )
 		return NULL;
 	}
 
-	// Search for entry
+	std::vector<cLevel_Entry*> entries;
+
+	// Search for entries matching name
 	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
 	{
 		cSprite *obj = (*itr);
@@ -1083,8 +1085,14 @@ cLevel_Entry *cLevel :: Get_Entry( const std::string &name )
 		// found
 		if( level_entry->m_entry_name.compare( name ) == 0 )
 		{
-			return level_entry;
+			entries.push_back(level_entry);
 		}
+	}
+
+	// Return a random entry
+	if (!entries.empty())
+	{
+		return entries[rand() % entries.size()];
 	}
 
 	return NULL;
