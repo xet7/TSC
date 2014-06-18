@@ -69,6 +69,8 @@ public:
 	// Set invisible type
 	void Set_Invisible( Box_Invisible_Type type );
 
+	virtual void Set_Massive_Type( MassiveType type );
+
 	// activates collision movement
 	void Activate_Collision( ObjectDirection col_direction );
 	// updates the collision movement

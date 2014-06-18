@@ -189,24 +189,6 @@ bool cEditor_Level :: Key_Down( SDLKey key )
 						continue;
 					}
 
-					// sprites need additional data
-					if( obj->Is_Basic_Sprite() )
-					{
-						obj->m_type = mouse_obj->m_type;
-						obj->m_sprite_array = mouse_obj->m_sprite_array;
-						obj->m_can_be_ground = mouse_obj->m_can_be_ground;
-					}
-					// special objects
-					else if( obj->m_type == TYPE_MOVING_PLATFORM )
-					{
-						// fall through
-					}
-					else
-					{
-						// massivetype change is not valid
-						continue;
-					}
-					
 					// set state
 					obj->Set_Massive_Type( mouse_obj->m_massive_type );
 				}

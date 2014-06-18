@@ -620,6 +620,11 @@ bool cLevel_Exit :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs 
 	return 1;
 }
 
+void cLevel_Exit::Set_Massive_Type( MassiveType type )
+{
+	// Ignore to prevent "m" toggling in level editor
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

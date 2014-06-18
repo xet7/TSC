@@ -1289,6 +1289,11 @@ void cSprite :: Draw_Image_Editor( cSurface_Request *request /* = NULL */ ) cons
 	}
 }
 
+/**
+ * - Should be called after setting the new array type.
+ * - Overwrite this if you don’t want your object to me affected by "m"
+ *   toggling in the level editor.
+ */
 void cSprite :: Set_Massive_Type( MassiveType type )
 {
 	m_massive_type = type;

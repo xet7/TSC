@@ -17,6 +17,8 @@ namespace SMC {
 
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
+		void Set_Massive_Type( MassiveType type );
+
 		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
 		virtual void Handle_Collision_Enemy(cObjectCollision* p_collision);
 

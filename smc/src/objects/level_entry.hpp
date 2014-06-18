@@ -60,6 +60,8 @@ public:
 	// Set direction
 	void Set_Direction( const ObjectDirection dir );
 
+	virtual void Set_Massive_Type( MassiveType type );
+
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );
 

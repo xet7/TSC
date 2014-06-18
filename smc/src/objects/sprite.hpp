@@ -373,9 +373,7 @@ public:
 	*/
 	void Draw_Image_Editor( cSurface_Request *request = NULL ) const;
 
-	/* Set the massive type
-	 * should be called after setting the new array
-	*/
+	/// Set the massive type.
 	virtual void Set_Massive_Type( MassiveType type );
 
 	// Check if this sprite is on top of the given object

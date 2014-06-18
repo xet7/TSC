@@ -55,6 +55,8 @@ public:
 	// Set direction
 	virtual void Set_Direction( const ObjectDirection dir, bool initial = true );
 
+	virtual void Set_Massive_Type( MassiveType type );
+
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
