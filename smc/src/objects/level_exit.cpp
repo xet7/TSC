@@ -553,7 +553,7 @@ void cLevel_Exit :: Editor_Activate( void )
 
 	editbox->setText( m_dest_entry.c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Destination_Entry_Text_Changed, this ) );
-	
+
 	// return level
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "level_exit_return_level" ));
 	Editor_Add( UTF8_("Return Level"), UTF8_("Name of the level that should be pushed onto return stack."), editbox, 150 );
