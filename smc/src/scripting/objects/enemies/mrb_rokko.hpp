@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcRokko;
 		void Init_Rokko(mrb_state* p_state);
 	}
 }

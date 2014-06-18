@@ -92,8 +92,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcMoving_Sprite = NULL;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
@@ -695,7 +693,7 @@ static mrb_value Down_Grade_NOW(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
-	p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", p_rcSprite);
+	struct RClass* p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", mrb_class_get(p_state, "Sprite"));
 
 	mrb_define_method(p_state, p_rcMoving_Sprite, "initialize", Initialize, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_x!", Accelerate_X, MRB_ARGS_REQ(1));

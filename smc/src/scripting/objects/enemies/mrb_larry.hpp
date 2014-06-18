@@ -3,7 +3,6 @@
 #include "../../scripting.hpp"
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcLarry;
 		void Init_Larry(mrb_state* p_state);
 	}
 }

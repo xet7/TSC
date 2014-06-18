@@ -27,8 +27,6 @@ using namespace SMC::Scripting;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 
-// Extern
-struct RClass* SMC::Scripting::p_rcPowerup = NULL;
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
@@ -55,7 +53,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Powerup(mrb_state* p_state)
 {
-	p_rcPowerup = mrb_define_class(p_state, "Powerup", p_rcAnimated_Sprite);
+	struct RClass* p_rcPowerup = mrb_define_class(p_state, "Powerup", mrb_class_get(p_state, "AnimatedSprite"));
 	MRB_SET_INSTANCE_TT(p_rcPowerup, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcPowerup, "initialize", Initialize, MRB_ARGS_NONE());

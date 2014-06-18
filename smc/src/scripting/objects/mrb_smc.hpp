@@ -4,8 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rmSMC;
-
 		void Init_SMC(mrb_state* p_state);
 	}
 }

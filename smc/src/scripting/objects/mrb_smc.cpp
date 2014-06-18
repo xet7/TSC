@@ -13,8 +13,6 @@
 using namespace SMC;
 namespace fs = boost::filesystem;
 
-// Extern
-struct RClass* SMC::Scripting::p_rmSMC = NULL;
 
 /**
  * Method: SMC::require
@@ -72,24 +70,6 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 
 	// Finish
 	mrbc_context_free(p_state, p_context);
-	return mrb_nil_value();
-}
-
-/**
- * Method: SMC::setup
- *
- *   setup()
- *
- * Main setup method. This method *must* be called during the
- * initialisation sequence in `main.rb`, otherwise scripting will badly
- * malfunction.
- */
-static mrb_value Setup(mrb_state* p_state, mrb_value self)
-{
-	// Note that pActive_Level is not yet set when this
-	// method is called.
-
-	SMC::Scripting::Load_Wrappers(p_state);
 	return mrb_nil_value();
 }
 
@@ -233,10 +213,9 @@ static mrb_value Is_Debug_Mode(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_SMC(mrb_state* p_state)
 {
-	p_rmSMC = mrb_define_module(p_state, "SMC");
+	struct RClass* p_rmSMC = mrb_define_module(p_state, "SMC");
 
 	mrb_define_module_function(p_state, p_rmSMC, "require", Require, MRB_ARGS_REQ(1));
-	mrb_define_module_function(p_state, p_rmSMC, "setup", Setup, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "platform", Platform, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "quit", Quit, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "exit", Exit, MRB_ARGS_REQ(1));

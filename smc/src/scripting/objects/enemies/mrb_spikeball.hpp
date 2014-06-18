@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcSpikeball;
 		void Init_Spikeball(mrb_state* p_state);
 	}
 }

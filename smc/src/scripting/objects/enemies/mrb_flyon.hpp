@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcFlyon;
 		void Init_Flyon(mrb_state* p_state);
 	}
 }

@@ -19,10 +19,6 @@ namespace SMC {
 		// it for all our objects to this one.
 		extern struct mrb_data_type rtSMC_Scriptable;
 
-		// Load all MRuby wrapper classes for the C++ classes
-		// into the given mruby state. Called by SMC::setup
-		// in mruby land.
-		void Load_Wrappers(mrb_state* p_state);
 		// Takes a C(++) string and directly returns an MRuby
 		// symbol object (not an mrb_sym!) for it.
 		inline mrb_value str2sym(mrb_state* mrb, std::string str){ return mrb_symbol_value(mrb_intern_cstr(mrb, str.c_str())); }
@@ -78,13 +74,24 @@ namespace SMC {
 			mrb_state* Get_MRuby_State();
 			// Returns the cLevel* we’re associated with.
 			cLevel* Get_Level();
+
+			// Retrieve an mruby class object.
+			inline struct RClass* Get_MRuby_Class(const std::string& name){return m_classes[name];}
+			// Set an mruby class object. Only use inside
+			// the Init_* functions that set up the mruby
+			// class hierarchy.
+			inline void Set_MRuby_Class(const std::string& name, struct RClass* klass){m_classes[name] = klass;}
 		private:
 			mrb_state* mp_mruby;
 			cLevel* mp_level;
 			std::vector<mrb_value> m_callbacks;
 			boost::mutex m_callback_mutex;
+			std::map<std::string, struct RClass*> m_classes;
 
-			// Does basic setup and then executes the main.rb file.
+			// Load all MRuby wrapper classes for the C++ classes
+			// into the given mruby state.
+			void Load_Wrappers();
+			// Executes the main.rb file for custom startup scripts.
 			void Load_Scripts();
 		};
 	};

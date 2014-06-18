@@ -55,7 +55,7 @@ public:
 	// Create the MRuby object for this
 	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcTurtle, &Scripting::rtSMC_Scriptable, this));
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Turtle"), &Scripting::rtSMC_Scriptable, this));
 	}
 
 

@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcBonus_Box;
 		void Init_BonusBox(mrb_state* p_state);
 	}
 }

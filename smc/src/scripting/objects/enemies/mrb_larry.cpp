@@ -18,8 +18,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcLarry = NULL;
 
 /**
  * Method: Larry::new
@@ -44,7 +42,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Larry(mrb_state* p_state)
 {
-	p_rcLarry = mrb_define_class(p_state, "Larry", p_rcEnemy);
+	struct RClass* p_rcLarry = mrb_define_class(p_state, "Larry", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcLarry, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcLarry, "initialize", Initialize, MRB_ARGS_NONE());

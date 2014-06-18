@@ -455,6 +455,18 @@ void cEditor_Level :: Function_Delete( void )
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 }
 
+/* TODO: This method circumvents the level manager -- if you reload while
+ * being in a sublevel, then leave the sublevel, and re-enter it, you will
+ * be placed inside the OLD sublevel from BEFORE the reload, because the
+ * level manager does not know about the assignment of `pActive_Level' and
+ * searches its internal `objects' lists instead, where it finds the old
+ * level that has not yet been unloaded and removed from the level manager.
+ *
+ * Also note that, as the new level is never added to the level manager,
+ * it just stays around forever, i.e. it’s a memory leak as it is never
+ * deleted when the level manager executes the level cleanup code (it doesn’t
+ * know about this off-site level and does not free its memory therefore).
+ */
 void cEditor_Level :: Function_Reload( void )
 {
 	// if denied
@@ -463,7 +475,7 @@ void cEditor_Level :: Function_Reload( void )
 		return;
 	}
 
-	pActive_Level = cLevel::Load_From_File( path_to_utf8( Trim_Filename( pActive_Level->m_level_filename, false ) ) );
+	pActive_Level = cLevel::Load_From_File( pActive_Level->m_level_filename );
 	if( pActive_Level )
 	{
 		pActive_Level->Init();

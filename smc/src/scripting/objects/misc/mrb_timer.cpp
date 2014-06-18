@@ -153,8 +153,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcTimer = NULL;
 
 /***************************************
  * C++ part
@@ -374,7 +372,7 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
 
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, true);
 
-	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
+	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
 
 	// Prevent mruby timer from getting out of scope
 	mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
@@ -408,7 +406,7 @@ static mrb_value After(mrb_state* p_state,  mrb_value self)
 	mrb_get_args(p_state, "i&", &secs, &block);
 
 	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
-	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcTimer, &rtSMC_Scriptable, p_timer));
+	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
 
 	// Prevent mruby timer from getting out of scope
 	mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
@@ -571,7 +569,7 @@ static mrb_value Get_Interval(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Timer(mrb_state* p_state)
 {
-	p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
+	struct RClass* p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
 	MRB_SET_INSTANCE_TT(p_rcTimer, MRB_TT_DATA);
 
 	// Invisible (for MRuby) class instance variable for storing the

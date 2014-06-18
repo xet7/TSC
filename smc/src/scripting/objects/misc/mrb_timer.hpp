@@ -74,8 +74,6 @@ namespace SMC {
 			bool m_stopped;
 		};
 
-		extern struct RClass* p_rcTimer;
-
 		// Usual function for initialising the binding
 		void Init_Timer(mrb_state* p_state);
 	}

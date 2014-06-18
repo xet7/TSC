@@ -19,8 +19,6 @@ using namespace SMC::Scripting;
  * by means of a fireball.
  */
 
-// Extern
-struct RClass* SMC::Scripting::p_rcFalling_Goldpiece = NULL;
 
 /**
  * Method: FallingGoldpiece::new
@@ -43,7 +41,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_FallingGoldpiece(mrb_state* p_state)
 {
-	p_rcFalling_Goldpiece = mrb_define_class(p_state, "FallingGoldpiece", p_rcGoldpiece);
+	struct RClass* p_rcFalling_Goldpiece = mrb_define_class(p_state, "FallingGoldpiece", mrb_class_get(p_state, "Goldpiece"));
 	MRB_SET_INSTANCE_TT(p_rcFalling_Goldpiece, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcFalling_Goldpiece, "initialize", Initialize, MRB_ARGS_NONE());

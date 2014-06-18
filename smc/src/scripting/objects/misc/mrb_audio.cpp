@@ -43,8 +43,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcAudio = NULL;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
@@ -168,8 +166,8 @@ static mrb_value Play_Music(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Audio(mrb_state* p_state)
 {
-	p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
-	mrb_include_module(p_state, p_rcAudio, p_rmEventable);
+	struct RClass* p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
+	mrb_include_module(p_state, p_rcAudio, mrb_class_get(p_state, "Eventable"));
 	MRB_SET_INSTANCE_TT(p_rcAudio, MRB_TT_DATA);
 
 	// Make the Audio constant the only instance of AudioClass

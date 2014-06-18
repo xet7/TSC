@@ -30,8 +30,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcBeetleBarrage = NULL;
 
 MRUBY_IMPLEMENT_EVENT(spit);
 
@@ -176,7 +174,7 @@ static mrb_value Get_Fly_Distance(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_BeetleBarrage(mrb_state* p_state)
 {
-	p_rcBeetleBarrage = mrb_define_class(p_state, "BeetleBarrage", p_rcEnemy);
+	struct RClass* p_rcBeetleBarrage = mrb_define_class(p_state, "BeetleBarrage", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcBeetleBarrage, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcBeetleBarrage, "initialize", Initialize, MRB_ARGS_NONE());

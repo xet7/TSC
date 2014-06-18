@@ -4,7 +4,6 @@
 
 namespace SMC {
 	namespace Scripting {
-		extern struct RClass* p_rcFurball;
 		void Init_Furball(mrb_state* p_state);
 	}
 }

@@ -20,8 +20,6 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-// Extern
-struct RClass* SMC::Scripting::p_rcPip = NULL;
 
 /**
  * Method: Pip::new
@@ -47,7 +45,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Pip(mrb_state* p_state)
 {
-	p_rcPip = mrb_define_class(p_state, "Pip", p_rcEnemy);
+	struct RClass* p_rcPip = mrb_define_class(p_state, "Pip", mrb_class_get(p_state, "Enemy"));
 	MRB_SET_INSTANCE_TT(p_rcPip, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcPip, "initialize", Initialize, MRB_ARGS_NONE());
