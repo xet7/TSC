@@ -226,7 +226,7 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 					// set invisible for warp animation
 					pLevel_Player->Set_Active( 0 );
 				}
-				else
+				else if( !str_entry.empty() )
 				{
 					printf( "Warning : Level entry %s not found\n", str_entry.c_str() );
 				}
