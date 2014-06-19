@@ -273,7 +273,8 @@ std::vector<cSprite*> cEditor_World :: items_loader_callback(const std::string& 
 {
 	cSprite* p_sprite = cOverworldLoader::Create_World_Object_From_XML(name, attributes, engine_version, p_sprite_manager, static_cast<cOverworld*>(p_data));
 	std::vector<cSprite*> result;
-	result.push_back(p_sprite);
+	if (p_sprite)
+		result.push_back(p_sprite);
 	return result;
 }
 

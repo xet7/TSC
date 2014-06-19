@@ -132,13 +132,13 @@ cLayer_Line_Point_Start :: cLayer_Line_Point_Start( XmlAttributes &attributes, c
 	cLayer_Line_Point_Start::Init();
 
 	// Start
-	Set_Pos(static_cast<float>(attributes.retrieve<int>("X1")) - 2, static_cast<float>(attributes.retrieve<int>("Y1")) -2, true);
+	Set_Pos(static_cast<float>(attributes.fetch<int>("X1", 0)) - 2, static_cast<float>(attributes.fetch<int>("Y1", 0)) -2, true);
 
 	// End
-	m_linked_point->Set_Pos(static_cast<float>(attributes.retrieve<int>("X2")) - 2, static_cast<float>(attributes.retrieve<int>("Y2")) -2, true);
+	m_linked_point->Set_Pos(static_cast<float>(attributes.fetch<int>("X2", 0)) - 2, static_cast<float>(attributes.fetch<int>("Y2", 0)) -2, true);
 
 	// origin
-	m_origin = attributes.retrieve<int>("origin");
+	m_origin = attributes.fetch<int>("origin", 0);
 }
 
 cLayer_Line_Point_Start :: ~cLayer_Line_Point_Start( void )
