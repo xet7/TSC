@@ -237,8 +237,6 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 		{
 			printf( "Error : Level not found %s\n", str_level.c_str() );
 			pHud_Debug->Set_Text( _("Loading Level failed : ") + str_level );
-
-			pLevel_Manager->Finish_Level();
 		}
 	}
 	if( action_data.exists( "load_savegame" ) )

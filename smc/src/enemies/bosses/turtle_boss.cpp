@@ -356,7 +356,7 @@ void cTurtleBoss :: Update_Normal_Dying()
 			if( m_level_ends_if_killed )
 			{
 				// exit level
-				pLevel_Manager->Finish_Level();
+				pLevel_Manager->Finish_Level(DIR_LEFT); // FIXME: Add proper attribute the same way cLevel_Exit has!
 			}
 	
 			// reset scaling

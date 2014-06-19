@@ -66,12 +66,6 @@ cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manag
 	else
 		Set_Destination(attributes["destination"]);
 
-	// backward direction
-	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<std::string>("direction_backward", "left")));
-
-	// forward direction
-	Set_Direction_Forward(Get_Direction_Id(attributes.fetch<std::string>("direction_forward", "right")));
-
 	// access
 	Set_Access(attributes.fetch<bool>("access", true), true);
 }
@@ -94,14 +88,9 @@ void cWaypoint :: Init( void )
 	
 	m_access = 0;
 	m_access_default = 0;
-	m_direction_forward = DIR_UNDEFINED;
-	m_direction_backward = DIR_UNDEFINED;
 
 	m_glim_color = Get_Random_Float( 0, 100 );
 	m_glim_mod = 1;
-
-	m_arrow_forward = NULL;
-	m_arrow_backward = NULL;
 
 	Set_Image( pVideo->Get_Surface( "world/waypoint/default_1.png" ) );
 }
@@ -113,8 +102,6 @@ cWaypoint *cWaypoint :: Copy( void ) const
 	waypoint->Set_Image( m_start_image, 1 );
 	waypoint->m_waypoint_type = m_waypoint_type;
 	waypoint->Set_Destination( m_destination );
-	waypoint->Set_Direction_Forward( m_direction_forward );
-	waypoint->Set_Direction_Backward( m_direction_backward );
 	waypoint->Set_Access( m_access_default, 1 );
 	return waypoint;
 }
@@ -130,10 +117,6 @@ xmlpp::Element* cWaypoint :: Save_To_XML_Node( xmlpp::Element* p_element)
 
 	// destination
 	Add_Property(p_node, "destination", m_destination);
-	// direction backward
-	Add_Property(p_node, "direction_backward", Get_Direction_Name(m_direction_backward));
-	// direction forward
-	Add_Property(p_node, "direction_forward", Get_Direction_Name(m_direction_forward));
 	// access
 	Add_Property(p_node, "access", m_access_default);
 
@@ -175,88 +158,6 @@ void cWaypoint :: Draw( cSurface_Request *request /* = NULL  */ )
 		return;
 	}
 
-	if( pOverworld_Manager->m_debug_mode || editor_world_enabled )
-	{
-		float x;
-		float y;
-
-		// direction back arrow
-		if( m_direction_backward == DIR_RIGHT || m_direction_backward == DIR_LEFT || m_direction_backward == DIR_UP || m_direction_backward == DIR_DOWN )
-		{
-			x = m_rect.m_x - pActive_Camera->m_x;
-			y = m_rect.m_y - pActive_Camera->m_y;
-
-			// create request
-			cSurface_Request *surface_request = new cSurface_Request();
-
-			if( m_direction_backward == DIR_RIGHT )
-			{
-				x += m_rect.m_w;
-				y += (m_rect.m_h * 0.5f) - (m_arrow_backward->m_w * 0.5f);
-			}
-			else if( m_direction_backward == DIR_LEFT )
-			{
-				x -= m_arrow_backward->m_w;
-				y += (m_rect.m_h * 0.5f) - (m_arrow_backward->m_w * 0.5f);
-			}
-			else if( m_direction_backward == DIR_UP )
-			{
-				y -= m_arrow_backward->m_h;
-				x += (m_rect.m_w * 0.5f) - (m_arrow_backward->m_h * 0.5f);
-			}
-			// down
-			else
-			{
-				y += m_rect.m_h;
-				x += (m_rect.m_w * 0.5f) - (m_arrow_backward->m_h * 0.5f);
-			}
-			
-			m_arrow_backward->Blit( x, y, 0.089f, surface_request );
-			surface_request->m_shadow_pos = 2;
-			surface_request->m_shadow_color = lightgreyalpha64;
-			// add request
-			pRenderer->Add( surface_request );
-		}
-
-		// direction forward arrow
-		if( m_direction_forward == DIR_RIGHT || m_direction_forward == DIR_LEFT || m_direction_forward == DIR_UP || m_direction_forward == DIR_DOWN )
-		{
-			x = m_rect.m_x - pActive_Camera->m_x;
-			y = m_rect.m_y - pActive_Camera->m_y;
-
-			// create request
-			cSurface_Request *surface_request = new cSurface_Request();
-
-			if( m_direction_forward == DIR_RIGHT )
-			{
-				x += m_rect.m_w;
-				y += (m_rect.m_h * 0.5f) - (m_arrow_forward->m_w * 0.5f);
-			}
-			else if( m_direction_forward == DIR_LEFT )
-			{
-				x -= m_arrow_forward->m_w;
-				y += (m_rect.m_h * 0.5f) - (m_arrow_forward->m_w * 0.5f);
-			}
-			else if( m_direction_forward == DIR_UP )
-			{
-				y -= m_arrow_forward->m_h;
-				x += (m_rect.m_w * 0.5f) - (m_arrow_forward->m_h * 0.5f);
-			}
-			// down
-			else
-			{
-				y += m_rect.m_h;
-				x += (m_rect.m_w * 0.5f) - (m_arrow_forward->m_h * 0.5f);
-			}
-			
-			m_arrow_forward->Blit( x, y, 0.089f, surface_request );
-			surface_request->m_shadow_pos = 2;
-			surface_request->m_shadow_color = lightgreyalpha64;
-			// add request
-			pRenderer->Add( surface_request );
-		}
-	}
-
 	// draw waypoint
 	if( ( m_access && ( m_waypoint_type == 1 || m_waypoint_type == 2 ) ) || pOverworld_Manager->m_debug_mode || editor_world_enabled )
 	{
@@ -295,50 +196,6 @@ void cWaypoint :: Draw( cSurface_Request *request /* = NULL  */ )
 			// add request
 			pRenderer->Add( request );
 		}
-	}
-}
-
-void cWaypoint :: Set_Direction_Forward( ObjectDirection direction )
-{
-	m_direction_forward = direction;
-
-	if( direction == DIR_LEFT )
-	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/left.png" );
-	}
-	else if( direction == DIR_RIGHT )
-	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/right.png" );
-	}
-	else if( direction == DIR_UP )
-	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/up.png" );
-	}
-	else if( direction == DIR_DOWN )
-	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/down.png" );
-	}
-}
-
-void cWaypoint :: Set_Direction_Backward( ObjectDirection direction )
-{
-	m_direction_backward = direction;
-
-	if( direction == DIR_LEFT )
-	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/left.png" );
-	}
-	else if( direction == DIR_RIGHT )
-	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/right.png" );
-	}
-	else if( direction == DIR_UP )
-	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/up.png" );
-	}
-	else if( direction == DIR_DOWN )
-	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/down.png" );
 	}
 }
 
@@ -407,30 +264,6 @@ void cWaypoint :: Editor_Activate( void )
 	editbox->setText( Get_Destination() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cWaypoint::Editor_Destination_Text_Changed, this ) );
 
-	// backward direction
-	combobox = static_cast<CEGUI::Combobox *>(wmgr.createWindow( "TaharezLook/Combobox", "waypoint_backward_direction" ));
-	Editor_Add( UTF8_("Backward Direction"), UTF8_("Backward Direction"), combobox, 100, 105 );
-
-	combobox->addItem( new CEGUI::ListboxTextItem( "up" ) );
-	combobox->addItem( new CEGUI::ListboxTextItem( "down" ) );
-	combobox->addItem( new CEGUI::ListboxTextItem( "right" ) );
-	combobox->addItem( new CEGUI::ListboxTextItem( "left" ) );
-	combobox->setText( Get_Direction_Name( m_direction_backward ) );
-
-	combobox->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cWaypoint::Editor_Backward_Direction_Select, this ) );
-
-	// forward direction
-	combobox = static_cast<CEGUI::Combobox *>(wmgr.createWindow( "TaharezLook/Combobox", "waypoint_forward_direction" ));
-	Editor_Add( UTF8_("Forward Direction"), UTF8_("Forward Direction"), combobox, 100, 105 );
-
-	combobox->addItem( new CEGUI::ListboxTextItem( "up" ) );
-	combobox->addItem( new CEGUI::ListboxTextItem( "down" ) );
-	combobox->addItem( new CEGUI::ListboxTextItem( "right" ) );
-	combobox->addItem( new CEGUI::ListboxTextItem( "left" ) );
-	combobox->setText( Get_Direction_Name( m_direction_forward ) );
-
-	combobox->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cWaypoint::Editor_Forward_Direction_Select, this ) );
-
 	// Access
 	combobox = static_cast<CEGUI::Combobox *>(wmgr.createWindow( "TaharezLook/Combobox", "waypoint_access" ));
 	Editor_Add( UTF8_("Default Access"), UTF8_("Enable if the Waypoint should be always accessible."), combobox, 120, 80 );
@@ -476,26 +309,6 @@ bool cWaypoint :: Editor_Destination_Text_Changed( const CEGUI::EventArgs &event
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Destination( str_text );
-
-	return 1;
-}
-
-bool cWaypoint :: Editor_Backward_Direction_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	Set_Direction_Backward( Get_Direction_Id( item->getText().c_str() ) );
-
-	return 1;
-}
-
-bool cWaypoint :: Editor_Forward_Direction_Select( const CEGUI::EventArgs &event )
-{
-	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-
-	Set_Direction_Forward( Get_Direction_Id( item->getText().c_str() ) );
 
 	return 1;
 }

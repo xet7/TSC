@@ -251,7 +251,7 @@ static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
 /**
  * Method: LevelClass#finish
  *
- *   finish( [ win_music ] )
+ *   finish( direction, [ win_music ] )
  *
  * The player immediately wins the level and the game resumes to the
  * world overview, advancing to the next level point. If the level was
@@ -260,15 +260,29 @@ static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
  *
  * #### Parameters
  *
+ * direction
+ * : A symbol denoting the direction in which to advance
+ *   on the overworld. One of `:up`, `:down`, `:right`,
+ *   or `:left`.
+ *
  * win_music (false)
  * : If set, plays the level win music.
  */
 static mrb_value Finish(mrb_state* p_state,  mrb_value self)
 {
 	mrb_value obj;
-	mrb_get_args(p_state, "|o", &obj);
+	mrb_sym dirsym;
+	mrb_get_args(p_state, "n|o", &dirsym, &obj);
 
-	pLevel_Manager->Finish_Level(mrb_test(obj));
+	std::string dirstr = mrb_sym2name(p_state, dirsym);
+	ObjectDirection dir = Get_Direction_Id(dirstr);
+
+	if (dir != DIR_UP && dir != DIR_DOWN && dir != DIR_RIGHT && dir != DIR_LEFT) {
+		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid level exit overworld direction '%s'!", dirstr.c_str());
+		return mrb_nil_value(); // Not reached
+	}
+
+	pLevel_Manager->Finish_Level(dir, mrb_test(obj));
 	return mrb_nil_value();
 }
 
@@ -341,7 +355,7 @@ void SMC::Scripting::Init_Level(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_OPT(1));
+	mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
 	mrb_define_method(p_state, p_rcLevel, "display_info_message", Display_Info_Message, MRB_ARGS_REQ(1));
 
 	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), MRB_ARGS_NONE());

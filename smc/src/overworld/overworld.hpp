@@ -169,8 +169,8 @@ public:
 	// update the Waypoint text
 	void Update_Waypoint_text( void );
 
-	// Enable the next Level and walk into the forward direction
-	bool Goto_Next_Level( void );
+	// Enable the next Level and walk into the given direction
+	bool Goto_Next_Level( ObjectDirection dir );
 	// Resets the Waypoint access to the default
 	void Reset_Waypoints( void );
 
@@ -206,9 +206,6 @@ public:
 	Moving_state m_player_moving_state;
 
 	/* *** *** ***  *** *** *** *** */
-
-	// goto next level on overworld enter
-	bool m_next_level;
 
 	// HUD world name
 	cHudSprite *m_hud_world_name;

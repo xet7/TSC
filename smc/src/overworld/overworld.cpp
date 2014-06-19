@@ -172,8 +172,6 @@ void cOverworld::Init()
 	m_hud_level_name->Set_Pos( 350, 2 );
 	m_hud_level_name->Set_Shadow( black, 1.5f );
 
-	m_next_level = 0;
-
 	m_player_start_waypoint = 0;
 	m_player_moving_state = STA_STAY;
 }
@@ -336,23 +334,6 @@ void cOverworld :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	{
 		pOverworld_Player->Reset();
 		pOverworld_Player->Set_Waypoint( m_player_start_waypoint, 1 );
-	}
-
-	// if goto next level
-	if( m_next_level )
-	{
-		Goto_Next_Level();
-	}
-
-	// if on start waypoint
-	if( pOverworld_Player->m_current_waypoint == static_cast<int>(m_player_start_waypoint) )
-	{
-		// if player state is walk
-		if( m_player_moving_state == STA_WALK )
-		{
-			// walk to the next Waypoint
-			pOverworld_Player->Start_Walk( m_waypoints[pOverworld_Player->m_current_waypoint]->m_direction_forward );
-		}
 	}
 
 	if( old_mode == MODE_NOTHING || old_mode == MODE_OVERWORLD )
@@ -618,10 +599,6 @@ bool cOverworld :: Key_Down( SDLKey key )
 		// all waypoint access
 		Set_Progress( m_waypoints.size(), 1 );
 	}
-	else if( key == SDLK_F3 && pOverworld_Manager->m_debug_mode )
-	{
-		Goto_Next_Level();
-	}
 	// Exit
 	else if( key == SDLK_ESCAPE || key == SDLK_BACKSPACE )
 	{
@@ -882,16 +859,12 @@ void cOverworld :: Update_Waypoint_text( void )
 	m_hud_level_name->Set_Image( pFont->Render_Text( pFont->m_font_normal, waypoint->Get_Destination(), color ), 1, 1 );
 }
 
-bool cOverworld :: Goto_Next_Level( void )
+bool cOverworld :: Goto_Next_Level( ObjectDirection dir )
 {
-	// if not in overworld only go to the next level on overworld enter
 	if( Game_Mode != MODE_OVERWORLD )
 	{
-		m_next_level = 1;
 		return 0;
 	}
-
-	m_next_level = 0;
 
 	cWaypoint *current_waypoint = pOverworld_Player->Get_Waypoint();
 
@@ -901,14 +874,8 @@ bool cOverworld :: Goto_Next_Level( void )
 		return 0;
 	}
 
-	// Waypoint forward direction is invalid/unset
-	if( current_waypoint->m_direction_forward == DIR_UNDEFINED )
-	{
-		return 0;
-	}
-
 	// Get Layer Line in front
-	cLayer_Line_Point_Start *front_line = pOverworld_Player->Get_Front_Line( current_waypoint->m_direction_forward );
+	cLayer_Line_Point_Start *front_line = pOverworld_Player->Get_Front_Line( dir );
 
 	if( !front_line )
 	{
@@ -956,7 +923,7 @@ bool cOverworld :: Goto_Next_Level( void )
 		m_animation_manager->Add( anim );
 	}
 
-	pOverworld_Player->Start_Walk( current_waypoint->m_direction_forward );
+	pOverworld_Player->Start_Walk( dir );
 
 	return  1;
 }

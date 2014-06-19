@@ -427,11 +427,6 @@ bool cOverworld_Player :: Start_Walk( ObjectDirection new_direction )
 	if( pOverworld_Manager->m_debug_mode )
 	{
 		printf( "Current Maryo Direction : %d\n", m_direction );
-
-		if( m_current_waypoint > 0 )
-		{
-			printf( "Waypoint Direction Forward : %d Backward : %d\n", Get_Waypoint()->m_direction_forward, Get_Waypoint()->m_direction_backward );
-		}
 	}
 
 	// a start from waypoint
@@ -456,8 +451,8 @@ bool cOverworld_Player :: Start_Walk( ObjectDirection new_direction )
 		}
 
 		// forward
-		if( Get_Waypoint()->m_direction_forward == new_direction )
-		{
+		//if( Get_Waypoint()->m_direction_forward == new_direction )
+		//{
 			cWaypoint *next_waypoint = front_line->Get_End_Waypoint();
 
 			if( !next_waypoint )
@@ -484,18 +479,18 @@ bool cOverworld_Player :: Start_Walk( ObjectDirection new_direction )
 
 			// set line waypoint
 			m_line_waypoint = front_line->m_origin;
-		}
+			//}
 		// backward
-		else if( Get_Waypoint()->m_direction_backward == new_direction )
-		{
+		//else if( Get_Waypoint()->m_direction_backward == new_direction )
+		//{
 			// set line waypoint
-			m_line_waypoint = front_line->m_origin;
-		}
+			//m_line_waypoint = front_line->m_origin;
+	//}
 		// invalid direction
-		else
-		{
-			return 0;
-		}
+		//else
+		//{
+		//	return 0;
+		//}
 	}
 
 	// remember current direction

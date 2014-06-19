@@ -54,10 +54,6 @@ public:
 	// Draw
 	virtual void Draw( cSurface_Request *request = NULL );
 
-	// Set direction forward
-	void Set_Direction_Forward( ObjectDirection direction );
-	// Set direction backward
-	void Set_Direction_Backward( ObjectDirection direction );
 	// Set Access
 	void Set_Access( bool enabled, bool new_start_access = 0 );
 
@@ -77,14 +73,6 @@ public:
 	// editor access option selected event
 	bool Editor_Access_Select( const CEGUI::EventArgs &event );
 	// editor direction backward option selected event
-	bool Editor_Backward_Direction_Select( const CEGUI::EventArgs &event );
-	// editor direction forward option selected event
-	bool Editor_Forward_Direction_Select( const CEGUI::EventArgs &event );
-
-	// forward direction
-	ObjectDirection m_direction_forward;
-	// backward direction
-	ObjectDirection m_direction_backward;
 
 	/* The Waypoint type
 	 * see the definitions
@@ -102,11 +90,6 @@ public:
 	float m_glim_color;
 	// glim effect type switch
 	bool m_glim_mod;
-
-	// arrow forward
-	cGL_Surface *m_arrow_forward;
-	// arrow backward
-	cGL_Surface *m_arrow_backward;
 
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);

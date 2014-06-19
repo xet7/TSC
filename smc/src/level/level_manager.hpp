@@ -68,8 +68,10 @@ public:
 	* - walks to the next Overworld waypoint if a world level
 	* - enters the menu if a custom level
 	* win_music : play the level finished music
+	* unlock_dir: If this level has been started from the overworld,
+	* direction in which to unlock the next waypoint.
 	*/
-	void Finish_Level( bool win_music = 0 );
+	void Finish_Level(ObjectDirection unlock_dir, bool win_music = 0 );
 	/* Enters the given level on the entry
 	* move_camera: set how to move the camera to the new position
 	* path_identifier: set the identifier of the path to move the camera along

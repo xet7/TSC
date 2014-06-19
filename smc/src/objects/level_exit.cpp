@@ -356,7 +356,7 @@ void cLevel_Exit :: Activate( void )
 	// exit level
 	if( m_dest_level.empty() && m_dest_entry.empty() )
 	{
-		pLevel_Manager->Finish_Level( 1 );
+		pLevel_Manager->Finish_Level( m_overworld_dir, true );
 	}
 	// enter entry
 	else

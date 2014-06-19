@@ -312,7 +312,7 @@ void cLevel_Manager :: Draw( void )
 	pFramerate->m_perf_timer[PERF_DRAW_LEVEL_EDITOR]->Update();
 }
 
-void cLevel_Manager :: Finish_Level( bool win_music /* = 0 */ )
+void cLevel_Manager :: Finish_Level( ObjectDirection unlock_dir, bool win_music /* = 0 */ )
 {
 	pHud_Time->Reset();
 
@@ -330,7 +330,7 @@ void cLevel_Manager :: Finish_Level( bool win_music /* = 0 */ )
 	else
 	{
 		// Finish level
-		pActive_Overworld->Goto_Next_Level();
+		pActive_Overworld->Goto_Next_Level(unlock_dir);
 		// Enter World
 		Game_Action = GA_ENTER_WORLD;
 	}
