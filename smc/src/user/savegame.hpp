@@ -118,6 +118,16 @@ public:
 
 typedef vector<cSave_Level *> Save_LevelList;
 
+/* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
+class cSave_Player_Return_Entry
+{
+public:
+	cSave_Player_Return_Entry(const std::string& level, const std::string& entry);
+
+	std::string m_level;
+	std::string m_entry;
+};
+
 /* *** *** *** *** *** *** *** cSave *** *** *** *** *** *** *** *** *** *** */
 class cSave
 {
@@ -158,6 +168,8 @@ public:
 	unsigned int m_player_state;
 	// item in the itembox
 	unsigned int m_itembox_item;
+	// return stack entries
+	std::vector<cSave_Player_Return_Entry> m_return_entries;
 
 	// level data
 	Save_LevelList m_levels;

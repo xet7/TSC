@@ -4640,12 +4640,12 @@ bool cLevel_Player :: Pop_Return( std::string &level, std::string &entry )
 		entry = e.entry;
 		return true;
 	}
-    else
-    {
-        level = "";
-        entry = "";
-        return false;
-    }
+	else
+	{
+		level = "";
+		entry = "";
+		return false;
+	}
 }
 
 void cLevel_Player :: Clear_Return( void )

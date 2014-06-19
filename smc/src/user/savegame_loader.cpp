@@ -104,6 +104,8 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 	}
 	else if (name == "player" || name == "Player")
 		handle_player();
+    else if (name == "return")
+        handle_return();
 	else if (m_is_old_format && name == "Overworld_Data")
 		handle_old_format_overworld_data();
 	else if (name == "overworld" || name == "Overworld")
@@ -217,6 +219,13 @@ void cSavegameLoader::handle_player()
 		mp_save->m_overworld_active = m_current_properties["overworld_active"];
 		mp_save->m_overworld_current_waypoint = m_current_properties.retrieve<int>("overworld_current_waypoint");
 	}
+}
+
+void cSavegameLoader::handle_return()
+{
+	cSave_Player_Return_Entry e(m_current_properties["level"], m_current_properties["entry"]);
+
+	mp_save->m_return_entries.push_back(e);
 }
 
 // Handles savegame format V.10 and lower. See also format check
