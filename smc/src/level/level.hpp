@@ -210,6 +210,8 @@ public:
 	// camera
 	GL_rect m_camera_limits;
 	float m_fixed_camera_hor_vel;
+	// Unload after exiting (for a sublevel used from the same level more than once)
+	bool m_unload_after_exit;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

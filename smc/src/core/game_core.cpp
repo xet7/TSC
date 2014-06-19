@@ -208,6 +208,12 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 
 		if( level )
 		{
+			if( pActive_Level )
+			{
+				if( pActive_Level->m_unload_after_exit )
+					pActive_Level->Unload();
+			}
+
 			pLevel_Manager->Set_Active( level );
 			level->Init();
 

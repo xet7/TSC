@@ -311,6 +311,7 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		Add_Property(p_node, "cam_limit_w", static_cast<int>(m_camera_limits.m_w));
 		Add_Property(p_node, "cam_limit_h", static_cast<int>(m_camera_limits.m_h));
 		Add_Property(p_node, "cam_fixed_hor_vel", m_fixed_camera_hor_vel);
+		Add_Property(p_node, "unload_after_exit", m_unload_after_exit ? 1 : 0);
 	// </settings>
 
 	// backgrounds
@@ -410,6 +411,9 @@ void cLevel :: Reset_Settings( void )
 	// camera
 	m_camera_limits = cCamera::m_default_limits;
 	m_fixed_camera_hor_vel = 0.0f;
+
+	// unload after exit
+	m_unload_after_exit = false;
 
 	// MRuby script code
 	m_script = std::string();
