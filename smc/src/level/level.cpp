@@ -549,6 +549,9 @@ void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
 	// level to level
 	if( next_mode == MODE_LEVEL )
 	{
+		// unload this level if it is marked
+		if( m_unload_after_exit )
+			Unload();
 		return;
 	}
 	// if new mode: it should play different music
