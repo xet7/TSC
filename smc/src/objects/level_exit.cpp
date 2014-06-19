@@ -68,6 +68,9 @@ cLevel_Exit :: cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_m
 	// destination entry
 	Set_Entry( attributes["entry"] );
 
+	// Overworld unlocking direction
+	Set_Overworld_Direction( static_cast<ObjectDirection>(attributes.fetch<int>( "unlock_direction", DIR_DOWN )) );
+
 	// path identifier
 	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
 		Set_Path_Identifier( attributes["path_identifier"] );
@@ -100,6 +103,7 @@ void cLevel_Exit :: Init( void )
 	m_massive_type = MASS_PASSIVE;
 	m_editor_pos_z = 0.111f;
 	m_camera_range = 1000;
+	m_overworld_dir = DIR_DOWN;
 
 	// size
 	m_rect.m_w = 10;
@@ -144,6 +148,9 @@ xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	// camera motion
 	Add_Property(p_node, "camera_motion", m_exit_motion);
+
+	// Overworld unlocking direction
+	Add_Property(p_node, "unlock_direction", m_overworld_dir);
 
 	// destination entry name
 	if (!m_dest_entry.empty())
@@ -509,6 +516,18 @@ void cLevel_Exit :: Editor_Activate( void )
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Path_Identifier_Text_Changed, this ) );
 
 
+	// Overworld direction
+	combobox = static_cast<CEGUI::Combobox *>(wmgr.createWindow( "TaharezLook/Combobox", "level_overworld_direction" ));
+	Editor_Add( UTF8_("Overworld Direction"), UTF8_("Unlocking direction in overworld"), combobox, 100, 105 );
+
+	combobox->addItem( new CEGUI::ListboxTextItem( "up" ) );
+	combobox->addItem( new CEGUI::ListboxTextItem( "down" ) );
+	combobox->addItem( new CEGUI::ListboxTextItem( "right" ) );
+	combobox->addItem( new CEGUI::ListboxTextItem( "left" ) );
+	combobox->setText( Get_Direction_Name( m_overworld_dir ) );
+
+	combobox->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Overworld_Direction_Select, this ) );
+
 	// init
 	Editor_Init();
 }
@@ -560,6 +579,31 @@ bool cLevel_Exit :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 	Set_Direction( Get_Direction_Id( item->getText().c_str() ) );
 
 	return 1;
+}
+
+bool cLevel_Exit :: Editor_Overworld_Direction_Select( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
+
+	Set_Overworld_Direction( Get_Direction_Id( item->getText().c_str() ) );
+
+	return 1;
+}
+
+void cLevel_Exit :: Set_Overworld_Direction( ObjectDirection dir )
+{
+	switch(dir) {
+	case DIR_UP: // fallthrough
+	case DIR_DOWN:
+	case DIR_RIGHT:
+	case DIR_LEFT:
+		m_overworld_dir = dir;
+		break;
+	default:
+		std::cerr << "Invalid object direction: " << dir << std::endl;
+		throw(SMCError("Invalid object direction for overworld unlocking!"));
+	}
 }
 
 bool cLevel_Exit :: Editor_Motion_Select( const CEGUI::EventArgs &event )

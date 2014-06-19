@@ -74,6 +74,10 @@ public:
 	// Set the camera motion (only used when destination level is the same level)
 	void Set_Camera_Motion( Camera_movement camera_motion );
 
+	// Set the direction for unlocking the next waypoint in
+	// the overworld.
+	void Set_Overworld_Direction(ObjectDirection dir);
+
 	// Set the destination level
 	void Set_Level( std::string filename );
 	// Return the destination level name
@@ -97,6 +101,8 @@ public:
 	virtual void Editor_State_Update( void );
 	// editor direction option selected event
 	bool Editor_Direction_Select( const CEGUI::EventArgs &event );
+	// editor overworld direction option selected event
+	bool Editor_Overworld_Direction_Select( const CEGUI::EventArgs &event );
 	// editor motion option selected event
 	bool Editor_Motion_Select( const CEGUI::EventArgs &event);
 	// editor destination level text changed event
@@ -114,6 +120,9 @@ public:
 	std::string m_dest_level;
 	// destination entry ( only used if in same level )
 	std::string m_dest_entry;
+	/// Target direction for overworld (only used for final
+	/// exits).
+	ObjectDirection m_overworld_dir;
 	// string identifier of the linked path
 	std::string m_path_identifier;
 
