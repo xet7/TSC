@@ -104,8 +104,8 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 	}
 	else if (name == "player" || name == "Player")
 		handle_player();
-    else if (name == "return")
-        handle_return();
+	else if (name == "return")
+		handle_return();
 	else if (m_is_old_format && name == "Overworld_Data")
 		handle_old_format_overworld_data();
 	else if (name == "overworld" || name == "Overworld")
