@@ -202,9 +202,10 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 	}
 	if( action_data.exists( "load_level" ) )
 	{
+		bool loading_sublevel = action_data.exists( "load_level_sublevel" );
 		std::string str_level = action_data.getValueAsString( "load_level" ).c_str();
 		// load the level
-		cLevel *level = pLevel_Manager->Load( str_level );
+		cLevel *level = pLevel_Manager->Load( str_level, loading_sublevel );
 
 		if( level )
 		{
@@ -226,7 +227,7 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 					// set invisible for warp animation
 					pLevel_Player->Set_Active( 0 );
 				}
-				else
+				else if( !str_entry.empty() )
 				{
 					printf( "Warning : Level entry %s not found\n", str_entry.c_str() );
 				}

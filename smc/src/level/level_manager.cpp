@@ -96,6 +96,9 @@ void cLevel_Manager :: Unload( void )
 
 cLevel *cLevel_Manager :: New( std::string levelname )
 {
+	// clear player return stack when creating a new level
+	pLevel_Player->Clear_Return();
+
 	// if it already exists
 	if( !Get_Path( levelname, true ).empty() )
 	{
@@ -114,8 +117,12 @@ cLevel *cLevel_Manager :: New( std::string levelname )
 	return level;
 }
 
-cLevel *cLevel_Manager :: Load( std::string levelname )
+cLevel *cLevel_Manager :: Load( std::string levelname , bool loading_sublevel /* = false */)
 {
+	// clear player return stack when loading a level if not going to a sublevel
+	if( !loading_sublevel )
+		pLevel_Player->Clear_Return();
+
 	cLevel *level = Get( levelname );
 	// already loaded
 	if( level )
@@ -316,6 +323,9 @@ void cLevel_Manager :: Finish_Level( bool win_music /* = 0 */ )
 {
 	pHud_Time->Reset();
 
+	// clear player return stack when finishing a level
+	pLevel_Player->Clear_Return();
+
 	// custom level
 	if( Game_Mode_Type == MODE_TYPE_LEVEL_CUSTOM )
 	{
@@ -482,7 +492,7 @@ void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string 
 	// another level
 	else
 	{
-		cLevel *level = pLevel_Manager->Load( str_level );
+		cLevel *level = pLevel_Manager->Load( str_level, true );
 
 		if( level )
 		{
@@ -496,6 +506,7 @@ void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string 
 			Game_Action_Data_Start.add( "screen_fadeout_speed", "3" );
 			Game_Action_Data_Middle.add( "load_level", str_level.c_str() );
 			Game_Action_Data_Middle.add( "load_level_entry", str_entry.c_str() );
+			Game_Action_Data_Middle.add( "load_level_sublevel", "1" );
 			Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_BLACK ) );
 			Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 			Game_Action_Data_End.add( "activate_level_entry", str_entry.c_str() );

@@ -83,6 +83,12 @@ public:
 
 	// Set the destination entry
 	void Set_Entry( const std::string &entry_name );
+
+	// Set the return level
+	void Set_Return_Level( const std::string &filename );
+	// Set the return entry
+	void Set_Return_Entry( const std::string &entry );
+
 	/* Set the path identifier
 	 * only used if motion type is path
 	*/
@@ -103,6 +109,10 @@ public:
 	bool Editor_Destination_Level_Text_Changed( const CEGUI::EventArgs &event );
 	// editor destination entry text changed event
 	bool Editor_Destination_Entry_Text_Changed( const CEGUI::EventArgs &event );
+	// editor return level text changed event
+	bool Editor_Return_Level_Text_Changed( const CEGUI::EventArgs &event );
+	// editor return entry text changed event
+	bool Editor_Return_Entry_Text_Changed( const CEGUI::EventArgs &event );
 	// editor path identifier text changed event
 	bool Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs &event );
 
@@ -114,6 +124,10 @@ public:
 	std::string m_dest_level;
 	// destination entry ( only used if in same level )
 	std::string m_dest_entry;
+	// return level name
+	std::string m_return_level;
+	// return entry
+	std::string m_return_entry;
 	// string identifier of the linked path
 	std::string m_path_identifier;
 
