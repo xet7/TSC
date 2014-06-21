@@ -1,7 +1,7 @@
 /***************************************************************************
  * sprite.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright Â© 2003 - 2011 The SMC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -198,7 +198,7 @@ public:
 	void Set_Color_Combine( const float red, const float green, const float blue, const GLint com_type );
 
 	/** Set if rotation affects the collision rect
-	 * only supports 90° steps currently
+	 * only supports 90Â° steps currently
 	 * if enabled col_pos, col_rect and rect must be reset manually before changing rotation
 	*/
 	inline void Set_Rotation_Affects_Rect( bool enable = 0 )
