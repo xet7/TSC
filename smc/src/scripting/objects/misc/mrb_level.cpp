@@ -1,4 +1,5 @@
 #include "../../../level/level.hpp"
+#include "../../../level/level_player.hpp"
 #include "../../../user/savegame.hpp"
 #include "../../../gui/hud.hpp"
 #include "../../../core/property_helper.hpp"
@@ -323,6 +324,166 @@ static mrb_value Display_Info_Message(mrb_state* p_state, mrb_value self)
 	return mrb_nil_value();
 }
 
+/**
+ * Method Level#push_return
+ *
+ *   push_return( stackentry )
+ *
+ * Push a `Level::StackEntry` onto the return level stack.
+ *
+ * See [LevelExit](levelexit.html) for explanations on the return stack.
+ */
+static mrb_value Push_Return(mrb_state* p_state, mrb_value self)
+{
+	mrb_value stackentry;
+	mrb_get_args(p_state, "o", &stackentry);
+
+	mrb_value level = mrb_iv_get(p_state, stackentry, mrb_intern_cstr(p_state, "@level"));
+	mrb_value entry = mrb_iv_get(p_state, stackentry, mrb_intern_cstr(p_state, "@entry"));
+
+	// Note that `nil.to_s' gives an empty string.
+	pLevel_Player->Push_Return(mrb_string_value_ptr(p_state, level), mrb_string_value_ptr(p_state, entry));
+
+	return mrb_nil_value();
+}
+
+/**
+ * Method: Level#pop_entry
+ *
+ *   pop_entry() → a_stackentry or nil
+ *
+ * Pops the next available `Level::StackEntry` object from the
+ * level return stack and returns it. If there is none, returns
+ * `nil`.
+ *
+ * See [LevelExit](levelexit.html) for explanations on the return stack.
+ */
+static mrb_value Pop_Return(mrb_state* p_state, mrb_value self)
+{
+	std::string level, entry;
+
+	if (pLevel_Player->Pop_Return(level, entry)) {
+		struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
+		mrb_value args[2];
+		args[0] = mrb_str_new_cstr(p_state, level.c_str());
+		args[1] = mrb_str_new_cstr(p_state, entry.c_str());
+
+		return mrb_obj_new(p_state, p_klass, 2, args);
+	}
+	else {
+		return mrb_nil_value();
+	}
+}
+
+/**
+ * Method: Level#clear_return
+ *
+ *   clear_return()
+ *
+ * Empties the level return stack.
+ *
+ * See [LevelExit](levelexit.html) for explanations on the return stack.
+ */
+static mrb_value Clear_Return(mrb_state* p_state, mrb_value self)
+{
+	pLevel_Player->Clear_Return();
+	return mrb_nil_value();
+}
+
+/**
+ * Method: Level#return_stack
+ *
+ *   return_stack() → an_array
+ *
+ * Returns the current return stack as an array of Level::StackEntry
+ * instances.
+ *
+ * See [LevelExit](levelexit.html) for explanations on the return stack.
+ */
+static mrb_value Get_Return_Stack(mrb_state* p_state, mrb_value self)
+{
+	mrb_value ary = mrb_ary_new(p_state);
+
+	std::vector<cLevel_Player_Return_Entry>::const_iterator iter;
+	struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
+	for(iter=pLevel_Player->m_return_stack.begin(); iter != pLevel_Player->m_return_stack.end(); iter++) {
+		cLevel_Player_Return_Entry entry = *iter;
+		mrb_value args[2];
+		args[0] = mrb_str_new_cstr(p_state, entry.level.c_str());
+		args[1] = mrb_str_new_cstr(p_state, entry.entry.c_str());
+
+		mrb_value stackentry = mrb_obj_new(p_state, p_klass, 2, args);
+		mrb_ary_push(p_state, ary, stackentry);
+	}
+
+	return ary;
+}
+
+/********************* StackEntry ********************/
+
+/**
+ * Class: LevelClass::StackEntry
+ *
+ * Instances of this class serve a purely informational
+ * purpose, they have no real methods that actually do
+ * something. They are used to represent the entries
+ * in the level return stack, as explained in
+ * [LevelExit](levelexit.html).
+ */
+
+/**
+ * Method: Level::StackEntry::new
+ *
+ *   new( [ level [, entry ] ] ) → a_stack_entry
+ *
+ * Creates a new stack entry that refers to the given
+ * level/entry combination.
+ *
+ * ==== Parameters
+ * level ("")
+ * : Name of the level to return to. An empty string means
+ *   to return to the current level.
+ *
+ * entry ("")
+ * : Name of the level entry to return to. An empty string
+ *   means to return the default starting position.
+ */
+static mrb_value SE_Initialize(mrb_state* p_state, mrb_value self)
+{
+	mrb_value level;
+	mrb_value entry;
+	mrb_get_args(p_state, "|oo", &level, &entry);
+
+	mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "@level"), level);
+	mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "@entry"), entry);
+
+	return self;
+}
+
+/**
+ * Method: Level::StackEntry#level
+ *
+ *   level() → a_string
+ *
+ * Return the return level’s name.
+ */
+static mrb_value SE_Get_Level(mrb_state* p_state, mrb_value self)
+{
+	return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@level"));
+}
+
+/**
+ * Method: Level::StackEntry#entry
+ *
+ *   entry() → a_string
+ *
+ * Return the return level exit.
+ */
+static mrb_value SE_Get_Entry(mrb_state* p_state, mrb_value self)
+{
+	return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@entry"));
+}
+
 void SMC::Scripting::Init_Level(mrb_state* p_state)
 {
 	struct RClass* p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
@@ -343,7 +504,17 @@ void SMC::Scripting::Init_Level(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_OPT(1));
 	mrb_define_method(p_state, p_rcLevel, "display_info_message", Display_Info_Message, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel, "push_return", Push_Return, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel, "pop_return", Pop_Return, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "clear_return", Clear_Return, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel, "return_stack", Get_Return_Stack, MRB_ARGS_NONE());
 
 	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), MRB_ARGS_NONE());
+
+	struct RClass* p_rcLevel_StackEntry = mrb_define_class_under(p_state, p_rcLevel, "StackEntry", p_state->object_class);
+
+	mrb_define_method(p_state, p_rcLevel_StackEntry, "initialize", SE_Initialize, MRB_ARGS_OPT(2));
+	mrb_define_method(p_state, p_rcLevel_StackEntry, "level", SE_Get_Level, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_StackEntry, "entry", SE_Get_Entry, MRB_ARGS_NONE());
 }
