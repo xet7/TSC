@@ -193,6 +193,8 @@ void cLevelLoader::Parse_Tag_Settings()
 											string_to_float(m_current_properties["cam_limit_y"]),
 											string_to_float(m_current_properties["cam_limit_w"]),
 											string_to_float(m_current_properties["cam_limit_h"]));
+
+	mp_level->m_unload_after_exit = static_cast<bool>(string_to_int(m_current_properties["unload_after_exit"]));
 }
 
 void cLevelLoader::Parse_Tag_Background()

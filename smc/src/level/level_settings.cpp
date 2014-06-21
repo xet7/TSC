@@ -121,6 +121,12 @@ void cLevel_Settings :: Init( void )
 	CEGUI::Editbox *editbox_save_time = static_cast<CEGUI::Editbox *>(wmgr.getWindow( "editbox_save_time" ));
 	editbox_save_time->setText( Time_to_String( m_level->m_last_saved, "%Y-%m-%d  %H:%M:%S" ) );
 
+	// unload after exit
+	CEGUI::Combobox *combo_unload_after_exit = static_cast<CEGUI::Combobox *>(wmgr.getWindow( "unload_after_exit" ));
+	combo_unload_after_exit->addItem( new CEGUI::ListboxTextItem( "Do not unload", 0 ) );
+	combo_unload_after_exit->addItem( new CEGUI::ListboxTextItem( "Unload", 1 ) );
+	combo_unload_after_exit->setText( m_level->m_unload_after_exit ? "Unload" : "Do not unload" );
+
 
 	// add background image button
 	CEGUI::PushButton *button_add_background_image = static_cast<CEGUI::PushButton *>(wmgr.getWindow( "button_add_background_image" ));
@@ -276,6 +282,9 @@ void cLevel_Settings :: Leave( void )
 	// fixed camera horizontal velocity
 	pLevel_Manager->m_camera->m_fixed_hor_vel = (static_cast<CEGUI::Spinner *>(wmgr.getWindow( "spinner_camera_hor_vel" )))->getCurrentValue();
 	m_level->m_fixed_camera_hor_vel = pLevel_Manager->m_camera->m_fixed_hor_vel;
+
+	// Unload after exit
+	m_level->m_unload_after_exit = (static_cast<CEGUI::Combobox *>(wmgr.getWindow( "unload_after_exit" )))->isItemSelected(1);
 
 	// # Background Tab
 	// Gradient
