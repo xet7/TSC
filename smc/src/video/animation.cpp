@@ -594,7 +594,7 @@ cParticle_Emitter :: cParticle_Emitter( XmlAttributes &attributes, cSprite_Manag
 							attributes.fetch<float>("gravity_x_rand", m_gravity_x_rand));
 
 	// vertical gravity
-	Set_Horizontal_Gravity(	attributes.fetch<float>("gravity_y", m_gravity_y),
+	Set_Vertical_Gravity(	attributes.fetch<float>("gravity_y", m_gravity_y),
 							attributes.fetch<float>("gravity_y_rand", m_gravity_y_rand));
 
 	// clip rect
