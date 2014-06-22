@@ -486,7 +486,8 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	else
 		std::cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
 
-	// remove pixmaps directory from string
+	// Only save the relative part of the filename -- otherwise the
+	// generated levels wouldn’t be portable.
 	if (img_filename.is_absolute())
 		img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
 
