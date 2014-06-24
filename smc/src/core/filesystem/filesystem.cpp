@@ -91,6 +91,13 @@ void Convert_Path_Separators( std::string &str )
 	}
 }
 
+void Convert_Path_Separators( fs::path &path )
+{
+	std::string str = path_to_utf8( path );
+	Convert_Path_Separators( str );
+	path = utf8_to_path( str );
+}
+
 vector<fs::path> Get_Directory_Files( const fs::path &dir, const std::string &file_type /* = "" */, bool with_directories /* = false */, bool search_in_sub_directories /* = true */ )
 {
 	vector<fs::path> valid_files;
