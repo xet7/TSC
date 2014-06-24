@@ -147,7 +147,6 @@ Continue with preparing the build:
 % cd ~/smc-building
 % git clone git://github.com/Quintus/SMC.git
 % cd SMC
-% git checkout mruby
 % git submodule init
 % git submodule update
 % mkdir smc/crossbuild
