@@ -17,6 +17,7 @@
 #include "../core/game_core.hpp"
 #include "../core/main.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../level/level.hpp"
 #include "../gui/menu.hpp"
@@ -235,6 +236,7 @@ void Init_Game( void )
 	// Init Stage 1 - core classes
 	debug_print("Initializing resource manager and core classes\n");
 	pResource_Manager = new cResource_Manager();
+	pPackage_Manager = new cPackage_Manager();
 	pVideo = new cVideo();
 	pAudio = new cAudio();
 	pFont = new cFont_Manager();
@@ -480,6 +482,12 @@ void Exit_Game( void )
 	{
 		delete pFont;
 		pFont = NULL;
+	}
+
+	if( pPackage_Manager )
+	{
+		delete pPackage_Manager;
+		pPackage_Manager = NULL;
 	}
 
 	if( pResource_Manager )

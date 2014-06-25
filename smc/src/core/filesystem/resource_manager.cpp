@@ -109,6 +109,11 @@ fs::path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
   return Get_Game_Pixmaps_Directory() / utf8_to_path(pixmap);
 }
 
+fs::path cResource_Manager ::Get_User_Data_Directory()
+{
+	return m_paths.user_data_dir;
+}
+
 fs::path cResource_Manager :: Get_User_Level_Directory()
 {
   return m_paths.user_data_dir / utf8_to_path(USER_LEVEL_DIR);
