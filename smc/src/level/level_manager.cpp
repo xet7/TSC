@@ -23,6 +23,7 @@
 #include "../audio/audio.hpp"
 #include "../level/level_editor.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../input/mouse.hpp"
 
 namespace fs = boost::filesystem;
@@ -100,7 +101,8 @@ cLevel *cLevel_Manager :: New( std::string levelname )
 	pLevel_Player->Clear_Return();
 
 	// if it already exists
-	if( !Get_Path( levelname, true ).empty() )
+	fs::path path = pPackage_Manager->Get_Level_Writing_Path(levelname);
+	if(fs::exists(path))
 	{
 		return NULL;
 	}
@@ -131,7 +133,7 @@ cLevel *cLevel_Manager :: Load( std::string levelname , bool loading_sublevel /*
 	}
 
 	// load
-	fs::path filename = Get_Path( levelname );
+	fs::path filename = pPackage_Manager->Get_Level_Reading_Path( levelname );
 	level = cLevel::Load_From_File( filename );
 
 	Add( level );
