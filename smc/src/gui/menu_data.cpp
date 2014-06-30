@@ -406,7 +406,7 @@ void cMenu_Start :: Init_GUI( void )
 		listbox_packages->setItemSelectState( static_cast<size_t>(0), 1 );
 	}
 	
-    // events
+	// events
 	listbox_packages->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
 	listbox_packages->subscribeEvent( CEGUI::Window::EventCharacterKey, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Character_Key, this ) );
 	listbox_packages->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Package_Select, this ) );
@@ -457,7 +457,7 @@ void cMenu_Start :: Init_GUI( void )
 	button_enter->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Start::Button_Enter_Clicked, this ) );
 	button_back->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Start::Button_Back_Clicked, this ) );
 
-    Update_Lists();
+	Update_Lists();
 
 	// Set focus
 	listbox_worlds->activate();
@@ -590,10 +590,10 @@ void cMenu_Start :: Load_Selected( void )
 
 		if( item )
 		{
-            if((static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" )))->getItemIndex(item) == 0)
-                Load_Package("");
-            else
-    			Load_Package( item->getText().c_str() );
+			if((static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" )))->getItemIndex(item) == 0)
+				Load_Package("");
+			else
+				Load_Package( item->getText().c_str() );
 		}
 	}
 	// Campaign
@@ -639,12 +639,12 @@ void cMenu_Start :: Load_Package( std::string name )
 
 	pPackage_Manager->Set_Current_Package( name );
 
-    // Reset campaigns
-    pCampaign_Manager->Delete_All();
-    pCampaign_Manager->Load();
+	// Reset campaigns
+	pCampaign_Manager->Delete_All();
+	pCampaign_Manager->Load();
     
-    pOverworld_Manager->Delete_All();
-    pOverworld_Manager->Init();
+	pOverworld_Manager->Delete_All();
+	pOverworld_Manager->Init();
 
 	Update_Lists( );
 }
@@ -839,7 +839,7 @@ void cMenu_Start :: Update_Lists( void )
 
 	// ### Level ###
 	CEGUI::Listbox *listbox_levels = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_levels" ));
-    listbox_levels->resetList();
+	listbox_levels->resetList();
 
 	// get game level
 	Get_Levels( pPackage_Manager->Get_Game_Level_Path(), CEGUI::colour( 1, 0.8f, 0.6f ) );

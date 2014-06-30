@@ -126,8 +126,8 @@ public:
 	*/
 	bool Load_Level( std::string name );
 
-    /* Update other list boxes */
-    void Update_Lists( void );
+	/* Update other list boxes */
+	void Update_Lists( void );
 
 	// tabcontrol selection changed event
 	bool TabControl_Selection_Changed( const CEGUI::EventArgs &event );
@@ -138,7 +138,7 @@ public:
 	// listbox level/world character key event
 	bool Listbox_Character_Key( const CEGUI::EventArgs &event );
 	
-    // package selected event
+	// package selected event
 	bool Package_Select( const CEGUI::EventArgs &event );
 	// package selected for entering event
 	bool Package_Select_final_list( const CEGUI::EventArgs &event );
