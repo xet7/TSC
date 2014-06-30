@@ -109,6 +109,10 @@ public:
 	*/
 	void Load_Selected( void );
 
+	/* Load the Package
+	 * and update other information if successfull
+	*/
+	void Load_Package( std::string name );
 	/* Load the Campaign
 	 * and exit if successful
 	*/
@@ -121,6 +125,9 @@ public:
 	 * and exit if successful
 	*/
 	bool Load_Level( std::string name );
+
+    /* Update other list boxes */
+    void Update_Lists( void );
 
 	// tabcontrol selection changed event
 	bool TabControl_Selection_Changed( const CEGUI::EventArgs &event );

@@ -22,12 +22,12 @@
 namespace SMC
 {
 
-	struct PackageInfo {
-		std::vector<std::string> dependencies;
-		boost::filesystem::path game_data_dir;
-		boost::filesystem::path user_data_dir;
-		boost::filesystem::path user_cache_dir;
-	};
+struct PackageInfo {
+    std::vector<std::string> dependencies;
+    boost::filesystem::path game_data_dir;
+    boost::filesystem::path user_data_dir;
+    boost::filesystem::path user_cache_dir;
+};
 
 
 /* *** *** *** *** *** cPackage_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -46,13 +46,20 @@ public:
 	// Set the current package
 	void Set_Current_Package( const std::string& name );
 	std::string Get_Current_Package( void );
+	
+	// Return the path based on the seach path, or fs::path() if no more search paths
+	boost::filesystem::path Get_User_Data_Path(int pos = 0);
+	boost::filesystem::path Get_Game_Data_Path(int pos = 0);
+
+    boost::filesystem::path Get_User_Level_Path(int pos = 0);
+    boost::filesystem::path Get_Game_Level_Path(int pos = 0);
 
 	// Get a script
 	boost::filesystem::path Get_Scripting_Path(const std::string& package, const std::string& script);
 
 	// Read the contents
 	std::vector<boost::filesystem::path> Read_Path(boost::filesystem::path path, bool parent = false);
-	
+
 	// Find resources for reading
 	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap);
 	boost::filesystem::path Get_Level_Reading_Path(const std::string& level);

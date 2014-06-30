@@ -35,6 +35,7 @@
 #include "../core/math/size.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/main.hpp"
 
 namespace fs = boost::filesystem;
@@ -374,37 +375,39 @@ void cMenu_Start :: Init_GUI( void )
 	// events
 	tabcontrol->subscribeEvent( CEGUI::TabControl::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::TabControl_Selection_Changed, this ) );
 	tabcontrol->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::TabControl_Keydown, this ) );
+	
+	// ### Package ###
+	CEGUI::Listbox *listbox_packages = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" ));
+
+	// package names
+	vector<std::string> packages = pPackage_Manager->Get_Packages();
+	for( vector<std::string>::const_iterator itr = packages.begin(); itr != packages.end(); ++itr )
+	{
+        if(itr == packages.begin())
+        {
+            CEGUI::ListboxTextItem *first_item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>("<Core>") );
+            
+            first_item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+            first_item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+            first_item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+            listbox_packages->addItem( first_item );
+        }
+
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>((*itr).c_str()) );
+		
+		item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+		listbox_packages->addItem( item );
+	}
+	// select first item
+	if( listbox_packages->getItemCount() )
+	{
+		listbox_packages->setItemSelectState( static_cast<size_t>(0), 1 );
+	}
 
 	// ### Campaign ###
 	CEGUI::Listbox *listbox_campaigns = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" ));
-
-	// campaign names
-	for( vector<cCampaign *>::const_iterator itr = pCampaign_Manager->objects.begin(); itr != pCampaign_Manager->objects.end(); ++itr )
-	{
-		const cCampaign *campaign = (*itr);
-		
-		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(campaign->m_name.c_str()) );
-		// is in game dir
-		if( campaign->m_user == 0 )
-		{
-			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-		// is in user dir
-		else if( campaign->m_user == 1 )
-		{
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
-		}
-		// is in both
-		else if( campaign->m_user == 2 )
-		{
-			// mix colors
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-
-		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
-		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
-		listbox_campaigns->addItem( item );
-	}
 
 	// events
 	listbox_campaigns->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
@@ -412,52 +415,8 @@ void cMenu_Start :: Init_GUI( void )
 	listbox_campaigns->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Campaign_Select, this ) );
 	listbox_campaigns->subscribeEvent( CEGUI::Listbox::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Start::Campaign_Select_final_list, this ) );
 	
-	// select first item
-	if( listbox_campaigns->getItemCount() )
-	{
-		listbox_campaigns->setItemSelectState( static_cast<size_t>(0), 1 );
-	}
-
 	// ### World ###
 	CEGUI::Listbox *listbox_worlds = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_worlds" ));
-
-	// overworld names
-	for( vector<cOverworld *>::const_iterator itr = pOverworld_Manager->objects.begin(); itr != pOverworld_Manager->objects.end(); ++itr )
-	{
-		const cOverworld_description *world = (*itr)->m_description;
-
-// show all worlds in debug builds
-#ifndef _DEBUG
-		if( !world->m_visible )
-		{
-			continue;
-		}
-#else
-		std::cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
-#endif
-		
-		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
-		// is in game dir
-		if( world->m_user == 0 )
-		{
-			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-		// is in user dir
-		else if( world->m_user == 1 )
-		{
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
-		}
-		// is in both
-		else if( world->m_user == 2 )
-		{
-			// mix colors
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-
-		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
-		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
-		listbox_worlds->addItem( item );
-	}
 
 	// events
 	listbox_worlds->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
@@ -465,20 +424,9 @@ void cMenu_Start :: Init_GUI( void )
 	listbox_worlds->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::World_Select, this ) );
 	listbox_worlds->subscribeEvent( CEGUI::Listbox::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Start::World_Select_final_list, this ) );
 	
-	// select first item
-	if( listbox_worlds->getItemCount() )
-	{
-		listbox_worlds->setItemSelectState( static_cast<size_t>(0), 1 );
-	}
-
 	// ### Level ###
 	CEGUI::Listbox *listbox_levels = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_levels" ));
 	listbox_levels->setSortingEnabled( 1 );
-
-	// get game level
-	Get_Levels( pResource_Manager->Get_Game_Level_Directory(), CEGUI::colour( 1, 0.8f, 0.6f ) );
-	// get user level
-	Get_Levels( pResource_Manager->Get_User_Level_Directory(), CEGUI::colour( 0.8f, 1, 0.6f ) );
 
 	// events
 	listbox_levels->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Level_Select, this ) );
@@ -502,6 +450,8 @@ void cMenu_Start :: Init_GUI( void )
 	// events
 	button_enter->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Start::Button_Enter_Clicked, this ) );
 	button_back->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Start::Button_Back_Clicked, this ) );
+
+    Update_Lists();
 
 	// Set focus
 	listbox_worlds->activate();
@@ -627,8 +577,21 @@ void cMenu_Start :: Load_Selected( void )
 	// Get Tab Control
 	CEGUI::TabControl *tabcontrol = static_cast<CEGUI::TabControl *>(CEGUI::WindowManager::getSingleton().getWindow( "tabcontrol_main" ));
 
-	// Campaign
+	// Package
 	if( tabcontrol->getSelectedTabIndex() == 0 )
+	{
+		CEGUI::ListboxItem *item = (static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" )))->getFirstSelectedItem();
+
+		if( item )
+		{
+            if((static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" )))->getItemIndex(item) == 0)
+                Load_Package("");
+            else
+    			Load_Package( item->getText().c_str() );
+		}
+	}
+	// Campaign
+	else if( tabcontrol->getSelectedTabIndex() == 1 )
 	{
 		CEGUI::ListboxItem *item = (static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" )))->getFirstSelectedItem();
 
@@ -638,7 +601,7 @@ void cMenu_Start :: Load_Selected( void )
 		}
 	}
 	// World
-	else if( tabcontrol->getSelectedTabIndex() == 1 )
+	else if( tabcontrol->getSelectedTabIndex() == 2 )
 	{
 		CEGUI::ListboxItem *item = (static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_worlds" )))->getFirstSelectedItem();
 
@@ -657,6 +620,27 @@ void cMenu_Start :: Load_Selected( void )
 			Load_Level( item->getText().c_str() );
 		}
 	}
+}
+
+void cMenu_Start :: Load_Package( std::string name )
+{
+	if( pLevel_Player->m_points > 0 && !Box_Question( _("This will reset your current progress.\nContinue ?") ) )
+	{
+		return;
+	}
+		
+	Game_Action_Data_Middle.add( "reset_save", "1" );
+
+	pPackage_Manager->Set_Current_Package( name );
+
+    // Reset campaigns
+    pCampaign_Manager->Delete_All();
+    pCampaign_Manager->Load();
+    
+    pOverworld_Manager->Delete_All();
+    pOverworld_Manager->Init();
+
+	Update_Lists( );
 }
 
 void cMenu_Start :: Load_Campaign( std::string name )
@@ -757,6 +741,104 @@ bool cMenu_Start :: Load_Level( std::string level_name )
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 
 	return 1;
+}
+
+void cMenu_Start :: Update_Lists( void )
+{
+	// ### Campaign ###
+	CEGUI::Listbox *listbox_campaigns = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" ));
+    listbox_campaigns->resetList();
+
+	// campaign names
+	for( vector<cCampaign *>::const_iterator itr = pCampaign_Manager->objects.begin(); itr != pCampaign_Manager->objects.end(); ++itr )
+	{
+		const cCampaign *campaign = (*itr);
+		
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(campaign->m_name.c_str()) );
+		// is in game dir
+		if( campaign->m_user == 0 )
+		{
+			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+		// is in user dir
+		else if( campaign->m_user == 1 )
+		{
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
+		}
+		// is in both
+		else if( campaign->m_user == 2 )
+		{
+			// mix colors
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+
+		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+		listbox_campaigns->addItem( item );
+	}
+
+	// select first item
+	if( listbox_campaigns->getItemCount() )
+	{
+		listbox_campaigns->setItemSelectState( static_cast<size_t>(0), 1 );
+	}
+
+	// ### World ###
+	CEGUI::Listbox *listbox_worlds = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_worlds" ));
+    listbox_worlds->resetList();
+
+	// overworld names
+	for( vector<cOverworld *>::const_iterator itr = pOverworld_Manager->objects.begin(); itr != pOverworld_Manager->objects.end(); ++itr )
+	{
+		const cOverworld_description *world = (*itr)->m_description;
+
+// show all worlds in debug builds
+#ifndef _DEBUG
+		if( !world->m_visible )
+		{
+			continue;
+		}
+#else
+		std::cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
+#endif
+		
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
+		// is in game dir
+		if( world->m_user == 0 )
+		{
+			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+		// is in user dir
+		else if( world->m_user == 1 )
+		{
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
+		}
+		// is in both
+		else if( world->m_user == 2 )
+		{
+			// mix colors
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+
+		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+		listbox_worlds->addItem( item );
+	}
+
+	// select first item
+	if( listbox_worlds->getItemCount() )
+	{
+		listbox_worlds->setItemSelectState( static_cast<size_t>(0), 1 );
+	}
+
+	// ### Level ###
+	CEGUI::Listbox *listbox_levels = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_levels" ));
+    listbox_levels->resetList();
+
+	// get game level
+	Get_Levels( pPackage_Manager->Get_Game_Level_Path(), CEGUI::colour( 1, 0.8f, 0.6f ) );
+	// get user level
+	Get_Levels( pPackage_Manager->Get_User_Level_Path(), CEGUI::colour( 0.8f, 1, 0.6f ) );
 }
 
 bool cMenu_Start :: TabControl_Selection_Changed( const CEGUI::EventArgs &e )

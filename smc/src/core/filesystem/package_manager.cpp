@@ -77,6 +77,42 @@ std::string cPackage_Manager :: Get_Current_Package( void )
 	return m_current_package;
 }
 
+fs::path cPackage_Manager :: Get_User_Data_Path(int pos /* = 0 */)
+{
+	int index = 2 * pos;
+	if(m_search_path.size() < index + 1)
+		return fs::path();
+
+	return m_search_path[index];
+}
+
+fs::path cPackage_Manager :: Get_Game_Data_Path(int pos /* = 0 */)
+{
+	int index = 2 * pos + 1;
+	if(m_search_path.size() < index + 1)
+		return fs::path();
+
+	return m_search_path[index];
+}
+
+fs::path cPackage_Manager :: Get_User_Level_Path(int pos /* = 0 */)
+{
+    fs::path p = Get_User_Data_Path(pos);
+    if(p == fs::path())
+        return p;
+
+    return p / utf8_to_path("levels");
+}
+
+fs::path cPackage_Manager :: Get_Game_Level_Path(int pos /* = 0 */)
+{
+    fs::path p = Get_Game_Data_Path(pos);
+    if(p == fs::path())
+        return p;
+
+    return p / utf8_to_path("levels");
+}
+
 fs::path Get_Scripting_Path(const std::string& package, const std::string& script)
 {
 	// TODO: find script in user directory for package, if not then data directory for package.
