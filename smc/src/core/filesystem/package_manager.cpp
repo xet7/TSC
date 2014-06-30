@@ -89,6 +89,11 @@ std::vector<fs::path> cPackage_Manager :: Read_Path(fs::path path, bool parent /
 	std::vector<fs::path> contents;
 	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
 	{
+		// Only the first two are entries are the current package's search paths
+		counter++;
+		if(counter > 2 and !parent)
+			break;
+
 		fs::path subdir(*it / path);
 		if(!(fs::exists(subdir) && fs::is_directory(subdir)))
 			continue;
@@ -100,11 +105,6 @@ std::vector<fs::path> cPackage_Manager :: Read_Path(fs::path path, bool parent /
 			if(std::find(contents.begin(), contents.end(), name) == contents.end())
 				contents.push_back(name);
 		}
-
-		counter++;
-		// If counter reaches 2, we are finished with the current package
-		if(counter == 2 and !parent)
-			break;
 	}
 
 	std::sort(contents.begin(), contents.end());
