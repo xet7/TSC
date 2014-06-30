@@ -70,11 +70,29 @@ void cPackage_Manager :: Set_Current_Package( const std::string& name )
 {
 	m_current_package = name;
 	Build_Search_Path();
+	Init_User_Paths();
 }
 
 std::string cPackage_Manager :: Get_Current_Package( void )
 {
 	return m_current_package;
+}
+
+void cPackage_Manager :: Init_User_Paths( void )
+{
+	fs::path base = m_search_path[0];
+
+	// Levels
+	if(!Dir_Exists(base / utf8_to_path("levels")))
+		fs::create_directories(base / utf8_to_path("levels"));
+
+	// World
+	if(!Dir_Exists(base / utf8_to_path("worlds")))
+		fs::create_directories(base / utf8_to_path("worlds"));
+	
+	// Campaign
+	if(!Dir_Exists(base / utf8_to_path("campaigns")))
+		fs::create_directories(base / utf8_to_path("campaigns"));
 }
 
 fs::path cPackage_Manager :: Get_User_Data_Path(int pos /* = 0 */)
@@ -97,20 +115,60 @@ fs::path cPackage_Manager :: Get_Game_Data_Path(int pos /* = 0 */)
 
 fs::path cPackage_Manager :: Get_User_Level_Path(int pos /* = 0 */)
 {
-    fs::path p = Get_User_Data_Path(pos);
-    if(p == fs::path())
-        return p;
+	fs::path p = Get_User_Data_Path(pos);
+	if(p == fs::path())
+		return p;
 
-    return p / utf8_to_path("levels");
+	return p / utf8_to_path("levels");
 }
 
 fs::path cPackage_Manager :: Get_Game_Level_Path(int pos /* = 0 */)
 {
-    fs::path p = Get_Game_Data_Path(pos);
-    if(p == fs::path())
-        return p;
+	fs::path p = Get_Game_Data_Path(pos);
+	if(p == fs::path())
+		return p;
 
-    return p / utf8_to_path("levels");
+	return p / utf8_to_path("levels");
+}
+
+fs::path cPackage_Manager :: Get_User_Campaign_Path(int pos /* = 0 */)
+{
+	fs::path p = Get_User_Data_Path(pos);
+	if(p == fs::path())
+		return p;
+
+	return p / utf8_to_path("campaigns");
+}
+
+fs::path cPackage_Manager :: Get_Game_Campaign_Path(int pos /* = 0 */)
+{
+	fs::path p = Get_Game_Data_Path(pos);
+	if(p == fs::path())
+		return p;
+
+    // There is an inconsistency where the user directory is called "campaigns" but the
+    // game directory is called "campaign"
+	return p / utf8_to_path("campaign");
+}
+
+fs::path cPackage_Manager :: Get_User_World_Path(int pos /* = 0 */)
+{
+	fs::path p = Get_User_Data_Path(pos);
+	if(p == fs::path())
+		return p;
+
+	return p / utf8_to_path("worlds");
+}
+
+fs::path cPackage_Manager :: Get_Game_World_Path(int pos /* = 0 */)
+{
+	fs::path p = Get_Game_Data_Path(pos);
+	if(p == fs::path())
+		return p;
+
+    // There is an inconsistency where the user directory is called "worlds" but the
+    // game directory is called "world"
+    return p / utf8_to_path("world");
 }
 
 fs::path Get_Scripting_Path(const std::string& package, const std::string& script)
@@ -119,66 +177,40 @@ fs::path Get_Scripting_Path(const std::string& package, const std::string& scrip
 	return fs::path();
 }
 
-std::vector<fs::path> cPackage_Manager :: Read_Path(fs::path path, bool parent /* = false */)
-{
-	int counter = 0;
-	std::vector<fs::path> contents;
-	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
-	{
-		// Only the first two are entries are the current package's search paths
-		counter++;
-		if(counter > 2 and !parent)
-			break;
-
-		fs::path subdir(*it / path);
-		if(!(fs::exists(subdir) && fs::is_directory(subdir)))
-			continue;
-
-		fs::directory_iterator end_iter;
-		for(fs::directory_iterator dir_iter(subdir); dir_iter != end_iter; ++dir_iter)
-		{
-			fs::path name(dir_iter->path().filename());
-			if(std::find(contents.begin(), contents.end(), name) == contents.end())
-				contents.push_back(name);
-		}
-	}
-
-	std::sort(contents.begin(), contents.end());
-	return contents;
-}
-
 fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap)
 {
-	return Find_Reading_Path("pixmaps", utf8_to_path(pixmap));
+	return Find_Reading_Path("pixmaps", "pixmaps", utf8_to_path(pixmap));
 }
 
 fs::path cPackage_Manager :: Get_Level_Reading_Path(const std::string& level)
 {
-	fs::path result = Find_Reading_Path("levels", utf8_to_path(level + ".smclvl"));
+	fs::path result = Find_Reading_Path("levels", "levels", utf8_to_path(level + ".smclvl"));
 	if(result == fs::path())
-		result = Find_Reading_Path("levels", utf8_to_path(level + ".txt"));
+		result = Find_Reading_Path("levels", "levels", utf8_to_path(level + ".txt"));
 
 	return result;
 }
 
 fs::path cPackage_Manager :: Get_Sound_Reading_Path(const std::string& sound)
 {
-	return Find_Reading_Path("sounds", utf8_to_path(sound));
+	return Find_Reading_Path("sounds", "sounds", utf8_to_path(sound));
 }
 
 fs::path cPackage_Manager :: Get_Campaign_Reading_Path(const std::string& campaign)
 {
-	return Find_Reading_Path("campaign", utf8_to_path(campaign));
+    // BUG/inconsistency: user data directory uses "campaigns" while game directory uses "campaign".
+	return Find_Reading_Path("campaigns", "campaign", utf8_to_path(campaign));
 }
 
 fs::path cPackage_Manager :: Get_Overworld_Reading_Path(const std::string& overworld)
 {
-	return Find_Reading_Path("world", utf8_to_path(overworld));
+    // BUG/inconsistency: user data directory uses "worlds" while game directory uses "world".
+	return Find_Reading_Path("worlds", "world", utf8_to_path(overworld));
 }
 
 fs::path cPackage_Manager :: Get_Music_Reading_Path(const std::string& music)
 {
-	return Find_Reading_Path("music", utf8_to_path(music));
+	return Find_Reading_Path("music", "music", utf8_to_path(music));
 }
 
 
@@ -189,7 +221,7 @@ fs::path cPackage_Manager :: Get_Level_Writing_Path(const std::string& level)
 
 fs::path cPackage_Manager :: Get_Overworld_Writing_Path(const std::string& overworld)
 {
-	return Find_Writing_Path("world", utf8_to_path(overworld));
+	return Find_Writing_Path("worlds", utf8_to_path(overworld));
 }
 
 fs::path cPackage_Manager :: Get_Relative_Pixmap_Path(fs::path path)
@@ -277,19 +309,31 @@ PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
 	path.replace_extension(".smcpkg");
 
 	PackageInfo info;
-	info.game_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / path;
+	info.game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / path;
 	info.user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / path;
 
 	return info;
 }
 
-fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource)
+fs::path cPackage_Manager :: Find_Reading_Path(fs::path udir, fs::path gdir, fs::path resource)
 {
-	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
+	int idx = 0;
+	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it, ++idx)
 	{
-		fs::path path = *it / dir / resource;
-		if(fs::exists(path))
-			return path;
+		if(idx % 2 == 0)
+		{
+			// Even index is user path
+			fs::path path = *it / udir / resource;
+			if(fs::exists(path))
+				return path;
+		}
+		else
+		{
+			// Odd index is game path
+			fs::path path = *it / gdir / resource;
+			if(fs::exists(path))
+				return path;
+		}
 	}
 
 	return fs::path();
@@ -297,15 +341,8 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource)
 
 fs::path cPackage_Manager :: Find_Writing_Path(fs::path dir, fs::path resource)
 {
-	// Always return the user data path for the current package;
-	fs::path base(pResource_Manager->Get_User_Data_Directory());
-	if(!m_current_package.empty())
-	{
-		base = base / utf8_to_path("packages") / utf8_to_path(m_current_package);
-		base.replace_extension(".smcpkg");
-	}
-
-	return base / dir / resource;
+	// Always return the user data path for the current package
+	return m_search_path[0] / dir / resource;
 }
 
 fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)

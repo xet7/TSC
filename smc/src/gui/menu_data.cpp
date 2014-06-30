@@ -405,6 +405,12 @@ void cMenu_Start :: Init_GUI( void )
 	{
 		listbox_packages->setItemSelectState( static_cast<size_t>(0), 1 );
 	}
+	
+    // events
+	listbox_packages->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
+	listbox_packages->subscribeEvent( CEGUI::Window::EventCharacterKey, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Character_Key, this ) );
+	listbox_packages->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Package_Select, this ) );
+	listbox_packages->subscribeEvent( CEGUI::Listbox::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Start::Package_Select_final_list, this ) );
 
 	// ### Campaign ###
 	CEGUI::Listbox *listbox_campaigns = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" ));
@@ -1062,6 +1068,45 @@ bool cMenu_Start :: Listbox_Character_Key( const CEGUI::EventArgs &e )
 	}
 
 	return 0;
+}
+
+bool cMenu_Start :: Package_Select( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	CEGUI::ListboxItem *item = static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getFirstSelectedItem();
+
+	// description
+	CEGUI::Editbox *editbox_package_description = static_cast<CEGUI::Editbox *>(CEGUI::WindowManager::getSingleton().getWindow( "editbox_package_description" ));
+
+	// set description
+	if( item )
+	{
+		// TODO
+	}
+	// clear
+	else
+	{
+		editbox_package_description->setText( "" );
+	}
+
+	return 1;
+}
+
+bool cMenu_Start :: Package_Select_final_list( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	CEGUI::ListboxItem *item = static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getFirstSelectedItem();
+
+	// load package
+	if( item )
+	{
+		if(static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getItemIndex(item) == 0)
+			Load_Package( "" );
+		else
+			Load_Package( item->getText().c_str() );
+	}
+
+	return 1;
 }
 
 bool cMenu_Start :: Campaign_Select( const CEGUI::EventArgs &event )

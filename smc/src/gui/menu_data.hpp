@@ -137,6 +137,11 @@ public:
 	bool Listbox_Keydown( const CEGUI::EventArgs &event );
 	// listbox level/world character key event
 	bool Listbox_Character_Key( const CEGUI::EventArgs &event );
+	
+    // package selected event
+	bool Package_Select( const CEGUI::EventArgs &event );
+	// package selected for entering event
+	bool Package_Select_final_list( const CEGUI::EventArgs &event );
 
 	// campaign selected event
 	bool Campaign_Select( const CEGUI::EventArgs &event );
