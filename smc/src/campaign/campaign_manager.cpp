@@ -77,6 +77,12 @@ cCampaign_Manager :: ~cCampaign_Manager( void )
 
 void cCampaign_Manager :: Load( void )
 {
+	// if already loaded
+	if( !objects.empty() )
+	{
+		Delete_All();
+	}
+
 	vector<fs::path> user_files = Get_Directory_Files( pPackage_Manager->Get_User_Campaign_Path(), ".smccpn", false, false);
 	vector<fs::path> game_files = Get_Directory_Files( pPackage_Manager->Get_Game_Campaign_Path(), ".smccpn", false, false);
 

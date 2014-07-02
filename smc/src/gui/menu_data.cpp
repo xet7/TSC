@@ -634,19 +634,30 @@ void cMenu_Start :: Load_Package( std::string name )
 	{
 		return;
 	}
-		
-	Game_Action_Data_Middle.add( "reset_save", "1" );
-
+	
+	// Change the package before resetting stuff
 	pPackage_Manager->Set_Current_Package( name );
+	
+		
+	// Reset overworlds
+	//pOverworld_Player->Reset();  
+	pOverworld_Manager->Init();  // This clears all worlds so we can get the listing
+	pActive_Overworld = NULL;    // This was deleted from Init
+	pLevel_Player->Reset_Save(); // but this should load "World 1" from the package
+								 // If the world does not exist, there will be no
+								 // active overworld and other parts that depend on
+								 // an active overworld will crash.
 
-	// Reset campaigns
-	pCampaign_Manager->Delete_All();
+
+	// Reset camgaigns
 	pCampaign_Manager->Load();
-    
-	pOverworld_Manager->Delete_All();
-	pOverworld_Manager->Init();
 
-	Update_Lists( );
+	// Reset levels
+	pLevel_Manager->Unload();
+	
+
+	// Reload campaign, world, and level lists from the newly selected packages
+	Update_Lists();
 }
 
 void cMenu_Start :: Load_Campaign( std::string name )

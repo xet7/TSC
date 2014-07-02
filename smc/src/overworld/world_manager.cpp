@@ -163,7 +163,8 @@ void cOverworld_Manager :: Reset( void )
 	Set_Active("World 1");
 
 	// Set Player to first Waypoint
-	pOverworld_Player->Set_Waypoint( pActive_Overworld->m_player_start_waypoint );
+	if(pActive_Overworld) // World 1 may not exist in the active package
+		pOverworld_Player->Set_Waypoint( pActive_Overworld->m_player_start_waypoint );
 
 	// Reset all Waypoints
 	for( vector<cOverworld *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
