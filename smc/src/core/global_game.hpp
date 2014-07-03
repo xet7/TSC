@@ -160,9 +160,9 @@ enum LevelLandType
 /* *** *** *** *** *** *** *** Paths *** *** *** *** *** *** *** *** *** *** */
 
 // Core
-#define GAME_OVERWORLD_DIR "world"
+#define GAME_OVERWORLD_DIR "worlds"
 #define GAME_LEVEL_DIR "levels"
-#define GAME_CAMPAIGN_DIR "campaign"
+#define GAME_CAMPAIGN_DIR "campaigns"
 #define GAME_PIXMAPS_DIR "pixmaps"
 #define GAME_SOUNDS_DIR "sounds"
 #define GAME_MUSIC_DIR "music"
