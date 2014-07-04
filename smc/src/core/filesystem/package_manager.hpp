@@ -90,7 +90,7 @@ private:
 	void Build_Search_Path_Helper( const std::string& package, std::vector<std::string>& processed );
 	PackageInfo Load_Package_Info( const std::string& package );
 
-	boost::filesystem::path Find_Reading_Path(boost::filesystem::path udir, boost::filesystem::path gdir, boost::filesystem::path resource);
+	boost::filesystem::path Find_Reading_Path(boost::filesystem::path dir, boost::filesystem::path resource);
 	boost::filesystem::path Find_Writing_Path(boost::filesystem::path dir, boost::filesystem::path resource);
 	boost::filesystem::path Find_Relative_Path(boost::filesystem::path dir, boost::filesystem::path path);
 
