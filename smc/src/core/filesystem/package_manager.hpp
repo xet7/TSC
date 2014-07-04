@@ -54,29 +54,23 @@ public:
 	boost::filesystem::path Get_User_Data_Path(int pos = 0);
 	boost::filesystem::path Get_Game_Data_Path(int pos = 0);
 
-	boost::filesystem::path Get_User_Level_Path(int pos = 0);
-	boost::filesystem::path Get_Game_Level_Path(int pos = 0);
+	// Levels, worlds, and campaigns come only from the currently selected package
+	boost::filesystem::path Get_User_Level_Path(void);
+	boost::filesystem::path Get_Game_Level_Path(void);
  
-	boost::filesystem::path Get_User_Campaign_Path(int pos = 0);
-	boost::filesystem::path Get_Game_Campaign_Path(int pos = 0);
+	boost::filesystem::path Get_User_Campaign_Path(void);
+	boost::filesystem::path Get_Game_Campaign_Path(void);
 
-	boost::filesystem::path Get_User_World_Path(int pos = 0);
-	boost::filesystem::path Get_Game_World_Path(int pos = 0);
+	boost::filesystem::path Get_User_World_Path(void);
+	boost::filesystem::path Get_Game_World_Path(void);
 
 	// Get a script
 	boost::filesystem::path Get_Scripting_Path(const std::string& package, const std::string& script);
 
 	// Find resources for reading
 	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap);
-	boost::filesystem::path Get_Level_Reading_Path(const std::string& level);
 	boost::filesystem::path Get_Sound_Reading_Path(const std::string& sound);
-	boost::filesystem::path Get_Campaign_Reading_Path(const std::string& campaign);
-	boost::filesystem::path Get_Overworld_Reading_Path(const std::string& overworld);
 	boost::filesystem::path Get_Music_Reading_Path(const std::string& music);
-	
-	// Find resources for writing
-	boost::filesystem::path Get_Level_Writing_Path(const std::string& level);
-	boost::filesystem::path Get_Overworld_Writing_Path(const std::string& overworld);
 
 	// Find the relative path (for saving relative paths to files)
 	boost::filesystem::path Get_Relative_Pixmap_Path(boost::filesystem::path path);
@@ -91,7 +85,6 @@ private:
 	PackageInfo Load_Package_Info( const std::string& package );
 
 	boost::filesystem::path Find_Reading_Path(boost::filesystem::path dir, boost::filesystem::path resource);
-	boost::filesystem::path Find_Writing_Path(boost::filesystem::path dir, boost::filesystem::path resource);
 	boost::filesystem::path Find_Relative_Path(boost::filesystem::path dir, boost::filesystem::path path);
 
 	std::map <std::string, PackageInfo> m_packages;

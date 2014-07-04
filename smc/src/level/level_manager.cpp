@@ -101,8 +101,7 @@ cLevel *cLevel_Manager :: New( std::string levelname )
 	pLevel_Player->Clear_Return();
 
 	// if it already exists
-	fs::path path = pPackage_Manager->Get_Level_Writing_Path(levelname);
-	if(fs::exists(path))
+	if( !Get_Path( levelname, true ).empty() )
 	{
 		return NULL;
 	}
@@ -133,7 +132,7 @@ cLevel *cLevel_Manager :: Load( std::string levelname , bool loading_sublevel /*
 	}
 
 	// load
-	fs::path filename = pPackage_Manager->Get_Level_Reading_Path( levelname );
+	fs::path filename = Get_Path( levelname );
 	level = cLevel::Load_From_File( filename );
 
 	Add( level );
@@ -174,7 +173,7 @@ fs::path cLevel_Manager :: Get_Path( const std::string &levelname, bool check_on
 	fs::path filename = Trim_Filename(utf8_to_path(levelname));
 
 	// user level directory as default
-	fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
+	fs::path user_filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());
 	// use new file type as default
 	user_filename.replace_extension(".smclvl");
 
@@ -195,7 +194,7 @@ fs::path cLevel_Manager :: Get_Path( const std::string &levelname, bool check_on
 
 	if( !check_only_user_dir )
 	{
-		fs::path game_filename = fs::absolute(filename, pResource_Manager->Get_Game_Level_Directory());
+		fs::path game_filename = fs::absolute(filename, pPackage_Manager->Get_Game_Level_Path());
 
 		// use new file type
 		game_filename.replace_extension(".smclvl");

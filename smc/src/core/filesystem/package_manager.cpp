@@ -113,54 +113,54 @@ fs::path cPackage_Manager :: Get_Game_Data_Path(int pos /* = 0 */)
 	return m_search_path[index];
 }
 
-fs::path cPackage_Manager :: Get_User_Level_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_User_Level_Path(void)
 {
-	fs::path p = Get_User_Data_Path(pos);
+	fs::path p = Get_User_Data_Path();
 	if(p == fs::path())
 		return p;
 
 	return p / utf8_to_path("levels");
 }
 
-fs::path cPackage_Manager :: Get_Game_Level_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_Game_Level_Path(void)
 {
-	fs::path p = Get_Game_Data_Path(pos);
+	fs::path p = Get_Game_Data_Path();
 	if(p == fs::path())
 		return p;
 
 	return p / utf8_to_path("levels");
 }
 
-fs::path cPackage_Manager :: Get_User_Campaign_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_User_Campaign_Path(void)
 {
-	fs::path p = Get_User_Data_Path(pos);
+	fs::path p = Get_User_Data_Path();
 	if(p == fs::path())
 		return p;
 
 	return p / utf8_to_path("campaigns");
 }
 
-fs::path cPackage_Manager :: Get_Game_Campaign_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_Game_Campaign_Path(void)
 {
-	fs::path p = Get_Game_Data_Path(pos);
+	fs::path p = Get_Game_Data_Path(0);
 	if(p == fs::path())
 		return p;
 
 	return p / utf8_to_path("campaigns");
 }
 
-fs::path cPackage_Manager :: Get_User_World_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_User_World_Path(void)
 {
-	fs::path p = Get_User_Data_Path(pos);
+	fs::path p = Get_User_Data_Path(0);
 	if(p == fs::path())
 		return p;
 
 	return p / utf8_to_path("worlds");
 }
 
-fs::path cPackage_Manager :: Get_Game_World_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_Game_World_Path(void)
 {
-	fs::path p = Get_Game_Data_Path(pos);
+	fs::path p = Get_Game_Data_Path(0);
 	if(p == fs::path())
 		return p;
 
@@ -178,44 +178,14 @@ fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap)
 	return Find_Reading_Path("pixmaps", utf8_to_path(pixmap));
 }
 
-fs::path cPackage_Manager :: Get_Level_Reading_Path(const std::string& level)
-{
-	fs::path result = Find_Reading_Path("levels", utf8_to_path(level + ".smclvl"));
-	if(result == fs::path())
-		result = Find_Reading_Path("levels", utf8_to_path(level + ".txt"));
-
-	return result;
-}
-
 fs::path cPackage_Manager :: Get_Sound_Reading_Path(const std::string& sound)
 {
 	return Find_Reading_Path("sounds", utf8_to_path(sound));
 }
 
-fs::path cPackage_Manager :: Get_Campaign_Reading_Path(const std::string& campaign)
-{
-	return Find_Reading_Path("campaigns", utf8_to_path(campaign));
-}
-
-fs::path cPackage_Manager :: Get_Overworld_Reading_Path(const std::string& overworld)
-{
-	return Find_Reading_Path("worlds", utf8_to_path(overworld));
-}
-
 fs::path cPackage_Manager :: Get_Music_Reading_Path(const std::string& music)
 {
 	return Find_Reading_Path("music", utf8_to_path(music));
-}
-
-
-fs::path cPackage_Manager :: Get_Level_Writing_Path(const std::string& level)
-{
-	return Find_Writing_Path("levels", utf8_to_path(level + ".smclvl"));
-}
-
-fs::path cPackage_Manager :: Get_Overworld_Writing_Path(const std::string& overworld)
-{
-	return Find_Writing_Path("worlds", utf8_to_path(overworld));
 }
 
 fs::path cPackage_Manager :: Get_Relative_Pixmap_Path(fs::path path)
@@ -321,14 +291,10 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource)
 	return fs::path();
 }
 
-fs::path cPackage_Manager :: Find_Writing_Path(fs::path dir, fs::path resource)
-{
-	// Always return the user data path for the current package
-	return m_search_path[0] / dir / resource;
-}
-
 fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)
 {
+    std::cout << dir << std::endl;
+    std::cout << path << std::endl;
 	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
 	{
 		fs::path subdir(*it / dir);
@@ -343,7 +309,7 @@ fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)
 		if(std::distance(subdir.begin(), subdir.end()) > std::distance(tmp_path.begin(), tmp_path.end()))
 			continue;
 
-		if(!std::equal(dir.begin(), dir.end(), tmp_path.begin()))
+		if(!std::equal(subdir.begin(), subdir.end(), tmp_path.begin()))
 			continue;
 
 		// Found the path in the search path that it is under
