@@ -23,10 +23,9 @@ namespace SMC
 {
 
 struct PackageInfo {
-    std::vector<std::string> dependencies;
-    boost::filesystem::path game_data_dir;
-    boost::filesystem::path user_data_dir;
-    boost::filesystem::path user_cache_dir;
+	std::vector<std::string> dependencies;
+	boost::filesystem::path game_data_dir;
+	boost::filesystem::path user_data_dir;
 };
 
 
@@ -66,6 +65,13 @@ public:
 
 	// Get a script
 	boost::filesystem::path Get_Scripting_Path(const std::string& package, const std::string& script);
+
+	// Directories for screenshots adn savegames
+	boost::filesystem::path Get_User_Savegame_Path(void);
+	boost::filesystem::path Get_User_Screenshot_Path(void);
+
+	// Cache directory
+	boost::filesystem::path Get_User_Imgcache_Path(void);
 
 	// Find resources for reading
 	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap);

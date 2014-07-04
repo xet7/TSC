@@ -83,16 +83,28 @@ void cPackage_Manager :: Init_User_Paths( void )
 	fs::path base = m_search_path[0];
 
 	// Levels
-	if(!Dir_Exists(base / utf8_to_path("levels")))
-		fs::create_directories(base / utf8_to_path("levels"));
+	if(!Dir_Exists(Get_User_Level_Path()))
+		fs::create_directories(Get_User_Level_Path());
+
+	// Campaign
+	if(!Dir_Exists(Get_User_Campaign_Path()))
+		fs::create_directories(Get_User_Campaign_Path());
 
 	// World
-	if(!Dir_Exists(base / utf8_to_path("worlds")))
-		fs::create_directories(base / utf8_to_path("worlds"));
-	
-	// Campaign
-	if(!Dir_Exists(base / utf8_to_path("campaigns")))
-		fs::create_directories(base / utf8_to_path("campaigns"));
+	if(!Dir_Exists(Get_User_World_Path()))
+		fs::create_directories(Get_User_World_Path());
+
+	// Savegame
+	if(!Dir_Exists(Get_User_Savegame_Path()))
+		fs::create_directories(Get_User_Savegame_Path());
+
+	// Screenshot
+	if(!Dir_Exists(Get_User_Screenshot_Path()))
+		fs::create_directories(Get_User_Screenshot_Path());
+
+	// Cache
+	if(!Dir_Exists(Get_User_Imgcache_Path()))
+		fs::create_directories(Get_User_Imgcache_Path());
 }
 
 fs::path cPackage_Manager :: Get_User_Data_Path(int pos /* = 0 */)
@@ -167,10 +179,43 @@ fs::path cPackage_Manager :: Get_Game_World_Path(void)
 	return p / utf8_to_path("worlds");
 }
 
-fs::path Get_Scripting_Path(const std::string& package, const std::string& script)
+fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, const std::string& script)
 {
 	// TODO: find script in user directory for package, if not then data directory for package.
 	return fs::path();
+}
+
+fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
+{
+	fs::path result = pResource_Manager->Get_User_Savegame_Directory();
+	if(m_current_package.empty())
+		return result;
+
+	result = result / "packages" / utf8_to_path(m_current_package);
+	result.replace_extension("");
+	return result;
+}
+
+fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
+{
+	fs::path result = pResource_Manager->Get_User_Screenshot_Directory();
+	if(m_current_package.empty())
+		return result;
+
+	result = result / "packages" / utf8_to_path(m_current_package);
+	result.replace_extension("");
+	return result;
+}
+
+fs::path cPackage_Manager :: Get_User_Imgcache_Path(void)
+{
+	fs::path result = pResource_Manager->Get_User_Imgcache_Directory();
+	if(m_current_package.empty())
+		return result;
+
+	result = result / "packages" / utf8_to_path(m_current_package);
+	result.replace_extension("");
+	return result;
 }
 
 fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap)
