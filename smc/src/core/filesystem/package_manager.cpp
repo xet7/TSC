@@ -448,9 +448,10 @@ PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
 
 fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, std::vector<std::string> extra_ext)
 {
+	fs::path path;
 	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
 	{
-		fs::path path = *it / dir / resource;
+		path = *it / dir / resource;
 		if(fs::exists(path))
 		{
 			return path;
@@ -468,7 +469,9 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, 
 		}
 	}
 
-	return fs::path();
+    // If the file is not found, then return the last item.
+    // This should be the last extension in the core game directory
+	return path;
 }
 
 fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)

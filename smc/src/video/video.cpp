@@ -1079,7 +1079,7 @@ cGL_Surface *cVideo :: Get_Surface_Helper( fs::path filename, bool print_errors 
 			filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename));
 			// .settings file type can't be used directly, and Get_Pixmap_Reading_Path
 			// may have found a settings file
-			if (filename.extension() != fs::path(".png"))
+			if (filename.extension() == fs::path(".settings"))
 				filename.replace_extension(".png");
 		}
 		else
@@ -1097,7 +1097,7 @@ cGL_Surface *cVideo :: Get_Surface_Helper( fs::path filename, bool print_errors 
 	}
 
 	// load new image
-	image = Load_GL_Surface( path_to_utf8(filename), 1, print_errors );
+	image = Load_GL_Surface_Helper( path_to_utf8(filename), 1, print_errors, package );
 	// add new image
 	if( image )
 	{
@@ -1120,15 +1120,18 @@ cVideo::cSoftware_Image cVideo :: Load_Package_Image( boost::filesystem::path fi
 cVideo::cSoftware_Image cVideo :: Load_Image_Helper( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */, bool package /* = 1 */) const
 {
 	// pixmaps dir must be given
-	if(package)
+	if(!filename.is_absolute())
 	{
-		filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), load_settings);
-		if(filename.extension() != fs::path(".png"))
-			filename.replace_extension(".png");
-	}
-	else
-	{
-		filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+		if(package)
+		{
+			filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), load_settings);
+			if(filename.extension() == fs::path(".settings"))
+				filename.replace_extension(".png");
+		}
+		else
+		{
+			filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+		}
 	}
 
 	cSoftware_Image software_image = cSoftware_Image();
@@ -1224,15 +1227,18 @@ cGL_Surface *cVideo :: Load_GL_Surface_Helper( boost::filesystem::path filename,
 	using namespace boost::filesystem;
 
 	// pixmaps dir must be given
-	if(package)
+	if(!filename.is_absolute())
 	{
-		filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), use_settings);
-		if(filename.extension() != fs::path(".png"))
-			filename.replace_extension(".png");
-	}
-	else
-	{
-		filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+		if(package)
+		{
+			filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), use_settings);
+			if(filename.extension() == fs::path(".settings"))
+				filename.replace_extension(".png");
+		}
+		else
+		{
+			filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+		}
 	}
 
 	// load software image
