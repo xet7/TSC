@@ -25,6 +25,7 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../scripting/events/level_load_event.hpp"
 #include "../scripting/events/level_save_event.hpp"
 
@@ -721,9 +722,10 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 		}
 	}
 
-	fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
+	fs::path save_dir = pPackage_Manager->Get_User_Savegame_Path();
+	fs::path filename = save_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
 	// remove old format savegame
-	fs::remove( m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save") );
+	fs::remove( save_dir / utf8_to_path(int_to_string(save_slot) + ".save") );
 
 	try {
 		savegame->Write_To_File(filename);
@@ -746,12 +748,13 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 
 cSave *cSavegame :: Load( unsigned int save_slot )
 {
-	fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
+	fs::path save_dir = pPackage_Manager->Get_User_Savegame_Path();
+	fs::path filename = save_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
 
 	// if not new format try the old
 	if( !File_Exists( filename ) )
 	{
-		filename = m_savegame_dir / utf8_to_path(int_to_string( save_slot ) + ".save");
+		filename = save_dir / utf8_to_path(int_to_string( save_slot ) + ".save");
 	}
 
 	if( !File_Exists( filename ) )
@@ -829,7 +832,8 @@ std::string cSavegame :: Get_Description( unsigned int save_slot, bool only_desc
 
 bool cSavegame :: Is_Valid( unsigned int save_slot ) const
 {
-	return ( File_Exists( m_savegame_dir / utf8_to_path(int_to_string( save_slot ) + ".smcsav") ) || File_Exists( m_savegame_dir / utf8_to_path(int_to_string( save_slot ) + ".save") ) );
+	fs::path save_dir = pPackage_Manager->Get_User_Savegame_Path();
+	return ( File_Exists( save_dir / utf8_to_path(int_to_string( save_slot ) + ".smcsav") ) || File_Exists( save_dir / utf8_to_path(int_to_string( save_slot ) + ".save") ) );
 }
 
 cSavegame *pSavegame = NULL;

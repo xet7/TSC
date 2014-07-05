@@ -196,7 +196,7 @@ fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
 	if(m_current_package.empty())
 		return result;
 
-	result = result / "packages" / utf8_to_path(m_current_package);
+	result = result / utf8_to_path(m_current_package);
 	result.replace_extension("");
 	return result;
 }
@@ -207,7 +207,7 @@ fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
 	if(m_current_package.empty())
 		return result;
 
-	result = result / "packages" / utf8_to_path(m_current_package);
+	result = result / utf8_to_path(m_current_package);
 	result.replace_extension("");
 	return result;
 }
