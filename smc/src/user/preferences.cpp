@@ -37,6 +37,7 @@ const bool cPreferences::m_always_run_default = 0;
 const std::string cPreferences::m_menu_level_default = "menu_brown_1";
 const float cPreferences::m_camera_hor_speed_default = 0.3f;
 const float cPreferences::m_camera_ver_speed_default = 0.2f;
+const std::string cPreferences::m_package_default = "";
 // Video
 #ifdef _DEBUG
 const bool cPreferences::m_video_fullscreen_default = 0;
@@ -139,6 +140,8 @@ void cPreferences :: Save( void )
 	xmlpp::Document doc;
 	xmlpp::Element* p_root = doc.create_root_node("config");
 
+	// Package
+	Add_Property(p_root, "package_name", m_package);
 	// Game
 	Add_Property(p_root, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
 	Add_Property(p_root, "game_language", m_language);
@@ -208,6 +211,7 @@ void cPreferences :: Reset_All( void )
 {
 	// Game
 	m_game_version = smc_version;
+	m_package = m_package_default;
 
 	Reset_Game();
 	Reset_Video();

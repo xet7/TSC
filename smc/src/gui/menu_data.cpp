@@ -640,40 +640,13 @@ void cMenu_Start :: Load_Selected( void )
 
 void cMenu_Start :: Load_Package( std::string name )
 {
-	if( pLevel_Player->m_points > 0 && !Box_Question( _("This will reset your current progress.\nContinue ?") ) )
+	if( !Box_Question( _("This will take affect after restarting.\nContinue ?") ) )
 	{
 		return;
 	}
-	
-	// Change the package before resetting stuff
-	pPackage_Manager->Set_Current_Package( name );
-	
-	// Reset overworlds
-	//pOverworld_Player->Reset();  
-	pOverworld_Manager->Init();  // This clears all worlds so we can get the listing
-	pActive_Overworld = NULL;    // This was deleted during Init
-	pLevel_Player->Reset_Save(); // but this should load "World 1" from the package
 
-	// If the world does not exist, there will be no
-	// active overworld and other parts that depend on
-	// an active overworld will crash.
-	if(!pActive_Overworld)
-	{
-		cOverworld *ow = new cOverworld();
-		pOverworld_Manager->Add(ow);
-		pOverworld_Manager->Set_Active(ow);
-	}
-
-
-	// Reset camgaigns
-	pCampaign_Manager->Load();
-
-	// Reset levels
-	pLevel_Manager->Unload();
-	
-
-	// Reload campaign, world, and level lists from the newly selected packages
-	Update_Lists();
+	pPreferences->m_package = name;
+	pPreferences->Save();
 }
 
 void cMenu_Start :: Load_Campaign( std::string name )

@@ -95,8 +95,11 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 {
 	int val = 0;
 
+	////////////////// Property //////////////////
+	if (name == "package_name")
+		mp_preferences->m_package = value;
 	//////////////////// Game ////////////////////
-	if (name == "game_version")
+	else if (name == "game_version")
 		mp_preferences->m_game_version = string_to_version_number(value);
 	else if (name == "game_language")
 		mp_preferences->m_language = value;

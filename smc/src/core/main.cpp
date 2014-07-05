@@ -271,8 +271,11 @@ void Init_Game( void )
 	I18N_Init();
 	// init user dir directory
 	pResource_Manager->Init_User_Directory();
-	// init pacakge from command line
-	pPackage_Manager->Set_Current_Package(g_cmdline_package);
+	// init pacakge from command line or preferences
+	if(!g_cmdline_package.empty())
+		pPackage_Manager->Set_Current_Package(g_cmdline_package);
+	else
+		pPackage_Manager->Set_Current_Package(pPreferences->m_package);
 	// video init
 	pVideo->Init_SDL();
 	pVideo->Init_Video();
