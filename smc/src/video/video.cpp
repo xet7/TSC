@@ -28,6 +28,7 @@
 #include "../core/math/size.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../gui/spinner.hpp"
 
 namespace fs = boost::filesystem;
@@ -1056,13 +1057,36 @@ void cVideo :: Toggle_Fullscreen( void )
 
 cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = true */ )
 {
+	return Get_Surface_Helper(filename, print_errors, false);
+}
+
+cGL_Surface *cVideo :: Get_Package_Surface( fs::path filename, bool print_errors /* = true */ )
+{
+	return Get_Surface_Helper(filename, print_errors, true);
+}
+
+cGL_Surface *cVideo :: Get_Surface_Helper( fs::path filename, bool print_errors /* = true */, bool package /* = true */ )
+{
 	// .settings file type can't be used directly
 	if (filename.extension() == fs::path(".settings"))
 		filename.replace_extension(".png");
 
 	// pixmaps dir must be given
-  if (!filename.is_absolute())
-    filename = pResource_Manager->Get_Game_Pixmaps_Directory() / filename;
+	if (!filename.is_absolute())
+	{
+		if(package)
+		{
+			filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename));
+			// .settings file type can't be used directly, and Get_Pixmap_Reading_Path
+			// may have found a settings file
+			if (filename.extension() != fs::path(".png"))
+				filename.replace_extension(".png");
+		}
+		else
+		{
+			filename = pResource_Manager->Get_Game_Pixmaps_Directory() / filename;
+		}
+	}
 
 	// check if already loaded
 	cGL_Surface *image = pImage_Manager->Get_Pointer( path_to_utf8(filename) );
@@ -1083,10 +1107,29 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 	return image;
 }
 
-	cVideo::cSoftware_Image cVideo :: Load_Image( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */ ) const
+cVideo::cSoftware_Image cVideo :: Load_Image( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */) const
+{
+	return Load_Image_Helper(filename, load_settings, print_errors, 0);
+}
+
+cVideo::cSoftware_Image cVideo :: Load_Package_Image( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */) const
+{
+	return Load_Image_Helper(filename, load_settings, print_errors, 1);
+}
+
+cVideo::cSoftware_Image cVideo :: Load_Image_Helper( boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */, bool package /* = 1 */) const
 {
 	// pixmaps dir must be given
-	filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+	if(package)
+	{
+		filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), load_settings);
+		if(filename.extension() != fs::path(".png"))
+			filename.replace_extension(".png");
+	}
+	else
+	{
+		filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+	}
 
 	cSoftware_Image software_image = cSoftware_Image();
 	SDL_Surface *sdl_surface = NULL;
@@ -1104,7 +1147,7 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 		if (fs::exists(settings_file) && fs::is_regular_file(settings_file)) {
 			settings = pSettingsParser->Get( settings_file );
 
-			fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Game_Data_Directory(), settings_file); // Why add .png here? Should be in the return value of fs::relative() anyway.
+			fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename); // Why add .png here? Should be in the return value of fs::relative() anyway.
 			// check if image cache file exists
 			if (fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
 				sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
@@ -1118,7 +1161,10 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 					img_filename = settings->m_base;
 
 					// pixmaps dir must be given
-					img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+					if(package)
+						img_filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(img_filename), 0);
+					else
+						img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 				}
 
 				sdl_surface = IMG_Load(path_to_utf8(img_filename).c_str());
@@ -1155,13 +1201,32 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 
 cGL_Surface *cVideo :: Load_GL_Surface( boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */ )
 {
+	return Load_GL_Surface_Helper(filename, use_settings, print_errors, 0);
+}
+
+cGL_Surface *cVideo :: Load_GL_Package_Surface( boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */ )
+{
+	return Load_GL_Surface_Helper(filename, use_settings, print_errors, 1);
+}
+
+cGL_Surface *cVideo :: Load_GL_Surface_Helper( boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */, bool package /* = 1 */)
+{
 	using namespace boost::filesystem;
 
 	// pixmaps dir must be given
-	filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+	if(package)
+	{
+		filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), use_settings);
+		if(filename.extension() != fs::path(".png"))
+			filename.replace_extension(".png");
+	}
+	else
+	{
+		filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+	}
 
 	// load software image
-	cSoftware_Image software_image = Load_Image( filename, use_settings, print_errors );
+	cSoftware_Image software_image = Load_Image_Helper( filename, use_settings, print_errors, package );
 	SDL_Surface *sdl_surface = software_image.m_sdl_surface;
 	cImage_Settings_Data *settings = software_image.m_settings;
 
@@ -1715,7 +1780,7 @@ void cVideo :: Save_Screenshot( void )
 
 	for( unsigned int i = 1; i < 1000; i++ )
 	{
-		filename = pResource_Manager->Get_User_Screenshot_Directory() / utf8_to_path(int_to_string(i) + ".png");
+		filename = pPackage_Manager->Get_User_Screenshot_Path() / utf8_to_path(int_to_string(i) + ".png");
 
 		if( !File_Exists( filename ) )
 		{

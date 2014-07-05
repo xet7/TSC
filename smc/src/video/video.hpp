@@ -115,6 +115,8 @@ public:
 	 * The returned image should not be deleted or modified.
 	 */
 	cGL_Surface *Get_Surface( boost::filesystem::path filename, bool print_errors = true );
+	cGL_Surface *Get_Package_Surface( boost::filesystem::path filename, bool print_errors = true );
+	cGL_Surface *Get_Surface_Helper( boost::filesystem::path filename, bool print_errors = true, bool package = true );
 
 	// Software image
 	class cSoftware_Image
@@ -136,6 +138,8 @@ public:
 	 * print_errors : print errors if image couldn't be created or loaded
 	*/
 	cSoftware_Image Load_Image( boost::filesystem::path filename, bool load_settings = 1, bool print_errors = 1 ) const;
+	cSoftware_Image Load_Package_Image( boost::filesystem::path filename, bool load_settings = 1, bool print_errors = 1 ) const;
+	cSoftware_Image Load_Image_Helper( boost::filesystem::path filename, bool load_settings = 1, bool print_errors = 1, bool package = 1) const;
 
 	/* Load and return the hardware image
 	 * use_settings : enable file settings if set to 1
@@ -143,6 +147,8 @@ public:
 	 * The returned image should be deleted if not used anymore
 	*/
 	cGL_Surface *Load_GL_Surface( boost::filesystem::path filename, bool use_settings = 1, bool print_errors = 1 );
+	cGL_Surface *Load_GL_Package_Surface( boost::filesystem::path filename, bool use_settings = 1, bool print_errors = 1 );
+	cGL_Surface *Load_GL_Surface_Helper( boost::filesystem::path filename, bool use_settings = 1, bool print_errors = 1, bool package = 1);
 
 	/* Convert to a scaled software image with a power of 2 size and 32 bits per pixel.
 	 * Conversion only happens if needed.

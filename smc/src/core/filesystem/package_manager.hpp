@@ -74,7 +74,7 @@ public:
 	boost::filesystem::path Get_User_Imgcache_Path(void);
 
 	// Find resources for reading
-	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap);
+	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings = true);
 	boost::filesystem::path Get_Sound_Reading_Path(const std::string& sound);
 	boost::filesystem::path Get_Music_Reading_Path(const std::string& music);
 
@@ -90,7 +90,7 @@ private:
 	void Build_Search_Path_Helper( const std::string& package, std::vector<std::string>& processed );
 	PackageInfo Load_Package_Info( const std::string& package );
 
-	boost::filesystem::path Find_Reading_Path(boost::filesystem::path dir, boost::filesystem::path resource);
+	boost::filesystem::path Find_Reading_Path(boost::filesystem::path dir, boost::filesystem::path resource, std::vector<std::string> extra_ext);
 	boost::filesystem::path Find_Relative_Path(boost::filesystem::path dir, boost::filesystem::path path);
 
 	std::map <std::string, PackageInfo> m_packages;

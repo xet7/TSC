@@ -19,6 +19,7 @@
 #include "../video/gl_surface.hpp"
 #include "../core/framerate.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/boost_relative.hpp"
 #include "../core/xml_attributes.hpp"
 
@@ -205,9 +206,9 @@ void cBackground :: Set_Image( const fs::path &img_file_1 )
 
 	// Make the path relative to pixmaps/ if it isn’t yet
 	if (m_image_1_filename.is_absolute())
-		m_image_1_filename = fs::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), m_image_1_filename);
+		m_image_1_filename = pPackage_Manager->Get_Relative_Pixmap_Path(m_image_1_filename);
 
-	m_image_1 = pVideo->Get_Surface( m_image_1_filename );
+	m_image_1 = pVideo->Get_Package_Surface( m_image_1_filename );
 }
 
 void cBackground :: Set_Scroll_Speed( const float x /* = 1.0f */, const float y /* = 1.0f */ )

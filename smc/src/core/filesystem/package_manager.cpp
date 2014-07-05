@@ -218,19 +218,25 @@ fs::path cPackage_Manager :: Get_User_Imgcache_Path(void)
 	return result;
 }
 
-fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap)
+fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings /* = true */)
 {
-	return Find_Reading_Path("pixmaps", utf8_to_path(pixmap));
+	std::vector<std::string> ext;
+	if(use_settings)
+		ext.push_back(".settings");
+
+	return Find_Reading_Path("pixmaps", utf8_to_path(pixmap), ext);
 }
 
 fs::path cPackage_Manager :: Get_Sound_Reading_Path(const std::string& sound)
 {
-	return Find_Reading_Path("sounds", utf8_to_path(sound));
+	std::vector<std::string> ext;
+	return Find_Reading_Path("sounds", utf8_to_path(sound), ext);
 }
 
 fs::path cPackage_Manager :: Get_Music_Reading_Path(const std::string& music)
 {
-	return Find_Reading_Path("music", utf8_to_path(music));
+	std::vector<std::string> ext;
+	return Find_Reading_Path("music", utf8_to_path(music), ext);
 }
 
 fs::path cPackage_Manager :: Get_Relative_Pixmap_Path(fs::path path)
@@ -324,13 +330,26 @@ PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
 	return info;
 }
 
-fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource)
+fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, std::vector<std::string> extra_ext)
 {
 	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
 	{
 		fs::path path = *it / dir / resource;
 		if(fs::exists(path))
+		{
 			return path;
+		}
+		else
+		{
+			for(std::vector<std::string>::const_iterator it_ext = extra_ext.begin(); it_ext != extra_ext.end(); ++it_ext)
+			{
+				path.replace_extension(*it_ext);
+				if(fs::exists(path))
+				{
+					return path;
+				}
+			}
+		}
 	}
 
 	return fs::path();

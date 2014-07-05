@@ -28,6 +28,7 @@
 #include "../scripting/events/touch_event.hpp"
 #include "../level/level_editor.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
@@ -343,7 +344,7 @@ cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, 
 	// position
 	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 	// image
-	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
+	Set_Image( pVideo->Get_Package_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
 	// Massivity.
 	// FIXME: Should be separate "massivity" attribute or so.
 	Set_Massive_Type( Get_Massive_Type_Id( attributes["type"] ) );
@@ -489,7 +490,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	// Only save the relative part of the filename -- otherwise the
 	// generated levels wouldn’t be portable.
 	if (img_filename.is_absolute())
-		img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
+		img_filename = pPackage_Manager->Get_Relative_Pixmap_Path(img_filename);
 
 	Add_Property(p_node, "image", path_to_utf8(img_filename));
 
@@ -1541,7 +1542,7 @@ void cSprite :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_sprite_image" ));
 	Editor_Add( UTF8_("Image"), UTF8_("Image filename"), editbox, 200 );
 
-	fs::path rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_start_image->Get_Path() );
+	fs::path rel = pPackage_Manager->Get_Relative_Pixmap_Path(m_start_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cSprite::Editor_Image_Text_Changed, this ) );
 
