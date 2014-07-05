@@ -1147,9 +1147,19 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper( boost::filesystem::path fil
 		if (fs::exists(settings_file) && fs::is_regular_file(settings_file)) {
 			settings = pSettingsParser->Get( settings_file );
 
-			fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename); // Why add .png here? Should be in the return value of fs::relative() anyway.
+			// With packages support, an image loaded from a user path would have a relative path
+			// such as "../../path/to/user/files".  Since these files are not cached, don't attempt
+			// to load them.  However, package pixmaps in the game path can be cached.
+			// Because we use the path relative to the game data directory regardless of the package,
+			// normal pixmaps can be found under CACHEDIR/pixmaps/... and package pixmaps can be
+			// found under CACHEDIR/packages/PACKAGE/pixmaps/...
+			fs::path rel = fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename);
+			fs::path img_filename_cache;
+			if(rel.begin() != rel.end() && *(rel.begin()) != fs::path(".."))
+				img_filename_cache = m_imgcache_dir / rel; // Why add .png here? Should be in the return value of fs::relative() anyway.
+
 			// check if image cache file exists
-			if (fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
+			if (!img_filename_cache.empty() && fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
 				sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
 			// image given in base settings
 			else if (!settings->m_base.empty()) {
