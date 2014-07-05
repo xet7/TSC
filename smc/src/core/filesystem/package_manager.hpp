@@ -73,9 +73,6 @@ public:
 	boost::filesystem::path Get_User_Savegame_Path(void);
 	boost::filesystem::path Get_User_Screenshot_Path(void);
 
-	// Cache directory
-	boost::filesystem::path Get_User_Imgcache_Path(void);
-
 	// Find resources for reading
 	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings = true);
 	boost::filesystem::path Get_Sound_Reading_Path(const std::string& sound);

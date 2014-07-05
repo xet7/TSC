@@ -110,10 +110,6 @@ void cPackage_Manager :: Init_User_Paths( void )
 	// Screenshot
 	if(!Dir_Exists(Get_User_Screenshot_Path()))
 		fs::create_directories(Get_User_Screenshot_Path());
-
-	// Cache
-	if(!Dir_Exists(Get_User_Imgcache_Path()))
-		fs::create_directories(Get_User_Imgcache_Path());
 }
 
 fs::path cPackage_Manager :: Get_User_Data_Path(int pos /* = 0 */)
@@ -208,17 +204,6 @@ fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
 fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
 {
 	fs::path result = pResource_Manager->Get_User_Screenshot_Directory();
-	if(m_current_package.empty())
-		return result;
-
-	result = result / "packages" / utf8_to_path(m_current_package);
-	result.replace_extension("");
-	return result;
-}
-
-fs::path cPackage_Manager :: Get_User_Imgcache_Path(void)
-{
-	fs::path result = pResource_Manager->Get_User_Imgcache_Directory();
 	if(m_current_package.empty())
 		return result;
 
