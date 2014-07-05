@@ -30,6 +30,84 @@ namespace errc = boost::system::errc;
 
 namespace SMC
 {
+/* *** *** *** *** *** *** PackageInfo *** *** *** *** *** *** *** *** *** *** *** */
+PackageInfo :: PackageInfo()
+	: hidden(false)
+{
+}
+
+/* *** *** *** *** *** *** cPackage_Loader *** *** *** *** *** *** *** *** *** *** *** */
+
+cPackage_Loader :: cPackage_Loader()
+	: xmlpp::SaxParser()
+{
+}
+
+cPackage_Loader :: ~cPackage_Loader()
+{
+}
+
+PackageInfo cPackage_Loader :: Get_Package_Info( void )
+{
+	return m_package;
+}
+
+void cPackage_Loader :: parse_file(fs::path filename)
+{
+	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
+}
+
+void cPackage_Loader :: on_start_document()
+{
+	// reset to defaults
+	m_package = PackageInfo();
+}
+
+void cPackage_Loader :: on_end_document()
+{
+}
+
+void cPackage_Loader :: on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
+{
+	if(name == "property" || name == "Property")
+	{
+		std::string key;
+		std::string value;
+
+		xmlpp::SaxParser::AttributeList::const_iterator iter;
+		for(iter = properties.begin(); iter != properties.end(); ++iter)
+		{
+			xmlpp::SaxParser::Attribute attr = *iter;
+
+			if(attr.name == "name" || attr.name == "Name")
+				key = attr.value;
+			else if(attr.name == "value" || attr.name == "Value")
+				value = attr.value;
+		}
+
+		m_current_properties[key] = value;
+	}
+}
+
+void cPackage_Loader :: on_end_element(const Glib::ustring& name)
+{
+	if(name == "property" || name == "Property")
+		return;
+
+	if(name == "use" || name == "Use")
+	{
+		std::string package = m_current_properties["package"];
+		if(!package.empty())
+			m_package.dependencies.push_back(package);
+	}
+	else if(name == "settings" || name == "Settings")
+	{
+		m_package.desc = m_current_properties["description"];
+		m_package.hidden = static_cast<bool>(string_to_int(m_current_properties["hidden"]));
+	}
+
+	m_current_properties.clear();
+}
 
 /* *** *** *** *** *** *** cPackage_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -69,6 +147,16 @@ std::vector<PackageInfo> cPackage_Manager :: Get_Packages( void )
 	std::sort(packages.begin(), packages.end());
 
 	return packages;
+}
+
+PackageInfo cPackage_Manager :: Get_Package( const std::string& name )
+{
+	if(m_packages.find(name) != m_packages.end())
+	{
+		return m_packages[name];
+	}
+
+	return PackageInfo();
 }
 
 void cPackage_Manager :: Set_Current_Package( const std::string& name )
@@ -317,15 +405,26 @@ PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
 	fs::path path(utf8_to_path(package));
 	path.replace_extension(".smcpkg");
 
-	PackageInfo info;
+	fs::path game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / path;
+	fs::path user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / path;
 
-	info.hidden = false;
+	cPackage_Loader loader;
+
+	if(fs::exists(user_data_dir / "package.xml"))
+	{
+		loader.parse_file(user_data_dir / "package.xml");
+	}
+	else if(fs::exists(game_data_dir / "package.xml"))
+	{
+		loader.parse_file(game_data_dir / "package.xml");
+	}
+
+	PackageInfo info = loader.Get_Package_Info();
+
+	// Set specific values here.
 	info.name = package;
-
-	info.game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / path;
-	info.user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / path;
-
-	// TODO: load information from info.user_data_dir / "package.xml" or info.game_data_dir / "package.xml"
+	info.game_data_dir = game_data_dir;
+	info.user_data_dir = user_data_dir;
 
 	return info;
 }
@@ -357,8 +456,6 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, 
 
 fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)
 {
-    std::cout << dir << std::endl;
-    std::cout << path << std::endl;
 	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
 	{
 		fs::path subdir(*it / dir);

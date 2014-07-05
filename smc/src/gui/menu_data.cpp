@@ -1081,7 +1081,17 @@ bool cMenu_Start :: Package_Select( const CEGUI::EventArgs &event )
 	// set description
 	if( item )
 	{
-		// TODO
+		if(static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getItemIndex(item) == 0)
+		{
+			editbox_package_description->setText( "Core campaigns, worlds, and levels." );
+		}
+		else
+		{
+			std::string package = item->getText().c_str();
+			PackageInfo info = pPackage_Manager->Get_Package(package);
+
+			editbox_package_description->setText( info.desc );
+		}
 	}
 	// clear
 	else

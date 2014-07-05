@@ -18,11 +18,14 @@
 
 #include "../../core/global_basic.hpp"
 #include "../../core/global_game.hpp"
+#include "../../core/xml_attributes.hpp"
 
 namespace SMC
 {
 
 struct PackageInfo {
+	PackageInfo();
+
 	bool hidden;
 	std::string name;
 	std::string desc;
@@ -31,6 +34,30 @@ struct PackageInfo {
 	boost::filesystem::path user_data_dir;
 };
 
+/* *** *** *** *** *** cPackage_Loader *** *** *** *** *** *** *** *** *** *** *** *** */
+
+class cPackage_Loader : public xmlpp::SaxParser
+{
+public:
+	cPackage_Loader();
+	virtual ~cPackage_Loader();
+	// Parse the file given by path.
+	virtual void parse_file(boost::filesystem::path filename);
+
+	PackageInfo Get_Package_Info();
+
+protected:
+	// SAX parser callbacks
+	virtual void on_start_document();
+	virtual void on_end_document();
+	virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties);
+	virtual void on_end_element(const Glib::ustring& name);
+
+	// The package information we’re loading
+	PackageInfo m_package;
+	// The <property> results we found before the current tag
+	XmlAttributes m_current_properties;
+};
 
 /* *** *** *** *** *** cPackage_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -44,6 +71,7 @@ public:
 	void Scan_Packages(void);
 	// Get the list of known packages
 	std::vector<PackageInfo> Get_Packages( void );
+	PackageInfo Get_Package( const std::string& name );
 
 	// Set the current package
 	void Set_Current_Package( const std::string& name );
