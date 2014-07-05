@@ -68,7 +68,11 @@ std::vector<std::string> cPackage_Manager :: Get_Packages( void )
 
 void cPackage_Manager :: Set_Current_Package( const std::string& name )
 {
-	m_current_package = name;
+	if(m_packages.find(name) == m_packages.end())
+		m_current_package = "";
+	else
+		m_current_package = name;
+
 	Build_Search_Path();
 	Init_User_Paths();
 }

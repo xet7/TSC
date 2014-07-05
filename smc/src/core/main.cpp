@@ -47,6 +47,11 @@ using namespace SMC;
 	#undef main
 #endif
 
+
+/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+
+static std::string g_cmdline_package;
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 int main( int argc, char **argv )
@@ -111,6 +116,7 @@ int main( int argc, char **argv )
 				printf( "-d, --debug\tEnable debug modes with the options : game performance\n" );
 				printf( "-l, --level\tLoad the given level\n" );
 				printf( "-w, --world\tLoad the given world\n" );
+				printf( "-p, --package\tLoad the given package\n" );
 				return EXIT_SUCCESS;
 			}
 			// version
@@ -153,6 +159,12 @@ int main( int argc, char **argv )
 						}
 					}
 				}
+			}
+			// package
+			else if( arguments[i] == "--package" || arguments[i] == "-p" )
+			{
+				if( i + 1 < arguments.size() )
+					g_cmdline_package = arguments[i + 1];
 			}
 			// level loading is handled later
 			else if( arguments[i] == "--level" || arguments[i] == "-l" )
@@ -259,6 +271,8 @@ void Init_Game( void )
 	I18N_Init();
 	// init user dir directory
 	pResource_Manager->Init_User_Directory();
+	// init pacakge from command line
+	pPackage_Manager->Set_Current_Package(g_cmdline_package);
 	// video init
 	pVideo->Init_SDL();
 	pVideo->Init_Video();
