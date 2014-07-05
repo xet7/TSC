@@ -380,30 +380,40 @@ void cMenu_Start :: Init_GUI( void )
 	CEGUI::Listbox *listbox_packages = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" ));
 
 	// package names
-	vector<std::string> packages = pPackage_Manager->Get_Packages();
-	for( vector<std::string>::const_iterator itr = packages.begin(); itr != packages.end(); ++itr )
+	vector<PackageInfo> packages = pPackage_Manager->Get_Packages();
+	for( vector<PackageInfo>::const_iterator itr = packages.begin(); itr != packages.end(); ++itr )
 	{
-        if(itr == packages.begin())
-        {
-            CEGUI::ListboxTextItem *first_item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>("<Core>") );
+		if(itr == packages.begin())
+		{
+			CEGUI::ListboxTextItem *first_item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>("<Core>") );
             
-            first_item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
-            first_item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
-            first_item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
-            listbox_packages->addItem( first_item );
-        }
+			first_item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+			first_item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+			first_item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+			listbox_packages->addItem( first_item );
 
-		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>((*itr).c_str()) );
+			if(pPackage_Manager->Get_Current_Package().empty())
+				first_item->setSelected(true);
+		}
+
+		if ( itr->hidden )
+		{
+#ifndef _DEBUG
+			continue;
+#else
+			std::cout << "Showing hidden package  '" << itr->name << "' because this is a debug build." << std::endl;
+#endif
+		}
+
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>((itr->name).c_str()) );
 		
 		item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
 		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
 		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
 		listbox_packages->addItem( item );
-	}
-	// select first item
-	if( listbox_packages->getItemCount() )
-	{
-		listbox_packages->setItemSelectState( static_cast<size_t>(0), 1 );
+
+		if(pPackage_Manager->Get_Current_Package() == itr->name)
+			item->setSelected(true);
 	}
 	
 	// events

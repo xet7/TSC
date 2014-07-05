@@ -53,13 +53,18 @@ void cPackage_Manager :: Scan_Packages( void )
 	Scan_Packages_Helper(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), fs::path());
 }
 
-std::vector<std::string> cPackage_Manager :: Get_Packages( void )
+static bool operator< (const PackageInfo& p1, const PackageInfo& p2)
 {
-	std::vector<std::string> packages;
+	return p1.name < p2.name;
+}
+
+std::vector<PackageInfo> cPackage_Manager :: Get_Packages( void )
+{
+	std::vector<PackageInfo> packages;
 	std::map<std::string, PackageInfo>::const_iterator it;
 	for(it = m_packages.begin(); it != m_packages.end(); it++)
 	{
-		packages.push_back( it->first );
+		packages.push_back( it->second );
 	}
 	std::sort(packages.begin(), packages.end());
 
@@ -328,8 +333,14 @@ PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
 	path.replace_extension(".smcpkg");
 
 	PackageInfo info;
+
+	info.hidden = false;
+	info.name = package;
+
 	info.game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / path;
 	info.user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / path;
+
+	// TODO: load information from info.user_data_dir / "package.xml" or info.game_data_dir / "package.xml"
 
 	return info;
 }

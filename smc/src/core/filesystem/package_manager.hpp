@@ -23,6 +23,9 @@ namespace SMC
 {
 
 struct PackageInfo {
+	bool hidden;
+	std::string name;
+	std::string desc;
 	std::vector<std::string> dependencies;
 	boost::filesystem::path game_data_dir;
 	boost::filesystem::path user_data_dir;
@@ -40,7 +43,7 @@ public:
 	// Scan the available list of packages
 	void Scan_Packages(void);
 	// Get the list of known packages
-	std::vector<std::string> Get_Packages( void );
+	std::vector<PackageInfo> Get_Packages( void );
 
 	// Set the current package
 	void Set_Current_Package( const std::string& name );
