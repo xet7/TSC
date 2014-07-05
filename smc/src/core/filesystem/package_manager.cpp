@@ -274,7 +274,24 @@ fs::path cPackage_Manager :: Get_Game_World_Path(void)
 
 fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, const std::string& script)
 {
-	// TODO: find script in user directory for package, if not then data directory for package.
+	if(package.empty())
+	{
+		// For core scripts, only check game directory
+		return pResource_Manager->Get_Game_Scripting(script);
+	}
+	else if(m_packages.find(package) != m_packages.end())
+	{
+		fs::path result;
+		PackageInfo info = m_packages[package];
+
+		// Check user data directory, then game data directory
+		result = info.user_data_dir / "scripting" / utf8_to_path(script);
+		if(!fs::exists(result))
+			result = info.game_data_dir / "scripting" / utf8_to_path(script);
+
+		return result;
+	}
+
 	return fs::path();
 }
 
