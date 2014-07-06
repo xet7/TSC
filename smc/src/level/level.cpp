@@ -727,7 +727,7 @@ bool cLevel :: Key_Down( const SDLKey key )
 		anim->Set_Emitter_Time_to_Live( -1 );
 		anim->Set_Emitter_Iteration_Interval( 5 );
 		anim->Set_Quota( 200 );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/star.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/star.png" ) );
 		anim->Set_Time_to_Live( 3, 3 );
 		anim->Set_Fading_Alpha( 1 );
 		anim->Set_Speed( 1, 4 );
