@@ -158,14 +158,14 @@ void cBaseBox :: Set_Animation_Type( const std::string &new_anim_type )
 	if( m_anim_type.compare( "Bonus" ) == 0 )
 	{
 		// disabled image
-		Add_Image( pVideo->Get_Surface( "game/box/brown1_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/brown1_1.png" ) );
 		// animation images
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/1.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/2.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/3.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/4.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/5.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/bonus/6.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/bonus/1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/bonus/2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/bonus/3.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/bonus/4.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/bonus/5.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/bonus/6.png" ) );
 
 		Set_Animation( 1 );
 		Set_Animation_Image_Range( 1, 6 );
@@ -174,9 +174,9 @@ void cBaseBox :: Set_Animation_Type( const std::string &new_anim_type )
 	else if( m_anim_type.compare( "Default" ) == 0 )
 	{
 		// disabled image
-		Add_Image( pVideo->Get_Surface( "game/box/brown1_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/brown1_1.png" ) );
 		// default
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/default.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/default.png" ) );
 
 		Set_Animation( 0 );
 		Set_Animation_Image_Range( 1, 1 );
@@ -184,12 +184,12 @@ void cBaseBox :: Set_Animation_Type( const std::string &new_anim_type )
 	else if( m_anim_type.compare( "Power" ) == 0 )
 	{
 		// disabled image
-		Add_Image( pVideo->Get_Surface( "game/box/brown1_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/brown1_1.png" ) );
 		// animation images
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/power_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/power_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/power_3.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/power_4.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/power_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/power_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/power_3.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/power_4.png" ) );
 
 		Set_Animation( 1 );
 		Set_Animation_Image_Range( 1, 4 );
@@ -198,14 +198,14 @@ void cBaseBox :: Set_Animation_Type( const std::string &new_anim_type )
 	else if( m_anim_type.compare( "Spin" ) == 0 )
 	{
 		// disabled image
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/spin/disabled.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/spin/disabled.png" ) );
 		// animation images
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/default.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/spin/1.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/spin/2.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/spin/3.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/spin/4.png" ) );
-		Add_Image( pVideo->Get_Surface( "game/box/yellow/spin/5.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/default.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/spin/1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/spin/2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/spin/3.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/spin/4.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/box/yellow/spin/5.png" ) );
 
 		Set_Animation( 0 );
 		Set_Animation_Image_Range( 1, 6 );
@@ -561,13 +561,13 @@ void cBaseBox :: Generate_Activation_Particles( void )
 		cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 		if( box_type == TYPE_MUSHROOM_POISON )
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/green_ghost_light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/green_ghost_light.png" ) );
 			anim->Set_Speed( 1.0f, 0.1f );
 			anim->Set_Time_to_Live( 1.4f );
 		}
 		else
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Speed( 7.0f, 0.5f );
 			anim->Set_Time_to_Live( 0.2f );
 		}

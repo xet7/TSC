@@ -145,46 +145,46 @@ void cBonusBox :: Set_Bonus_Type( SpriteType bonus_type )
 	{
 		// force always best item
 		m_force_best_item = 1;
-		m_item_image = pVideo->Get_Surface( "game/editor/unknown.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/editor/unknown.png" );
 	}
 	else if( box_type == TYPE_MUSHROOM_DEFAULT )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/mushroom_red.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/mushroom_red.png" );
 	}
 	else if( box_type == TYPE_FIREPLANT )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/fireplant.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/fireplant.png" );
 	}
 	else if( box_type == TYPE_MUSHROOM_BLUE )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/mushroom_blue.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/mushroom_blue.png" );
 	}
 	else if( box_type == TYPE_MUSHROOM_GHOST )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/mushroom_ghost.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/mushroom_ghost.png" );
 	}
 	else if( box_type == TYPE_MUSHROOM_LIVE_1 )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/mushroom_green.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/mushroom_green.png" );
 	}
 	else if( box_type == TYPE_STAR )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/star.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/star.png" );
 	}
 	else if( box_type == TYPE_GOLDPIECE )
 	{
 		if( m_gold_color == COL_RED )
 		{
-			m_item_image = pVideo->Get_Surface( "game/items/goldpiece/red/1.png" );
+			m_item_image = pVideo->Get_Package_Surface( "game/items/goldpiece/red/1.png" );
 		}
 		else
 		{
-			m_item_image = pVideo->Get_Surface( "game/items/goldpiece/yellow/1.png" );
+			m_item_image = pVideo->Get_Package_Surface( "game/items/goldpiece/yellow/1.png" );
 		}
 	}
 	else if( box_type == TYPE_MUSHROOM_POISON )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/mushroom_poison.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/mushroom_poison.png" );
 	}
 	else
 	{
@@ -226,12 +226,12 @@ void cBonusBox :: Set_Goldcolor( DefaultColor new_color )
 
 	if( m_gold_color == COL_YELLOW )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/goldpiece/yellow/1.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/goldpiece/yellow/1.png" );
 		m_name = _("Box Goldpiece Yellow");
 	}
 	else if( m_gold_color == COL_RED )
 	{
-		m_item_image = pVideo->Get_Surface( "game/items/goldpiece/red/1.png" );
+		m_item_image = pVideo->Get_Package_Surface( "game/items/goldpiece/red/1.png" );
 		m_name = _("Box Goldpiece Red");
 	}
 	else

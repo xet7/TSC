@@ -1658,7 +1658,7 @@ bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image( pVideo->Get_Surface( utf8_to_path( str_text ) ), true ); // Automatically converted to absolute path by Get_Surface()
+	Set_Image( pVideo->Get_Package_Surface( utf8_to_path( str_text ) ), true ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
