@@ -188,23 +188,23 @@ void cTurtle :: Set_Color( DefaultColor col )
 	// FIXME: Red armadillo currently has not enough images!
 	// Hence many images are duplicate for the red armadillo.
 	// Walk
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_1.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_2.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_3.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_4.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_5.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_6.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_7.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_8.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/walk_9.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_1.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_2.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_3.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_4.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_5.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_6.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_7.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_8.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/walk_9.png" ) );
 	// Walk Turn
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/turn.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/turn.png" ) );
 	// Shell
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/shell.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/shell_look_1.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/shell_look_2.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/shell_look_3.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/turtle/" + filename_dir + "/roll.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/shell.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/shell_look_1.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/shell_look_2.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/shell_look_3.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/turtle/" + filename_dir + "/roll.png" ) );
 
 	Set_Image_Num( 0, 1 );
 }
@@ -807,7 +807,7 @@ void cTurtle :: Handle_Collision_Player( cObjectCollision *collision )
 			DownGrade();
 
 			cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Quota( 4 );
 			anim->Set_Pos_Z( m_pos_z + 0.0001f );
 			anim->Set_Time_to_Live( 0.3f );
@@ -905,7 +905,7 @@ void cTurtle :: Handle_Collision_Enemy( cObjectCollision *collision )
 			// create animation
 			cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 			anim->Set_Emitter_Rect( m_col_rect.m_x + ( m_col_rect.m_w * 0.2f ), m_col_rect.m_y + ( m_col_rect.m_h * 0.2f ), m_col_rect.m_w * 0.6f, m_col_rect.m_h * 0.8f );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Quota( 5 );
 			anim->Set_Pos_Z( m_pos_z + 0.000001f );
 			anim->Set_Time_to_Live( 0.3f );
@@ -966,7 +966,7 @@ void cTurtle :: Handle_Collision_Massive( cObjectCollision *collision )
 				anim->Set_Direction_Range( 320.0f, 100.0f );
 			}
 
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke.png" ) );
 			anim->Set_Quota( 5 );
 			anim->Set_Pos_Z( col_object->m_pos_z - 0.0001f, 0.0002f );
 			anim->Set_Time_to_Live( 0.2f, 0.2f );

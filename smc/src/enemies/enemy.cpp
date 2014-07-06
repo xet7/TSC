@@ -283,7 +283,7 @@ void cEnemy :: Generate_Hit_Animation( cParticle_Emitter *anim /* = NULL */ ) co
 	}
 
 	anim->Set_Emitter_Rect( m_col_rect.m_x, m_pos_y + ( m_col_rect.m_h / 3 ), m_col_rect.m_w );
-	anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+	anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 	anim->Set_Quota( 4 );
 	anim->Set_Pos_Z( m_pos_z - 0.000001f );
 	anim->Set_Time_to_Live( 0.3f );
@@ -430,7 +430,7 @@ void cEnemy :: Ball_Destroy_Animation(const cBall& ball)
 {
 	// animation
 	cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-	anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+	anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 	anim->Set_Time_to_Live( 0.2f, 0.4f );
 	anim->Set_Fading_Alpha( 1 );
 	anim->Set_Fading_Size( 1 );
