@@ -27,6 +27,7 @@
 #include "../objects/path.hpp"
 #include "../input/mouse.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/boost_relative.hpp"
 #include "../core/xml_attributes.hpp"
 
@@ -86,13 +87,13 @@ cMoving_Platform :: cMoving_Platform( XmlAttributes &attributes, cSprite_Manager
 	Set_Middle_Count(attributes.fetch<int>("middle_img_count", m_middle_count));
 
 	// image top left
-	Set_Image_Top_Left(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_left", path_to_utf8(m_images[0].m_image->Get_Path())))));
+	Set_Image_Top_Left(pVideo->Get_Package_Surface(utf8_to_path(attributes.fetch("image_top_left", path_to_utf8(m_images[0].m_image->Get_Path())))));
 
 	// image top middle
-	Set_Image_Top_Middle(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_middle", path_to_utf8(m_images[1].m_image->Get_Path())))));
+	Set_Image_Top_Middle(pVideo->Get_Package_Surface(utf8_to_path(attributes.fetch("image_top_middle", path_to_utf8(m_images[1].m_image->Get_Path())))));
 
 	// image top right
-	Set_Image_Top_Right(pVideo->Get_Surface(utf8_to_path(attributes.fetch("image_top_right", path_to_utf8(m_images[2].m_image->Get_Path())))));
+	Set_Image_Top_Right(pVideo->Get_Package_Surface(utf8_to_path(attributes.fetch("image_top_right", path_to_utf8(m_images[2].m_image->Get_Path())))));
 }
 
 cMoving_Platform :: ~cMoving_Platform( void )
@@ -135,9 +136,9 @@ void cMoving_Platform :: Init( void )
 
 	Set_Middle_Count( 4 );
 	// create default images
-	Add_Image( pVideo->Get_Surface( "ground/green_1/slider/1/brown/left.png" ) );
-	Add_Image( pVideo->Get_Surface( "ground/green_1/slider/1/brown/middle.png" ) );
-	Add_Image( pVideo->Get_Surface( "ground/green_1/slider/1/brown/right.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "ground/green_1/slider/1/brown/left.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "ground/green_1/slider/1/brown/middle.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "ground/green_1/slider/1/brown/right.png" ) );
 	Set_Image_Num( 1, 1 );
 
 	Update_Rect();
@@ -208,13 +209,13 @@ xmlpp::Element* cMoving_Platform :: Save_To_XML_Node( xmlpp::Element* p_element 
 
 	fs::path rel;
 	// image top left
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
+	rel = pPackage_Manager->Get_Relative_Pixmap_Path( m_images[0].m_image->Get_Path() );
 	Add_Property(p_node, "image_top_left", path_to_utf8(rel));
 	// image top middle
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
+	rel = pPackage_Manager->Get_Relative_Pixmap_Path( m_images[1].m_image->Get_Path() );
 	Add_Property(p_node, "image_top_middle", path_to_utf8(rel));
 	// image top right
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
+	rel = pPackage_Manager->Get_Relative_Pixmap_Path( m_images[2].m_image->Get_Path() );
 	Add_Property(p_node, "image_top_right", path_to_utf8(rel));
 
 	return p_node;
@@ -1170,7 +1171,7 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_left" ));
 	Editor_Add( UTF8_("Image top left"), UTF8_("Image top left"), editbox, 200 );
 
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[0].m_image->Get_Path() );
+	rel = pPackage_Manager->Get_Relative_Pixmap_Path( m_images[0].m_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Left_Text_Changed, this ) );
 
@@ -1178,7 +1179,7 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_middle" ));
 	Editor_Add( UTF8_("Image top middle"), UTF8_("Image top middle"), editbox, 200 );
 
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[1].m_image->Get_Path() );
+	rel = pPackage_Manager->Get_Relative_Pixmap_Path( m_images[1].m_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Middle_Text_Changed, this ) );
 
@@ -1186,7 +1187,7 @@ void cMoving_Platform :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_moving_platform_image_top_right" ));
 	Editor_Add( UTF8_("Image top right"), UTF8_("Image top right"), editbox, 200 );
 
-	rel = fs::relative( pResource_Manager->Get_Game_Pixmaps_Directory(), m_images[2].m_image->Get_Path() );
+	rel = pPackage_Manager->Get_Relative_Pixmap_Path( m_images[2].m_image->Get_Path() );
 	editbox->setText( path_to_utf8( rel ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cMoving_Platform::Editor_Image_Top_Right_Text_Changed, this ) );
 
