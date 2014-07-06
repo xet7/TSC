@@ -317,7 +317,7 @@ fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
 	return result;
 }
 
-fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings /* = true */)
+fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings /* = false */)
 {
 	std::vector<std::string> ext;
 	if(use_settings)

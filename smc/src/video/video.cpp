@@ -1076,7 +1076,7 @@ cGL_Surface *cVideo :: Get_Surface_Helper( fs::path filename, bool print_errors 
 	{
 		if(package)
 		{
-			filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename));
+			filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), true);
 			// .settings file type can't be used directly, and Get_Pixmap_Reading_Path
 			// may have found a settings file
 			if (filename.extension() == fs::path(".settings"))
@@ -1175,7 +1175,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper( boost::filesystem::path fil
 
 					// pixmaps dir must be given
 					if(package)
-						img_filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(img_filename), 0);
+						img_filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(img_filename));
 					else
 						img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
 				}

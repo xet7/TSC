@@ -102,7 +102,7 @@ public:
 	boost::filesystem::path Get_User_Screenshot_Path(void);
 
 	// Find resources for reading
-	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings = true);
+	boost::filesystem::path Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings = false);
 	boost::filesystem::path Get_Sound_Reading_Path(const std::string& sound);
 	boost::filesystem::path Get_Music_Reading_Path(const std::string& music);
 
