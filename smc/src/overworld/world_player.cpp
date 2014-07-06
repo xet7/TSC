@@ -79,22 +79,22 @@ void cOverworld_Player :: Load_Images( void )
 
 	if( m_maryo_state == MARYO_SMALL )
 	{
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/down.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/down_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/down.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/down_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/up_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/up.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/up_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/up_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/left.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/left_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/left.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/left_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/right.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/right_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/right.png" ) );
-		Add_Image( pVideo->Get_Surface( "world/maryo/small/right_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/down.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/down_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/down.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/down_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/up_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/up.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/up_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/up_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/left_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/left_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/right_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "world/maryo/small/right_2.png" ) );
 
 		Set_Animation( 1 );
 	}

@@ -25,6 +25,7 @@
 #include "../video/gl_surface.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
 
 namespace SMC
@@ -49,7 +50,7 @@ cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manag
 	// image
 	/*
 	if (attributes.exists("image"))
-		Set_Image(pVideo->Get_Surface(utf8_to_path(attributes["image"])), true);
+		Set_Image(pVideo->Get_Package_Surface(utf8_to_path(attributes["image"])), true);
 	*/
 
 	// type
@@ -103,7 +104,7 @@ void cWaypoint :: Init( void )
 	m_arrow_forward = NULL;
 	m_arrow_backward = NULL;
 
-	Set_Image( pVideo->Get_Surface( "world/waypoint/default_1.png" ) );
+	Set_Image( pVideo->Get_Package_Surface( "world/waypoint/default_1.png" ) );
 }
 
 cWaypoint *cWaypoint :: Copy( void ) const
@@ -304,19 +305,19 @@ void cWaypoint :: Set_Direction_Forward( ObjectDirection direction )
 
 	if( direction == DIR_LEFT )
 	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/left.png" );
+		m_arrow_forward = pVideo->Get_Package_Surface( "game/arrow/small/white/left.png" );
 	}
 	else if( direction == DIR_RIGHT )
 	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/right.png" );
+		m_arrow_forward = pVideo->Get_Package_Surface( "game/arrow/small/white/right.png" );
 	}
 	else if( direction == DIR_UP )
 	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/up.png" );
+		m_arrow_forward = pVideo->Get_Package_Surface( "game/arrow/small/white/up.png" );
 	}
 	else if( direction == DIR_DOWN )
 	{
-		m_arrow_forward = pVideo->Get_Surface( "game/arrow/small/white/down.png" );
+		m_arrow_forward = pVideo->Get_Package_Surface( "game/arrow/small/white/down.png" );
 	}
 }
 
@@ -326,19 +327,19 @@ void cWaypoint :: Set_Direction_Backward( ObjectDirection direction )
 
 	if( direction == DIR_LEFT )
 	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/left.png" );
+		m_arrow_backward = pVideo->Get_Package_Surface( "game/arrow/small/blue/left.png" );
 	}
 	else if( direction == DIR_RIGHT )
 	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/right.png" );
+		m_arrow_backward = pVideo->Get_Package_Surface( "game/arrow/small/blue/right.png" );
 	}
 	else if( direction == DIR_UP )
 	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/up.png" );
+		m_arrow_backward = pVideo->Get_Package_Surface( "game/arrow/small/blue/up.png" );
 	}
 	else if( direction == DIR_DOWN )
 	{
-		m_arrow_backward = pVideo->Get_Surface( "game/arrow/small/blue/down.png" );
+		m_arrow_backward = pVideo->Get_Package_Surface( "game/arrow/small/blue/down.png" );
 	}
 }
 
@@ -364,11 +365,17 @@ std::string cWaypoint :: Get_Destination() const
 
 boost::filesystem::path cWaypoint :: Get_Destination_Path()
 {
+	boost::filesystem::path result;
+
 	switch(m_waypoint_type) {
 	case WAYPOINT_NORMAL:
 		return pLevel_Manager->Get_Path(m_destination);
 	case WAYPOINT_WORLD_LINK:
-		return pResource_Manager->Get_Game_Overworld(m_destination);
+		// I don't think this function ever gets called, but use packages to determine destination anyway
+		result = pPackage_Manager->Get_User_World_Path() / m_destination;
+		if(!boost::filesystem::exists(result))
+			result = pPackage_Manager->Get_Game_World_Path() / m_destination;
+		return result;
 	default:
 		// FIXME: Throw an exception
 		std::cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;

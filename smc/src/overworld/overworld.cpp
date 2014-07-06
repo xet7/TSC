@@ -936,7 +936,7 @@ bool cOverworld :: Goto_Next_Level( void )
 		anim->Set_Emitter_Time_to_Live( 1.5f );
 		anim->Set_Emitter_Iteration_Interval( 0.05f );
 		anim->Set_Quota( 1 );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 		anim->Set_Pos_Z( 0.081f );
 		anim->Set_Time_to_Live( 1.3f );
 		anim->Set_Speed( 1.0f, 0.5f );
