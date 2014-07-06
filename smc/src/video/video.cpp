@@ -2042,23 +2042,23 @@ void Draw_Effect_Out( Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spe
 		// item based on the camera x position
 		if( pActive_Camera->m_x < 2000 )
 		{
-			image = pVideo->Get_Surface( "game/items/mushroom_red.png" );
+			image = pVideo->Get_Package_Surface( "game/items/mushroom_red.png" );
 		}
 		else if( pActive_Camera->m_x < 5000 )
 		{
-			image = pVideo->Get_Surface( "game/items/fireplant.png" );
+			image = pVideo->Get_Package_Surface( "game/items/fireplant.png" );
 		}
 		else if( pActive_Camera->m_x < 10000 )
 		{
-			image = pVideo->Get_Surface( "game/items/mushroom_green.png" );
+			image = pVideo->Get_Package_Surface( "game/items/mushroom_green.png" );
 		}
 		else if( pActive_Camera->m_x < 20000 )
 		{
-			image = pVideo->Get_Surface( "game/items/star.png" );
+			image = pVideo->Get_Package_Surface( "game/items/star.png" );
 		}
 		else
 		{
-			image = pVideo->Get_Surface( "game/items/moon_1.png" );
+			image = pVideo->Get_Package_Surface( "game/items/moon_1.png" );
 		}
 
 		Color color = white;
