@@ -22,6 +22,7 @@
 #include "package_manager.hpp"
 #include "resource_manager.hpp"
 #include "filesystem.hpp"
+#include "../../user/preferences.hpp"
 #include "../property_helper.hpp"
 #include "../errors.hpp"
 
@@ -115,6 +116,10 @@ cPackage_Manager :: cPackage_Manager( void )
 {
 	printf("Initializing Package Manager\n");
 	Scan_Packages();
+
+	// Preferences isn't loaded yet so skin will not be set here, but
+	// Set_Package is called from main after settings are created and that
+	// will set up the skin as well.
 	Build_Search_Path();
 }
 
@@ -177,8 +182,6 @@ std::string cPackage_Manager :: Get_Current_Package( void )
 
 void cPackage_Manager :: Init_User_Paths( void )
 {
-	fs::path base = m_search_path[0];
-
 	// Levels
 	if(!Dir_Exists(Get_User_Level_Path()))
 		fs::create_directories(Get_User_Level_Path());
@@ -200,76 +203,44 @@ void cPackage_Manager :: Init_User_Paths( void )
 		fs::create_directories(Get_User_Screenshot_Path());
 }
 
-fs::path cPackage_Manager :: Get_User_Data_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_User_Data_Path(void)
 {
-	int index = 2 * pos;
-	if(m_search_path.size() < index + 1)
-		return fs::path();
-
-	return m_search_path[index];
+	return m_search_path[m_package_start];
 }
 
-fs::path cPackage_Manager :: Get_Game_Data_Path(int pos /* = 0 */)
+fs::path cPackage_Manager :: Get_Game_Data_Path(void)
 {
-	int index = 2 * pos + 1;
-	if(m_search_path.size() < index + 1)
-		return fs::path();
-
-	return m_search_path[index];
+	return m_search_path[m_package_start + 1];
 }
 
 fs::path cPackage_Manager :: Get_User_Level_Path(void)
 {
-	fs::path p = Get_User_Data_Path();
-	if(p == fs::path())
-		return p;
-
-	return p / utf8_to_path("levels");
+	return Get_User_Data_Path() / utf8_to_path("levels");
 }
 
 fs::path cPackage_Manager :: Get_Game_Level_Path(void)
 {
-	fs::path p = Get_Game_Data_Path();
-	if(p == fs::path())
-		return p;
-
-	return p / utf8_to_path("levels");
+	return Get_Game_Data_Path() / utf8_to_path("levels");
 }
 
 fs::path cPackage_Manager :: Get_User_Campaign_Path(void)
 {
-	fs::path p = Get_User_Data_Path();
-	if(p == fs::path())
-		return p;
-
-	return p / utf8_to_path("campaigns");
+	return Get_User_Data_Path() / utf8_to_path("campaigns");
 }
 
 fs::path cPackage_Manager :: Get_Game_Campaign_Path(void)
 {
-	fs::path p = Get_Game_Data_Path(0);
-	if(p == fs::path())
-		return p;
-
-	return p / utf8_to_path("campaigns");
+	return Get_Game_Data_Path() / utf8_to_path("campaigns");
 }
 
 fs::path cPackage_Manager :: Get_User_World_Path(void)
 {
-	fs::path p = Get_User_Data_Path(0);
-	if(p == fs::path())
-		return p;
-
-	return p / utf8_to_path("worlds");
+	return Get_User_Data_Path() / utf8_to_path("worlds");
 }
 
 fs::path cPackage_Manager :: Get_Game_World_Path(void)
 {
-	fs::path p = Get_Game_Data_Path(0);
-	if(p == fs::path())
-		return p;
-
-	return p / utf8_to_path("worlds");
+	return Get_Game_Data_Path() / utf8_to_path("worlds");
 }
 
 fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, const std::string& script)
@@ -385,6 +356,17 @@ void cPackage_Manager :: Scan_Packages_Helper( fs::path base, fs::path path )
 void cPackage_Manager :: Build_Search_Path ( void )
 {
 	m_search_path.clear();
+	m_package_start = 0;
+
+	// First add skin package if any
+	if(pPreferences && !pPreferences->m_skin.empty())
+	{
+		std::vector<std::string> processed;
+		Build_Search_Path_Helper( pPreferences->m_skin, processed );
+
+		// The starting position in the search path for packages and not skin items
+		m_package_start = m_search_path.size();
+	}
 
 	if(!m_current_package.empty())
 	{

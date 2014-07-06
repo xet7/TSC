@@ -80,9 +80,9 @@ public:
 	// Create user paths
 	void Init_User_Paths( void );
 	
-	// Return the path based on the seach path, or fs::path() if no more search paths
-	boost::filesystem::path Get_User_Data_Path(int pos = 0);
-	boost::filesystem::path Get_Game_Data_Path(int pos = 0);
+	// Return the path of the current package's data
+	boost::filesystem::path Get_User_Data_Path(void);
+	boost::filesystem::path Get_Game_Data_Path(void);
 
 	// Levels, worlds, and campaigns come only from the currently selected package
 	boost::filesystem::path Get_User_Level_Path(void);
@@ -124,6 +124,7 @@ private:
 	std::map <std::string, PackageInfo> m_packages;
 	std::string m_current_package;
 	std::vector<boost::filesystem::path> m_search_path;
+	int m_package_start;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

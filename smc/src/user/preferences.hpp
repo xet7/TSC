@@ -58,8 +58,9 @@ public:
 
 	/* *** *** *** Settings *** *** *** *** */
 
-	// Package
+	// Package and skin
 	std::string m_package;
+	std::string m_skin;
 	// Game
 	// last version of smc which saved the preferences file
 	unsigned int m_game_version;
@@ -150,8 +151,9 @@ public:
 	// TODO: All constants should be uppercase. Certainly
 	// they are not simple instance members as denoted by "m_"!
 	static const boost::filesystem::path DEFAULT_PREFERENCES_FILENAME;
-	// Package
+	// Package and skin
 	static const std::string m_package_default;
+	static const std::string m_skin_default;
 	// Game
 	static const bool m_always_run_default;
 	static const std::string m_menu_level_default;
