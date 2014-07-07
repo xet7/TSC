@@ -103,8 +103,9 @@ void cPackage_Loader :: on_end_element(const Glib::ustring& name)
 	}
 	else if(name == "settings" || name == "Settings")
 	{
-		m_package.desc = m_current_properties["description"];
 		m_package.hidden = static_cast<bool>(string_to_int(m_current_properties["hidden"]));
+		m_package.desc = m_current_properties["description"];
+		m_package.menu_level = m_current_properties["menu_level"];
 	}
 
 	m_current_properties.clear();
@@ -221,6 +222,43 @@ fs::path cPackage_Manager :: Get_User_Level_Path(void)
 fs::path cPackage_Manager :: Get_Game_Level_Path(void)
 {
 	return Get_Game_Data_Path() / utf8_to_path("levels");
+}
+
+fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
+{
+	// determine level for the menu
+
+	// user preferences
+	std::string level = pPreferences->m_menu_level;
+
+	// current package
+	if(level.empty() && !m_current_package.empty())
+		level = m_packages[m_current_package].menu_level;
+
+	// default
+	if(level.empty())
+		level = pPreferences->m_menu_level_default;
+
+	level = level + ".smclvl";
+
+	// find the level
+
+	// user package data dir
+	fs::path result = Get_User_Level_Path() / level;
+
+	// game package data dir
+	if(!fs::exists(result))
+		result = Get_Game_Level_Path() / level;
+
+	// user core data dir
+	if(!fs::exists(result))
+		result = pResource_Manager->Get_User_Level_Directory() / level;
+
+	// finally, game core data dir
+	if(!fs::exists(result))
+		result = pResource_Manager->Get_Game_Level_Directory() / level;
+
+	return result;
 }
 
 fs::path cPackage_Manager :: Get_User_Campaign_Path(void)

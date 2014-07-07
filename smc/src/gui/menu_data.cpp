@@ -228,7 +228,7 @@ void cMenu_Main :: Init( void )
 		m_draw_list.push_back( hud_sprite );
 		// SDL logo
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/logo_sdl.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/logo_sdl.png" ) );
 		hud_sprite->Set_Pos( static_cast<float>(game_res_w) * 0.04f, static_cast<float>(game_res_h) * 0.935f );
 		m_draw_list.push_back( hud_sprite );
 	}
@@ -353,11 +353,11 @@ void cMenu_Start :: Init( void )
 	m_layout_file = "menu/start.layout";
 
 	cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	hud_sprite->Set_Image( pVideo->Get_Surface( "menu/start.png" ) );
+	hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/start.png" ) );
 	hud_sprite->Set_Pos( static_cast<float>(game_res_w) * 0.02f, 140 );
 	m_draw_list.push_back( hud_sprite );
 	hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	hud_sprite->Set_Image( pVideo->Get_Surface( "menu/items/overworld.png" ) );
+	hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/items/overworld.png" ) );
 	hud_sprite->Set_Pos( static_cast<float>(game_res_w) / 20, 210 );
 	m_draw_list.push_back( hud_sprite );
 
@@ -1330,7 +1330,7 @@ void cMenu_Options :: Init( void )
 
 	// options image
 	cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	hud_sprite->Set_Image( pVideo->Get_Surface( "menu/options.png" ) );
+	hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/options.png" ) );
 	hud_sprite->Set_Pos( game_res_w * 0.01f, 100 );
 	m_draw_list.push_back( hud_sprite );
 
@@ -3141,22 +3141,22 @@ void cMenu_Savegames :: Init( void )
 	if( m_type_save )
 	{
 		cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/save.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/save.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.2f, game_res_h * 0.15f );
 		m_draw_list.push_back( hud_sprite );
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/items/save.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/items/save.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.07f, game_res_h * 0.24f );
 		m_draw_list.push_back( hud_sprite );
 	}
 	else
 	{
 		cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/load.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/load.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.2f, game_res_h * 0.15f );
 		m_draw_list.push_back( hud_sprite );
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/items/load.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/items/load.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.07f, game_res_h * 0.24f );
 		m_draw_list.push_back( hud_sprite );
 	}

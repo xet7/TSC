@@ -29,6 +29,7 @@ struct PackageInfo {
 	bool hidden;
 	std::string name;
 	std::string desc;
+	std::string menu_level;
 	std::vector<std::string> dependencies;
 	boost::filesystem::path game_data_dir;
 	boost::filesystem::path user_data_dir;
@@ -87,6 +88,7 @@ public:
 	// Levels, worlds, and campaigns come only from the currently selected package
 	boost::filesystem::path Get_User_Level_Path(void);
 	boost::filesystem::path Get_Game_Level_Path(void);
+	boost::filesystem::path Get_Menu_Level_Path(void);
  
 	boost::filesystem::path Get_User_Campaign_Path(void);
 	boost::filesystem::path Get_Game_Campaign_Path(void);
