@@ -24,6 +24,9 @@
 #include "../core/sprite_manager.hpp"
 #include "../level/level.hpp"
 //#include "../script/events/downgrade_event.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -199,7 +202,7 @@ void cFurball :: Set_Color( const DefaultColor &col )
 	}
 	else
 	{
-		printf( "Error : Unknown Furball Color %d\n", m_color_type );
+        cerr << "Error : Unknown Furball Color " << m_color_type  << endl;
 		return;
 	}
 

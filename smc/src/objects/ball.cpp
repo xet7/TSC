@@ -25,6 +25,9 @@
 #include "../gui/hud.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../user/savegame.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -187,7 +190,7 @@ void cBall :: Set_Ball_Type( ball_effect type )
 	}
 	else
 	{
-		printf( "Warning : Ball unknown type %d\n", type );
+        cerr << "Warning : Ball unknown type " << type << endl;
 		cAnimated_Sprite::Destroy();
 	}
 }

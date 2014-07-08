@@ -25,6 +25,9 @@
 #include "../core/i18n.hpp"
 #include "../level/level.hpp"
 #include "../scripting/events/activate_event.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -325,7 +328,7 @@ void cMushroom :: Set_Type( SpriteType new_type )
 	}
 	else
 	{
-		printf( "Warning Unknown Mushroom type : %d\n", new_type );
+        cerr << "Warning Unknown Mushroom type : " << new_type << endl;
 		return;
 	}
 	

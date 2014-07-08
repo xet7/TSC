@@ -27,6 +27,9 @@
 #include "../user/preferences.hpp"
 #include "../input/keyboard.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -141,7 +144,7 @@ void cMenuHandler :: Add_Menu_Item( cMenu_Item *item, float shadow_pos /* = 0 */
 {
 	if( !item )
 	{
-		printf( "Menu item is NULL ( current Menu size : %d )\n", Get_Size() );
+        cerr << "Menu item is NULL ( current Menu size : " << Get_Size() << ")" << endl;
 		return;
 	}
 

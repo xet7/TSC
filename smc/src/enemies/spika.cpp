@@ -23,6 +23,9 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -149,7 +152,7 @@ void cSpika :: Set_Color( DefaultColor col )
 	}
 	else
 	{
-		printf( "Error : Unknown Spika Color %d\n", m_color_type );
+        cerr << "Error : Unknown Spika Color " << m_color_type << endl;
 	}
 
 	Set_Image_Num( 0, 1 );

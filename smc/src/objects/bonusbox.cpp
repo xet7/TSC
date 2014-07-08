@@ -25,6 +25,9 @@
 #include "../objects/goldpiece.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/i18n.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -189,7 +192,7 @@ void cBonusBox :: Set_Bonus_Type( SpriteType bonus_type )
 	else
 	{
 		m_item_image = NULL;
-		printf( "Error : Unknown BonusBox Item type : %d\n", box_type );
+        cerr << "Error : Unknown BonusBox Item type : " << box_type << endl;
 	}
 }
 
@@ -236,7 +239,7 @@ void cBonusBox :: Set_Goldcolor( DefaultColor new_color )
 	}
 	else
 	{
-		printf( "Warning : Unknown Bonusbox Gold Color %d\n", m_gold_color );
+        cerr << "Warning : Unknown Bonusbox Gold Color " << m_gold_color << endl;
 	}
 }
 
@@ -343,7 +346,7 @@ void cBonusBox :: Activate( void )
 	}
 	else
 	{
-		printf( "Error : Unknown bonusbox item type %d\n", box_type );
+        cerr << "Error : Unknown bonusbox item type " << box_type << endl;
 		return;
 	}
 

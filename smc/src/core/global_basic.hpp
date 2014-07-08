@@ -63,6 +63,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <map>
+#include <iomanip>
 
 // Boost
 #include <boost/filesystem.hpp>

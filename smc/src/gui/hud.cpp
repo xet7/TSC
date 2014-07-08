@@ -26,6 +26,9 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../scripting/events/gold_100_event.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -282,7 +285,7 @@ cMenuBackground :: cMenuBackground( cSprite_Manager *sprite_manager )
 
 	if(	!m_maryo_head || !m_goldpiece )
 	{
-		printf( "Error : MenuBackground images loading failed\n" );
+        cerr << "Error : MenuBackground images loading failed" << endl;
 		return;
 	}
 

@@ -32,6 +32,9 @@
 #include "../user/savegame.hpp"
 #include "../overworld/world_editor.hpp"
 #include "filesystem/resource_manager.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -228,14 +231,14 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 				}
 				else
 				{
-					printf( "Warning : Level entry %s not found\n", str_entry.c_str() );
+                    cerr << "Warning : Level entry " << str_entry << " not found" << endl;
 				}
 			}
 		}
 		// loading failed
 		else
 		{
-			printf( "Error : Level not found %s\n", str_level.c_str() );
+            cerr << "Error : Level not found " << str_level << endl;
 			pHud_Debug->Set_Text( _("Loading Level failed : ") + str_level );
 
 			pLevel_Manager->Finish_Level();

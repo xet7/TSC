@@ -15,6 +15,9 @@
 
 #include "../../core/filesystem/filesystem.hpp"
 #include "../../core/game_core.hpp"
+#include "../../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -134,7 +137,7 @@ vector<fs::path> Get_Directory_Files( const fs::path &dir, const std::string &fi
 		}
 		catch( const std::exception &ex )
 		{
-			printf( "%s %s\n", dir_itr->path().string().c_str(), ex.what() );
+            cerr << dir_itr->path().string().c_str() << " " << ex.what() << endl;
 		}
 	}
 

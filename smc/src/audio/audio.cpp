@@ -21,6 +21,9 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -188,7 +191,7 @@ bool cAudio :: Init( void )
 	{
 		if( m_debug )
 		{
-			printf( "Initializing Audio System - Buffer %i, Frequency %i, Speaker Channels %i\n", m_audio_buffer, pPreferences->m_audio_hz, m_audio_channels );
+            cout << "Initializing Audio System - Buffer " << m_audio_buffer << ", Frequency " << pPreferences->m_audio_hz << ", Speaker Channels " << m_audio_channels << endl;
 		}
 
 		/*	Initializing preferred Audio System specs with Mixer Standard format (Stereo)
@@ -201,7 +204,7 @@ bool cAudio :: Init( void )
 
 		if( Mix_OpenAudio( pPreferences->m_audio_hz, MIX_DEFAULT_FORMAT, m_audio_channels, m_audio_buffer ) < 0 ) 
 		{
-			printf( "Warning : Could not init 16-bit Audio\n- Reason : %s\n", SDL_GetError() );
+            cerr << "Warning : Could not init 16-bit Audio" << endl << "- Reason : " << SDL_GetError() << endl;
 			return 0;
 		}
 
@@ -209,14 +212,14 @@ bool cAudio :: Init( void )
 
 		if( !numtimesopened )
 		{
-			printf( "Mix_QuerySpec failed: %s\n", Mix_GetError() );
+            cerr << "Mix_QuerySpec failed: " << Mix_GetError() << endl;
 		}
 		else
 		{
 			// different frequency
 			if( pPreferences->m_audio_hz != dev_frequency )
 			{
-				printf( "Warning : different frequency got %d but requested %d\n", dev_frequency, pPreferences->m_audio_hz );
+                cerr << "Warning : different frequency got " << dev_frequency << " but requested " << pPreferences->m_audio_hz << endl;
 			}
 
 			// different format
@@ -249,13 +252,13 @@ bool cAudio :: Init( void )
 						break;
 				}
 
-				printf( "Warning : got different format %s\n", format_str );
+                cerr << "Warning : got different format " << format_str << endl;
 			}
 
 			// different amount of channels
 			if( m_audio_channels != dev_channels )
 			{
-				printf( "Warning : different channels got %d but requested %d\n", dev_channels, m_audio_channels );
+                cerr << "Warning : different channels got " << dev_channels << " but requested " << m_audio_channels << endl;
 			}
 		}
 
@@ -265,7 +268,7 @@ bool cAudio :: Init( void )
 
 	if( m_debug )
 	{
-		printf( "Audio Sound Channels available : %d\n", Mix_AllocateChannels( -1 ) );
+        cout << "Audio Sound Channels available : " << Mix_AllocateChannels( -1 ) << endl;
 	}
 
 	// music initialization
@@ -311,7 +314,7 @@ void cAudio :: Close( void )
 	{
 		if( m_debug )
 		{
-			printf( "Closing Audio System\n" );
+            cout << "Closing Audio System" << endl;
 		}
 
 		if( m_sound_enabled )
@@ -389,7 +392,7 @@ void cAudio :: Set_Max_Sounds( unsigned int limit /* = 10 */ )
 
 	if( m_debug )
 	{
-		printf( "Audio Sound Channels changed : %d\n", Mix_AllocateChannels( -1 ) );
+        cout << "Audio Sound Channels changed : " << Mix_AllocateChannels( -1 ) << endl;
 	}
 }
 
@@ -422,13 +425,13 @@ cSound *cAudio :: Get_Sound_File( fs::path filename ) const
 
 			if( m_debug )
 			{
-				printf( "Loaded sound file : %s\n", filename.c_str() );
+                cout << "Loaded sound file : " << filename.c_str() << endl;
 			}
 		}
 		// failed loading
 		else
 		{
-			printf( "Could not load sound file : %s \nReason : %s\n", filename.c_str(), SDL_GetError() );
+            cerr << "Could not load sound file : " << filename.c_str() << "\nReason : " << SDL_GetError() << "\n";
 			
 			delete sound;
 			return NULL;
@@ -487,7 +490,7 @@ bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume 
 	if( sound->m_channel < 0 )
 	{
 		debug_print("Could not play sound file : %s\n", path_to_utf8(filename).c_str());
-		return 0;
+        return 0;
 	}
 	// playing successfully
 	else
@@ -495,7 +498,7 @@ bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume 
 		// volume is out of range
 		if( volume > MIX_MAX_VOLUME )
 		{
-			printf( "PlaySound Volume is out of range : %d\n", volume );
+            cerr << "PlaySound Volume is out of range : " << volume << endl;
 			volume = m_sound_volume;
 		}
 		// no volume is given

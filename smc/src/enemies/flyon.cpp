@@ -25,6 +25,9 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -183,7 +186,7 @@ void cFlyon :: Set_Direction( const ObjectDirection dir )
 
 	if( dir != DIR_UP && dir != DIR_DOWN && dir != DIR_LEFT && dir != DIR_RIGHT )
 	{
-		printf( "Error : Unknown Flyon direction %d\n", m_direction );
+        cerr << "Error : Unknown Flyon direction " << m_direction << endl;
 		return;
 	}
 

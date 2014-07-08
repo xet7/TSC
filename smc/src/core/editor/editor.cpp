@@ -35,6 +35,9 @@
 #include "../filesystem/filesystem.hpp"
 #include "../filesystem/resource_manager.hpp"
 #include "../errors.hpp"
+#include "../global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -122,7 +125,7 @@ void cEditor_Item_Object :: Init( cSprite *sprite )
 {
 	if( m_image )
 	{
-		printf( "cEditor_Item_Object::Init: Warning: Image is already set\n" );
+        cerr << "cEditor_Item_Object::Init: Warning: Image is already set" << endl;
 		return;
 	}
 
@@ -1069,7 +1072,7 @@ void cEditor :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 		}
 		else
 		{
-			printf( "Unknown Function %s\n", entry->tags.c_str() );
+            cerr << "Unknown Function " << entry->tags << endl;
 		}
 	}
 	// Header
@@ -1088,7 +1091,7 @@ void cEditor :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 		// failed
 		else
 		{
-			printf( "Unknown Menu Type %s\n", entry->tags.c_str() );
+            cerr << "Unknown Menu Type " << entry->tags << endl;
 		}
 	}
 }
@@ -1143,7 +1146,7 @@ bool cEditor :: Load_Item_Menu( std::string item_tags )
 
 				if( !image )
 				{
-					printf( "Warning : Could not load editor sprite image base : %s\n", settings->m_base.c_str() );
+                    cerr << "Warning : Could not load editor sprite image base : " << settings->m_base.c_str() << endl;
 					break;
 				}
 				
@@ -1209,7 +1212,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// if invalid
 	if( !sprite )
 	{
-		printf( "Warning : Invalid Editor Item\n" );
+        cerr << "Warning : Invalid Editor Item" << endl;
 		return;
 	}
 

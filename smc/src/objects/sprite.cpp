@@ -29,6 +29,9 @@
 #include "../level/level_editor.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -642,7 +645,7 @@ std::string cSprite :: Get_XML_Type_Name()
 	}
 	else
 	{
-		printf( "Warning : Sprite unknown array %d\n", m_sprite_array );
+        cerr << "Warning : Sprite unknown array " << m_sprite_array << endl;
 	}
 
 	return "";

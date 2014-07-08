@@ -22,6 +22,10 @@
 #include "../core/filesystem/boost_relative.hpp"
 #include "../core/xml_attributes.hpp"
 
+#include "../core/global_basic.hpp"
+
+using namespace std;
+
 namespace fs = boost::filesystem;
 
 namespace SMC
@@ -178,7 +182,7 @@ void cBackground :: Set_Type( const std::string &type )
 	}
 	else
 	{
-		printf( "Warning : Unknown Background type %s\n", type.c_str() );
+        cerr << "Warning : Unknown Background type " << type << endl;
 	}
 }
 

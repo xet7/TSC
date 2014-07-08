@@ -32,6 +32,8 @@
 #include "../video/renderer.hpp"
 #include "../core/i18n.hpp"
 
+using namespace std;
+
 namespace SMC
 {
 
@@ -1313,7 +1315,7 @@ cSprite *cMouseCursor :: Copy( const cSprite *copy_object, float px, float py ) 
 	// if invalid
 	if( !copy_object->Is_Sprite_Managed() )
 	{
-		printf( "Warning : cMouseCursor copy : invalid object array : %d\n", copy_object->m_sprite_array );
+        cerr << "Warning : cMouseCursor copy : invalid object array : " << copy_object->m_sprite_array << endl;
 		return NULL;
 	}
 
