@@ -367,6 +367,7 @@ the MRuby scripting API, grouped by topic:
 |---------------------------------------|---------------------------------------------|
 | Audio → AudioClass                    | Singleton                                   |
 | [AudioClass](audioclass.html)         |                                             |
+| [Ball](ball.html)                     |                                             |
 | [Crate](crate.html)                   |                                             |
 | [EnemyStopper](enemystopper.html)     |                                             |
 | [Eventable](eventable.html)           |                                             |
