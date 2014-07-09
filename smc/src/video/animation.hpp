@@ -47,6 +47,12 @@ public:
 	// draw animation
 	virtual void Draw( cSurface_Request *request = NULL );
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Animation"), &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// Set time to live for Objects in seconds
 	void Set_Time_to_Live( float time, float time_rand = 0.0f );
 	/* Set speed of fading out ( 0.01 - 100 )
@@ -176,6 +182,12 @@ public:
 	virtual void Init( void );
 	// copy
 	virtual cParticle_Emitter *Copy( void ) const;
+
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "ParticleEmitter"), &Scripting::rtSMC_Scriptable, this));
+	}
 
 	// pre-update animation
 	void Pre_Update( void );

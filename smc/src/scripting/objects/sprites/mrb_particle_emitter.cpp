@@ -4,53 +4,8 @@
 #include "../../../core/property_helper.hpp"
 #include "mrb_particle_emitter.hpp"
 
-/**
- * Class: ParticleEmitter
- *
- * The _ParticleEmitter_ is one of the most complex classes in the
- * API. If you’re not familiar with using regular particle emitters from
- * the normal SMC editor, you probably want to go there first and
- * experiment with them, because everything you need to adjust there
- * needs to be adjusted for dynamically created particle emitters as
- * well--with the difference that in the editor you have a nice UI
- * assisting you, whereelse for the dynamically created particle emitters
- * you have to _know_ what to set and what not to set. Particle emitters
- * can be quite hairy beasts, so I recommend you to often load your level
- * and test what your particle emitter will look like, e.g. by
- * registering for Maryo’s _Jump_ event.
- *
- * Particle emitters can be used in two ways: The usual way, which means
- * periodically issueing a defined number of particles at a time. Such a
- * particle emitter can be created by setting the [emitter’s time to
- * live](#emittertimetolive-1) on that particle emitter. If you want more
- * finergrained control about what is going on, you can ignore that
- * setting and call the [#emit](#emit) method directly. Each call to that
- * method will cause the particle emitter to exactly once emit particles
- * according to its configuration.
- *
- * A good number of setter methods accept a Range instead of a singular
- * fixed parameter, which allows you to specify a range of valid values
- * for a given option. For instance, the [#time_to_live=](#timetolive-1)
- * methods allows you to define the ilfespan of particles emitted at a
- * time. Instead of setting this to a single, definite value (which you
- * can do if you want to), you can configure it to a Range like 1..2,
- * which means that the TTL will regularyly be 1.5, but at minimum 1.0
- * and at maximum 2.0, so that the particles emitted all are a little
- * different.
- *
- * Note that, in contrast to all other objects in SMC, it is possible to
- * set a particle emitter’s [Z coordinate](#z), making it possible to
- * appear in front of Maryo or other sprites.
- *
- * Also note that `ParticleEmitter` is not a subclass of `Sprite` (the
- * particle emitter doesn’t show up on the screen itself, just its
- * emitted particles) and the methods defined there don’t apply here
- * therefore.
-*/
-
 using namespace SMC;
 using namespace SMC::Scripting;
-
 
 /***************************************
  * Helpers
@@ -114,9 +69,95 @@ static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& 
 	}
 }
 
-/***************************************
- * Methods
- ***************************************/
+/**
+ * Class: Animation
+ *
+ * Parent: [AnimatedSprite](animatedsprite.html)
+ * {: .superclass}
+ *
+ * TODO: Docs.
+ */
+
+/**
+ * Method: Animation#time_to_live
+ *
+ *   time_to_live() → a_range
+ *
+ * TODO: Docs.
+ */
+static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
+{
+	cAnimation* p_ani = Get_Data_Ptr<cAnimation>(p_state, self);
+	return range_from_rand_values(p_state, p_ani->m_time_to_live, p_ani->m_time_to_live_rand);
+}
+
+/**
+ * Method: Animation#time_to_live=
+ *
+ *   time_to_live=( range )
+ *
+ * TODO: Docs.
+ */
+static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
+{
+	mrb_value obj;
+	mrb_get_args(p_state, "o", &obj);
+
+	mrb_float time, rand;
+	calculate_rand_values(p_state, obj, time, rand);
+
+	cAnimation* p_ani = Get_Data_Ptr<cAnimation>(p_state, self);
+	p_ani->Set_Time_to_Live(time, rand);
+
+	return mrb_nil_value();
+}
+
+/**
+ * Class: ParticleEmitter
+ *
+ * Parent: [Animation](animation.html)
+ * {: .superclass}
+ *
+ * The _ParticleEmitter_ is one of the most complex classes in the
+ * API. If you’re not familiar with using regular particle emitters from
+ * the normal SMC editor, you probably want to go there first and
+ * experiment with them, because everything you need to adjust there
+ * needs to be adjusted for dynamically created particle emitters as
+ * well--with the difference that in the editor you have a nice UI
+ * assisting you, whereelse for the dynamically created particle emitters
+ * you have to _know_ what to set and what not to set. Particle emitters
+ * can be quite hairy beasts, so I recommend you to often load your level
+ * and test what your particle emitter will look like, e.g. by
+ * registering for Maryo’s _Jump_ event.
+ *
+ * Particle emitters can be used in two ways: The usual way, which means
+ * periodically issueing a defined number of particles at a time. Such a
+ * particle emitter can be created by setting the [emitter’s time to
+ * live](#emittertimetolive-1) on that particle emitter. If you want more
+ * finergrained control about what is going on, you can ignore that
+ * setting and call the [#emit](#emit) method directly. Each call to that
+ * method will cause the particle emitter to exactly once emit particles
+ * according to its configuration.
+ *
+ * A good number of setter methods accept a Range instead of a singular
+ * fixed parameter, which allows you to specify a range of valid values
+ * for a given option. For instance, the [#time_to_live=](#timetolive-1)
+ * methods allows you to define the ilfespan of particles emitted at a
+ * time. Instead of setting this to a single, definite value (which you
+ * can do if you want to), you can configure it to a Range like 1..2,
+ * which means that the TTL will regularyly be 1.5, but at minimum 1.0
+ * and at maximum 2.0, so that the particles emitted all are a little
+ * different.
+ *
+ * Note that, in contrast to all other objects in SMC, it is possible to
+ * set a particle emitter’s [Z coordinate](#z), making it possible to
+ * appear in front of Maryo or other sprites.
+ *
+ * Also note that `ParticleEmitter` is not a subclass of `Sprite` (the
+ * particle emitter doesn’t show up on the screen itself, just its
+ * emitted particles) and the methods defined there don’t apply here
+ * therefore.
+*/
 
 /**
  * Method: ParticleEmitter::new
@@ -209,40 +250,6 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 	p_emitter->Set_Image_Filename( utf8_to_path( str ) );
 
 	return mrb_str_new_cstr(p_state, str);
-}
-
-/**
- * Method: ParticleEmitter#time_to_live
- *
- *   time_to_live() → a_range
- *
- * TODO: Docs.
- */
-static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
-{
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_time_to_live, p_emitter->m_time_to_live_rand);
-}
-
-/**
- * Method: ParticleEmitter#time_to_live=
- *
- *   time_to_live=( range )
- *
- * TODO: Docs.
- */
-static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
-{
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
-
-	mrb_float time, rand;
-	calculate_rand_values(p_state, obj, time, rand);
-
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Time_to_Live(time, rand);
-
-	return mrb_nil_value();
 }
 
 /**
@@ -594,17 +601,22 @@ static mrb_value Emit(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 {
-	struct RClass* p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_state->object_class);
+	struct RClass* p_rcAnimation = mrb_define_class(p_state, "Animation", mrb_class_get(p_state, "AnimatedSprite"));
+	MRB_SET_INSTANCE_TT(p_rcAnimation, MRB_TT_DATA);
+
+	// Methods
+	mrb_define_method(p_state, p_rcAnimation, "time_to_live", Get_Time_to_Live, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcAnimation, "time_to_live=", Set_Time_to_Live, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+	mrb_define_method(p_state, p_rcAnimation, "z=", Set_Z, MRB_ARGS_REQ(1));
+
+	struct RClass* p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_rcAnimation);
 	MRB_SET_INSTANCE_TT(p_rcParticleEmitter, MRB_TT_DATA);
 
 	// Methods
 	mrb_define_method(p_state, p_rcParticleEmitter, "initialize", Initialize, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
 	mrb_define_method(p_state, p_rcParticleEmitter, "inspect", Inspect, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "z=", Set_Z, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename", Get_Image_Filename, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename=", Set_Image_Filename, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live", Get_Time_to_Live, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "time_to_live=", Set_Time_to_Live, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
 	mrb_define_method(p_state, p_rcParticleEmitter, "scale", Get_Scale, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "speed", Get_Speed, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live", Get_Emitter_Time_To_Live, MRB_ARGS_NONE());
