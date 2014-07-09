@@ -72,8 +72,9 @@ static mrb_value _Index(mrb_state* p_state, mrb_value cache, mrb_value ruid)
 /**
  * Method: UIDS::[]
  *
- *   [uid] → a_sprite
+ *   [uid]   → a_sprite
  *   [range] → an_array
+ *   [ary]   → an_array
  *
  * Retrieve an MRuby object for the sprite with the unique identifier
  * `uid`. The first time you call this method with a given UID, it
@@ -81,52 +82,92 @@ static mrb_value _Index(mrb_state* p_state, mrb_value cache, mrb_value ruid)
  * take relatively long. The sprite object is then cached internally,
  * causing later lookups to be fast.
  *
- * #### Parameter
+ * #### Parameters
  * uid
  * : The unique identifier of the sprite you want to retrieve. You can
  *   look this up in the SMC editor. May also be a range.
+ *
+ * range
+ * : Instead of requesting a single sprite, request a list of sprites
+ *   corresponding to the given range of UIDs.
+ *
+ * ary
+ * : Instead of requesting a single sprite, request a list of sprites
+ *   corresponding to the given UIDs.
  *
  * #### Return value
  * Returns an instance of class `Sprite` or one of its subclasses, as
  * required. If the requested UID can’t be found, returns `nil`.
  *
- * If you requested a range, you’ll get an array containing the
+ * If you passed a range or array, you’ll get an array containing the
  * requested `Sprite` subclass instances instead. The array may
  * contain `nil` values for sprites that could not be found.
+ *
+ * #### Example
+ *
+ * ~~~~~~~~~~~~~~~~~ ruby
+ * # Request a single sprite
+ * sprite = UIDS[14]
+ *
+ * # Request all sprites between UID 10 and 20
+ * ary = UIDS[10..20]
+ *
+ * # Request the sprites 14, 16, 20, and 400
+ * ary = UIDS[14, 16, 20, 400]
+ * ~~~~~~~~~~~~~~~~~
  */
 static mrb_value Index(mrb_state* p_state, mrb_value self)
 {
-	mrb_value arg;
-	mrb_get_args(p_state, "o", &arg);
+	mrb_value* args = NULL;
+	int count = 0;
+	mrb_get_args(p_state, "*", &args, &count);
 
 	mrb_value cache = mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "cache"));
 
-	// C++ does not allow us to declare variables inside a `case:' :-(
-	mrb_value start = mrb_nil_value();
-	mrb_value end   = mrb_nil_value();
-	mrb_value ary   = mrb_nil_value();
+	if (count == 0) { // No arguments, error
+		mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Wrong number of arguments, expected 1..n, got 0.");
+		return mrb_nil_value(); // Not reached
+	}
+	else if (count == 1) { // One argument
+		mrb_value arg = args[0];
 
-	switch (mrb_type(arg))  {
-	case MRB_TT_FIXNUM: // Single UID requested
-		return _Index(p_state, cache, arg);
-	case MRB_TT_RANGE: // UID range requested
-		start = mrb_funcall(p_state, arg, "first", 0);
-		end   = mrb_funcall(p_state, arg, "last", 0);
+		// C++ does not allow us to declare variables inside a `case:' :-(
+		mrb_value start = mrb_nil_value();
+		mrb_value end   = mrb_nil_value();
+		mrb_value ary   = mrb_nil_value();
 
-		// Ensure we get an integer range, and not string or so
-		if (mrb_type(start) != MRB_TT_FIXNUM || mrb_type(end) != MRB_TT_FIXNUM) {
-			mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Invalid UID range type.");
+		switch (mrb_type(arg))  {
+		case MRB_TT_FIXNUM: // Single UID requested
+			return _Index(p_state, cache, arg);
+		case MRB_TT_RANGE: // UID range requested
+			start = mrb_funcall(p_state, arg, "first", 0);
+			end   = mrb_funcall(p_state, arg, "last", 0);
+
+			// Ensure we get an integer range, and not string or so
+			if (mrb_type(start) != MRB_TT_FIXNUM || mrb_type(end) != MRB_TT_FIXNUM) {
+				mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Invalid UID range type.");
+				return mrb_nil_value(); // Not reached
+			}
+
+			ary = mrb_ary_new(p_state);
+			for(mrb_int i=mrb_fixnum(start); i <= mrb_fixnum(end); i++)
+				mrb_ary_push(p_state, ary, _Index(p_state, cache, mrb_fixnum_value(i)));
+
+			return ary;
+		default:
+			mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Invalid UID type.");
 			return mrb_nil_value(); // Not reached
 		}
+	}
+	else { // n arguments -- list of UIDs requested
+		mrb_value ary = mrb_ary_new(p_state);
 
-		ary = mrb_ary_new(p_state);
-		for(mrb_int i=mrb_fixnum(start); i <= mrb_fixnum(end); i++)
-			mrb_ary_push(p_state, ary, _Index(p_state, cache, mrb_fixnum_value(i)));
+		for(mrb_int i=0; i < count; i++) {
+			mrb_value item = args[i];
+			mrb_ary_push(p_state, ary, _Index(p_state, cache, mrb_to_int(p_state, item)));
+		}
 
 		return ary;
-	default:
-		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Invalid UID type.");
-		return mrb_nil_value(); // Not reached
 	}
 }
 
