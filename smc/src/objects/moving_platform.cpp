@@ -1370,7 +1370,7 @@ bool cMoving_Platform :: Editor_Image_Top_Left_Text_Changed( const CEGUI::EventA
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Top_Left( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
+	Set_Image_Top_Left( pVideo->Get_Package_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
@@ -1380,7 +1380,7 @@ bool cMoving_Platform :: Editor_Image_Top_Middle_Text_Changed( const CEGUI::Even
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Top_Middle( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
+	Set_Image_Top_Middle( pVideo->Get_Package_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
@@ -1390,7 +1390,7 @@ bool cMoving_Platform :: Editor_Image_Top_Right_Text_Changed( const CEGUI::Event
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
-	Set_Image_Top_Right( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
+	Set_Image_Top_Right( pVideo->Get_Package_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
