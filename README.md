@@ -114,17 +114,18 @@ once).
 % git clone git://github.com/Quintus/mxe.git
 % cd mxe
 % git checkout smc-building
-% make -j4 cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf libxml++ boost
+% make -j4 boost libxml++ cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf nsis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This will take a few hours.
+This will take a long time.
 
-Now we have to work around a bug in CMAKE that doesn’t find
-`i686-pc-mingw32-pkg-config`, but will only look for `pkg-config`. Do
-this:
+Now we have to work around bugs in CMake and CPack that don’t find
+`i686-pc-mingw32-pkg-config` and `i686-pc-mingw32-makensis`, but will
+only look for `pkg-config` and `makensis`. Do this:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % cd usr/bin
+% ln -s i686-pc-mingw32-makensis makensis
 % ln -s i686-pc-mingw32-pkg-config pkg-config
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

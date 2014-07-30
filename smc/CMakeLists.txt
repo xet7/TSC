@@ -236,3 +236,15 @@ install(TARGETS smc
   DESTINATION bin)
 install(DIRECTORY "${SMC_SOURCE_DIR}/data/" # Note trailing slash for content copy
   DESTINATION share/smc)
+
+########################################
+# Packager
+
+set(CPACK_PACKAGE_NAME "SMC")
+set(CPACK_PACKAGE_VENDOR "SMC Team")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SMC - 2-dimensional platform game")
+set(CPACK_PACKAGE_VERSION_MAJOR ${SMC_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${SMC_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${SMC_VERSION_PATCH})
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "SMC")
+include(CPack)
