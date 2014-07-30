@@ -10,6 +10,7 @@ include(ExternalProject)
 
 ########################################
 # Version number
+
 set(SMC_VERSION_MAJOR 2)
 set(SMC_VERSION_MINOR 0)
 set(SMC_VERSION_PATCH 0)
@@ -180,6 +181,26 @@ add_custom_command(OUTPUT ${SMC_SOURCE_DIR}/src/credits.cpp
   COMMAND rake src/credits.cpp
   DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt)
 
+########################################
+# Windows icon resource
+# See http://stackoverflow.com/a/708382
+
+if(WIN32)
+  # First find the windres command
+  if(TOOLCHAIN_PREFIX)
+    set(WINDRES_COMMAND "${TOOLCHAIN_PREFIX}-windres")
+  else()
+    set(WINDRES_COMMAND windres)
+  endif()
+
+  # Generate the RC file, then compile it.
+  configure_file(${SMC_SOURCE_DIR}/icon.rc.in
+    ${SMC_BINARY_DIR}/icon.rc)
+  add_custom_command(OUTPUT ${SMC_BINARY_DIR}/icon.res
+    COMMAND ${WINDRES_COMMAND} ${SMC_BINARY_DIR}/icon.rc -O coff -o ${SMC_BINARY_DIR}/icon.res
+    DEPENDS ${SMC_BINARY_DIR}/icon.rc)
+endif()
+
 ###############################################
 # Source files
 
@@ -194,7 +215,7 @@ file(GLOB_RECURSE smc_sources
 # Targets
 
 # Now add our build targets and their dependencies.
-add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp)
+add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp icon.res)
 if (ENABLE_MRUBY)
   add_dependencies(smc mruby)
 endif()
@@ -215,6 +236,7 @@ if (WIN32)
     ${PNG_STATIC_LIBRARIES}
     intl
     ws2_32
+    ${SMC_BINARY_DIR}/icon.res
     )
   # For some unknown reason, nobody knows how to properly detect libintl?
   # However, as we already require Gettext anyway, linking libintl in directly
