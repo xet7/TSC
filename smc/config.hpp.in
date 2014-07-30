@@ -1,17 +1,13 @@
 /* config.h -- SMC configuration header
- *
- * This is the configuration header for SMC. This file
- * is mostly stenciled out by CMake, so you usually only
- * touch it for version bumps.
  */
 
 #ifndef SMC_CONFIG_HPP
 #define SMC_CONFIG_HPP
 
 // SMC version number
-#define SMC_VERSION_MAJOR 2
-#define SMC_VERSION_MINOR 0
-#define SMC_VERSION_PATCH 0
+#define SMC_VERSION_MAJOR @SMC_VERSION_MAJOR@
+#define SMC_VERSION_MINOR @SMC_VERSION_MINOR@
+#define SMC_VERSION_PATCH @SMC_VERSION_PATCH@
 #define SMC_VERSION_DEVELOPMENT true
 #define SMC_VERSION_GIT "@SMC_VERSION_GIT@"
 

@@ -8,6 +8,12 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 # Some CMake modules we use
 include(ExternalProject)
 
+########################################
+# Version number
+set(SMC_VERSION_MAJOR 2)
+set(SMC_VERSION_MINOR 0)
+set(SMC_VERSION_PATCH 0)
+
 ###############################################
 # Flags & Options
 
@@ -233,13 +239,49 @@ endif()
 
 # Installation instructions
 install(TARGETS smc
-  DESTINATION bin)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/" # Note trailing slash for content copy
-  DESTINATION share/smc)
+  DESTINATION bin
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/campaigns/" # Note trailing slash for content copy
+  DESTINATION share/smc/campaigns
+  COMPONENT campaigns)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/editor/"
+  DESTINATION share/smc/editor
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/gui/"
+  DESTINATION share/smc/gui
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/icon/"
+  DESTINATION share/smc/icon
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/levels/"
+  DESTINATION share/smc/levels
+  COMPONENT levels)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/music/"
+  DESTINATION share/smc/music
+  COMPONENT music)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/pixmaps/"
+  DESTINATION share/smc/pixmaps
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/schema/"
+  DESTINATION share/smc/schema
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/scripting/"
+  DESTINATION share/smc/scripting
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/sounds/"
+  DESTINATION share/smc/sounds
+  COMPONENT sounds)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/translations/"
+  DESTINATION share/smc/translations
+  COMPONENT base)
+install(DIRECTORY "${SMC_SOURCE_DIR}/data/worlds/"
+  DESTINATION share/smc/worlds
+  COMPONENT worlds)
 
 ########################################
 # Packager
 
+# Main info
 set(CPACK_PACKAGE_NAME "SMC")
 set(CPACK_PACKAGE_VENDOR "SMC Team")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SMC - 2-dimensional platform game")
@@ -247,4 +289,38 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${SMC_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${SMC_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${SMC_VERSION_PATCH})
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "SMC")
+set(CPACK_PACKAGE_EXECUTABLES smc "SMC")
+
+# Nicer names
+set(CPACK_COMPONENT_BASE_DISPLAY_NAME "Basic application components (required)")
+set(CPACK_COMPONENT_CAMPAIGNS_DISPLAY_NAME "Core campaigns")
+set(CPACK_COMPONENT_LEVELS_DISPLAY_NAME "Core levels")
+set(CPACK_COMPONENT_MUSIC_DISPLAY_NAME "Music files")
+set(CPACK_COMPONENT_SOUNDS_DISPLAY_NAME "Sound files")
+set(CPACK_COMPONENT_WORLDS_DISPLAY_NAME "Core worlds")
+
+# Descriptions
+set(CPACK_COMPONENT_BASE_DESCRIPTION "The smc program itself and its core requirements.")
+set(CPACK_COMPONENT_CAMPAIGNS_DESCRIPTION "Standard campaigns included with SMC.")
+set(CPACK_COMPONENT_LEVELS_DESCRIPTION "Standard levels included with SMC.")
+set(CPACK_COMPONENT_MUSIC_DESCRIPTION "Background music files. No background music without this.")
+set(CPACK_COMPONENT_SOUNDS_DESCRIPTION "Sound files. No sounds without this.")
+set(CPACK_COMPONENT_WORLDS_DESCRIPTION "Standard worlds included with SMC.")
+
+# Interdependencies
+set(CPACK_COMPONENT_CAMPAIGNS_DEPENDS worlds)
+set(CPACK_COMPONENT_WORLDS_DEPENDS levels)
+
+# Required marks
+set(CPACK_COMPONENT_BASE_REQUIRED ON)
+
+# Misc
+set(CPACK_RESOURCE_FILE_LICENSE "${SMC_SOURCE_DIR}/docs/license.txt")
+set(CPACK_CREATE_DESKTOP_LINKS smc)
+set(CPACK_NSIS_MODIFY_PATH "ON") # Required for desktop shortcuts
+set(CPACK_NSIS_MUI_ICON "${SMC_SOURCE_DIR}/extras/icons/idr_main.ico") # Installer icon
+set(CPACK_NSIS_MUI_UNIICON "${SMC_SOURCE_DIR}/extras/icons/idr_main.ico") # Uninstaller icon
+set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\smc.exe") # Icon for system control panel
+set(CPACK_PACKAGE_ICON "${SMC_SOURCE_DIR}/extras/icons/idr_main.ico") # Installer window bar icon
+
 include(CPack)
