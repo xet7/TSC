@@ -49,6 +49,7 @@ improvement over the overly-complex autotool mess.
 * The `pkg-config` program.
 * The `bison` program.
 * OpenGL.
+* GLEW OpenGL wrangler extension library.
 * CEGUI 0.7.9. CEGUI >= 0.8 is not supported yet, but is being worked
   on in a separate branch.
 * GNU Gettext.
@@ -59,6 +60,7 @@ improvement over the overly-complex autotool mess.
 * The SDL_ttf library.
 * The libPCRE regular expression library.
 * The libxml++ library.
+* The Freetype library.
 * For generating the docs:
   * `kramdown` RubyGem.
   * The `dot` program.
@@ -114,7 +116,7 @@ once).
 % git clone git://github.com/Quintus/mxe.git
 % cd mxe
 % git checkout smc-building
-% make -j4 boost libxml++ cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf nsis
+% make -j4 boost libxml++ glew cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf nsis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This will take a long time.

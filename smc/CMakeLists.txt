@@ -39,6 +39,10 @@ execute_process(COMMAND git rev-parse --short HEAD
   OUTPUT_VARIABLE SMC_VERSION_GIT
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 
+execute_process(COMMAND nproc
+  OUTPUT_VARIABLE NUM_CPUCORES
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
+
 # Configuration options for the library finding
 # functions.
 set(Boost_USE_STATIC_LIBS    ON)
@@ -51,12 +55,72 @@ if (TOOLCHAIN_PREFIX)
   message(STATUS "Cross-compilation detected: ${TOOLCHAIN_PREFIX}")
 endif()
 
+################################################################################
+# EXTERNAL PROJECTS
+################################################################################
+
 ###############################################
-# Check for the actual libraries and programs.
+# mruby
 
 if (ENABLE_MRUBY)
   # Rake, for building mruby
   find_program(RAKE_EXECUTABLE rake)
+
+  # Tell CMake how to compile mruby
+  set(MRUBY_TOPDIR ${SMC_SOURCE_DIR}/../mruby)
+  set(MRUBY_ROOT_DIR ${MRUBY_TOPDIR}/mruby)
+  set(MRUBY_MGEMS_DIR ${MRUBY_TOPDIR}/mgems)
+
+  ExternalProject_Add(
+    mruby
+    PREFIX "${SMC_BINARY_DIR}/mruby"
+    DOWNLOAD_COMMAND ""
+    UPDATE_COMMAND ""
+    SOURCE_DIR "${MRUBY_ROOT_DIR}"
+    BUILD_IN_SOURCE 1
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb CROSSCOMPILE_TARGET=${TOOLCHAIN_PREFIX}
+    INSTALL_COMMAND "")
+
+  set(MRuby_INCLUDE_DIR ${MRUBY_ROOT_DIR}/include)
+
+  if(TOOLCHAIN_PREFIX)
+    set(MRuby_LIBRARIES "${MRUBY_ROOT_DIR}/build/${TOOLCHAIN_PREFIX}/lib/libmruby.a" "${MRUBY_ROOT_DIR}/build/${TOOLCHAIN_PREFIX}/lib/libmruby_core.a")
+  else()
+    set(MRuby_LIBRARIES "${MRUBY_ROOT_DIR}/build/host/lib/libmruby.a" "${MRUBY_ROOT_DIR}/build/host/lib/libmruby_core.a")
+  endif()
+else() # Disable it
+  set(MRuby_LIBRARIES "")
+endif()
+
+########################################
+# CEGUI 0.7.x
+# This is only needed for *nix, as MXE provides
+# this old CEGUI.
+
+if (NOT(WIN32))
+  set(CEGUI_ROOT_DIR "${SMC_BINARY_DIR}/cegui")
+  set(CEGUI_SOURCE_DIR "${CEGUI_ROOT_DIR}/src/cegui07")
+
+  ExternalProject_Add(cegui07
+    PREFIX "${CEGUI_ROOT_DIR}"
+    URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
+    URL_HASH MD5=a8b682daf82e383edc169c2e6eb2b321
+    BUILD_IN_SOURCE 1
+    CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
+    BUILD_COMMAND make -j${NUM_CPUCORES}
+    INSTALL_COMMAND make install)
+
+  set(CEGUI_INCLUDE_DIR ${CEGUI_ROOT_DIR}/include)
+  set(CEGUI_LIBRARY ${CEGUI_ROOT_DIR}/lib/libCEGUIOpenGLRenderer.a ${CEGUI_ROOT_DIR}/lib/libCEGUIBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUIDevILImageCodec.a ${CEGUI_ROOT_DIR}/lib/libCEGUIFalagardWRBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUILibxmlParser.a)
+  set(CEGUI_DEFINITIONS " -DCEGUI_STATIC")
+endif()
+
+################################################################################
+# Check for the actual libraries and programs.
+################################################################################
+
+if (ENABLE_MRUBY)
   find_program(GPERF_EXECUTABLE gperf)
   if(RAKE_EXECUTABLE)
     message(STATUS "Found rake: ${RAKE_EXECUTABLE}")
@@ -73,11 +137,13 @@ endif()
 # Several libraries we depend on
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(CEGUI COMPONENTS OPENGL REQUIRED)
+find_package(GLEW REQUIRED)
 find_package(Gettext)
 find_package(BISON REQUIRED)
+find_package(Freetype REQUIRED)
 
 if (WIN32)
+  find_package(CEGUI COMPONENTS OPENGL REQUIRED) # Old CEGUI 0.7.x is provided by MXE
   find_package(LibIntl REQUIRED)
   find_package(FreeImage REQUIRED)
   find_package(Boost 1.50.0
@@ -114,7 +180,9 @@ add_definitions(
 
 # Add all our libraries to our -I-nclude path
 include_directories(
+  ${MRuby_INCLUDE_DIR}
   ${OPENGL_INCLUDE_DIR}
+  ${GLEW_INCLUDE_DIRS}
   ${CEGUI_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${PNG_INCLUDE_DIRS}
@@ -125,6 +193,7 @@ include_directories(
 #  ${IL_INCLUDE_DIR}
   ${PCRE_INCLUDE_DIRS}
   ${LibXmlPP_INCLUDE_DIRS}
+  ${FREETYPE_INCLUDE_DIRS}
   )
 
 if (WIN32)
@@ -134,43 +203,11 @@ else()
 endif()
 
 ###############################################
-# mruby
-
-if (ENABLE_MRUBY)
-  # Tell CMake how to compile mruby
-  set(MRUBY_TOPDIR ${SMC_SOURCE_DIR}/../mruby)
-  set(MRUBY_ROOT_DIR ${MRUBY_TOPDIR}/mruby)
-  set(MRUBY_MGEMS_DIR ${MRUBY_TOPDIR}/mgems)
-
-  ExternalProject_Add(
-    mruby
-    PREFIX "${SMC_BINARY_DIR}/mruby"
-    DOWNLOAD_COMMAND ""
-    UPDATE_COMMAND ""
-    SOURCE_DIR "${MRUBY_ROOT_DIR}"
-    BUILD_IN_SOURCE 1
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb CROSSCOMPILE_TARGET=${TOOLCHAIN_PREFIX}
-    INSTALL_COMMAND ""
-  )
-  include_directories(${MRUBY_ROOT_DIR}/include)
-
-  if(TOOLCHAIN_PREFIX)
-    set(MRuby_LIBRARIES "${MRUBY_ROOT_DIR}/build/${TOOLCHAIN_PREFIX}/lib/libmruby.a" "${MRUBY_ROOT_DIR}/build/${TOOLCHAIN_PREFIX}/lib/libmruby_core.a")
-  else()
-    set(MRuby_LIBRARIES "${MRUBY_ROOT_DIR}/build/host/lib/libmruby.a" "${MRUBY_ROOT_DIR}/build/host/lib/libmruby_core.a")
-  endif()
-else() # Disable it
-  set(MRuby_LIBRARIES "")
-endif()
-
-###############################################
 # Configuration header
 
 configure_file(${SMC_SOURCE_DIR}/config.hpp.in
   ${SMC_BINARY_DIR}/config.hpp)
 include_directories(${SMC_BINARY_DIR})
-
 
 ########################################
 # Credits file
@@ -215,15 +252,22 @@ file(GLOB_RECURSE smc_sources
 # Targets
 
 # Now add our build targets and their dependencies.
-add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp icon.res)
+if (WIN32)
+  add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp icon.res)
+else()
+  add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp)
+endif()
+
 if (ENABLE_MRUBY)
   add_dependencies(smc mruby)
 endif()
+
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
 if (WIN32)
   target_link_libraries(smc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
     ${FreeImage_LIBRARIES}
     ${SDL_STATIC_LIBRARIES}
     ${SDL_IMAGE_STATIC_LIBRARIES}
@@ -234,6 +278,7 @@ if (WIN32)
     ${PCRE_STATIC_LIBRARIES}
     ${LibXmlPP_STATIC_LIBRARIES}
     ${PNG_STATIC_LIBRARIES}
+    ${FREETYPE_LIBRARIES}
     intl
     ws2_32
     ${SMC_BINARY_DIR}/icon.res
@@ -242,9 +287,11 @@ if (WIN32)
   # However, as we already require Gettext anyway, linking libintl in directly
   # should be safe.
 else()
+  add_dependencies(smc cegui07)
   target_link_libraries(smc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
     ${IL_LIBRARIES}
     ${ILU_LIBRARIES}
     ${SDL_LIBRARIES}
@@ -256,6 +303,8 @@ else()
     ${PCRE_LIBRARIES}
     ${LibXmlPP_LIBRARIES}
     ${PNG_LIBRARIES}
+    ${FREETYPE_LIBRARIES}
+    dl
     )
 endif()
 
