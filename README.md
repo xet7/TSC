@@ -184,6 +184,37 @@ Wine:
 As said, this is highly experimental. It may not even build, because I
 don’t always test the crosscompilation thing.
 
+### Generating a windows setup installer ###
+
+The above method will yield a directory `testinstall/` that is
+standalone e.g. for distribution in form of a ZIP file. Creating a
+setup installer that registers SMC with the registry requires a
+slightly different approach. If you built SMC already with the above
+method, clear your `crossbuild` directory to prevent artifacts.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ rm -rf *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow the above guide up until and including adding the MXE tools to
+your PATH variable (the `export PATH=...` line). Then, execute the
+build commands like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchains/linux2mingw32.cmake \
+  -DCMAKE_BUILD_TYPE=Debug ..
+$ make
+$ cpack -G NSIS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This will create a `SMC-x.y.z-win32.exe` file. This file is the
+ready-to-distribute setup installer.
+
+Note that you shouldn’t install multiple versions of SMC at once using
+the setup installer. Uninstall any previous version of SMC before
+installing with another setup installer; the standalone approach does
+not suffer from this problem.
+
 Links
 -----
 
