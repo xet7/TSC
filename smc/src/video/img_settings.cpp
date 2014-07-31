@@ -548,8 +548,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -559,8 +559,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -570,15 +570,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0; // error
 		}
 
@@ -590,8 +590,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	}
 	else
 	{
-		printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-		printf( "Unknown Command : %s\n", parts[0].c_str() );
+        cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+        cerr << "Unknown Command : " << parts[0] << endl;
 		return 0;
 	}
 

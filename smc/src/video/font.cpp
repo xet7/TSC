@@ -17,6 +17,9 @@
 #include "../video/gl_surface.hpp"
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -77,7 +80,8 @@ void cFont_Manager :: Init( void )
 	// init ttf
 	if( TTF_Init() == -1 )
 	{
-		printf( "Error : SDL_TTF initialization failed\nReason : %s\n", SDL_GetError() );
+        cerr << "Error : SDL_TTF initialization failed" << endl;
+        cerr << "Reason : " << SDL_GetError() << endl;
 		exit( EXIT_FAILURE );
 	}
 
