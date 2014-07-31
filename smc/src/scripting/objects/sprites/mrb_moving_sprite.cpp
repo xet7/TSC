@@ -671,26 +671,6 @@ static mrb_value Down_Grade(mrb_state* p_state, mrb_value self)
 	return mrb_nil_value();
 }
 
-/**
- * Method: MovingSprite#downgrade!
- *
- *   downgrade!()
- *
- * Force a full downgrade on this object. Depending on the object,
- * this may downgrade it to some form of basic state, or causes
- * the death of the object (this is the normal case).
- *
- * The behaviour of this method is hard to predict if you don’t know
- * the internals of SMC’s sourcecode, so you should better not be
- * using it. Use `Enemy#kill!` to kill off an enemy.
- */
-static mrb_value Down_Grade_NOW(mrb_state* p_state, mrb_value self)
-{
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	p_sprite->DownGrade(true);
-	return mrb_nil_value();
-}
-
 void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
 	struct RClass* p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", mrb_class_get(p_state, "Sprite"));
@@ -713,5 +693,4 @@ void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity=", Set_Velocity, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcMoving_Sprite, "turn_around", Turn_Around, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcMoving_Sprite, "downgrade", Down_Grade, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "downgrade!", Down_Grade_NOW, MRB_ARGS_NONE());
 }
