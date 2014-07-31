@@ -53,6 +53,7 @@
 #include "objects/specials/mrb_jumping_goldpiece.hpp"
 #include "objects/specials/mrb_falling_goldpiece.hpp"
 #include "objects/specials/mrb_crate.hpp"
+#include "objects/specials/mrb_moving_platform.hpp"
 
 ////////////////////////////////////////
 // Be sure to review docs/scripting.md!
@@ -268,6 +269,7 @@ namespace SMC
 			Init_JumpingGoldpiece(mp_mruby);
 			Init_FallingGoldpiece(mp_mruby);
 			Init_Crate(mp_mruby);
+			Init_Moving_Platform(mp_mruby);
 			Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined
 		}
 	}
