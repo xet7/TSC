@@ -95,6 +95,11 @@
 		<property name="color" value="FFFF9316" />
 	</item>
 	<item>
+		<property name="name" value="Library" />
+		<property name="tags" value="library" />
+		<property name="color" value="FFFFFFFF" />
+	</item>
+	<item>
 		<property name="name" value="Hills" />
 		<property name="tags" value="hill" />
 		<property name="color" value="FFA8C9F4" />
