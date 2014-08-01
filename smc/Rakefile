@@ -57,7 +57,7 @@ end
 
 desc "Create source tarball."
 task :tarball => :clobber do
-  version = "#{SMC_VERSION_MAJOR}.#{SMC_VERSION_MINOR}.#{SMC_VERSION_PATCH}"
+  version = ENV["VERSION"] || "#{SMC_VERSION_MAJOR}.#{SMC_VERSION_MINOR}.#{SMC_VERSION_PATCH}"
   puts "Packaging SMC version #{version}"
 
   sh "git submodule init"
