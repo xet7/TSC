@@ -1,18 +1,18 @@
 # Maintainer: Quintus <quintus@quintilianus.eu>
 pkgname=smc-quintus-git
-pkgver=r558
+pkgver=r1032
 pkgrel=1
 pkgdesc="Quintus' fork of the jump'n'run game."
 arch=("i686" "x86_64")
-url="https://github.com/Quintus/SMC"
+url="https://github.com/Secretchronicles/SMC"
 license=('GPL')
-depends=("sdl" "sdl_image" "sdl_ttf" "sdl_mixer" "freeimage" "libpng" "cegui-0.7" "boost-libs" "libgl" "libxml++" "gettext" "pcre")
-makedepends=("cmake" "ruby" "gperf" "pkg-config" "bison")
+depends=("sdl_image" "sdl_ttf" "glew" "sdl_mixer" "devil" "boost-libs" "libxml++" "gettext" "mesa" "freeglut")
+makedepends=("cmake" "ruby" "gperf" "pkg-config" "bison" "boost")
 optdepends=()
 provides=("smc" "smc-git")
 conflicts=("smc" "smc-git")
 options=()
-source=("git+https://github.com/Quintus/SMC.git" "smc.desktop")
+source=("git+https://github.com/Secretchronicles/SMC.git" "smc.desktop")
 noextract=()
 md5sums=("SKIP"
          "eed8e75ad75ae05cbd1e16ddfbb54ef1")
