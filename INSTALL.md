@@ -86,7 +86,7 @@ sure to replace `/opt/smc` with the directory you want SMC to install
 into.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/smc
+$ cmake -DCMAKE_INSTALL_PREFIX=/opt/smc ..
 $ make
 # make install
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
