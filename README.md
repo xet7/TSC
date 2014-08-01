@@ -17,28 +17,10 @@ see http://www.secretmaryo.org/index.php?page=about for a more
 comprehensive list. And for those still not getting enough, it
 provides a great in-game level editor.
 
-This repository contains my (Quintus) fork of SMC, because upstream
-development at https://github.com/FluXy/SMC seems to have more or less
-stalled and I’ve been missing some features, most notably the often
-requested scripting functionality for SMC. The final goal hover still
-is to merge my changes with upstream.
-
-Wait, scripting?
-----------------
-
-Yes. This repository’s main purpose is to implement scripting with
-[mruby](https://github.com/mruby/mruby) into SMC. While it’s by no
-means complete yet, some results can already be seen.
-
-A daily-regenerated [website with the scripting API
- documentation](http://smcsdocs.quintilianus.eu) is also available.
-
 How to compile
 --------------
 
-In contrast to official SMC, I’ve wiped out autohell and converted the
-build system to CMake. While still not ideal, it is in any way an
-improvement over the overly-complex autotool mess.
+The build system used is [CMake](http://cmake.org).
 
 ### Requirements ###
 
@@ -50,8 +32,6 @@ improvement over the overly-complex autotool mess.
 * The `bison` program.
 * OpenGL.
 * GLEW OpenGL wrangler extension library.
-* CEGUI 0.7.9. CEGUI >= 0.8 is not supported yet, but is being worked
-  on in a separate branch.
 * GNU Gettext.
 * The DevIL library. On Windows (see below), you will need FreeImage instead.
 * The LibPNG library.
@@ -66,6 +46,14 @@ improvement over the overly-complex autotool mess.
   * The `dot` program.
   * The `doxygen` program.
   * Ruby’s `rdoc` program.
+
+Additionally, SMC needs CEGUI version 0.7.x. However, as this old
+version is not provided by any modern Linux distribution anymore, the
+build system has been set up to download and compile it on its own and
+then link it in statically. **For Windows** this does not hold true,
+you have to provide CEGUI 0.7.x libraries yourself (or just use MXE as
+described below). We are working on the issue and hope to get it
+resolved with the next feature release of SMC.
 
 ### Checkout the repository ###
 
