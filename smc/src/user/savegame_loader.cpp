@@ -135,8 +135,8 @@ void cSavegameLoader::handle_level()
 	// Restore the general attributes.
 	p_savelevel->m_name			= m_current_properties["level_name"];
 	p_savelevel->m_mruby_data	= m_current_properties["mruby_data"];
-	p_savelevel->m_level_pos_x	= m_current_properties.retrieve<float>("player_posx");
-	p_savelevel->m_level_pos_y	= m_current_properties.retrieve<float>("player_posy");
+	p_savelevel->m_level_pos_x	= m_current_properties.fetch<float>("player_posx", 0);
+	p_savelevel->m_level_pos_y	= m_current_properties.fetch<float>("player_posy", 0);
 
 	/* Restore object lists. Note the lists in `p_savelevel' are
 	 * currently empty (it’s a new object) and hence swapping
