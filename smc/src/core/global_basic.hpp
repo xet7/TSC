@@ -34,8 +34,9 @@
 #endif
 
 // debug printf macro
+// prints to error stream using fprintf
 #ifdef _DEBUG
-	#define debug_print(format, ...) printf(format, ##__VA_ARGS__)
+    #define debug_print(format, ...) fprintf(stderr, format, ##__VA_ARGS__)
 #else
 	#define debug_print(format, ...)
 #endif
