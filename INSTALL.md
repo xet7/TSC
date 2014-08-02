@@ -61,6 +61,14 @@ hold true, you have to provide CEGUI 0.7.x libraries yourself (or just
 use MXE as described below). We are working on the issue and hope to
 get it resolved with the next feature release of SMC.
 
+The following commandline installs all dependencies required to built
+SMC on Ubuntu Linux 14.04:
+
+# apt-get install ruby-full rake gperf pkg-config bison libglew-dev \
+  freeglut3-dev gettext libpng12-dev libsdl-ttf2.0-dev \
+  libsdl-mixer1.2-dev libsdl-image1.2-dev libpcre3-dev libxml++2.6-dev \
+  libfreetype6-dev libdevil-dev libboost1.55-all-dev
+
 ### Windows dependencies ###
 
 * The FreeImage library.
@@ -86,7 +94,7 @@ sure to replace `/opt/smc` with the directory you want SMC to install
 into.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/smc
+$ cmake -DCMAKE_INSTALL_PREFIX=/opt/smc ..
 $ make
 # make install
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

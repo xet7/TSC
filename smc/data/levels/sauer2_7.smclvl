@@ -3,7 +3,7 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1403614035"/>
+    <property name="save_time" value="1406918182"/>
   </information>
   <settings>
     <property name="lvl_author" value="Sauer2 and SMC Team"/>
@@ -17,6 +17,7 @@
     <property name="cam_limit_w" value="1000"/>
     <property name="cam_limit_h" value="-5300"/>
     <property name="cam_fixed_hor_vel" value="0.000000"/>
+    <property name="unload_after_exit" value="0"/>
   </settings>
   <background>
     <property name="type" value="103"/>
@@ -441,7 +442,7 @@
     <property name="type" value="massive"/>
   </sprite>
   <box>
-    <property name="posx" value="913"/>
+    <property name="posx" value="918"/>
     <property name="posy" value="-331"/>
     <property name="uid" value="102"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -454,7 +455,7 @@
     <property name="gold_color" value="yellow"/>
   </box>
   <box>
-    <property name="posx" value="870"/>
+    <property name="posx" value="874"/>
     <property name="posy" value="-331"/>
     <property name="uid" value="50"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
@@ -466,7 +467,7 @@
     <property name="force_best_item" value="0"/>
   </box>
   <box>
-    <property name="posx" value="829"/>
+    <property name="posx" value="830"/>
     <property name="posy" value="-331"/>
     <property name="uid" value="51"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -655,7 +656,7 @@
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
-    <property name="speed" value="3.000000"/>
+    <property name="speed" value="0.000000"/>
     <property name="touch_time" value="0.000000"/>
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
@@ -1419,7 +1420,7 @@
     <property name="speed" value="5.800000"/>
   </enemy>
   <box>
-    <property name="posx" value="223"/>
+    <property name="posx" value="228"/>
     <property name="posy" value="-1557"/>
     <property name="uid" value="178"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -1432,7 +1433,7 @@
     <property name="gold_color" value="yellow"/>
   </box>
   <box>
-    <property name="posx" value="180"/>
+    <property name="posx" value="184"/>
     <property name="posy" value="-1557"/>
     <property name="uid" value="179"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -1445,7 +1446,7 @@
     <property name="gold_color" value="yellow"/>
   </box>
   <box>
-    <property name="posx" value="138"/>
+    <property name="posx" value="140"/>
     <property name="posy" value="-1557"/>
     <property name="uid" value="180"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -1797,7 +1798,7 @@
     <property name="type" value="passive"/>
   </sprite>
   <box>
-    <property name="posx" value="571"/>
+    <property name="posx" value="569"/>
     <property name="posy" value="-2204"/>
     <property name="uid" value="227"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -1823,7 +1824,7 @@
     <property name="gold_color" value="yellow"/>
   </box>
   <box>
-    <property name="posx" value="655"/>
+    <property name="posx" value="657"/>
     <property name="posy" value="-2204"/>
     <property name="uid" value="229"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
@@ -1944,7 +1945,7 @@
     <property name="gold_color" value="red"/>
   </box>
   <box>
-    <property name="posx" value="398"/>
+    <property name="posx" value="400"/>
     <property name="posy" value="-5185"/>
     <property name="uid" value="244"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
@@ -2128,7 +2129,7 @@
     <property name="gold_color" value="yellow"/>
   </box>
   <box>
-    <property name="posx" value="907"/>
+    <property name="posx" value="906"/>
     <property name="posy" value="-4099"/>
     <property name="uid" value="268"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -2603,7 +2604,7 @@
     <property name="direction" value="right"/>
   </enemy>
   <box>
-    <property name="posx" value="882"/>
+    <property name="posx" value="884"/>
     <property name="posy" value="-3231"/>
     <property name="uid" value="333"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -2629,7 +2630,7 @@
     <property name="gold_color" value="yellow"/>
   </box>
   <box>
-    <property name="posx" value="798"/>
+    <property name="posx" value="796"/>
     <property name="posy" value="-3231"/>
     <property name="uid" value="335"/>
     <property name="image" value="game/box/yellow/default.png"/>
@@ -2733,8 +2734,8 @@
     <property name="direction" value="right"/>
   </enemy>
   <sprite>
-    <property name="posx" value="194"/>
-    <property name="posy" value="-4974"/>
+    <property name="posx" value="195"/>
+    <property name="posy" value="-4986"/>
     <property name="uid" value="350"/>
     <property name="image" value="clouds/default_1/2_big.png"/>
     <property name="type" value="halfmassive"/>
@@ -2782,8 +2783,8 @@
     <property name="color" value="green"/>
   </enemy>
   <sprite>
-    <property name="posx" value="194"/>
-    <property name="posy" value="-4974"/>
+    <property name="posx" value="196"/>
+    <property name="posy" value="-4986"/>
     <property name="uid" value="359"/>
     <property name="image" value="clouds/default_1/2_big.png"/>
     <property name="type" value="front_passive"/>
@@ -2802,8 +2803,8 @@
     <property name="color" value="green"/>
   </enemy>
   <enemy>
-    <property name="posx" value="165"/>
-    <property name="posy" value="-3130"/>
+    <property name="posx" value="95"/>
+    <property name="posy" value="-3119"/>
     <property name="uid" value="361"/>
     <property name="image" value="enemy/gee/venom/1.png"/>
     <property name="type" value="gee"/>
@@ -2856,15 +2857,9 @@
     <property name="color" value="grey"/>
     <property name="direction" value="right"/>
   </enemy>
-  <enemy>
-    <property name="posx" value="175"/>
-    <property name="posy" value="-2925"/>
-    <property name="uid" value="367"/>
-    <property name="image" value="enemy/spikeball/grey/walk_1.png"/>
-    <property name="type" value="spikeball"/>
-    <property name="color" value="grey"/>
-    <property name="direction" value="right"/>
-  </enemy>
-  <script>
+  <script># triggers the platform from a bonus box
+UIDS[51].on_activate do
+    UIDS[77].speed = 3
+end
 </script>
 </level>

@@ -105,7 +105,7 @@ if (NOT(WIN32))
   ExternalProject_Add(cegui07
     PREFIX "${CEGUI_ROOT_DIR}"
     URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
-    URL_HASH MD5=a8b682daf82e383edc169c2e6eb2b321
+    URL_MD5 a8b682daf82e383edc169c2e6eb2b321
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
     BUILD_COMMAND make -j${NUM_CPUCORES}
