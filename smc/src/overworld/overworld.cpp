@@ -58,7 +58,7 @@ cOverworld_description :: ~cOverworld_description( void )
 
 void cOverworld_description :: Save( void )
 {
-	fs::path filename = pResource_Manager->Get_User_World_Directory() / m_path / utf8_to_path("description.xml");
+	fs::path filename = pResource_Manager->Get_User_World_Directory() / m_path.filename() / utf8_to_path("description.xml");
 
 	try {
 		Save_To_File(filename);
