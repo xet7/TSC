@@ -68,6 +68,12 @@ cLevel_Exit :: cLevel_Exit( XmlAttributes &attributes, cSprite_Manager *sprite_m
 	// destination entry
 	Set_Entry( attributes["entry"] );
 
+	// return level
+	Set_Return_Level( attributes["return_level_name"] );
+
+	// return entry
+	Set_Return_Entry( attributes["return_entry"] );
+
 	// path identifier
 	if( m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS )
 		Set_Path_Identifier( attributes["path_identifier"] );
@@ -130,6 +136,8 @@ cLevel_Exit *cLevel_Exit :: Copy( void ) const
 	level_exit->Set_Direction( m_start_direction );
 	level_exit->Set_Level( m_dest_level );
 	level_exit->Set_Entry( m_dest_entry );
+	level_exit->Set_Return_Level( m_return_level );
+	level_exit->Set_Return_Entry( m_return_entry );
 	return level_exit;
 }
 
@@ -145,12 +153,21 @@ xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
 	// camera motion
 	Add_Property(p_node, "camera_motion", m_exit_motion);
 
+	// destination level
+	if (!m_dest_level.empty())
+		Add_Property(p_node, "level_name", m_dest_level);
+
 	// destination entry name
 	if (!m_dest_entry.empty())
 		Add_Property(p_node, "entry", m_dest_entry);
 
-	if (!m_dest_level.empty())
-		Add_Property(p_node, "level_name", m_dest_level);
+	// return level name
+	if (!m_return_level.empty())
+		Add_Property(p_node, "return_level_name", m_return_level);
+
+	// return entry
+	if (!m_return_entry.empty())
+		Add_Property(p_node, "return_entry", m_return_entry);
 
 	// path identifier
 	if (m_exit_motion == CAMERA_MOVE_ALONG_PATH || m_exit_motion == CAMERA_MOVE_ALONG_PATH_BACKWARDS) {
@@ -165,7 +182,7 @@ xmlpp::Element* cLevel_Exit :: Save_To_XML_Node( xmlpp::Element* p_element )
 	return p_node;
 }
 
-	void cLevel_Exit :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )
+void cLevel_Exit :: Set_Direction( const ObjectDirection dir, bool initial /* = true */ )
 {
 	// already set
 	if( m_direction == dir )
@@ -349,11 +366,37 @@ void cLevel_Exit :: Activate( void )
 	// exit level
 	if( m_dest_level.empty() && m_dest_entry.empty() )
 	{
-		pLevel_Manager->Finish_Level( 1 );
+		// If there is no destionation, we ignore any return level/entry and do no push it onto the stack
+		std::string return_level, return_entry;
+
+		if ( pLevel_Player->Pop_Return( return_level, return_entry ) )
+		{
+			pLevel_Manager->Goto_Sub_Level( return_level, return_entry, m_exit_motion, m_path_identifier );
+		}
+		else
+		{
+			pLevel_Manager->Finish_Level( 1 );
+		}
 	}
 	// enter entry
 	else
 	{
+		// Push return level/entry if any
+		if ( !m_return_level.empty() || !m_return_entry.empty() )
+		{
+			if ( m_return_level.empty() )
+			{
+				// If user does not specify level, we need to push this level onto the stack
+				// so when the exit is encountered in possbile another level, it will know
+				// which level to return to.
+				pLevel_Player->Push_Return( pActive_Level->Get_Level_Name(), m_return_entry );
+			}
+			else
+			{
+				pLevel_Player->Push_Return( m_return_level, m_return_entry );
+			}
+		}
+
 		pLevel_Manager->Goto_Sub_Level( m_dest_level, m_dest_entry, m_exit_motion, m_path_identifier );
 	}
 }
@@ -414,6 +457,16 @@ void cLevel_Exit :: Set_Entry( const std::string &entry_name )
 	}
 
 	m_editor_entry_name = pFont->Render_Text( pFont->m_font_small, m_dest_entry, white );
+}
+
+void cLevel_Exit :: Set_Return_Level( const std::string& level )
+{
+	m_return_level = level;
+}
+
+void cLevel_Exit :: Set_Return_Entry( const std::string& entry )
+{
+	m_return_entry = entry;
 }
 
 void cLevel_Exit :: Set_Path_Identifier( const std::string &identifier )
@@ -500,6 +553,20 @@ void cLevel_Exit :: Editor_Activate( void )
 
 	editbox->setText( m_dest_entry.c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Destination_Entry_Text_Changed, this ) );
+
+	// return level
+	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "level_exit_return_level" ));
+	Editor_Add( UTF8_("Return Level"), UTF8_("Name of the level that should be pushed onto return stack."), editbox, 150 );
+
+	editbox->setText( m_return_level );
+	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Return_Level_Text_Changed, this ) );
+
+	// return entry
+	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "level_exit_return_entry" ));
+	Editor_Add( UTF8_("Return Entry"), UTF8_("Name of the Entry in the return level."), editbox, 150 );
+
+	editbox->setText( m_return_entry.c_str() );
+	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Exit::Editor_Return_Entry_Text_Changed, this ) );
 
 	// path identifier
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "level_exit_path_identifier" ));
@@ -610,6 +677,26 @@ bool cLevel_Exit :: Editor_Destination_Entry_Text_Changed( const CEGUI::EventArg
 	return 1;
 }
 
+bool cLevel_Exit :: Editor_Return_Level_Text_Changed( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+
+	Set_Return_Level( str_text );
+
+	return 1;
+}
+
+bool cLevel_Exit :: Editor_Return_Entry_Text_Changed( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+
+	Set_Return_Entry( str_text );
+
+	return 1;
+}
+
 bool cLevel_Exit :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
@@ -618,6 +705,11 @@ bool cLevel_Exit :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs 
 	Set_Path_Identifier( str_text );
 
 	return 1;
+}
+
+void cLevel_Exit::Set_Massive_Type( MassiveType type )
+{
+	// Ignore to prevent "m" toggling in level editor
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

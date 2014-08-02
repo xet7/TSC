@@ -60,8 +60,6 @@ public:
 	// save to savegame
 	virtual cSave_Level_Object *Save_To_Savegame( void );
 
-	// Set the static image
-	void Set_Static_Image( const boost::filesystem::path &filename );
 	// Set the rotation speed
 	void Set_Rotation_Speed( float speed );
 	// Set the movement speed
@@ -105,8 +103,6 @@ public:
 	// editor ice resistance text changed event
 	bool Editor_Ice_Resistance_Text_Changed( const CEGUI::EventArgs &event );
 
-	// image filename
-	boost::filesystem::path m_img_filename;
 	// rotation speed
 	float m_rotation_speed;
 	// movement speed if using path

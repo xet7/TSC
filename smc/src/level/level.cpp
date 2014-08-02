@@ -302,7 +302,7 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 	p_node = p_root->add_child("settings");
 		Add_Property(p_node, "lvl_author", m_author);
 		Add_Property(p_node, "lvl_version", m_version);
-		Add_Property(p_node, "lvl_music", path_to_utf8(Get_Music_Filename()));
+		Add_Property(p_node, "lvl_music", Get_Music_Filename().generic_string());
 		Add_Property(p_node, "lvl_description", m_description);
 		Add_Property(p_node, "lvl_difficulty", static_cast<int>(m_difficulty));
 		Add_Property(p_node, "lvl_land_type", Get_Level_Land_Type_Name(m_land_type));
@@ -311,6 +311,7 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 		Add_Property(p_node, "cam_limit_w", static_cast<int>(m_camera_limits.m_w));
 		Add_Property(p_node, "cam_limit_h", static_cast<int>(m_camera_limits.m_h));
 		Add_Property(p_node, "cam_fixed_hor_vel", m_fixed_camera_hor_vel);
+		Add_Property(p_node, "unload_after_exit", m_unload_after_exit ? 1 : 0);
 	// </settings>
 
 	// backgrounds
@@ -410,6 +411,9 @@ void cLevel :: Reset_Settings( void )
 	// camera
 	m_camera_limits = cCamera::m_default_limits;
 	m_fixed_camera_hor_vel = 0.0f;
+
+	// unload after exit
+	m_unload_after_exit = false;
 
 	// MRuby script code
 	m_script = std::string();
@@ -545,6 +549,9 @@ void cLevel :: Leave( const GameMode next_mode /* = MODE_NOTHING */ )
 	// level to level
 	if( next_mode == MODE_LEVEL )
 	{
+		// unload this level if it is marked
+		if( m_unload_after_exit )
+			Unload();
 		return;
 	}
 	// if new mode: it should play different music
@@ -1068,7 +1075,9 @@ cLevel_Entry *cLevel :: Get_Entry( const std::string &name )
 		return NULL;
 	}
 
-	// Search for entry
+	std::vector<cLevel_Entry*> entries;
+
+	// Search for entries matching name
 	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )
 	{
 		cSprite *obj = (*itr);
@@ -1083,8 +1092,14 @@ cLevel_Entry *cLevel :: Get_Entry( const std::string &name )
 		// found
 		if( level_entry->m_entry_name.compare( name ) == 0 )
 		{
-			return level_entry;
+			entries.push_back(level_entry);
 		}
+	}
+
+	// Return a random entry
+	if (!entries.empty())
+	{
+		return entries[rand() % entries.size()];
 	}
 
 	return NULL;

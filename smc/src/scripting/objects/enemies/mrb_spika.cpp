@@ -105,54 +105,6 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
 	}
 }
 
-/**
- * Method: Spika#speed=
- *
- *   speed=( speed ) → speed
- *
- * Specify the spika’s speed. The default speed values are
- * as follows:
- *
- * | Spika color | Spika default speed |
- * |:-----------:|:-------------------:|
- * | orange      | 3.0                 |
- * | green       | 4.0                 |
- * | grey        | 7.0                 |
- * | red         | 10.0                |
- *
- * #### Parameters
- * speed
- * : The spika’s new speed. A float.
- */
-static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
-{
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
-
-	if (speed < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Spika speed must be >= 0");
-		return mrb_nil_value(); // Not reached
-	}
-
-	cSpika* p_spika = Get_Data_Ptr<cSpika>(p_state, self);
-	p_spika->m_speed = speed;
-
-	return mrb_float_value(p_state, speed);
-}
-
-/**
- * Method: Spika#speed
- *
- *   speed() → a_float
- *
- * Returns the spika’s speed, a float.
- */
-static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
-{
-	cSpika* p_spika = Get_Data_Ptr<cSpika>(p_state, self);
-	return mrb_float_value(p_state, p_spika->m_speed);
-}
-
 void SMC::Scripting::Init_Spika(mrb_state* p_state)
 {
 	struct RClass* p_rcSpika = mrb_define_class(p_state, "Spika", mrb_class_get(p_state, "Enemy"));
@@ -161,6 +113,4 @@ void SMC::Scripting::Init_Spika(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcSpika, "initialize", Initialize, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcSpika, "color=", Set_Color, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcSpika, "color", Get_Color, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSpika, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSpika, "speed", Get_Speed, MRB_ARGS_NONE());
 }

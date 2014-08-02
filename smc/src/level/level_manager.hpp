@@ -49,7 +49,7 @@ public:
 	 * If the level is already loaded it is returned but not reloaded.
 	 * The loaded level is not set active.
 	*/
-	cLevel *Load( std::string levelname );
+	cLevel *Load( std::string levelname, bool loading_sublevel = false );
 	// Set active level
 	bool Set_Active( cLevel *level );
 	// Get level pointer

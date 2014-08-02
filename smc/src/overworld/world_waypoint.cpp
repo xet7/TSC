@@ -44,7 +44,7 @@ cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manag
 	cWaypoint::Init();
 
 	// position
-	Set_Pos(static_cast<float>(attributes.retrieve<int>("x")), static_cast<float>(attributes.retrieve<int>("y")), true);
+	Set_Pos(static_cast<float>(attributes.fetch<int>("x", 0)), static_cast<float>(attributes.fetch<int>("y", 0)), true);
 
 	// image
 	/*

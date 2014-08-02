@@ -49,6 +49,8 @@ public:
 	// Set Dead
 	virtual void Set_Dead( bool enable = 1 );
 
+	virtual void Set_Massive_Type( MassiveType type );
+
 	// dying animation update
 	void Update_Dying( void );
 	// Animation update for an enemy killed regularlyly.

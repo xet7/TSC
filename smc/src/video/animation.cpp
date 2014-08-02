@@ -597,7 +597,7 @@ cParticle_Emitter :: cParticle_Emitter( XmlAttributes &attributes, cSprite_Manag
 							attributes.fetch<float>("gravity_x_rand", m_gravity_x_rand));
 
 	// vertical gravity
-	Set_Horizontal_Gravity(	attributes.fetch<float>("gravity_y", m_gravity_y),
+	Set_Vertical_Gravity(	attributes.fetch<float>("gravity_y", m_gravity_y),
 							attributes.fetch<float>("gravity_y_rand", m_gravity_y_rand));
 
 	// clip rect
@@ -1736,7 +1736,7 @@ void cParticle_Emitter :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "emitter_hor_gravity_base" ));
 	Editor_Add( UTF8_("Hor gravity"), UTF8_("Initial horizontal gravity"), editbox, 150 );
 
-	editbox->setValidationString( "[+]?[0-9]*\\.?[0-9]*" );
+	editbox->setValidationString( "[+-]?[0-9]*\\.?[0-9]*" );
 	editbox->setText( float_to_string( m_gravity_x, 6, 0 ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cParticle_Emitter::Editor_Horizontal_Gravity_Base_Text_Changed, this ) );
 
@@ -1752,7 +1752,7 @@ void cParticle_Emitter :: Editor_Activate( void )
 	editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "emitter_ver_gravity_base" ));
 	Editor_Add( UTF8_("Ver gravity"), UTF8_("Initial vertical gravity"), editbox, 150 );
 
-	editbox->setValidationString( "[+]?[0-9]*\\.?[0-9]*" );
+	editbox->setValidationString( "[+-]?[0-9]*\\.?[0-9]*" );
 	editbox->setText( float_to_string( m_gravity_y, 6, 0 ) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cParticle_Emitter::Editor_Vertical_Gravity_Base_Text_Changed, this ) );
 

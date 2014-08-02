@@ -970,6 +970,11 @@ std::string cBaseBox :: Create_Name( void ) const
 	return name;
 }
 
+void cBaseBox::Set_Massive_Type( MassiveType type )
+{
+	// Ignore to prevent "m" toggling in level editor
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

@@ -16,6 +16,24 @@
  * however can also be used to warp Maryo to other points in the
  * same level or even into a sublevel of the current one.
  *
+ * Return level stack
+ * ------------------
+ *
+ * Level exits can make use of a return level stack that allows
+ * to return to a specific level when a sublevel’s finish is
+ * reached. To activate this feature, you first have to specify
+ * a sublevel a level exit will warp Maryo into as usual (see
+ * `#level=`). Utilizing the methods `#return_level=` and
+ * `#return_entry=` you can now dynamically specify where Maryo
+ * should return when **the sublevel’s** default finish is reached
+ * (without setting one of these, the sublevel’s finish will be
+ * taken for the overall finish and end all current levels, advancing
+ * Maryo to the next waypoint on the overworld).
+ *
+ * This feature can be useful for bonus levels or labyrinths, probably
+ * for other complex level setups. Note it works fine recursively, i.e.
+ * you can employ the same technique in the destination sublevel again.
+ *
  * Events
  * ------
  *
@@ -269,6 +287,84 @@ static mrb_value Get_Entry(mrb_state* p_state, mrb_value self)
 }
 
 /**
+ * Method: LevelExit#return_level=
+ *
+ *   return_level=( str ) → str
+ *
+ * Specifies the name of the level that is placed on the stack when
+ * Maryo enters this level exit. An empty string means to push the
+ * current level onto the stack.
+ *
+ * Note you have to set a destination sublevel via `#level=` in
+ * order for this setting to have any effect.
+ */
+static mrb_value Set_Return_Level(mrb_state* p_state, mrb_value self)
+{
+	char* level = NULL;
+	mrb_get_args(p_state, "z", &level);
+
+	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+	p_exit->Set_Return_Level(level);
+
+	return mrb_str_new_cstr(p_state, level);
+}
+
+/**
+ * Method: LevelExit#return_level
+ *
+ *   return_level() → a_string
+ *
+ * Returns the name of the level that is placed on the stack when
+ * Maryo enters this level exit. If the returned string is empty, the
+ * current level will be pushed onto the stack.
+ *
+ * Note that this setting only takes effect if a destination
+ * sublevel has been specified (see `#level=`).
+ */
+static mrb_value Get_Return_Level(mrb_state* p_state, mrb_value self)
+{
+	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+	return mrb_str_new_cstr(p_state, p_exit->m_return_level.c_str());
+}
+
+/**
+ * Method: LevelExit#return_entry
+ *
+ * Returns the name of the level entry that is associated with the
+ * level pushed onto the return stack (see `#return_level`). If
+ * this returns an empty string, the default level starting position
+ * will be used. If you specify no return level, the entry will be
+ * assumed to be from the current level.
+ */
+static mrb_value Get_Return_Entry(mrb_state* p_state, mrb_value self)
+{
+	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+	return mrb_str_new_cstr(p_state, p_exit->m_return_entry.c_str());
+}
+
+/**
+ * Method: LevelExit#entry=
+ *
+ *   entry=( str ) → str
+ *
+ * Specifies the name of the level entry that is associated with
+ * the level pushed onto the return stack (see `#return_level`). Set
+ * this to an empty string for requesting the default starting position
+ * of the return level. If no return level has been specified,
+ * the entry will be assumed to belong to the current level.
+ */
+static mrb_value Set_Return_Entry(mrb_state* p_state, mrb_value self)
+{
+	char* entry = NULL;
+	mrb_get_args(p_state, "z", &entry);
+
+	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+	p_exit->Set_Return_Entry(entry);
+
+	return mrb_str_new_cstr(p_state, entry);
+}
+
+/**
  * Method: LevelExit#path=
  *
  *   path=( ident ) → ident
@@ -337,6 +433,10 @@ void SMC::Scripting::Init_LevelExit(mrb_state* p_state)
 	mrb_define_method(p_state, p_rcLevel_Exit, "path=", Set_Path, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcLevel_Exit, "path", Get_Path, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcLevel_Exit, "activate", Activate, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Exit, "return_level", Get_Return_Level, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Exit, "return_level=", Set_Return_Level, MRB_ARGS_REQ(1));
+	mrb_define_method(p_state, p_rcLevel_Exit, "return_entry", Get_Return_Entry, MRB_ARGS_NONE());
+	mrb_define_method(p_state, p_rcLevel_Exit, "return_entry=", Set_Return_Entry, MRB_ARGS_REQ(1));
 
 	mrb_define_method(p_state, p_rcLevel_Exit, "on_exit", MRUBY_EVENT_HANDLER(exit), MRB_ARGS_NONE());
 }

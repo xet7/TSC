@@ -464,6 +464,11 @@ bool cLevel_Entry :: Editor_Name_Text_Changed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
+void cLevel_Entry::Set_Massive_Type( MassiveType type )
+{
+	// Ignore to prevent "m" toggling in level editor
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC

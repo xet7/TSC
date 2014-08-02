@@ -46,43 +46,6 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 }
 
 /**
- * Method: StaticEnemy#static_image=
- *
- *   static_image=( path ) → path
- *
- * Set the path to the image of this enemy.
- *
- * #### Parameters
- * path
- * : The path to the image file for this enemy, relative to the `pixmaps`
- *   directory.
- */
-static mrb_value Set_Static_Image(mrb_state* p_state, mrb_value self)
-{
-	char* str = NULL;
-	mrb_get_args(p_state, "z", &str);
-
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	p_static->Set_Static_Image(utf8_to_path(str));
-
-	return mrb_str_new_cstr(p_state, str);
-}
-
-/**
- * Method: StaticEnemy#static_image
- *
- *   static_image() → a_string
- *
- * Returns the path to this static enemy’s image, relative to
- * the `pixmaps` directory.
- */
-static mrb_value Get_Static_Image(mrb_state* p_state, mrb_value self)
-{
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	return mrb_str_new_cstr(p_state, path_to_utf8(p_static->m_img_filename).c_str());
-}
-
-/**
  * Method: StaticEnemy#rotation_speed=
  *
  *   rotation_speed=( speed ) → speed
@@ -219,8 +182,6 @@ void SMC::Scripting::Init_StaticEnemy(mrb_state* p_state)
 	MRB_SET_INSTANCE_TT(p_rcStaticEnemy, MRB_TT_DATA);
 
 	mrb_define_method(p_state, p_rcStaticEnemy, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcStaticEnemy, "static_image=", Set_Static_Image, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcStaticEnemy, "static_image", Get_Static_Image, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcStaticEnemy, "rotation_speed=", Set_Rotation_Speed, MRB_ARGS_REQ(1));
 	mrb_define_method(p_state, p_rcStaticEnemy, "rotation_speed", Get_Rotation_Speed, MRB_ARGS_NONE());
 	mrb_define_method(p_state, p_rcStaticEnemy, "speed=", Set_Speed, MRB_ARGS_REQ(1));

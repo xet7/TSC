@@ -145,6 +145,12 @@ cSave_Level :: ~cSave_Level( void )
 	m_spawned_objects.clear();
 }
 
+/* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
+cSave_Player_Return_Entry :: cSave_Player_Return_Entry(const std::string& level, const std::string& entry) :
+	m_level(level), m_entry(entry)
+{
+}
+
 /* *** *** *** *** *** *** *** cSave *** *** *** *** *** *** *** *** *** *** */
 
 cSave :: cSave( void )
@@ -255,6 +261,19 @@ void cSave :: Write_To_File( fs::path filepath )
 	Add_Property(p_node, "overworld_active", m_overworld_active);
 	Add_Property(p_node, "overworld_current_waypoint", m_overworld_current_waypoint);
 	// </player>
+	
+	// player return stack
+	std::vector<cSave_Player_Return_Entry>::const_iterator return_iter;
+	for(return_iter = m_return_entries.begin(); return_iter != m_return_entries.end(); return_iter++)
+	{
+		cSave_Player_Return_Entry item = *return_iter;
+
+		p_node = p_root->add_child("return");
+		if (!item.m_level.empty())
+			Add_Property(p_node, "level", item.m_level);
+		if (!item.m_entry.empty())
+			Add_Property(p_node, "entry", item.m_entry);
+	}
 
 	// levels
 	Save_LevelList::const_iterator iter;
@@ -537,6 +556,18 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 	pHud_Debug->Set_Text( _("Savegame ") + int_to_string( save_slot ) + _(" loaded") );
 	pHud_Manager->Update();
 
+	// #### Return stack ####
+	
+	pLevel_Player->Clear_Return();
+	if( !savegame->m_return_entries.empty() )
+	{
+		std::vector<cSave_Player_Return_Entry>::const_iterator return_iter;
+		for( return_iter = savegame->m_return_entries.begin(); return_iter != savegame->m_return_entries.end(); return_iter++)
+		{
+			pLevel_Player->Push_Return(return_iter->m_level, return_iter->m_entry);
+		}
+	}
+
 	delete savegame;
 	return save_type;
 }
@@ -634,6 +665,12 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 	savegame->m_player_type = pLevel_Player->m_maryo_type;
 	savegame->m_player_state = pLevel_Player->m_state;
 	savegame->m_itembox_item = pHud_Itembox->m_item_id;
+
+	// player return stack
+	for( std::vector<cLevel_Player_Return_Entry>::const_iterator itr = pLevel_Player->m_return_stack.begin(); itr != pLevel_Player->m_return_stack.end(); itr++)
+	{
+		savegame->m_return_entries.push_back(cSave_Player_Return_Entry(itr->level, itr->entry));
+	}
 
 	// save overworld progress
 	for( vector<cOverworld *>::iterator itr = pOverworld_Manager->objects.begin(); itr != pOverworld_Manager->objects.end(); ++itr )

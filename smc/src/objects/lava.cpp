@@ -118,3 +118,8 @@ std::string cLava::Get_XML_Type_Name()
 {
 	return "lava";
 }
+
+void cLava::Set_Massive_Type( MassiveType type )
+{
+	// Ignore to prevent "m" toggling in level editor
+}

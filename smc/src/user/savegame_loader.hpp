@@ -33,6 +33,7 @@ namespace SMC {
     void handle_level_object();
     void handle_level_spawned_object(const Glib::ustring& name);
     void handle_player();
+    void handle_return();
     void handle_old_format_overworld_data();
     void handle_overworld();
     void handle_overworld_waypoint();

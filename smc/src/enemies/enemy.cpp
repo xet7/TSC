@@ -474,6 +474,11 @@ void cEnemy :: Ball_Generate_Goldpiece(const cObjectCollision* p_collision)
 		m_sprite_manager->Add( goldpiece );
 }
 
+void cEnemy :: Set_Massive_Type(MassiveType type)
+{
+	// Ignore to prevent "m" toggling in editor
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC
