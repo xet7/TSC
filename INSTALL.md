@@ -1,7 +1,7 @@
 Installation instructions for SMC
 =================================
 
-SMC uses CMake[1] as the build system, so the first thing you have to
+SMC uses [CMake][1] as the build system, so the first thing you have to
 ensure is that you have CMake installed.
 
 SMC currently supports the Linux and Windows platforms officially. To
@@ -64,10 +64,12 @@ get it resolved with the next feature release of SMC.
 The following commandline installs all dependencies required to built
 SMC on Ubuntu Linux 14.04:
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # apt-get install ruby-full rake gperf pkg-config bison libglew-dev \
   freeglut3-dev gettext libpng12-dev libsdl-ttf2.0-dev \
   libsdl-mixer1.2-dev libsdl-image1.2-dev libpcre3-dev libxml++2.6-dev \
   libfreetype6-dev libdevil-dev libboost1.55-all-dev
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### Windows dependencies ###
 
