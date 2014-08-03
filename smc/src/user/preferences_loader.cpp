@@ -1,7 +1,9 @@
 #include "preferences_loader.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+using namespace std;
 
 cPreferencesLoader::cPreferencesLoader()
 	: xmlpp::SaxParser()
@@ -314,6 +316,6 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 	else if (name == "editor_item_image_size")
 		mp_preferences->m_editor_item_image_size = string_to_int(value);
 	else {
-		std::cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << std::endl;
+		cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << std::endl;
 	}
 }

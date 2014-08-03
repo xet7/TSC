@@ -1308,7 +1308,7 @@ cSprite *cMouseCursor :: Copy( const cSprite *copy_object, float px, float py ) 
 	// only copy in editor mode
 	if( !editor_enabled )
 	{
-		std::cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << std::endl;
+		cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << std::endl;
 		return NULL;
 	}
 

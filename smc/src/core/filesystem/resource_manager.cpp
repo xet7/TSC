@@ -23,6 +23,9 @@
 #include "filesystem.hpp"
 #include "../property_helper.hpp"
 #include "../errors.hpp"
+#include "../global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 namespace errc = boost::system::errc;
@@ -319,7 +322,7 @@ void cResource_Manager::init_directories()
 	// See http://msdn.microsoft.com/en-us/library/windows/desktop/bb762181.aspx.
 	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
 	{
-		std::cerr << "Error : Couldn't get Windows user data directory. Defaulting to ./data in the application directory." << std::endl;
+		cerr << "Error : Couldn't get Windows user data directory. Defaulting to ./data in the application directory." << std::endl;
 
 		m_paths.user_data_dir = fs::current_path() / utf8_to_path("data");
 		m_paths.user_cache_dir = fs::current_path() / utf8_to_path("data") / utf8_to_path("cache");
@@ -369,10 +372,10 @@ void cResource_Manager::compat_move_directories()
 	if (!fs::exists(olddir))
 		return;
 
-	std::cout << "INFO: Old ~/.smc directory detected. Copying files." << std::endl;
+    cout << "INFO: Old ~/.smc directory detected. Copying files." << std::endl;
 	fs::directory_iterator end_iter;
 
-	std::cout << "Copying levels." << std::endl;
+    cout << "Copying levels." << std::endl;
 	fs::path dir = olddir / utf8_to_path("levels");
 	try
 	{
@@ -384,10 +387,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-		std::cout << "No levels detected." << std::endl;
+        cout << "No levels detected." << std::endl;
 	}
 
-	std::cout << "Copying savegames." << std::endl;
+    cout << "Copying savegames." << std::endl;
 	dir = olddir / utf8_to_path("savegames");
 	try
 	{
@@ -398,10 +401,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-		std::cout << "No savegames detected." << std::endl;
+        cout << "No savegames detected." << std::endl;
 	}
 
-	std::cout << "Copying screenshots." << std::endl;
+    cout << "Copying screenshots." << std::endl;
 	dir = olddir / utf8_to_path("screenshots");
 	try
 	{
@@ -412,10 +415,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-		std::cout << "No screenshots detected." << std::endl;
+        cout << "No screenshots detected." << std::endl;
 	}
 
-	std::cout << "Copying campaigns." << std::endl;
+    cout << "Copying campaigns." << std::endl;
 	dir = olddir / utf8_to_path("campaign"); // sic! The old version had no trailing s.
 	try
 	{
@@ -426,10 +429,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-		std::cout << "No campaigns detected." << std::endl;
+        cout << "No campaigns detected." << std::endl;
 	}
 
-	std::cout << "Copying worlds." << std::endl;
+    cout << "Copying worlds." << std::endl;
 	dir = olddir / utf8_to_path("worlds");
 	try
 	{
@@ -444,10 +447,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-		std::cout << "No worlds detected." << std::endl;
+        cout << "No worlds detected." << std::endl;
 	}
 
-	std::cout << "Copying config.xml." << std::endl;
+    cout << "Copying config.xml." << std::endl;
 	try
 	{
 		fs::copy_file(olddir / utf8_to_path("config.xml"), Get_Preferences_File(), fs::copy_option::overwrite_if_exists);
@@ -456,12 +459,12 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-		std::cout << "No configuration detected." << std::endl;
+        cout << "No configuration detected." << std::endl;
 	}
 
 	// Leave the cache alone. It will be regenerated anyway.
 
-	std::cerr << "Warning: Removing old ~/.smc directory now." << std::endl;
+	cerr << "Warning: Removing old ~/.smc directory now." << std::endl;
 	fs::remove_all(olddir);
 }
 #endif

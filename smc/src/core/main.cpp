@@ -82,15 +82,15 @@ int main( int argc, char **argv )
 	}
 	else
 	{
-		std::cerr << "Warning: Could not determine installation type\n";
+		cerr << "Warning: Could not determine installation type\n";
 	}
 
 	if( !datapath.empty() )
 	{
-		std::cout << "setting CWD to " << datapath.c_str() << std::endl;
+		cout << "setting CWD to " << datapath.c_str() << std::endl;
 		if( chdir( datapath.c_str() ) != 0 )
 		{
-			std::cerr << "Warning: Failed changing CWD\n";
+			cerr << "Warning: Failed changing CWD\n";
 		}
 	}
 #endif
@@ -117,10 +117,10 @@ int main( int argc, char **argv )
 			// version
 			else if( arguments[i] == "--version" || arguments[i] == "-v" )
 			{
-				std::cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH
+				cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH
 						  << " compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
 				if (SMC_VERSION_DEVELOPMENT)
-					std::cout << "This is a DEVELOPMENT built! It may eat your hamster!" << std::endl;
+					cout << "This is a DEVELOPMENT built! It may eat your hamster!" << std::endl;
 				return EXIT_SUCCESS;
 			}
 			// debug

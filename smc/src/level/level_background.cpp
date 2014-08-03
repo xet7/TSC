@@ -140,7 +140,7 @@ void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 		Add_Property( p_node, "const_vely", m_const_vel_y );
 	}
 	else
-		std::cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
+		cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
 	// </background>
 }
 

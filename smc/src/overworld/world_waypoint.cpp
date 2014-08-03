@@ -26,6 +26,9 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -371,7 +374,7 @@ boost::filesystem::path cWaypoint :: Get_Destination_Path()
 		return pResource_Manager->Get_Game_Overworld(m_destination);
 	default:
 		// FIXME: Throw an exception
-		std::cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;
+		cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;
 		return boost::filesystem::path();
 	}
 }

@@ -19,6 +19,8 @@
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 
+using namespace std;
+
 namespace SMC
 {
 
@@ -203,13 +205,13 @@ std::string readfile(boost::filesystem::ifstream& file);
 template <typename T>
 void print_hashmap(const std::map<std::string, T>& map)
 {
-  std::cout << "========== Debug Hashmap printout ==========" << std::endl;
+  cout << "========== Debug Hashmap printout ==========" << std::endl;
 
   typename std::map<std::string, T>::const_iterator iter;
   for(iter=map.begin(); iter != map.end(); iter++)
-    std::cout << iter->first << " => " << iter->second << std::endl;
+    cout << iter->first << " => " << iter->second << std::endl;
 
-  std::cout << "============================================" << std::endl;
+  cout << "============================================" << std::endl;
 }
 #endif
 

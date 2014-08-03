@@ -256,7 +256,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		}
 		else
 		{
-			std::cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << std::endl;
+			cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << std::endl;
 		}
 	}
 
@@ -1153,7 +1153,7 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 
 		if( print_errors )
 		{
-      std::cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+      cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
 		}
 
 		return software_image;
@@ -1204,7 +1204,7 @@ cGL_Surface *cVideo :: Load_GL_Surface( boost::filesystem::path filename, bool u
 	// print error
 	else if( print_errors )
 	{
-		std::cerr << "Error loading GL surface image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+		cerr << "Error loading GL surface image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
 	}
 
 	return image;
@@ -1766,7 +1766,7 @@ void cVideo :: Save_Surface( const fs::path &filename, const unsigned char *data
 
 	if( !fp )
 	{
-		std::cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << std::endl;
+		cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << std::endl;
 		return;
 	}
 

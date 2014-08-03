@@ -249,7 +249,7 @@ void cEditor :: Init( void )
 	// Get Items
 	if( !File_Exists( m_items_filename ) )
 	{
-		std::cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
+        cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
 		return;
 	}
 
@@ -1219,7 +1219,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// set correct array if not given
 	if( sprite->m_sprite_array == ARRAY_UNDEFINED )
 	{
-		std::cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << std::endl;
+        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << std::endl;
 
 		if( sprite->m_massive_type == MASS_PASSIVE )
 		{
@@ -1238,7 +1238,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// warn if correct type is not given
 	if( sprite->m_type == TYPE_UNDEFINED )
 	{
-		std::cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << std::endl;
+        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << std::endl;
 	}
 
 	// if no image is given use the sprite start image
@@ -1276,7 +1276,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 		}
 
 		// Warn if using filename
-		std::cerr << "Warning : editor object '" << obj_name << "' with no name given" << std::endl;
+        cerr << "Warning : editor object '" << obj_name << "' with no name given" << std::endl;
 	}
 
 	cEditor_Item_Object *new_item = new cEditor_Item_Object( obj_name, m_listbox_items );

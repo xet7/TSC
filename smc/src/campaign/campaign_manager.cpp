@@ -20,8 +20,11 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/i18n.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
+
+using namespace std;
 
 namespace SMC
 {
@@ -126,7 +129,7 @@ cCampaign *cCampaign_Manager :: Load_Campaign( const fs::path &filename )
 {
 	if( !File_Exists( filename ) )
 	{
-		std::cerr << "Error : Campaign loading failed : " << path_to_utf8(filename) << std::endl;
+        cerr << "Error : Campaign loading failed : " << path_to_utf8(filename) << std::endl;
 		return NULL;
 	}
 

@@ -20,6 +20,8 @@
 #include "../core/file_parser.hpp"
 #include "../core/game_core.hpp"
 
+using namespace std;
+
 namespace fs = boost::filesystem;
 
 namespace SMC
@@ -43,7 +45,7 @@ bool cFile_parser :: Parse( const fs::path &filename )
 
 	if( !ifs )
 	{
-		std::cerr << "Could not load data file : " << path_to_utf8(filename) << std::endl;
+		cerr << "Could not load data file : " << path_to_utf8(filename) << std::endl;
 		return 0;
 	}
 

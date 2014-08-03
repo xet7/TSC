@@ -1,9 +1,12 @@
 #include "overworld_layer_loader.hpp"
 #include "world_layer.hpp"
 #include "overworld.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+
+using namespace std;
 
 cOverworldLayerLoader::cOverworldLayerLoader(cOverworld* p_overworld)
 	: xmlpp::SaxParser()
@@ -89,7 +92,7 @@ void cOverworldLayerLoader::on_end_element(const Glib::ustring& name)
 	if (name == "line")
 		handle_line();
 	else
-		std::cerr << "Warning: Unknown overworld layer element '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown overworld layer element '" << name << "'" << std::endl;
 
 	// Everything handled, next one
 	m_current_properties.clear();

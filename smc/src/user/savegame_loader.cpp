@@ -3,9 +3,11 @@
 #include "../overworld/world_manager.hpp"
 #include "savegame_loader.hpp"
 #include "savegame.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+using namespace std;
 
 cSavegameLoader::cSavegameLoader()
 	: xmlpp::SaxParser()
@@ -115,7 +117,7 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		return; // don’t clear attributes to keep the world "name"
 	}
 	else
-		std::cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
 	m_current_properties.clear();
 }
@@ -156,7 +158,7 @@ void cSavegameLoader::handle_level_object()
 {
 	int type = m_current_properties.retrieve<int>("type");
 	if (type <= 0) {
-		std::cerr << "Warning: Unknown level object type '" << type << "'" << std::endl;
+		cerr << "Warning: Unknown level object type '" << type << "'" << std::endl;
 		return;
 	}
 
@@ -242,7 +244,7 @@ void cSavegameLoader::handle_overworld()
 
 	// is overworld available? We can probably ignore this for in-level saves
 	if (!pOverworld_Manager->Get_from_Name(name))
-		std::cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << std::endl;
+		cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << std::endl;
 
 	// Create savegame overworld
 	cSave_Overworld* p_saveoverworld = new cSave_Overworld();

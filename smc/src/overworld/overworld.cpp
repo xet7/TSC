@@ -36,6 +36,8 @@
 
 namespace fs = boost::filesystem;
 
+using namespace std;
+
 namespace SMC
 {
 
@@ -64,7 +66,7 @@ void cOverworld_description :: Save( void )
 		Save_To_File(filename);
 	}
 	catch(xmlpp::exception& e) {
-		std::cerr << "Failed to save world description file '" << path_to_utf8(filename) << "': " << e.what() << std::endl;
+		cerr << "Failed to save world description file '" << path_to_utf8(filename) << "': " << e.what() << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return;
 	}
@@ -245,7 +247,7 @@ void cOverworld :: Save( void )
 		Save_To_Directory(save_dir);
 	}
 	catch(xmlpp::exception& e) {
-		std::cerr << "Error: Could not save overworld '" << path_to_utf8(save_dir) << "': " << e.what() << std::endl
+		cerr << "Error: Could not save overworld '" << path_to_utf8(save_dir) << "': " << e.what() << std::endl
 				  << "Is the directory read-only?" << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save world ") + path_to_utf8(save_dir), speedfactor_fps * 5.0f );
 		return;

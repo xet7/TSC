@@ -22,8 +22,11 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
+
+using namespace std;
 
 namespace SMC
 {
@@ -107,7 +110,7 @@ void cEato :: Set_Image_Dir( fs::path dir )
 
 	// if not image directory
 	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("1.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("1.png") ) ) {
-		std::cerr	<< "Warning: Eato image files not found; does the eato directory "
+		cerr	<< "Warning: Eato image files not found; does the eato directory "
 							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}

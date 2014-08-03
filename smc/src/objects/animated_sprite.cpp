@@ -16,6 +16,9 @@
 #include "../objects/animated_sprite.hpp"
 #include "../core/game_core.hpp"
 #include "../core/framerate.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -120,7 +123,7 @@ void cAnimated_Sprite :: Update_Animation( void )
 	// out of range
 	if( m_curr_img < 0 || m_curr_img >= static_cast<int>(m_images.size()) )
 	{
-		std::cerr << "Warning: Animation image " << m_curr_img << " for " << m_name << " out of range (max " << (m_images.size() - 1) << "). Forcing start image." << std::endl;
+		cerr << "Warning: Animation image " << m_curr_img << " for " << m_name << " out of range (max " << (m_images.size() - 1) << "). Forcing start image." << std::endl;
 		Set_Image_Num( m_anim_img_start );
 		return;
 	}

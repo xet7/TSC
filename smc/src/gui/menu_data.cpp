@@ -37,6 +37,8 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/main.hpp"
 
+using namespace std;
+
 namespace fs = boost::filesystem;
 
 namespace SMC
@@ -433,7 +435,7 @@ void cMenu_Start :: Init_GUI( void )
 			continue;
 		}
 #else
-		std::cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
+		cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
 #endif
 		
 		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
