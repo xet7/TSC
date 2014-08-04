@@ -437,18 +437,6 @@ void cEditor_Level :: Function_Delete( void )
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 }
 
-/* TODO: This method circumvents the level manager -- if you reload while
- * being in a sublevel, then leave the sublevel, and re-enter it, you will
- * be placed inside the OLD sublevel from BEFORE the reload, because the
- * level manager does not know about the assignment of `pActive_Level' and
- * searches its internal `objects' lists instead, where it finds the old
- * level that has not yet been unloaded and removed from the level manager.
- *
- * Also note that, as the new level is never added to the level manager,
- * it just stays around forever, i.e. it’s a memory leak as it is never
- * deleted when the level manager executes the level cleanup code (it doesn’t
- * know about this off-site level and does not free its memory therefore).
- */
 void cEditor_Level :: Function_Reload( void )
 {
 	// if denied
@@ -457,11 +445,20 @@ void cEditor_Level :: Function_Reload( void )
 		return;
 	}
 
-	pActive_Level = cLevel::Load_From_File( pActive_Level->m_level_filename );
-	if( pActive_Level )
-	{
-		pActive_Level->Init();
-	}
+	// Simulate level ending followed by loading the level from scratch
+	// (cf. cLevel_Manager::Finish_Level)
+	Game_Action = GA_ENTER_LEVEL;
+	pHud_Time->Reset();
+	pLevel_Player->Clear_Return();
+
+	// Remove old level
+	Game_Action_Data_Start.add( "music_fadeout", "1500" );
+	Game_Action_Data_Start.add( "screen_fadeout", CEGUI::PropertyHelper::intToString( EFFECT_OUT_RANDOM ) );
+	Game_Action_Data_Middle.add("unload_levels", "1");
+
+	// Load new level
+	Game_Action_Data_Middle.add("load_level", path_to_utf8(pActive_Level->m_level_filename.filename()));
+	Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_RANDOM));
 }
 
 void cEditor_Level :: Function_Settings( void )
