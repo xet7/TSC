@@ -7,7 +7,7 @@ namespace SMC {
 		class cExit_Event: public cEvent
 		{
 		public:
-			virtual std::string Event_Name(){return "exit";}
+			virtual string Event_Name(){return "exit";}
 		};
 	}
 }

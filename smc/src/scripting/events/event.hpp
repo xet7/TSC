@@ -34,7 +34,7 @@ namespace SMC {
 		{
 		public:
 			void Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_obj);
-			virtual std::string Event_Name();
+			virtual string Event_Name();
 		protected:
 			virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);
 		};

@@ -38,7 +38,7 @@ cAnimation_Surface :: ~cAnimation_Surface( void )
 
 /* *** *** *** *** *** *** *** cAnimated_Sprite *** *** *** *** *** *** *** *** *** *** */
 
-cAnimated_Sprite :: cAnimated_Sprite( cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
+cAnimated_Sprite :: cAnimated_Sprite( cSprite_Manager *sprite_manager, string type_name /* = "sprite" */ )
 : cMovingSprite( sprite_manager, type_name )
 {
 	m_curr_img = -1;
@@ -123,7 +123,7 @@ void cAnimated_Sprite :: Update_Animation( void )
 	// out of range
 	if( m_curr_img < 0 || m_curr_img >= static_cast<int>(m_images.size()) )
 	{
-		cerr << "Warning: Animation image " << m_curr_img << " for " << m_name << " out of range (max " << (m_images.size() - 1) << "). Forcing start image." << std::endl;
+		cerr << "Warning: Animation image " << m_curr_img << " for " << m_name << " out of range (max " << (m_images.size() - 1) << "). Forcing start image." << endl;
 		Set_Image_Num( m_anim_img_start );
 		return;
 	}

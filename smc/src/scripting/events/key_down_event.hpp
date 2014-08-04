@@ -8,13 +8,13 @@ namespace SMC {
 		class cKeyDown_Event: public cEvent
 		{
 		public:
-			cKeyDown_Event(std::string keyname);
-			virtual std::string Event_Name();
-			std::string Get_Keyname();
+			cKeyDown_Event(string keyname);
+			virtual string Event_Name();
+			string Get_Keyname();
 		protected:
 			virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);
 		private:
-			std::string m_keyname;
+			string m_keyname;
 		};
 	}
 }

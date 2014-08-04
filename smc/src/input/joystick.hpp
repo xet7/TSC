@@ -52,9 +52,9 @@ public:
 	bool Handle_Button_Up_Event( SDL_Event *ev );
 
 	// Returns the current Joystick name
-	std::string Get_Name( void ) const;
+	string Get_Name( void ) const;
 	// Returns all available Joystick names
-	vector<std::string> Get_Names( void ) const;
+	vector<string> Get_Names( void ) const;
 
 	// Sets the given button state
 	void Set_Button( Uint8 button, bool pressed );

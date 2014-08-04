@@ -32,7 +32,7 @@ namespace SMC {
 		virtual void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties);
 		//virtual void on_end_element(const Glib::ustring& name);
 
-		void handle_property(const std::string& name, const std::string& value);
+		void handle_property(const string& name, const string& value);
 
 		// The preferences we’re building
 		cPreferences* mp_preferences;

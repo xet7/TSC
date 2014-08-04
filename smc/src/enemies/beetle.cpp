@@ -39,9 +39,9 @@ cBeetle::cBeetle(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
 	// position
 	Set_Pos(attributes.fetch<float>("posx", 0), attributes.fetch<float>("posy", 0), true);
 	// color
-	Set_Color(Get_Color_Id(attributes.fetch<std::string>("color", "blue")));
+	Set_Color(Get_Color_Id(attributes.fetch<string>("color", "blue")));
 	// direction
-	Set_Direction(Get_Direction_Id(attributes.fetch<std::string>("direction", "left")), true);
+	Set_Direction(Get_Direction_Id(attributes.fetch<string>("direction", "left")), true);
 
 	Update_Rotation_Hor();
 }
@@ -88,7 +88,7 @@ cBeetle* cBeetle::Copy() const
 	return p_beetle;
 }
 
-std::string cBeetle::Get_XML_Type_Name()
+string cBeetle::Get_XML_Type_Name()
 {
 	return "beetle";
 }

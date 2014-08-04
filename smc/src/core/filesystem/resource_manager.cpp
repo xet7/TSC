@@ -107,7 +107,7 @@ fs::path cResource_Manager :: Get_Game_Pixmaps_Directory()
   return m_paths.game_data_dir / utf8_to_path(GAME_PIXMAPS_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
+fs::path cResource_Manager :: Get_Game_Pixmap(string pixmap)
 {
   return Get_Game_Pixmaps_Directory() / utf8_to_path(pixmap);
 }
@@ -117,7 +117,7 @@ fs::path cResource_Manager :: Get_User_Level_Directory()
   return m_paths.user_data_dir / utf8_to_path(USER_LEVEL_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_Level(std::string filename)
+fs::path cResource_Manager :: Get_User_Level(string filename)
 {
   return Get_User_Level_Directory() / utf8_to_path(filename);
 }
@@ -157,7 +157,7 @@ fs::path cResource_Manager :: Get_Game_Schema_Directory()
   return m_paths.game_data_dir / utf8_to_path(GAME_SCHEMA_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Schema(std::string schema)
+fs::path cResource_Manager :: Get_Game_Schema(string schema)
 {
   return Get_Game_Schema_Directory() / utf8_to_path(schema);
 }
@@ -167,7 +167,7 @@ fs::path cResource_Manager :: Get_Game_Level_Directory()
   return m_paths.game_data_dir / utf8_to_path(GAME_LEVEL_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Level(std::string level)
+fs::path cResource_Manager :: Get_Game_Level(string level)
 {
   return Get_Game_Level_Directory() / utf8_to_path(level);
 }
@@ -177,7 +177,7 @@ fs::path cResource_Manager :: Get_Game_Translation_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_TRANSLATION_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Translation(std::string transname)
+fs::path cResource_Manager :: Get_Game_Translation(string transname)
 {
 	return Get_Game_Translation_Directory() / utf8_to_path(transname);
 }
@@ -187,7 +187,7 @@ fs::path cResource_Manager :: Get_Game_Sounds_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_SOUNDS_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Sound(std::string sound)
+fs::path cResource_Manager :: Get_Game_Sound(string sound)
 {
 	return Get_Game_Sounds_Directory() / utf8_to_path(sound);
 }
@@ -197,7 +197,7 @@ fs::path cResource_Manager :: Get_Game_Campaign_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_CAMPAIGN_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Campaign(std::string campaign)
+fs::path cResource_Manager :: Get_Game_Campaign(string campaign)
 {
 	return Get_Game_Campaign_Directory() / utf8_to_path(campaign);
 }
@@ -207,7 +207,7 @@ fs::path cResource_Manager :: Get_Game_Overworld_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_OVERWORLD_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Overworld(std::string overworld)
+fs::path cResource_Manager :: Get_Game_Overworld(string overworld)
 {
 	return Get_Game_Overworld_Directory() / utf8_to_path(overworld);
 }
@@ -242,7 +242,7 @@ fs::path cResource_Manager :: Get_Game_Music_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_MUSIC_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Music(std::string music)
+fs::path cResource_Manager :: Get_Game_Music(string music)
 {
 	return Get_Game_Music_Directory() / utf8_to_path(music);
 }
@@ -252,7 +252,7 @@ fs::path cResource_Manager :: Get_Game_Editor_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_EDITOR_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Editor(std::string editor)
+fs::path cResource_Manager :: Get_Game_Editor(string editor)
 {
 	return Get_Game_Editor_Directory() / utf8_to_path(editor);
 }
@@ -262,7 +262,7 @@ fs::path cResource_Manager :: Get_Game_Scripting_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_SCRIPTING_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Scripting(std::string script)
+fs::path cResource_Manager :: Get_Game_Scripting(string script)
 {
 	return Get_Game_Scripting_Directory() / utf8_to_path(script);
 }
@@ -272,7 +272,7 @@ fs::path cResource_Manager :: Get_Game_Icon_Directory()
 	return m_paths.game_data_dir / utf8_to_path(GAME_ICON_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Icon(std::string icon)
+fs::path cResource_Manager :: Get_Game_Icon(string icon)
 {
 	return Get_Game_Icon_Directory() / utf8_to_path(icon);
 }
@@ -295,12 +295,12 @@ void cResource_Manager::init_directories()
 	if (count < 0)
 		throw(ConfigurationError("Failed to retrieve the executable's path from /proc/self/exe!"));
 
-	m_paths.game_data_dir = utf8_to_path(std::string(path_data, count)).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("smc");
+	m_paths.game_data_dir = utf8_to_path(string(path_data, count)).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("smc");
 #elif _WIN32
   wchar_t path_data[MAX_PATH];
   if (GetModuleFileNameW(NULL, path_data, MAX_PATH) == 0)
 	  throw(ConfigurationError("Failed to retrieve the executable's path from the Win32API!"));
-  std::string utf8_path = ucs2_to_utf8(path_data);
+  string utf8_path = ucs2_to_utf8(path_data);
 
   m_paths.game_data_dir = utf8_to_path(utf8_path).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("smc");
 #else
@@ -322,14 +322,14 @@ void cResource_Manager::init_directories()
 	// See http://msdn.microsoft.com/en-us/library/windows/desktop/bb762181.aspx.
 	if( FAILED( SHGetFolderPathW( NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path_appdata ) ) )
 	{
-		cerr << "Error : Couldn't get Windows user data directory. Defaulting to ./data in the application directory." << std::endl;
+		cerr << "Error : Couldn't get Windows user data directory. Defaulting to ./data in the application directory." << endl;
 
 		m_paths.user_data_dir = fs::current_path() / utf8_to_path("data");
 		m_paths.user_cache_dir = fs::current_path() / utf8_to_path("data") / utf8_to_path("cache");
 		m_paths.user_config_dir = fs::current_path() / utf8_to_path("data");
 	}
 
-	std::string str_path = ucs2_to_utf8( path_appdata );
+	string str_path = ucs2_to_utf8( path_appdata );
 	Convert_Path_Separators( str_path );
 	fs::path app_path = utf8_to_path(str_path) / utf8_to_path("smc");
 
@@ -342,7 +342,7 @@ void cResource_Manager::init_directories()
 }
 
 #ifdef __unix__
-fs::path cResource_Manager::xdg_get_directory(const std::string& envvarname, const fs::path defaultpath)
+fs::path cResource_Manager::xdg_get_directory(const string& envvarname, const fs::path defaultpath)
 {
 	char* envval = NULL;
 	envval = getenv(envvarname.c_str());
@@ -372,10 +372,10 @@ void cResource_Manager::compat_move_directories()
 	if (!fs::exists(olddir))
 		return;
 
-    cout << "INFO: Old ~/.smc directory detected. Copying files." << std::endl;
+    cout << "INFO: Old ~/.smc directory detected. Copying files." << endl;
 	fs::directory_iterator end_iter;
 
-    cout << "Copying levels." << std::endl;
+    cout << "Copying levels." << endl;
 	fs::path dir = olddir / utf8_to_path("levels");
 	try
 	{
@@ -387,10 +387,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-        cout << "No levels detected." << std::endl;
+        cout << "No levels detected." << endl;
 	}
 
-    cout << "Copying savegames." << std::endl;
+    cout << "Copying savegames." << endl;
 	dir = olddir / utf8_to_path("savegames");
 	try
 	{
@@ -401,10 +401,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-        cout << "No savegames detected." << std::endl;
+        cout << "No savegames detected." << endl;
 	}
 
-    cout << "Copying screenshots." << std::endl;
+    cout << "Copying screenshots." << endl;
 	dir = olddir / utf8_to_path("screenshots");
 	try
 	{
@@ -415,10 +415,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-        cout << "No screenshots detected." << std::endl;
+        cout << "No screenshots detected." << endl;
 	}
 
-    cout << "Copying campaigns." << std::endl;
+    cout << "Copying campaigns." << endl;
 	dir = olddir / utf8_to_path("campaign"); // sic! The old version had no trailing s.
 	try
 	{
@@ -429,10 +429,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-        cout << "No campaigns detected." << std::endl;
+        cout << "No campaigns detected." << endl;
 	}
 
-    cout << "Copying worlds." << std::endl;
+    cout << "Copying worlds." << endl;
 	dir = olddir / utf8_to_path("worlds");
 	try
 	{
@@ -447,10 +447,10 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-        cout << "No worlds detected." << std::endl;
+        cout << "No worlds detected." << endl;
 	}
 
-    cout << "Copying config.xml." << std::endl;
+    cout << "Copying config.xml." << endl;
 	try
 	{
 		fs::copy_file(olddir / utf8_to_path("config.xml"), Get_Preferences_File(), fs::copy_option::overwrite_if_exists);
@@ -459,12 +459,12 @@ void cResource_Manager::compat_move_directories()
 	{
 		if (error.code() != errc::no_such_file_or_directory)
 			throw error;
-        cout << "No configuration detected." << std::endl;
+        cout << "No configuration detected." << endl;
 	}
 
 	// Leave the cache alone. It will be regenerated anyway.
 
-	cerr << "Warning: Removing old ~/.smc directory now." << std::endl;
+	cerr << "Warning: Removing old ~/.smc directory now." << endl;
 	fs::remove_all(olddir);
 }
 #endif

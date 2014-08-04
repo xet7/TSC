@@ -141,7 +141,7 @@ cLevel_Exit *cLevel_Exit :: Copy( void ) const
 	return level_exit;
 }
 
-std::string cLevel_Exit :: Get_XML_Type_Name()
+string cLevel_Exit :: Get_XML_Type_Name()
 {
 	return int_to_string(m_exit_type);
 }
@@ -193,9 +193,9 @@ void cLevel_Exit :: Set_Direction( const ObjectDirection dir, bool initial /* = 
 	cAnimated_Sprite::Set_Direction( dir, initial );
 }
 
-std::string cLevel_Exit :: Create_Name( void ) const
+string cLevel_Exit :: Create_Name( void ) const
 {
-	std::string name = m_name; // dup
+	string name = m_name; // dup
 
 	if( m_exit_type == LEVEL_EXIT_BEAM )
 	{
@@ -367,7 +367,7 @@ void cLevel_Exit :: Activate( void )
 	if( m_dest_level.empty() && m_dest_entry.empty() )
 	{
 		// If there is no destionation, we ignore any return level/entry and do no push it onto the stack
-		std::string return_level, return_entry;
+		string return_level, return_entry;
 
 		if ( pLevel_Player->Pop_Return( return_level, return_entry ) )
 		{
@@ -411,7 +411,7 @@ void cLevel_Exit :: Set_Camera_Motion( Camera_movement camera_motion )
 	m_exit_motion = camera_motion;
 }
 
-void cLevel_Exit :: Set_Level( std::string filename )
+void cLevel_Exit :: Set_Level( string filename )
 {
 	if( filename.empty() && m_dest_entry.empty() )
 	{
@@ -429,7 +429,7 @@ void cLevel_Exit :: Set_Level( std::string filename )
 	m_dest_level = filename;
 }
 
-std::string cLevel_Exit :: Get_Level() const
+string cLevel_Exit :: Get_Level() const
 {
   return m_dest_level;
 }
@@ -439,7 +439,7 @@ fs::path cLevel_Exit :: Get_Level_Path()
   return pLevel_Manager->Get_Path(m_dest_level);
 }
 
-void cLevel_Exit :: Set_Entry( const std::string &entry_name )
+void cLevel_Exit :: Set_Entry( const string &entry_name )
 {
 	if( m_editor_entry_name )
 	{
@@ -459,17 +459,17 @@ void cLevel_Exit :: Set_Entry( const std::string &entry_name )
 	m_editor_entry_name = pFont->Render_Text( pFont->m_font_small, m_dest_entry, white );
 }
 
-void cLevel_Exit :: Set_Return_Level( const std::string& level )
+void cLevel_Exit :: Set_Return_Level( const string& level )
 {
 	m_return_level = level;
 }
 
-void cLevel_Exit :: Set_Return_Entry( const std::string& entry )
+void cLevel_Exit :: Set_Return_Entry( const string& entry )
 {
 	m_return_entry = entry;
 }
 
-void cLevel_Exit :: Set_Path_Identifier( const std::string &identifier )
+void cLevel_Exit :: Set_Path_Identifier( const string &identifier )
 {
 	m_path_identifier = identifier;
 }
@@ -633,7 +633,7 @@ bool cLevel_Exit :: Editor_Motion_Select( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-	std::string str_text = item->getText().c_str();
+	string str_text = item->getText().c_str();
 
 	if( str_text.compare( "fly" ) == 0 )
 	{
@@ -660,7 +660,7 @@ bool cLevel_Exit :: Editor_Motion_Select( const CEGUI::EventArgs &event )
 bool cLevel_Exit :: Editor_Destination_Level_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Level( str_text );
 
@@ -670,7 +670,7 @@ bool cLevel_Exit :: Editor_Destination_Level_Text_Changed( const CEGUI::EventArg
 bool cLevel_Exit :: Editor_Destination_Entry_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Entry( str_text );
 
@@ -680,7 +680,7 @@ bool cLevel_Exit :: Editor_Destination_Entry_Text_Changed( const CEGUI::EventArg
 bool cLevel_Exit :: Editor_Return_Level_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Return_Level( str_text );
 
@@ -690,7 +690,7 @@ bool cLevel_Exit :: Editor_Return_Level_Text_Changed( const CEGUI::EventArgs &ev
 bool cLevel_Exit :: Editor_Return_Entry_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Return_Entry( str_text );
 
@@ -700,7 +700,7 @@ bool cLevel_Exit :: Editor_Return_Entry_Text_Changed( const CEGUI::EventArgs &ev
 bool cLevel_Exit :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Path_Identifier( str_text );
 

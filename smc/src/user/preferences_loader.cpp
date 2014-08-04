@@ -77,8 +77,8 @@ void cPreferencesLoader::on_start_element(const Glib::ustring& name, const xmlpp
 	if (name != "property" && name != "Item")
 		return;
 
-	std::string key;
-	std::string value;
+	string key;
+	string value;
 
 	xmlpp::SaxParser::AttributeList::const_iterator iter;
 	for(iter=properties.begin(); iter != properties.end(); iter++) {
@@ -93,7 +93,7 @@ void cPreferencesLoader::on_start_element(const Glib::ustring& name, const xmlpp
 	handle_property(key, value);
 }
 
-void cPreferencesLoader::handle_property(const std::string& name, const std::string& value)
+void cPreferencesLoader::handle_property(const string& name, const string& value)
 {
 	int val = 0;
 
@@ -316,6 +316,6 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 	else if (name == "editor_item_image_size")
 		mp_preferences->m_editor_item_image_size = string_to_int(value);
 	else {
-		cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << std::endl;
+		cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << endl;
 	}
 }

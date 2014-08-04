@@ -124,7 +124,7 @@ void cVideo :: Init_CEGUI( void ) const
 	try
 	{
 	debug_print("CEGUI log file is at '%s'.\n", path_to_utf8(pResource_Manager->Get_User_CEGUI_Logfile()).c_str());
-	// fixme : Workaround for std::string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with std::string utf8
+	// fixme : Workaround for string to CEGUI::String utf8 conversion. Check again if CEGUI 0.8 works with string utf8
 	#ifdef _WIN32
 		pGuiSystem = &CEGUI::System::create( *pGuiRenderer, rp, NULL, NULL, NULL, "", (const CEGUI::utf8*)(path_to_utf8(pResource_Manager->Get_User_CEGUI_Logfile()).c_str()) );
 	#else
@@ -256,7 +256,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		}
 		else
 		{
-			cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << std::endl;
+			cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << endl;
 		}
 	}
 
@@ -506,7 +506,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	else
 	{
 		// get opengl version
-		std::string version_str = reinterpret_cast<const char *>(glGetString( GL_VERSION ));
+		string version_str = reinterpret_cast<const char *>(glGetString( GL_VERSION ));
 		// erase everything after X.X
 		version_str.erase( 3 );
 
@@ -1153,7 +1153,7 @@ cGL_Surface *cVideo :: Get_Surface( fs::path filename, bool print_errors /* = tr
 
 		if( print_errors )
 		{
-      cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+      cerr << "Error loading image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
 		}
 
 		return software_image;
@@ -1204,7 +1204,7 @@ cGL_Surface *cVideo :: Load_GL_Surface( boost::filesystem::path filename, bool u
 	// print error
 	else if( print_errors )
 	{
-		cerr << "Error loading GL surface image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+		cerr << "Error loading GL surface image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
 	}
 
 	return image;
@@ -1766,7 +1766,7 @@ void cVideo :: Save_Surface( const fs::path &filename, const unsigned char *data
 
 	if( !fp )
 	{
-		cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << std::endl;
+		cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << endl;
 		return;
 	}
 
@@ -2369,7 +2369,7 @@ void Loading_Screen_Init( void )
 	text_default->setText( _("Loading") );
 }
 
-void Loading_Screen_Draw_Text( const std::string &str_info /* = "Loading" */ )
+void Loading_Screen_Draw_Text( const string &str_info /* = "Loading" */ )
 {
 	// set info text
 	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "text_loading" ));

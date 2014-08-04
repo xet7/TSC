@@ -58,7 +58,7 @@ static mrb_value Get_Move_Type(mrb_state* p_state, mrb_value self)
 	case MOVING_PLATFORM_TYPE_PATH_BACKWARDS:
 		return str2sym(p_state, "path_backwards");
 	default:
-		cerr << "Warning: Unknown moving platform type '" << p_plat->m_move_type << "'." << std::endl;
+		cerr << "Warning: Unknown moving platform type '" << p_plat->m_move_type << "'." << endl;
 		return mrb_nil_value();
 	}
 }
@@ -74,7 +74,7 @@ static mrb_value Set_Move_Type(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym typesym;
 	mrb_get_args(p_state, "n", &typesym);
-	std::string typestr(mrb_sym2name(p_state, typesym));
+	string typestr(mrb_sym2name(p_state, typesym));
 
 	Moving_Platform_Type type;
 	if (typestr == "line")

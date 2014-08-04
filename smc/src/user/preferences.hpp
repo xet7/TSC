@@ -62,11 +62,11 @@ public:
 	// last version of smc which saved the preferences file
 	unsigned int m_game_version;
 	// default language
-	std::string m_language;
+	string m_language;
 	// player always runs
 	bool m_always_run;
 	// menu level name to load
-	std::string m_menu_level;
+	string m_menu_level;
 	// smart camera speed
 	float m_camera_hor_speed;
 	float m_camera_ver_speed;
@@ -108,7 +108,7 @@ public:
 	// Joystick
 	bool m_joy_enabled;
 	// active joy name
-	std::string m_joy_name;
+	string m_joy_name;
 	// jump with upwards
 	bool m_joy_analog_jump;
 	// hor/ver axis used
@@ -150,7 +150,7 @@ public:
 	static const boost::filesystem::path DEFAULT_PREFERENCES_FILENAME;
 	// Game
 	static const bool m_always_run_default;
-	static const std::string m_menu_level_default;
+	static const string m_menu_level_default;
 	static const float m_camera_hor_speed_default;
 	static const float m_camera_ver_speed_default;
 	// Audio

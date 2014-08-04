@@ -355,7 +355,7 @@ void cOverworld_Player :: Activate_Waypoint( void )
 		cOverworld *overworld_origin = m_overworld;
 
 		// world string
-		std::string str_world = waypoint->Get_Destination();
+		string str_world = waypoint->Get_Destination();
 
 		// Enter Credits Menu ( World End )
 		if( str_world.compare( "credits" ) == 0 )

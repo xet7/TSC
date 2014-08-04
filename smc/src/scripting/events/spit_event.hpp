@@ -8,7 +8,7 @@ namespace SMC {
 		class cSpit_Event: public cEvent
 		{
 		public:
-			virtual std::string Event_Name(){return "spit";}
+			virtual string Event_Name(){return "spit";}
 		};
 	}
 }

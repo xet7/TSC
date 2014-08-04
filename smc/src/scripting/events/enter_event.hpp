@@ -10,7 +10,7 @@ namespace SMC {
 		class cEnter_Event: public cEvent
 		{
 		public:
-			virtual std::string Event_Name(){return "enter";}
+			virtual string Event_Name(){return "enter";}
 		};
 
 	}

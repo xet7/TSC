@@ -19,6 +19,8 @@
 #include "../core/global_basic.hpp"
 #include "../core/obj_manager.hpp"
 
+using namespace std;
+
 namespace SMC
 {
 
@@ -70,7 +72,7 @@ public:
 		return cObject_Manager<cSound>::Get_Pointer( identifier );
 	}
 	
-	cSound *operator [] ( const std::string &path ) const
+    cSound *operator [] ( const string &path ) const
 	{
 		return Get_Pointer( path );
 	}

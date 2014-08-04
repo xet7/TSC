@@ -19,6 +19,8 @@
 #include "../core/global_basic.hpp"
 #include "../objects/sprite.hpp"
 
+using namespace std;
+
 namespace SMC
 {
 
@@ -40,9 +42,9 @@ public:
 	virtual cRandom_Sound *Copy( void ) const;
 
 	// Set filename
-	void Set_Filename( const std::string &str );
+    void Set_Filename( const string &str );
 	// Get filename
-	std::string Get_Filename( void ) const;
+    string Get_Filename( void ) const;
 
 	// Set if it is played continuously
 	void Set_Continuous( bool continuous );
@@ -112,11 +114,11 @@ public:
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 protected:
-	virtual std::string Get_XML_Type_Name();
+    virtual string Get_XML_Type_Name();
 
 private:
 	// the audio filename to play
-	std::string m_filename;
+    string m_filename;
 	// is it played continuous
 	bool m_continuous;
 	// delay in milliseconds

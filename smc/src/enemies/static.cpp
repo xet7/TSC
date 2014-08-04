@@ -107,7 +107,7 @@ cStaticEnemy *cStaticEnemy :: Copy( void ) const
 	return static_enemy;
 }
 
-std::string cStaticEnemy :: Get_XML_Type_Name()
+string cStaticEnemy :: Get_XML_Type_Name()
 {
 	return "static";
 }
@@ -151,7 +151,7 @@ void cStaticEnemy :: Set_Rotation_Speed( float speed )
 	m_rotation_speed = speed;
 }
 
-void cStaticEnemy :: Set_Path_Identifier( const std::string &path )
+void cStaticEnemy :: Set_Path_Identifier( const string &path )
 {
     m_path_state.Set_Path_Identifier( path );
 	Set_Velocity( 0.0f, 0.0f );
@@ -370,7 +370,7 @@ void cStaticEnemy :: Editor_Activate( void )
 bool cStaticEnemy :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Clear_Images();
 	Add_Image(pVideo->Get_Surface(utf8_to_path(str_text), true ));
@@ -382,7 +382,7 @@ bool cStaticEnemy :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 bool cStaticEnemy :: Editor_Rotation_Speed_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Rotation_Speed( string_to_float( str_text ) );
 
@@ -392,7 +392,7 @@ bool cStaticEnemy :: Editor_Rotation_Speed_Text_Changed( const CEGUI::EventArgs 
 bool cStaticEnemy :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Path_Identifier( str_text );
 
@@ -402,7 +402,7 @@ bool cStaticEnemy :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs
 bool cStaticEnemy :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( string_to_float( str_text ) );
 
@@ -429,7 +429,7 @@ bool cStaticEnemy :: Editor_Fire_Resistant_Select( const CEGUI::EventArgs &event
 bool cStaticEnemy :: Editor_Ice_Resistance_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	m_ice_resistance = string_to_float( str_text );
 
@@ -441,9 +441,9 @@ bool cStaticEnemy :: Editor_Ice_Resistance_Text_Changed( const CEGUI::EventArgs 
 	return 1;
 }
 
-std::string cStaticEnemy :: Create_Name( void ) const
+string cStaticEnemy :: Create_Name( void ) const
 {
-	std::string name = m_name; // dup
+	string name = m_name; // dup
 
 	if( m_start_image && !m_start_image->m_name.empty() )
 	{

@@ -84,7 +84,7 @@ cSpikeball *cSpikeball :: Copy( void ) const
 	return spikeball;
 }
 
-std::string cSpikeball :: Get_XML_Type_Name()
+string cSpikeball :: Get_XML_Type_Name()
 {
 	return "spikeball";
 }
@@ -131,7 +131,7 @@ void cSpikeball :: Set_Color( const DefaultColor &col )
 	Clear_Images();
 
 	m_color_type = col;
-	std::string filename_dir;
+	string filename_dir;
 
 	if( m_color_type == COL_GREY )
 	{

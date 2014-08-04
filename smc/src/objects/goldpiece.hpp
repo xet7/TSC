@@ -82,7 +82,7 @@ public:
 
 protected:
 	// save to stream
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** cJGoldpiece *** *** *** *** *** *** *** *** *** *** *** *** */

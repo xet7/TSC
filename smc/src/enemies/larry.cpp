@@ -83,7 +83,7 @@ cLarry* cLarry::Copy() const
 	return p_larry;
 }
 
-std::string cLarry::Get_XML_Type_Name()
+string cLarry::Get_XML_Type_Name()
 {
 	return "larry";
 }

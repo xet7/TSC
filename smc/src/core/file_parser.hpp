@@ -34,10 +34,10 @@ public:
 	bool Parse( const boost::filesystem::path &filename );
 
 	// Tokenize a line
-	bool Parse_Line( std::string str_line, int line_num );
+	bool Parse_Line( string str_line, int line_num );
 
 	// Handle one tokenized line
-	virtual bool HandleMessage( const std::string *parts, unsigned int count, unsigned int line );
+	virtual bool HandleMessage( const string *parts, unsigned int count, unsigned int line );
 
 	// data filename
 	boost::filesystem::path data_file;

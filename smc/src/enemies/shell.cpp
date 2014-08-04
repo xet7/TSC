@@ -60,7 +60,7 @@ cShell* cShell::Copy() const
 	return p_shell;
 }
 
-std::string cShell::Get_XML_Type_Name()
+string cShell::Get_XML_Type_Name()
 {
 	return "shell";
 }

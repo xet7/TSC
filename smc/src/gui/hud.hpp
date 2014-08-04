@@ -120,7 +120,7 @@ public:
 	virtual ~cPlayerPoints( void );
 
 	void Set_Points( long points );
-	void Add_Points( unsigned int points, float x = 0.0f, float y = 0.0f, std::string strtext = "", const Color &color = static_cast<Uint8>(255), bool allow_multiplier = 0 );
+	void Add_Points( unsigned int points, float x = 0.0f, float y = 0.0f, string strtext = "", const Color &color = static_cast<Uint8>(255), bool allow_multiplier = 0 );
 
 	// removes all point texts
 	void Clear( void );
@@ -197,11 +197,11 @@ public:
   virtual void Draw( cSurface_Request *request = NULL );
 
   // Set text and display it fading out slowly.
-  void Set_Text( const std::string& text );
-  std::string Get_Text();
+  void Set_Text( const string& text );
+  string Get_Text();
 
 private:
-  std::string m_text;
+  string m_text;
   float m_alpha;
   float m_display_time;
   cMovingSprite* m_background;
@@ -271,10 +271,10 @@ public:
 	void Draw_Performance_Debug_Mode( void );
 
 	// set the debug text to display
-	void Set_Text( const std::string &ntext, float display_time = speedfactor_fps * 2.0f );
+	void Set_Text( const string &ntext, float display_time = speedfactor_fps * 2.0f );
 
 	// display text
-	std::string m_text, m_text_old;
+	string m_text, m_text_old;
 	// text counter
 	float m_counter;
 

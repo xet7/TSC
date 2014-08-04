@@ -170,7 +170,7 @@ static mrb_value Accelerate(mrb_state* p_state,  mrb_value self)
 static mrb_value Get_Direction(mrb_state* p_state,  mrb_value self)
 {
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	std::string dir;
+	string dir;
 	switch(p_sprite->m_direction){
 	case DIR_UNDEFINED:
 		dir = "undefined";
@@ -221,7 +221,7 @@ static mrb_value Get_Direction(mrb_state* p_state,  mrb_value self)
 		dir = "last";
 		break;
 	default: // Shouldn’t happen
-		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << endl;
 		return mrb_nil_value();
 	}
 	// A world for a consecutive enum!
@@ -247,7 +247,7 @@ static mrb_value Set_Direction(mrb_state* p_state,  mrb_value self)
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
 	mrb_sym rdir;
 	mrb_get_args(p_state, "n", &rdir);
-	std::string dirstr = mrb_sym2name(p_state, rdir);
+	string dirstr = mrb_sym2name(p_state, rdir);
 
 	ObjectDirection dir;
 	if (dirstr == "left")
@@ -307,7 +307,7 @@ static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
 	mrb_sym rdir;
 	mrb_get_args(p_state, "n", &rdir);
-	std::string dirstr = mrb_sym2name(p_state, rdir);
+	string dirstr = mrb_sym2name(p_state, rdir);
 
 	ObjectDirection dir;
 	if (dirstr == "left")
@@ -365,7 +365,7 @@ static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
 static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
 {
 	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	std::string dir;
+	string dir;
 	switch(p_sprite->m_start_direction){
 	case DIR_UNDEFINED:
 		dir = "undefined";
@@ -416,7 +416,7 @@ static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
 		dir = "last";
 		break;
 	default: // Shouldn’t happen
-		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << endl;
 		return mrb_nil_value();
 	}
 	// A world for a consecutive enum!

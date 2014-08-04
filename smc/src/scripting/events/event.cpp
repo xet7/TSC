@@ -23,15 +23,15 @@ void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_
 	mrb_state* p_state = p_mruby->Get_MRuby_State();
 
 	// Iterate through the list of callbacks and execute them
-	std::string evtname = Event_Name();
-	std::vector<mrb_value>::iterator start = p_obj->event_handlers_begin(evtname);
-	std::vector<mrb_value>::iterator end = p_obj->event_handlers_end(evtname);
+	string evtname = Event_Name();
+	vector<mrb_value>::iterator start = p_obj->event_handlers_begin(evtname);
+	vector<mrb_value>::iterator end = p_obj->event_handlers_end(evtname);
 
-	std::vector<mrb_value>::iterator iter;
+	vector<mrb_value>::iterator iter;
 	for(iter=start; iter != end; iter++){
 		Run_MRuby_Callback(p_mruby, *iter);
 		if (p_state->exc) {
-			cerr << "Warning: Error running mruby handler:" << std::endl;
+			cerr << "Warning: Error running mruby handler:" << endl;
 			mrb_print_error(p_state);
 		}
 	}
@@ -46,7 +46,7 @@ void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_
  * you pass to the MRUBY_IMPLEMENT_EVENT and MRUBY_EVENT_HANDLER
  * macros that implement the "on_*" methods.
  */
-std::string cEvent::Event_Name()
+string cEvent::Event_Name()
 {
 	return "generic";
 }

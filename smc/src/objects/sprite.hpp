@@ -111,9 +111,9 @@ class cSprite : public cCollidingSprite
 {
 public:
 	// constructor
-	cSprite( cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
+	cSprite( cSprite_Manager *sprite_manager, const string type_name = "sprite" );
 	// create from stream
-	cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name = "sprite" );
+	cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const string type_name = "sprite" );
 	// destructor
 	virtual ~cSprite( void );
 
@@ -497,14 +497,14 @@ public:
 	/// sprite type
 	SpriteType m_type;
 	/// internal type name
-	const std::string m_type_name;
+	const string m_type_name;
 	/// sprite array type
 	ArrayType m_sprite_array;
 	/// massive collision type
 	MassiveType m_massive_type;
 
 	/// sprite editor tags
-	std::string m_editor_tags;
+	string m_editor_tags;
 
 	/// true if not using the camera position
 	bool m_no_camera;
@@ -552,15 +552,15 @@ public:
 	static const float m_pos_z_halfmassive_start; ///< Start Z position for half-massive elements
 
 	/// Name as shown in the editor.
-	virtual std::string Create_Name() const;
+	virtual string Create_Name() const;
 
 protected:
 	/// visible main name component for the user.
 	/// Additions such as direction are added behind this.
-	std::string m_name;
+	string m_name;
 
 	/// XML type property.
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 };
 
 typedef vector<cSprite *> cSprite_List;

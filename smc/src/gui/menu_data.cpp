@@ -435,7 +435,7 @@ void cMenu_Start :: Init_GUI( void )
 			continue;
 		}
 #else
-		cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
+		cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << endl;
 #endif
 		
 		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
@@ -572,7 +572,7 @@ void cMenu_Start :: Get_Levels( fs::path dir, CEGUI::colour color )
 			lvl_path = lvl_path.stem();
 
 		// create listbox item
-		std::string lvl_name = path_to_utf8(lvl_path);
+		string lvl_name = path_to_utf8(lvl_path);
 		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(lvl_name.c_str()) );
 		item->setTextColours( color );
 
@@ -594,7 +594,7 @@ void cMenu_Start :: Get_Levels( fs::path dir, CEGUI::colour color )
 	}
 }
 
-bool cMenu_Start :: Highlight_Level( std::string lvl_name )
+bool cMenu_Start :: Highlight_Level( string lvl_name )
 {
 	if( lvl_name.empty() )
 	{
@@ -661,7 +661,7 @@ void cMenu_Start :: Load_Selected( void )
 	}
 }
 
-void cMenu_Start :: Load_Campaign( std::string name )
+void cMenu_Start :: Load_Campaign( string name )
 {
 	if( pLevel_Player->m_points > 0 && !Box_Question( _("This will reset your current progress.\nContinue ?") ) )
 	{
@@ -701,7 +701,7 @@ void cMenu_Start :: Load_Campaign( std::string name )
 	}
 }
 
-void cMenu_Start :: Load_World( std::string name )
+void cMenu_Start :: Load_World( string name )
 {
 	if( pLevel_Player->m_points > 0 && !Box_Question( _("This will reset your current progress.\nContinue ?") ) )
 	{
@@ -730,7 +730,7 @@ void cMenu_Start :: Load_World( std::string name )
 	}
 }
 
-bool cMenu_Start :: Load_Level( std::string level_name )
+bool cMenu_Start :: Load_Level( string level_name )
 {
 	if( pLevel_Player->m_points > 0 && !Box_Question( _("This will reset your current progress.\nContinue ?") ) )
 	{
@@ -1132,7 +1132,7 @@ bool cMenu_Start :: Button_Level_Delete_Clicked( const CEGUI::EventArgs &event )
 	// load level
 	if( item )
 	{
-		std::string filename = item->getText().c_str();
+		string filename = item->getText().c_str();
 
 		// if denied
 		if( !Box_Question( _("Delete ") + filename + " ?" ) )
@@ -1408,7 +1408,7 @@ void cMenu_Options :: Init_GUI_Video( void )
 		m_video_combo_resolution->addItem( item );
 	}
 
-	std::string temp = int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
+	string temp = int_to_string( pPreferences->m_video_screen_w ) + "x" + int_to_string( pPreferences->m_video_screen_h );
 	m_video_combo_resolution->setText( temp.c_str() );
 
 	m_video_combo_resolution->subscribeEvent( CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber( &cMenu_Options::Video_Resolution_Select, this ) );
@@ -1676,7 +1676,7 @@ void cMenu_Options :: Init_GUI_Joystick( void )
 	combo_joy->addItem( item );
 
 	// Add all Joy names
-	vector<std::string> joy_names = pJoystick->Get_Names();
+	vector<string> joy_names = pJoystick->Get_Names();
 
 	for( unsigned int i = 0; i < joy_names.size(); i++ )
 	{
@@ -2185,7 +2185,7 @@ void cMenu_Options :: Build_Shortcut_List( bool joystick /* = 0 */ )
 		unsigned int row_id = listbox->addRow( item, 0 );
 
 		// Get shortcut key name
-		std::string shortcut_key;
+		string shortcut_key;
 		bool shortcut_not_the_default = 0;
 
 		// Keyboard
@@ -2228,9 +2228,9 @@ void cMenu_Options :: Build_Shortcut_List( bool joystick /* = 0 */ )
 	}
 }
 
-void cMenu_Options :: Set_Shortcut( std::string name, void *data, bool joystick /* = 0 */ )
+void cMenu_Options :: Set_Shortcut( string name, void *data, bool joystick /* = 0 */ )
 {
-	std::string info_text;
+	string info_text;
 
 	if( !joystick )
 	{
@@ -2407,12 +2407,12 @@ bool cMenu_Options :: Video_Resolution_Select( const CEGUI::EventArgs &event )
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
 
-	std::string temp = item->getText().c_str();
+	string temp = item->getText().c_str();
 
 	// get end of height value if text is after resolution string
-	std::string::size_type height_end = temp.find( " " );
+	string::size_type height_end = temp.find( " " );
 
-	if( height_end == std::string::npos )
+	if( height_end == string::npos )
 	{
 		height_end = temp.length();
 	}
@@ -3098,7 +3098,7 @@ void cMenu_Savegames :: Update_Load( void )
 	pLevel_Player->Reset_Save();
 
 	cSave *savegame = pSavegame->Load( save_num );
-	std::string level_name = savegame->Get_Active_Level();
+	string level_name = savegame->Get_Active_Level();
 	delete savegame;
 
 	if( !level_name.empty() )
@@ -3133,7 +3133,7 @@ void cMenu_Savegames :: Update_Save( void )
 		return;
 	}
 
-	std::string descripion = Set_Save_Description( pMenuCore->m_handler->m_active + 1 );
+	string descripion = Set_Save_Description( pMenuCore->m_handler->m_active + 1 );
 	
 	pFramerate->Reset();
 
@@ -3173,7 +3173,7 @@ void cMenu_Savegames :: Update_Save( void )
 	}
 }
 
-std::string cMenu_Savegames :: Set_Save_Description( unsigned int save_slot )
+string cMenu_Savegames :: Set_Save_Description( unsigned int save_slot )
 {
 	if( save_slot == 0 || save_slot > 9 )
 	{
@@ -3189,7 +3189,7 @@ std::string cMenu_Savegames :: Set_Save_Description( unsigned int save_slot )
 		return "Not enough Points";
 	}
 #endif
-	std::string save_description;
+	string save_description;
 
 	bool auto_erase_description = 0;
 
@@ -3247,15 +3247,15 @@ void cMenu_Credits :: Init( void )
 	while (true) {
 		position = g_credits.find("\n", last_position + 1);
 
-		if (position == std::string::npos)
+		if (position == string::npos)
 			break;
 
 		if (position != last_position + 1) { // Not empty line
-			std::string line = g_credits.substr(last_position, position - last_position);
+			string line = g_credits.substr(last_position, position - last_position);
 
 			// Strip leading newline if any (first line has none)
 			if (line[0] == '\n')
-				line = line.substr(1, std::string::npos);
+				line = line.substr(1, string::npos);
 
 			if (line[0] == ' ') // Continuation line
 				Add_Credits_Line(line, 0, -3, white);
@@ -3491,7 +3491,7 @@ void cMenu_Credits :: Draw( void )
 	Draw_End();
 }
 
-void cMenu_Credits :: Add_Credits_Line( const std::string &text, float posx, float posy, const Color &color /* = black */, float shadow_pos /* = 0.0f */, const Color &shadow_color /* = black */ )
+void cMenu_Credits :: Add_Credits_Line( const string &text, float posx, float posy, const Color &color /* = black */, float shadow_pos /* = 0.0f */, const Color &shadow_color /* = black */ )
 {
 	cHudSprite *temp = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
 	temp->Set_Image( pFont->Render_Text( pFont->m_font_normal, text, color ), 1, 1 );

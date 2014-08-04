@@ -51,7 +51,7 @@ cOverworld_Manager :: ~cOverworld_Manager( void )
 	delete m_camera;
 }
 
-bool cOverworld_Manager :: New( std::string name )
+bool cOverworld_Manager :: New( string name )
 {
 	string_trim( name, ' ' );
 
@@ -122,7 +122,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 	}
 }
 
-bool cOverworld_Manager :: Set_Active( const std::string &str ) 
+bool cOverworld_Manager :: Set_Active( const string &str ) 
 {
 	return Set_Active( Get( str ) );
 }
@@ -174,7 +174,7 @@ void cOverworld_Manager :: Reset( void )
 	}
 }
 
-cOverworld *cOverworld_Manager :: Get( const std::string &str )
+cOverworld *cOverworld_Manager :: Get( const string &str )
 {
 	cOverworld *world = Get_from_Name( str );
 
@@ -201,7 +201,7 @@ cOverworld *cOverworld_Manager :: Get_from_Path( const fs::path &path )
 	return NULL;
 }
 
-cOverworld *cOverworld_Manager :: Get_from_Name( const std::string &name )
+cOverworld *cOverworld_Manager :: Get_from_Name( const string &name )
 {
 	for( vector<cOverworld *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
@@ -216,7 +216,7 @@ cOverworld *cOverworld_Manager :: Get_from_Name( const std::string &name )
 	return NULL;
 }
 
-int cOverworld_Manager :: Get_Array_Num( const std::string &path ) const
+int cOverworld_Manager :: Get_Array_Num( const string &path ) const
 {
 	for( unsigned int i = 0; i < objects.size(); i++ )
 	{

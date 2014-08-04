@@ -97,7 +97,7 @@ void cLevel_Manager :: Unload( void )
 	pActive_Level->Unload();
 }
 
-cLevel *cLevel_Manager :: New( std::string levelname )
+cLevel *cLevel_Manager :: New( string levelname )
 {
 	// clear player return stack when creating a new level
 	pLevel_Player->Clear_Return();
@@ -120,7 +120,7 @@ cLevel *cLevel_Manager :: New( std::string levelname )
 	return level;
 }
 
-cLevel *cLevel_Manager :: Load( std::string levelname , bool loading_sublevel /* = false */)
+cLevel *cLevel_Manager :: Load( string levelname , bool loading_sublevel /* = false */)
 {
 	// clear player return stack when loading a level if not going to a sublevel
 	if( !loading_sublevel )
@@ -153,7 +153,7 @@ bool cLevel_Manager :: Set_Active( cLevel *level )
 	return 1;
 }
 
-cLevel *cLevel_Manager :: Get( const std::string &levelname )
+cLevel *cLevel_Manager :: Get( const string &levelname )
 {
 	for( vector<cLevel *>::iterator itr = objects.begin(); itr != objects.end(); ++itr )
 	{
@@ -168,7 +168,7 @@ cLevel *cLevel_Manager :: Get( const std::string &levelname )
 	return NULL;
 }
 
-fs::path cLevel_Manager :: Get_Path( const std::string &levelname, bool check_only_user_dir /* = false */ )
+fs::path cLevel_Manager :: Get_Path( const string &levelname, bool check_only_user_dir /* = false */ )
 {
 	// Strip off directories and file extension (although we should
 	// only receive the plain level name here).
@@ -359,7 +359,7 @@ void cLevel_Manager :: Finish_Level( bool win_music /* = 0 */ )
 	Game_Action_Data_End.add( "screen_fadein", CEGUI::PropertyHelper::intToString( EFFECT_IN_RANDOM ) );
 }
 
-void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string &str_entry, Camera_movement move_camera /* = CAMERA_MOVE_FLY */, const std::string &path_identifier /* = "" */ )
+void cLevel_Manager :: Goto_Sub_Level( string str_level, const string &str_entry, Camera_movement move_camera /* = CAMERA_MOVE_FLY */, const string &path_identifier /* = "" */ )
 {
 	// if empty use same level
 	if( str_level.empty() )

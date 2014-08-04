@@ -105,7 +105,7 @@ public:
 
 protected:
 	
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 
 private:
 	// counter if staying

@@ -88,7 +88,7 @@ public:
 	/* Set the path identifier
 	 * only used if move type is path
 	*/
-	void Set_Path_Identifier( const std::string &identifier );
+	void Set_Path_Identifier( const string &identifier );
 	// Set Massive type
 	virtual void Set_Massive_Type( MassiveType new_type );
 	// Set Direction
@@ -194,10 +194,10 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-	virtual std::string Create_Name( void ) const;
+	virtual string Create_Name( void ) const;
 
 protected:
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 
 private:
 	// position when movement should slow down

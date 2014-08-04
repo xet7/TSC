@@ -62,9 +62,9 @@ class cMovingSprite : public cSprite
 {
 public:
 	// constructor
-	cMovingSprite( cSprite_Manager *sprite_manager, std::string type_name = "sprite" );
+	cMovingSprite( cSprite_Manager *sprite_manager, string type_name = "sprite" );
 	// create from stream
-	cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, std::string type_name = "sprite" );
+	cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, string type_name = "sprite" );
 	// destructor
 	virtual ~cMovingSprite( void );
 	

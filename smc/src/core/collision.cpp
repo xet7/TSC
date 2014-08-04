@@ -57,7 +57,7 @@ struct check_if_sprite : public std::binary_function<cObjectCollision *, const c
 };
 bool cObjectCollisionType :: Is_Included( const cSprite *obj )
 {
-	return std::find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite(), obj ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite(), obj ) ) != objects.end();
 }
 
 // check if array type
@@ -70,7 +70,7 @@ struct check_if_sprite_array : public std::binary_function<cObjectCollision *, A
 };
 bool cObjectCollisionType :: Is_Included( const ArrayType type )
 {
-	return std::find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_array(), type ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_array(), type ) ) != objects.end();
 }
 
 // check if sprite type
@@ -83,7 +83,7 @@ struct check_if_sprite_type : public std::binary_function<cObjectCollision *, Sp
 };
 bool cObjectCollisionType :: Is_Included( const SpriteType type )
 {
-	return std::find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_type(), type ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_type(), type ) ) != objects.end();
 }
 
 // check if validation type
@@ -96,17 +96,17 @@ struct check_if_valid_type : public std::binary_function<cObjectCollision *, Col
 };
 bool cObjectCollisionType :: Is_Included( const Col_Valid_Type type )
 {
-	return std::find_if( objects.begin(), objects.end(), std::bind2nd( check_if_valid_type(), type ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_valid_type(), type ) ) != objects.end();
 }
 
 cObjectCollision *cObjectCollisionType :: Find_First( const ArrayType type )
 {
-	return *std::find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_array(), type ) );
+	return *find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_array(), type ) );
 }
 
 cObjectCollision *cObjectCollisionType :: Find_First( const SpriteType type )
 {
-	return *std::find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_type(), type ) );
+	return *find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_type(), type ) );
 }
 
 /* *** *** *** *** *** *** *** cObjectCollision *** *** *** *** *** *** *** *** *** *** */

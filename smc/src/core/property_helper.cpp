@@ -21,11 +21,11 @@
 namespace SMC
 {
 
-void string_replace_all( std::string &str, const std::string &search, const std::string &format )
+void string_replace_all( string &str, const string &search, const string &format )
 {
 	size_t pos = 0;
 
-	while( (pos = str.find(search, pos)) != std::string::npos )
+	while( (pos = str.find(search, pos)) != string::npos )
 	{
 		str.replace( pos, search.length(), format );
 		pos += format.length();
@@ -43,15 +43,15 @@ void cegui_string_replace_all( CEGUI::String &str, const CEGUI::String &search, 
 	}
 }
 
-std::string string_trim_from_end( std::string str, const char search )
+string string_trim_from_end( string str, const char search )
 {
 	// find last position from end which is not the given character
 	size_t pos = str.find_last_not_of( search );
 
 	// if all match or empty
-	if( pos == std::string::npos )
+	if( pos == string::npos )
 	{
-		return std::string();
+		return string();
 	}
 	else
 	{
@@ -59,35 +59,35 @@ std::string string_trim_from_end( std::string str, const char search )
 	}
 }
 
-std::string int_to_string( const int number )
+string int_to_string( const int number )
 {
 	std::ostringstream os;
 	os << number;
 	return os.str();
 }
 
-std::string uint_to_string( const unsigned int number)
+string uint_to_string( const unsigned int number)
 {
 	std::ostringstream os;
 	os << number;
 	return os.str();
 }
 
-std::string int64_to_string( const Uint64 number )
+string int64_to_string( const Uint64 number )
 {
 	std::ostringstream os;
 	os << number;
 	return os.str();
 }
 
-std::string long_to_string( const long number )
+string long_to_string( const long number )
 {
 	std::ostringstream os;
 	os << number;
 	return os.str();
 }
 
-std::string bool_to_string( const bool val)
+string bool_to_string( const bool val)
 {
 	return val ? "1" : "0";
 }
@@ -110,7 +110,7 @@ static void strreverse(char* begin, char* end)
 /* function from stringencoders 3.10.3 with modifications. Copyright (C) 2007 Nick Galbreath -- nickg [at] modp [dot] com
  * BSD License - http://www.opensource.org/licenses/bsd-license.php
  */
-std::string float_to_string( double value, int prec /* = 6 */, bool keep_zeros /* = 1 */ )
+string float_to_string( double value, int prec /* = 6 */, bool keep_zeros /* = 1 */ )
 {
 	/* Hacky test for NaN
 	 * under -fast-math this won't work, but then you also won't
@@ -261,13 +261,13 @@ std::string float_to_string( double value, int prec /* = 6 */, bool keep_zeros /
 }
 
 // string conversion helper
-template <class T> bool from_string( T &t, const std::string &s, std::ios_base &(*f)(std::ios_base&) )
+template <class T> bool from_string( T &t, const string &s, std::ios_base &(*f)(std::ios_base&) )
 {
 	std::istringstream iss( s );
 	return !(iss >> f >> t).fail();
 }
 
-int string_to_int( const std::string &str )
+int string_to_int( const string &str )
 {
 	int num = 0;
 	// use helper
@@ -275,7 +275,7 @@ int string_to_int( const std::string &str )
 	return num;
 }
 
-unsigned int string_to_uint( const std::string& str )
+unsigned int string_to_uint( const string& str )
 {
 	unsigned int num = 0;
 	// use helper
@@ -283,7 +283,7 @@ unsigned int string_to_uint( const std::string& str )
 	return num;
 }
 
-Uint64 string_to_int64( const std::string &str )
+Uint64 string_to_int64( const string &str )
 {
 	Uint64 num = 0;
 	// use helper
@@ -291,7 +291,7 @@ Uint64 string_to_int64( const std::string &str )
 	return num;
 }
 
-long string_to_long( const std::string &str )
+long string_to_long( const string &str )
 {
 	long num = 0;
 	// use helper
@@ -299,7 +299,7 @@ long string_to_long( const std::string &str )
 	return num;
 }
 
-float string_to_float( const std::string &str )
+float string_to_float( const string &str )
 {
 	float num = 0.0f;
 	// use helper
@@ -307,7 +307,7 @@ float string_to_float( const std::string &str )
 	return num;
 }
 
-double string_to_double( const std::string &str )
+double string_to_double( const string &str )
 {
 	double num = 0.0;
 	// use helper
@@ -315,7 +315,7 @@ double string_to_double( const std::string &str )
 	return num;
 }
 
-bool string_to_bool( const std::string &str)
+bool string_to_bool( const string &str)
 {
 	if (str == "0")
 		return false;
@@ -323,17 +323,17 @@ bool string_to_bool( const std::string &str)
 		return true;
 }
 
-unsigned int string_to_version_number( std::string str )
+unsigned int string_to_version_number( string str )
 {
 	if( str.empty() )
 	{
 		return 0;
 	}
 
-	std::string::size_type pos = str.find( '.' );
+	string::size_type pos = str.find( '.' );
 
 	// only major version
-	if( pos == std::string::npos )
+	if( pos == string::npos )
 	{
 		return string_to_int( str ) * 10000;
 	}
@@ -355,7 +355,7 @@ unsigned int string_to_version_number( std::string str )
 		ver += string_to_int( str.substr( 0, pos ) ) * 100;
 	}
 	
-	if( pos == std::string::npos )
+	if( pos == string::npos )
 	{
 		return ver;
 	}
@@ -371,13 +371,13 @@ unsigned int string_to_version_number( std::string str )
 	return ver;
 }
 
-std::string xml_string_to_string( std::string str )
+string xml_string_to_string( string str )
 {
 	while( 1 )
 	{
-		std::string::size_type pos = str.find( "<br/>" );
+		string::size_type pos = str.find( "<br/>" );
 
-		if( pos == std::string::npos )
+		if( pos == string::npos )
 		{
 			break;
 		}
@@ -389,11 +389,11 @@ std::string xml_string_to_string( std::string str )
 }
 
 #ifdef _WIN32
-std::string ucs2_to_utf8( const std::wstring &utf16 )
+string ucs2_to_utf8( const std::wstring &utf16 )
 {
 	if( utf16.empty() )
 	{
-		return std::string();
+		return string();
 	}
 
 	const int utf8_length = WideCharToMultiByte( CP_UTF8, 0, utf16.data(), utf16.length(), NULL, 0, NULL, NULL );
@@ -401,10 +401,10 @@ std::string ucs2_to_utf8( const std::wstring &utf16 )
 	if( utf8_length == 0 )
 	{
         cerr << "Warning: ucs2_to_utf8 : WideCharToMultiByte returned zero length";
-		return std::string();
+		return string();
 	}
 
-	std::string utf8( utf8_length, 0 );
+	string utf8( utf8_length, 0 );
 
 	if( !WideCharToMultiByte( CP_UTF8, 0 , utf16.data(), utf16.length(), &utf8[0], utf8.length(), NULL, NULL ) )
     {
@@ -414,7 +414,7 @@ std::string ucs2_to_utf8( const std::wstring &utf16 )
 	return utf8;
 }
 
-std::wstring utf8_to_ucs2( const std::string& utf8 )
+std::wstring utf8_to_ucs2( const string& utf8 )
 {
 	if( utf8.empty() )
 	{
@@ -462,31 +462,31 @@ std::wstring utf8_to_ucs2( const std::string& utf8 )
  */
 #ifdef _WIN32
 
-boost::filesystem::path utf8_to_path(const std::string& utf8)
+boost::filesystem::path utf8_to_path(const string& utf8)
 {
   return boost::filesystem::path(utf8_to_ucs2(utf8));
 }
 
-std::string path_to_utf8(const boost::filesystem::path& path)
+string path_to_utf8(const boost::filesystem::path& path)
 {
   return ucs2_to_utf8(path.native());
 }
 
 #else
 
-boost::filesystem::path utf8_to_path(const std::string& utf8)
+boost::filesystem::path utf8_to_path(const string& utf8)
 {
   return boost::filesystem::path(utf8);
 }
 
-std::string path_to_utf8(const boost::filesystem::path& path)
+string path_to_utf8(const boost::filesystem::path& path)
 {
-  return std::string(path.native()); // Copy
+  return string(path.native()); // Copy
 }
 
 #endif
 
-std::string Time_to_String( time_t t, const char *format )
+string Time_to_String( time_t t, const char *format )
 {
 	char str_time[60];
 	strftime( str_time, 60, format, localtime( &t ) );
@@ -510,7 +510,7 @@ ObjectDirection Get_Opposite_Direction( const ObjectDirection direction )
 	return DIR_UNDEFINED;
 }
 
-std::string Get_Direction_Name( const ObjectDirection dir )
+string Get_Direction_Name( const ObjectDirection dir )
 {
 	switch( dir )
 	{
@@ -538,7 +538,7 @@ std::string Get_Direction_Name( const ObjectDirection dir )
 	return "";
 }
 
-ObjectDirection Get_Direction_Id( const std::string &str_direction )
+ObjectDirection Get_Direction_Id( const string &str_direction )
 {
 	if( str_direction.compare( "undefined" ) == 0 )
 	{
@@ -663,7 +663,7 @@ Color Get_Sprite_Color( const cSprite *sprite )
 	return lightgreyalpha64;
 }
 
-std::string Get_Massive_Type_Name( const MassiveType mtype )
+string Get_Massive_Type_Name( const MassiveType mtype )
 {
 	switch( mtype )
 	{
@@ -678,7 +678,7 @@ std::string Get_Massive_Type_Name( const MassiveType mtype )
 	return "";
 }
 
-MassiveType Get_Massive_Type_Id( const std::string &str_massivetype )
+MassiveType Get_Massive_Type_Id( const string &str_massivetype )
 {
 	if( str_massivetype.compare( "passive" ) == 0 )
 	{
@@ -719,7 +719,7 @@ Color Get_Massive_Type_Color( MassiveType mtype )
 	return white;
 }
 
-std::string Get_Ground_Type_Name( const GroundType gtype )
+string Get_Ground_Type_Name( const GroundType gtype )
 {
 	switch( gtype )
 	{
@@ -735,7 +735,7 @@ std::string Get_Ground_Type_Name( const GroundType gtype )
 	return "";
 }
 
-GroundType Get_Ground_Type_Id( const std::string &str_groundtype )
+GroundType Get_Ground_Type_Id( const string &str_groundtype )
 {
 	if( str_groundtype.compare( "normal" ) == 0 )
 	{
@@ -765,7 +765,7 @@ GroundType Get_Ground_Type_Id( const std::string &str_groundtype )
 	return GROUND_NORMAL;
 }
 
-std::string Get_Level_Land_Type_Name( const LevelLandType land_type )
+string Get_Level_Land_Type_Name( const LevelLandType land_type )
 {
 	switch( land_type )
 	{
@@ -791,7 +791,7 @@ std::string Get_Level_Land_Type_Name( const LevelLandType land_type )
 	return "";
 }
 
-LevelLandType Get_Level_Land_Type_Id( const std::string &str_type )
+LevelLandType Get_Level_Land_Type_Id( const string &str_type )
 {
 	if( str_type.compare( "undefined" ) == 0 )
 	{
@@ -861,7 +861,7 @@ LevelLandType Get_Level_Land_Type_Id( const std::string &str_type )
 	return LLT_UNDEFINED;
 }
 
-std::string Get_Color_Name( const DefaultColor color )
+string Get_Color_Name( const DefaultColor color )
 {
 	switch( color )
 	{
@@ -882,7 +882,7 @@ std::string Get_Color_Name( const DefaultColor color )
 	return "";
 }
 
-DefaultColor Get_Color_Id( const std::string &str_color )
+DefaultColor Get_Color_Id( const string &str_color )
 {
 	if( str_color.compare( "white" ) == 0 )
 	{
@@ -928,7 +928,7 @@ DefaultColor Get_Color_Id( const std::string &str_color )
 	return COL_DEFAULT;
 }
 
-std::string Get_Difficulty_Name( Uint8 difficulty )
+string Get_Difficulty_Name( Uint8 difficulty )
 {
 	if( difficulty == 0 )
 	{
@@ -978,10 +978,10 @@ std::string Get_Difficulty_Name( Uint8 difficulty )
 	return "Ultimate";
 }
 
-std::string readfile(boost::filesystem::ifstream& file)
+string readfile(boost::filesystem::ifstream& file)
 {
-	std::string content;
-	std::string line;
+	string content;
+	string line;
 	while(!file.eof()) {
 		std::getline(file, line);
 		content.append(line);

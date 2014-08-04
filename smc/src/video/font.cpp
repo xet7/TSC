@@ -123,7 +123,7 @@ void cFont_Manager :: Delete_Ref( cGL_Surface *surface )
 	}
 }
 
-cGL_Surface *cFont_Manager :: Render_Text( TTF_Font *font, const std::string &text, const Color color )
+cGL_Surface *cFont_Manager :: Render_Text( TTF_Font *font, const string &text, const Color color )
 {
 	// get SDL Color
 	SDL_Color sdlcolor = color.Get_SDL_Color();

@@ -23,6 +23,8 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 
+using namespace std;
+
 namespace SMC
 {
 
@@ -115,7 +117,7 @@ cRandom_Sound *cRandom_Sound :: Copy( void ) const
 	return random_sound;
 }
 
-std::string cRandom_Sound :: Get_XML_Type_Name()
+string cRandom_Sound :: Get_XML_Type_Name()
 {
 	return "";
 }
@@ -142,7 +144,7 @@ xmlpp::Element* cRandom_Sound :: Save_To_XML_Node( xmlpp::Element* p_element )
 	return p_node;
 }
 
-void cRandom_Sound :: Set_Filename( const std::string &str )
+void cRandom_Sound :: Set_Filename( const string &str )
 {
 	// stop playing sounds
 	for( unsigned int i = 0; i < 100; i++ )
@@ -160,7 +162,7 @@ void cRandom_Sound :: Set_Filename( const std::string &str )
 	m_filename = str;
 }
 
-std::string cRandom_Sound :: Get_Filename( void ) const
+string cRandom_Sound :: Get_Filename( void ) const
 {
 	return m_filename;
 }
@@ -566,7 +568,7 @@ bool cRandom_Sound :: Editor_Continuous_Changed( const CEGUI::EventArgs &event )
 bool cRandom_Sound :: Editor_Delay_Min_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+    string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Delay_Min( string_to_int( str_text ) );
 
@@ -576,7 +578,7 @@ bool cRandom_Sound :: Editor_Delay_Min_Text_Changed( const CEGUI::EventArgs &eve
 bool cRandom_Sound :: Editor_Delay_Max_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+    string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Delay_Max( string_to_int( str_text ) );
 
@@ -586,7 +588,7 @@ bool cRandom_Sound :: Editor_Delay_Max_Text_Changed( const CEGUI::EventArgs &eve
 bool cRandom_Sound :: Editor_Volume_Min_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+    string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Volume_Min( string_to_float( str_text ) );
 
@@ -596,7 +598,7 @@ bool cRandom_Sound :: Editor_Volume_Min_Text_Changed( const CEGUI::EventArgs &ev
 bool cRandom_Sound :: Editor_Volume_Max_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+    string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Volume_Max( string_to_float( str_text ) );
 
@@ -606,7 +608,7 @@ bool cRandom_Sound :: Editor_Volume_Max_Text_Changed( const CEGUI::EventArgs &ev
 bool cRandom_Sound :: Editor_Volume_Reduction_Begin_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+    string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Volume_Reduction_Begin( string_to_float( str_text ) );
 
@@ -616,7 +618,7 @@ bool cRandom_Sound :: Editor_Volume_Reduction_Begin_Text_Changed( const CEGUI::E
 bool cRandom_Sound :: Editor_Volume_Reduction_End_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+    string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Volume_Reduction_End( string_to_float( str_text ) );
 

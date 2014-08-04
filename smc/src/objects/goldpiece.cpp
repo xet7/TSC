@@ -72,7 +72,7 @@ cGoldpiece *cGoldpiece :: Copy( void ) const
 	return goldpiece;
 }
 
-std::string cGoldpiece :: Get_XML_Type_Name()
+string cGoldpiece :: Get_XML_Type_Name()
 {
 	return "goldpiece";
 }

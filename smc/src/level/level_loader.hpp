@@ -28,12 +28,12 @@ namespace SMC {
 	public:
 		// Takes the sprite’s main XML tag name, a list of parsed <property> elements
 		// and the level’s engine version and creates a cSprite instance from that.
-		// That is, the return value usually is a std::vector with a single cSprite
+		// That is, the return value usually is a vector with a single cSprite
 		// in it, but sometimes (notably on backward compatibility), a single XML
 		// element breaks up into multiple sprites you then get back all in that vector.
 		// This method is static, because it must be accessible from the savegame loader
 		// as well.
-		static std::vector<cSprite*> Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Level_Objects_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
 		cLevelLoader();
 		virtual ~cLevelLoader();
@@ -54,28 +54,28 @@ namespace SMC {
 		virtual void on_characters(const Glib::ustring& text);
 
 	private:
-		static std::vector<cSprite*> Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Level_Exits_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Level_Entries_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Boxes_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Items_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Moving_Platforms_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Falling_Platforms_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Enemies_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Sounds_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Particle_Emitters_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Paths_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Global_Effects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Balls_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Lavas_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
-		static std::vector<cSprite*> Create_Crates_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Sprites_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Enemy_Stoppers_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Level_Exits_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Level_Entries_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Boxes_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Items_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Moving_Platforms_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Falling_Platforms_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Enemies_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Sounds_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Particle_Emitters_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Paths_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Global_Effects_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Balls_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Lavas_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+		static vector<cSprite*> Create_Crates_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
 
 		void Parse_Tag_Information();
 		void Parse_Tag_Settings();
 		void Parse_Tag_Background();
 		void Parse_Tag_Player();
-		void Parse_Level_Object_Tag(const std::string& name);
+		void Parse_Level_Object_Tag(const string& name);
 
 		// The cLevel instance we’re building
 		cLevel* mp_level;

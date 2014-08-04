@@ -263,7 +263,7 @@ void cLayer_Line_Point_Start :: Editor_Activate( void )
 bool cLayer_Line_Point_Start :: Editor_Origin_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	m_origin = string_to_int( str_text );
 

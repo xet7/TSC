@@ -119,7 +119,7 @@ public:
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 protected:
-  virtual std::string Get_XML_Type_Name();
+  virtual string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** cFirePlant *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -157,7 +157,7 @@ public:
 	// node saving inherited
 
 protected:
-  virtual std::string Get_XML_Type_Name(){return "fireplant";}
+  virtual string Get_XML_Type_Name(){return "fireplant";}
 };
 
 /* *** *** *** *** *** cMoon *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -196,7 +196,7 @@ public:
 protected:
 	// save to stream
 	// stream saving inherited
-	virtual std::string Get_XML_Type_Name(){return "moon";}
+	virtual string Get_XML_Type_Name(){return "moon";}
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

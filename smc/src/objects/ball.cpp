@@ -98,7 +98,7 @@ cBall *cBall :: Copy( void ) const
 	return ball;
 }
 
-std::string cBall :: Get_XML_Type_Name()
+string cBall :: Get_XML_Type_Name()
 {
 	return "";
 }

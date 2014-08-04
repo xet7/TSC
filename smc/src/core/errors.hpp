@@ -3,6 +3,8 @@
 #include "global_game.hpp"
 #include "../objects/movingsprite.hpp"
 
+using namespace std;
+
 namespace SMC {
 
   /**
@@ -12,18 +14,18 @@ namespace SMC {
   {
   public:
     SMCError();
-    SMCError(std::string message);
+    SMCError(string message);
     virtual ~SMCError() throw();
 
     virtual const char* what() const throw();
   protected:
-	  std::string m_smc_errmsg;
+      string m_smc_errmsg;
   };
 
   class ConfigurationError: public SMCError
   {
   public:
-	  ConfigurationError(std::string message);
+      ConfigurationError(string message);
 	  virtual ~ConfigurationError() throw();
   };
 
@@ -34,13 +36,13 @@ namespace SMC {
   class XmlKeyDoesNotExist: public SMCError
   {
   public:
-    XmlKeyDoesNotExist(std::string key);
+    XmlKeyDoesNotExist(string key);
     virtual ~XmlKeyDoesNotExist() throw();
 
     virtual const char* what() const throw();
-    std::string Get_Key();
+    string Get_Key();
   protected:
-    std::string m_key;
+    string m_key;
     };
 
 	// Thrown if specific things are not implemented for
@@ -48,14 +50,14 @@ namespace SMC {
 	class NotImplementedError: public SMCError
 	{
 	public:
-		NotImplementedError(std::string message);
+        NotImplementedError(string message);
 		virtual ~NotImplementedError() throw();
 	};
 
 	class InvalidLevelError: public SMCError
 	{
 	public:
-		InvalidLevelError(std::string message);
+        InvalidLevelError(string message);
 		virtual ~InvalidLevelError() throw();
 	};
 
@@ -80,7 +82,7 @@ namespace SMC {
 	class EditorError: public SMCError
 	{
 	public:
-		EditorError(std::string msg);
+        EditorError(string msg);
 		virtual ~EditorError() throw();
 	};
 

@@ -9,7 +9,7 @@ cDowngrade_Event::cDowngrade_Event(int downgrades, int max_downgrades)
 	m_max_downgrades = max_downgrades;
 }
 
-std::string cDowngrade_Event::Event_Name()
+string cDowngrade_Event::Event_Name()
 {
 	return "downgrade";
 }

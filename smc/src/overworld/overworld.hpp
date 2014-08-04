@@ -52,7 +52,7 @@ public:
   // this object.
 	boost::filesystem::path m_path;
 	// world name
-	std::string m_name;
+	string m_name;
 	// is visible on selection
 	bool m_visible;
 	/* 0 if only in game directory
@@ -62,7 +62,7 @@ public:
 	int m_user;
 
 	// world comment
-	std::string m_comment;
+	string m_comment;
 };
 
 /* *** *** *** *** *** *** *** *** cOverworld *** *** *** *** *** *** *** *** *** */
@@ -84,7 +84,7 @@ public:
 	virtual ~cOverworld( void );
 
 	// New
-	bool New( std::string name );
+	bool New( string name );
 	// Unload
 	void Unload( void );
 	// Save
@@ -149,16 +149,16 @@ public:
 	/* Returns a pointer to the Waypoint
 	 * if not found returns NULL
 	*/
-	cWaypoint *Get_Waypoint( const std::string &name );
+	cWaypoint *Get_Waypoint( const string &name );
 	cWaypoint *Get_Waypoint( unsigned int num );
 	/* Returns the Waypoint array number if the level name matches
 	 * if not found returns -1
 	*/
-	int Get_Level_Waypoint_Num( std::string level_name );
+	int Get_Level_Waypoint_Num( string level_name );
 	/* Returns the Waypoint array number if the destination name matches
 	 * if not found returns -1
 	*/
-	int Get_Waypoint_Num( const std::string &world_name );
+	int Get_Waypoint_Num( const string &world_name );
 
 	/* Check if the rect collides with a Waypoint
 	 * if no collision found returns -1
@@ -199,7 +199,7 @@ public:
 	Color m_background_color;
 	// music filename
 	// FIXME: Should be boost::filesystem::path
-	std::string m_musicfile;
+	string m_musicfile;
 
 	// settings
 	unsigned int m_player_start_waypoint;

@@ -79,7 +79,7 @@ cBeetleBarrage* cBeetleBarrage::Copy() const
 	return p_bb;
 }
 
-std::string cBeetleBarrage::Get_XML_Type_Name()
+string cBeetleBarrage::Get_XML_Type_Name()
 {
 	return "beetle_barrage";
 }
@@ -361,7 +361,7 @@ void cBeetleBarrage::Editor_Activate()
 bool cBeetleBarrage::Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& event)
 {
 	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
-	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
 
 	Set_Beetle_Fly_Distance(string_to_float(str_text));
 	return true;
@@ -371,7 +371,7 @@ bool cBeetleBarrage::Editor_Fly_Distance_Text_Changed(const CEGUI::EventArgs& ev
 bool cBeetleBarrage::Editor_Range_Text_Changed(const CEGUI::EventArgs& event)
 {
 	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
-	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
 
 	Set_Active_Range(string_to_float(str_text));
 	return true;
@@ -380,7 +380,7 @@ bool cBeetleBarrage::Editor_Range_Text_Changed(const CEGUI::EventArgs& event)
 bool cBeetleBarrage::Editor_Spit_Count_Text_Changed(const CEGUI::EventArgs& event)
 {
 	const CEGUI::WindowEventArgs &args = static_cast<const CEGUI::WindowEventArgs&>(event);
-	std::string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>(args.window)->getText().c_str();
 
 	Set_Beetle_Spit_Count(string_to_int(str_text));
 	return true;

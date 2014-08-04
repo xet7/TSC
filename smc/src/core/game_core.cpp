@@ -193,7 +193,7 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 	}
 	if( action_data.exists( "new_level" ) )
 	{
-		std::string str_level = action_data.getValueAsString( "new_level" ).c_str();
+		string str_level = action_data.getValueAsString( "new_level" ).c_str();
 		// new level
 		cLevel *level = pLevel_Manager->New( str_level );
 
@@ -206,7 +206,7 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 	if( action_data.exists( "load_level" ) )
 	{
 		bool loading_sublevel = action_data.exists( "load_level_sublevel" );
-		std::string str_level = action_data.getValueAsString( "load_level" ).c_str();
+		string str_level = action_data.getValueAsString( "load_level" ).c_str();
 		// load the level
 		cLevel *level = pLevel_Manager->Load( str_level, loading_sublevel );
 
@@ -217,7 +217,7 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 
 			if( action_data.exists( "load_level_entry" ) )
 			{
-				std::string str_entry = action_data.getValueAsString( "load_level_entry" ).c_str();
+				string str_entry = action_data.getValueAsString( "load_level_entry" ).c_str();
 				cLevel_Entry *entry = level->Get_Entry( str_entry );
 
 				// set camera position to show the entry
@@ -263,7 +263,7 @@ void Handle_Generic_Game_Events( const CEGUI::XMLAttributes &action_data )
 	}
 	if( action_data.exists( "activate_level_entry" ) )
 	{
-		std::string str_entry = action_data.getValueAsString( "activate_level_entry" ).c_str();
+		string str_entry = action_data.getValueAsString( "activate_level_entry" ).c_str();
 		cLevel_Entry *entry = pActive_Level->Get_Entry( str_entry );
 
 		if( entry )

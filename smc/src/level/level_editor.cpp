@@ -308,7 +308,7 @@ bool cEditor_Level :: Switch_Object_State( cSprite *obj ) const
 
 bool cEditor_Level :: Function_New( void )
 {
-	std::string level_name = Box_Text_Input( _("Create a new Level"), _("Name") );
+	string level_name = Box_Text_Input( _("Create a new Level"), _("Name") );
 
 	// aborted
 	if( level_name.empty() )
@@ -337,7 +337,7 @@ bool cEditor_Level :: Function_New( void )
 
 void cEditor_Level :: Function_Load( void )
 {
-	std::string level_name = _("Name");
+	string level_name = _("Name");
 
 	// valid level
 	while( level_name.length() )
@@ -394,7 +394,7 @@ void cEditor_Level :: Function_Save( bool with_dialog /* = 0 */ )
 
 void cEditor_Level :: Function_Save_as( void )
 {
-	std::string levelname = Box_Text_Input( _("Save Level as"), _("New name"), 1 );
+	string levelname = Box_Text_Input( _("Save Level as"), _("New name"), 1 );
 
 	// aborted
 	if( levelname.empty() )
@@ -408,7 +408,7 @@ void cEditor_Level :: Function_Save_as( void )
 
 void cEditor_Level :: Function_Delete( void )
 {
-  std::string levelname = pActive_Level->Get_Level_Name();
+  string levelname = pActive_Level->Get_Level_Name();
 	if( pLevel_Manager->Get_Path( levelname, true ).empty() )
 	{
 		pHud_Debug->Set_Text( _("Level was not yet saved") );
@@ -474,7 +474,7 @@ void cEditor_Level :: Function_Settings( void )
 }
 
 // static
-std::vector<cSprite*> cEditor_Level :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+vector<cSprite*> cEditor_Level :: items_loader_callback(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
 {
 	return cLevelLoader::Create_Level_Objects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 }

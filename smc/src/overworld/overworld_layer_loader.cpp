@@ -59,8 +59,8 @@ void cOverworldLayerLoader::on_end_document()
 void cOverworldLayerLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property" || name == "Property") {
-		std::string key;
-		std::string value;
+		string key;
+		string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -92,7 +92,7 @@ void cOverworldLayerLoader::on_end_element(const Glib::ustring& name)
 	if (name == "line")
 		handle_line();
 	else
-		cerr << "Warning: Unknown overworld layer element '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown overworld layer element '" << name << "'" << endl;
 
 	// Everything handled, next one
 	m_current_properties.clear();

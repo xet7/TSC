@@ -3,12 +3,12 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-std::string cLevel_Save_Event::Event_Name()
+string cLevel_Save_Event::Event_Name()
 {
 	return "save";
 }
 
-std::string cLevel_Save_Event::Get_Save_Data()
+string cLevel_Save_Event::Get_Save_Data()
 {
 	return m_save_data;
 }
@@ -24,8 +24,8 @@ void cLevel_Save_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_valu
 
 	// Transform the hash to JSON (mruby doesn’t have Marshal, sadly).
 	mrb_value mrb_result = mrb_funcall(p_state, mod_json, "stringify", 1, target_hsh);
-	std::string result = mrb_string_value_ptr(p_state, mrb_result);
+	string result = mrb_string_value_ptr(p_state, mrb_result);
 
 	// Make a copy of the string so the GC may collect the C pointer
-	m_save_data = std::string(result);
+	m_save_data = string(result);
 }

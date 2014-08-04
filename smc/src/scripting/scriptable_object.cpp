@@ -41,7 +41,7 @@ void cScriptable_Object::clear_event_handlers()
  * \param callback
  *   An mruby proc object to be executed when the event gets fired.
  */
-void cScriptable_Object::register_event_handler(const std::string& evtname, mrb_value callback)
+void cScriptable_Object::register_event_handler(const string& evtname, mrb_value callback)
 {
 	m_callbacks[evtname].push_back(callback);
 }
@@ -54,7 +54,7 @@ void cScriptable_Object::register_event_handler(const std::string& evtname, mrb_
  *
  * \returns Iterator pointing to the first callback.
  */
-std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_begin(const std::string& evtname)
+vector<mrb_value>::iterator cScriptable_Object::event_handlers_begin(const string& evtname)
 {
 	return m_callbacks[evtname].begin();
 }
@@ -67,7 +67,7 @@ std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_begin(const 
  *
  * \returns Iterator pointing post the last callback (termination iterator).
  */
-std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_end(const std::string& evtname)
+vector<mrb_value>::iterator cScriptable_Object::event_handlers_end(const string& evtname)
 {
 	return m_callbacks[evtname].end();
 }

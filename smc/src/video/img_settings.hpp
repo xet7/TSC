@@ -59,15 +59,15 @@ public:
 	bool m_mipmap;
 
 	// editor tags
-	std::string m_editor_tags;
+	string m_editor_tags;
 	// name
-	std::string m_name;
+	string m_name;
 	// sprite massivity
 	MassiveType m_massive_type;
 	// ground type
 	GroundType m_ground_type;
 	// author
-	std::string m_author;
+	string m_author;
 	// obsolete
 	bool m_obsolete;
 };
@@ -87,7 +87,7 @@ public:
 	cImage_Settings_Data *Get( const boost::filesystem::path &filename, bool load_base_settings = 1 );
 
 	// Handle one tokenized line
-	virtual bool HandleMessage( const std::string *parts, unsigned int count, unsigned int line );
+	virtual bool HandleMessage( const string *parts, unsigned int count, unsigned int line );
 
 	// temp settings used for loading
 	cImage_Settings_Data *m_settings_temp;

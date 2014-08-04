@@ -168,7 +168,7 @@ static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
 static mrb_value Get_Path(mrb_state* p_state, mrb_value self)
 {
 	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	std::string ident = p_static->m_path_state.m_path_identifier;
+	string ident = p_static->m_path_state.m_path_identifier;
 
 	if (ident.empty())
 		return mrb_nil_value();

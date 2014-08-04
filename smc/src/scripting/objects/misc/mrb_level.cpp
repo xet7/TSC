@@ -360,7 +360,7 @@ static mrb_value Push_Return(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Pop_Return(mrb_state* p_state, mrb_value self)
 {
-	std::string level, entry;
+	string level, entry;
 
 	if (pLevel_Player->Pop_Return(level, entry)) {
 		struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
@@ -404,7 +404,7 @@ static mrb_value Get_Return_Stack(mrb_state* p_state, mrb_value self)
 {
 	mrb_value ary = mrb_ary_new(p_state);
 
-	std::vector<cLevel_Player_Return_Entry>::const_iterator iter;
+	vector<cLevel_Player_Return_Entry>::const_iterator iter;
 	struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
 	for(iter=pLevel_Player->m_return_stack.begin(); iter != pLevel_Player->m_return_stack.end(); iter++) {
 		cLevel_Player_Return_Entry entry = *iter;

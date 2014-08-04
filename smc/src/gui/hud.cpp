@@ -454,7 +454,7 @@ void cPlayerPoints :: Set_Points( long points )
 	Set_Image( pFont->Render_Text( pFont->m_font_normal, text, white ), 0, 1 );
 }
 
-void cPlayerPoints :: Add_Points( unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color &color /* = static_cast<Uint8>(255) */, bool allow_multiplier /* = 0 */ )
+void cPlayerPoints :: Add_Points( unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, string strtext /* = "" */, const Color &color /* = static_cast<Uint8>(255) */, bool allow_multiplier /* = 0 */ )
 {
 	if( allow_multiplier )
 	{
@@ -548,7 +548,7 @@ void cGoldDisplay :: Set_Gold( int gold )
 	}
 	
 	pLevel_Player->m_goldpieces = gold;
-	std::string text = int_to_string( pLevel_Player->m_goldpieces );
+	string text = int_to_string( pLevel_Player->m_goldpieces );
 
 	Color color = Color( static_cast<Uint8>(255), 255, 255 - ( gold * 2 ) );
 
@@ -597,7 +597,7 @@ void cLiveDisplay :: Set_Lives( int lives )
 		return;
 	}
 
-	std::string text;
+	string text;
 
 	// if not in Overworld
 	if( Game_Mode != MODE_OVERWORLD )
@@ -720,7 +720,7 @@ cInfoMessage :: ~cInfoMessage()
 	delete m_background;
 }
 
-void cInfoMessage :: Set_Text(const std::string& text)
+void cInfoMessage :: Set_Text(const string& text)
 {
 	m_text = text;
 	m_display_time = 100.0f;
@@ -729,7 +729,7 @@ void cInfoMessage :: Set_Text(const std::string& text)
 	Set_Image( pFont->Render_Text( pFont->m_font_normal, m_text, yellow ), 0, 1 );
 }
 
-std::string cInfoMessage :: Get_Text()
+string cInfoMessage :: Get_Text()
 {
 	return m_text;
 }
@@ -1086,7 +1086,7 @@ void cDebugDisplay :: Draw( cSurface_Request *request /* = NULL */ )
 	Draw_Performance_Debug_Mode();
 }
 
-void cDebugDisplay :: Set_Text( const std::string &ntext, float display_time /* = speedfactor_fps * 2.0f */ )
+void cDebugDisplay :: Set_Text( const string &ntext, float display_time /* = speedfactor_fps * 2.0f */ )
 {
 	m_text = ntext;
 
@@ -1136,7 +1136,7 @@ void cDebugDisplay :: Draw_Debug_Mode( void )
 	// fps
 	Draw_fps();
 
-	std::string temp_text;
+	string temp_text;
 
 	// Camera position
 	temp_text = _("Camera : X ") + int_to_string( static_cast<int>(pActive_Camera->m_x) ) + ", Y " + int_to_string( static_cast<int>(pActive_Camera->m_y) );
@@ -1145,7 +1145,7 @@ void cDebugDisplay :: Draw_Debug_Mode( void )
 	// Level information
 	if( pActive_Level->m_level_filename.compare( m_level_old ) != 0 ) 
 	{
-		std::string lvl_text = _("Name : ") + pActive_Level->Get_Level_Name();
+		string lvl_text = _("Name : ") + pActive_Level->Get_Level_Name();
 		m_level_old = pActive_Level->m_level_filename;
 
 		m_sprites[5]->Set_Image( pFont->Render_Text( pFont->m_font_very_small, lvl_text, white ), 0, 1 );
@@ -1290,7 +1290,7 @@ void cDebugDisplay :: Draw_Debug_Mode( void )
 	temp_text = _("Moving State ") + int_to_string( static_cast<int>(pLevel_Player->m_state) );
 	m_sprites[20]->Set_Image( pFont->Render_Text( pFont->m_font_very_small, temp_text, white ), 0, 1 );
 	// ground type
-	std::string ground_type;
+	string ground_type;
 	if( pLevel_Player->m_ground_object )
 	{
 		ground_type = int_to_string( pLevel_Player->m_ground_object->m_massive_type ) + " (" + Get_Massive_Type_Name( pLevel_Player->m_ground_object->m_massive_type ) + ")";
@@ -1317,7 +1317,7 @@ void cDebugDisplay :: Draw_Performance_Debug_Mode( void )
 		return;
 	}
 
-	std::string temp_text;
+	string temp_text;
 	float ypos = game_res_h * 0.08f;
 
 	// black background
@@ -1334,7 +1334,7 @@ void cDebugDisplay :: Draw_Performance_Debug_Mode( void )
 		m_sprites[2]->Draw();
 	}
 
-	vector<std::string> text_strings;
+	vector<string> text_strings;
 	// draw
 	text_strings.push_back( _("Draw") );
 	// overworld
@@ -1437,7 +1437,7 @@ void cDebugDisplay :: Draw_Performance_Debug_Mode( void )
 
 	unsigned int pos = 0;
 
-	for( vector<std::string>::const_iterator itr = text_strings.begin(); itr != text_strings.end(); ++itr )
+	for( vector<string>::const_iterator itr = text_strings.begin(); itr != text_strings.end(); ++itr )
 	{
 		// sections
 		float xpos = 20;
@@ -1454,7 +1454,7 @@ void cDebugDisplay :: Draw_Performance_Debug_Mode( void )
 			ypos += 10;
 		}
 
-		const std::string current_text = (*itr);
+		const string current_text = (*itr);
 
 		cGL_Surface *surface_temp = pFont->Render_Text( pFont->m_font_small, current_text, white );
 

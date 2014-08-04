@@ -153,7 +153,7 @@ public:
   int Get_Max_Downgrade_Count();
   float Get_Shell_Time();
   bool Get_Level_Ends_If_Killed();
-  virtual std::string Create_Name( void ) const;
+  virtual string Create_Name( void ) const;
 
 protected:
 
@@ -172,7 +172,7 @@ protected:
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 	
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

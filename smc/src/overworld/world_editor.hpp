@@ -61,7 +61,7 @@ public:
 	cOverworld *m_overworld;
 
 protected:
-	static std::vector<cSprite*> items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data);
+	static vector<cSprite*> items_loader_callback(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data);
 	virtual void Parse_Items_File(boost::filesystem::path filename);
 };
 

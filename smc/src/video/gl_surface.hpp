@@ -41,7 +41,7 @@ public:
 	cGL_Surface *Copy( void ) const;
 
 	// Save the texture to a file
-	void Save( const std::string &filename );
+	void Save( const string &filename );
 
 	// Set the ground type
 	void Set_Ground_Type( GroundType gtype );
@@ -95,9 +95,9 @@ public:
 	bool m_obsolete;
 
 	// editor tags
-	std::string m_editor_tags;
+	string m_editor_tags;
 	// name
-	std::string m_name;
+	string m_name;
 	// default sprite massivity
 	MassiveType m_massive_type;
 	// ground type

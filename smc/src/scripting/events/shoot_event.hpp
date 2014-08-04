@@ -8,13 +8,13 @@ namespace SMC {
 		class cShoot_Event: public cEvent
 		{
 		public:
-			cShoot_Event(std::string ball_type);
-			virtual std::string Event_Name();
-			std::string Get_Ball_Type();
+			cShoot_Event(string ball_type);
+			virtual string Event_Name();
+			string Get_Ball_Type();
 		protected:
 			virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);
 		private:
-			std::string m_ball_type;
+			string m_ball_type;
 		};
 	}
 }

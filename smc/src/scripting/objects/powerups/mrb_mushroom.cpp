@@ -69,7 +69,7 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+	string typestr(mrb_sym2name(p_state, type));
 
 	SpriteType spritetype;
 	if (typestr == "default" || typestr == "red")

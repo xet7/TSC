@@ -23,7 +23,7 @@ namespace SMC {
 		virtual void Handle_Collision_Enemy(cObjectCollision* p_collision);
 
 	protected:
-		virtual std::string Get_XML_Type_Name();
+		virtual string Get_XML_Type_Name();
 
 	private:
 		void Init();

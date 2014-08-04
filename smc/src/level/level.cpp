@@ -124,7 +124,7 @@ cLevel :: ~cLevel( void )
 	delete m_sprite_manager;
 }
 
-  bool cLevel :: New( std::string levelname )
+  bool cLevel :: New( string levelname )
 {
 	Unload();
 
@@ -197,7 +197,7 @@ cLevel* cLevel :: Load_From_File( fs::path filename )
 	if( filename.empty() )
 		throw(InvalidLevelError("Empty level filename!"));
 	if (!File_Exists(filename)) {
-		std::string msg = "Level file not found: " + path_to_utf8(filename);
+		string msg = "Level file not found: " + path_to_utf8(filename);
 		throw(InvalidLevelError(msg));
 	}
 
@@ -209,7 +209,7 @@ cLevel* cLevel :: Load_From_File( fs::path filename )
 		loader.parse_file(filename);
 	}
 	else { // old level format
-		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const std::string)path_to_utf8(filename) );
+		pHud_Debug->Set_Text( _("Unsupported Level format : ") + (const string)path_to_utf8(filename) );
 		return NULL;
 	}
 
@@ -361,7 +361,7 @@ void cLevel :: Save( void )
 	pAudio->Play_Sound( "editor/save.ogg" );
 
 	// use user level dir
-	if( path_to_utf8(m_level_filename).find( path_to_utf8(pResource_Manager->Get_User_Level_Directory() ) ) == std::string::npos )
+	if( path_to_utf8(m_level_filename).find( path_to_utf8(pResource_Manager->Get_User_Level_Directory() ) ) == string::npos )
 	{
 		// erase old directory
 		m_level_filename = Trim_Filename( m_level_filename, 0, 1 );
@@ -373,8 +373,8 @@ void cLevel :: Save( void )
 		Save_To_File(m_level_filename);
 	}
 	catch(xmlpp::exception& e) {
-		cerr << "Error: Couldn't save level file: " << e.what() << std::endl;
-		cerr << "Is the file read-only?" << std::endl;
+		cerr << "Error: Couldn't save level file: " << e.what() << endl;
+		cerr << "Is the file read-only?" << endl;
 		pHud_Debug->Set_Text( _("Couldn't save level ") + path_to_utf8(m_level_filename), speedfactor_fps * 5.0f );
 
 		// Abort
@@ -419,7 +419,7 @@ void cLevel :: Reset_Settings( void )
 	m_unload_after_exit = false;
 
 	// MRuby script code
-	m_script = std::string();
+	m_script = string();
 }
 
 void cLevel :: Init( void )
@@ -454,7 +454,7 @@ void cLevel :: Init( void )
 #endif
 }
 
-std::string cLevel :: Get_Level_Name()
+string cLevel :: Get_Level_Name()
 {
 	return path_to_utf8(Trim_Filename(m_level_filename, false, false));
 }
@@ -524,7 +524,7 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	}
 	else if( pAudio->m_music_enabled )
 	{
-		cerr << "Warning : Music file not found: " << path_to_utf8(pActive_Level->m_musicfile) << std::endl;
+		cerr << "Warning : Music file not found: " << path_to_utf8(pActive_Level->m_musicfile) << endl;
 	}
 
 	// Update Hud Text and position
@@ -1040,17 +1040,17 @@ void cLevel :: Set_Filename( fs::path filename, bool rename_old /* = true */ )
 	m_level_filename = filename;
 }
 
-void cLevel :: Set_Author( const std::string &name )
+void cLevel :: Set_Author( const string &name )
 {
 	m_author = name;
 }
 
-void cLevel :: Set_Version( const std::string &level_version )
+void cLevel :: Set_Version( const string &level_version )
 {
 	m_version = level_version;
 }
 
-void cLevel :: Set_Description( const std::string &level_description )
+void cLevel :: Set_Description( const string &level_description )
 {
 	m_description = level_description;
 }
@@ -1071,14 +1071,14 @@ void cLevel :: Set_Land_Type( const LevelLandType level_land_type )
 	m_land_type = level_land_type;
 }
 
-cLevel_Entry *cLevel :: Get_Entry( const std::string &name )
+cLevel_Entry *cLevel :: Get_Entry( const string &name )
 {
 	if( name.empty() )
 	{
 		return NULL;
 	}
 
-	std::vector<cLevel_Entry*> entries;
+	vector<cLevel_Entry*> entries;
 
 	// Search for entries matching name
 	for( cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr )

@@ -44,21 +44,21 @@ public:
 	/* Create a level and returns it if doesn't already exists
 	 * The new level is not set active.
 	*/
-	cLevel *New( std::string levelname );
+	cLevel *New( string levelname );
 	/* Load level and returns it if successful
 	 * If the level is already loaded it is returned but not reloaded.
 	 * The loaded level is not set active.
 	*/
-	cLevel *Load( std::string levelname, bool loading_sublevel = false );
+	cLevel *Load( string levelname, bool loading_sublevel = false );
 	// Set active level
 	bool Set_Active( cLevel *level );
 	// Get level pointer
-	cLevel *Get( const std::string& levelname );
+	cLevel *Get( const string& levelname );
 	/* Return the level path if level is valid else empty().
 	 * check_only_user_dir : only check user directory for the level and
 	 * skip levels included in the game.
 	 */
-	boost::filesystem::path Get_Path( const std::string& levelname, bool check_only_user_dir = false );
+	boost::filesystem::path Get_Path( const string& levelname, bool check_only_user_dir = false );
 	// update
 	void Update( void );
 	// draw
@@ -74,7 +74,7 @@ public:
 	* move_camera: set how to move the camera to the new position
 	* path_identifier: set the identifier of the path to move the camera along
 	*/
-	void Goto_Sub_Level( std::string str_level, const std::string &str_entry, Camera_movement move_camera = CAMERA_MOVE_FLY, const std::string &path_identifier = "" );
+	void Goto_Sub_Level( string str_level, const string &str_entry, Camera_movement move_camera = CAMERA_MOVE_FLY, const string &path_identifier = "" );
 
 
 	// level camera

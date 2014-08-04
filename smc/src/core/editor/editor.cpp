@@ -91,7 +91,7 @@ void cEditor_CEGUI_Texture :: cleanupOpenGLTexture( void )
 
 /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 
-cEditor_Item_Object :: cEditor_Item_Object( const std::string &text, const CEGUI::Listbox *parent )
+cEditor_Item_Object :: cEditor_Item_Object( const string &text, const CEGUI::Listbox *parent )
 : CEGUI::ListboxItem( "" )
 {
 	m_parent = parent;
@@ -177,7 +177,7 @@ void cEditor_Item_Object :: draw( CEGUI::GeometryBuffer &buffer, const CEGUI::Re
 
 /* *** *** *** *** *** *** *** *** cEditor_Menu_Object *** *** *** *** *** *** *** *** *** */
 
-cEditor_Menu_Object :: cEditor_Menu_Object( const std::string &text )
+cEditor_Menu_Object :: cEditor_Menu_Object( const string &text )
 : ListboxTextItem( text.c_str() )
 {
 	bfunction = 0;
@@ -249,7 +249,7 @@ void cEditor :: Init( void )
 	// Get Items
 	if( !File_Exists( m_items_filename ) )
 	{
-        cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
+        cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << endl;
 		return;
 	}
 
@@ -1014,7 +1014,7 @@ void cEditor :: Set_Sprite_Manager( cSprite_Manager *sprite_manager )
 	m_sprite_manager = sprite_manager;
 }
 
-void cEditor :: Add_Menu_Object( const std::string &name, std::string tags, CEGUI::colour normal_color /* = CEGUI::colour( 1, 1, 1 ) */ )
+void cEditor :: Add_Menu_Object( const string &name, string tags, CEGUI::colour normal_color /* = CEGUI::colour( 1, 1, 1 ) */ )
 {
 	// Create Menu Object
 	cEditor_Menu_Object *new_menu = new cEditor_Menu_Object( name );
@@ -1096,7 +1096,7 @@ void cEditor :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 	}
 }
 
-bool cEditor :: Load_Item_Menu( std::string item_tags )
+bool cEditor :: Load_Item_Menu( string item_tags )
 {
 	if( item_tags.empty() )
 	{
@@ -1106,15 +1106,15 @@ bool cEditor :: Load_Item_Menu( std::string item_tags )
 	Unload_Item_Menu();
 
 	// Convert to Array Tags
-	vector<std::string> array_tags;
+    vector<string> array_tags;
 
 	// Convert
 	while( item_tags.length() )
 	{
-		std::string::size_type pos = item_tags.find( ";" );
+        string::size_type pos = item_tags.find( ";" );
 
 		// last item
-		if( pos == std::string::npos )
+        if( pos == string::npos )
 		{
 			array_tags.push_back( item_tags );
 			item_tags.clear();
@@ -1207,7 +1207,7 @@ void cEditor :: Unload_Item_Menu( void )
 }
 
 
-void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" */, cGL_Surface *image /* = NULL */ )
+void cEditor :: Add_Item_Object( cSprite *sprite, string new_name /* = "" */, cGL_Surface *image /* = NULL */ )
 {
 	// if invalid
 	if( !sprite )
@@ -1219,7 +1219,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// set correct array if not given
 	if( sprite->m_sprite_array == ARRAY_UNDEFINED )
 	{
-        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << std::endl;
+        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << endl;
 
 		if( sprite->m_massive_type == MASS_PASSIVE )
 		{
@@ -1238,7 +1238,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// warn if correct type is not given
 	if( sprite->m_type == TYPE_UNDEFINED )
 	{
-        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << std::endl;
+        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << endl;
 	}
 
 	// if no image is given use the sprite start image
@@ -1255,7 +1255,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	}
 
 	// set object name
-	std::string obj_name;
+    string obj_name;
 
 	if( new_name.length() )
 	{
@@ -1276,7 +1276,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 		}
 
 		// Warn if using filename
-        cerr << "Warning : editor object '" << obj_name << "' with no name given" << std::endl;
+        cerr << "Warning : editor object '" << obj_name << "' with no name given" << endl;
 	}
 
 	cEditor_Item_Object *new_item = new cEditor_Item_Object( obj_name, m_listbox_items );
@@ -1304,7 +1304,7 @@ void cEditor :: Load_Image_Items( fs::path dir )
 		if( settings )
 		{
 			// if required editor tag is available
-			if( settings->m_editor_tags.find( m_editor_item_tag ) != std::string::npos )
+            if( settings->m_editor_tags.find( m_editor_item_tag ) != string::npos )
 			{
 				// set base to the filename
 				settings->m_base = filename;
@@ -1594,7 +1594,7 @@ void cEditor :: Replace_Sprites( void )
 		return;
 	}
 
-	std::string image_filename = Box_Text_Input( path_to_utf8(pMouseCursor->m_selected_objects[0]->m_obj->m_start_image->m_path), _("Change selected Sprite(s) image to"), 0 );
+    string image_filename = Box_Text_Input( path_to_utf8(pMouseCursor->m_selected_objects[0]->m_obj->m_start_image->m_path), _("Change selected Sprite(s) image to"), 0 );
 
 	// aborted/invalid
 	if( image_filename.empty() )
@@ -1623,19 +1623,19 @@ void cEditor :: Replace_Sprites( void )
 	}
 }
 
-bool cEditor :: Is_Tag_Available( const std::string &str, const std::string &tag, unsigned int search_pos /* = 0 */ )
+bool cEditor :: Is_Tag_Available( const string &str, const string &tag, unsigned int search_pos /* = 0 */ )
 {
 	// found tag position
-	std::string::size_type pos = str.find( tag, search_pos );
+    string::size_type pos = str.find( tag, search_pos );
 
 	// not found
-	if( pos == std::string::npos )
+    if( pos == string::npos )
 	{
 		return 0;
 	}
 
 	// tag end position
-	std::string::size_type end_pos = pos + tag.length();
+    string::size_type end_pos = pos + tag.length();
 
 	// if tag starting position is valid
 	if( pos == 0 || str.substr( pos - 1, 1 ).compare( ";" ) == 0  )
@@ -1685,11 +1685,11 @@ void cEditor :: Parse_Menu_File( fs::path filename )
 	for(iter=items.begin(); iter != items.end(); iter++) {
 		xmlpp::Element* p_node = dynamic_cast<xmlpp::Element*>(*iter);
 
-		std::string name = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='name']")[0])->get_attribute("value")->get_value();
-		std::string tags = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='tags']")[0])->get_attribute("value")->get_value();
+        string name = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='name']")[0])->get_attribute("value")->get_value();
+        string tags = dynamic_cast<xmlpp::Element*>(p_node->find("property[@name='tags']")[0])->get_attribute("value")->get_value();
 
 		// Set color if available (---header--- elements have no color property)
-		std::string color = "FFFFFFFF";
+        string color = "FFFFFFFF";
 		xmlpp::NodeSet results = p_node->find("property[@name='color']");
 		if (!results.empty())
 			color = dynamic_cast<xmlpp::Element*>(results[0])->get_attribute("value")->get_value();

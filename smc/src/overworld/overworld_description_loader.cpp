@@ -51,8 +51,8 @@ void cOverworldDescriptionLoader::on_end_document()
 void cOverworldDescriptionLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property" || name == "Property") {
-		std::string key;
-		std::string value;
+		string key;
+		string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -82,7 +82,7 @@ void cOverworldDescriptionLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "description" || name == "Description")
 		{ /* Ignore */ }
 	else
-		cerr << "Warning: Unknown World Description element '" << name << "'." << std::endl;
+		cerr << "Warning: Unknown World Description element '" << name << "'." << endl;
 
 	m_current_properties.clear();
 }

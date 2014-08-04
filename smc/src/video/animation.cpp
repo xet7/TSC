@@ -36,7 +36,7 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** Base Animation class *** *** *** *** *** *** *** *** *** *** */
 
-cAnimation :: cAnimation( cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
+cAnimation :: cAnimation( cSprite_Manager *sprite_manager, string type_name /* = "sprite" */ )
 : cAnimated_Sprite( sprite_manager, type_name )
 {
 	m_sprite_array = ARRAY_ANIM;
@@ -708,7 +708,7 @@ cParticle_Emitter *cParticle_Emitter :: Copy( void ) const
 	return particle_animation;
 }
 
-std::string cParticle_Emitter :: Get_XML_Type_Name()
+string cParticle_Emitter :: Get_XML_Type_Name()
 {
 	return "";
 }
@@ -1826,7 +1826,7 @@ void cParticle_Emitter :: Editor_Activate( void )
 bool cParticle_Emitter :: Editor_Filename_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Filename( utf8_to_path(str_text) );
 	Pre_Update();
@@ -1837,7 +1837,7 @@ bool cParticle_Emitter :: Editor_Filename_Text_Changed( const CEGUI::EventArgs &
 bool cParticle_Emitter :: Editor_Pos_Z_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Pos_Z( string_to_float( str_text ), m_pos_z_rand ); 
 	Pre_Update();
@@ -1848,7 +1848,7 @@ bool cParticle_Emitter :: Editor_Pos_Z_Base_Text_Changed( const CEGUI::EventArgs
 bool cParticle_Emitter :: Editor_Pos_Z_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Pos_Z( m_pos_z, string_to_float( str_text ) );
 	Pre_Update();
@@ -1870,7 +1870,7 @@ bool cParticle_Emitter :: Editor_Emitter_Based_On_Camera_Pos_Changed( const CEGU
 bool cParticle_Emitter :: Editor_Particle_Based_On_Emitter_Pos_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Particle_Based_On_Emitter_Pos( string_to_float( str_text ) );
 	Pre_Update();
@@ -1881,7 +1881,7 @@ bool cParticle_Emitter :: Editor_Particle_Based_On_Emitter_Pos_Text_Changed( con
 bool cParticle_Emitter :: Editor_Emitter_Width_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Emitter_Rect( m_start_pos_x, m_start_pos_y, string_to_float( str_text ), m_start_rect.m_h );
 	Pre_Update();
@@ -1892,7 +1892,7 @@ bool cParticle_Emitter :: Editor_Emitter_Width_Text_Changed( const CEGUI::EventA
 bool cParticle_Emitter :: Editor_Emitter_Height_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Emitter_Rect( m_start_pos_x, m_start_pos_y, m_start_rect.m_w, string_to_float( str_text ) );
 	Pre_Update();
@@ -1903,7 +1903,7 @@ bool cParticle_Emitter :: Editor_Emitter_Height_Text_Changed( const CEGUI::Event
 bool cParticle_Emitter :: Editor_Emitter_Time_To_Live_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Emitter_Time_to_Live( string_to_float( str_text ) );
 	Pre_Update();
@@ -1914,7 +1914,7 @@ bool cParticle_Emitter :: Editor_Emitter_Time_To_Live_Text_Changed( const CEGUI:
 bool cParticle_Emitter :: Editor_Emitter_Interval_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Emitter_Iteration_Interval( string_to_float( str_text ) );
 	Pre_Update();
@@ -1925,7 +1925,7 @@ bool cParticle_Emitter :: Editor_Emitter_Interval_Text_Changed( const CEGUI::Eve
 bool cParticle_Emitter :: Editor_Quota_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Quota( string_to_int( str_text ) );
 	Pre_Update();
@@ -1936,7 +1936,7 @@ bool cParticle_Emitter :: Editor_Quota_Text_Changed( const CEGUI::EventArgs &eve
 bool cParticle_Emitter :: Editor_TTL_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Time_to_Live( string_to_float( str_text ), m_time_to_live_rand );
 	Pre_Update();
@@ -1947,7 +1947,7 @@ bool cParticle_Emitter :: Editor_TTL_Base_Text_Changed( const CEGUI::EventArgs &
 bool cParticle_Emitter :: Editor_TTL_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Time_to_Live( m_time_to_live, string_to_float( str_text ) );
 	Pre_Update();
@@ -1958,7 +1958,7 @@ bool cParticle_Emitter :: Editor_TTL_Rand_Text_Changed( const CEGUI::EventArgs &
 bool cParticle_Emitter :: Editor_Velocity_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( string_to_float( str_text ), m_vel_rand );
 	Pre_Update();
@@ -1969,7 +1969,7 @@ bool cParticle_Emitter :: Editor_Velocity_Base_Text_Changed( const CEGUI::EventA
 bool cParticle_Emitter :: Editor_Velocity_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( m_vel, string_to_float( str_text ) );
 	Pre_Update();
@@ -1980,7 +1980,7 @@ bool cParticle_Emitter :: Editor_Velocity_Rand_Text_Changed( const CEGUI::EventA
 bool cParticle_Emitter :: Editor_Rotation_X_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Rotation_X( string_to_float( str_text ), 1 );
 	Pre_Update();
@@ -1991,7 +1991,7 @@ bool cParticle_Emitter :: Editor_Rotation_X_Base_Text_Changed( const CEGUI::Even
 bool cParticle_Emitter :: Editor_Rotation_Y_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Rotation_Y( string_to_float( str_text ), 1 );
 	Pre_Update();
@@ -2013,7 +2013,7 @@ bool cParticle_Emitter :: Editor_Start_Rot_Z_Uses_Direction_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Rotation_Z_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Rotation_Z( string_to_float( str_text ), 1 );
 	Pre_Update();
@@ -2024,7 +2024,7 @@ bool cParticle_Emitter :: Editor_Rotation_Z_Base_Text_Changed( const CEGUI::Even
 bool cParticle_Emitter :: Editor_Const_Rotation_X_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Const_Rotation_X( string_to_float( str_text ), m_const_rot_z_rand );
 	Pre_Update();
@@ -2035,7 +2035,7 @@ bool cParticle_Emitter :: Editor_Const_Rotation_X_Base_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Const_Rotation_X_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Const_Rotation_X( m_const_rot_z, string_to_float( str_text ) );
 	Pre_Update();
@@ -2046,7 +2046,7 @@ bool cParticle_Emitter :: Editor_Const_Rotation_X_Rand_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Const_Rotation_Y_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Const_Rotation_Y( string_to_float( str_text ), m_const_rot_z_rand );
 	Pre_Update();
@@ -2057,7 +2057,7 @@ bool cParticle_Emitter :: Editor_Const_Rotation_Y_Base_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Const_Rotation_Y_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Const_Rotation_Y( m_const_rot_z, string_to_float( str_text ) );
 	Pre_Update();
@@ -2068,7 +2068,7 @@ bool cParticle_Emitter :: Editor_Const_Rotation_Y_Rand_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Const_Rotation_Z_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Const_Rotation_Z( string_to_float( str_text ), m_const_rot_z_rand );
 	Pre_Update();
@@ -2079,7 +2079,7 @@ bool cParticle_Emitter :: Editor_Const_Rotation_Z_Base_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Const_Rotation_Z_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Const_Rotation_Z( m_const_rot_z, string_to_float( str_text ) );
 	Pre_Update();
@@ -2090,7 +2090,7 @@ bool cParticle_Emitter :: Editor_Const_Rotation_Z_Rand_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Direction_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Direction_Range( string_to_float( str_text ), m_angle_range );
 	Pre_Update();
@@ -2101,7 +2101,7 @@ bool cParticle_Emitter :: Editor_Direction_Base_Text_Changed( const CEGUI::Event
 bool cParticle_Emitter :: Editor_Direction_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Direction_Range( m_angle_start, string_to_float( str_text ) );
 	Pre_Update();
@@ -2112,7 +2112,7 @@ bool cParticle_Emitter :: Editor_Direction_Rand_Text_Changed( const CEGUI::Event
 bool cParticle_Emitter :: Editor_Scale_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Scale( string_to_float( str_text ), m_size_scale_rand );
 	Pre_Update();
@@ -2123,7 +2123,7 @@ bool cParticle_Emitter :: Editor_Scale_Base_Text_Changed( const CEGUI::EventArgs
 bool cParticle_Emitter :: Editor_Scale_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Scale( m_size_scale, string_to_float( str_text ) );
 	Pre_Update();
@@ -2134,7 +2134,7 @@ bool cParticle_Emitter :: Editor_Scale_Rand_Text_Changed( const CEGUI::EventArgs
 bool cParticle_Emitter :: Editor_Horizontal_Gravity_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Horizontal_Gravity( string_to_float( str_text ), m_gravity_x_rand );
 	Pre_Update();
@@ -2145,7 +2145,7 @@ bool cParticle_Emitter :: Editor_Horizontal_Gravity_Base_Text_Changed( const CEG
 bool cParticle_Emitter :: Editor_Horizontal_Gravity_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Horizontal_Gravity( m_gravity_x, string_to_float( str_text ) );
 	Pre_Update();
@@ -2156,7 +2156,7 @@ bool cParticle_Emitter :: Editor_Horizontal_Gravity_Rand_Text_Changed( const CEG
 bool cParticle_Emitter :: Editor_Vertical_Gravity_Base_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Vertical_Gravity( string_to_float( str_text ), m_gravity_y_rand );
 	Pre_Update();
@@ -2167,7 +2167,7 @@ bool cParticle_Emitter :: Editor_Vertical_Gravity_Base_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Vertical_Gravity_Rand_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Vertical_Gravity( m_gravity_y, string_to_float( str_text ) );
 	Pre_Update();
@@ -2178,7 +2178,7 @@ bool cParticle_Emitter :: Editor_Vertical_Gravity_Rand_Text_Changed( const CEGUI
 bool cParticle_Emitter :: Editor_Clip_Rect_X_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Clip_Rect( string_to_float( str_text ), m_clip_rect.m_y, m_clip_rect.m_w, m_clip_rect.m_h );
 	Pre_Update();
@@ -2189,7 +2189,7 @@ bool cParticle_Emitter :: Editor_Clip_Rect_X_Text_Changed( const CEGUI::EventArg
 bool cParticle_Emitter :: Editor_Clip_Rect_Y_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Clip_Rect( m_clip_rect.m_x, string_to_float( str_text ), m_clip_rect.m_w, m_clip_rect.m_h );
 	Pre_Update();
@@ -2200,7 +2200,7 @@ bool cParticle_Emitter :: Editor_Clip_Rect_Y_Text_Changed( const CEGUI::EventArg
 bool cParticle_Emitter :: Editor_Clip_Rect_W_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Clip_Rect( m_clip_rect.m_x, m_clip_rect.m_y, string_to_float( str_text ), m_clip_rect.m_h );
 	Pre_Update();
@@ -2211,7 +2211,7 @@ bool cParticle_Emitter :: Editor_Clip_Rect_W_Text_Changed( const CEGUI::EventArg
 bool cParticle_Emitter :: Editor_Clip_Rect_H_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Clip_Rect( m_clip_rect.m_x, m_clip_rect.m_y, m_clip_rect.m_w, string_to_float( str_text ) );
 	Pre_Update();
@@ -2223,7 +2223,7 @@ bool cParticle_Emitter :: Editor_Clip_Mode_Select( const CEGUI::EventArgs &event
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-	std::string str_text = item->getText().c_str();
+	string str_text = item->getText().c_str();
 
 	if( str_text.compare( "move" ) == 0 )
 	{

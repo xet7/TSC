@@ -70,10 +70,10 @@ cWaypoint :: cWaypoint( XmlAttributes &attributes, cSprite_Manager *sprite_manag
 		Set_Destination(attributes["destination"]);
 
 	// backward direction
-	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<std::string>("direction_backward", "left")));
+	Set_Direction_Backward(Get_Direction_Id(attributes.fetch<string>("direction_backward", "left")));
 
 	// forward direction
-	Set_Direction_Forward(Get_Direction_Id(attributes.fetch<std::string>("direction_forward", "right")));
+	Set_Direction_Forward(Get_Direction_Id(attributes.fetch<string>("direction_forward", "right")));
 
 	// access
 	Set_Access(attributes.fetch<bool>("access", true), true);
@@ -122,7 +122,7 @@ cWaypoint *cWaypoint :: Copy( void ) const
 	return waypoint;
 }
 
-std::string cWaypoint :: Get_XML_Type_Name()
+string cWaypoint :: Get_XML_Type_Name()
 {
 	return int_to_string(m_waypoint_type);
 }
@@ -355,12 +355,12 @@ void cWaypoint :: Set_Access( bool enabled, bool new_start_access /* = 0 */ )
 	}
 }
 
-void cWaypoint :: Set_Destination( std::string level_or_worldname )
+void cWaypoint :: Set_Destination( string level_or_worldname )
 {
 	m_destination = level_or_worldname;
 }
 
-std::string cWaypoint :: Get_Destination() const
+string cWaypoint :: Get_Destination() const
 {
 	return m_destination;
 }
@@ -374,7 +374,7 @@ boost::filesystem::path cWaypoint :: Get_Destination_Path()
 		return pResource_Manager->Get_Game_Overworld(m_destination);
 	default:
 		// FIXME: Throw an exception
-		cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;
+		cerr << "Error: Undefined waypoint type" << m_waypoint_type << endl;
 		return boost::filesystem::path();
 	}
 }
@@ -476,7 +476,7 @@ bool cWaypoint :: Editor_Type_Select( const CEGUI::EventArgs &event )
 bool cWaypoint :: Editor_Destination_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Destination( str_text );
 

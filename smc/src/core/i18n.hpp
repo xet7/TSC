@@ -33,7 +33,7 @@ namespace SMC
 // init internationalization
 void I18N_Init( void );
 // set language
-void I18N_Set_Language( const std::string &default_language );
+void I18N_Set_Language( const string &default_language );
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

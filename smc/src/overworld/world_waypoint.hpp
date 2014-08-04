@@ -62,9 +62,9 @@ public:
 	void Set_Access( bool enabled, bool new_start_access = 0 );
 
 	// Set the Destination, either a level or world name (NOT a path!)
-	void Set_Destination( std::string level_or_worldname );
+	void Set_Destination( string level_or_worldname );
 	// Returns the Destination's level or world name (no path)
-	std::string Get_Destination() const;
+	string Get_Destination() const;
 	// Returns the Destination’s full filename (world or level file).
 	boost::filesystem::path Get_Destination_Path();
 
@@ -91,7 +91,7 @@ public:
 	*/
 	Waypoint_type m_waypoint_type;
 	// destination
-	std::string m_destination;
+	string m_destination;
 
 	// if this waypoint is accessible
 	bool m_access;
@@ -111,7 +111,7 @@ public:
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 protected:
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

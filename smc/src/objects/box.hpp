@@ -63,7 +63,7 @@ public:
 	/* Set the Animation Type
 	 * new_anim_type can be : Bonus, Default or Power
 	*/
-	void Set_Animation_Type( const std::string &new_anim_type );
+	void Set_Animation_Type( const string &new_anim_type );
 	// sets the count this object can be activated
 	virtual void Set_Useable_Count( int count, bool new_startcount = 0 );
 	// Set invisible type
@@ -116,7 +116,7 @@ public:
 	bool Editor_Invisible_Select( const CEGUI::EventArgs &event );
 
 	// animation type
-	std::string m_anim_type;
+	string m_anim_type;
 	// box type
 	SpriteType box_type;
 
@@ -144,10 +144,10 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-	virtual std::string Create_Name( void ) const;
+	virtual string Create_Name( void ) const;
 
 protected:
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

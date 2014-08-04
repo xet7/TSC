@@ -35,7 +35,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+	string typestr(mrb_sym2name(p_state, type));
 
 	cBall* p_ball = new cBall(pActive_Level->m_sprite_manager);
 	DATA_PTR(self) = p_ball;
@@ -85,7 +85,7 @@ static mrb_value Get_Ball_Type(mrb_state* p_state, mrb_value self)
 	case ICEBALL_EXPLOSION:
 		return str2sym(p_state, "ice_explosion");
 	default:
-		cerr << "Unknown ball effect type " << p_ball->m_ball_type << "." << std::endl;
+		cerr << "Unknown ball effect type " << p_ball->m_ball_type << "." << endl;
 		return mrb_nil_value();
 	}
 }

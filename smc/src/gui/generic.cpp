@@ -94,7 +94,7 @@ cDialogBox_Text :: ~cDialogBox_Text( void )
 
 }
 
-void cDialogBox_Text :: Init( std::string title_text )
+void cDialogBox_Text :: Init( string title_text )
 {
 	cDialogBox::Init();
 
@@ -108,7 +108,7 @@ void cDialogBox_Text :: Init( std::string title_text )
 	box_editbox = static_cast<CEGUI::Editbox *>(CEGUI::WindowManager::getSingleton().getWindow( "box_text_editbox" ));
 }
 
-std::string cDialogBox_Text :: Enter( std::string default_text, std::string title_text, bool auto_no_text /* = 1 */ )
+string cDialogBox_Text :: Enter( string default_text, string title_text, bool auto_no_text /* = 1 */ )
 {
 	pVideo->Render_Finish();
 	Init( title_text );
@@ -161,7 +161,7 @@ std::string cDialogBox_Text :: Enter( std::string default_text, std::string titl
 		Draw();
 	}
 
-	std::string return_string = box_editbox->getText().c_str();
+	string return_string = box_editbox->getText().c_str();
 	Exit();
 	return return_string;
 }
@@ -208,7 +208,7 @@ void cDialogBox_Question :: Init( bool with_cancel )
 	}
 }
 
-int cDialogBox_Question :: Enter( std::string text, bool with_cancel /* = 0 */ )
+int cDialogBox_Question :: Enter( string text, bool with_cancel /* = 0 */ )
 {
 	Init( with_cancel );
 
@@ -334,7 +334,7 @@ void Gui_Handle_Time( void )
 	last_time_pulse = t;
 }
 
-void Draw_Static_Text( const std::string &text, const Color *color_text /* = &white */, const Color *color_bg /* = NULL */, bool wait_for_input /* = 1 */ )
+void Draw_Static_Text( const string &text, const Color *color_text /* = &white */, const Color *color_bg /* = NULL */, bool wait_for_input /* = 1 */ )
 {
 	// fixme : Can't handle multiple lines of text. Change to MultiLineEditbox or use HorzFormatting=WordWrapLeftAligned property.
 	bool draw = 1;
@@ -416,16 +416,16 @@ void Draw_Static_Text( const std::string &text, const Color *color_text /* = &wh
 	CEGUI::WindowManager::getSingleton().destroyWindow( window_statictext );
 }
 
-std::string Box_Text_Input( const std::string &default_text, const std::string &title_text, bool auto_no_text /* = 1 */ )
+string Box_Text_Input( const string &default_text, const string &title_text, bool auto_no_text /* = 1 */ )
 {
 	cDialogBox_Text *box = new cDialogBox_Text();
-	std::string return_value = box->Enter( default_text, title_text, auto_no_text );
+	string return_value = box->Enter( default_text, title_text, auto_no_text );
 	delete box;
 
 	return return_value;
 }
 
-int Box_Question( const std::string &text, bool with_cancel /* = 0 */ )
+int Box_Question( const string &text, bool with_cancel /* = 0 */ )
 {
 	cDialogBox_Question *box = new cDialogBox_Question();
 	int return_value = box->Enter( text, with_cancel );
@@ -434,9 +434,9 @@ int Box_Question( const std::string &text, bool with_cancel /* = 0 */ )
 	return return_value;
 }
 
-std::string Get_Clipboard_Content( void )
+string Get_Clipboard_Content( void )
 {
-	std::string content;
+	string content;
 #ifdef _WIN32
 	if( OpenClipboard( NULL ) )
 	{
@@ -530,7 +530,7 @@ std::string Get_Clipboard_Content( void )
 	return content;
 }
 
-void Set_Clipboard_Content( std::string str )
+void Set_Clipboard_Content( string str )
 {
 #ifdef _WIN32
 	if( OpenClipboard( NULL ) )
@@ -541,7 +541,7 @@ void Set_Clipboard_Content( std::string str )
 			return;
 		}
 
-		unsigned int length = ( str.length() + 1 ) * sizeof(std::string::allocator_type);
+		unsigned int length = ( str.length() + 1 ) * sizeof(string::allocator_type);
 		HANDLE h = GlobalAlloc( (GMEM_MOVEABLE|GMEM_DDESHARE|GMEM_ZEROINIT), length );
 
 		if( !h )

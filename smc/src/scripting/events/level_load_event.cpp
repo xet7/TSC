@@ -6,17 +6,17 @@ using namespace SMC;
 using namespace SMC::Scripting;
 using namespace std;
 
-cLevel_Load_Event::cLevel_Load_Event(std::string save_data)
+cLevel_Load_Event::cLevel_Load_Event(string save_data)
 {
 	m_save_data = save_data;
 }
 
-std::string cLevel_Load_Event::Event_Name()
+string cLevel_Load_Event::Event_Name()
 {
 	return "load";
 }
 
-std::string cLevel_Load_Event::Get_Save_Data()
+string cLevel_Load_Event::Get_Save_Data()
 {
 	return m_save_data;
 }
@@ -33,11 +33,11 @@ void cLevel_Load_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_valu
 	// Bad things happened
 	if (p_state->exc) {
 		mrb_value exception = mrb_obj_value(p_state->exc);
-		std::string text = mrb_string_value_ptr(p_state, mrb_funcall(p_state, exception, "message", 0));
+		string text = mrb_string_value_ptr(p_state, mrb_funcall(p_state, exception, "message", 0));
 
 		cerr << "Warning: Failed to deserialize JSON representation from savegame: ";
-		cerr << text << std::endl;
-		cerr << std::endl << "(Skipping all handlers registered to Level.on_load)" << std::endl;
+		cerr << text << endl;
+		cerr << endl << "(Skipping all handlers registered to Level.on_load)" << endl;
 		return;
 	}
 

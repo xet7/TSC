@@ -47,7 +47,7 @@ public:
 	void Set_Exit_To_Game_Mode( GameMode gamemode );
 
 	// gui layout filename
-	std::string m_layout_file;
+	string m_layout_file;
 	// CEGUI window
 	CEGUI::Window *m_gui_window;
 
@@ -103,7 +103,7 @@ public:
 	/* Highlight the given level
 	 * and activates level tab if needed
 	*/
-	bool Highlight_Level( std::string lvl_name );
+	bool Highlight_Level( string lvl_name );
 	/* Load the Selected Listbox item
 	 * and exit if successful
 	*/
@@ -112,15 +112,15 @@ public:
 	/* Load the Campaign
 	 * and exit if successful
 	*/
-	void Load_Campaign( std::string name );
+	void Load_Campaign( string name );
 	/* Load the World
 	 * and exit if successful
 	*/
-	void Load_World( std::string name );
+	void Load_World( string name );
 	/* Load the Level
 	 * and exit if successful
 	*/
-	bool Load_Level( std::string name );
+	bool Load_Level( string name );
 
 	// tabcontrol selection changed event
 	bool TabControl_Selection_Changed( const CEGUI::EventArgs &event );
@@ -197,7 +197,7 @@ public:
 	 * and exit if successful
 	 * joystick : if true set it for joystick
 	*/
-	void Set_Shortcut( std::string name, void *data, bool joystick = 0 );
+	void Set_Shortcut( string name, void *data, bool joystick = 0 );
 
 	// Select given Joystick
 	void Joy_Default( unsigned int index );
@@ -319,7 +319,7 @@ public:
 	void Update_Save( void );
 
 	// Set Savegame Description
-	std::string Set_Save_Description( unsigned int save_slot );
+	string Set_Save_Description( unsigned int save_slot );
 	// Update Savegame Descriptions
 	void Update_Saved_Games_Text( void );
 
@@ -348,7 +348,7 @@ public:
 
 
 	// Add a line to the credits text
-	void Add_Credits_Line( const std::string &text, float posx, float posy, const Color &color = black, float shadow_pos = 0.0f, const Color &shadow_color = black );
+	void Add_Credits_Line( const string &text, float posx, float posy, const Color &color = black, float shadow_pos = 0.0f, const Color &shadow_color = black );
 	/* fade from the normal menu to the the credits menu
 	 * fade_in : if set fade in instead of fade out
 	*/

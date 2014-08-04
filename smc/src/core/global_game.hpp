@@ -17,6 +17,8 @@
 #define SMC_GLOBAL_GAME_HPP
 #include "global_basic.hpp"
 
+using namespace std;
+
 namespace SMC
 {
 

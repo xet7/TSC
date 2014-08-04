@@ -57,7 +57,7 @@ public:
 
 protected:
 	// save to XML node inherited
-	virtual std::string Get_XML_Type_Name(){return "";}
+	virtual string Get_XML_Type_Name(){return "";}
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

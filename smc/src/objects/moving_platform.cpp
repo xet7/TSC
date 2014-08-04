@@ -169,7 +169,7 @@ cMoving_Platform *cMoving_Platform :: Copy( void ) const
 	return moving_platform;
 }
 
-std::string cMoving_Platform :: Get_XML_Type_Name()
+string cMoving_Platform :: Get_XML_Type_Name()
 {
 	return int_to_string(m_move_type);
 }
@@ -330,7 +330,7 @@ void cMoving_Platform :: Set_Move_Type( Moving_Platform_Type move_type )
 	}
 }
 
-void cMoving_Platform :: Set_Path_Identifier( const std::string &identifier )
+void cMoving_Platform :: Set_Path_Identifier( const string &identifier )
 {
 	m_path_state.Set_Path_Identifier( identifier );
 	Set_Velocity( 0, 0 );
@@ -1259,7 +1259,7 @@ bool cMoving_Platform :: Editor_Move_Type_Select( const CEGUI::EventArgs &event 
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
 	CEGUI::ListboxItem *item = static_cast<CEGUI::Combobox *>( windowEventArgs.window )->getSelectedItem();
-	std::string str_text = item->getText().c_str();
+	string str_text = item->getText().c_str();
 
 	if( str_text.compare( "line" ) == 0 )
 	{
@@ -1286,7 +1286,7 @@ bool cMoving_Platform :: Editor_Move_Type_Select( const CEGUI::EventArgs &event 
 bool cMoving_Platform :: Editor_Path_Identifier_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Path_Identifier( str_text );
 
@@ -1307,7 +1307,7 @@ bool cMoving_Platform :: Editor_Direction_Select( const CEGUI::EventArgs &event 
 bool cMoving_Platform :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Distance( string_to_int( str_text ) );
 
@@ -1317,7 +1317,7 @@ bool cMoving_Platform :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArg
 bool cMoving_Platform :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( string_to_float( str_text ) );
 
@@ -1327,7 +1327,7 @@ bool cMoving_Platform :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &even
 bool cMoving_Platform :: Editor_Touch_Time_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Touch_Time( string_to_float( str_text ) );
 
@@ -1337,7 +1337,7 @@ bool cMoving_Platform :: Editor_Touch_Time_Text_Changed( const CEGUI::EventArgs 
 bool cMoving_Platform :: Editor_Shake_Time_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Shake_Time( string_to_float( str_text ) );
 
@@ -1347,7 +1347,7 @@ bool cMoving_Platform :: Editor_Shake_Time_Text_Changed( const CEGUI::EventArgs 
 bool cMoving_Platform :: Editor_Touch_Move_Time_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Touch_Move_Time( string_to_float( str_text ) );
 
@@ -1357,7 +1357,7 @@ bool cMoving_Platform :: Editor_Touch_Move_Time_Text_Changed( const CEGUI::Event
 bool cMoving_Platform :: Editor_Hor_Middle_Count_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Middle_Count( string_to_int( str_text ) );
 
@@ -1367,7 +1367,7 @@ bool cMoving_Platform :: Editor_Hor_Middle_Count_Text_Changed( const CEGUI::Even
 bool cMoving_Platform :: Editor_Image_Top_Left_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Top_Left( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
@@ -1377,7 +1377,7 @@ bool cMoving_Platform :: Editor_Image_Top_Left_Text_Changed( const CEGUI::EventA
 bool cMoving_Platform :: Editor_Image_Top_Middle_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Top_Middle( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
@@ -1387,16 +1387,16 @@ bool cMoving_Platform :: Editor_Image_Top_Middle_Text_Changed( const CEGUI::Even
 bool cMoving_Platform :: Editor_Image_Top_Right_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Top_Right( pVideo->Get_Surface( utf8_to_path( str_text ) ) ); // Automatically converted to absolute path by Get_Surface()
 
 	return 1;
 }
 
-std::string cMoving_Platform :: Create_Name( void ) const
+string cMoving_Platform :: Create_Name( void ) const
 {
-	std::string name;
+	string name;
 
 	if( m_touch_time )
 	{

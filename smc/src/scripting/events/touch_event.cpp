@@ -10,7 +10,7 @@ cTouch_Event::cTouch_Event(cSprite* p_collided)
 	mp_collided = p_collided;
 }
 
-std::string cTouch_Event::Event_Name()
+string cTouch_Event::Event_Name()
 {
 	return "touch";
 }

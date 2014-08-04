@@ -140,7 +140,7 @@ void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 		Add_Property( p_node, "const_vely", m_const_vel_y );
 	}
 	else
-		cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
+		cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << endl;
 	// </background>
 }
 
@@ -154,7 +154,7 @@ void cBackground :: Set_Type( const BackgroundType type )
 	m_type = type;
 }
 
-void cBackground :: Set_Type( const std::string &type ) 
+void cBackground :: Set_Type( const string &type ) 
 {
 	if( type.compare( "Disabled" ) == 0 )
 	{
@@ -377,12 +377,12 @@ void cBackground :: Draw_Gradient( void )
 	}
 }
 
-std::string cBackground :: Get_Type_Name( void ) const
+string cBackground :: Get_Type_Name( void ) const
 {
 	return Get_Type_Name( m_type );
 }
 
-std::string cBackground :: Get_Type_Name( const BackgroundType type )
+string cBackground :: Get_Type_Name( const BackgroundType type )
 {
 	switch( type )
 	{

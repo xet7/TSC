@@ -94,7 +94,7 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym color;
 	mrb_get_args(p_state, "n", &color);
-	std::string colorstr = mrb_sym2name(p_state, color);
+	string colorstr = mrb_sym2name(p_state, color);
 
 	DefaultColor col;
 	if (colorstr == "blue")

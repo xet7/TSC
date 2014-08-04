@@ -55,8 +55,8 @@ void cOverworldLoader::on_end_document()
 void cOverworldLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property" || name == "Property") {
-		std::string key;
-		std::string value;
+		string key;
+		string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -101,7 +101,7 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 		if (p_object)
 			mp_overworld->m_sprite_manager->Add(p_object);
 		else
-			cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
+			cerr << "Warning: Unknown overworld element '" << name << "'" << endl;
 	}
 
 	// Everything handled, so we can now safely clear the
@@ -154,7 +154,7 @@ void cOverworldLoader::Parse_Tag_Background()
  * Create_World_Object_From_XML()
  ***************************************/
 
-cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
+cSprite* cOverworldLoader::Create_World_Object_From_XML(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld)
 {
 	if (name == "sprite")
 		return Create_Sprite_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
@@ -165,7 +165,7 @@ cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name,
 	else if (name == "line")
 		return Create_Line_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
 	else
-		cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown world object XML tag '" << name << "'" << endl;
 
 	return NULL;
 }
@@ -217,7 +217,7 @@ cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes,
 
 	/* Actually, this is the only one of 3 sprites that will be added to p_sprite_manager
 	 * by the caller (see HACKs above). cLevelLoader solves this problem by returning
-	 * a std::vector of cSprite instances instead, but retrospectively this seems
+	 * a vector of cSprite instances instead, but retrospectively this seems
 	 * overkill for a problem that will be gone when backward compatibility is
 	 * finally dropped. */
 	return p_sprite;

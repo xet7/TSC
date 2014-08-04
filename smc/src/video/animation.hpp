@@ -37,7 +37,7 @@ enum BlendingMode
 class cAnimation : public cAnimated_Sprite
 {
 public:
-	cAnimation( cSprite_Manager *sprite_manager, std::string type_name = "sprite" );
+	cAnimation( cSprite_Manager *sprite_manager, string type_name = "sprite" );
 	virtual ~cAnimation( void );
 
 	// initialize animation
@@ -377,7 +377,7 @@ public:
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 protected:
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 
 private:
 	// time alive

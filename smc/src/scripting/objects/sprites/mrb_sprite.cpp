@@ -195,7 +195,7 @@ static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
 {
 	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 	mrb_sym typesym;
-	std::string type;
+	string type;
 	mrb_get_args(p_state, "n", &typesym);
 	type = mrb_sym2name(p_state, typesym);
 

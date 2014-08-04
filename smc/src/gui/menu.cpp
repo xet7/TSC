@@ -372,7 +372,7 @@ bool cMenuCore :: Key_Down( SDLKey key )
 	else if( key == SDLK_x && pKeyboard->Is_Ctrl_Down() )
 	{
 		// random level name
-		std::string lvl_name;
+		string lvl_name;
 
 		if( !CEGUI::WindowManager::getSingleton().isWindowPresent( "listbox_levels" ) )
 		{
@@ -515,7 +515,7 @@ bool cMenuCore :: Mouse_Up( Uint8 button )
 	return 1;
 }
 
-cMenu_Item *cMenuCore :: Auto_Menu( std::string imagename, std::string imagefilename_menu, float ypos /* = 0 */, bool is_quit /* = 0 */ )
+cMenu_Item *cMenuCore :: Auto_Menu( string imagename, string imagefilename_menu, float ypos /* = 0 */, bool is_quit /* = 0 */ )
 {
 	cMenu_Item *temp_item = new cMenu_Item( m_handler->m_level->m_sprite_manager );
 

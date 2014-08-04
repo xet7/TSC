@@ -76,7 +76,7 @@ public:
 	// Set the type
 	void Set_Type( Level_Entry_type new_type );
 	// Set the name
-	void Set_Name( const std::string &str_name );
+	void Set_Name( const string &str_name );
 
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
@@ -91,7 +91,7 @@ public:
 	// level entry type
 	Level_Entry_type m_entry_type;
 	// identification name
-	std::string m_entry_name;
+	string m_entry_name;
 
 	// editor type color
 	Color m_editor_color;
@@ -100,10 +100,10 @@ public:
 
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-	virtual std::string  Create_Name( void ) const;
+	virtual string  Create_Name( void ) const;
 
 protected:
-	virtual std::string Get_XML_Type_Name();
+	virtual string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
