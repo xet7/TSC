@@ -61,28 +61,28 @@ string string_trim_from_end( string str, const char search )
 
 string int_to_string( const int number )
 {
-	std::ostringstream os;
+	ostringstream os;
 	os << number;
 	return os.str();
 }
 
 string uint_to_string( const unsigned int number)
 {
-	std::ostringstream os;
+	ostringstream os;
 	os << number;
 	return os.str();
 }
 
 string int64_to_string( const Uint64 number )
 {
-	std::ostringstream os;
+	ostringstream os;
 	os << number;
 	return os.str();
 }
 
 string long_to_string( const long number )
 {
-	std::ostringstream os;
+	ostringstream os;
 	os << number;
 	return os.str();
 }
@@ -177,8 +177,8 @@ string float_to_string( double value, int prec /* = 6 */, bool keep_zeros /* = 1
 	*/
 	if(value > thres_max)
 	{
-		std::ostringstream temp;
-		temp.setf( std::ios_base::fixed );
+		ostringstream temp;
+		temp.setf( ios_base::fixed );
 		temp << value;
 
 		return temp.str();
@@ -261,9 +261,9 @@ string float_to_string( double value, int prec /* = 6 */, bool keep_zeros /* = 1
 }
 
 // string conversion helper
-template <class T> bool from_string( T &t, const string &s, std::ios_base &(*f)(std::ios_base&) )
+template <class T> bool from_string( T &t, const string &s, ios_base &(*f)(ios_base&) )
 {
-	std::istringstream iss( s );
+    istringstream iss( s );
 	return !(iss >> f >> t).fail();
 }
 
@@ -271,7 +271,7 @@ int string_to_int( const string &str )
 {
 	int num = 0;
 	// use helper
-	from_string<int>( num, str, std::dec );
+	from_string<int>( num, str, dec );
 	return num;
 }
 
@@ -279,7 +279,7 @@ unsigned int string_to_uint( const string& str )
 {
 	unsigned int num = 0;
 	// use helper
-	from_string<unsigned int>(num, str, std::dec);
+	from_string<unsigned int>(num, str, dec);
 	return num;
 }
 
@@ -287,7 +287,7 @@ Uint64 string_to_int64( const string &str )
 {
 	Uint64 num = 0;
 	// use helper
-	from_string<Uint64>( num, str, std::dec );
+	from_string<Uint64>( num, str, dec );
 	return num;
 }
 
@@ -295,7 +295,7 @@ long string_to_long( const string &str )
 {
 	long num = 0;
 	// use helper
-	from_string<long>( num, str, std::dec );
+	from_string<long>( num, str, dec );
 	return num;
 }
 
@@ -303,7 +303,7 @@ float string_to_float( const string &str )
 {
 	float num = 0.0f;
 	// use helper
-	from_string<float>( num, str, std::dec );
+	from_string<float>( num, str, dec );
 	return num;
 }
 
@@ -311,7 +311,7 @@ double string_to_double( const string &str )
 {
 	double num = 0.0;
 	// use helper
-	from_string<double>( num, str, std::dec );
+	from_string<double>( num, str, dec );
 	return num;
 }
 
@@ -389,7 +389,7 @@ string xml_string_to_string( string str )
 }
 
 #ifdef _WIN32
-string ucs2_to_utf8( const std::wstring &utf16 )
+string ucs2_to_utf8( const wstring &utf16 )
 {
 	if( utf16.empty() )
 	{
@@ -414,11 +414,11 @@ string ucs2_to_utf8( const std::wstring &utf16 )
 	return utf8;
 }
 
-std::wstring utf8_to_ucs2( const string& utf8 )
+wstring utf8_to_ucs2( const string& utf8 )
 {
 	if( utf8.empty() )
 	{
-		return std::wstring();
+		return wstring();
 	}
 
 	const int utf16_length = MultiByteToWideChar( CP_UTF8, 0, utf8.data(), utf8.length(), NULL, 0 );
@@ -426,10 +426,10 @@ std::wstring utf8_to_ucs2( const string& utf8 )
 	if( utf16_length == 0 )
 	{
         cerr << "Warning: utf8_to_ucs2 : MultiByteToWideChar returned zero length";
-		return std::wstring();
+		return wstring();
 	}
 
-	std::wstring utf16( utf16_length, 0 );
+	wstring utf16( utf16_length, 0 );
 	if( !MultiByteToWideChar( CP_UTF8, 0, utf8.data(), utf8.length(), &utf16[0], utf16.length() ) )
 	{
         cerr << "Warning: utf8_to_ucs2 : MultiByteToWideChar conversion failed";
@@ -983,7 +983,7 @@ string readfile(boost::filesystem::ifstream& file)
 	string content;
 	string line;
 	while(!file.eof()) {
-		std::getline(file, line);
+        getline(file, line);
 		content.append(line);
 		content.append("\n");
 	}

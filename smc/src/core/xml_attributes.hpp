@@ -6,7 +6,7 @@
 
 namespace SMC {
 
-	class XmlAttributes: public std::map<string, string>
+	class XmlAttributes: public map<string, string>
 	{
 	public:
 		// If the given key `attribute_name' has the value `filename_old'

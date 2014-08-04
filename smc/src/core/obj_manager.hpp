@@ -62,7 +62,7 @@ public:
 		}
 
 		// get iterator
-		typename vector<T *>::iterator itr = std::find( objects.begin(), objects.end(), obj );
+		typename vector<T *>::iterator itr = find( objects.begin(), objects.end(), obj );
 
 		// available in vector
 		if( itr != objects.end() )
@@ -120,7 +120,7 @@ public:
 			return 0;
 		}
 
-		typename vector<T *>::iterator itr1 = std::find( objects.begin(), objects.end(), obj1 );
+		typename vector<T *>::iterator itr1 = find( objects.begin(), objects.end(), obj1 );
 
 		// not in vector
 		if( itr1 == objects.end() )
@@ -128,7 +128,7 @@ public:
 			return 0;
 		}
 
-		typename vector<T *>::iterator itr2 = std::find( objects.begin(), objects.end(), obj2 );
+		typename vector<T *>::iterator itr2 = find( objects.begin(), objects.end(), obj2 );
 
 		// not in vector
 		if( itr2 == objects.end() )
@@ -154,7 +154,7 @@ public:
 			return -1;
 		}
 
-		typename vector<T *>::const_iterator itr_obj = std::find( objects.begin(), objects.end(), obj );
+		typename vector<T *>::const_iterator itr_obj = find( objects.begin(), objects.end(), obj );
 
 		// not in vector
 		if( itr_obj == objects.end() )
@@ -162,7 +162,7 @@ public:
 			return -1;
 		}
 
-		return std::distance( objects.begin(), itr_obj );
+		return distance( objects.begin(), itr_obj );
 	}
 
 	// Return the object count

@@ -178,7 +178,7 @@ void cSprite_Manager :: Move_To_Front( cSprite *sprite )
 	}
 
 	// get iterator
-	cSprite_List::iterator itr = std::find( objects.begin(), objects.end(), sprite );
+	cSprite_List::iterator itr = find( objects.begin(), objects.end(), sprite );
 
 	// not available
 	if( itr == objects.end() )
@@ -212,7 +212,7 @@ void cSprite_Manager :: Move_To_Back( cSprite *sprite )
 	}
 
 	// get iterator
-	cSprite_List::iterator itr = std::find( objects.begin(), objects.end(), sprite );
+	cSprite_List::iterator itr = find( objects.begin(), objects.end(), sprite );
 
 	// not available
 	if( itr == objects.end() )
@@ -269,8 +269,8 @@ void cSprite_Manager :: Delete_All( bool delayed /* = 0 */ )
 	m_uid_pool.clear();
 
 	// clear z position data
-	std::fill( m_z_pos_data.begin(), m_z_pos_data.end(), 0.0f );
-	std::fill( m_z_pos_data_editor.begin(), m_z_pos_data_editor.end(), 0.0f );
+	fill( m_z_pos_data.begin(), m_z_pos_data.end(), 0.0f );
+	fill( m_z_pos_data_editor.begin(), m_z_pos_data_editor.end(), 0.0f );
 }
 
 cSprite *cSprite_Manager :: Get_First( const SpriteType type ) const
@@ -371,12 +371,12 @@ void cSprite_Manager :: Get_Objects_sorted( cSprite_List &new_objects, bool edit
 	if( !editor_sort )
 	{
 		// default
-		std::sort( new_objects.begin(), new_objects.end(), zpos_sort() );
+		sort( new_objects.begin(), new_objects.end(), zpos_sort() );
 	}
 	else
 	{
 		// editor
-		std::sort( new_objects.begin(), new_objects.end(), editor_zpos_sort() );
+		sort( new_objects.begin(), new_objects.end(), editor_zpos_sort() );
 	}
 }
 
@@ -507,7 +507,7 @@ int cSprite_Manager :: Generate_UID()
 		Allocate_UIDs(m_max_uid_mark + 10);
 
 	// Pool is not empty, return the first available UID.
-	std::set<int>::const_iterator iter = m_uid_pool.begin();
+	set<int>::const_iterator iter = m_uid_pool.begin();
 	m_uid_pool.erase(iter);
 	return *iter;
 }
@@ -523,7 +523,7 @@ void cSprite_Manager :: Allocate_UIDs(long new_max_uid_mark)
 	// must refuse the generation of new UIDs beyond the maximum of what an
 	// int can hold.
 	if (new_max_uid_mark >= INT_MAX)
-		throw(std::range_error("Too many sprites, unable to generate further UIDs!"));
+        throw(range_error("Too many sprites, unable to generate further UIDs!"));
 
 	// Actually allocate the numbers for the UID pool
 	for (int i = m_max_uid_mark; i < static_cast<int>(new_max_uid_mark); i++) // new_max_uid_mark is guaranteed to be < INT_MAX

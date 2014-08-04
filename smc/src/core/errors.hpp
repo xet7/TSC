@@ -10,7 +10,7 @@ namespace SMC {
   /**
    * Base class of all SMC-related exceptions.
    */
-  class SMCError: public std::exception
+  class SMCError: public exception
   {
   public:
     SMCError();

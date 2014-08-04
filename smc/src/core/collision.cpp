@@ -48,7 +48,7 @@ void cObjectCollisionType :: Add( cObjectCollision *obj )
 }
 
 // check if sprite
-struct check_if_sprite : public std::binary_function<cObjectCollision *, const cSprite *, bool>
+struct check_if_sprite : public binary_function<cObjectCollision *, const cSprite *, bool>
 {
 	bool operator()( const cObjectCollision *col, const cSprite *sprite ) const
 	{
@@ -57,11 +57,11 @@ struct check_if_sprite : public std::binary_function<cObjectCollision *, const c
 };
 bool cObjectCollisionType :: Is_Included( const cSprite *obj )
 {
-	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite(), obj ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), bind2nd( check_if_sprite(), obj ) ) != objects.end();
 }
 
 // check if array type
-struct check_if_sprite_array : public std::binary_function<cObjectCollision *, ArrayType, bool>
+struct check_if_sprite_array : public binary_function<cObjectCollision *, ArrayType, bool>
 {
 	bool operator()( const cObjectCollision *col, ArrayType type ) const
 	{
@@ -70,11 +70,11 @@ struct check_if_sprite_array : public std::binary_function<cObjectCollision *, A
 };
 bool cObjectCollisionType :: Is_Included( const ArrayType type )
 {
-	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_array(), type ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), bind2nd( check_if_sprite_array(), type ) ) != objects.end();
 }
 
 // check if sprite type
-struct check_if_sprite_type : public std::binary_function<cObjectCollision *, SpriteType, bool>
+struct check_if_sprite_type : public binary_function<cObjectCollision *, SpriteType, bool>
 {
 	bool operator()( const cObjectCollision *col, SpriteType type ) const
 	{
@@ -83,11 +83,11 @@ struct check_if_sprite_type : public std::binary_function<cObjectCollision *, Sp
 };
 bool cObjectCollisionType :: Is_Included( const SpriteType type )
 {
-	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_type(), type ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), bind2nd( check_if_sprite_type(), type ) ) != objects.end();
 }
 
 // check if validation type
-struct check_if_valid_type : public std::binary_function<cObjectCollision *, Col_Valid_Type, bool>
+struct check_if_valid_type : public binary_function<cObjectCollision *, Col_Valid_Type, bool>
 {
 	bool operator()( const cObjectCollision *col, Col_Valid_Type type ) const
 	{
@@ -96,17 +96,17 @@ struct check_if_valid_type : public std::binary_function<cObjectCollision *, Col
 };
 bool cObjectCollisionType :: Is_Included( const Col_Valid_Type type )
 {
-	return find_if( objects.begin(), objects.end(), std::bind2nd( check_if_valid_type(), type ) ) != objects.end();
+	return find_if( objects.begin(), objects.end(), bind2nd( check_if_valid_type(), type ) ) != objects.end();
 }
 
 cObjectCollision *cObjectCollisionType :: Find_First( const ArrayType type )
 {
-	return *find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_array(), type ) );
+	return *find_if( objects.begin(), objects.end(), bind2nd( check_if_sprite_array(), type ) );
 }
 
 cObjectCollision *cObjectCollisionType :: Find_First( const SpriteType type )
 {
-	return *find_if( objects.begin(), objects.end(), std::bind2nd( check_if_sprite_type(), type ) );
+	return *find_if( objects.begin(), objects.end(), bind2nd( check_if_sprite_type(), type ) );
 }
 
 /* *** *** *** *** *** *** *** cObjectCollision *** *** *** *** *** *** *** *** *** *** */

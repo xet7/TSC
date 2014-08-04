@@ -182,7 +182,7 @@ void cJoystick :: Stick_Close( void )
 void cJoystick :: Reset_keys( void )
 {
 	// clear buttons
-	std::fill( m_buttons.begin(), m_buttons.end(), static_cast<bool>(0) );
+	fill( m_buttons.begin(), m_buttons.end(), static_cast<bool>(0) );
 	
 	m_left = 0;
 	m_right = 0;
