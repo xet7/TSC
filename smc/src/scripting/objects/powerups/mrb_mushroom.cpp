@@ -53,7 +53,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *   red
  *   : The normal red mushroom
  *
- *   live
+ *   life
  *   : The green +1 life mushroom
  *
  *   poison
@@ -74,7 +74,7 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 	SpriteType spritetype;
 	if (typestr == "default" || typestr == "red")
 		spritetype = TYPE_MUSHROOM_DEFAULT;
-	else if (typestr == "live" || typestr == "1up")
+	else if (typestr == "life" || typestr == "1up")
 		spritetype = TYPE_MUSHROOM_LIVE_1;
 	else if (typestr == "poison")
 		spritetype = TYPE_MUSHROOM_POISON;
@@ -108,7 +108,7 @@ static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
 	case TYPE_MUSHROOM_DEFAULT:
 		return str2sym(p_state, "red");
 	case TYPE_MUSHROOM_LIVE_1:
-		return str2sym(p_state, "1up");
+		return str2sym(p_state, "life");
 	case TYPE_MUSHROOM_POISON:
 		return str2sym(p_state, "poison");
 	case TYPE_MUSHROOM_BLUE:
