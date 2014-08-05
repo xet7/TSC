@@ -44,6 +44,12 @@ public:
 	// save to savegame
 	virtual cSave_Level_Object *Save_To_Savegame( void );
 
+	// Create the MRuby object for this
+	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+	{
+		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Ball"), &Scripting::rtSMC_Scriptable, this));
+	}
+
 	// set type
 	void Set_Ball_Type( ball_effect type );
 	// set origin

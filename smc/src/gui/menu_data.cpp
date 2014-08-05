@@ -1473,6 +1473,7 @@ void cMenu_Options :: Init_GUI_Game( void )
 
 	m_game_combo_menu_level->addItem( new CEGUI::ListboxTextItem( "menu_green_1" ) );
 	m_game_combo_menu_level->addItem( new CEGUI::ListboxTextItem( "menu_blue_1" ) );
+	m_game_combo_menu_level->addItem( new CEGUI::ListboxTextItem( "menu_brown_1" ) );
 
 	m_game_combo_menu_level->setText( pPreferences->m_menu_level );
 

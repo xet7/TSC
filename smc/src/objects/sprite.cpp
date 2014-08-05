@@ -492,7 +492,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	if (img_filename.is_absolute())
 		img_filename = pPackage_Manager->Get_Relative_Pixmap_Path(img_filename);
 
-	Add_Property(p_node, "image", path_to_utf8(img_filename));
+	Add_Property(p_node, "image", img_filename.generic_string());
 
 	// type (only if Get_XML_Type_Name() returns something meaningful)
 	// type is massive type in real. Should probably have an own XML attribute.

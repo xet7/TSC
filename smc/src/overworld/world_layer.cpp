@@ -75,6 +75,14 @@ cLayer_Line_Point :: ~cLayer_Line_Point( void )
 	}
 }
 
+xmlpp::Element* cLayer_Line_Point :: Save_To_XML_Node(xmlpp::Element* p_element)
+{
+	// Do NOT call parent class’ method as we are no real sprite.
+	// We are being saved into the world description file, so no
+	// need to duplicate nonsensical entries in world.xml.
+	return NULL;
+}
+
 void cLayer_Line_Point :: Draw( cSurface_Request *request /* = NULL */ )
 {
 	if( m_auto_destroy || !pOverworld_Manager->m_draw_layer )

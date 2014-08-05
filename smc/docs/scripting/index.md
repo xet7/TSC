@@ -367,12 +367,14 @@ the MRuby scripting API, grouped by topic:
 |---------------------------------------|---------------------------------------------|
 | Audio → AudioClass                    | Singleton                                   |
 | [AudioClass](audioclass.html)         |                                             |
+| [Ball](ball.html)                     |                                             |
 | [Crate](crate.html)                   |                                             |
 | [EnemyStopper](enemystopper.html)     |                                             |
 | [Eventable](eventable.html)           |                                             |
 | Input → InputClass                    | Singleton                                   |
 | [InputClass](inputclass.html)         |                                             |
 | [Lava](lava.html)                     |                                             |
+| [MovingPlatform](movingplatform.html) |                                             |
 | [Path](path.html)                     |                                             |
 | [Path::Segment](path_segment.html)    |                                             |
 | [Timer](timer.html)                   |                                             |

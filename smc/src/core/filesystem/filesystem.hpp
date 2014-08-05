@@ -44,6 +44,7 @@ size_t Get_File_Size( const std::string &filename );
 
 // Converts "\" and "!" to "/"
 void Convert_Path_Separators( std::string &str );
+void Convert_Path_Separators( boost::filesystem::path &path);
 
 /* Get all files from the directory.
  * dir : the directory to scan

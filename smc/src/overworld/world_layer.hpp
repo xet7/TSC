@@ -36,6 +36,8 @@ public:
 	// destructor
 	virtual ~cLayer_Line_Point( void );
 
+	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+
 	// draw
 	virtual void Draw( cSurface_Request *request = NULL );
 

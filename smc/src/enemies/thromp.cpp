@@ -60,7 +60,7 @@ cThromp :: cThromp( XmlAttributes &attributes, cSprite_Manager *sprite_manager )
 	Set_Max_Distance(string_to_int(attributes.fetch("max_distance", int_to_string(static_cast<int>(m_max_distance)))));
 
 	// speed
-	string_to_float(attributes.fetch("speed", float_to_string(m_speed)));
+	Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
 }
 
 

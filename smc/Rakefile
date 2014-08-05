@@ -1,5 +1,14 @@
 # -*- ruby -*-
 require "rake"
+require "rake/clean"
+
+CLEAN.include("src/credits.cpp")
+CLOBBER.include("build", "crossbuild", "docs/scripting/html")
+
+str = File.read("CMakeLists.txt")
+SMC_VERSION_MAJOR = str.match(/^set\(SMC_VERSION_MAJOR (\d+)\)/)[1]
+SMC_VERSION_MINOR = str.match(/^set\(SMC_VERSION_MINOR (\d+)\)/)[1]
+SMC_VERSION_PATCH = str.match(/^set\(SMC_VERSION_PATCH (\d+)\)/)[1]
 
 # This task is called from CMake.
 file "src/credits.cpp" => "docs/authors.txt" do
@@ -44,4 +53,18 @@ task :docs do
   end
   puts "Generating SSL documentation"
   sh "rdoc -o docs/ssl -m docs/scripting/ssl.rdoc -t 'SMC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
+end
+
+desc "Create source tarball."
+task :tarball => :clobber do
+  version = ENV["VERSION"] || "#{SMC_VERSION_MAJOR}.#{SMC_VERSION_MINOR}.#{SMC_VERSION_PATCH}"
+  puts "Packaging SMC version #{version}"
+
+  sh "git submodule init"
+  sh "git submodule update"
+
+  cd "../.." do
+    ln_s "SMC", "SMC-#{version}" unless File.exist?("SMC-#{version}")
+    sh "tar --exclude .git -cvJhf SMC-#{version}.tar.xz SMC-#{version}"
+  end
 end

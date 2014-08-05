@@ -17,6 +17,7 @@
 #include "objects/misc/mrb_audio.hpp"
 #include "objects/misc/mrb_input.hpp"
 #include "objects/misc/mrb_timer.hpp"
+#include "objects/misc/mrb_ball.hpp"
 #include "objects/enemies/mrb_enemy.hpp"
 #include "objects/enemies/mrb_beetle.hpp"
 #include "objects/enemies/mrb_beetle_barrage.hpp"
@@ -50,7 +51,9 @@
 #include "objects/specials/mrb_enemy_stopper.hpp"
 #include "objects/specials/mrb_goldpiece.hpp"
 #include "objects/specials/mrb_jumping_goldpiece.hpp"
+#include "objects/specials/mrb_falling_goldpiece.hpp"
 #include "objects/specials/mrb_crate.hpp"
+#include "objects/specials/mrb_moving_platform.hpp"
 
 ////////////////////////////////////////
 // Be sure to review docs/scripting.md!
@@ -229,6 +232,7 @@ namespace SMC
 			Init_Input(mp_mruby);
 			Init_Audio(mp_mruby);
 			Init_Timer(mp_mruby);
+			Init_Ball(mp_mruby);
 			Init_Enemy(mp_mruby);
 			Init_Beetle(mp_mruby);
 			Init_BeetleBarrage(mp_mruby);
@@ -263,7 +267,9 @@ namespace SMC
 			Init_EnemyStopper(mp_mruby);
 			Init_Goldpiece(mp_mruby);
 			Init_JumpingGoldpiece(mp_mruby);
+			Init_FallingGoldpiece(mp_mruby);
 			Init_Crate(mp_mruby);
+			Init_Moving_Platform(mp_mruby);
 			Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined
 		}
 	}

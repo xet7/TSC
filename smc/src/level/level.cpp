@@ -303,7 +303,7 @@ fs::path cLevel :: Save_To_File( fs::path filename /* = fs::path() */ )
 	p_node = p_root->add_child("settings");
 		Add_Property(p_node, "lvl_author", m_author);
 		Add_Property(p_node, "lvl_version", m_version);
-		Add_Property(p_node, "lvl_music", path_to_utf8(Get_Music_Filename()));
+		Add_Property(p_node, "lvl_music", Get_Music_Filename().generic_string());
 		Add_Property(p_node, "lvl_description", m_description);
 		Add_Property(p_node, "lvl_difficulty", static_cast<int>(m_difficulty));
 		Add_Property(p_node, "lvl_land_type", Get_Level_Land_Type_Name(m_land_type));
