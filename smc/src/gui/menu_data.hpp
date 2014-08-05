@@ -109,6 +109,10 @@ public:
 	*/
 	void Load_Selected( void );
 
+	/* Load the Package
+	 * and update other information if successfull
+	*/
+	void Load_Package( std::string name );
 	/* Load the Campaign
 	 * and exit if successful
 	*/
@@ -122,6 +126,9 @@ public:
 	*/
 	bool Load_Level( std::string name );
 
+	/* Update other list boxes */
+	void Update_Lists( void );
+
 	// tabcontrol selection changed event
 	bool TabControl_Selection_Changed( const CEGUI::EventArgs &event );
 	// key down event
@@ -130,6 +137,11 @@ public:
 	bool Listbox_Keydown( const CEGUI::EventArgs &event );
 	// listbox level/world character key event
 	bool Listbox_Character_Key( const CEGUI::EventArgs &event );
+	
+	// package selected event
+	bool Package_Select( const CEGUI::EventArgs &event );
+	// package selected for entering event
+	bool Package_Select_final_list( const CEGUI::EventArgs &event );
 
 	// campaign selected event
 	bool Campaign_Select( const CEGUI::EventArgs &event );

@@ -22,6 +22,7 @@
 #include "../video/renderer.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/framerate.hpp"
 #include "../audio/audio.hpp"
 #include "../gui/generic.hpp"
@@ -575,7 +576,7 @@ bool cLevel_Settings :: Update_BG_Image( const CEGUI::EventArgs &event )
 	background->Set_Const_Velocity_Y( const_vel_y );
 
 	// full filename for validation
-	fs::path bg_filename = pResource_Manager->Get_Game_Pixmap(bg_name);
+	fs::path bg_filename = pPackage_Manager->Get_Pixmap_Reading_Path(bg_name);
 
 	// invalid file
 	if( !File_Exists( bg_filename ) )

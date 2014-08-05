@@ -300,27 +300,27 @@ void cMushroom :: Set_Type( SpriteType new_type )
 
 	if( new_type == TYPE_MUSHROOM_DEFAULT )
 	{
-		Add_Image( pVideo->Get_Surface( "game/items/mushroom_red.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/items/mushroom_red.png" ) );
 		m_name = _("Mushroom Red");
 	}
 	else if( new_type == TYPE_MUSHROOM_LIVE_1 )
 	{
-		Add_Image( pVideo->Get_Surface( "game/items/mushroom_green.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/items/mushroom_green.png" ) );
 		m_name = _("Mushroom 1-UP");
 	}
 	else if( new_type == TYPE_MUSHROOM_POISON )
 	{
-		Add_Image( pVideo->Get_Surface( "game/items/mushroom_poison.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/items/mushroom_poison.png" ) );
 		m_name = _("Mushroom Poison");
 	}
 	else if( new_type == TYPE_MUSHROOM_BLUE )
 	{
-		Add_Image( pVideo->Get_Surface( "game/items/mushroom_blue.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/items/mushroom_blue.png" ) );
 		m_name = _("Mushroom Blue");
 	}
 	else if( new_type == TYPE_MUSHROOM_GHOST )
 	{
-		Add_Image( pVideo->Get_Surface( "game/items/mushroom_ghost.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "game/items/mushroom_ghost.png" ) );
 		m_name = _("Mushroom Ghost");
 	}
 	else
@@ -405,7 +405,7 @@ void cMushroom :: Update( void )
 		if( m_counter > 1.0f )
 		{
 			cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Emitter_Rect( m_col_rect.m_x, m_col_rect.m_y, m_col_rect.m_w, m_col_rect.m_h );
 			anim->Set_Quota( static_cast<int>(m_counter) );
 			anim->Set_Pos_Z( m_pos_z - 0.000001f );
@@ -481,7 +481,7 @@ void cMushroom :: Update( void )
 				anim->Set_Color( Color( static_cast<Uint8>(120), 190, 0 ), Color( static_cast<Uint8>(40), 60, 10, 0 ) );
 				anim->Set_Blending( BLEND_ADD );
 				anim->Set_Speed( 0.0f, 0.0f );
-				anim->Set_Image( pVideo->Get_Surface( "animation/particles/slime_1.png" ) );
+				anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/slime_1.png" ) );
 				anim->Emit();
 				pActive_Animation_Manager->Add( anim );
 
@@ -555,9 +555,9 @@ void cFirePlant :: Init( void )
 	m_can_be_on_ground = 0;
 	m_pos_z = 0.051f;
 
-	Add_Image( pVideo->Get_Surface( "game/items/fireplant.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/items/fireplant_left.png" ) );
-	Add_Image( pVideo->Get_Surface( "game/items/fireplant_right.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "game/items/fireplant.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "game/items/fireplant_left.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "game/items/fireplant_right.png" ) );
 
 	Set_Image_Num( 0, 1, 0 );
 
@@ -641,7 +641,7 @@ void cFirePlant :: Update( void )
 	if( m_particle_counter > 1.0f )
 	{
 		cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 		anim->Set_Emitter_Rect( m_col_rect.m_x, m_col_rect.m_y, m_col_rect.m_w, m_col_rect.m_h * 0.5f );
 		anim->Set_Quota( static_cast<int>(m_particle_counter) );
 		anim->Set_Pos_Z( m_pos_z + 0.000001f );
@@ -686,8 +686,8 @@ void cMoon :: Init( void )
 	m_can_be_on_ground = 0;
 	m_pos_z = 0.052f;
 
-	Add_Image( pVideo->Get_Surface( "game/items/moon_1.png" ), 4800 );
-	Add_Image( pVideo->Get_Surface( "game/items/moon_2.png" ), 150 );
+	Add_Image( pVideo->Get_Package_Surface( "game/items/moon_1.png" ), 4800 );
+	Add_Image( pVideo->Get_Package_Surface( "game/items/moon_2.png" ), 150 );
 
 	Set_Image_Num( 0, 1 );
 	Set_Animation( 1 );
@@ -745,7 +745,7 @@ void cMoon :: Update( void )
 	if( m_particle_counter >= 1.0f )
 	{
 		cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 		anim->Set_Emitter_Rect( m_pos_x + 26.0f, m_pos_y + 10.0f, 10.0f, 28.0f );
 		anim->Set_Quota( static_cast<int>(m_particle_counter) );
 		anim->Set_Pos_Z( m_pos_z - 0.0001f );
