@@ -618,6 +618,15 @@ void cGee :: Handle_Collision_Player( cObjectCollision *collision )
 	}
 }
 
+void cGee :: Handle_out_of_Level( ObjectDirection dir )
+{
+	// Gees don’t die in abyss.
+	if ( dir == DIR_BOTTOM )
+		return;
+	else
+		cEnemy::Handle_out_of_Level(dir);
+}
+
 void cGee :: Handle_Collision_Massive( cObjectCollision *collision )
 {
 	Send_Collision( collision );
