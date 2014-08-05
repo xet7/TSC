@@ -100,6 +100,8 @@ public:
 	virtual void Handle_Collision_Player( cObjectCollision *collision );
 	// collision with massive
 	virtual void Handle_Collision_Massive( cObjectCollision *collision );
+	// gee does not die in abyss
+	virtual void Handle_out_of_Level( ObjectDirection dir );
 
 	// editor activation
 	virtual void Editor_Activate( void );
