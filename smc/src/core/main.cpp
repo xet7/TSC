@@ -67,15 +67,15 @@ int main( int argc, char **argv )
 	CFRelease(mainBundleURL);
 	CFRelease(cfStringRef);
 
-	string contents = string(path) + string("/Contents");
-	string datapath;
+	std::string contents = std::string(path) + std::string("/Contents");
+	std::string datapath;
 
-	if( contents.find(".app") != string::npos )
+	if( contents.find(".app") != std::string::npos )
 	{
 		// executable is inside an app bundle, use app bundle-relative paths
-		datapath = contents + string("/Resources/data/");
+		datapath = contents + std::string("/Resources/data/");
 	}
-	else if( contents.find("/bin") != string::npos )
+	else if( contents.find("/bin") != std::string::npos )
 	{
 		// executable is installed Unix-way
 		datapath = contents.substr( 0, contents.find("/bin") ) + "/share/smc";
@@ -87,7 +87,7 @@ int main( int argc, char **argv )
 
 	if( !datapath.empty() )
 	{
-		cout << "setting CWD to " << datapath.c_str() << endl;
+		cout << "setting CWD to " << datapath.c_str() << std::endl;
 		if( chdir( datapath.c_str() ) != 0 )
 		{
 			cerr << "Warning: Failed changing CWD\n";
@@ -96,7 +96,7 @@ int main( int argc, char **argv )
 #endif
 
 	// convert arguments to a vector string
-	vector<string> arguments( argv, argv + argc );
+	vector<std::string> arguments( argv, argv + argc );
 
 	if( argc >= 2 )
 	{
@@ -118,9 +118,9 @@ int main( int argc, char **argv )
 			else if( arguments[i] == "--version" || arguments[i] == "-v" )
 			{
 				cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH
-						  << " compiled from commit " << SMC_VERSION_GIT << "." << endl;
+						  << " compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
 				if (SMC_VERSION_DEVELOPMENT)
-					cout << "This is a DEVELOPMENT built! It may eat your hamster!" << endl;
+					cout << "This is a DEVELOPMENT built! It may eat your hamster!" << std::endl;
 				return EXIT_SUCCESS;
 			}
 			// debug
@@ -137,7 +137,7 @@ int main( int argc, char **argv )
 				{
 					for( unsigned int option = i + i; i < arguments.size(); i++ )
 					{
-						string option_str = arguments[option];
+						std::string option_str = arguments[option];
 
 						if( option_str == "game" )
 						{

@@ -66,7 +66,7 @@ void cOverworld_description :: Save( void )
 		Save_To_File(filename);
 	}
 	catch(xmlpp::exception& e) {
-		cerr << "Failed to save world description file '" << path_to_utf8(filename) << "': " << e.what() << endl;
+		cerr << "Failed to save world description file '" << path_to_utf8(filename) << "': " << e.what() << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save world description ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 		return;
 	}
@@ -186,7 +186,7 @@ void cOverworld :: Replace_Description(cOverworld_description* p_desc)
 	m_description = p_desc;
 }
 
-bool cOverworld :: New( string name )
+bool cOverworld :: New( std::string name )
 {
 	if( name.empty() )
 	{
@@ -247,8 +247,8 @@ void cOverworld :: Save( void )
 		Save_To_Directory(save_dir);
 	}
 	catch(xmlpp::exception& e) {
-		cerr << "Error: Could not save overworld '" << path_to_utf8(save_dir) << "': " << e.what() << endl
-				  << "Is the directory read-only?" << endl;
+		cerr << "Error: Could not save overworld '" << path_to_utf8(save_dir) << "': " << e.what() << std::endl
+				  << "Is the directory read-only?" << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save world ") + path_to_utf8(save_dir), speedfactor_fps * 5.0f );
 		return;
 	}
@@ -765,7 +765,7 @@ void cOverworld :: Set_Progress( unsigned int normal_level, bool force /* = 1 */
 	}
 }
 
-cWaypoint *cOverworld :: Get_Waypoint( const string &name )
+cWaypoint *cOverworld :: Get_Waypoint( const std::string &name )
 {
 	for( WaypointList::iterator itr = m_waypoints.begin(); itr != m_waypoints.end(); ++itr )
 	{
@@ -793,10 +793,10 @@ cWaypoint *cOverworld :: Get_Waypoint( unsigned int num )
 	return m_waypoints[num];
 }
 
-int cOverworld :: Get_Level_Waypoint_Num( string level_name )
+int cOverworld :: Get_Level_Waypoint_Num( std::string level_name )
 {
 	// erase file type if set
-	if( level_name.rfind( ".txt" ) != string::npos || level_name.rfind( ".smclvl" ) != string::npos )
+	if( level_name.rfind( ".txt" ) != std::string::npos || level_name.rfind( ".smclvl" ) != std::string::npos )
 	{
 		level_name.erase( level_name.rfind( "." ) );
 	}
@@ -804,7 +804,7 @@ int cOverworld :: Get_Level_Waypoint_Num( string level_name )
 	return Get_Waypoint_Num( level_name );
 }
 
-int cOverworld :: Get_Waypoint_Num( const string &name )
+int cOverworld :: Get_Waypoint_Num( const std::string &name )
 {
 	int count = 0;
 

@@ -87,7 +87,7 @@ cTurtle *cTurtle :: Copy( void ) const
 	return turtle;
 }
 
-string cTurtle :: Get_XML_Type_Name()
+std::string cTurtle :: Get_XML_Type_Name()
 {
 	return "turtle";
 }
@@ -166,7 +166,7 @@ void cTurtle :: Set_Color( DefaultColor col )
 
 	m_color_type = col;
 
-	string filename_dir;
+	std::string filename_dir;
 
 	if( m_color_type == COL_RED )
 	{

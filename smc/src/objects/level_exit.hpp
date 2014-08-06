@@ -75,24 +75,24 @@ public:
 	void Set_Camera_Motion( Camera_movement camera_motion );
 
 	// Set the destination level
-	void Set_Level( string filename );
+	void Set_Level( std::string filename );
 	// Return the destination level name
-	string Get_Level() const;
+	std::string Get_Level() const;
 	// Return the destination level's file path
 	boost::filesystem::path Get_Level_Path();
 
 	// Set the destination entry
-	void Set_Entry( const string &entry_name );
+	void Set_Entry( const std::string &entry_name );
 
 	// Set the return level
-	void Set_Return_Level( const string &filename );
+	void Set_Return_Level( const std::string &filename );
 	// Set the return entry
-	void Set_Return_Entry( const string &entry );
+	void Set_Return_Entry( const std::string &entry );
 
 	/* Set the path identifier
 	 * only used if motion type is path
 	*/
-	void Set_Path_Identifier( const string &identifier );
+	void Set_Path_Identifier( const std::string &identifier );
 
 	// if draw is valid for the current state and position
 	virtual bool Is_Draw_Valid( void );
@@ -121,15 +121,15 @@ public:
 	// motion type
 	Camera_movement m_exit_motion;
 	// destination level name (not path)
-	string m_dest_level;
+	std::string m_dest_level;
 	// destination entry ( only used if in same level )
-	string m_dest_entry;
+	std::string m_dest_entry;
 	// return level name
-	string m_return_level;
+	std::string m_return_level;
 	// return entry
-	string m_return_entry;
+	std::string m_return_entry;
 	// string identifier of the linked path
-	string m_path_identifier;
+	std::string m_path_identifier;
 
 	// editor type color
 	Color m_editor_color;
@@ -138,11 +138,11 @@ public:
 
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-	virtual string Create_Name( void ) const;
+	virtual std::string Create_Name( void ) const;
 
 protected:
 	// save to stream
-	virtual string Get_XML_Type_Name();
+	virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

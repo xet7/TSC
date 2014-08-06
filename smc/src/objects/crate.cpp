@@ -88,7 +88,7 @@ void cCrate::Update()
 	}
 }
 
-string cCrate::Get_XML_Type_Name()
+std::string cCrate::Get_XML_Type_Name()
 {
 	return "crate";
 }

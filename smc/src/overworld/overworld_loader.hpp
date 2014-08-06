@@ -21,7 +21,7 @@ namespace SMC {
   class cOverworldLoader: public xmlpp::SaxParser
   {
   public:
-	  static cSprite* Create_World_Object_From_XML(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld);
+	  static cSprite* Create_World_Object_From_XML(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, cOverworld* p_overworld);
 
     cOverworldLoader();
     virtual ~cOverworldLoader();

@@ -9,7 +9,7 @@ namespace SMC {
 		{
 		public:
 			cDowngrade_Event(int downgrades, int max_downgrades);
-			virtual string Event_Name();
+			virtual std::string Event_Name();
 			int Get_Downgrades();
 			int Get_Max_Downgrades();
 		protected:

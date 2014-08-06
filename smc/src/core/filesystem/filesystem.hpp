@@ -35,15 +35,15 @@ bool Dir_Exists( const boost::filesystem::path &dir );
  * Use with caution.
  * Returns true on success
 */
-bool Delete_Dir( const string &dir );
+bool Delete_Dir( const std::string &dir );
 
 /* Get the file size in bytes.
 * returns 0 if the file does not exist
 */
-size_t Get_File_Size( const string &filename );
+size_t Get_File_Size( const std::string &filename );
 
 // Converts "\" and "!" to "/"
-void Convert_Path_Separators( string &str );
+void Convert_Path_Separators( std::string &str );
 void Convert_Path_Separators( boost::filesystem::path &path);
 
 /* Get all files from the directory.
@@ -52,7 +52,7 @@ void Convert_Path_Separators( boost::filesystem::path &path);
  * with_directories : if set adds directories to the returned objects
  * search_in_sub_directories : searches in every sub-directory
 */
-vector<boost::filesystem::path> Get_Directory_Files( const boost::filesystem::path &dir, const string &file_type = "", bool with_directories = false, bool search_in_sub_directories = true );
+vector<boost::filesystem::path> Get_Directory_Files( const boost::filesystem::path &dir, const std::string &file_type = "", bool with_directories = false, bool search_in_sub_directories = true );
 
 // Return the operating system temporary files directory
 boost::filesystem::path Get_Temp_Directory( void );

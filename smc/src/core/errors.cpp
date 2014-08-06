@@ -1,7 +1,6 @@
 #include "errors.hpp"
 
 using namespace SMC;
-using namespace std;
 
 SMCError::SMCError()
 {
@@ -9,7 +8,7 @@ SMCError::SMCError()
 }
 
 
-SMCError::SMCError(string message)
+SMCError::SMCError(std::string message)
 {
 	m_smc_errmsg = message;
 }
@@ -24,7 +23,7 @@ const char* SMCError::what() const throw()
 	return m_smc_errmsg.c_str();
 }
 
-ConfigurationError::ConfigurationError(string msg)
+ConfigurationError::ConfigurationError(std::string msg)
 	: SMCError(msg)
 {
 	//
@@ -35,7 +34,7 @@ ConfigurationError::~ConfigurationError() throw()
 	//
 }
 
-XmlKeyDoesNotExist::XmlKeyDoesNotExist(string key)
+XmlKeyDoesNotExist::XmlKeyDoesNotExist(std::string key)
 {
 	m_key = key;
 }
@@ -45,18 +44,18 @@ XmlKeyDoesNotExist::~XmlKeyDoesNotExist() throw()
 	//
 }
 
-string XmlKeyDoesNotExist::Get_Key()
+std::string XmlKeyDoesNotExist::Get_Key()
 {
 	return m_key;
 }
 
 const char* XmlKeyDoesNotExist::what() const throw()
 {
-    string err = "XML key '" + m_key + "' does not exist!\n";
+	std::string err = "XML key '" + m_key + "' does not exist!\n";
 	return err.c_str();
 }
 
-NotImplementedError::NotImplementedError(string message)
+NotImplementedError::NotImplementedError(std::string message)
 	: SMCError(message)
 {
 }
@@ -66,7 +65,7 @@ NotImplementedError::~NotImplementedError() throw()
 	//
 }
 
-InvalidLevelError::InvalidLevelError(string message)
+InvalidLevelError::InvalidLevelError(std::string message)
 	: SMCError(message)
 {
 	//
@@ -104,12 +103,12 @@ InvalidMovingStateError::~InvalidMovingStateError() throw()
 
 const char* InvalidMovingStateError::what() const throw()
 {
-    stringstream ss;
+	std::stringstream ss;
 	ss << "Invalid moving state '" << m_state << "' for this object!\n";	
 	return ss.str().c_str();
 }
 
-EditorError::EditorError(string msg)
+EditorError::EditorError(std::string msg)
 	: SMCError(msg)
 {
 	//
@@ -121,7 +120,7 @@ EditorError::~EditorError() throw()
 }
 
 EditorSpriteCopyFailedError::EditorSpriteCopyFailedError(cSprite* p_sprite)
-    : EditorError(string("Editor sprite '") + p_sprite->Create_Name() + "' copy failed!")
+	: EditorError(std::string("Editor sprite '") + p_sprite->Create_Name() + "' copy failed!")
 {
 	mp_sprite = p_sprite;
 }

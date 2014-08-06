@@ -21,7 +21,7 @@ namespace SMC {
 
 		// Takes a C(++) string and directly returns an MRuby
 		// symbol object (not an mrb_sym!) for it.
-		inline mrb_value str2sym(mrb_state* mrb, string str){ return mrb_symbol_value(mrb_intern_cstr(mrb, str.c_str())); }
+		inline mrb_value str2sym(mrb_state* mrb, std::string str){ return mrb_symbol_value(mrb_intern_cstr(mrb, str.c_str())); }
 
 		/**
 		 * Shorthand for doing
@@ -52,7 +52,7 @@ namespace SMC {
 			// true otherwise. `contextname' is purely informational
 			// and only ever used in exception messages.
 			// This method prints exceptions to standard error.
-			bool Run_Code(const string& code, const string& contextname);
+			bool Run_Code(const std::string& code, const std::string& contextname);
 			// Execute MRuby code found in a file, using the filename
 			// as the context name. Otherwise has the same
 			// semantics as Run_Code().
@@ -61,7 +61,7 @@ namespace SMC {
 			// This method only does raw code execution, no
 			// exception inspection is done for you. It’s basically
 			// a wrapper around mrb_load_nstring_cxt().
-			mrb_value Run_Code_In_Context(const string& code, mrbc_context* p_context);
+			mrb_value Run_Code_In_Context(const std::string& code, mrbc_context* p_context);
 			// Registers an MRuby callback to be called on the next
 			// call to Evaluate_Timer_Callbacks(). `callback'
 			// is an MRuby proc.
@@ -76,17 +76,17 @@ namespace SMC {
 			cLevel* Get_Level();
 
 			// Retrieve an mruby class object.
-			inline struct RClass* Get_MRuby_Class(const string& name){return m_classes[name];}
+			inline struct RClass* Get_MRuby_Class(const std::string& name){return m_classes[name];}
 			// Set an mruby class object. Only use inside
 			// the Init_* functions that set up the mruby
 			// class hierarchy.
-			inline void Set_MRuby_Class(const string& name, struct RClass* klass){m_classes[name] = klass;}
+			inline void Set_MRuby_Class(const std::string& name, struct RClass* klass){m_classes[name] = klass;}
 		private:
 			mrb_state* mp_mruby;
 			cLevel* mp_level;
-			vector<mrb_value> m_callbacks;
+			std::vector<mrb_value> m_callbacks;
 			boost::mutex m_callback_mutex;
-			std::map<string, struct RClass*> m_classes;
+			std::map<std::string, struct RClass*> m_classes;
 
 			// Load all MRuby wrapper classes for the C++ classes
 			// into the given mruby state.

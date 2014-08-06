@@ -9,7 +9,7 @@ namespace SMC {
 		class cDie_Event: public cEvent
 		{
 		public:
-			virtual string Event_Name(){return "die";}
+			virtual std::string Event_Name(){return "die";}
 		};
 	}
 }

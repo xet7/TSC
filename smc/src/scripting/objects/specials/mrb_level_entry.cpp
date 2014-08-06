@@ -134,7 +134,7 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	string typestr(mrb_sym2name(p_state, type));
+	std::string typestr(mrb_sym2name(p_state, type));
 
 	Level_Entry_type typid;
 	if (typestr == "beam")

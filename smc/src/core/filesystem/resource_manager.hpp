@@ -79,17 +79,17 @@ namespace SMC
 		boost::filesystem::path Get_Gui_Layout_Directory();
 
 		// Get files from the various uncached unwritable game directories
-		boost::filesystem::path Get_Game_Pixmap(string pixmap);
-		boost::filesystem::path Get_Game_Schema(string schema);
-		boost::filesystem::path Get_Game_Level(string level);
-		boost::filesystem::path Get_Game_Translation(string transname);
-		boost::filesystem::path Get_Game_Sound(string sound);
-		boost::filesystem::path Get_Game_Campaign(string campaign);
-		boost::filesystem::path Get_Game_Overworld(string overworld);
-		boost::filesystem::path Get_Game_Music(string music);
-		boost::filesystem::path Get_Game_Editor(string editor);
-		boost::filesystem::path Get_Game_Scripting(string script);
-		boost::filesystem::path Get_Game_Icon(string icon);
+		boost::filesystem::path Get_Game_Pixmap(std::string pixmap);
+		boost::filesystem::path Get_Game_Schema(std::string schema);
+		boost::filesystem::path Get_Game_Level(std::string level);
+		boost::filesystem::path Get_Game_Translation(std::string transname);
+		boost::filesystem::path Get_Game_Sound(std::string sound);
+		boost::filesystem::path Get_Game_Campaign(std::string campaign);
+		boost::filesystem::path Get_Game_Overworld(std::string overworld);
+		boost::filesystem::path Get_Game_Music(std::string music);
+		boost::filesystem::path Get_Game_Editor(std::string editor);
+		boost::filesystem::path Get_Game_Scripting(std::string script);
+		boost::filesystem::path Get_Game_Icon(std::string icon);
 
 		// Get the various directories in the user’s data directory
 		boost::filesystem::path Get_User_Level_Directory();
@@ -101,7 +101,7 @@ namespace SMC
 		boost::filesystem::path Get_User_CEGUI_Logfile();
 
 		// Get files from the various directories in the user’s data directory
-		boost::filesystem::path Get_User_Level(string level);
+		boost::filesystem::path Get_User_Level(std::string level);
 
 	private:
 		// Main directory information
@@ -113,7 +113,7 @@ namespace SMC
 #ifdef __unix__
 		// Retrieve the path from the given XDG env variable or
 		// return the default path relative to $HOME.
-		boost::filesystem::path xdg_get_directory(const string& envvarname, const boost::filesystem::path defaultpath);
+		boost::filesystem::path xdg_get_directory(const std::string& envvarname, const boost::filesystem::path defaultpath);
 
 		// TODO:
 		// This function converts path from previous SMC versions to

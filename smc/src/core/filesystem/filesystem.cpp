@@ -50,7 +50,7 @@ bool Dir_Exists( const fs::path &dir )
 	return type == fs::directory_file || type == fs::symlink_file;
 }
 
-bool Delete_Dir( const string &dir )
+bool Delete_Dir( const std::string &dir )
 {
 // fixme : boost should use a codecvt_facet but for now we convert to UCS-2
 #ifdef _WIN32
@@ -60,7 +60,7 @@ bool Delete_Dir( const string &dir )
 #endif
 }
 
-size_t Get_File_Size( const string &filename )
+size_t Get_File_Size( const std::string &filename )
 {
 	struct stat file_info; 
 
@@ -82,9 +82,9 @@ size_t Get_File_Size( const string &filename )
 	return 0;
 }
 
-void Convert_Path_Separators( string &str )
+void Convert_Path_Separators( std::string &str )
 {
-	for( string::iterator itr = str.begin(); itr != str.end(); ++itr )
+	for( std::string::iterator itr = str.begin(); itr != str.end(); ++itr )
 	{
 		// convert it
 		if( *itr == '\\' || *itr == '!' )
@@ -96,12 +96,12 @@ void Convert_Path_Separators( string &str )
 
 void Convert_Path_Separators( fs::path &path )
 {
-	string str = path_to_utf8( path );
+	std::string str = path_to_utf8( path );
 	Convert_Path_Separators( str );
 	path = utf8_to_path( str );
 }
 
-vector<fs::path> Get_Directory_Files( const fs::path &dir, const string &file_type /* = "" */, bool with_directories /* = false */, bool search_in_sub_directories /* = true */ )
+vector<fs::path> Get_Directory_Files( const fs::path &dir, const std::string &file_type /* = "" */, bool with_directories /* = false */, bool search_in_sub_directories /* = true */ )
 {
 	vector<fs::path> valid_files;
 	fs::path extension = utf8_to_path(file_type);

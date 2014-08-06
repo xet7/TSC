@@ -87,7 +87,7 @@ void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
 	Set_Useable_Count(attributes.fetch<int>("useable_count", m_start_useable_count), true);
 }
 
-string cBaseBox :: Get_XML_Type_Name()
+std::string cBaseBox :: Get_XML_Type_Name()
 {
 	// return is just as good as break here
 	switch(box_type){
@@ -147,7 +147,7 @@ cSave_Level_Object *cBaseBox :: Save_To_Savegame( void )
 	return save_object;
 }
 
-void cBaseBox :: Set_Animation_Type( const string &new_anim_type )
+void cBaseBox :: Set_Animation_Type( const std::string &new_anim_type )
 {
 	// already set
 	if( m_anim_type.compare( new_anim_type ) == 0 )
@@ -865,7 +865,7 @@ void cBaseBox :: Editor_Activate( void )
 bool cBaseBox :: Editor_Useable_Count_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Useable_Count( string_to_int( str_text ), 1 );
 
@@ -897,9 +897,9 @@ bool cBaseBox :: Editor_Invisible_Select( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-string cBaseBox :: Create_Name( void ) const
+std::string cBaseBox :: Create_Name( void ) const
 {
-	string name = m_name; // dup
+	std::string name = m_name; // dup
 
 	if( box_type == TYPE_UNDEFINED )
 	{

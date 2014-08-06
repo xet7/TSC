@@ -79,7 +79,7 @@ cSpika *cSpika :: Copy( void ) const
 	return spika;
 }
 
-string cSpika :: Get_XML_Type_Name()
+std::string cSpika :: Get_XML_Type_Name()
 {
 	return "spika";
 }

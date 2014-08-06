@@ -35,7 +35,7 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 	mrb_get_args(p_state, "z", &cpath);
 
 	// Append ".rb" and convert to a platform-independent boost path
-	string spath(cpath);
+	std::string spath(cpath);
 	spath.append(".rb");
 	fs::path path = utf8_to_path(spath);
 
@@ -52,7 +52,7 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Cannot open file '%s' for reading", scriptfile.generic_string().c_str());
 
 	// Read it
-	string code = readfile(file);
+	std::string code = readfile(file);
 	file.close();
 
 	// Create our context for exception handling
@@ -187,7 +187,7 @@ static mrb_value Worst_Framerate(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Version(mrb_state* p_state, mrb_value self)
 {
-	stringstream ss;
+	std::stringstream ss;
 
 	ss << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH;
 

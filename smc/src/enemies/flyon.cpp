@@ -103,7 +103,7 @@ cFlyon *cFlyon :: Copy( void ) const
 	return jpiranha;
 }
 
-string cFlyon :: Get_XML_Type_Name()
+std::string cFlyon :: Get_XML_Type_Name()
 {
 	return "flyon";
 }
@@ -154,7 +154,7 @@ void cFlyon :: Set_Image_Dir( fs::path dir )
 	// if not image directory
 	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("closed_1.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("closed_1.png") ) ) {
 		cerr	<< "Warning: Flyon image files not found; does the flyon directory "
-							<< path_to_utf8(dir) << " exist?" << endl;
+							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}
 
@@ -677,7 +677,7 @@ bool cFlyon :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cFlyon :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Dir( utf8_to_path( str_text ) );
 
@@ -687,7 +687,7 @@ bool cFlyon :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 bool cFlyon :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Distance( static_cast<float>(string_to_int( str_text )) );
 
@@ -697,16 +697,16 @@ bool cFlyon :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArgs &event )
 bool cFlyon :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( string_to_float( str_text ) );
 
 	return 1;
 }
 
-string cFlyon :: Create_Name( void ) const
+std::string cFlyon :: Create_Name( void ) const
 {
-	string name = "Flyon "; // dup
+	std::string name = "Flyon "; // dup
 	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )

@@ -52,7 +52,7 @@ namespace SMC {
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 	protected:
-		virtual string Get_XML_Type_Name();
+		virtual std::string Get_XML_Type_Name();
 
 		// Editor callbacks
 		bool Editor_Direction_Select(const CEGUI::EventArgs& event);

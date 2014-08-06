@@ -72,7 +72,7 @@ public:
 	// node saving inherited
 
 protected:
-	virtual string Get_XML_Type_Name(){return "jstar";}
+	virtual std::string Get_XML_Type_Name(){return "jstar";}
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -92,7 +92,7 @@ cPip* cPip::Copy() const
 	return p_pip;
 }
 
-string cPip::Get_XML_Type_Name()
+std::string cPip::Get_XML_Type_Name()
 {
 	return "pip";
 }

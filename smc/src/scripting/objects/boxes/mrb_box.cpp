@@ -59,9 +59,9 @@ static mrb_value Set_Animation_Type(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	string typestr(mrb_sym2name(p_state, type));
+	std::string typestr(mrb_sym2name(p_state, type));
 
-	string anitype;
+	std::string anitype;
 	if (typestr == "bonus")
 		anitype = "Bonus";
 	else if (typestr == "default")
@@ -179,7 +179,7 @@ static mrb_value Set_Invisible(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	string typestr(mrb_sym2name(p_state, type));
+	std::string typestr(mrb_sym2name(p_state, type));
 
 	Box_Invisible_Type invis;
 	if (typestr == "visible")

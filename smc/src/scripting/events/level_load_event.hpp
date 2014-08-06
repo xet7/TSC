@@ -8,13 +8,13 @@ namespace SMC {
 		class cLevel_Load_Event: public cEvent
 		{
 		public:
-			cLevel_Load_Event(string save_data);
-			virtual string Event_Name();
-			string Get_Save_Data();
+			cLevel_Load_Event(std::string save_data);
+			virtual std::string Event_Name();
+			std::string Get_Save_Data();
 		protected:
 			virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);
 		private:
-			string m_save_data;
+			std::string m_save_data;
 		};
 	}
 }

@@ -65,7 +65,7 @@ public:
 	// Set the movement speed
 	void Set_Speed( float speed );
 	// Set the path identifier
-	void Set_Path_Identifier( const string &path );
+	void Set_Path_Identifier( const std::string &path );
 
 	/* downgrade state ( if already weakest state : dies )
 	 * force : usually dies or a complete downgrade
@@ -113,11 +113,11 @@ public:
 
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-	virtual string Create_Name( void ) const;
+	virtual std::string Create_Name( void ) const;
 
 protected:
 	
-	virtual string Get_XML_Type_Name();
+	virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

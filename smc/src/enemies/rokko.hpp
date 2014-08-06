@@ -126,7 +126,7 @@ public:
 
 protected:
 	
-	virtual string Get_XML_Type_Name();
+	virtual std::string Get_XML_Type_Name();
 private:
 	// If this is set, Rokko won’t go off if Maryo comes.
 	// You have to call Activate() manually.

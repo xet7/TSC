@@ -32,13 +32,13 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** cMovingSprite *** *** *** *** *** *** *** *** *** *** */
 
-cMovingSprite :: cMovingSprite( cSprite_Manager *sprite_manager, string type_name /* = "sprite" */ )
+cMovingSprite :: cMovingSprite( cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
 : cSprite( sprite_manager, type_name )
 {
 	cMovingSprite::Init();
 }
 
-cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, string type_name /* = "sprite" */ )
+cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, std::string type_name /* = "sprite" */ )
 	: cSprite( sprite_manager, type_name )
 {
 	cMovingSprite::Init();

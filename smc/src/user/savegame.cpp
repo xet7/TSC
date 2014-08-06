@@ -67,7 +67,7 @@ cSave_Overworld :: ~cSave_Overworld( void )
 
 /* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
 
-cSave_Level_Object_Property :: cSave_Level_Object_Property( const string &new_name /* = "" */, const string &new_value /* = "" */ )
+cSave_Level_Object_Property :: cSave_Level_Object_Property( const std::string &new_name /* = "" */, const std::string &new_value /* = "" */ )
 {
 	m_name = new_name;
 	m_value = new_value;
@@ -85,7 +85,7 @@ cSave_Level_Object :: ~cSave_Level_Object( void )
 	m_properties.clear();
 }
 
-bool cSave_Level_Object :: exists( const string &val_name )
+bool cSave_Level_Object :: exists( const std::string &val_name )
 {
 	for( Save_Level_Object_ProprtyList::iterator itr = m_properties.begin(); itr != m_properties.end(); ++itr )
 	{
@@ -102,7 +102,7 @@ bool cSave_Level_Object :: exists( const string &val_name )
 	return 0;
 }
 
-string cSave_Level_Object :: Get_Value( const string &val_name )
+std::string cSave_Level_Object :: Get_Value( const std::string &val_name )
 {
 	for( Save_Level_Object_ProprtyList::iterator itr = m_properties.begin(); itr != m_properties.end(); ++itr )
 	{
@@ -146,7 +146,7 @@ cSave_Level :: ~cSave_Level( void )
 }
 
 /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
-cSave_Player_Return_Entry :: cSave_Player_Return_Entry(const string& level, const string& entry) :
+cSave_Player_Return_Entry :: cSave_Player_Return_Entry(const std::string& level, const std::string& entry) :
 	m_level(level), m_entry(entry)
 {
 }
@@ -207,7 +207,7 @@ cSave* cSave :: Load_From_File( fs::path filepath )
 	return loader.Get_Save();
 }
 
-string cSave :: Get_Active_Level( void )
+std::string cSave :: Get_Active_Level( void )
 {
 	if( m_levels.empty() )
 	{
@@ -263,7 +263,7 @@ void cSave :: Write_To_File( fs::path filepath )
 	// </player>
 	
 	// player return stack
-	vector<cSave_Player_Return_Entry>::const_iterator return_iter;
+	std::vector<cSave_Player_Return_Entry>::const_iterator return_iter;
 	for(return_iter = m_return_entries.begin(); return_iter != m_return_entries.end(); return_iter++)
 	{
 		cSave_Player_Return_Entry item = *return_iter;
@@ -561,7 +561,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 	pLevel_Player->Clear_Return();
 	if( !savegame->m_return_entries.empty() )
 	{
-		vector<cSave_Player_Return_Entry>::const_iterator return_iter;
+		std::vector<cSave_Player_Return_Entry>::const_iterator return_iter;
 		for( return_iter = savegame->m_return_entries.begin(); return_iter != savegame->m_return_entries.end(); return_iter++)
 		{
 			pLevel_Player->Push_Return(return_iter->m_level, return_iter->m_entry);
@@ -572,7 +572,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 	return save_type;
 }
 
-bool cSavegame :: Save_Game( unsigned int save_slot, string description )
+bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 {
 	if( pLevel_Player->m_maryo_type == MARYO_DEAD || pLevel_Player->m_lives < 0 )
 	{
@@ -667,7 +667,7 @@ bool cSavegame :: Save_Game( unsigned int save_slot, string description )
 	savegame->m_itembox_item = pHud_Itembox->m_item_id;
 
 	// player return stack
-	for( vector<cLevel_Player_Return_Entry>::const_iterator itr = pLevel_Player->m_return_stack.begin(); itr != pLevel_Player->m_return_stack.end(); itr++)
+	for( std::vector<cLevel_Player_Return_Entry>::const_iterator itr = pLevel_Player->m_return_stack.begin(); itr != pLevel_Player->m_return_stack.end(); itr++)
 	{
 		savegame->m_return_entries.push_back(cSave_Player_Return_Entry(itr->level, itr->entry));
 	}
@@ -732,8 +732,8 @@ bool cSavegame :: Save_Game( unsigned int save_slot, string description )
 		savegame->Write_To_File(filename);
 	}
 	catch(xmlpp::exception& e) {
-		cerr << "Failed to save savegame '" << filename << "': " << e.what() << endl
-				  << "Is the file read-only?" << endl;
+		cerr << "Failed to save savegame '" << filename << "': " << e.what() << std::endl
+				  << "Is the file read-only?" << std::endl;
 		pHud_Debug->Set_Text( _("Couldn't save savegame ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 	}
 
@@ -760,7 +760,7 @@ cSave *cSavegame :: Load( unsigned int save_slot )
 	if( !File_Exists( filename ) )
 	{
 		// FIXME: This should raise an exception.
-		cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << endl;
+		cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << std::endl;
 		return NULL;
 	}
 
@@ -769,9 +769,9 @@ cSave *cSavegame :: Load( unsigned int save_slot )
 	return savegame;
 }
 
-string cSavegame :: Get_Description( unsigned int save_slot, bool only_description /* = 0 */ )
+std::string cSavegame :: Get_Description( unsigned int save_slot, bool only_description /* = 0 */ )
 {
-	string str_description;
+	std::string str_description;
 
 	if( !Is_Valid( save_slot ) )
 	{

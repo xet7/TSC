@@ -249,7 +249,7 @@ void cText_Box :: Update( void )
 	cBaseBox::Update();
 }
 
-void cText_Box :: Set_Text( const string &str_text )
+void cText_Box :: Set_Text( const std::string &str_text )
 {
 	m_text = str_text;
 }
@@ -276,7 +276,7 @@ void cText_Box :: Editor_Activate( void )
 bool cText_Box :: Editor_Text_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::MultiLineEditbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::MultiLineEditbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Text( str_text );
 

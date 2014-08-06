@@ -33,7 +33,7 @@ namespace SMC
 
 /* *** *** *** *** *** *** *** *** Math utility functions *** *** *** *** *** *** *** *** *** */
 
-bool Is_Valid_Number( string num, bool accept_floating_point /* = 1 */ )
+bool Is_Valid_Number( std::string num, bool accept_floating_point /* = 1 */ )
 {
 	// accept negative numbers
 	if( num.find( '-' ) == 0 )
@@ -44,15 +44,15 @@ bool Is_Valid_Number( string num, bool accept_floating_point /* = 1 */ )
 	// accept numbers with a point if given
 	if( accept_floating_point )
 	{
-		string::size_type pos = num.find( '.' );
+		std::string::size_type pos = num.find( '.' );
 
-		if( pos != string::npos )
+		if( pos != std::string::npos )
 		{
 			num.erase( pos, 1 );
 		}
 	}
 
-	if( find_if( num.begin(), num.end(), nondigit() ) == num.end() )
+	if( std::find_if( num.begin(), num.end(), nondigit() ) == num.end() )
 	{
 		return 1;
 	}

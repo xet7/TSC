@@ -293,7 +293,7 @@ void cLevel_Settings :: Leave( void )
 
 #ifdef ENABLE_MRUBY
 	// # Script tab
-	string new_code = static_cast<CEGUI::MultiLineEditbox*>(wmgr.getWindow("multieditbox_script"))->getText().c_str();
+	std::string new_code = static_cast<CEGUI::MultiLineEditbox*>(wmgr.getWindow("multieditbox_script"))->getText().c_str();
 
 	// Only force re-init when new code has been specified
 	if (m_level->m_script != new_code) {
@@ -550,8 +550,8 @@ bool cLevel_Settings :: Update_BG_Image( const CEGUI::EventArgs &event )
 		return 1;
 	}
 
-	string bg_type = wmgr.getWindow( "combo_bg_image_type" )->getText().c_str();
-	string bg_name = wmgr.getWindow( "editbox_bg_image_name" )->getText().c_str();
+	std::string bg_type = wmgr.getWindow( "combo_bg_image_type" )->getText().c_str();
+	std::string bg_name = wmgr.getWindow( "editbox_bg_image_name" )->getText().c_str();
 	float posx = string_to_float( (wmgr.getWindow( "editbox_bg_image_posx" ))->getText().c_str() );
 	float posy = string_to_float( (wmgr.getWindow( "editbox_bg_image_posy" ))->getText().c_str() );
 	float posz = string_to_float( (wmgr.getWindow( "editbox_bg_image_posz" ))->getText().c_str() );

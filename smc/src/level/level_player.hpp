@@ -60,8 +60,8 @@ enum Maryo_imgpos
 class cLevel_Player_Return_Entry
 {
 public:
-	string level;
-	string entry;
+	std::string level;
+	std::string entry;
 };
 
 /* *** *** *** *** *** *** *** Level player *** *** *** *** *** *** *** *** *** *** */
@@ -266,9 +266,9 @@ public:
 	bool Editor_Direction_Select( const CEGUI::EventArgs &event );
 
 	// Push a return stack
-	void Push_Return( const string &level, const string &entry );
+	void Push_Return( const std::string &level, const std::string &entry );
 	// Pop a return item off the stack. False if no more items
-	bool Pop_Return( string &level, string &entry );
+	bool Pop_Return( std::string &level, std::string &entry );
 	// Clear return items off the stack.
 	void Clear_Return( void );
 
@@ -353,7 +353,7 @@ public:
 	static const float m_default_pos_y;
 
 	// Level return stack
-	vector<cLevel_Player_Return_Entry> m_return_stack;
+	std::vector<cLevel_Player_Return_Entry> m_return_stack;
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

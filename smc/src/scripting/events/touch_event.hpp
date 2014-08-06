@@ -9,7 +9,7 @@ namespace SMC {
 		{
 		public:
 			cTouch_Event(cSprite* p_collided);
-			virtual string Event_Name();
+			virtual std::string Event_Name();
 			cSprite* Get_Collided();
 		protected:
 			virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);

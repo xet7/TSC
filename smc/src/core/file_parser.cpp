@@ -45,13 +45,13 @@ bool cFile_parser :: Parse( const fs::path &filename )
 
 	if( !ifs )
 	{
-		cerr << "Could not load data file : " << path_to_utf8(filename) << endl;
+		cerr << "Could not load data file : " << path_to_utf8(filename) << std::endl;
 		return 0;
 	}
 
 	data_file = filename;
 
-	string line;
+	std::string line;
 	unsigned int line_num = 0;
 
 	while( std::getline( ifs, line ) )
@@ -63,7 +63,7 @@ bool cFile_parser :: Parse( const fs::path &filename )
 	return 1;
 }
 
-bool cFile_parser :: Parse_Line( string str_line, int line_num )
+bool cFile_parser :: Parse_Line( std::string str_line, int line_num )
 {
 	if( str_line.empty() )
 	{
@@ -86,11 +86,11 @@ bool cFile_parser :: Parse_Line( string str_line, int line_num )
 		return 1;
 	}
 
-	string tempstr = str_line;
+	std::string tempstr = str_line;
 	int count = 1;
 
 	// count spaces
-	while( tempstr.find( ' ' ) != string::npos  )
+	while( tempstr.find( ' ' ) != std::string::npos  )
 	{
 		tempstr.erase( tempstr.find( ' ' ) , 1 );
 		count++;
@@ -98,9 +98,9 @@ bool cFile_parser :: Parse_Line( string str_line, int line_num )
 
 	tempstr = str_line;
 	
-	string *parts = new string[ count + 1 ];
+	std::string *parts = new std::string[ count + 1 ];
 	
-	string::size_type len;
+	std::string::size_type len;
 	int part_count = 0;
 
 	while( count > 0 )
@@ -126,7 +126,7 @@ bool cFile_parser :: Parse_Line( string str_line, int line_num )
 	return success;
 }
 
-bool cFile_parser :: HandleMessage( const string *parts, unsigned int count, unsigned int line )
+bool cFile_parser :: HandleMessage( const std::string *parts, unsigned int count, unsigned int line )
 {
 	// virtual
 	return 1;

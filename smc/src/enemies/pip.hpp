@@ -72,7 +72,7 @@ namespace SMC {
 		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_elemet);
 
 	protected:
-		virtual string Get_XML_Type_Name();
+		virtual std::string Get_XML_Type_Name();
 	};
 
 }

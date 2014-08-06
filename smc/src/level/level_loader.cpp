@@ -92,8 +92,8 @@ void cLevelLoader::on_end_document()
 void cLevelLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property" || name == "Property") {
-		string key;
-		string value;
+		std::string key;
+		std::string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -134,14 +134,14 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 		Parse_Tag_Background();
 	else if (name == "player")
 		Parse_Tag_Player();
-	else if (cLevel::Is_Level_Object_Element(string(name))) // CEGUI doesn’t like Glib::ustring
+	else if (cLevel::Is_Level_Object_Element(std::string(name))) // CEGUI doesn’t like Glib::ustring
 		Parse_Level_Object_Tag(name);
 	else if (name == "level")
 		{ /* Ignore the root <level> tag */ }
 	else if (name == "script")
 		m_in_script_tag = false; // Indicate the <script> tag has ended
 	else
-		cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << endl;
+		cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << std::endl;
 
 	// Everything handled, so we can now safely clear the
 	// collected <property> element values for the next
@@ -238,10 +238,10 @@ void cLevelLoader::Parse_Tag_Player()
 		mp_level->m_player_start_direction = DIR_RIGHT;
 }
 
-void cLevelLoader::Parse_Level_Object_Tag(const string& name)
+void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
 {
 	// create sprite
-	vector<cSprite*> sprites = Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_level->m_engine_version, mp_level->m_sprite_manager);
+	std::vector<cSprite*> sprites = Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_level->m_engine_version, mp_level->m_sprite_manager);
 
 	// valid
 	if (sprites.size() > 0) {
@@ -263,7 +263,7 @@ void cLevelLoader::Parse_Level_Object_Tag(const string& name)
 		if (m_current_properties.count("uid"))
 			sprites[0]->m_uid = string_to_int(m_current_properties["uid"]); // The 98% case is that we get only one sprite back, the other 2% are backward compatibility
 
-		for(vector<cSprite*>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
+		for(std::vector<cSprite*>::iterator iter = sprites.begin(); iter != sprites.end(); iter++)
 			mp_level->m_sprite_manager->Add(*iter);
 	}
 }
@@ -272,7 +272,7 @@ void cLevelLoader::Parse_Level_Object_Tag(const string& name)
  * Create_Level_Objects_From_XML_Tag()
  ***************************************/
 
-vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
 	if (name == "sprite")
 		return Create_Sprites_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
@@ -307,17 +307,17 @@ vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const string& n
 	else if (name == "crate")
 		return Create_Crates_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else
-		cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << endl;
+		cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
 
 	// This is not a level object tag, return empty list
-	return vector<cSprite*>();
+	return std::vector<cSprite*>();
 }
 
-vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// V1.4 and lower: change some image paths
 	if (engine_version < 25) {
@@ -378,7 +378,7 @@ vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const string& name, X
 	}
 	// always: fix sprite with undefined massive-type
 	if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
-		cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << endl;
+		cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << std::endl;
 		attributes["type"] = "passive"; // So it doesn’t hinder gameplay
 	}
 
@@ -386,7 +386,7 @@ vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const string& name, X
 
 	// If image not available display its filename
 	if (!p_sprite->m_start_image) {
-		string text = attributes["image"];
+		std::string text = attributes["image"];
 		if (text.empty())
 			text = "Invalid image here";
 
@@ -449,7 +449,7 @@ vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const string& name, X
 			if( p_sprite_manager && ( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png")) == 0 ||
 									  p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_blue_left.png")) == 0 ||
 									  p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_brown_left.png")) == 0 )) {
-				string color;
+				std::string color;
 				// green
 				if( p_sprite->m_image->m_path.compare( pResource_Manager->Get_Game_Pixmap("ground/jungle_1/slider/2_green_left.png" )) == 0 )
 					color = "green";
@@ -508,9 +508,9 @@ vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const string& name, X
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// If V1.9 and lower: Move Y coordinate bottom to 0
 	if (engine_version < 35 && attributes.count("posy") > 0)
@@ -520,9 +520,9 @@ vector<cSprite*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const string& 
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Level_Exits_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Level_Exits_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// If V1.9 and lower: Move Y coordinate bottom to 0
 	if (engine_version < 35 && attributes.count("posy") > 0)
@@ -538,9 +538,9 @@ vector<cSprite*> cLevelLoader::Create_Level_Exits_From_XML_Tag(const string& nam
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Level_Entries_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Level_Entries_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// If V1.9 and lower: Move Y coordinate bottom to 0
 	if (engine_version < 35 && attributes.count("posy") > 0)
@@ -550,9 +550,9 @@ vector<cSprite*> cLevelLoader::Create_Level_Entries_From_XML_Tag(const string& n
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// If V1.9 and lower: Move Y coordinate bottom to 0
 	if (engine_version < 35 && attributes.exists("posy"))
@@ -594,20 +594,20 @@ vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const string& name, Xml
 		result.push_back(new cBonusBox(attributes, p_sprite_manager));
 	}
 	else // if attributes["type"] == X
-		cerr << "Warning: Unknown level box type: " << attributes["type"] << endl;
+		cerr << "Warning: Unknown level box type: " << attributes["type"] << std::endl;
 
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// if V.1.9 and lower : move y coordinate bottom to 0
 	if (engine_version < 35 && attributes.exists("posy"))
 		attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
 
-	string type = attributes["type"];
+	std::string type = attributes["type"];
 	if (type == "goldpiece")
 		result.push_back(new cGoldpiece(attributes, p_sprite_manager));
 	else if (type == "mushroom")
@@ -619,14 +619,14 @@ vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const string& name, Xml
 	else if (type == "moon")
 		result.push_back(new cMoon(attributes, p_sprite_manager));
 	else // type == "X"
-		cerr << "Warning: Unknown level item type '" << type << "'" << endl;
+		cerr << "Warning: Unknown level item type '" << type << "'" << std::endl;
 
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Moving_Platforms_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Moving_Platforms_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// if V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
 	if (engine_version < 32) {
@@ -652,9 +652,9 @@ vector<cSprite*> cLevelLoader::Create_Moving_Platforms_From_XML_Tag(const string
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Falling_Platforms_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Falling_Platforms_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// it's not moving
 	attributes["speed"] = "0";
@@ -695,9 +695,9 @@ vector<cSprite*> cLevelLoader::Create_Falling_Platforms_From_XML_Tag(const strin
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Paths_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Paths_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// if V.1.9 and lower : move y coordinate bottom to 0
 	if (engine_version < 35 && attributes.exists("posy"))
@@ -707,10 +707,10 @@ vector<cSprite*> cLevelLoader::Create_Paths_From_XML_Tag(const string& name, Xml
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
-	string type = attributes["type"];
+	std::vector<cSprite*> result;
+	std::string type = attributes["type"];
 
 	// if V.1.5 and lower
 	if (engine_version < 26) {
@@ -741,11 +741,11 @@ vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const string& name, X
 
 			// change image dir
 			if (attributes.exists("image_dir")) {
-				string img_dir = attributes["image_dir"];
-				string::size_type pos = img_dir.find("jpiranha");
+				std::string img_dir = attributes["image_dir"];
+				std::string::size_type pos = img_dir.find("jpiranha");
 
 				// change if found
-				if (pos != string::npos) {
+				if (pos != std::string::npos) {
 					img_dir.replace(pos, 8, "flyon");
 					attributes["image_dir"] = img_dir;
 				}
@@ -806,14 +806,14 @@ vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const string& name, X
 	else if (type == "larry")
 		result.push_back(new cLarry(attributes, p_sprite_manager));
 	else // type == "X"
-		cerr << "Warning: Unknown level enemy type: " << type << endl;
+		cerr << "Warning: Unknown level enemy type: " << type << std::endl;
 
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Sounds_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Sounds_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// if V.1.9 and lower : move y coordinate bottom to 0
 	if (engine_version < 35 && attributes.exists("posy"))
@@ -824,9 +824,9 @@ vector<cSprite*> cLevelLoader::Create_Sounds_From_XML_Tag(const string& name, Xm
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// Note : If you relocate images don't forget the global effect
 
@@ -858,9 +858,9 @@ vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const strin
 }
 
 // if V.1.9 and lower : convert global effect to an advanced particle emitter
-vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 
 	// if V.0.99.4 and lower : change lieftime mod to time to live
 	if (engine_version < 21 && !attributes.exists("time_to_live")) {
@@ -919,23 +919,23 @@ vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const string& 
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Balls_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Balls_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 	result.push_back(new cBall(attributes, p_sprite_manager));
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Lavas_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Lavas_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 	result.push_back(new cLava(attributes, p_sprite_manager));
 	return result;
 }
 
-vector<cSprite*> cLevelLoader::Create_Crates_From_XML_Tag(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
+std::vector<cSprite*> cLevelLoader::Create_Crates_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 {
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 	result.push_back(new cCrate(attributes, p_sprite_manager));
 	return result;
 }

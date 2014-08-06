@@ -86,7 +86,7 @@ cEato *cEato :: Copy( void ) const
 	return eato;
 }
 
-string cEato :: Get_XML_Type_Name()
+std::string cEato :: Get_XML_Type_Name()
 {
 	return "eato";
 }
@@ -111,7 +111,7 @@ void cEato :: Set_Image_Dir( fs::path dir )
 	// if not image directory
 	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("1.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("1.png") ) ) {
 		cerr	<< "Warning: Eato image files not found; does the eato directory "
-							<< path_to_utf8(dir) << " exist?" << endl;
+							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}
 
@@ -316,16 +316,16 @@ bool cEato :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cEato :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Dir( utf8_to_path( str_text ) );
 
 	return 1;
 }
 
-string cEato :: Create_Name( void ) const
+std::string cEato :: Create_Name( void ) const
 {
-	string name = m_name; // dup
+	std::string name = m_name; // dup
 	name += " ";
 	name += _(Get_Direction_Name( m_start_direction ).c_str());
 

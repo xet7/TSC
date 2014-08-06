@@ -157,7 +157,7 @@ void cGL_Surface :: Blit_Data( cSurface_Request *request ) const
 	request->m_rot_z += m_base_rot_z;
 }
 
-void cGL_Surface :: Save( const string &filename )
+void cGL_Surface :: Save( const std::string &filename )
 {
 	if( !m_image )
 	{

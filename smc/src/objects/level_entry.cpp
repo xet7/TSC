@@ -99,7 +99,7 @@ cLevel_Entry *cLevel_Entry :: Copy( void ) const
 	return level_entry;
 }
 
-string cLevel_Entry :: Get_XML_Type_Name()
+std::string cLevel_Entry :: Get_XML_Type_Name()
 {
 	return int_to_string(m_entry_type);
 }
@@ -129,9 +129,9 @@ void cLevel_Entry :: Set_Direction( const ObjectDirection dir )
 	cAnimated_Sprite::Set_Direction( dir, 1 );
 }
 
-string cLevel_Entry :: Create_Name( void ) const
+std::string cLevel_Entry :: Create_Name( void ) const
 {
-	string name = m_name; // Dup
+	std::string name = m_name; // Dup
 
 	if( m_entry_type == LEVEL_ENTRY_BEAM )
 	{
@@ -374,7 +374,7 @@ float cLevel_Entry :: Get_Player_Pos_Y( void ) const
 	return 0;
 }
 
-void cLevel_Entry :: Set_Name( const string &str_name )
+void cLevel_Entry :: Set_Name( const std::string &str_name )
 {
 	// delete editor image
 	if( m_editor_entry_name )
@@ -457,7 +457,7 @@ bool cLevel_Entry :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cLevel_Entry :: Editor_Name_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Name( str_text );
 

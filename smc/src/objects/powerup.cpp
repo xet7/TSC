@@ -276,7 +276,7 @@ cMushroom *cMushroom :: Copy( void ) const
 	return mushroom;
 }
 
-string cMushroom :: Get_XML_Type_Name()
+std::string cMushroom :: Get_XML_Type_Name()
 {
 	return "mushroom";
 }

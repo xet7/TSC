@@ -458,7 +458,7 @@ bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume 
 		// not found
 		if( !File_Exists( filename ) )
 		{
-            cerr << "Warning: Could not find sound file '" << path_to_utf8(filename) << "'" << endl;
+            cerr << "Warning: Could not find sound file '" << path_to_utf8(filename) << "'" << std::endl;
 			return false;
 		}
 	}
@@ -468,7 +468,7 @@ bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume 
 	// failed loading
 	if( !sound_data )
 	{
-        cerr << "Warning: Could not load sound file '" << path_to_utf8(filename) << "'" << endl;
+        cerr << "Warning: Could not load sound file '" << path_to_utf8(filename) << "'" << std::endl;
 		return false;
 	}
 
@@ -522,7 +522,7 @@ bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /*
 	// no valid file
 	if( !File_Exists( filename ) )
 	{
-        cerr << "Warning: Couldn't find music file '" << path_to_utf8(filename) << "'" << endl;
+        cerr << "Warning: Couldn't find music file '" << path_to_utf8(filename) << "'" << std::endl;
 		return 0;
 	}
 

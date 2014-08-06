@@ -84,7 +84,7 @@ cKrush *cKrush :: Copy( void ) const
 	return krush;
 }
 
-string cKrush :: Get_XML_Type_Name()
+std::string cKrush :: Get_XML_Type_Name()
 {
 	return "krush";
 }

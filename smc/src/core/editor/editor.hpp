@@ -21,8 +21,6 @@
 #include "../../gui/hud.hpp"
 #include "../../video/img_settings.hpp"
 
-using namespace std;
-
 namespace SMC
 {
 
@@ -59,7 +57,7 @@ public:
 class cEditor_Item_Object : public CEGUI::ListboxItem
 {
 public:
-    cEditor_Item_Object( const string &text, const CEGUI::Listbox *parent );
+	cEditor_Item_Object( const std::string &text, const CEGUI::Listbox *parent );
 	virtual ~cEditor_Item_Object( void );
 
 	// Initialize
@@ -87,16 +85,16 @@ public:
 class cEditor_Menu_Object : public CEGUI::ListboxTextItem
 {
 public:
-    cEditor_Menu_Object( const string &text );
+	cEditor_Menu_Object( const std::string &text );
 	virtual ~cEditor_Menu_Object( void );
 
 	// Initialize
 	void Init( void );
 
 	// name
-    string name;
+	std::string name;
 	// tags or function name if function
-    string tags;
+	std::string tags;
 
 	// if type is a function
 	bool bfunction;
@@ -155,20 +153,20 @@ public:
 	// ##### Main Menu
 
 	// Add Menu Entry
-    void Add_Menu_Object( const string &name, string tags, CEGUI::colour normal_color = CEGUI::colour( 1, 1, 1 ) );
+	void Add_Menu_Object( const std::string &name, std::string tags, CEGUI::colour normal_color = CEGUI::colour( 1, 1, 1 ) );
 	// Set Active Menu Entry
 	virtual void Activate_Menu_Item( cEditor_Menu_Object *entry );
 
 	// ##### Item Menu
 	// Load an defined Menu
-    virtual bool Load_Item_Menu( string item_tag );
+	virtual bool Load_Item_Menu( std::string item_tag );
 	// Unload the Menu
 	void Unload_Item_Menu( void );
 	/* Add an Object to the Item list
 	 * if nName is set it will not use the object name
 	 * if image is set the default object image is not used
 	 */
-    void Add_Item_Object( cSprite *sprite, string new_name = "", cGL_Surface *image = NULL );
+	void Add_Item_Object( cSprite *sprite, std::string new_name = "", cGL_Surface *image = NULL );
 	// Loads all Image Items
 	void Load_Image_Items( boost::filesystem::path dir );
 	// Active Item Entry
@@ -213,7 +211,7 @@ public:
 	boost::filesystem::path m_items_filename;
 
 	// Required item tag
-    string m_editor_item_tag;
+	std::string m_editor_item_tag;
 	// editor camera speed
 	float m_camera_speed;
 
@@ -234,7 +232,7 @@ public:
 
 protected:
 	// Check if the given tag is available in the string
-    bool Is_Tag_Available( const string &str, const string &tag, unsigned int search_pos = 0 );
+	bool Is_Tag_Available( const std::string &str, const std::string &tag, unsigned int search_pos = 0 );
 
 	// Exit the help window
 	bool Window_Help_Exit_Clicked( const CEGUI::EventArgs &event );

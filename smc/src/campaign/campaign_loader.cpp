@@ -50,8 +50,8 @@ void cCampaignLoader::on_end_document()
 void cCampaignLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property") {
-        string key;
-        string value;
+		std::string key;
+		std::string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -85,7 +85,7 @@ void cCampaignLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "campaign")
 		{ /* Ignore */ }
 	else
-        cerr << "Warning: Campaign unknown element '" << name << "'." << endl;
+        cerr << "Warning: Campaign unknown element '" << name << "'." << std::endl;
 
 	m_current_properties.clear();
 }

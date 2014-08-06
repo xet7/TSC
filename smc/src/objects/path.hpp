@@ -52,12 +52,12 @@ public:
 	void Draw( void );
 
 	// Get the level path object with the given identifier
-	cPath *Get_Path_Object( const string &identifier );
+	cPath *Get_Path_Object( const std::string &identifier );
 
     /* Set the parent path identifier
 	 * sets the position back to the start
 	*/
-    void Set_Path_Identifier( const string &path );
+    void Set_Path_Identifier( const std::string &path );
 	// event if parent path got destroyed
 	void Path_Destroyed_Event( void );
 
@@ -84,7 +84,7 @@ public:
 	cSprite_Manager *m_sprite_manager;
 
 	// parent path identifier
-	string m_path_identifier;
+	std::string m_path_identifier;
 	// parent path pointer ( auto removes the link if destroyed itself )
 	cPath *m_path;
 
@@ -170,7 +170,7 @@ public:
 	}
 
 	// Set the identifier
-	void Set_Identifier( const string &identifier );
+	void Set_Identifier( const std::string &identifier );
 	// Set the showing of the line
 	void Set_Show_Line( bool show );
 	// Set if we move from the beginning again if reached the end instead of turning around
@@ -224,7 +224,7 @@ public:
 	void Editor_Segment_Pos_Changed( void );
 
 	// string identifier (so objects can link to us)
-	string m_identifier;
+	std::string m_identifier;
 	// move from the beginning again if reached the end instead of turning around
 	bool m_rewind;
 	// show moving lines ingame if set
@@ -242,7 +242,7 @@ public:
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
 protected:
-	virtual string Get_XML_Type_Name();
+	virtual std::string Get_XML_Type_Name();
 
 private:
 	// editor color

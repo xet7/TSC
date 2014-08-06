@@ -17,7 +17,7 @@ cEditorItemsLoader::~cEditorItemsLoader()
 	//
 }
 
-void cEditorItemsLoader::parse_file(fs::path filename, cSprite_Manager* p_sm, void* p_data, vector<cSprite*> (*cb)(const string&, XmlAttributes&, int, cSprite_Manager*, void*))
+void cEditorItemsLoader::parse_file(fs::path filename, cSprite_Manager* p_sm, void* p_data, std::vector<cSprite*> (*cb)(const std::string&, XmlAttributes&, int, cSprite_Manager*, void*))
 {
 	m_items_file = filename;
 	mp_sprite_manager = p_sm;
@@ -39,8 +39,8 @@ void cEditorItemsLoader::on_end_document()
 void cEditorItemsLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property" || name == "Property") {
-        string key;
-        string value;
+		std::string key;
+		std::string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -67,17 +67,17 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	if (name == "property")
 		return;
 
-    string objname = m_current_properties["object_name"];
-    string tags = m_current_properties["object_tags"];
+	std::string objname = m_current_properties["object_name"];
+	std::string tags = m_current_properties["object_tags"];
 
 	// TODO: When backward compatibility is removed, reduce to ONE
 	// cSprite* instead of this stupid vector. Currently backward
 	// compatibility may cause a single XML tag to explode to multiple
 	// sprites.
-	vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager, mp_data);
+	std::vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager, mp_data);
 
 	if (sprites.empty()) {
-		cerr << "Warning: Editor item could not be created: " << objname << endl;
+		cerr << "Warning: Editor item could not be created: " << objname << std::endl;
 		return;
 	}
 
@@ -85,7 +85,7 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	// This really looks stupid this way. Really. I mean really.
 	sprites[0]->m_editor_tags = tags.c_str();
 
-	vector<cSprite*>::iterator iter;
+	std::vector<cSprite*>::iterator iter;
 	for(iter=sprites.begin(); iter != sprites.end(); iter++)
 		m_tagged_sprites.push_back(*iter);
 

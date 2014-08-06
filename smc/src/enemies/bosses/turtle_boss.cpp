@@ -116,7 +116,7 @@ cTurtleBoss *cTurtleBoss :: Copy( void ) const
 	return turtle;
 }
 
-string cTurtleBoss :: Get_XML_Type_Name()
+std::string cTurtleBoss :: Get_XML_Type_Name()
 {
 	return "turtleboss";
 }
@@ -1219,7 +1219,7 @@ bool cTurtleBoss :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cTurtleBoss :: Editor_Max_Hits_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Hits( string_to_int( str_text ) );
 
@@ -1229,7 +1229,7 @@ bool cTurtleBoss :: Editor_Max_Hits_Text_Changed( const CEGUI::EventArgs &event 
 bool cTurtleBoss :: Editor_Max_Downgrade_Counts_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Downgrade_Counts( string_to_int( str_text ) );
 
@@ -1239,7 +1239,7 @@ bool cTurtleBoss :: Editor_Max_Downgrade_Counts_Text_Changed( const CEGUI::Event
 bool cTurtleBoss :: Editor_Shell_Time_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Shell_Time( string_to_float( str_text ) );
 
@@ -1263,9 +1263,9 @@ bool cTurtleBoss :: Editor_Level_Ends_If_Killed( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-string cTurtleBoss :: Create_Name( void ) const
+std::string cTurtleBoss :: Create_Name( void ) const
 {
-	string name = m_name; // dup
+	std::string name = m_name; // dup
 	name += " " + Get_Direction_Name( m_start_direction );
 	return name;
 }

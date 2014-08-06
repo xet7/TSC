@@ -60,7 +60,7 @@ public:
 	void Set_Sprite_Manager( cSprite_Manager *sprite_manager );
 	// Sets the type of Background
 	void Set_Type( const BackgroundType type );
-	void Set_Type( const string &type );
+	void Set_Type( const std::string &type );
 
 	// Sets the background color
 	void Set_Color_1( const Color &color );
@@ -88,8 +88,8 @@ public:
 	void Draw_Gradient( void );
 
 	// Returns the name of the current type
-	string Get_Type_Name( void ) const;
-	static string Get_Type_Name( const BackgroundType type );
+	std::string Get_Type_Name( void ) const;
+	static std::string Get_Type_Name( const BackgroundType type );
 
 	// the parent sprite manager
 	cSprite_Manager *m_sprite_manager;

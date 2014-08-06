@@ -2823,7 +2823,7 @@ void cLevel_Player :: Load_Images( void )
 	Clear_Images();
 
 	// special maryo images state
-	string special_state;
+	std::string special_state;
 	// if holding item
 	if( m_active_object )
 	{
@@ -4620,7 +4620,7 @@ bool cLevel_Player :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 	return 1;
 }
 
-void cLevel_Player :: Push_Return( const string &level, const string &entry)
+void cLevel_Player :: Push_Return( const std::string &level, const std::string &entry)
 {
 	cLevel_Player_Return_Entry e;
 	e.level = level;
@@ -4629,7 +4629,7 @@ void cLevel_Player :: Push_Return( const string &level, const string &entry)
 	m_return_stack.push_back(e);
 }
 
-bool cLevel_Player :: Pop_Return( string &level, string &entry )
+bool cLevel_Player :: Pop_Return( std::string &level, std::string &entry )
 {
 	if( !m_return_stack.empty() )
 	{

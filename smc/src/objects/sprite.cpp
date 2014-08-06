@@ -332,13 +332,13 @@ const float cSprite::m_pos_z_massive_start = 0.08f;
 const float cSprite::m_pos_z_front_passive_start = 0.1f;
 const float cSprite::m_pos_z_halfmassive_start = 0.04f;
 
-cSprite :: cSprite( cSprite_Manager *sprite_manager, const string type_name /* = "sprite" */ )
+cSprite :: cSprite( cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
 : cCollidingSprite( sprite_manager ), m_type_name( type_name )
 {
 	cSprite::Init();
 }
 
-cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const string type_name /* = "sprite" */ )
+cSprite :: cSprite( XmlAttributes &attributes, cSprite_Manager *sprite_manager, const std::string type_name /* = "sprite" */ )
 	: cCollidingSprite( sprite_manager ), m_type_name( type_name )
 {
 	cSprite::Init();
@@ -487,7 +487,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	else if (m_image)
 		img_filename = m_image->m_path;
 	else
-		cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << endl;
+		cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
 
 	// Only save the relative part of the filename -- otherwise the
 	// generated levels wouldn’t be portable.
@@ -498,7 +498,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 
 	// type (only if Get_XML_Type_Name() returns something meaningful)
 	// type is massive type in real. Should probably have an own XML attribute.
-	string type = Get_XML_Type_Name();
+	std::string type = Get_XML_Type_Name();
 	if (type.empty())
 		Add_Property(p_node, "type", Get_Massive_Type_Name(m_massive_type));
 	else
@@ -630,7 +630,7 @@ void cSprite :: Set_Sprite_Type( SpriteType type )
  * the parent method. Returning an empty string causes
  * no `type` property to be written.
  */
-string cSprite :: Get_XML_Type_Name()
+std::string cSprite :: Get_XML_Type_Name()
 {
 	if( m_sprite_array == ARRAY_UNDEFINED )
 	{
@@ -1658,7 +1658,7 @@ void cSprite :: Editor_Position_Update( void )
 bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image( pVideo->Get_Surface( utf8_to_path( str_text ) ), true ); // Automatically converted to absolute path by Get_Surface()
 
@@ -1671,7 +1671,7 @@ bool cSprite :: Editor_Image_Text_Changed( const CEGUI::EventArgs &event )
  * This is how the object is presented to the user
  * in the editor. By default it just returns `m_name`.
  */
-string cSprite :: Create_Name() const
+std::string cSprite :: Create_Name() const
 {
 	return m_name;
 }

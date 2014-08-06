@@ -17,13 +17,13 @@ namespace SMC{
 			virtual ~cScriptable_Object();
 
 			void clear_event_handlers();
-			void register_event_handler(const string& evtname, mrb_value callback);
-			vector<mrb_value>::iterator event_handlers_begin(const string& evtname);
-			vector<mrb_value>::iterator event_handlers_end(const string& evtname);
+			void register_event_handler(const std::string& evtname, mrb_value callback);
+			std::vector<mrb_value>::iterator event_handlers_begin(const std::string& evtname);
+			std::vector<mrb_value>::iterator event_handlers_end(const std::string& evtname);
 
 		protected:
 			/// Mapping of event names and registered callbacks.
-			std::map<string, vector<mrb_value> > m_callbacks;
+			std::map<std::string, std::vector<mrb_value> > m_callbacks;
 		};
 	};
 };

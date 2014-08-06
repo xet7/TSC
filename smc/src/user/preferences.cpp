@@ -37,7 +37,7 @@ namespace SMC
 
 // Game
 const bool cPreferences::m_always_run_default = 0;
-const string cPreferences::m_menu_level_default = "menu_brown_1";
+const std::string cPreferences::m_menu_level_default = "menu_brown_1";
 const float cPreferences::m_camera_hor_speed_default = 0.3f;
 const float cPreferences::m_camera_ver_speed_default = 0.2f;
 // Video
@@ -113,7 +113,7 @@ cPreferences* cPreferences :: Load_From_File(fs::path filename)
 {
 	// If the preferences file doesn’t exist, use default values.
 	if (!File_Exists(filename)) {
-		cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << endl;
+		cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << std::endl;
 		cPreferences* p_pref = new cPreferences();
 		p_pref->m_config_filename = filename;
 		return p_pref;

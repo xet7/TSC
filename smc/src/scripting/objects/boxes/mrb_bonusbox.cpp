@@ -90,7 +90,7 @@ static mrb_value Set_Bonus_Type(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	string typestr(mrb_sym2name(p_state, type));
+	std::string typestr(mrb_sym2name(p_state, type));
 
 	SpriteType bonustype;
 	if (typestr == "undefined" || typestr == "empty")
@@ -212,7 +212,7 @@ static mrb_value Set_Goldcolor(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym color;
 	mrb_get_args(p_state, "n", &color);
-	string colorstr(mrb_sym2name(p_state, color));
+	std::string colorstr(mrb_sym2name(p_state, color));
 
 	DefaultColor col;
 	if (colorstr == "default")

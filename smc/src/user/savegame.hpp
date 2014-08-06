@@ -36,7 +36,7 @@ public:
 	cSave_Overworld_Waypoint( void );
 	~cSave_Overworld_Waypoint( void );
 
-	string m_destination;
+	std::string m_destination;
 	bool m_access;
 };
 
@@ -51,7 +51,7 @@ public:
 	cSave_Overworld( void );
 	~cSave_Overworld( void );
 
-	string m_name;
+	std::string m_name;
 
 	// waypoint data
 	Save_Overworld_WaypointList m_waypoints;
@@ -64,10 +64,10 @@ typedef vector<cSave_Overworld *> Save_OverworldList;
 class cSave_Level_Object_Property
 {
 public:
-	cSave_Level_Object_Property( const string &new_name = "", const string &new_value = "" );
+	cSave_Level_Object_Property( const std::string &new_name = "", const std::string &new_value = "" );
 
-	string m_name;
-	string m_value;
+	std::string m_name;
+	std::string m_value;
 };
 
 typedef vector<cSave_Level_Object_Property> Save_Level_Object_ProprtyList;
@@ -81,10 +81,10 @@ public:
 	~cSave_Level_Object( void );
 
 	// Check if property exists
-	bool exists( const string &val_name );
+	bool exists( const std::string &val_name );
 
 	// Returns the value
-	string Get_Value( const string &val_name );
+	std::string Get_Value( const std::string &val_name );
 
 	SpriteType m_type;
 
@@ -102,7 +102,7 @@ public:
 	cSave_Level( void );
 	~cSave_Level( void );
 
-	string m_name;
+	std::string m_name;
 	// player position is only set if level is the active one
 	float m_level_pos_x;
 	float m_level_pos_y;
@@ -113,7 +113,7 @@ public:
 	cSprite_List m_spawned_objects;
 
 	// Data a script writer wants to store
-	string m_mruby_data;
+	std::string m_mruby_data;
 };
 
 typedef vector<cSave_Level *> Save_LevelList;
@@ -122,10 +122,10 @@ typedef vector<cSave_Level *> Save_LevelList;
 class cSave_Player_Return_Entry
 {
 public:
-	cSave_Player_Return_Entry(const string& level, const string& entry);
+	cSave_Player_Return_Entry(const std::string& level, const std::string& entry);
 
-	string m_level;
-	string m_entry;
+	std::string m_level;
+	std::string m_entry;
 };
 
 /* *** *** *** *** *** *** *** cSave *** *** *** *** *** *** *** *** *** *** */
@@ -143,7 +143,7 @@ public:
 	void Init( void );
 
 	// return the active level if available
-	string Get_Active_Level( void );
+	std::string Get_Active_Level( void );
 
 	// Write the savegame out to the given file; raises
 	// xmlpp::exception on error.
@@ -154,7 +154,7 @@ public:
 	// time ( seconds since 1970 )
 	time_t m_save_time;
 	// description
-	string m_description;
+	std::string m_description;
 
 	// lives
 	unsigned int m_lives;
@@ -169,7 +169,7 @@ public:
 	// item in the itembox
 	unsigned int m_itembox_item;
 	// return stack entries
-	vector<cSave_Player_Return_Entry> m_return_entries;
+	std::vector<cSave_Player_Return_Entry> m_return_entries;
 
 	// level data
 	Save_LevelList m_levels;
@@ -181,7 +181,7 @@ public:
 	/* active overworld
 	 * if not set game mode is custom level
 	*/
-	string m_overworld_active;
+	std::string m_overworld_active;
 	// current waypoint
 	unsigned int m_overworld_current_waypoint;
 
@@ -207,7 +207,7 @@ public:
 	*/
 	int Load_Game( unsigned int save_slot );
 	// Save the game with the given description
-	bool Save_Game( unsigned int save_slot, string description );
+	bool Save_Game( unsigned int save_slot, std::string description );
 
 	/* Load a Save
 	* The returned object should be deleted if not used anymore
@@ -223,7 +223,7 @@ public:
 	}
 
 	// Returns only the Savegame description
-	string Get_Description( unsigned int save_slot, bool only_description = 0 );
+	std::string Get_Description( unsigned int save_slot, bool only_description = 0 );
 
 	// Returns true if the Savegame is valid
 	bool Is_Valid( unsigned int save_slot ) const;

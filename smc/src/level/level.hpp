@@ -44,7 +44,7 @@ public:
    * level directory are automatically added).
 	 * returns true if successful
 	*/
-	bool New( string levelname );
+	bool New( std::string levelname );
 
 	/* Unload the current Level
 	 * if delayed is given unloads the on the next update
@@ -74,7 +74,7 @@ public:
 	// Return the level’s name, derived from the filename.
 	// If you don’t need the full absolute path of the level file,
 	// use this method rather than accessing m_level_filename.
-	string Get_Level_Name();
+	std::string Get_Level_Name();
 
 	// update level
 	void Update( void );
@@ -128,18 +128,18 @@ public:
 	*/
 	void Set_Filename( boost::filesystem::path filename, bool rename_old = true );
 	// Set the level author
-	void Set_Author( const string &name );
+	void Set_Author( const std::string &name );
 	// Set the level version
-	void Set_Version( const string &level_version );
+	void Set_Version( const std::string &level_version );
 	// Set the level description
-	void Set_Description( const string &level_description );
+	void Set_Description( const std::string &level_description );
 	// Set the level difficulty ( 0 = undefined, 1 = dead easy and 100 = ultimate challenge )
 	void Set_Difficulty( const Uint8 level_difficulty );
 	// Set the level land type
 	void Set_Land_Type( const LevelLandType level_land_type );
 
 	// Get entry with the given name
-	cLevel_Entry *Get_Entry( const string &name );
+	cLevel_Entry *Get_Entry( const std::string &name );
 
 	// Return true if a level is loaded
 	bool Is_Loaded( void ) const;
@@ -168,7 +168,7 @@ public:
 	// if a new level should be loaded this is the next level filename
 	boost::filesystem::path	 m_next_level_filename;
 	// MRuby script code associated with this level
-	string m_script;
+	std::string m_script;
 
 	// unload the level on the next update
 	bool m_delayed_unload;
@@ -189,15 +189,15 @@ public:
 	// last save time
 	time_t m_last_saved;
 	// author
-	string m_author;
+	std::string m_author;
 	// version
-	string m_version;
+	std::string m_version;
 	// music filename
 	boost::filesystem::path m_musicfile;
 	// valid music to play
 	bool m_valid_music;
 	// description
-	string m_description;
+	std::string m_description;
 	// difficulty ( 0 = undefined, 1 = dead easy and 100 = ultimate challenge )
 	Uint8 m_difficulty;
 	// land type

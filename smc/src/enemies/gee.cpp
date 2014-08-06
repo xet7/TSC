@@ -104,7 +104,7 @@ cGee *cGee :: Copy( void ) const
 	return gee;
 }
 
-string cGee :: Get_XML_Type_Name()
+std::string cGee :: Get_XML_Type_Name()
 {
 	return "gee";
 }
@@ -199,7 +199,7 @@ void cGee :: Set_Color( DefaultColor col )
 
 	m_color_type = col;
 
-	string filename_dir;
+	std::string filename_dir;
 
 	// Electro
 	if( m_color_type == COL_YELLOW )
@@ -697,7 +697,7 @@ bool cGee :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cGee :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Distance( string_to_int( str_text ) );
 
@@ -724,7 +724,7 @@ bool cGee :: Editor_Always_Fly_Select( const CEGUI::EventArgs &event )
 bool cGee :: Editor_Wait_Time_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	m_wait_time = string_to_float( str_text );
 
@@ -734,7 +734,7 @@ bool cGee :: Editor_Wait_Time_Text_Changed( const CEGUI::EventArgs &event )
 bool cGee :: Editor_Fly_Distance_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	m_fly_distance = string_to_int( str_text );
 

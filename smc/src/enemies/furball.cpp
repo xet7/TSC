@@ -103,7 +103,7 @@ cFurball *cFurball :: Copy( void ) const
 	return furball;
 }
 
-string cFurball :: Get_XML_Type_Name()
+std::string cFurball :: Get_XML_Type_Name()
 {
 	return "furball";
 }
@@ -170,7 +170,7 @@ void cFurball :: Set_Color( const DefaultColor &col )
 	Clear_Images();
 
 	m_color_type = col;
-	string filename_dir;
+	std::string filename_dir;
 
 	if( m_color_type == COL_BROWN )
 	{
@@ -915,7 +915,7 @@ bool cFurball :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cFurball :: Editor_Max_Downgrade_Count_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Downgrade_Count( string_to_int( str_text ) );
 

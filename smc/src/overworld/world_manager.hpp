@@ -36,7 +36,7 @@ public:
 	/* Create a new overworld
 	 * returns true if successful
 	*/
-	bool New( string name );
+	bool New( std::string name );
 
 	// Load all overworlds
 	// todo : should only load overworld info
@@ -47,7 +47,7 @@ public:
 	void Load_Dir( const boost::filesystem::path &dir, bool user_dir = false );
 
 	// Set active Overworld from name or path
-	bool Set_Active( const string &str );
+	bool Set_Active( const std::string &str );
 	// Set active Overworld
 	bool Set_Active( cOverworld *world );
 
@@ -57,15 +57,15 @@ public:
 	// Get overworld pointer. First tries to use Get_From_Name(), and
 	// if that doesn’t succeed, converts `str' to a boost::filesystem::path
 	// and tries Get_From_Path.
-	cOverworld *Get( const string &str );
+	cOverworld *Get( const std::string &str );
 	// Get overworld from path (may either be a full path or just
 	// a directory name)
 	cOverworld *Get_from_Path( const boost::filesystem::path &path );
 	// Get overworld from name
-	cOverworld *Get_from_Name( const string &name );
+	cOverworld *Get_from_Name( const std::string &name );
 
 	// Return overworld array number
-	int Get_Array_Num( const string &path ) const;
+	int Get_Array_Num( const std::string &path ) const;
 
 	// shows additional information
 	bool m_debug_mode;

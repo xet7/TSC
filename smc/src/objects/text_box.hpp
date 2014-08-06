@@ -49,7 +49,7 @@ public:
 	virtual void Update( void );
 
 	// Set Text
-	void Set_Text( const string &str_text );
+	void Set_Text( const std::string &str_text );
 
 	// editor activation
 	virtual void Editor_Activate( void );
@@ -57,7 +57,7 @@ public:
 	bool Editor_Text_Text_Changed( const CEGUI::EventArgs &event );
 
 	// the text
-	string m_text;
+	std::string m_text;
 
 	// Save to node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);

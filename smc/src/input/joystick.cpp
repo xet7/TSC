@@ -82,7 +82,7 @@ int cJoystick :: Init( void )
 	// if default joy name is given
 	if( !pPreferences->m_joy_name.empty() )
 	{
-		vector<string> joy_names = Get_Names();
+		vector<std::string> joy_names = Get_Names();
 
 		for( unsigned int i = 0; i < joy_names.size(); i++ )
 		{
@@ -556,14 +556,14 @@ bool cJoystick :: Handle_Button_Up_Event( SDL_Event *ev )
 	return 0;
 }
 
-string cJoystick :: Get_Name( void ) const
+std::string cJoystick :: Get_Name( void ) const
 {
 	return SDL_JoystickName( m_current_joystick );
 }
 
-vector<string> cJoystick :: Get_Names( void ) const
+vector<std::string> cJoystick :: Get_Names( void ) const
 {
-	vector<string> names;
+	vector<std::string> names;
 	// get joy count
 	int joy_count = SDL_NumJoysticks();
 

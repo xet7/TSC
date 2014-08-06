@@ -257,7 +257,7 @@ void Draw_Effect_In( Effect_Fadein effect = EFFECT_IN_RANDOM, float speed = 1 );
 // initialize loading screen
 void Loading_Screen_Init( void );
 // set the loading screen info string and draw it
-void Loading_Screen_Draw_Text( const string &str_info = "Loading" );
+void Loading_Screen_Draw_Text( const std::string &str_info = "Loading" );
 // draw the loading screen
 void Loading_Screen_Draw( void );
 // exit loading screen

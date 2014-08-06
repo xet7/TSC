@@ -117,12 +117,12 @@ namespace SMC
 			return mp_level;
 		}
 
-		mrb_value cMRuby_Interpreter::Run_Code_In_Context(const string& code, mrbc_context* p_context)
+		mrb_value cMRuby_Interpreter::Run_Code_In_Context(const std::string& code, mrbc_context* p_context)
 		{
 			return mrb_load_nstring_cxt(mp_mruby, code.c_str(), code.length(), p_context);
 		}
 
-		bool cMRuby_Interpreter::Run_Code(const string& code, const string& contextname)
+		bool cMRuby_Interpreter::Run_Code(const std::string& code, const std::string& contextname)
 		{
 			// Create a new context. This is important so we
 			// can properly retrieve exceptions, which mrb_load_string()
@@ -156,12 +156,12 @@ namespace SMC
 			// Open the file.
 			boost::filesystem::ifstream file(filepath);
 			if (!file.is_open()) {
-				cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << endl;
+				cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << std::endl;
 				return false;
 			}
 
 			// Read it.
-			string code = readfile(file);
+			std::string code = readfile(file);
 			file.close();
 
 			// Compile & execute it.
@@ -178,7 +178,7 @@ namespace SMC
 			if (!Run_File(mainfile)) {
 				cerr << "Warning: Error loading main mruby script '"
 						  << path_to_utf8(mainfile)
-						  << "'!" << endl;
+						  << "'!" << std::endl;
 			}
 		}
 
@@ -203,11 +203,11 @@ namespace SMC
 
 			// Iterate through the list of registered callbacks
 			// and evaluate each one
-			vector<mrb_value>::iterator iter;
+			std::vector<mrb_value>::iterator iter;
 			for(iter = m_callbacks.begin(); iter != m_callbacks.end(); iter++) {
 				mrb_funcall(mp_mruby, *iter, "call", 0);
 				if (mp_mruby->exc) {
-					cerr << "Warning: Error running timer callback: " << endl;
+					cerr << "Warning: Error running timer callback: " << std::endl;
 					mrb_print_error(mp_mruby);
 				}
 			}

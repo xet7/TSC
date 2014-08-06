@@ -114,7 +114,7 @@ xmlpp::Element* cLava::Save_To_XML_Node(xmlpp::Element* p_element)
 	return p_node;
 }
 
-string cLava::Get_XML_Type_Name()
+std::string cLava::Get_XML_Type_Name()
 {
 	return "lava";
 }

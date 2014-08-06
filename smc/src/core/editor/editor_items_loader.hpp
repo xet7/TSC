@@ -3,8 +3,6 @@
 #include "../global_game.hpp"
 #include "../xml_attributes.hpp"
 
-using namespace std;
-
 namespace SMC {
 
 	class cEditorItemsLoader: public xmlpp::SaxParser
@@ -18,7 +16,7 @@ namespace SMC {
 		// some internal members. `cb' is used to retrieve the sprites;
 		// it should point to cLevelLoader::Create_Level_Objects_From_XML_Tag
 		// or a similar function. `p_data' is passed as-is to your callback.
-        virtual void parse_file(boost::filesystem::path filename, cSprite_Manager* p_sm, void* p_data, vector<cSprite*> (*cb)(const string&, XmlAttributes&, int, cSprite_Manager*, void*));
+		virtual void parse_file(boost::filesystem::path filename, cSprite_Manager* p_sm, void* p_data, std::vector<cSprite*> (*cb)(const std::string&, XmlAttributes&, int, cSprite_Manager*, void*));
 		// Retrieve the tagged cSprite instances found by the parser.
 		vector<cSprite*> get_tagged_sprites();
 
@@ -37,7 +35,7 @@ namespace SMC {
 		XmlAttributes m_current_properties;
 
 		vector<cSprite*> m_tagged_sprites;
-        vector<cSprite*> (*mfp_callback)(const string&, XmlAttributes&, int, cSprite_Manager*, void*);
+		std::vector<cSprite*> (*mfp_callback)(const std::string&, XmlAttributes&, int, cSprite_Manager*, void*);
 		cSprite_Manager* mp_sprite_manager;
 
 		// User data for callback

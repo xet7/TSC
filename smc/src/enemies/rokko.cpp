@@ -110,7 +110,7 @@ cRokko *cRokko :: Copy( void ) const
 	return rokko;
 }
 
-string cRokko :: Get_XML_Type_Name()
+std::string cRokko :: Get_XML_Type_Name()
 {
   return "rokko";
 }
@@ -656,7 +656,7 @@ bool cRokko :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cRokko :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( string_to_float( str_text ) );
 

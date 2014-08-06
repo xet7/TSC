@@ -72,7 +72,7 @@ void cSprite_Manager :: Add( cSprite *sprite )
 #ifdef _DEBUG
 		// This slows down performance, so only check this in debug mode
 		if (Is_UID_In_Use(sprite->m_uid))
-			cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << endl;
+			cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << std::endl;
 #endif
 
 		// Mark the sprite’s UID as taken

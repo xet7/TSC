@@ -42,7 +42,7 @@ void I18N_Init( void )
 
 	if( !textdomain_directory )
 	{
-		cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << endl;
+		cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << std::endl;
 	}
 
 	const char *textdomain_codeset = bind_textdomain_codeset( CAPTION, "UTF-8" );
@@ -53,7 +53,7 @@ void I18N_Init( void )
 }
 
 #ifdef _WIN32
-int Get_Windows_Primary_Language( const string &language )
+int Get_Windows_Primary_Language( const std::string &language )
 {
 	if( language.compare( "en" ) == 0 )
 	{
@@ -115,7 +115,7 @@ int Get_Windows_Primary_Language( const string &language )
 	return LANG_NEUTRAL;
 }
 
-int Get_Windows_Sub_Language( const string &language )
+int Get_Windows_Sub_Language( const std::string &language )
 {
 	if( language.compare( "nn" ) == 0 )
 	{
@@ -130,7 +130,7 @@ int Get_Windows_Sub_Language( const string &language )
 }
 #endif
 
-void I18N_Set_Language( const string &language )
+void I18N_Set_Language( const std::string &language )
 {
 #ifdef _WIN32
 	int primary_language = Get_Windows_Primary_Language( language );
@@ -146,7 +146,7 @@ void I18N_Set_Language( const string &language )
 	{
 		debug_print("Translation locale set to %d %d\n", primary_language, sub_language);
 	}
-	//putenv(("LANG=" + string(_nl_locale_name_default())).c_str());
+	//putenv(("LANG=" + std::string(_nl_locale_name_default())).c_str());
 #else
 	setenv( "LANGUAGE", language.c_str(), 1 );
 #endif

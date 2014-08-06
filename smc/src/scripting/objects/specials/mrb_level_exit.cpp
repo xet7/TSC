@@ -90,7 +90,7 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym type;
 	mrb_get_args(p_state, "n", &type);
-	string typestr(mrb_sym2name(p_state, type));
+	std::string typestr(mrb_sym2name(p_state, type));
 
 	Level_Exit_type let;
 	if (typestr == "beam")
@@ -161,7 +161,7 @@ static mrb_value Set_Camera_Motion(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym camera;
 	mrb_get_args(p_state, "n", &camera);
-	string camerastr(mrb_sym2name(p_state, camera));
+	std::string camerastr(mrb_sym2name(p_state, camera));
 
 	Camera_movement mov;
 	if (camerastr == "none")

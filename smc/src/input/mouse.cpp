@@ -1308,7 +1308,7 @@ cSprite *cMouseCursor :: Copy( const cSprite *copy_object, float px, float py ) 
 	// only copy in editor mode
 	if( !editor_enabled )
 	{
-		cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << endl;
+		cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << std::endl;
 		return NULL;
 	}
 
@@ -1711,7 +1711,7 @@ void cMouseCursor :: Editor_Update( void )
 	}
 
 	// mouse object object name to display
-	string display_name;
+	std::string display_name;
 
 	// set object data
 	if( col->m_obj )
@@ -1767,7 +1767,7 @@ void cMouseCursor :: Editor_Update( void )
 	if( m_hovering_object->m_obj )
 	{
 		// position text
-		string info =
+		std::string info =
 			"X : "		+ int_to_string( static_cast<int>(m_hovering_object->m_obj->m_start_pos_x) )
 			+ " Y : "	+ int_to_string( static_cast<int>(m_hovering_object->m_obj->m_start_pos_y) )
 			+ " UID: "	+ int_to_string(m_hovering_object->m_obj->m_uid);

@@ -82,7 +82,7 @@ public:
 		return cObject_Manager<cGL_Surface>::Get_Pointer( identifier );
 	}
 
-	cGL_Surface *operator [] ( const string &path )
+	cGL_Surface *operator [] ( const std::string &path )
 	{
 		return Get_Pointer( path );
 	}

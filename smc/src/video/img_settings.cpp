@@ -96,7 +96,7 @@ void cImage_Settings_Data :: Apply( cGL_Surface *image ) const
 	// empty image
 	if( !image )
 	{
-		cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << endl;
+		cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << std::endl;
 		return;
 	}
 
@@ -283,7 +283,7 @@ cImage_Settings_Data *cImage_Settings_Parser :: Get( const boost::filesystem::pa
 	return settings;
 }
 
-bool cImage_Settings_Parser :: HandleMessage( const string *parts, unsigned int count, unsigned int line )
+bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned int count, unsigned int line )
 {
 	if( parts[0].compare( "base" ) == 0 )
 	{

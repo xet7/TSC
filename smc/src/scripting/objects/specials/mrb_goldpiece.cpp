@@ -69,7 +69,7 @@ static mrb_value Set_Gold_Color(mrb_state* p_state, mrb_value self)
 {
 	mrb_sym colsym;
 	mrb_get_args(p_state, "n", &colsym);
-	string colorstr(mrb_sym2name(p_state, colsym));
+	std::string colorstr(mrb_sym2name(p_state, colsym));
 
 	DefaultColor col;
 	if (colorstr == "yellow")

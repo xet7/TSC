@@ -147,7 +147,7 @@ static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
 	case MARYO_GHOST:
 		return str2sym(p_state, "ghost");
 	default:
-		cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << endl;
+		cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << std::endl;
 		return mrb_nil_value();
 	}
 }

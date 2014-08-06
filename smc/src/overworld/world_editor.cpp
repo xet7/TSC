@@ -173,7 +173,7 @@ void cEditor_World :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 
 bool cEditor_World :: Function_New( void )
 {
-	string world_name = Box_Text_Input( _("Create a new World"), _("Name") );
+	std::string world_name = Box_Text_Input( _("Create a new World"), _("Name") );
 
 	// aborted/invalid
 	if( world_name.empty() )
@@ -203,7 +203,7 @@ bool cEditor_World :: Function_New( void )
 
 void cEditor_World :: Function_Load( void )
 {
-	string world_name = _("Name");
+	std::string world_name = _("Name");
 
 	// valid world
 	while( world_name.length() )
@@ -262,17 +262,17 @@ void cEditor_World :: Function_Reload( void )
 }
 
 /* HACK: the cEditor::Parse_Items_File function requires a callback
- * that **due to backward compatibility reasons** wants a vector<cSprite*>
+ * that **due to backward compatibility reasons** wants a std::vector<cSprite*>
  * instead of a single cSprite* (because that is what
  * cLevelLoader::Create_Level_Object_From_XML_Tag() returns). This function is
  * just to make the function signature fitting for the callback function by
- * creating a one-element vector<cSprite*>.
+ * creating a one-element std::vector<cSprite*>.
  */
 // static
-vector<cSprite*> cEditor_World :: items_loader_callback(const string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+std::vector<cSprite*> cEditor_World :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
 {
 	cSprite* p_sprite = cOverworldLoader::Create_World_Object_From_XML(name, attributes, engine_version, p_sprite_manager, static_cast<cOverworld*>(p_data));
-	vector<cSprite*> result;
+	std::vector<cSprite*> result;
 	if (p_sprite)
 		result.push_back(p_sprite);
 	return result;

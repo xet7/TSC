@@ -58,8 +58,8 @@ void cSavegameLoader::on_end_document()
 void cSavegameLoader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
 	if (name == "property" || name == "Property") {
-		string key;
-		string value;
+		std::string key;
+		std::string value;
 
 		/* Collect all the <property> elements for the surrounding
 		 * mayor element (like <settings> or <sprite>). When the
@@ -100,7 +100,7 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 	}
 	else if (name == "spawned_objects")
 		return; // don't clear attributes
-	else if (name != "player" && cLevel::Is_Level_Object_Element(string(name))) { // Glib::ustring is not autoconverted to CEGUI::String
+	else if (name != "player" && cLevel::Is_Level_Object_Element(std::string(name))) { // Glib::ustring is not autoconverted to CEGUI::String
 		handle_level_spawned_object(name);
 		return; // don't clear attributes
 	}
@@ -117,7 +117,7 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		return; // don’t clear attributes to keep the world "name"
 	}
 	else
-		cerr << "Warning: Unknown savegame element '" << name << "'" << endl;
+		cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
 
 	m_current_properties.clear();
 }
@@ -158,7 +158,7 @@ void cSavegameLoader::handle_level_object()
 {
 	int type = m_current_properties.retrieve<int>("type");
 	if (type <= 0) {
-		cerr << "Warning: Unknown level object type '" << type << "'" << endl;
+		cerr << "Warning: Unknown level object type '" << type << "'" << std::endl;
 		return;
 	}
 
@@ -196,10 +196,10 @@ void cSavegameLoader::handle_level_object()
 
 void cSavegameLoader::handle_level_spawned_object(const Glib::ustring& name)
 {
-	vector<cSprite*> sprites = cLevelLoader::Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_save->m_level_engine_version, pActive_Level->m_sprite_manager);
+	std::vector<cSprite*> sprites = cLevelLoader::Create_Level_Objects_From_XML_Tag(name, m_current_properties, mp_save->m_level_engine_version, pActive_Level->m_sprite_manager);
 
 	// add objects for later handling in handle_level()
-	vector<cSprite*>::iterator iter;
+	std::vector<cSprite*>::iterator iter;
 	for (iter=sprites.begin(); iter != sprites.end(); iter++)
 		m_level_spawned_objects.push_back(*iter);
 }
@@ -240,11 +240,11 @@ void cSavegameLoader::handle_old_format_overworld_data()
 
 void cSavegameLoader::handle_overworld()
 {
-	string name = m_current_properties["name"];
+	std::string name = m_current_properties["name"];
 
 	// is overworld available? We can probably ignore this for in-level saves
 	if (!pOverworld_Manager->Get_from_Name(name))
-		cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << endl;
+		cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << std::endl;
 
 	// Create savegame overworld
 	cSave_Overworld* p_saveoverworld = new cSave_Overworld();

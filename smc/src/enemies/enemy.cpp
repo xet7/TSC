@@ -409,9 +409,9 @@ xmlpp::Element* cEnemy :: Save_To_XML_Node( xmlpp::Element* p_element )
 	return cAnimated_Sprite::Save_To_XML_Node(p_element);
 }
 
-string cEnemy :: Create_Name() const
+std::string cEnemy :: Create_Name() const
 {
-	stringstream ss;
+	std::stringstream ss;
 	ss << m_name
 	   << " " << _(Get_Direction_Name(m_start_direction).c_str());
 

@@ -9,7 +9,7 @@ namespace SMC {
 		class cGold_100_Event: public cEvent
 		{
 		public:
-			virtual string Event_Name(){return "gold_100";}
+			virtual std::string Event_Name(){return "gold_100";}
 		};
 	}
 }

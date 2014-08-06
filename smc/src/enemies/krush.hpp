@@ -96,7 +96,7 @@ public:
 
 protected:
 	
-	virtual string Get_XML_Type_Name();
+	virtual std::string Get_XML_Type_Name();
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

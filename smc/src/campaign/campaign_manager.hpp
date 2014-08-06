@@ -20,8 +20,6 @@
 #include "../core/global_game.hpp"
 #include "../core/obj_manager.hpp"
 
-using namespace std;
-
 namespace SMC
 {
 
@@ -37,13 +35,13 @@ public:
 	void Save_To_File( const boost::filesystem::path& filename );
 
 	// name
-    string m_name;
+	std::string m_name;
 	// target
-    string m_target;
+	std::string m_target;
 	// if not set it is a world
 	bool m_is_target_level;
 	// description
-    string m_description;
+	std::string m_description;
 	// last save time
 	time_t m_last_saved;
 	/* 0 if only in game directory
@@ -67,7 +65,7 @@ public:
 	cCampaign *Load_Campaign( const boost::filesystem::path &filename );
 
 	// Get campaign from name
-    cCampaign *Get_from_Name( const string &name );
+	cCampaign *Get_from_Name( const std::string &name );
 };
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

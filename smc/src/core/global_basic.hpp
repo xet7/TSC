@@ -13,8 +13,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using namespace std;
-
 #ifndef SMC_GLOBAL_BASIC_HPP
 #define SMC_GLOBAL_BASIC_HPP
 

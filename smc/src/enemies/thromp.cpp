@@ -104,7 +104,7 @@ cThromp *cThromp :: Copy( void ) const
 	return thromp;
 }
 
-string cThromp :: Get_XML_Type_Name()
+std::string cThromp :: Get_XML_Type_Name()
 {
 	return "thromp";
 }
@@ -161,7 +161,7 @@ void cThromp :: Set_Image_Dir( fs::path dir )
 	// if not image directory
 	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.png") ) ) {
 		cerr	<< "Warning: Thromp image files not found; does the thromp directory "
-							<< path_to_utf8(dir) << " exist?" << endl;
+							<< path_to_utf8(dir) << " exist?" << std::endl;
 		return;
 	}
 
@@ -780,7 +780,7 @@ bool cThromp :: Editor_Direction_Select( const CEGUI::EventArgs &event )
 bool cThromp :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Image_Dir( utf8_to_path( str_text ) );
 
@@ -790,7 +790,7 @@ bool cThromp :: Editor_Image_Dir_Text_Changed( const CEGUI::EventArgs &event )
 bool cThromp :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Max_Distance( static_cast<float>(string_to_int( str_text )) );
 
@@ -800,16 +800,16 @@ bool cThromp :: Editor_Max_Distance_Text_Changed( const CEGUI::EventArgs &event 
 bool cThromp :: Editor_Speed_Text_Changed( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
-	string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
+	std::string str_text = static_cast<CEGUI::Editbox *>( windowEventArgs.window )->getText().c_str();
 
 	Set_Speed( string_to_float( str_text ) );
 
 	return 1;
 }
 
-string cThromp :: Create_Name( void ) const
+std::string cThromp :: Create_Name( void ) const
 {
-	string name = m_name; // dup
+	std::string name = m_name; // dup
 	name += _(Get_Direction_Name( m_start_direction ).c_str());
 
 	if( m_start_image && !m_start_image->m_name.empty() )

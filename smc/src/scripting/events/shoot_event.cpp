@@ -3,17 +3,17 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-cShoot_Event::cShoot_Event(string ball_type)
+cShoot_Event::cShoot_Event(std::string ball_type)
 {
 	m_ball_type = ball_type;
 }
 
-string cShoot_Event::Event_Name()
+std::string cShoot_Event::Event_Name()
 {
 	return "shoot";
 }
 
-string cShoot_Event::Get_Ball_Type()
+std::string cShoot_Event::Get_Ball_Type()
 {
 	return m_ball_type;
 }

@@ -44,7 +44,7 @@ void Update_Game( void );
 */
 void Draw_Game( void );
 
-extern const string g_credits;
+extern const std::string g_credits;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

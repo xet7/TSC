@@ -87,7 +87,7 @@ public:
 	// Save to XML node
 	virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
-	virtual string Create_Name() const;
+	virtual std::string Create_Name() const;
 
 	// if dead
 	bool m_dead;
@@ -96,7 +96,7 @@ public:
 	float m_counter;
 
 	// sound filename if got killed
-	string m_kill_sound;
+	std::string m_kill_sound;
 	// points if enemy got killed
 	unsigned int m_kill_points;
 

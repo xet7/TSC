@@ -3,17 +3,17 @@
 using namespace SMC;
 using namespace SMC::Scripting;
 
-cKeyDown_Event::cKeyDown_Event(string keyname)
+cKeyDown_Event::cKeyDown_Event(std::string keyname)
 {
 	m_keyname = keyname;
 }
 
-string cKeyDown_Event::Get_Keyname()
+std::string cKeyDown_Event::Get_Keyname()
 {
 	return m_keyname;
 }
 
-string cKeyDown_Event::Event_Name()
+std::string cKeyDown_Event::Event_Name()
 {
 	return "key_down";
 }
