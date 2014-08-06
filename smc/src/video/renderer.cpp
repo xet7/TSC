@@ -728,7 +728,7 @@ void cRenderQueue :: Add( cRender_Request *obj )
 void cRenderQueue :: Render( bool clear /* = 1 */ )
 {
 	// z position sort
-	sort( m_render_data.begin(), m_render_data.end(), zpos_sort() );
+	std::sort( m_render_data.begin(), m_render_data.end(), zpos_sort() );
 	// reset last texture
 	last_bind_texture = 0;
 

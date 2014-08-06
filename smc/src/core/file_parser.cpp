@@ -54,7 +54,7 @@ bool cFile_parser :: Parse( const fs::path &filename )
 	string line;
 	unsigned int line_num = 0;
 
-    while( getline( ifs, line ) )
+	while( std::getline( ifs, line ) )
 	{
 		line_num++;
 		Parse_Line( line, line_num );

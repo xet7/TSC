@@ -23,7 +23,7 @@ namespace SMC{
 
 		protected:
 			/// Mapping of event names and registered callbacks.
-			map<string, vector<mrb_value> > m_callbacks;
+			std::map<string, vector<mrb_value> > m_callbacks;
 		};
 	};
 };

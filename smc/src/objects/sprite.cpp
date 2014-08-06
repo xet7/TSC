@@ -155,7 +155,7 @@ void cCollidingSprite :: Delete_Collision( cObjectCollision *collision )
 	}
 
 	// get iterator
-	cObjectCollision_List::iterator itr = find( m_collisions.begin(), m_collisions.end(), collision );
+	cObjectCollision_List::iterator itr = std::find( m_collisions.begin(), m_collisions.end(), collision );
 
 	// not available
 	if( itr == m_collisions.end() )

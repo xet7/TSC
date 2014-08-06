@@ -137,6 +137,13 @@ using namespace std;
 // SMC build configuration header
 #include "config.hpp"
 
+using std::vector;
+using std::ifstream;
+using std::fstream;
+using std::ofstream;
+using std::stringstream;
+using std::ios;
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 #endif

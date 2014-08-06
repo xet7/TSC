@@ -131,7 +131,7 @@ public:
 		return Get_Pointer( identifier );
 	}
 
-    // Generate a new and unused sprite ID. Throws range_error if
+	// Generate a new and unused sprite ID. Throws std::range_error if
 	// no IDs can be generated anymore (more than INT_MAX objects are
 	// requested).
 	int Generate_UID();
@@ -149,7 +149,7 @@ public:
 	ZposList m_z_pos_data_editor;
 	// This set holds the not-yet-used UIDs so we can easily
 	// find the next free one.
-	set<int> m_uid_pool;
+	std::set<int> m_uid_pool;
 	// The UID pool is filled as needed. This is always the first
 	// non-yet allocated UID.
 	int m_max_uid_mark;

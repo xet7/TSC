@@ -225,7 +225,7 @@ cObjectCollisionType *cMovingSprite :: Col_Move_in_Steps( float move_x, float mo
 						}
 
 						// find in sprite list
-						cSprite_List::iterator sprite_itr = find( sprite_list.begin(), sprite_list.end(), col->m_obj );
+						cSprite_List::iterator sprite_itr = std::find( sprite_list.begin(), sprite_list.end(), col->m_obj );
 
 						// not found
 						if( sprite_itr == sprite_list.end() )
@@ -317,7 +317,7 @@ cObjectCollisionType *cMovingSprite :: Col_Move_in_Steps( float move_x, float mo
 						}
 
 						// find in sprite list
-						cSprite_List::iterator sprite_itr = find( sprite_list.begin(), sprite_list.end(), col->m_obj );
+						cSprite_List::iterator sprite_itr = std::find( sprite_list.begin(), sprite_list.end(), col->m_obj );
 
 						// not found
 						if( sprite_itr == sprite_list.end() )

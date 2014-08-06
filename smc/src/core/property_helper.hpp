@@ -35,7 +35,7 @@ void cegui_string_replace_all( CEGUI::String &str, const CEGUI::String &search, 
 */
 inline void string_erase_all( string &str, const char search )
 {
-    str.erase( remove(str.begin(), str.end(), search), str.end() );
+	str.erase( std::remove(str.begin(), str.end(), search), str.end() );
 };
 
 /* Trim the string from the beginning with the given character
@@ -86,9 +86,9 @@ unsigned int string_to_version_number( string str );
 string xml_string_to_string( string str );
 #ifdef _WIN32
 // Return it as UTF-8 string
-string ucs2_to_utf8( const wstring &str );
+string ucs2_to_utf8( const std::wstring &str );
 // Return it as UTF-16 (formerly UCS-2) string
-wstring utf8_to_ucs2( const string &str );
+std::wstring utf8_to_ucs2( const string &str );
 #endif
 // Return it as platform-independent boost::filesystem::path.
 // This function does the conversion of `str' to UTF-16 on
@@ -121,7 +121,7 @@ string type_to_string(T value)
 template <typename T>
 T string_to_type(const string& value)
 {
-  throw runtime_error("Cannot use string_to_type() template raw.");
+  throw std::runtime_error("Cannot use string_to_type() template raw.");
 }
 
 template<>
@@ -203,7 +203,7 @@ string readfile(boost::filesystem::ifstream& file);
 
 #ifdef _DEBUG
 template <typename T>
-void print_hashmap(const map<string, T>& map)
+void print_hashmap(const std::map<string, T>& map)
 {
   cout << "========== Debug Hashmap printout ==========" << endl;
 

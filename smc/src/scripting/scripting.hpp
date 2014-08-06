@@ -86,7 +86,7 @@ namespace SMC {
 			cLevel* mp_level;
 			vector<mrb_value> m_callbacks;
 			boost::mutex m_callback_mutex;
-			map<string, struct RClass*> m_classes;
+			std::map<string, struct RClass*> m_classes;
 
 			// Load all MRuby wrapper classes for the C++ classes
 			// into the given mruby state.

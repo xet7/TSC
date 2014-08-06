@@ -91,7 +91,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 {
 	// set world directory
 	vector<fs::path> subdirs = Get_Directory_Files( dir, "", true, false );
-	sort( subdirs.begin(), subdirs.end() );
+	std::sort( subdirs.begin(), subdirs.end() );
 
 	for( vector<fs::path>::iterator curdir = subdirs.begin(); curdir != subdirs.end(); ++curdir )
 	{
@@ -115,7 +115,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 				objects.push_back( overworld );
 			}
 		}
-		catch( const exception &ex )
+		catch( const std::exception &ex )
 		{
             cerr << path_to_utf8(*curdir) << " " << ex.what() << endl;
 		}

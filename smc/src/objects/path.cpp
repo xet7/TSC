@@ -677,7 +677,7 @@ void cPath :: Remove_Link( cPath_State *path_state )
 	}
 	
 	// get iterator
-	PathStateList::iterator itr = find( m_linked_path_states.begin(), m_linked_path_states.end(), path_state );
+	PathStateList::iterator itr = std::find( m_linked_path_states.begin(), m_linked_path_states.end(), path_state );
 
 	// if available
 	if( itr != m_linked_path_states.end() )

@@ -142,7 +142,7 @@ vector<fs::path> Get_Directory_Files( const fs::path &dir, const string &file_ty
 				valid_files.push_back( this_path );
 			}
 		}
-		catch( const exception &ex )
+		catch( const std::exception &ex )
 		{
             cerr << dir_itr->path().string().c_str() << " " << ex.what() << endl;
 		}

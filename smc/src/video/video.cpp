@@ -687,7 +687,7 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
         fs::remove_all(m_imgcache_dir);
 			}
 			// could happen if a file is locked or we have no write rights
-			catch( const exception &ex )
+			catch( const std::exception &ex )
 			{
                 cerr << ex.what() << endl;
 
