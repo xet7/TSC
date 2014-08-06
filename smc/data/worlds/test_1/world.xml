@@ -54,8 +54,8 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<waypoint>
-		<Property name="x" value="291" />
-		<Property name="y" value="91" />
+		<Property name="posx" value="291" />
+		<Property name="posy" value="91" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="lvl_1" />
 		<Property name="direction_backward" value="first" />
@@ -63,8 +63,8 @@
 		<Property name="access" value="1" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="289" />
-		<Property name="y" value="269" />
+		<Property name="posx" value="289" />
+		<Property name="posy" value="269" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="lvl_2" />
 		<Property name="direction_backward" value="up" />
@@ -72,8 +72,8 @@
 		<Property name="access" value="1" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="408" />
-		<Property name="y" value="267" />
+		<Property name="posx" value="408" />
+		<Property name="posy" value="267" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="lvl_3" />
 		<Property name="direction_backward" value="left" />
@@ -81,8 +81,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="407" />
-		<Property name="y" value="160" />
+		<Property name="posx" value="407" />
+		<Property name="posy" value="160" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="lvl_4" />
 		<Property name="direction_backward" value="down" />
@@ -90,8 +90,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="178" />
-		<Property name="y" value="159" />
+		<Property name="posx" value="178" />
+		<Property name="posy" value="159" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="lvl_5" />
 		<Property name="direction_backward" value="right" />
