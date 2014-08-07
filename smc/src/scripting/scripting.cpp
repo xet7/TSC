@@ -156,7 +156,7 @@ namespace SMC
 			// Open the file.
 			boost::filesystem::ifstream file(filepath);
 			if (!file.is_open()) {
-				cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << std::endl;
+				cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << endl;
 				return false;
 			}
 
@@ -178,7 +178,7 @@ namespace SMC
 			if (!Run_File(mainfile)) {
 				cerr << "Warning: Error loading main mruby script '"
 						  << path_to_utf8(mainfile)
-						  << "'!" << std::endl;
+						  << "'!" << endl;
 			}
 		}
 
@@ -207,7 +207,7 @@ namespace SMC
 			for(iter = m_callbacks.begin(); iter != m_callbacks.end(); iter++) {
 				mrb_funcall(mp_mruby, *iter, "call", 0);
 				if (mp_mruby->exc) {
-					cerr << "Warning: Error running timer callback: " << std::endl;
+					cerr << "Warning: Error running timer callback: " << endl;
 					mrb_print_error(mp_mruby);
 				}
 			}

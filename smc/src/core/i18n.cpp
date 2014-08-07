@@ -42,7 +42,7 @@ void I18N_Init( void )
 
 	if( !textdomain_directory )
 	{
-		cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << std::endl;
+		cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << endl;
 	}
 
 	const char *textdomain_codeset = bind_textdomain_codeset( CAPTION, "UTF-8" );

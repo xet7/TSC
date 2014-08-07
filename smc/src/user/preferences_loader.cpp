@@ -316,6 +316,6 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 	else if (name == "editor_item_image_size")
 		mp_preferences->m_editor_item_image_size = string_to_int(value);
 	else {
-		cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << std::endl;
+		cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << endl;
 	}
 }

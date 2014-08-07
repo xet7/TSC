@@ -82,7 +82,7 @@ void cOverworldDescriptionLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "description" || name == "Description")
 		{ /* Ignore */ }
 	else
-		cerr << "Warning: Unknown World Description element '" << name << "'." << std::endl;
+		cerr << "Warning: Unknown World Description element '" << name << "'." << endl;
 
 	m_current_properties.clear();
 }

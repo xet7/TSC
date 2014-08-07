@@ -732,8 +732,8 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 		savegame->Write_To_File(filename);
 	}
 	catch(xmlpp::exception& e) {
-		cerr << "Failed to save savegame '" << filename << "': " << e.what() << std::endl
-				  << "Is the file read-only?" << std::endl;
+		cerr << "Failed to save savegame '" << filename << "': " << e.what() << endl
+				  << "Is the file read-only?" << endl;
 		pHud_Debug->Set_Text( _("Couldn't save savegame ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 	}
 
@@ -760,7 +760,7 @@ cSave *cSavegame :: Load( unsigned int save_slot )
 	if( !File_Exists( filename ) )
 	{
 		// FIXME: This should raise an exception.
-		cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << std::endl;
+		cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << endl;
 		return NULL;
 	}
 

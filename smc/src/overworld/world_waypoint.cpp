@@ -374,7 +374,7 @@ boost::filesystem::path cWaypoint :: Get_Destination_Path()
 		return pResource_Manager->Get_Game_Overworld(m_destination);
 	default:
 		// FIXME: Throw an exception
-		cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;
+		cerr << "Error: Undefined waypoint type" << m_waypoint_type << endl;
 		return boost::filesystem::path();
 	}
 }

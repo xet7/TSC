@@ -58,7 +58,7 @@ static mrb_value Get_Move_Type(mrb_state* p_state, mrb_value self)
 	case MOVING_PLATFORM_TYPE_PATH_BACKWARDS:
 		return str2sym(p_state, "path_backwards");
 	default:
-		cerr << "Warning: Unknown moving platform type '" << p_plat->m_move_type << "'." << std::endl;
+		cerr << "Warning: Unknown moving platform type '" << p_plat->m_move_type << "'." << endl;
 		return mrb_nil_value();
 	}
 }

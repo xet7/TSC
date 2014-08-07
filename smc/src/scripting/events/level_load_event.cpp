@@ -36,8 +36,8 @@ void cLevel_Load_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_valu
 		std::string text = mrb_string_value_ptr(p_state, mrb_funcall(p_state, exception, "message", 0));
 
 		cerr << "Warning: Failed to deserialize JSON representation from savegame: ";
-		cerr << text << std::endl;
-		cerr << std::endl << "(Skipping all handlers registered to Level.on_load)" << std::endl;
+		cerr << text << endl;
+		cerr << endl << "(Skipping all handlers registered to Level.on_load)" << endl;
 		return;
 	}
 

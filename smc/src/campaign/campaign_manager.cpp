@@ -129,7 +129,7 @@ cCampaign *cCampaign_Manager :: Load_Campaign( const fs::path &filename )
 {
 	if( !File_Exists( filename ) )
 	{
-        cerr << "Error : Campaign loading failed : " << path_to_utf8(filename) << std::endl;
+        cerr << "Error : Campaign loading failed : " << path_to_utf8(filename) << endl;
 		return NULL;
 	}
 

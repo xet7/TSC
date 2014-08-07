@@ -117,7 +117,7 @@ void cSavegameLoader::on_end_element(const Glib::ustring& name)
 		return; // don’t clear attributes to keep the world "name"
 	}
 	else
-		cerr << "Warning: Unknown savegame element '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown savegame element '" << name << "'" << endl;
 
 	m_current_properties.clear();
 }
@@ -158,7 +158,7 @@ void cSavegameLoader::handle_level_object()
 {
 	int type = m_current_properties.retrieve<int>("type");
 	if (type <= 0) {
-		cerr << "Warning: Unknown level object type '" << type << "'" << std::endl;
+		cerr << "Warning: Unknown level object type '" << type << "'" << endl;
 		return;
 	}
 
@@ -244,7 +244,7 @@ void cSavegameLoader::handle_overworld()
 
 	// is overworld available? We can probably ignore this for in-level saves
 	if (!pOverworld_Manager->Get_from_Name(name))
-		cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << std::endl;
+		cerr << "Warning: Overworld '" << name << "' in savegame '" << mp_save->m_description << "' could not be found. Trying to continue anyway..." << endl;
 
 	// Create savegame overworld
 	cSave_Overworld* p_saveoverworld = new cSave_Overworld();

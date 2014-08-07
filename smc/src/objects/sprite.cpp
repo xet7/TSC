@@ -487,7 +487,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	else if (m_image)
 		img_filename = m_image->m_path;
 	else
-		cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
+		cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << endl;
 
 	// Only save the relative part of the filename -- otherwise the
 	// generated levels wouldn’t be portable.

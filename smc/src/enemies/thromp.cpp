@@ -161,7 +161,7 @@ void cThromp :: Set_Image_Dir( fs::path dir )
 	// if not image directory
 	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.png") ) ) {
 		cerr	<< "Warning: Thromp image files not found; does the thromp directory "
-							<< path_to_utf8(dir) << " exist?" << std::endl;
+							<< path_to_utf8(dir) << " exist?" << endl;
 		return;
 	}
 

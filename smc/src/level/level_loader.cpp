@@ -141,7 +141,7 @@ void cLevelLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "script")
 		m_in_script_tag = false; // Indicate the <script> tag has ended
 	else
-		cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << std::endl;
+		cerr << "Warning: Unknown XML tag '" << name << "'on level parsing." << endl;
 
 	// Everything handled, so we can now safely clear the
 	// collected <property> element values for the next
@@ -307,7 +307,7 @@ std::vector<cSprite*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std:
 	else if (name == "crate")
 		return Create_Crates_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 	else
-		cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << std::endl;
+		cerr << "Warning: Unknown level object element '" << name << "'. Is cLevelLoader::Create_Level_Objects_From_XML_Tag() in sync with cLevel::Is_Level_Object_Element()?" << endl;
 
 	// keep above list sync with cLevel::Is_Level_Object_Element()
 
@@ -378,7 +378,7 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 	}
 	// always: fix sprite with undefined massive-type
 	if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
-		cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << std::endl;
+		cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << endl;
 		attributes["type"] = "passive"; // So it doesn’t hinder gameplay
 	}
 
@@ -594,7 +594,7 @@ std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string&
 		result.push_back(new cBonusBox(attributes, p_sprite_manager));
 	}
 	else // if attributes["type"] == X
-		cerr << "Warning: Unknown level box type: " << attributes["type"] << std::endl;
+		cerr << "Warning: Unknown level box type: " << attributes["type"] << endl;
 
 	return result;
 }
@@ -619,7 +619,7 @@ std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string&
 	else if (type == "moon")
 		result.push_back(new cMoon(attributes, p_sprite_manager));
 	else // type == "X"
-		cerr << "Warning: Unknown level item type '" << type << "'" << std::endl;
+		cerr << "Warning: Unknown level item type '" << type << "'" << endl;
 
 	return result;
 }
@@ -806,7 +806,7 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
 	else if (type == "larry")
 		result.push_back(new cLarry(attributes, p_sprite_manager));
 	else // type == "X"
-		cerr << "Warning: Unknown level enemy type: " << type << std::endl;
+		cerr << "Warning: Unknown level enemy type: " << type << endl;
 
 	return result;
 }

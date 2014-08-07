@@ -101,7 +101,7 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 		if (p_object)
 			mp_overworld->m_sprite_manager->Add(p_object);
 		else
-			cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
+			cerr << "Warning: Unknown overworld element '" << name << "'" << endl;
 	}
 
 	// Everything handled, so we can now safely clear the
@@ -165,7 +165,7 @@ cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name,
 	else if (name == "line")
 		return Create_Line_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
 	else
-		cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown world object XML tag '" << name << "'" << endl;
 
 	return NULL;
 }

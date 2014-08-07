@@ -96,7 +96,7 @@ void cImage_Settings_Data :: Apply( cGL_Surface *image ) const
 	// empty image
 	if( !image )
 	{
-		cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << std::endl;
+		cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << endl;
 		return;
 	}
 

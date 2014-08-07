@@ -373,8 +373,8 @@ void cLevel :: Save( void )
 		Save_To_File(m_level_filename);
 	}
 	catch(xmlpp::exception& e) {
-		cerr << "Error: Couldn't save level file: " << e.what() << std::endl;
-		cerr << "Is the file read-only?" << std::endl;
+		cerr << "Error: Couldn't save level file: " << e.what() << endl;
+		cerr << "Is the file read-only?" << endl;
 		pHud_Debug->Set_Text( _("Couldn't save level ") + path_to_utf8(m_level_filename), speedfactor_fps * 5.0f );
 
 		// Abort
@@ -524,7 +524,7 @@ void cLevel :: Enter( const GameMode old_mode /* = MODE_NOTHING */ )
 	}
 	else if( pAudio->m_music_enabled )
 	{
-		cerr << "Warning : Music file not found: " << path_to_utf8(pActive_Level->m_musicfile) << std::endl;
+		cerr << "Warning : Music file not found: " << path_to_utf8(pActive_Level->m_musicfile) << endl;
 	}
 
 	// Update Hud Text and position

@@ -45,7 +45,7 @@ bool cFile_parser :: Parse( const fs::path &filename )
 
 	if( !ifs )
 	{
-		cerr << "Could not load data file : " << path_to_utf8(filename) << std::endl;
+		cerr << "Could not load data file : " << path_to_utf8(filename) << endl;
 		return 0;
 	}
 

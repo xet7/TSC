@@ -85,7 +85,7 @@ void cCampaignLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "campaign")
 		{ /* Ignore */ }
 	else
-        cerr << "Warning: Campaign unknown element '" << name << "'." << std::endl;
+        cerr << "Warning: Campaign unknown element '" << name << "'." << endl;
 
 	m_current_properties.clear();
 }

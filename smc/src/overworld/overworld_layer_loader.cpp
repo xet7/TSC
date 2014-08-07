@@ -92,7 +92,7 @@ void cOverworldLayerLoader::on_end_element(const Glib::ustring& name)
 	if (name == "line")
 		handle_line();
 	else
-		cerr << "Warning: Unknown overworld layer element '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown overworld layer element '" << name << "'" << endl;
 
 	// Everything handled, next one
 	m_current_properties.clear();

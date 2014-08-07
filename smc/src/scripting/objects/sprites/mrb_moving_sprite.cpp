@@ -221,7 +221,7 @@ static mrb_value Get_Direction(mrb_state* p_state,  mrb_value self)
 		dir = "last";
 		break;
 	default: // Shouldn’t happen
-		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << endl;
 		return mrb_nil_value();
 	}
 	// A world for a consecutive enum!
@@ -416,7 +416,7 @@ static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
 		dir = "last";
 		break;
 	default: // Shouldn’t happen
-		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+		cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << endl;
 		return mrb_nil_value();
 	}
 	// A world for a consecutive enum!

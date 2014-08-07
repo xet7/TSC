@@ -205,13 +205,13 @@ std::string readfile(boost::filesystem::ifstream& file);
 template <typename T>
 void print_hashmap(const std::map<std::string, T>& map)
 {
-  cout << "========== Debug Hashmap printout ==========" << std::endl;
+  cout << "========== Debug Hashmap printout ==========" << endl;
 
   typename std::map<std::string, T>::const_iterator iter;
   for(iter=map.begin(); iter != map.end(); iter++)
-    cout << iter->first << " => " << iter->second << std::endl;
+    cout << iter->first << " => " << iter->second << endl;
 
-  cout << "============================================" << std::endl;
+  cout << "============================================" << endl;
 }
 #endif
 

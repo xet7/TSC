@@ -77,7 +77,7 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
 	std::vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager, mp_data);
 
 	if (sprites.empty()) {
-		cerr << "Warning: Editor item could not be created: " << objname << std::endl;
+		cerr << "Warning: Editor item could not be created: " << objname << endl;
 		return;
 	}
 
