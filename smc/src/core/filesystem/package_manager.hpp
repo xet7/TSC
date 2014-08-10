@@ -68,8 +68,6 @@ public:
 	cPackage_Manager( void );
 	~cPackage_Manager( void );
 
-	// Scan the available list of packages
-	void Scan_Packages(void);
 	// Get the list of known packages
 	std::vector<PackageInfo> Get_Packages( void );
 	PackageInfo Get_Package( const std::string& name );
@@ -118,7 +116,7 @@ private:
 	void Scan_Packages_Helper( boost::filesystem::path base, boost::filesystem::path path );
 	void Build_Search_Path( void );
 	void Build_Search_Path_Helper( const std::string& package, std::vector<std::string>& processed );
-	PackageInfo Load_Package_Info( const std::string& package );
+	void Load_Package_Info( const std::string& package );
 
 	boost::filesystem::path Find_Reading_Path(boost::filesystem::path dir, boost::filesystem::path resource, std::vector<std::string> extra_ext);
 	boost::filesystem::path Find_Relative_Path(boost::filesystem::path dir, boost::filesystem::path path);

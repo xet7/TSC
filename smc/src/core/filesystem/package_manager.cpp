@@ -21,6 +21,7 @@
 
 #include "package_manager.hpp"
 #include "resource_manager.hpp"
+#include "vfs.hpp"
 #include "filesystem.hpp"
 #include "../../user/preferences.hpp"
 #include "../property_helper.hpp"
@@ -55,7 +56,12 @@ PackageInfo cPackage_Loader :: Get_Package_Info( void )
 
 void cPackage_Loader :: parse_file(fs::path filename)
 {
-	xmlpp::SaxParser::parse_file(path_to_utf8(filename));
+	std::istream* s = pVfs->Open_Stream(filename);
+	if(s)
+	{
+		xmlpp::SaxParser::parse_stream(*s);
+		delete s;
+	}
 }
 
 void cPackage_Loader :: on_start_document()
@@ -115,8 +121,11 @@ void cPackage_Loader :: on_end_element(const Glib::ustring& name)
 
 cPackage_Manager :: cPackage_Manager( void )
 {
-	printf("Initializing Package Manager\n");
-	Scan_Packages();
+	std::cout << "Initializing Package Manager" << std::endl;
+
+	// Scan user data dir first so any user "packages.xml" will override the same in the game data dire
+	Scan_Packages_Helper(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), fs::path());
+	Scan_Packages_Helper(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), fs::path());
 
 	// Preferences isn't loaded yet so skin will not be set here, but
 	// Set_Package is called from main after settings are created and that
@@ -128,14 +137,6 @@ cPackage_Manager :: ~cPackage_Manager( void )
 {
 }
 
-void cPackage_Manager :: Scan_Packages( void )
-{
-	m_packages.clear();
-
-	// Scan user data dir first so any user "packages.xml" will override the same in the game data dire
-	Scan_Packages_Helper(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), fs::path());
-	Scan_Packages_Helper(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), fs::path());
-}
 
 static bool operator< (const PackageInfo& p1, const PackageInfo& p2)
 {
@@ -183,17 +184,24 @@ std::string cPackage_Manager :: Get_Current_Package( void )
 
 void cPackage_Manager :: Init_User_Paths( void )
 {
-	// Levels
-	if(!Dir_Exists(Get_User_Level_Path()))
-		fs::create_directories(Get_User_Level_Path());
+	try
+	{
+		// Levels
+		if(!Dir_Exists(Get_User_Level_Path()))
+			fs::create_directories(Get_User_Level_Path());
 
-	// Campaign
-	if(!Dir_Exists(Get_User_Campaign_Path()))
-		fs::create_directories(Get_User_Campaign_Path());
+		// Campaign
+		if(!Dir_Exists(Get_User_Campaign_Path()))
+			fs::create_directories(Get_User_Campaign_Path());
 
-	// World
-	if(!Dir_Exists(Get_User_World_Path()))
-		fs::create_directories(Get_User_World_Path());
+		// World
+		if(!Dir_Exists(Get_User_World_Path()))
+			fs::create_directories(Get_User_World_Path());
+	}
+	catch(fs::filesystem_error& e)
+	{
+		std::cout << "Warning: unable to crete user data directories for package " << m_current_package << std::endl;
+	}
 
 	// Savegame
 	if(!Dir_Exists(Get_User_Savegame_Path()))
@@ -374,14 +382,11 @@ void cPackage_Manager :: Scan_Packages_Helper( fs::path base, fs::path path )
 			fs::path entry = dir_iter->path().filename();
 			if(entry.extension() == fs::path(".smcpkg"))
 			{
+				// Determine package name and load info
 				entry.replace_extension("");
 				std::string name = path_to_utf8(path / entry);
 
-				if(m_packages.find(name) == m_packages.end())
-				{
-					m_packages[name] = Load_Package_Info(name);
-					printf("Found package %s\n", name.c_str());
-				}
+				Load_Package_Info(name);
 			}
 			else
 			{
@@ -437,21 +442,36 @@ void cPackage_Manager :: Build_Search_Path_Helper ( const std::string& package, 
 		Build_Search_Path_Helper( *dep_it, processed );
 }
 
-PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
+void cPackage_Manager :: Load_Package_Info( const std::string& package )
 {
+	// Only load package once
+	if(m_packages.find(package) != m_packages.end())
+		return;
+
+	std::cout << "Found package " << package << std::endl;
+
+	// Determine user and game data paths for package
 	fs::path path(utf8_to_path(package));
 	path.replace_extension(".smcpkg");
 
 	fs::path game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / path;
 	fs::path user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / path;
 
+	// Mount if they are files
+	if(fs::is_regular_file(game_data_dir))
+	pVfs->Mount(game_data_dir);
+
+	if(fs::is_regular_file(user_data_dir))
+	pVfs->Mount(user_data_dir);
+
+	// Load package information
 	cPackage_Loader loader;
 
-	if(fs::exists(user_data_dir / "package.xml"))
+	if(pVfs->File_Exists(user_data_dir / "package.xml"))
 	{
 		loader.parse_file(user_data_dir / "package.xml");
 	}
-	else if(fs::exists(game_data_dir / "package.xml"))
+	else if(pVfs->File_Exists(game_data_dir / "package.xml"))
 	{
 		loader.parse_file(game_data_dir / "package.xml");
 	}
@@ -463,7 +483,7 @@ PackageInfo cPackage_Manager :: Load_Package_Info( const std::string& package )
 	info.game_data_dir = game_data_dir;
 	info.user_data_dir = user_data_dir;
 
-	return info;
+	m_packages[package] = info;
 }
 
 fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, std::vector<std::string> extra_ext)
