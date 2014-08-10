@@ -16,6 +16,8 @@
 #ifndef SMC_VFS_HPP
 #define SMC_VFS_HPP
 
+#include <SDL_rwops.h>
+
 #include "../../core/global_basic.hpp"
 #include "../../core/global_game.hpp"
 #include "../../core/xml_attributes.hpp"
@@ -40,6 +42,7 @@ public:
 	std::vector<boost::filesystem::path> Get_Directory_Files(const boost::filesystem::path& dir, const std::string& file_type="", bool with_directories=false, bool search_in_subdirectories=true);
 
 	std::istream* Open_Stream(boost::filesystem::path file);
+    SDL_RWops* Open_RWops(boost::filesystem::path file);
 
 private:
 	std::string Find(boost::filesystem::path path);

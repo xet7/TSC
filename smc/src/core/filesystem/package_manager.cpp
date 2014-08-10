@@ -255,15 +255,15 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
 	fs::path result = Get_User_Level_Path() / level;
 
 	// game package data dir
-	if(!fs::exists(result))
+	if(!pVfs->File_Exists(result))
 		result = Get_Game_Level_Path() / level;
 
 	// user core data dir
-	if(!fs::exists(result))
+	if(!pVfs->File_Exists(result))
 		result = pResource_Manager->Get_User_Level_Directory() / level;
 
 	// finally, game core data dir
-	if(!fs::exists(result))
+	if(!pVfs->File_Exists(result))
 		result = pResource_Manager->Get_Game_Level_Directory() / level;
 
 	return result;
@@ -303,7 +303,7 @@ fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, cons
 
 		// Check user data directory, then game data directory
 		result = info.user_data_dir / "scripting" / utf8_to_path(script);
-		if(!fs::exists(result))
+		if(!pVfs->File_Exists(result))
 			result = info.game_data_dir / "scripting" / utf8_to_path(script);
 
 		return result;
@@ -492,7 +492,7 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, 
 	for(std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it)
 	{
 		path = *it / dir / resource;
-		if(fs::exists(path))
+		if(pVfs->Exists(path))
 		{
 			return path;
 		}
@@ -501,7 +501,7 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, 
 			for(std::vector<std::string>::const_iterator it_ext = extra_ext.begin(); it_ext != extra_ext.end(); ++it_ext)
 			{
 				path.replace_extension(*it_ext);
-				if(fs::exists(path))
+				if(pVfs->Exists(path))
 				{
 					return path;
 				}

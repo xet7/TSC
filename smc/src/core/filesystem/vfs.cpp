@@ -86,6 +86,97 @@ protected:
 	}
 };
 
+/* *** *** *** *** *** cVfs_RWops *** *** *** *** *** *** *** *** *** *** */
+class cVfs_RWops
+{
+public:
+	cVfs_RWops(PHYSFS_File* file) :
+		m_file(file), m_offset(0)
+	{
+	}
+
+	~cVfs_RWops()
+	{
+		PHYSFS_close(m_file);
+	}
+
+	static SDL_RWops* Create(PHYSFS_File* f)
+	{
+		SDL_RWops* ops = SDL_AllocRW();
+
+		ops->seek = sdl_seek;
+		ops->read = sdl_read;
+		ops->write = sdl_write;
+		ops->close = sdl_close;
+		ops->type = 0;
+		ops->hidden.unknown.data1 = new cVfs_RWops(f);
+
+		return ops;
+	}
+
+	static int sdl_seek(SDL_RWops* context, int offset, int whence)
+	{
+		cVfs_RWops* data = static_cast<cVfs_RWops*>(context->hidden.unknown.data1);
+
+		int target = data->m_offset;
+		switch(whence)
+		{
+			// TODO: default?
+			default:
+			case RW_SEEK_SET:
+				target = offset;
+				break;
+
+			case RW_SEEK_CUR:
+				target += offset;
+				break;
+
+			case RW_SEEK_END:
+				// TODO: what if fileLength returns in error
+				PHYSFS_sint64 l = PHYSFS_fileLength(data->m_file);
+				target = l - offset;
+				break;
+		}
+
+		// todo: handle error
+		PHYSFS_seek(data->m_file, target);
+		data->m_offset = PHYSFS_tell(data->m_file);
+
+		return data->m_offset;
+	}
+
+	static int sdl_read(SDL_RWops *context, void *ptr, int size, int maxnum)
+	{
+		cVfs_RWops* data = static_cast<cVfs_RWops*>(context->hidden.unknown.data1);
+
+		PHYSFS_sint64 n = PHYSFS_read(data->m_file, ptr, size, maxnum);
+		if(n <= 0) // todo: -1 is an error
+			return 0;
+
+		data->m_offset += (n * size);
+		return n;
+	}
+
+	static int sdl_write(SDL_RWops *context, const void *ptr, int size, int num)
+	{
+		return 0;
+	}
+
+	static int sdl_close(SDL_RWops *context)
+	{
+		cVfs_RWops* data = static_cast<cVfs_RWops*>(context->hidden.unknown.data1);
+		delete data;
+
+        SDL_FreeRW(context);
+		return 0;
+	}
+
+	PHYSFS_File* m_file;
+	int m_offset;
+};
+
+
+
 /* *** *** *** *** *** *** cVfs *** *** *** *** *** *** *** *** *** *** *** */
 
 cVfs :: cVfs( const char *argv0 ) : m_mount_index(0)
@@ -213,6 +304,22 @@ std::istream* cVfs :: Open_Stream(fs::path file)
 	}
 
 	return NULL;
+}
+
+SDL_RWops* cVfs :: Open_RWops(fs::path file)
+{
+    std::string physfs_path = Find(file);
+
+    if(!physfs_path.empty())
+    {
+        PHYSFS_File* f = PHYSFS_openRead(physfs_path.c_str());
+        if(f)
+        {
+            return cVfs_RWops::Create(f);
+        }
+    }
+
+    return NULL;
 }
 
 std::string cVfs :: Find(fs::path path)
