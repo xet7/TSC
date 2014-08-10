@@ -56,6 +56,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../core/filesystem/vfs.hpp"
 #include "../core/filesystem/boost_relative.hpp"
 #include "../overworld/world_editor.hpp"
 #include "../scripting/events/key_down_event.hpp"
@@ -194,7 +195,7 @@ cLevel* cLevel :: Load_From_File( fs::path filename )
 {
 	if( filename.empty() )
 		throw(InvalidLevelError("Empty level filename!"));
-	if (!File_Exists(filename)) {
+	if (!pVfs->File_Exists(filename)) {
 		std::string msg = "Level file not found: " + path_to_utf8(filename);
 		throw(InvalidLevelError(msg));
 	}
