@@ -147,8 +147,57 @@ bool cVfs :: Directory_Exists(fs::path path)
 
 	return false;
 }
+	
+std::vector<fs::path> cVfs :: Get_Directory_Files(const fs::path& dir, const std::string& file_type/*=""*/, bool with_directories/*=false*/, bool search_in_subdirectories/*=true*/)
+{
+	std::vector<fs::path> valid_files;
+	fs::path extension = utf8_to_path(file_type);
 
+	std::string physfs_path = Find(dir);
+	if(physfs_path.empty())
+		return valid_files;
 
+	char** results = PHYSFS_enumerateFiles(physfs_path.c_str());
+	if(results == NULL)
+		return valid_files;
+
+	// read all available entries
+	for(char** i = results; *i != NULL; i++)
+	{
+		const fs::path this_path = dir / physfs_to_path(*i);
+		const std::string this_physfs_path = physfs_path + "/" + *i;
+
+		if(PHYSFS_isDirectory(this_physfs_path.c_str()))
+		{
+			// ignore hidden directories and '.' and '..'
+			// TODO: should this be moved outside of the directory check to ignore all
+			// hidden items including hidden files?
+			if(path_to_utf8(this_path.filename()).find(".") == 0)
+			{
+				continue;
+			}
+
+			if(with_directories)
+			{
+				valid_files.push_back(this_path);
+			}
+
+			// load all items from the subdirectory
+			if(search_in_subdirectories)
+			{
+				std::vector<fs::path> new_valid_files = Get_Directory_Files(this_path, file_type, with_directories, search_in_subdirectories);
+				valid_files.insert(valid_files.end(), new_valid_files.begin(), new_valid_files.end());
+			}
+		}
+		else if(extension.empty() || this_path.extension() == extension)
+		{
+			valid_files.push_back(this_path);
+		}
+	}
+
+	PHYSFS_freeList(results);
+	return valid_files;
+}
 
 std::istream* cVfs :: Open_Stream(fs::path file)
 {

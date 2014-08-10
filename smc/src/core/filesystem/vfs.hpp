@@ -37,6 +37,8 @@ public:
 	bool File_Exists(boost::filesystem::path path);
 	bool Directory_Exists(boost::filesystem::path path);
 
+	std::vector<boost::filesystem::path> Get_Directory_Files(const boost::filesystem::path& dir, const std::string& file_type="", bool with_directories=false, bool search_in_subdirectories=true);
+
 	std::istream* Open_Stream(boost::filesystem::path file);
 
 private:
