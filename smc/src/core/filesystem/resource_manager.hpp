@@ -92,6 +92,7 @@ namespace SMC
 		boost::filesystem::path Get_Game_Icon(std::string icon);
 
 		// Get the various directories in the user’s data directory
+		boost::filesystem::path Get_User_Data_Directory();
 		boost::filesystem::path Get_User_Level_Directory();
 		boost::filesystem::path Get_User_Savegame_Directory();
 		boost::filesystem::path Get_User_Screenshot_Directory();

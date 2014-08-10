@@ -3,7 +3,7 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1402946667"/>
+    <property name="save_time" value="1407097526"/>
   </information>
   <settings>
     <property name="lvl_author" value="FluXy"/>
@@ -17,6 +17,7 @@
     <property name="cam_limit_w" value="832"/>
     <property name="cam_limit_h" value="-4000"/>
     <property name="cam_fixed_hor_vel" value="0.000000"/>
+    <property name="unload_after_exit" value="0"/>
   </settings>
   <background>
     <property name="type" value="103"/>
@@ -31,7 +32,7 @@
     <property name="type" value="1"/>
     <property name="posx" value="0.000000"/>
     <property name="posy" value="0.000000"/>
-    <property name="posz" value="0.000110"/>
+    <property name="posz" value="0.006000"/>
     <property name="image" value="game/background/low_sand.png"/>
     <property name="speedx" value="0.500000"/>
     <property name="speedy" value="0.500000"/>
@@ -42,7 +43,7 @@
     <property name="type" value="1"/>
     <property name="posx" value="0.000000"/>
     <property name="posy" value="0.000000"/>
-    <property name="posz" value="0.000100"/>
+    <property name="posz" value="0.005000"/>
     <property name="image" value="game/background/stars_1.png"/>
     <property name="speedx" value="0.500000"/>
     <property name="speedy" value="0.500000"/>
@@ -397,8 +398,8 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="2"/>
-    <property name="entry" value="A1"/>
     <property name="level_name" value="menu_brown_1_2"/>
+    <property name="entry" value="A1"/>
     <property name="direction" value="down"/>
   </levelexit>
   <box>

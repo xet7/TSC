@@ -2,6 +2,7 @@
 #include "../../core/game_core.hpp"
 #include "../../core/property_helper.hpp"
 #include "../../core/filesystem/resource_manager.hpp"
+#include "../../core/filesystem/package_manager.hpp"
 #include "../../core/framerate.hpp"
 
 /**
@@ -17,11 +18,12 @@ namespace fs = boost::filesystem;
 /**
  * Method: SMC::require
  *
- *   require( path )
+ *   require( path [, package ] )
  *
  * Minimalistic file loading capability. Loads a file
  * relative to SMC’s scripting/ directory into the running
- * MRuby instance.
+ * MRuby instance.  If a package is provided, it will search
+ * the user and game package scripting directory for the script.
  *
  * Using this outside of the initialisation sequence doesn’t
  * make much sense.
@@ -32,7 +34,8 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 
 	// Get the path argument
 	char* cpath = NULL;
-	mrb_get_args(p_state, "z", &cpath);
+	char* cpackage = NULL;
+	mrb_get_args(p_state, "z|z", &cpath, &cpackage);
 
 	// Append ".rb" and convert to a platform-independent boost path
 	std::string spath(cpath);
@@ -45,7 +48,7 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 		mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Absolute paths are not allowed.");
 
 	// Open the MRuby file for reading
-	fs::path scriptfile = pResource_Manager->Get_Game_Scripting_Directory() / path;
+	fs::path scriptfile = pPackage_Manager->Get_Scripting_Path(cpackage ? cpackage : "", spath);
 	fs::ifstream file(scriptfile);
 	debug_print("require: Loading '%s'\n", path_to_utf8(scriptfile).c_str());
 	if (!file.is_open())
@@ -215,7 +218,7 @@ void SMC::Scripting::Init_SMC(mrb_state* p_state)
 {
 	struct RClass* p_rmSMC = mrb_define_module(p_state, "SMC");
 
-	mrb_define_module_function(p_state, p_rmSMC, "require", Require, MRB_ARGS_REQ(1));
+	mrb_define_module_function(p_state, p_rmSMC, "require", Require, MRB_ARGS_ARG(1,1));
 	mrb_define_module_function(p_state, p_rmSMC, "platform", Platform, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "quit", Quit, MRB_ARGS_NONE());
 	mrb_define_module_function(p_state, p_rmSMC, "exit", Exit, MRB_ARGS_REQ(1));

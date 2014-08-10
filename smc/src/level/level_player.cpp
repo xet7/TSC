@@ -19,6 +19,7 @@
 #include "../video/animation.hpp"
 #include "../core/game_core.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../input/joystick.hpp"
 #include "../core/sprite_manager.hpp"
@@ -149,7 +150,7 @@ void cLevel_Player :: Set_Direction( const ObjectDirection dir, bool new_start_d
 	// set start image
 	if( new_start_direction )
 	{
-		cMovingSprite::Set_Image( pVideo->Get_Surface( "maryo/small/stand_" + Get_Direction_Name( dir ) + ".png" ), 1 );
+		cMovingSprite::Set_Image( pVideo->Get_Package_Surface( "maryo/small/stand_" + Get_Direction_Name( dir ) + ".png" ), 1 );
 
 		// set back current image
 		m_curr_img = -1;
@@ -258,7 +259,7 @@ void cLevel_Player :: DownGrade_Player( bool delayed /* = true */, bool force /*
 	// game over
 	else
 	{
-		pAudio->Play_Sound( pResource_Manager->Get_Game_Music("game/lost_1.ogg"), RID_MARYO_DEATH );
+		pAudio->Play_Sound( pPackage_Manager->Get_Music_Reading_Path("game/lost_1.ogg"), RID_MARYO_DEATH );
 	}
 
 	// dying animation
@@ -371,7 +372,7 @@ animation_end:
 	// game over
 	if( m_lives < 0 )
 	{
-		cGL_Surface *game_over = pVideo->Get_Surface( "game/game_over.png" );
+		cGL_Surface *game_over = pVideo->Get_Package_Surface( "game/game_over.png" );
 		cSprite *sprite = new cSprite( m_sprite_manager );
 		sprite->Set_Image( game_over );
 		sprite->Set_Pos( ( game_res_w * 0.5f ) - ( game_over->m_w * 0.5f ), ( game_res_h * 0.5f ) - ( game_over->m_h * 0.5f ) );
@@ -386,7 +387,7 @@ animation_end:
 		anim->Set_Emitter_Iteration_Interval( 0.1f );
 		anim->Set_Quota( 1 );
 		anim->Set_Pos_Z( 0.79f );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/axis.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/axis.png" ) );
 		anim->Set_Time_to_Live( 10.0f );
 		anim->Set_Fading_Alpha( 1 );
 		anim->Set_Speed( 2.0f, 0.5f );
@@ -603,7 +604,7 @@ void cLevel_Player :: Generate_Feet_Clouds( cParticle_Emitter *anim /* = NULL */
 	{
 		case GROUND_EARTH:
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/dirt.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/dirt.png" ) );
 			anim->Set_Time_to_Live( 0.3f );
 			anim->Set_Scale( 0.5f );
 			anim->Set_Speed( 0.08f + vel * 0.1f, vel * 0.05f );
@@ -611,7 +612,7 @@ void cLevel_Player :: Generate_Feet_Clouds( cParticle_Emitter *anim /* = NULL */
 		}
 		case GROUND_ICE:
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/ice_1.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/ice_1.png" ) );
 			anim->Set_Time_to_Live( 0.6f );
 			anim->Set_Scale( 0.3f );
 			anim->Set_Speed( 0.1f + vel * 0.05f, vel * 0.04f );
@@ -620,7 +621,7 @@ void cLevel_Player :: Generate_Feet_Clouds( cParticle_Emitter *anim /* = NULL */
 		case GROUND_SAND:
 		{
 			anim->Set_Emitter_Iteration_Interval( 4.0f );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/cloud.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/cloud.png" ) );
 			anim->Set_Time_to_Live( 0.3f );
 			anim->Set_Scale( 0.2f );
 			anim->Set_Color( lightorange );
@@ -629,7 +630,7 @@ void cLevel_Player :: Generate_Feet_Clouds( cParticle_Emitter *anim /* = NULL */
 		}
 		case GROUND_STONE:
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke_black.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke_black.png" ) );
 			anim->Set_Time_to_Live( 0.3f );
 			anim->Set_Scale( 0.3f );
 			anim->Set_Speed( vel * 0.08f, 0.1f + vel * 0.1f );
@@ -637,7 +638,7 @@ void cLevel_Player :: Generate_Feet_Clouds( cParticle_Emitter *anim /* = NULL */
 		}
 		case GROUND_PLASTIC:
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Time_to_Live( 0.2f );
 			anim->Set_Scale( 0.2f );
 			anim->Set_Color( lightgrey );
@@ -646,7 +647,7 @@ void cLevel_Player :: Generate_Feet_Clouds( cParticle_Emitter *anim /* = NULL */
 		}
 		default:
 		{
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke.png" ) );
 			anim->Set_Time_to_Live( 0.3f );
 			anim->Set_Speed( 0.1f + vel * 0.1f, vel * 0.1f );
 			break;
@@ -767,7 +768,7 @@ void cLevel_Player :: Update_Running( void )
 			// light particles
 			cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 			anim->Set_Emitter_Rect( m_col_rect.m_x + m_col_rect.m_w * 0.25f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.5f, m_col_rect.m_h * 0.8f );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Pos_Z( m_pos_z + 0.000001f );
 			anim->Set_Time_to_Live( 0.1f + vel * 0.03f );
 			anim->Set_Fading_Alpha( 1 );
@@ -1154,7 +1155,7 @@ void cLevel_Player :: Update_Ducking( void )
 			cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 			anim->Set_Emitter_Rect( m_col_rect.m_x, m_col_rect.m_y + ( m_col_rect.m_h * 0.8f ), m_col_rect.m_w * 0.9f, m_col_rect.m_h * 0.1f );
 			anim->Set_Quota( static_cast<int>(m_ducked_animation_counter) );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/star_2.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/star_2.png" ) );
 			anim->Set_Pos_Z( m_pos_z - 0.000001f, 0.000002f );
 			anim->Set_Time_to_Live( 0.3f );
 			anim->Set_Fading_Alpha( 1 );
@@ -2311,7 +2312,7 @@ void cLevel_Player :: Update( void )
 				cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 				anim->Set_Emitter_Rect( m_col_rect.m_x + m_col_rect.m_w * 0.1f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.8f, m_col_rect.m_h * 0.8f );
 				anim->Set_Quota( static_cast<int>(m_invincible_star_counter) );
-				anim->Set_Image( pVideo->Get_Surface( "animation/particles/star.png" ) );
+				anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/star.png" ) );
 				anim->Set_Pos_Z( m_pos_z - 0.000001f );
 				anim->Set_Time_to_Live( 0.3f );
 				anim->Set_Fading_Alpha( 1 );
@@ -2834,70 +2835,70 @@ void cLevel_Player :: Load_Images( void )
 	{
 		/********************* Small **************************/
 		// standing
-		Add_Image( pVideo->Get_Surface( "maryo/small/stand_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/stand_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/stand_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/stand_right" + special_state + ".png" ) );
 		// walking
-		Add_Image( pVideo->Get_Surface( "maryo/small/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/walk_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/walk_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/walk_right_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/walk_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/walk_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/walk_right_1" + special_state + ".png" ) );
 		// running
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		// falling
-		Add_Image( pVideo->Get_Surface( "maryo/small/fall_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/fall_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/fall_right" + special_state + ".png" ) );
 		// jumping
-		Add_Image( pVideo->Get_Surface( "maryo/small/jump_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/jump_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/jump_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/jump_right" + special_state + ".png" ) );
 		// dead
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_right.png" ) );
 		// ducked
-		Add_Image( pVideo->Get_Surface( "maryo/small/duck_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/duck_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/duck_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/duck_right.png" ) );
 		// climbing
-		Add_Image( pVideo->Get_Surface( "maryo/small/climb_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/climb_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/climb_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/climb_right.png" ) );
 		/****************************************************/
 	}
 	else if( m_maryo_type == MARYO_BIG )
 	{
 		/********************* Big ****************************/
 		// standing
-		Add_Image( pVideo->Get_Surface( "maryo/big/stand_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/stand_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/stand_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/stand_right" + special_state + ".png" ) );
 		// walking
-		Add_Image( pVideo->Get_Surface( "maryo/big/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/walk_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/walk_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/walk_right_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/walk_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/walk_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/walk_right_1" + special_state + ".png" ) );
 		// running
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		// falling
-		Add_Image( pVideo->Get_Surface( "maryo/big/fall_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/fall_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/fall_right" + special_state + ".png" ) );
 		// jumping
-		Add_Image( pVideo->Get_Surface( "maryo/big/jump_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/jump_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/jump_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/jump_right" + special_state + ".png" ) );
 		// dead
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_right.png" ) );
 		// ducked
-		Add_Image( pVideo->Get_Surface( "maryo/big/duck_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/duck_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/duck_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/duck_right.png" ) );
 		// climbing
-		Add_Image( pVideo->Get_Surface( "maryo/big/climb_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/big/climb_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/climb_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/big/climb_right.png" ) );
 		// throwing
 		Add_Image( NULL );
 		Add_Image( NULL );
@@ -2909,167 +2910,167 @@ void cLevel_Player :: Load_Images( void )
 	{
 		/********************* Fire **************************/
 		// standing
-		Add_Image( pVideo->Get_Surface( "maryo/fire/stand_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/stand_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/stand_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/stand_right" + special_state + ".png" ) );
 		// walking
-		Add_Image( pVideo->Get_Surface( "maryo/fire/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/walk_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/walk_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/walk_right_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/walk_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/walk_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/walk_right_1" + special_state + ".png" ) );
 		// running
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		// falling
-		Add_Image( pVideo->Get_Surface( "maryo/fire/fall_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/fall_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/fall_right" + special_state + ".png" ) );
 		// jumping
-		Add_Image( pVideo->Get_Surface( "maryo/fire/jump_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/jump_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/fall_right" + special_state + ".png" ) );
 		// dead
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_right.png" ) );
 		// ducked
-		Add_Image( pVideo->Get_Surface( "maryo/fire/duck_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/duck_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/duck_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/duck_right.png" ) );
 		// climbing
-		Add_Image( pVideo->Get_Surface( "maryo/fire/climb_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/climb_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/climb_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/climb_right.png" ) );
 		// throwing
-		Add_Image( pVideo->Get_Surface( "maryo/fire/throw_left_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/throw_right_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/throw_left_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/fire/throw_right_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/throw_left_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/throw_right_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/throw_left_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/fire/throw_right_2.png" ) );
 		/****************************************************/
 	}
 	else if( m_maryo_type == MARYO_ICE )
 	{
 		/********************* Ice **************************/
 		// standing
-		Add_Image( pVideo->Get_Surface( "maryo/ice/stand_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/stand_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/stand_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/stand_right" + special_state + ".png" ) );
 		// walking
-		Add_Image( pVideo->Get_Surface( "maryo/ice/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/walk_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/walk_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/walk_right_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/walk_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/walk_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/walk_right_1" + special_state + ".png" ) );
 		// running
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		// falling
-		Add_Image( pVideo->Get_Surface( "maryo/ice/fall_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/fall_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/fall_right" + special_state + ".png" ) );
 		// jumping
-		Add_Image( pVideo->Get_Surface( "maryo/ice/jump_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/jump_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/fall_right" + special_state + ".png" ) );
 		// dead
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_right.png" ) );
 		// ducked
-		Add_Image( pVideo->Get_Surface( "maryo/ice/duck_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/duck_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/duck_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/duck_right.png" ) );
 		// climbing
-		Add_Image( pVideo->Get_Surface( "maryo/ice/climb_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/climb_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/climb_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/climb_right.png" ) );
 		// throwing
-		Add_Image( pVideo->Get_Surface( "maryo/ice/throw_left_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/throw_right_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/throw_left_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ice/throw_right_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/throw_left_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/throw_right_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/throw_left_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ice/throw_right_2.png" ) );
 		/****************************************************/
 	}
 	else if( m_maryo_type == MARYO_CAPE )
 	{
 		/********************* Cape **************************/
 		// standing
-		Add_Image( pVideo->Get_Surface( "maryo/flying/left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/right" + special_state + ".png" ) );
 		// walking
-		Add_Image( pVideo->Get_Surface( "maryo/flying/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/walk_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/walk_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/walk_right_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/walk_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/walk_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/walk_right_1" + special_state + ".png" ) );
 		// running
-		Add_Image( pVideo->Get_Surface( "maryo/flying/run_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/run_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/run_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/run_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/run_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/run_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/run_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/run_right_2" + special_state + ".png" ) );
 		// falling
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fall_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fall_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fall_right" + special_state + ".png" ) );
 		// jumping
-		Add_Image( pVideo->Get_Surface( "maryo/flying/jump_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/jump_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fall_right" + special_state + ".png" ) );
 		// dead
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_right.png" ) );
 		// ducked
-		Add_Image( pVideo->Get_Surface( "maryo/flying/duck_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/duck_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/duck_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/duck_right.png" ) );
 		// climbing
-		Add_Image( pVideo->Get_Surface( "maryo/flying/climb_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/climb_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/climb_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/climb_right.png" ) );
 		// throwing
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		// flying
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_left_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_right_1.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_left_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_right_2.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_left_3.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_right_3.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_left_4.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/fly_right_4.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_left_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_right_1.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_left_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_right_2.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_left_3.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_right_3.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_left_4.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/fly_right_4.png" ) );
 		// slow fall/parachute
-		Add_Image( pVideo->Get_Surface( "maryo/flying/slow_fall_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/flying/slow_fall_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/slow_fall_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/flying/slow_fall_right.png" ) );
 		/****************************************************/
 	}
 	else if( m_maryo_type == MARYO_GHOST )
 	{
 		/********************* Ghost **************************/
 		// standing
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/stand_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/stand_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/stand_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/stand_right" + special_state + ".png" ) );
 		// walking
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/walk_right_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/walk_left_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/walk_right_2" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/walk_left_1" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/walk_right_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/walk_left_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/walk_right_2" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/walk_left_1" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/walk_right_1" + special_state + ".png" ) );
 		// running
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		Add_Image( NULL );
 		// falling
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/fall_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/fall_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/fall_right" + special_state + ".png" ) );
 		// jumping
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/jump_left" + special_state + ".png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/fall_right" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/jump_left" + special_state + ".png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/fall_right" + special_state + ".png" ) );
 		// dead
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/small/dead_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/small/dead_right.png" ) );
 		// ducked
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/duck_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/duck_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/duck_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/duck_right.png" ) );
 		// climbing
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/climb_left.png" ) );
-		Add_Image( pVideo->Get_Surface( "maryo/ghost/climb_right.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/climb_left.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "maryo/ghost/climb_right.png" ) );
 		// throwing
 		Add_Image( NULL );
 		Add_Image( NULL );
@@ -3844,7 +3845,7 @@ bool cLevel_Player :: Ball_Add( ball_effect effect_type /* = FIREBALL_DEFAULT */
 			// create animation
 			cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 			anim->Set_Pos( m_pos_x + (m_col_rect.m_w * 0.5f), m_pos_y + (m_col_rect.m_h * 0.5f) );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 			anim->Set_Quota( 10 );
 			anim->Set_Time_to_Live( 1.5f );
 			anim->Set_Pos_Z( m_pos_z + 0.0001f );
@@ -4270,7 +4271,7 @@ void cLevel_Player :: Handle_Collision_Enemy( cObjectCollision *collision )
 	{
 		// animation
 		cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 		anim->Set_Time_to_Live( 0.6f, 0.4f );
 		anim->Set_Color( Color( static_cast<Uint8>(160), 160, 240 ), Color( static_cast<Uint8>( rand() % 80 ), rand() % 80, rand() % 10, 0 ) );
 		anim->Set_Fading_Alpha( 1 );
@@ -4410,7 +4411,7 @@ void cLevel_Player :: Handle_Collision_Massive( cObjectCollision *collision )
 					// create animation
 					cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 					anim->Set_Emitter_Rect( m_col_rect.m_x, m_col_rect.m_y + 6, m_col_rect.m_w );
-					anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+					anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 					anim->Set_Quota( 4 );
 					anim->Set_Pos_Z( m_pos_z - 0.000001f );
 					anim->Set_Time_to_Live( 0.3f );

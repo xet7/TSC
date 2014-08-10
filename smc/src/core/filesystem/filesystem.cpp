@@ -106,6 +106,9 @@ vector<fs::path> Get_Directory_Files( const fs::path &dir, const std::string &fi
 	vector<fs::path> valid_files;
 	fs::path extension = utf8_to_path(file_type);
 
+	if(!Dir_Exists(dir))
+		return valid_files;
+
 	fs::directory_iterator end_iter; // No-args constructor makes an end-iter according to docs
 
 	// load all available objects

@@ -50,9 +50,9 @@ void cBeetleBarrage::Init()
 	m_beetle_fly_distance = 35.0f;
 	m_beetle_spit_count = 5;
 
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/1.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/2.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/beetle_barrage/3.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/beetle_barrage/1.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/beetle_barrage/2.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/beetle_barrage/3.png")));
 
 	// Add an animation, but don’t yet play it. We will only
 	// play the animation when spitting out the beetles.

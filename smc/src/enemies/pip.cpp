@@ -61,20 +61,20 @@ void cPip::Init()
 	m_pos_z = 0.093f;
 	m_gravity_max = 13.0f;
 
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_1.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_2.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_3.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_4.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_5.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_6.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_7.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_8.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_9.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/big_10.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_1.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_2.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_3.png")));
-	Add_Image(pVideo->Get_Surface(utf8_to_path("enemy/pip/small_4.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_1.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_2.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_3.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_4.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_5.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_6.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_7.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_8.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_9.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/big_10.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/small_1.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/small_2.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/small_3.png")));
+	Add_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/pip/small_4.png")));
 
 	m_state = STA_FALL;
 	Set_Moving_State(STA_WALK);

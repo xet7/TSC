@@ -17,6 +17,7 @@
 #include "../core/game_core.hpp"
 #include "../core/main.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../level/level.hpp"
 #include "../gui/menu.hpp"
@@ -47,6 +48,11 @@ using namespace SMC;
 #if defined( __WIN32__ ) && defined( _DEBUG )
 	#undef main
 #endif
+
+
+/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+
+static std::string g_cmdline_package;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -112,6 +118,7 @@ int main( int argc, char **argv )
                 cout << "-d, --debug\tEnable debug modes with the options : game performance" << endl;
                 cout << "-l, --level\tLoad the given level" << endl;
                 cout << "-w, --world\tLoad the given world" << endl;
+                cout << "-p, --package\tLoad the given package" << endl;
 				return EXIT_SUCCESS;
 			}
 			// version
@@ -154,6 +161,12 @@ int main( int argc, char **argv )
 						}
 					}
 				}
+			}
+			// package
+			else if( arguments[i] == "--package" || arguments[i] == "-p" )
+			{
+				if( i + 1 < arguments.size() )
+					g_cmdline_package = arguments[i + 1];
 			}
 			// level loading is handled later
 			else if( arguments[i] == "--level" || arguments[i] == "-l" )
@@ -237,6 +250,7 @@ void Init_Game( void )
 	// Init Stage 1 - core classes
 	debug_print("Initializing resource manager and core classes\n");
 	pResource_Manager = new cResource_Manager();
+	pPackage_Manager = new cPackage_Manager();
 	pVideo = new cVideo();
 	pAudio = new cAudio();
 	pFont = new cFont_Manager();
@@ -259,6 +273,11 @@ void Init_Game( void )
 	I18N_Init();
 	// init user dir directory
 	pResource_Manager->Init_User_Directory();
+	// init pacakge from command line or preferences
+	if(!g_cmdline_package.empty())
+		pPackage_Manager->Set_Current_Package(g_cmdline_package);
+	else
+		pPackage_Manager->Set_Current_Package(pPreferences->m_package);
 	// video init
 	pVideo->Init_SDL();
 	pVideo->Init_Video();
@@ -482,6 +501,12 @@ void Exit_Game( void )
 	{
 		delete pFont;
 		pFont = NULL;
+	}
+
+	if( pPackage_Manager )
+	{
+		delete pPackage_Manager;
+		pPackage_Manager = NULL;
 	}
 
 	if( pResource_Manager )

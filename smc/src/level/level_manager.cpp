@@ -23,6 +23,7 @@
 #include "../audio/audio.hpp"
 #include "../level/level_editor.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../input/mouse.hpp"
 #include "../core/global_basic.hpp"
 
@@ -175,7 +176,7 @@ fs::path cLevel_Manager :: Get_Path( const std::string &levelname, bool check_on
 	fs::path filename = Trim_Filename(utf8_to_path(levelname));
 
 	// user level directory as default
-	fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
+	fs::path user_filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());
 	// use new file type as default
 	user_filename.replace_extension(".smclvl");
 
@@ -196,7 +197,7 @@ fs::path cLevel_Manager :: Get_Path( const std::string &levelname, bool check_on
 
 	if( !check_only_user_dir )
 	{
-		fs::path game_filename = fs::absolute(filename, pResource_Manager->Get_Game_Level_Directory());
+		fs::path game_filename = fs::absolute(filename, pPackage_Manager->Get_Game_Level_Path());
 
 		// use new file type
 		game_filename.replace_extension(".smclvl");

@@ -35,6 +35,7 @@
 #include "../core/math/size.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/main.hpp"
 
 using namespace std;
@@ -229,7 +230,7 @@ void cMenu_Main :: Init( void )
 		m_draw_list.push_back( hud_sprite );
 		// SDL logo
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/logo_sdl.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/logo_sdl.png" ) );
 		hud_sprite->Set_Pos( static_cast<float>(game_res_w) * 0.04f, static_cast<float>(game_res_h) * 0.935f );
 		m_draw_list.push_back( hud_sprite );
 	}
@@ -354,11 +355,11 @@ void cMenu_Start :: Init( void )
 	m_layout_file = "menu/start.layout";
 
 	cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	hud_sprite->Set_Image( pVideo->Get_Surface( "menu/start.png" ) );
+	hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/start.png" ) );
 	hud_sprite->Set_Pos( static_cast<float>(game_res_w) * 0.02f, 140 );
 	m_draw_list.push_back( hud_sprite );
 	hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	hud_sprite->Set_Image( pVideo->Get_Surface( "menu/items/overworld.png" ) );
+	hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/items/overworld.png" ) );
 	hud_sprite->Set_Pos( static_cast<float>(game_res_w) / 20, 210 );
 	m_draw_list.push_back( hud_sprite );
 
@@ -376,37 +377,55 @@ void cMenu_Start :: Init_GUI( void )
 	// events
 	tabcontrol->subscribeEvent( CEGUI::TabControl::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::TabControl_Selection_Changed, this ) );
 	tabcontrol->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::TabControl_Keydown, this ) );
+	
+	// ### Package ###
+	CEGUI::Listbox *listbox_packages = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" ));
+
+	// package names
+	vector<PackageInfo> packages = pPackage_Manager->Get_Packages();
+	for( vector<PackageInfo>::const_iterator itr = packages.begin(); itr != packages.end(); ++itr )
+	{
+		if(itr == packages.begin())
+		{
+			CEGUI::ListboxTextItem *first_item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>("<Core>") );
+            
+			first_item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+			first_item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+			first_item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+			listbox_packages->addItem( first_item );
+
+			if(pPackage_Manager->Get_Current_Package().empty())
+				first_item->setSelected(true);
+		}
+
+		if ( itr->hidden )
+		{
+#ifndef _DEBUG
+			continue;
+#else
+			std::cout << "Showing hidden package  '" << itr->name << "' because this is a debug build." << std::endl;
+#endif
+		}
+
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>((itr->name).c_str()) );
+		
+		item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+		listbox_packages->addItem( item );
+
+		if(pPackage_Manager->Get_Current_Package() == itr->name)
+			item->setSelected(true);
+	}
+	
+	// events
+	listbox_packages->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
+	listbox_packages->subscribeEvent( CEGUI::Window::EventCharacterKey, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Character_Key, this ) );
+	listbox_packages->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Package_Select, this ) );
+	listbox_packages->subscribeEvent( CEGUI::Listbox::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Start::Package_Select_final_list, this ) );
 
 	// ### Campaign ###
 	CEGUI::Listbox *listbox_campaigns = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" ));
-
-	// campaign names
-	for( vector<cCampaign *>::const_iterator itr = pCampaign_Manager->objects.begin(); itr != pCampaign_Manager->objects.end(); ++itr )
-	{
-		const cCampaign *campaign = (*itr);
-		
-		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(campaign->m_name.c_str()) );
-		// is in game dir
-		if( campaign->m_user == 0 )
-		{
-			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-		// is in user dir
-		else if( campaign->m_user == 1 )
-		{
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
-		}
-		// is in both
-		else if( campaign->m_user == 2 )
-		{
-			// mix colors
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-
-		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
-		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
-		listbox_campaigns->addItem( item );
-	}
 
 	// events
 	listbox_campaigns->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
@@ -414,52 +433,8 @@ void cMenu_Start :: Init_GUI( void )
 	listbox_campaigns->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Campaign_Select, this ) );
 	listbox_campaigns->subscribeEvent( CEGUI::Listbox::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Start::Campaign_Select_final_list, this ) );
 	
-	// select first item
-	if( listbox_campaigns->getItemCount() )
-	{
-		listbox_campaigns->setItemSelectState( static_cast<size_t>(0), 1 );
-	}
-
 	// ### World ###
 	CEGUI::Listbox *listbox_worlds = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_worlds" ));
-
-	// overworld names
-	for( vector<cOverworld *>::const_iterator itr = pOverworld_Manager->objects.begin(); itr != pOverworld_Manager->objects.end(); ++itr )
-	{
-		const cOverworld_description *world = (*itr)->m_description;
-
-// show all worlds in debug builds
-#ifndef _DEBUG
-		if( !world->m_visible )
-		{
-			continue;
-		}
-#else
-		cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << endl;
-#endif
-		
-		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
-		// is in game dir
-		if( world->m_user == 0 )
-		{
-			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-		// is in user dir
-		else if( world->m_user == 1 )
-		{
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
-		}
-		// is in both
-		else if( world->m_user == 2 )
-		{
-			// mix colors
-			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
-		}
-
-		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
-		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
-		listbox_worlds->addItem( item );
-	}
 
 	// events
 	listbox_worlds->subscribeEvent( CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber( &cMenu_Start::Listbox_Keydown, this ) );
@@ -467,20 +442,9 @@ void cMenu_Start :: Init_GUI( void )
 	listbox_worlds->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::World_Select, this ) );
 	listbox_worlds->subscribeEvent( CEGUI::Listbox::EventMouseDoubleClick, CEGUI::Event::Subscriber( &cMenu_Start::World_Select_final_list, this ) );
 	
-	// select first item
-	if( listbox_worlds->getItemCount() )
-	{
-		listbox_worlds->setItemSelectState( static_cast<size_t>(0), 1 );
-	}
-
 	// ### Level ###
 	CEGUI::Listbox *listbox_levels = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_levels" ));
 	listbox_levels->setSortingEnabled( 1 );
-
-	// get game level
-	Get_Levels( pResource_Manager->Get_Game_Level_Directory(), CEGUI::colour( 1, 0.8f, 0.6f ) );
-	// get user level
-	Get_Levels( pResource_Manager->Get_User_Level_Directory(), CEGUI::colour( 0.8f, 1, 0.6f ) );
 
 	// events
 	listbox_levels->subscribeEvent( CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber( &cMenu_Start::Level_Select, this ) );
@@ -504,6 +468,8 @@ void cMenu_Start :: Init_GUI( void )
 	// events
 	button_enter->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Start::Button_Enter_Clicked, this ) );
 	button_back->subscribeEvent( CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &cMenu_Start::Button_Back_Clicked, this ) );
+
+	Update_Lists();
 
 	// Set focus
 	listbox_worlds->activate();
@@ -629,8 +595,21 @@ void cMenu_Start :: Load_Selected( void )
 	// Get Tab Control
 	CEGUI::TabControl *tabcontrol = static_cast<CEGUI::TabControl *>(CEGUI::WindowManager::getSingleton().getWindow( "tabcontrol_main" ));
 
-	// Campaign
+	// Package
 	if( tabcontrol->getSelectedTabIndex() == 0 )
+	{
+		CEGUI::ListboxItem *item = (static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" )))->getFirstSelectedItem();
+
+		if( item )
+		{
+			if((static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_packages" )))->getItemIndex(item) == 0)
+				Load_Package("");
+			else
+				Load_Package( item->getText().c_str() );
+		}
+	}
+	// Campaign
+	else if( tabcontrol->getSelectedTabIndex() == 1 )
 	{
 		CEGUI::ListboxItem *item = (static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" )))->getFirstSelectedItem();
 
@@ -640,7 +619,7 @@ void cMenu_Start :: Load_Selected( void )
 		}
 	}
 	// World
-	else if( tabcontrol->getSelectedTabIndex() == 1 )
+	else if( tabcontrol->getSelectedTabIndex() == 2 )
 	{
 		CEGUI::ListboxItem *item = (static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_worlds" )))->getFirstSelectedItem();
 
@@ -659,6 +638,17 @@ void cMenu_Start :: Load_Selected( void )
 			Load_Level( item->getText().c_str() );
 		}
 	}
+}
+
+void cMenu_Start :: Load_Package( std::string name )
+{
+	if( !Box_Question( _("This will take affect after restarting.\nContinue ?") ) )
+	{
+		return;
+	}
+
+	pPreferences->m_package = name;
+	pPreferences->Save();
 }
 
 void cMenu_Start :: Load_Campaign( std::string name )
@@ -759,6 +749,104 @@ bool cMenu_Start :: Load_Level( std::string level_name )
 	Game_Action_Data_End.add( "screen_fadein_speed", "3" );
 
 	return 1;
+}
+
+void cMenu_Start :: Update_Lists( void )
+{
+	// ### Campaign ###
+	CEGUI::Listbox *listbox_campaigns = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_campaigns" ));
+    listbox_campaigns->resetList();
+
+	// campaign names
+	for( vector<cCampaign *>::const_iterator itr = pCampaign_Manager->objects.begin(); itr != pCampaign_Manager->objects.end(); ++itr )
+	{
+		const cCampaign *campaign = (*itr);
+		
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(campaign->m_name.c_str()) );
+		// is in game dir
+		if( campaign->m_user == 0 )
+		{
+			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+		// is in user dir
+		else if( campaign->m_user == 1 )
+		{
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
+		}
+		// is in both
+		else if( campaign->m_user == 2 )
+		{
+			// mix colors
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+
+		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+		listbox_campaigns->addItem( item );
+	}
+
+	// select first item
+	if( listbox_campaigns->getItemCount() )
+	{
+		listbox_campaigns->setItemSelectState( static_cast<size_t>(0), 1 );
+	}
+
+	// ### World ###
+	CEGUI::Listbox *listbox_worlds = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_worlds" ));
+    listbox_worlds->resetList();
+
+	// overworld names
+	for( vector<cOverworld *>::const_iterator itr = pOverworld_Manager->objects.begin(); itr != pOverworld_Manager->objects.end(); ++itr )
+	{
+		const cOverworld_description *world = (*itr)->m_description;
+
+// show all worlds in debug builds
+#ifndef _DEBUG
+		if( !world->m_visible )
+		{
+			continue;
+		}
+#else
+		std::cout << "Showing invisible world '" << world->m_name << "' because this is a debug build." << std::endl;
+#endif
+		
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem( reinterpret_cast<const CEGUI::utf8*>(world->m_name.c_str()) );
+		// is in game dir
+		if( world->m_user == 0 )
+		{
+			item->setTextColours( CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+		// is in user dir
+		else if( world->m_user == 1 )
+		{
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ) );
+		}
+		// is in both
+		else if( world->m_user == 2 )
+		{
+			// mix colors
+			item->setTextColours( CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 0.8f, 1, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ), CEGUI::colour( 1, 0.8f, 0.6f ) );
+		}
+
+		item->setSelectionColours( CEGUI::colour( 0.33f, 0.33f, 0.33f ) );
+		item->setSelectionBrushImage( "TaharezLook", "ListboxSelectionBrush" );
+		listbox_worlds->addItem( item );
+	}
+
+	// select first item
+	if( listbox_worlds->getItemCount() )
+	{
+		listbox_worlds->setItemSelectState( static_cast<size_t>(0), 1 );
+	}
+
+	// ### Level ###
+	CEGUI::Listbox *listbox_levels = static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow( "listbox_levels" ));
+	listbox_levels->resetList();
+
+	// get game level
+	Get_Levels( pPackage_Manager->Get_Game_Level_Path(), CEGUI::colour( 1, 0.8f, 0.6f ) );
+	// get user level
+	Get_Levels( pPackage_Manager->Get_User_Level_Path(), CEGUI::colour( 0.8f, 1, 0.6f ) );
 }
 
 bool cMenu_Start :: TabControl_Selection_Changed( const CEGUI::EventArgs &e )
@@ -984,6 +1072,55 @@ bool cMenu_Start :: Listbox_Character_Key( const CEGUI::EventArgs &e )
 	return 0;
 }
 
+bool cMenu_Start :: Package_Select( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	CEGUI::ListboxItem *item = static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getFirstSelectedItem();
+
+	// description
+	CEGUI::Editbox *editbox_package_description = static_cast<CEGUI::Editbox *>(CEGUI::WindowManager::getSingleton().getWindow( "editbox_package_description" ));
+
+	// set description
+	if( item )
+	{
+		if(static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getItemIndex(item) == 0)
+		{
+			editbox_package_description->setText( "Core campaigns, worlds, and levels." );
+		}
+		else
+		{
+			std::string package = item->getText().c_str();
+			PackageInfo info = pPackage_Manager->Get_Package(package);
+
+			editbox_package_description->setText( info.desc );
+		}
+	}
+	// clear
+	else
+	{
+		editbox_package_description->setText( "" );
+	}
+
+	return 1;
+}
+
+bool cMenu_Start :: Package_Select_final_list( const CEGUI::EventArgs &event )
+{
+	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
+	CEGUI::ListboxItem *item = static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getFirstSelectedItem();
+
+	// load package
+	if( item )
+	{
+		if(static_cast<CEGUI::Listbox *>( windowEventArgs.window )->getItemIndex(item) == 0)
+			Load_Package( "" );
+		else
+			Load_Package( item->getText().c_str() );
+	}
+
+	return 1;
+}
+
 bool cMenu_Start :: Campaign_Select( const CEGUI::EventArgs &event )
 {
 	const CEGUI::WindowEventArgs &windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>( event );
@@ -1195,7 +1332,7 @@ void cMenu_Options :: Init( void )
 
 	// options image
 	cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-	hud_sprite->Set_Image( pVideo->Get_Surface( "menu/options.png" ) );
+	hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/options.png" ) );
 	hud_sprite->Set_Pos( game_res_w * 0.01f, 100 );
 	m_draw_list.push_back( hud_sprite );
 
@@ -3007,22 +3144,22 @@ void cMenu_Savegames :: Init( void )
 	if( m_type_save )
 	{
 		cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/save.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/save.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.2f, game_res_h * 0.15f );
 		m_draw_list.push_back( hud_sprite );
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/items/save.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/items/save.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.07f, game_res_h * 0.24f );
 		m_draw_list.push_back( hud_sprite );
 	}
 	else
 	{
 		cHudSprite *hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/load.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/load.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.2f, game_res_h * 0.15f );
 		m_draw_list.push_back( hud_sprite );
 		hud_sprite = new cHudSprite( pMenuCore->m_handler->m_level->m_sprite_manager );
-		hud_sprite->Set_Image( pVideo->Get_Surface( "menu/items/load.png" ) );
+		hud_sprite->Set_Image( pVideo->Get_Package_Surface( "menu/items/load.png" ) );
 		hud_sprite->Set_Pos( game_res_w * 0.07f, game_res_h * 0.24f );
 		m_draw_list.push_back( hud_sprite );
 	}

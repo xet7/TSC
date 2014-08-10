@@ -19,6 +19,7 @@
 #include "../core/game_core.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/i18n.hpp"
 #include "../core/global_basic.hpp"
 
@@ -79,8 +80,14 @@ cCampaign_Manager :: ~cCampaign_Manager( void )
 
 void cCampaign_Manager :: Load( void )
 {
-	vector<fs::path> user_files = Get_Directory_Files( pResource_Manager->Get_User_Campaign_Directory(), ".smccpn", false, false);
-	vector<fs::path> game_files = Get_Directory_Files( pResource_Manager->Get_Game_Campaign_Directory(), ".smccpn", false, false);
+	// if already loaded
+	if( !objects.empty() )
+	{
+		Delete_All();
+	}
+
+	vector<fs::path> user_files = Get_Directory_Files( pPackage_Manager->Get_User_Campaign_Path(), ".smccpn", false, false);
+	vector<fs::path> game_files = Get_Directory_Files( pPackage_Manager->Get_Game_Campaign_Path(), ".smccpn", false, false);
 
 	for( vector<fs::path>::iterator itr = user_files.begin(); itr != user_files.end(); ++itr )
 	{

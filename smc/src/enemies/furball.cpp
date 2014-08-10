@@ -208,21 +208,21 @@ void cFurball :: Set_Color( const DefaultColor &col )
 
 	Update_Velocity_Max();
 
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_1.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_2.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_3.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_4.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_5.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_6.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_7.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/walk_8.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/turn.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/dead.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_1.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_2.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_3.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_4.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_5.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_6.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_7.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/walk_8.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/turn.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/dead.png" ) );
 
 	// boss has hit image
 	if( m_type == TYPE_FURBALL_BOSS )
 	{
-		Add_Image( pVideo->Get_Surface( "enemy/furball/" + filename_dir + "/hit.png" ) );
+		Add_Image( pVideo->Get_Package_Surface( "enemy/furball/" + filename_dir + "/hit.png" ) );
 	}
 	else
 	{
@@ -518,7 +518,7 @@ void cFurball :: Update( void )
 			anim->Set_Emitter_Rect( m_col_rect.m_x, m_col_rect.m_y + m_col_rect.m_h - 2.0f, m_col_rect.m_w );
 			anim->Set_Quota( static_cast<int>(m_running_particle_counter) );
 			anim->Set_Pos_Z( m_pos_z - 0.000001f );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke_black.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke_black.png" ) );
 			anim->Set_Time_to_Live( 0.6f );
 			anim->Set_Scale( 0.2f );
 
@@ -584,7 +584,7 @@ void cFurball :: Generate_Smoke( unsigned int amount /* = 1 */, float particle_s
 	// animation
 	cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 	anim->Set_Pos( m_pos_x + ( m_col_rect.m_w * 0.5f ), m_pos_y + ( m_col_rect.m_h * 0.5f ), 1 );
-	anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke_grey_big.png" ) );
+	anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke_grey_big.png" ) );
 	anim->Set_Quota( amount );
 	anim->Set_Pos_Z( m_pos_z + 0.000001f );
 	anim->Set_Const_Rotation_Z( -6.0f, 12.0f );

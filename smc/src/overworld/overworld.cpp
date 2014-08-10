@@ -30,6 +30,7 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "overworld_description_loader.hpp"
 #include "overworld_layer_loader.hpp"
 #include "overworld_loader.hpp"
@@ -60,7 +61,7 @@ cOverworld_description :: ~cOverworld_description( void )
 
 void cOverworld_description :: Save( void )
 {
-	fs::path filename = pResource_Manager->Get_User_World_Directory() / m_path.filename() / utf8_to_path("description.xml");
+	fs::path filename = pPackage_Manager->Get_User_World_Path() / m_path.filename() / utf8_to_path("description.xml");
 
 	try {
 		Save_To_File(filename);
@@ -235,7 +236,7 @@ void cOverworld :: Save( void )
 	// Ensure we save in the user world dir (the user may take a game world to edit
 	// and then save; in that case we want to save in the user dir, because the game
 	// dir most likely is not writable at all.
-	fs::path save_dir = pResource_Manager->Get_User_World_Directory() / m_description->m_path.filename();
+	fs::path save_dir = pPackage_Manager->Get_User_World_Path() / m_description->m_path.filename();
 
 	// Create directory if new world
 	if( !Dir_Exists( save_dir ) )
@@ -937,7 +938,7 @@ bool cOverworld :: Goto_Next_Level( void )
 		anim->Set_Emitter_Time_to_Live( 1.5f );
 		anim->Set_Emitter_Iteration_Interval( 0.05f );
 		anim->Set_Quota( 1 );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/light.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/light.png" ) );
 		anim->Set_Pos_Z( 0.081f );
 		anim->Set_Time_to_Live( 1.3f );
 		anim->Set_Speed( 1.0f, 0.5f );

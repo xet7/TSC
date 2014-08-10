@@ -47,7 +47,7 @@ cMovingSprite :: cMovingSprite( XmlAttributes &attributes, cSprite_Manager *spri
 	// position
 	Set_Pos( string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true );
 	// image
-	Set_Image( pVideo->Get_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
+	Set_Image( pVideo->Get_Package_Surface( utf8_to_path( attributes["image"] ) ), true ) ;
 }
 
 cMovingSprite :: ~cMovingSprite( void )

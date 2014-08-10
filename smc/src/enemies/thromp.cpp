@@ -26,6 +26,7 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/global_basic.hpp"
 
@@ -159,9 +160,9 @@ void cThromp :: Set_Image_Dir( fs::path dir )
 	}
 
 	// if not image directory
-	if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.settings") ) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("up.png") ) ) {
-		cerr	<< "Warning: Thromp image files not found; does the thromp directory "
-							<< path_to_utf8(dir) << " exist?" << endl;
+	if (!File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path( path_to_utf8(dir) + "/up.settings", true ) ) && !File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path( path_to_utf8(dir) + "/up.png" ) ) ) {
+        cerr << "Warning: Thromp image files not found; does the thromp directory "
+            << path_to_utf8(dir) << " exist?" << endl;
 		return;
 	}
 
@@ -407,8 +408,8 @@ void cThromp :: Update_Images( void )
 	// clear images
 	Clear_Images();
 	// set images
-	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( Get_Direction_Name( m_start_direction ) + ".png" ) ) );
-	Add_Image( pVideo->Get_Surface( m_img_dir / utf8_to_path( Get_Direction_Name( m_start_direction ) + "_active.png" ) ) );
+	Add_Image( pVideo->Get_Package_Surface( m_img_dir / utf8_to_path( Get_Direction_Name( m_start_direction ) + ".png" ) ) );
+	Add_Image( pVideo->Get_Package_Surface( m_img_dir / utf8_to_path( Get_Direction_Name( m_start_direction ) + "_active.png" ) ) );
 	// set start image
 	Set_Image_Num( 0, 1 );
 
@@ -562,7 +563,7 @@ void cThromp :: Generate_Smoke( unsigned int amount /* = 20 */ ) const
 	// animation
 	cParticle_Emitter *anim = new cParticle_Emitter( m_sprite_manager );
 	anim->Set_Emitter_Rect( smoke_x, smoke_y, smoke_width, smoke_height );
-	anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke.png" ) );
+	anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke.png" ) );
 	anim->Set_Quota( amount );
 	anim->Set_Pos_Z( m_pos_z + 0.000001f );
 	anim->Set_Time_to_Live( 1, 1 );

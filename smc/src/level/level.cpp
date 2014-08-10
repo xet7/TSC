@@ -55,6 +55,7 @@
 #include "../objects/path.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/boost_relative.hpp"
 #include "../overworld/world_editor.hpp"
 #include "../scripting/events/key_down_event.hpp"
@@ -142,7 +143,7 @@ cLevel :: ~cLevel( void )
 		while( 1 )
 		{
 			// set name
-			filename = pResource_Manager->Get_User_Level("new_" + int_to_string(i) + ".smclvl");
+			filename = pPackage_Manager->Get_User_Level_Path() / utf8_to_path("new_" + int_to_string(i));
 			// try to open the file
 			ifs.open( filename, ios::in );
 
@@ -169,7 +170,7 @@ cLevel :: ~cLevel( void )
 			filename.replace_extension(".smclvl");
 
 		// set user directory, creating an absolute path if necessary
-		filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
+		filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());
 	}
 
 	// open file
@@ -361,12 +362,12 @@ void cLevel :: Save( void )
 	pAudio->Play_Sound( "editor/save.ogg" );
 
 	// use user level dir
-	if( path_to_utf8(m_level_filename).find( path_to_utf8(pResource_Manager->Get_User_Level_Directory() ) ) == std::string::npos )
+	if( path_to_utf8(m_level_filename).find( path_to_utf8(pPackage_Manager->Get_User_Level_Path() ) ) == std::string::npos )
 	{
 		// erase old directory
 		m_level_filename = Trim_Filename( m_level_filename, 0, 1 );
 		// set user directory
-		m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
+		m_level_filename = fs::absolute(m_level_filename, pPackage_Manager->Get_User_Level_Path());
 	}
 
 	try{
@@ -400,7 +401,7 @@ void cLevel :: Reset_Settings( void )
 	m_version.clear();
 
 	// set default music
-	Set_Music( pResource_Manager->Get_Game_Music( LEVEL_DEFAULT_MUSIC ) );
+	Set_Music( pPackage_Manager->Get_Music_Reading_Path( LEVEL_DEFAULT_MUSIC ) );
 
 	m_description.clear();
 	m_difficulty = 0;
@@ -729,7 +730,7 @@ bool cLevel :: Key_Down( const SDLKey key )
 		anim->Set_Emitter_Time_to_Live( -1 );
 		anim->Set_Emitter_Iteration_Interval( 5 );
 		anim->Set_Quota( 200 );
-		anim->Set_Image( pVideo->Get_Surface( "animation/particles/star.png" ) );
+		anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/star.png" ) );
 		anim->Set_Time_to_Live( 3, 3 );
 		anim->Set_Fading_Alpha( 1 );
 		anim->Set_Speed( 1, 4 );
@@ -993,14 +994,14 @@ bool cLevel :: Joy_Button_Up( Uint8 button )
 
 fs::path cLevel :: Get_Music_Filename() const
 {
-	return fs::relative(pResource_Manager->Get_Game_Music_Directory(), m_musicfile);
+	return pPackage_Manager->Get_Relative_Music_Path(m_musicfile);
 }
 
 void cLevel :: Set_Music( fs::path filename )
 {
 	// add music dir
 	if (!filename.is_absolute())
-		filename = pResource_Manager->Get_Game_Music_Directory() / filename;
+		filename = pPackage_Manager->Get_Music_Reading_Path(path_to_utf8(filename));
 
 	// already set
 	if( m_musicfile.compare( filename ) == 0 )
@@ -1029,7 +1030,7 @@ void cLevel :: Set_Filename( fs::path filename, bool rename_old /* = true */ )
 		filename.replace_extension(".smclvl");
 
 	// add level dir if we aren’t absolute yet
-	filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
+	filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());
 
 	// rename file
 	if( rename_old )

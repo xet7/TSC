@@ -150,16 +150,16 @@ void cSpikeball :: Set_Color( const DefaultColor &col )
 
 	Update_Velocity_Max();
 
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_1.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_2.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_3.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_4.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_5.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_6.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_7.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/walk_8.png" ) );
-	Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/turn.png" ) );
-	//Add_Image( pVideo->Get_Surface( "enemy/spikeball/" + filename_dir + "/dead.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_1.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_2.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_3.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_4.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_5.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_6.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_7.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/walk_8.png" ) );
+	Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/turn.png" ) );
+	//Add_Image( pVideo->Get_Package_Surface( "enemy/spikeball/" + filename_dir + "/dead.png" ) );
 
 	Set_Image_Num( 0, 1 );
 }
@@ -331,7 +331,7 @@ void cSpikeball :: Update( void )
 			anim->Set_Emitter_Rect( m_col_rect.m_x, m_col_rect.m_y + m_col_rect.m_h - 2.0f, m_col_rect.m_w );
 			anim->Set_Quota( static_cast<int>(m_running_particle_counter) );
 			anim->Set_Pos_Z( m_pos_z - 0.000001f );
-			anim->Set_Image( pVideo->Get_Surface( "animation/particles/smoke_black.png" ) );
+			anim->Set_Image( pVideo->Get_Package_Surface( "animation/particles/smoke_black.png" ) );
 			anim->Set_Time_to_Live( 0.6f );
 			anim->Set_Scale( 0.2f );
 

@@ -204,13 +204,13 @@ cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes,
 		cSprite* p_copy = p_sprite->Copy();
 
 		// middle
-		p_copy->Set_Image(pVideo->Get_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_middle.png")), true);
+		p_copy->Set_Image(pVideo->Get_Package_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_middle.png")), true);
 		p_copy->Set_Pos_Y(p_copy->m_start_pos_y + 32, true);
 		p_sprite_manager->Add(p_copy); // HACK: Should be done by the caller! (unexpected parameter modification)
 
 		// end
 		p_copy = p_copy->Copy();
-		p_copy->Set_Image(pVideo->Get_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_end.png")), true);
+		p_copy->Set_Image(pVideo->Get_Package_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_end.png")), true);
 		p_copy->Set_Pos_Y(p_copy->m_start_pos_y + 32, true);
 		p_sprite_manager->Add(p_copy); // HACK: Should be done by the caller! (unexpected parameter modification)
 	}

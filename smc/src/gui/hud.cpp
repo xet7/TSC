@@ -280,8 +280,8 @@ cMenuBackground :: cMenuBackground( cSprite_Manager *sprite_manager )
 	m_sprite_array = ARRAY_HUD;
 	m_name = "HUD Menu Background";
 
-	m_maryo_head = pVideo->Get_Surface( "game/maryo_l.png" );
-	m_goldpiece = pVideo->Get_Surface( "game/gold_m.png" );
+	m_maryo_head = pVideo->Get_Package_Surface( "game/maryo_l.png" );
+	m_goldpiece = pVideo->Get_Package_Surface( "game/gold_m.png" );
 
 	if(	!m_maryo_head || !m_goldpiece )
 	{
@@ -712,7 +712,7 @@ cInfoMessage :: cInfoMessage( cSprite_Manager* p_sprite_manager )
 	m_background->m_camera_range = 0;
 	m_background->Set_Massive_Type( MASS_MASSIVE );
 	m_background->m_pos_z = 0.1299f;
-	m_background->Set_Image( pVideo->Get_Surface( "game/infomessage.png" ) );
+	m_background->Set_Image( pVideo->Get_Package_Surface( "game/infomessage.png" ) );
 }
 
 cInfoMessage :: ~cInfoMessage()
@@ -773,7 +773,7 @@ cItemBox :: cItemBox( cSprite_Manager *sprite_manager )
 	m_type = TYPE_HUD_ITEMBOX;
 	m_name = "HUD Itembox";
 
-	Set_Image( pVideo->Get_Surface( "game/itembox.png" ) );
+	Set_Image( pVideo->Get_Package_Surface( "game/itembox.png" ) );
 	// disable shadow
 	Set_Shadow_Pos( 0 );
 
@@ -890,17 +890,17 @@ void cItemBox :: Set_Item( SpriteType item_type, bool sound /* = 1 */ )
 	if( item_type == TYPE_MUSHROOM_DEFAULT )
 	{
 		m_box_color = Color( static_cast<Uint8>(250), 50, 50 );
-		m_item->Set_Image( pVideo->Get_Surface( "game/items/mushroom_red.png" ) );
+		m_item->Set_Image( pVideo->Get_Package_Surface( "game/items/mushroom_red.png" ) );
 	}
 	else if( item_type == TYPE_FIREPLANT )
 	{
 		m_box_color = Color( static_cast<Uint8>(250), 200, 150 );
-		m_item->Set_Image( pVideo->Get_Surface( "game/items/fireplant.png" ) );
+		m_item->Set_Image( pVideo->Get_Package_Surface( "game/items/fireplant.png" ) );
 	}
 	else if( item_type == TYPE_MUSHROOM_BLUE )
 	{
 		m_box_color = Color( static_cast<Uint8>(100), 100, 250 );
-		m_item->Set_Image( pVideo->Get_Surface( "game/items/mushroom_blue.png" ) );
+		m_item->Set_Image( pVideo->Get_Package_Surface( "game/items/mushroom_blue.png" ) );
 	}
 
 
