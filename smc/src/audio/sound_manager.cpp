@@ -41,6 +41,8 @@ bool cSound :: Load( const fs::path &filename )
 	SDL_RWops* ops = pVfs->Open_RWops(filename);
 	if(ops)
 		m_chunk = Mix_LoadWAV_RW(ops, 1);
+	else
+		m_chunk = NULL;
 
 	if( m_chunk )
 	{

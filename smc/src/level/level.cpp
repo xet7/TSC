@@ -1009,7 +1009,7 @@ void cLevel :: Set_Music( fs::path filename )
 
 	m_musicfile = filename;
 	// check if music is available
-	m_valid_music = File_Exists( filename );
+	m_valid_music = pVfs->File_Exists( filename );
 }
 
 void cLevel :: Set_Filename( fs::path filename, bool rename_old /* = true */ )

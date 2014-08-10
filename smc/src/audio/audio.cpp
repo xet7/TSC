@@ -519,7 +519,7 @@ bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /*
 		filename = pPackage_Manager->Get_Music_Reading_Path(path_to_utf8(filename));
 
 	// no valid file
-	if( !File_Exists( filename ) )
+	if( !pVfs->File_Exists( filename ) )
 	{
 		std::cerr << "Warning: Couldn't find music file '" << path_to_utf8(filename) << "'" << std::endl;
 		return 0;
@@ -553,7 +553,11 @@ bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /*
 		}
 
 		// load the given music
-		m_music = Mix_LoadMUS( path_to_utf8(filename).c_str() );
+		SDL_RWops* ops = pVfs->Open_RWops(filename);
+		if(ops)
+			m_music = Mix_LoadMUSType_RW(ops, MUS_NONE, 1); // Mix_LoadMUS_RW doesn't take freesrc paramter
+		else
+			m_music = NULL;
 
 		// loaded
 		if( m_music )
@@ -599,7 +603,11 @@ bool cAudio :: Play_Music( fs::path filename, int loops /* = 0 */, bool force /*
 		}
 
 		// load the wanted next playing music
-		m_music = Mix_LoadMUS( path_to_utf8(filename).c_str() );
+		SDL_RWops* ops = pVfs->Open_RWops(filename);
+		if(ops)
+			m_music = Mix_LoadMUSType_RW(ops, MUS_NONE, 1);
+		else
+			m_music = NULL;
 	}
 
 	return true;
