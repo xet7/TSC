@@ -22,6 +22,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../core/filesystem/vfs.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -402,7 +403,7 @@ cSound *cAudio :: Get_Sound_File( fs::path filename ) const
 	}
 
 	// not available
-	if( !File_Exists( filename ) )
+	if( !pVfs->File_Exists( filename ) )
 	{
 		// add sound directory if required
     if (!filename.is_absolute())
@@ -447,14 +448,14 @@ bool cAudio :: Play_Sound( fs::path filename, int res_id /* = -1 */, int volume 
 	}
 
 	// not available
-	if( !File_Exists( filename ) )
+	if( !pVfs->File_Exists( filename ) )
 	{
 		// add sound directory
 		if (!filename.is_absolute())
 			filename = pPackage_Manager->Get_Sound_Reading_Path(path_to_utf8(filename));
 
 		// not found
-		if( !File_Exists( filename ) )
+		if( !pVfs->File_Exists( filename ) )
 		{
 			std::cerr << "Warning: Could not find sound file '" << path_to_utf8(filename) << "'" << std::endl;
 			return false;

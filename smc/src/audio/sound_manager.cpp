@@ -13,6 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "../core/filesystem/vfs.hpp"
 #include "../core/property_helper.hpp"
 #include "../audio/sound_manager.hpp"
 
@@ -36,8 +37,10 @@ cSound :: ~cSound( void )
 bool cSound :: Load( const fs::path &filename )
 {
 	Free();
-	
-	m_chunk = Mix_LoadWAV( path_to_utf8(filename).c_str() );
+
+	SDL_RWops* ops = pVfs->Open_RWops(filename);
+	if(ops)
+		m_chunk = Mix_LoadWAV_RW(ops, 1);
 
 	if( m_chunk )
 	{
