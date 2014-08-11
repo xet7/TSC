@@ -26,6 +26,9 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -151,8 +154,8 @@ void cFlyon :: Set_Image_Dir( fs::path dir )
 
 	// if not image directory
 	if (!File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path( path_to_utf8(dir) + "/closed_1.settings", true ) ) && !File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path( path_to_utf8(dir) + "/closed_1.png" ) ) ) {
-		std::cerr	<< "Warning: Flyon image files not found; does the flyon directory "
-							<< path_to_utf8(dir) << " exist?" << std::endl;
+        cerr	<< "Warning: Flyon image files not found; does the flyon directory "
+                            << path_to_utf8(dir) << " exist?" << endl;
 		return;
 	}
 
@@ -184,7 +187,7 @@ void cFlyon :: Set_Direction( const ObjectDirection dir )
 
 	if( dir != DIR_UP && dir != DIR_DOWN && dir != DIR_LEFT && dir != DIR_RIGHT )
 	{
-		printf( "Error : Unknown Flyon direction %d\n", m_direction );
+        cerr << "Error : Unknown Flyon direction " << m_direction << endl;
 		return;
 	}
 

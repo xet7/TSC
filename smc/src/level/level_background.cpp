@@ -23,6 +23,10 @@
 #include "../core/filesystem/boost_relative.hpp"
 #include "../core/xml_attributes.hpp"
 
+#include "../core/global_basic.hpp"
+
+using namespace std;
+
 namespace fs = boost::filesystem;
 
 namespace SMC
@@ -137,7 +141,7 @@ void cBackground :: Save_To_XML_Node( xmlpp::Element *p_parent )
 		Add_Property( p_node, "const_vely", m_const_vel_y );
 	}
 	else
-		std::cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << std::endl;
+		cerr << "Warning: Detected unknown background type '" << m_type << "' on saving." << endl;
 	// </background>
 }
 
@@ -179,7 +183,7 @@ void cBackground :: Set_Type( const std::string &type )
 	}
 	else
 	{
-		printf( "Warning : Unknown Background type %s\n", type.c_str() );
+        cerr << "Warning : Unknown Background type " << type << endl;
 	}
 }
 

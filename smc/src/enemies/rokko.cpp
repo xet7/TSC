@@ -23,6 +23,9 @@
 #include "../input/mouse.hpp"
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -171,7 +174,7 @@ void cRokko :: Set_Direction( const ObjectDirection dir, bool new_start_directio
 	}
 	else
 	{
-		printf( "Warning: Unknown Rokko direction %s\n", Get_Direction_Name( dir ).c_str() );
+        cerr << "Warning: Unknown Rokko direction " << Get_Direction_Name( dir ) << endl;
 	}
 
 	Update_Rotation_Hor();

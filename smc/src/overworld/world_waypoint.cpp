@@ -27,6 +27,9 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -378,7 +381,7 @@ boost::filesystem::path cWaypoint :: Get_Destination_Path()
 		return result;
 	default:
 		// FIXME: Throw an exception
-		std::cerr << "Error: Undefined waypoint type" << m_waypoint_type << std::endl;
+		cerr << "Error: Undefined waypoint type" << m_waypoint_type << endl;
 		return boost::filesystem::path();
 	}
 }

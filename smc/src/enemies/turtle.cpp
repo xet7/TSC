@@ -24,6 +24,9 @@
 #include "../user/savegame.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/i18n.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -141,7 +144,7 @@ void cTurtle :: Set_Direction( const ObjectDirection dir, bool new_start_directi
 {
 	if( dir != DIR_RIGHT && dir != DIR_LEFT )
 	{
-		printf( "Warning : Unknown Turtle direction set %s\n", Get_Direction_Name( dir ).c_str() );
+        cerr << "Warning : Unknown Army direction set " << Get_Direction_Name( dir ) << endl;
 		return;
 	}
 
@@ -178,7 +181,7 @@ void cTurtle :: Set_Color( DefaultColor col )
 	// unknown color
 	else
 	{
-		printf( "Error : Unknown Turtle color : %d\n", m_color_type );
+        cerr << "Error : Unknown Army color : " << m_color_type << endl;
 	}
 
 	Update_Velocity_Max();

@@ -463,7 +463,7 @@ std::string Get_Clipboard_Content( void )
 		// no handle
 		if( !h )
 		{
-			printf( "Could not get clipboard data\n" );
+            cerr << "Could not get clipboard data" << endl;
 			CloseClipboard();
 			return content;
 		}
@@ -537,7 +537,7 @@ void Set_Clipboard_Content( std::string str )
 	{
 		if( !EmptyClipboard() )
 		{
-			printf( "Failed to empty clipboard\n" );
+            cerr << "Failed to empty clipboard" << endl;
 			return;
 		}
 
@@ -546,7 +546,7 @@ void Set_Clipboard_Content( std::string str )
 
 		if( !h )
 		{
-			printf( "Could not allocate clipboard memory\n" );
+            cerr << "Could not allocate clipboard memory" << endl;
 			return;
 		}
 
@@ -556,7 +556,7 @@ void Set_Clipboard_Content( std::string str )
 		{
 			GlobalFree( h );
 			CloseClipboard();
-			printf( "Could not lock clipboard memory\n" );
+            cerr << "Could not lock clipboard memory" << endl;
 			return;
 		}
 
@@ -569,7 +569,7 @@ void Set_Clipboard_Content( std::string str )
 		{
 			GlobalFree( h );
 			CloseClipboard();
-			printf( "Could not set clipboard data\n" );
+            cerr << "Could not set clipboard data" << endl;
 		}
 
 		CloseClipboard();

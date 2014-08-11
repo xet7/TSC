@@ -1,8 +1,10 @@
 #include "event.hpp"
 #include "../../core/property_helper.hpp"
+#include "../../core/global_basic.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;
+using namespace std;
 
 /**
  * Cycles through all registered event handlers for the event
@@ -29,7 +31,7 @@ void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_
 	for(iter=start; iter != end; iter++){
 		Run_MRuby_Callback(p_mruby, *iter);
 		if (p_state->exc) {
-			std::cerr << "Warning: Error running mruby handler:" << std::endl;
+			cerr << "Warning: Error running mruby handler:" << endl;
 			mrb_print_error(p_state);
 		}
 	}

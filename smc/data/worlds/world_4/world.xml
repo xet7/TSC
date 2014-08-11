@@ -102,8 +102,8 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<waypoint>
-		<Property name="x" value="232" />
-		<Property name="y" value="-249" />
+		<Property name="posx" value="232" />
+		<Property name="posy" value="-249" />
 		<Property name="type" value="2" />
 		<Property name="destination" value="world_3" />
 		<Property name="direction_backward" value="first" />
@@ -111,8 +111,8 @@
 		<Property name="access" value="1" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="451" />
-		<Property name="y" value="-250" />
+		<Property name="posx" value="451" />
+		<Property name="posy" value="-250" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_1" />
 		<Property name="direction_backward" value="left" />
@@ -120,8 +120,8 @@
 		<Property name="access" value="1" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="449" />
-		<Property name="y" value="-100" />
+		<Property name="posx" value="449" />
+		<Property name="posy" value="-100" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_2" />
 		<Property name="direction_backward" value="up" />
@@ -129,8 +129,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="697" />
-		<Property name="y" value="-99" />
+		<Property name="posx" value="697" />
+		<Property name="posy" value="-99" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_3" />
 		<Property name="direction_backward" value="left" />
@@ -138,8 +138,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="699" />
-		<Property name="y" value="-255" />
+		<Property name="posx" value="699" />
+		<Property name="posy" value="-255" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_4" />
 		<Property name="direction_backward" value="down" />
@@ -147,8 +147,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="697" />
-		<Property name="y" value="-400" />
+		<Property name="posx" value="697" />
+		<Property name="posy" value="-400" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_5" />
 		<Property name="direction_backward" value="down" />
@@ -156,8 +156,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="1007" />
-		<Property name="y" value="-400" />
+		<Property name="posx" value="1007" />
+		<Property name="posy" value="-400" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_6" />
 		<Property name="direction_backward" value="left" />
@@ -165,8 +165,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="1005" />
-		<Property name="y" value="-491" />
+		<Property name="posx" value="1005" />
+		<Property name="posy" value="-491" />
 		<Property name="type" value="1" />
 		<Property name="destination" value="sauer2_7" />
 		<Property name="direction_backward" value="down" />
@@ -174,8 +174,8 @@
 		<Property name="access" value="0" />
 	</waypoint>
 	<waypoint>
-		<Property name="x" value="836" />
-		<Property name="y" value="-491" />
+		<Property name="posx" value="836" />
+		<Property name="posy" value="-491" />
 		<Property name="type" value="2" />
 		<Property name="destination" value="credits" />
 		<Property name="direction_backward" value="right" />

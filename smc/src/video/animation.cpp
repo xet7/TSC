@@ -26,6 +26,9 @@
 #include "../core/filesystem/boost_relative.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../input/mouse.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -1441,19 +1444,19 @@ void cParticle_Emitter :: Set_Color( const Color &col, const Color &col_rand /* 
 #ifdef _DEBUG
 		if( m_color.red + col_rand.red > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color red (%d) is too high for %s\n", col_rand.red, path_to_utf8(m_image_filename).c_str() );
+            cerr << "cParticle_Emitter::Set_Color random color red (" << col_rand.red << ") is too high for " << path_to_utf8(m_image_filename) << endl;
 		}
 		if( m_color.green + col_rand.green > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color green (%d) is too high for %s\n", col_rand.green, path_to_utf8(m_image_filename).c_str() );
+            cerr << "cParticle_Emitter::Set_Color random color green (" << col_rand.green << ") is too high for " << path_to_utf8(m_image_filename) << endl;
 		}
 		if( m_color.blue + col_rand.blue > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color blue (%d) is too high for %s\n", col_rand.blue, path_to_utf8(m_image_filename).c_str() );
+            cerr << "cParticle_Emitter::Set_Color random color blue (" << col_rand.blue << ") is too high for " << path_to_utf8(m_image_filename) << endl;
 		}
 		if( m_color.alpha + col_rand.alpha > 255 )
 		{
-			printf( "cParticle_Emitter::Set_Color random color alpha (%d) is too high for %s\n", col_rand.alpha, path_to_utf8(m_image_filename).c_str() );
+            cerr << "cParticle_Emitter::Set_Color random color alpha (" << col_rand.alpha << ") is too high for " << path_to_utf8(m_image_filename) << endl;
 		}
 #endif
 }

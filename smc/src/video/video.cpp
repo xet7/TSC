@@ -30,6 +30,9 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
 #include "../gui/spinner.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -80,7 +83,7 @@ void cVideo :: Init_CEGUI( void ) const
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "CEGUI Exception occurred : %s\n", ex.getMessage().c_str() );
+        cerr << "CEGUI Exception occurred : " << ex.getMessage() << endl;
 		exit( EXIT_FAILURE );
 	}
 
@@ -132,7 +135,7 @@ void cVideo :: Init_CEGUI( void ) const
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "CEGUI Exception occurred : %s\n", ex.getMessage().c_str() );
+        cerr << "CEGUI Exception occurred : " << ex.getMessage() << endl;
 		exit( EXIT_FAILURE );
 	}
 }
@@ -154,7 +157,7 @@ void cVideo :: Init_CEGUI_Data( void ) const
 	// catch CEGUI Exceptions
 	catch( CEGUI::Exception &ex )
 	{
-		printf( "CEGUI Scheme Exception occurred : %s\n", ex.getMessage().c_str() );
+        cerr << "CEGUI Scheme Exception occurred : " << ex.getMessage() << endl;
 		exit( EXIT_FAILURE );
 	}
 
@@ -175,7 +178,7 @@ void cVideo :: Init_SDL( void )
 {
 	if( SDL_Init( SDL_INIT_VIDEO ) == -1 )
 	{
-		printf( "Error : SDL initialization failed\nReason : %s\n", SDL_GetError() );
+        cerr << "Error : SDL initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
 		exit( EXIT_FAILURE );
 	}
 
@@ -183,7 +186,7 @@ void cVideo :: Init_SDL( void )
 
 	if( SDL_InitSubSystem( SDL_INIT_JOYSTICK ) == -1 )
 	{
-		printf( "Warning : SDL Joystick initialization failed\nReason : %s\n", SDL_GetError() );
+        cerr << "Warning : SDL Joystick initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
 		m_joy_init_failed = 1;
 	}
 	else
@@ -193,7 +196,7 @@ void cVideo :: Init_SDL( void )
 
 	if( SDL_InitSubSystem( SDL_INIT_AUDIO ) == -1 )
 	{
-		printf( "Warning : SDL Audio initialization failed\nReason : %s\n", SDL_GetError() );
+        cerr << "Warning : SDL Audio initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
 		m_audio_init_failed = 1;
 	}
 	else
@@ -254,7 +257,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		}
 		else
 		{
-			std::cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << std::endl;
+			cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << endl;
 		}
 	}
 
@@ -264,7 +267,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// failed
 	if( screen_test == 0 )
 	{
-		printf( "Warning : Video Resolution %dx%d is not supported\n", screen_w, screen_h );
+        cerr << "Warning : Video Resolution " << screen_w << "x" << screen_h << " is not supported" << endl;
 
 		// set lowest available settings
 		screen_w = 640;
@@ -281,7 +284,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// can not handle bits per pixel
 	else if( screen_test > 1 && screen_bpp > 0 && screen_test < screen_bpp )
 	{
-		printf( "Warning : Video Bpp %d is not supported but %d is\n", screen_bpp, screen_test );
+        cerr << "Warning : Video Bpp " << screen_bpp << " is not supported but " << screen_test << " is" << endl;
 		// set closest supported bpp
 		screen_bpp = screen_test;
 
@@ -372,7 +375,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 
 	if( !screen )
 	{
-		printf( "Error : Screen mode creation failed\nReason : %s\n", SDL_GetError() );
+        cerr << "Error : Screen mode creation failed" << endl << "Reason : " << SDL_GetError() << endl;
 		exit( EXIT_FAILURE );
 	}
 
@@ -383,7 +386,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 
 		if( !is_fullscreen )
 		{
-			printf( "Warning : Fullscreen mode could not be set\n" );
+            cerr << "Warning : Fullscreen mode could not be set" << endl;
 		}
 	}
 
@@ -397,7 +400,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		// only important on full initialization
 		if( use_preferences )
 		{
-			printf( "Warning : Double Buffering could not be set\n" );
+            cerr << "Warning : Double Buffering could not be set" << endl;
 		}
 	}
 
@@ -410,7 +413,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 
 		if( !is_vsync )
 		{
-			printf( "Warning : VSync could not be set\n" );
+            cerr << "Warning : VSync could not be set" << endl;
 		}
 	}
 
@@ -424,17 +427,17 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	{
 		if( m_rgb_size[0] < screen_rgb_size[0] )
 		{
-			printf( "Warning : smaller red bit size %d as requested %d\n", m_rgb_size[0], screen_rgb_size[0] );
+            cerr << "Warning : smaller red bit size " << m_rgb_size[0] << " as requested " << screen_rgb_size[0] << endl;
 		}
 
 		if( m_rgb_size[1] < screen_rgb_size[1] )
 		{
-			printf( "Warning : smaller green bit size %d as requested %d\n", m_rgb_size[1], screen_rgb_size[1] );
+            cerr << "Warning : smaller green bit size " << m_rgb_size[1] << " as requested " << screen_rgb_size[1] << endl;
 		}
 
 		if( m_rgb_size[2] < screen_rgb_size[2] )
 		{
-			printf( "Warning : smaller blue bit size %d as requested %d\n", m_rgb_size[2], screen_rgb_size[2] );
+            cerr << "Warning : smaller blue bit size " << m_rgb_size[2] << " as requested " << screen_rgb_size[2] << endl;
 		}
 	}
 
@@ -451,7 +454,7 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 	// get window manager information
 	if( !SDL_GetWMInfo( &wm_info ) )
 	{
-		printf( "Error: SDL_GetWMInfo not implemented\n" );
+        cerr << "Error: SDL_GetWMInfo not implemented" << endl;
 	}
 #ifdef __unix__
 	// get context
@@ -515,11 +518,19 @@ void cVideo :: Init_Video( bool reload_textures_from_file /* = 0 */, bool use_pr
 		{
 			if( m_opengl_version >= 1.3f )
 			{
-				printf( "Info : OpenGL Version %.1f is below the optimal version 1.4 and higher\n", m_opengl_version );
+                cout << "Info : OpenGL Version " << fixed << setprecision(1) << m_opengl_version << " is below the optimal version 1.4 and higher" << endl;
+
+                //Restore cout format settings (so that we don't change them for the entire game)
+                cout.unsetf(ios::fixed);
+                cout << setprecision(6); //6 is the default in C++
 			}
 			else
 			{
-				printf( "Warning : OpenGL Version %.1f is below version 1.3\n", m_opengl_version );
+                cerr << "Warning : OpenGL Version " << fixed << setprecision(1) << m_opengl_version << " is below version 1.3" << endl;
+
+                //Restore cerr format settings
+                cerr.unsetf(ios::fixed);
+                cerr << setprecision(6);
 			}
 
 		}
@@ -679,7 +690,7 @@ void cVideo :: Init_Image_Cache( bool recreate /* = 0 */, bool draw_gui /* = 0 *
 			// could happen if a file is locked or we have no write rights
 			catch( const std::exception &ex )
 			{
-				printf( "%s\n", ex.what() );
+                cerr << ex.what() << endl;
 
 				if( draw_gui )
 				{
@@ -1201,7 +1212,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper( boost::filesystem::path fil
 
 		if( print_errors )
 		{
-      std::cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+      cerr << "Error loading image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
 		}
 
 		return software_image;
@@ -1274,7 +1285,7 @@ cGL_Surface *cVideo :: Load_GL_Surface_Helper( boost::filesystem::path filename,
 	// print error
 	else if( print_errors )
 	{
-		std::cerr << "Error loading GL surface image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+		cerr << "Error loading GL surface image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
 	}
 
 	return image;
@@ -1332,7 +1343,7 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 	// if image id is 0 it failed
 	if( !image_num )
 	{
-		printf( "Error : GL image generation failed\n" );
+        cerr << "Error : GL image generation failed" << endl;
 		SDL_FreeSurface( surface );
 		return NULL;
 	}
@@ -1420,7 +1431,7 @@ cGL_Surface *cVideo :: Create_Texture( SDL_Surface *surface, bool mipmap /* = 0 
 
 	if( error != GL_NO_ERROR )
 	{
-		printf( "CreateTexture : GL Error found : %s\n", gluErrorString( error ) );
+        cerr << "CreateTexture : GL Error found : " << gluErrorString( error ) << endl;
 	}
 #endif
 
@@ -1836,7 +1847,7 @@ void cVideo :: Save_Surface( const fs::path &filename, const unsigned char *data
 
 	if( !fp )
 	{
-		std::cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << std::endl;
+		cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << endl;
 		return;
 	}
 
@@ -1852,7 +1863,7 @@ void cVideo :: Save_Surface( const fs::path &filename, const unsigned char *data
 	}
 	else
 	{
-		printf( "Warning: cVideo :: Save_Surface : %s Unknown bytes per pixel %d\n", filename.c_str(), bpp );
+        cerr << "Warning: cVideo :: Save_Surface : " << filename.c_str() << " Unknown bytes per pixel " << bpp << endl;
 		fclose( fp );
 		return;
 	}
@@ -2418,7 +2429,7 @@ void Loading_Screen_Init( void )
 {
 	if( CEGUI::WindowManager::getSingleton().isWindowPresent( "loading" ) )
 	{
-		printf( "Warning: Loading Screen already initialized." );
+        cerr << "Warning: Loading Screen already initialized.";
 		return;
 	}
 
@@ -2445,7 +2456,7 @@ void Loading_Screen_Draw_Text( const std::string &str_info /* = "Loading" */ )
 	CEGUI::Window *text_default = static_cast<CEGUI::Window *>(CEGUI::WindowManager::getSingleton().getWindow( "text_loading" ));
 	if( !text_default )
 	{
-		printf( "Warning: Loading Screen not initialized." );
+        cerr << "Warning: Loading Screen not initialized.";
 		return;
 	}
 	text_default->setText( reinterpret_cast<const CEGUI::utf8*>(str_info.c_str()) );

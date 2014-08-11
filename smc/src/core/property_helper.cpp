@@ -400,7 +400,7 @@ std::string ucs2_to_utf8( const std::wstring &utf16 )
 
 	if( utf8_length == 0 )
 	{
-		printf( "Warning: ucs2_to_utf8 : WideCharToMultiByte returned zero length" );
+        cerr << "Warning: ucs2_to_utf8 : WideCharToMultiByte returned zero length";
 		return std::string();
 	}
 
@@ -408,7 +408,7 @@ std::string ucs2_to_utf8( const std::wstring &utf16 )
 
 	if( !WideCharToMultiByte( CP_UTF8, 0 , utf16.data(), utf16.length(), &utf8[0], utf8.length(), NULL, NULL ) )
     {
-		printf( "Warning: ucs2_to_utf8 : WideCharToMultiByte conversion failed" );
+        cerr << "Warning: ucs2_to_utf8 : WideCharToMultiByte conversion failed";
     }
 
 	return utf8;
@@ -425,14 +425,14 @@ std::wstring utf8_to_ucs2( const std::string& utf8 )
 
 	if( utf16_length == 0 )
 	{
-		printf( "Warning: utf8_to_ucs2 : MultiByteToWideChar returned zero length" );
+        cerr << "Warning: utf8_to_ucs2 : MultiByteToWideChar returned zero length";
 		return std::wstring();
 	}
 
 	std::wstring utf16( utf16_length, 0 );
 	if( !MultiByteToWideChar( CP_UTF8, 0, utf8.data(), utf8.length(), &utf16[0], utf16.length() ) )
 	{
-		printf( "Warning: utf8_to_ucs2 : MultiByteToWideChar conversion failed" );
+        cerr << "Warning: utf8_to_ucs2 : MultiByteToWideChar conversion failed";
 	}
 
 	return utf16;

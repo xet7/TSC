@@ -28,6 +28,9 @@
 #include "../core/filesystem/package_manager.hpp"
 #include "../scripting/events/level_load_event.hpp"
 #include "../scripting/events/level_save_event.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -379,7 +382,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 	// check if unsupported save
 	if( savegame->m_version <= SAVEGAME_VERSION_UNSUPPORTED )
 	{
-		printf( "Warning : Savegame %d : Versions %d and below are unsupported\n", save_slot, SAVEGAME_VERSION_UNSUPPORTED );
+        cerr << "Warning : Savegame " << save_slot << " : Versions " << SAVEGAME_VERSION_UNSUPPORTED << " and below are unsupported" << endl;
 	}
 
 	// reset custom level mode type
@@ -403,7 +406,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 
 			if( !overworld )
 			{
-				printf( "Warning : Savegame %d : Overworld %s not found\n", save_slot, save_overworld->m_name.c_str() );
+                cerr << "Warning : Savegame " << save_slot << " : Overworld " << save_overworld->m_name << " not found" << endl;
 				continue;
 			}
 
@@ -418,7 +421,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 				// not found
 				if( !waypoint )
 				{
-					printf( "Warning : Savegame %d : Overworld %s Waypoint %s not found\n", save_slot, save_overworld->m_name.c_str(), save_waypoint->m_destination.c_str() );
+                    cerr << "Warning : Savegame " << save_slot << " : Overworld " << save_overworld->m_name << " Waypoint " << save_waypoint->m_destination << " not found" << endl;
 					continue;
 				}
 
@@ -434,13 +437,13 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 		// Set active overworld
 		if( !pOverworld_Manager->Set_Active( savegame->m_overworld_active ) )
 		{
-			printf( "Warning : Savegame %d : Couldn't set Overworld active %s\n", save_slot, savegame->m_overworld_active.c_str() );
+            cerr << "Warning : Savegame " << save_slot << " : Couldn't set Overworld active " << savegame->m_overworld_active << endl;
 		}
 
 		// Current waypoint
 		if( !pOverworld_Player->Set_Waypoint( savegame->m_overworld_current_waypoint ) )
 		{
-			printf( "Warning : Savegame %d : Overworld Current Waypoint %d is invalid\n", save_slot, savegame->m_overworld_current_waypoint );
+            cerr << "Warning : Savegame " << save_slot << " : Overworld Current Waypoint " << savegame->m_overworld_current_waypoint << " is invalid" << endl;
 		}
 	}
 	// overworld is not active
@@ -476,7 +479,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 
 			if( !level )
 			{
-				printf( "Warning : Couldn't load Savegame Level %s\n", save_level->m_name.c_str() );
+                cerr << "Warning : Couldn't load Savegame Level " << save_level->m_name << endl;
 				continue;
 			}
 
@@ -530,7 +533,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 				// if not anymore available
 				if( !level_object )
 				{
-					printf( "Warning : Savegame object type %d on x %d, y %d not available\n", save_object->m_type, posx, posy );
+                    cerr << "Warning : Savegame object type " << save_object->m_type << " on x " << posx << ", y " << posy << " not available" << endl;
 					continue;
 				}
 
@@ -574,7 +577,7 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 {
 	if( pLevel_Player->m_maryo_type == MARYO_DEAD || pLevel_Player->m_lives < 0 )
 	{
-		printf( "Error : Couldn't save savegame %s because of invalid game state\n", description.c_str() );
+        cerr << "Error : Couldn't save savegame " << description << " because of invalid game state" << endl;
 		return 0;
 	}
 
@@ -731,8 +734,8 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 		savegame->Write_To_File(filename);
 	}
 	catch(xmlpp::exception& e) {
-		std::cerr << "Failed to save savegame '" << filename << "': " << e.what() << std::endl
-				  << "Is the file read-only?" << std::endl;
+		cerr << "Failed to save savegame '" << filename << "': " << e.what() << endl
+				  << "Is the file read-only?" << endl;
 		pHud_Debug->Set_Text( _("Couldn't save savegame ") + path_to_utf8(filename), speedfactor_fps * 5.0f );
 	}
 
@@ -760,7 +763,7 @@ cSave *cSavegame :: Load( unsigned int save_slot )
 	if( !File_Exists( filename ) )
 	{
 		// FIXME: This should raise an exception.
-		std::cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << std::endl;
+		cerr << "Error : cSavegame::Load() : No savegame found at slot " << filename << endl;
 		return NULL;
 	}
 

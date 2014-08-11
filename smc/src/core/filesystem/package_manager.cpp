@@ -115,7 +115,7 @@ void cPackage_Loader :: on_end_element(const Glib::ustring& name)
 
 cPackage_Manager :: cPackage_Manager( void )
 {
-	printf("Initializing Package Manager\n");
+    cout << "Initializing Package Manager" << endl;
 	Scan_Packages();
 
 	// Preferences isn't loaded yet so skin will not be set here, but
@@ -380,7 +380,7 @@ void cPackage_Manager :: Scan_Packages_Helper( fs::path base, fs::path path )
 				if(m_packages.find(name) == m_packages.end())
 				{
 					m_packages[name] = Load_Package_Info(name);
-					printf("Found package %s\n", name.c_str());
+                    cout << "Found package " << name << endl;
 				}
 			}
 			else

@@ -35,6 +35,9 @@
 #include "../filesystem/filesystem.hpp"
 #include "../filesystem/resource_manager.hpp"
 #include "../errors.hpp"
+#include "../global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -122,7 +125,7 @@ void cEditor_Item_Object :: Init( cSprite *sprite )
 {
 	if( m_image )
 	{
-		printf( "cEditor_Item_Object::Init: Warning: Image is already set\n" );
+        cerr << "cEditor_Item_Object::Init: Warning: Image is already set" << endl;
 		return;
 	}
 
@@ -246,7 +249,7 @@ void cEditor :: Init( void )
 	// Get Items
 	if( !File_Exists( m_items_filename ) )
 	{
-		std::cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << std::endl;
+        cerr << "Error : Editor Loading : No Item file found: " << path_to_utf8(m_items_filename) << endl;
 		return;
 	}
 
@@ -1069,7 +1072,7 @@ void cEditor :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 		}
 		else
 		{
-			printf( "Unknown Function %s\n", entry->tags.c_str() );
+            cerr << "Unknown Function " << entry->tags << endl;
 		}
 	}
 	// Header
@@ -1088,7 +1091,7 @@ void cEditor :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 		// failed
 		else
 		{
-			printf( "Unknown Menu Type %s\n", entry->tags.c_str() );
+            cerr << "Unknown Menu Type " << entry->tags << endl;
 		}
 	}
 }
@@ -1143,7 +1146,7 @@ bool cEditor :: Load_Item_Menu( std::string item_tags )
 
 				if( !image )
 				{
-					printf( "Warning : Could not load editor sprite image base : %s\n", settings->m_base.c_str() );
+                    cerr << "Warning : Could not load editor sprite image base : " << settings->m_base.c_str() << endl;
 					break;
 				}
 				
@@ -1209,14 +1212,14 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// if invalid
 	if( !sprite )
 	{
-		printf( "Warning : Invalid Editor Item\n" );
+        cerr << "Warning : Invalid Editor Item" << endl;
 		return;
 	}
 
 	// set correct array if not given
 	if( sprite->m_sprite_array == ARRAY_UNDEFINED )
 	{
-		std::cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << std::endl;
+        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' array not set" << endl;
 
 		if( sprite->m_massive_type == MASS_PASSIVE )
 		{
@@ -1235,7 +1238,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 	// warn if correct type is not given
 	if( sprite->m_type == TYPE_UNDEFINED )
 	{
-		std::cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << std::endl;
+        cerr << "Warning: Editor sprite '" << sprite->Create_Name() << "' type not set" << endl;
 	}
 
 	// if no image is given use the sprite start image
@@ -1273,7 +1276,7 @@ void cEditor :: Add_Item_Object( cSprite *sprite, std::string new_name /* = "" *
 		}
 
 		// Warn if using filename
-		std::cerr << "Warning : editor object '" << obj_name << "' with no name given" << std::endl;
+        cerr << "Warning : editor object '" << obj_name << "' with no name given" << endl;
 	}
 
 	cEditor_Item_Object *new_item = new cEditor_Item_Object( obj_name, m_listbox_items );

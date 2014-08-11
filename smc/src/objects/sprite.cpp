@@ -30,6 +30,9 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -485,7 +488,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node( xmlpp::Element* p_element )
 	else if (m_image)
 		img_filename = m_image->m_path;
 	else
-		std::cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
+		cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << endl;
 
 	// Only save the relative part of the filename -- otherwise the
 	// generated levels wouldn’t be portable.
@@ -644,7 +647,7 @@ std::string cSprite :: Get_XML_Type_Name()
 	}
 	else
 	{
-		printf( "Warning : Sprite unknown array %d\n", m_sprite_array );
+        cerr << "Warning : Sprite unknown array " << m_sprite_array << endl;
 	}
 
 	return "";
