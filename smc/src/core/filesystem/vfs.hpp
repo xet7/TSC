@@ -33,7 +33,7 @@ public:
 	cVfs( const char* argv0 );
 	~cVfs( void );
 
-	std::string Mount(boost::filesystem::path dir);
+	std::string Mount(boost::filesystem::path dir, bool mount=true);
 
 	bool Exists(boost::filesystem::path path);
 	bool File_Exists(boost::filesystem::path path);

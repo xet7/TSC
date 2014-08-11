@@ -190,11 +190,14 @@ cVfs :: ~cVfs( void )
 	PHYSFS_deinit();
 }
 
-std::string cVfs :: Mount(fs::path dir)
+std::string cVfs :: Mount(fs::path dir, bool mount/*=true*/)
 {
 	// First check if this path has already been mounted, and if so, return the mount point
 	if(m_mount_points.find(dir) != m_mount_points.end())
 		return m_mount_points[dir];
+
+	if(!mount)
+		return std::string();
 
 	// Otherwise, create the mount point in PhysFS
 	std::string mount_point = "/mounts/" + int_to_string(m_mount_index);
@@ -337,30 +340,17 @@ std::string cVfs :: Find(fs::path path)
 	if(path.empty())
 		return result;
 
-	if(internal.empty())
-	{
-		// internal is not set, so it may not be a zip file
-		// or it could be the root of zip file
-		
-		if(m_mount_points.find(path) != m_mount_points.end())
-		{
-			// mount point already exists
-			result = m_mount_points[path];
-		}
-		else
-		{
-			// mount point doesn't exist
-			result = Mount(path.root_path()) + "/" + path_to_physfs(path.relative_path());
-		}
-	}
-	else
-	{
-		// internal is set, so path must be a zip file
-		if(fs::is_regular_file(path))
-		{
-			result = Mount(path) + "/" + path_to_physfs(internal);
-		}
-	}
+	// To avoid certain inconsistencies, this code no long auto-mounts zip files,
+	// so they should be mounted if needed beforehand.  Regular reads and writes
+	// still work due to mounting of root directories as needed.
+
+	// check if mount point already exists, if not mount root path
+	result = Mount(path, false);
+	if(result.empty())
+		result = Mount(path.root_path()) + "/" + path_to_physfs(path.relative_path());
+
+	if(!internal.empty())
+		result = result + "/" + path_to_physfs(internal);
 
 	return result;
 }
