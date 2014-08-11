@@ -55,8 +55,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="250" />
-        <property name="y" value="-394" />
+        <property name="posx" value="250" />
+        <property name="posy" value="-394" />
         <property name="type" value="2" />
         <property name="destination" value="world_1" />
         <property name="direction_backward" value="first" />
@@ -64,8 +64,8 @@
         <property name="access" value="1" />
     </waypoint>
     <waypoint >
-        <property name="x" value="271" />
-        <property name="y" value="-164" />
+        <property name="posx" value="271" />
+        <property name="posy" value="-164" />
         <property name="type" value="1" />
         <property name="destination" value="lvl_10" />
         <property name="direction_backward" value="up" />
@@ -73,8 +73,8 @@
         <property name="access" value="0" />
     </waypoint>
     <waypoint >
-        <property name="x" value="459" />
-        <property name="y" value="-185" />
+        <property name="posx" value="459" />
+        <property name="posy" value="-185" />
         <property name="type" value="1" />
         <property name="destination" value="pasol_1" />
         <property name="direction_backward" value="left" />
@@ -82,8 +82,8 @@
         <property name="access" value="0" />
     </waypoint>
     <waypoint >
-        <property name="x" value="606" />
-        <property name="y" value="-211" />
+        <property name="posx" value="606" />
+        <property name="posy" value="-211" />
         <property name="type" value="1" />
         <property name="destination" value="flippa_3" />
         <property name="direction_backward" value="left" />
@@ -91,8 +91,8 @@
         <property name="access" value="0" />
     </waypoint>
     <waypoint >
-        <property name="x" value="1648" />
-        <property name="y" value="-299" />
+        <property name="posx" value="1648" />
+        <property name="posy" value="-299" />
         <property name="type" value="2" />
         <property name="destination" value="world_3" />
         <property name="direction_backward" value="down" />
@@ -376,8 +376,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="266" />
-        <property name="y" value="-281" />
+        <property name="posx" value="266" />
+        <property name="posy" value="-281" />
         <property name="type" value="1" />
         <property name="destination" value="eatomania" />
         <property name="direction_backward" value="up" />
@@ -391,8 +391,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="765" />
-        <property name="y" value="-222" />
+        <property name="posx" value="765" />
+        <property name="posy" value="-222" />
         <property name="type" value="1" />
         <property name="destination" value="dj_kirby_1" />
         <property name="direction_backward" value="left" />
@@ -406,8 +406,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="910" />
-        <property name="y" value="-225" />
+        <property name="posx" value="910" />
+        <property name="posy" value="-225" />
         <property name="type" value="1" />
         <property name="destination" value="jungle_1" />
         <property name="direction_backward" value="left" />
@@ -967,8 +967,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="1092" />
-        <property name="y" value="-219" />
+        <property name="posx" value="1092" />
+        <property name="posy" value="-219" />
         <property name="type" value="1" />
         <property name="destination" value="keywest_1" />
         <property name="direction_backward" value="left" />
@@ -982,8 +982,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="1252" />
-        <property name="y" value="-202" />
+        <property name="posx" value="1252" />
+        <property name="posy" value="-202" />
         <property name="type" value="1" />
         <property name="destination" value="underground" />
         <property name="direction_backward" value="left" />
@@ -1027,8 +1027,8 @@
         <property name="type" value="passive" />
     </sprite>
     <waypoint >
-        <property name="x" value="1483" />
-        <property name="y" value="-190" />
+        <property name="posx" value="1483" />
+        <property name="posy" value="-190" />
         <property name="type" value="1" />
         <property name="destination" value="clear_night" />
         <property name="direction_backward" value="left" />
