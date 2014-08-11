@@ -458,16 +458,16 @@ void cBaseBox :: Col_Enemy( cSprite *obj )
 
 void cBaseBox :: Activate( void )
 {
-	// set useable count
-	if( m_useable_count > 0 )
-	{
-		Set_Useable_Count( m_useable_count - 1 );
-	}
-
 	if ( m_useable_count > 0 || m_useable_count == -1 )
 	{
 		Scripting::cActivate_Event evt;
 		evt.Fire(pActive_Level->m_mruby, this);
+	}
+
+	// set useable count
+	if( m_useable_count > 0 )
+	{
+		Set_Useable_Count( m_useable_count - 1 );
 	}
 }
 
