@@ -496,8 +496,9 @@ void cBall :: Handle_Collision_Enemy( cObjectCollision *collision )
 	else
 	{
 		enemy->Handle_Ball_Hit(*this, collision);
-		Destroy();
 	}
+
+	Destroy();
 }
 
 void cBall :: Handle_Collision_Massive( cObjectCollision *collision )
