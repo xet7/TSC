@@ -227,38 +227,58 @@ fs::path cPackage_Manager :: Get_Game_Level_Path(void)
 fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
 {
 	// determine level for the menu
+	fs::path result;
+	std::string level;
 
-	// user preferences
-	std::string level = pPreferences->m_menu_level;
+	// User specified menu level
+	level = pPreferences->m_menu_level;
+	if(!level.empty())
+	{
+		level = level + ".smclvl";
 
-	// current package
-	if(level.empty() && !m_current_package.empty())
-		level = m_packages[m_current_package].menu_level;
+		result = Get_User_Level_Path() / level;
+		if(fs::exists(result))
+			return result;
 
-	// default
-	if(level.empty())
-		level = pPreferences->m_menu_level_default;
-
-	level = level + ".smclvl";
-
-	// find the level
-
-	// user package data dir
-	fs::path result = Get_User_Level_Path() / level;
-
-	// game package data dir
-	if(!fs::exists(result))
 		result = Get_Game_Level_Path() / level;
+		if(fs::exists(result))
+			return result;
 
-	// user core data dir
-	if(!fs::exists(result))
 		result = pResource_Manager->Get_User_Level_Directory() / level;
+		if(fs::exists(result))
+			return result;
 
-	// finally, game core data dir
-	if(!fs::exists(result))
 		result = pResource_Manager->Get_Game_Level_Directory() / level;
+		if(fs::exists(result))
+			return result;
+	}
 
-	return result;
+	// Package menu
+	if(!m_current_package.empty())
+	{
+		level = m_packages[m_current_package].menu_level;
+		if(!level.empty())
+		{
+			level = level + ".smclvl";
+
+			result = Get_User_Level_Path() / level;
+			if(fs::exists(result))
+				return result;
+
+			result = Get_Game_Level_Path() / level;
+			if(fs::exists(result))
+				return result;
+		}
+	}
+
+	// Default menu level
+	level = pPreferences->m_menu_level_default + ".smclvl";
+
+	result = pResource_Manager->Get_User_Level_Directory() / level;
+	if(fs::exists(result))
+		return result;
+
+	return pResource_Manager->Get_Game_Level_Directory() / level;
 }
 
 fs::path cPackage_Manager :: Get_User_Campaign_Path(void)
