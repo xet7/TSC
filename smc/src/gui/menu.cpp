@@ -28,6 +28,7 @@
 #include "../input/keyboard.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../core/filesystem/vfs.hpp"
 
 namespace SMC
 {
@@ -114,7 +115,17 @@ void cMenu_Item :: Draw( cSurface_Request *request /* = NULL */ )
 
 cMenuHandler :: cMenuHandler( void )
 {
-	m_level = cLevel::Load_From_File( pPackage_Manager->Get_Menu_Level_Path() );
+	boost::filesystem::path lvl_path = pPackage_Manager->Get_Menu_Level_Path();
+	if(pVfs->File_Exists(lvl_path))
+	{
+		m_level = cLevel::Load_From_File( lvl_path );
+	}
+	else
+	{
+		// at least give it something so it doesn't crash
+		m_level = new cLevel();
+	}
+
 	m_camera = new cCamera( m_level->m_sprite_manager );
 	m_player = new cSprite( m_level->m_sprite_manager );
 	m_player->Set_Massive_Type( MASS_PASSIVE );
