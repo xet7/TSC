@@ -1,8 +1,10 @@
 #include "level_load_event.hpp"
 #include "../../core/property_helper.hpp"
+#include "../../core/global_basic.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;
+using namespace std;
 
 cLevel_Load_Event::cLevel_Load_Event(std::string save_data)
 {
@@ -33,9 +35,9 @@ void cLevel_Load_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_valu
 		mrb_value exception = mrb_obj_value(p_state->exc);
 		std::string text = mrb_string_value_ptr(p_state, mrb_funcall(p_state, exception, "message", 0));
 
-		std::cerr << "Warning: Failed to deserialize JSON representation from savegame: ";
-		std::cerr << text << std::endl;
-		std::cerr << std::endl << "(Skipping all handlers registered to Level.on_load)" << std::endl;
+		cerr << "Warning: Failed to deserialize JSON representation from savegame: ";
+		cerr << text << endl;
+		cerr << endl << "(Skipping all handlers registered to Level.on_load)" << endl;
 		return;
 	}
 

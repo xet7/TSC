@@ -1,8 +1,11 @@
 #include "../core/filesystem/vfs.hpp"
 #include "campaign_loader.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+
+using namespace std;
 
 cCampaignLoader::cCampaignLoader()
 	: xmlpp::SaxParser()
@@ -88,7 +91,7 @@ void cCampaignLoader::on_end_element(const Glib::ustring& name)
 	else if (name == "campaign")
 		{ /* Ignore */ }
 	else
-		std::cerr << "Warning: Campaign unknown element '" << name << "'." << std::endl;
+        cerr << "Warning: Campaign unknown element '" << name << "'." << endl;
 
 	m_current_properties.clear();
 }

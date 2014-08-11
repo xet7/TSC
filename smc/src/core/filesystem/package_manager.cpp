@@ -121,7 +121,7 @@ void cPackage_Loader :: on_end_element(const Glib::ustring& name)
 
 cPackage_Manager :: cPackage_Manager( void )
 {
-	std::cout << "Initializing Package Manager" << std::endl;
+	cout << "Initializing Package Manager" << endl;
 
 	// Scan user data dir first so any user "packages.xml" will override the same in the game data dire
 	Scan_Packages_Helper(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), fs::path());
@@ -200,7 +200,7 @@ void cPackage_Manager :: Init_User_Paths( void )
 	}
 	catch(fs::filesystem_error& e)
 	{
-		std::cout << "Warning: unable to crete user data directories for package " << m_current_package << std::endl;
+		cout << "Warning: unable to crete user data directories for package " << m_current_package << endl;
 	}
 
 	// Savegame
@@ -468,7 +468,7 @@ void cPackage_Manager :: Load_Package_Info( const std::string& package )
 	if(m_packages.find(package) != m_packages.end())
 		return;
 
-	std::cout << "Found package " << package << std::endl;
+	cout << "Found package " << package << endl;
 
 	// Determine user and game data paths for package
 	fs::path path(utf8_to_path(package));

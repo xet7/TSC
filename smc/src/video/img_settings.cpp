@@ -18,6 +18,9 @@
 #include "../core/math/utilities.hpp"
 #include "../core/math/size.hpp"
 #include "../core/filesystem/filesystem.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -93,7 +96,7 @@ void cImage_Settings_Data :: Apply( cGL_Surface *image ) const
 	// empty image
 	if( !image )
 	{
-		std::cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << std::endl;
+		cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << endl;
 		return;
 	}
 
@@ -286,15 +289,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count < 2 || count > 3 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2-3 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2-3 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[2] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -352,15 +355,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -370,15 +373,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters"  << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -388,8 +391,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 5 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 5 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 5 parameters" << endl;
 			return 0;
 		}
 
@@ -397,8 +400,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 		{
 			if( !Is_Valid_Number( parts[i] ) )
 			{
-				printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-				printf( "%s is not a valid integer value\n", parts[1].c_str() );
+                cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+                cerr << parts[1] << " is not a valid integer value" << endl;
 				return 0;
 			}
 		}
@@ -410,15 +413,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -428,15 +431,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -446,15 +449,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count < 2 || count > 5 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2-5 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2-5 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -466,8 +469,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 		{
 			if( !Is_Valid_Number( parts[2] ) )
 			{
-				printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-				printf( "%s is not a valid integer value\n", parts[2].c_str() );
+                cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+                cerr << parts[2] << " is not a valid integer value" << endl;
 				return 0; // error
 			}
 
@@ -478,8 +481,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 		{
 			if( !Is_Valid_Number( parts[3] ) )
 			{
-				printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-				printf( "%s is not a valid integer value\n", parts[3].c_str() );
+                cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+                cerr << parts[3] << " is not a valid integer value" << endl;
 				return 0;
 			}
 
@@ -490,15 +493,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0;
 		}
 
@@ -512,8 +515,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -523,8 +526,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -534,8 +537,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -545,8 +548,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -556,8 +559,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
@@ -567,15 +570,15 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	{
 		if( count != 2 )
 		{
-			printf( "%s : line %d Error :\n", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "Error : %s %s\n", parts[0].c_str(), "needs 2 parameters" );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error :" << endl;
+            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
 			return 0;
 		}
 
 		if( !Is_Valid_Number( parts[1] ) )
 		{
-			printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-			printf( "%s is not a valid integer value\n", parts[1].c_str() );
+            cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+            cerr << parts[1] << " is not a valid integer value" << endl;
 			return 0; // error
 		}
 
@@ -587,8 +590,8 @@ bool cImage_Settings_Parser :: HandleMessage( const std::string *parts, unsigned
 	}
 	else
 	{
-		printf( "%s : line %d Error : ", path_to_utf8(Trim_Filename( data_file, 0, 0 )).c_str(), line );
-		printf( "Unknown Command : %s\n", parts[0].c_str() );
+        cerr << path_to_utf8(Trim_Filename( data_file, 0, 0 )) << " : line " << line << " Error : ";
+        cerr << "Unknown Command : " << parts[0] << endl;
 		return 0;
 	}
 

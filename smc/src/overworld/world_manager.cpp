@@ -23,6 +23,9 @@
 #include "../overworld/world_editor.hpp"
 #include "../input/mouse.hpp"
 #include "../video/animation.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -116,7 +119,7 @@ void cOverworld_Manager :: Load_Dir( const fs::path &dir, bool user_dir /* = fal
 		}
 		catch( const std::exception &ex )
 		{
-			printf( "%s %s\n", path_to_utf8(*curdir).c_str(), ex.what() );
+            cerr << path_to_utf8(*curdir) << " " << ex.what() << endl;
 		}
 	}
 }

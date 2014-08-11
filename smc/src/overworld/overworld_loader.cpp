@@ -4,9 +4,12 @@
 #include "overworld_loader.hpp"
 #include "overworld_description_loader.hpp"
 #include "overworld.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+
+using namespace std;
 
 cOverworldLoader::cOverworldLoader()
 	: xmlpp::SaxParser()
@@ -104,7 +107,7 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
 		if (p_object)
 			mp_overworld->m_sprite_manager->Add(p_object);
 		else
-			std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
+			cerr << "Warning: Unknown overworld element '" << name << "'" << endl;
 	}
 
 	// Everything handled, so we can now safely clear the
@@ -168,7 +171,7 @@ cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name,
 	else if (name == "line")
 		return Create_Line_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
 	else
-		std::cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
+		cerr << "Warning: Unknown world object XML tag '" << name << "'" << endl;
 
 	return NULL;
 }

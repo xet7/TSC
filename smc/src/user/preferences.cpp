@@ -24,8 +24,11 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "preferences_loader.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
+
+using namespace std;
 
 namespace SMC
 {
@@ -113,7 +116,7 @@ cPreferences* cPreferences :: Load_From_File(fs::path filename)
 {
 	// If the preferences file doesn’t exist, use default values.
 	if (!File_Exists(filename)) {
-		std::cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << std::endl;
+		cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << endl;
 		cPreferences* p_pref = new cPreferences();
 		p_pref->m_config_filename = filename;
 		return p_pref;

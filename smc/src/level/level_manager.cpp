@@ -26,6 +26,9 @@
 #include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/vfs.hpp"
 #include "../input/mouse.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -386,7 +389,7 @@ void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string 
 		// not found
 		else if( !str_entry.empty() )
 		{
-			printf( "Warning : Level entry %s not found\n", str_entry.c_str() );
+            cerr << "Warning : Level entry " << str_entry << " not found" << endl;
 		}
 
 		// move camera to new position
@@ -464,7 +467,7 @@ void cLevel_Manager :: Goto_Sub_Level( std::string str_level, const std::string 
 					// not found
 					else
 					{
-						printf( "Warning : Level path %s not found\n", path_identifier.c_str() );
+                        cerr << "Warning : Level path " << path_identifier << " not found" << endl;
 					}
 				}
 

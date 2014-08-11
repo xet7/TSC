@@ -21,6 +21,9 @@
 #include "../video/animation.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -141,7 +144,7 @@ void cSpikeball :: Set_Color( const DefaultColor &col )
 	}
 	else
 	{
-		printf( "Error : Unknown Spikeball Color %d\n", m_color_type );
+        cerr << "Error : Unknown Spikeball Color " << m_color_type << endl;
 		return;
 	}
 

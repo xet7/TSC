@@ -3,9 +3,11 @@
 #include "../../../level/level_player.hpp"
 #include "../../../gui/hud.hpp"
 #include "../../events/event.hpp"
+#include "../../../core/global_basic.hpp"
 
 using namespace SMC;
 using namespace SMC::Scripting;
+using namespace std;
 
 
 /**
@@ -145,7 +147,7 @@ static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
 	case MARYO_GHOST:
 		return str2sym(p_state, "ghost");
 	default:
-		std::cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << std::endl;
+		cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << endl;
 		return mrb_nil_value();
 	}
 }

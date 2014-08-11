@@ -40,6 +40,8 @@
 #include "../core/i18n.hpp"
 #include "../gui/generic.hpp"
 
+using namespace std;
+
 // SMC namespace is set later to exclude main() from it
 using namespace SMC;
 
@@ -87,15 +89,15 @@ int main( int argc, char **argv )
 	}
 	else
 	{
-		std::cerr << "Warning: Could not determine installation type\n";
+		cerr << "Warning: Could not determine installation type\n";
 	}
 
 	if( !datapath.empty() )
 	{
-		std::cout << "setting CWD to " << datapath.c_str() << std::endl;
+		cout << "setting CWD to " << datapath.c_str() << endl;
 		if( chdir( datapath.c_str() ) != 0 )
 		{
-			std::cerr << "Warning: Failed changing CWD\n";
+			cerr << "Warning: Failed changing CWD\n";
 		}
 	}
 #endif
@@ -110,23 +112,23 @@ int main( int argc, char **argv )
 			// help
 			if( arguments[i] == "--help" || arguments[i] == "-h" )
 			{
-				printf( "Usage: %s [OPTIONS]\n", arguments[0].c_str() );
-				printf( "Where OPTIONS is one of the following:\n" );
-				printf( "-h, --help\tDisplay this message\n" );
-				printf( "-v, --version\tShow the version of %s\n", CAPTION );
-				printf( "-d, --debug\tEnable debug modes with the options : game performance\n" );
-				printf( "-l, --level\tLoad the given level\n" );
-				printf( "-w, --world\tLoad the given world\n" );
-				printf( "-p, --package\tLoad the given package\n" );
+                cout << "Usage: " << arguments[0] << " [OPTIONS]" << endl;
+                cout << "Where OPTIONS is one of the following:" << endl;
+                cout << "-h, --help\tDisplay this message" << endl;
+                cout << "-v, --version\tShow the version of " << CAPTION << endl;
+                cout << "-d, --debug\tEnable debug modes with the options : game performance" << endl;
+                cout << "-l, --level\tLoad the given level" << endl;
+                cout << "-w, --world\tLoad the given world" << endl;
+                cout << "-p, --package\tLoad the given package" << endl;
 				return EXIT_SUCCESS;
 			}
 			// version
 			else if( arguments[i] == "--version" || arguments[i] == "-v" )
 			{
-				std::cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH
-						  << " compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
+				cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH
+						  << " compiled from commit " << SMC_VERSION_GIT << "." << endl;
 				if (SMC_VERSION_DEVELOPMENT)
-					std::cout << "This is a DEVELOPMENT built! It may eat your hamster!" << std::endl;
+					cout << "This is a DEVELOPMENT built! It may eat your hamster!" << endl;
 				return EXIT_SUCCESS;
 			}
 			// debug
@@ -135,7 +137,7 @@ int main( int argc, char **argv )
 				// no value
 				if( i + 1 >= arguments.size() )
 				{
-					printf( "%s requires a value\n", arguments[i].c_str() );
+                    cerr << arguments[i] << " requires a value" << endl;
 					return EXIT_FAILURE;
 				}
 				// with value
@@ -155,7 +157,7 @@ int main( int argc, char **argv )
 						}
 						else
 						{
-							printf( "Unknown debug option %s\n", option_str.c_str() );
+                            cerr << "Unknown debug option " << option_str << endl;
 							return EXIT_FAILURE;
 						}
 					}
@@ -180,7 +182,7 @@ int main( int argc, char **argv )
 			// unknown argument
 			else if( arguments[i].substr( 0, 1 ) == "-" )
 			{
-				printf( "Unknown argument %s\nUse -h to list all possible arguments\n", arguments[i].c_str() );
+                cerr << "Unknown argument " << arguments[i] << endl << "Use -h to list all possible arguments" << endl;
 				return EXIT_FAILURE;
 			}
 		}
@@ -524,7 +526,7 @@ void Exit_Game( void )
 	char *last_sdl_error = SDL_GetError();
 	if( strlen( last_sdl_error ) > 0 )
 	{
-		printf( "Last known SDL Error : %s\n", last_sdl_error );
+        cerr << "Last known SDL Error : " << last_sdl_error << endl;
 	}
 
 	// unload the sdl_image preloaded libraries

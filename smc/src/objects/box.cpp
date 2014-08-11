@@ -30,6 +30,9 @@
 #include "../gui/hud.hpp"
 #include "../scripting/events/activate_event.hpp"
 #include "../level/level.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC
 {
@@ -213,7 +216,7 @@ void cBaseBox :: Set_Animation_Type( const std::string &new_anim_type )
 	}
 	else
 	{
-		printf( "Warning : Unknown Box Animation Type %s\n", m_anim_type.c_str() );
+        cerr << "Warning : Unknown Box Animation Type : " << m_anim_type << endl;
 		Set_Animation_Type( "Bonus" );
 	}
 
@@ -345,7 +348,7 @@ void cBaseBox :: Update_Collision( void )
 	// invalid direction
 	if( m_move_col_dir != DIR_UP && m_move_col_dir != DIR_DOWN && m_move_col_dir != DIR_RIGHT && m_move_col_dir != DIR_LEFT )
 	{
-		printf( "Warning : wrong box collision direction %d\n", m_move_col_dir );
+        cerr << "Warning : wrong box collision direction " << m_move_col_dir << endl;
 		m_move_col_dir = DIR_UNDEFINED;
 		Update_Valid_Update();
 		return;
