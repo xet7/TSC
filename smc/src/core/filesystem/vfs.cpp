@@ -134,7 +134,7 @@ public:
 			case RW_SEEK_END:
 				// TODO: what if fileLength returns in error
 				PHYSFS_sint64 l = PHYSFS_fileLength(data->m_file);
-				target = l - offset;
+				target = l + offset;
 				break;
 		}
 
