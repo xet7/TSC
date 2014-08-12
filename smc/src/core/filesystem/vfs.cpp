@@ -86,6 +86,26 @@ protected:
 	}
 };
 
+class cVfs_istream : public std::istream
+{
+public:
+	explicit cVfs_istream(cVfs_streambuf* buf) :
+		std::istream(buf), m_buf(buf)
+	{
+	}
+
+	~cVfs_istream()
+	{
+		delete m_buf;
+	}
+
+private:
+	cVfs_istream(const cVfs_istream&);
+	cVfs_istream& operator=(const cVfs_istream&);
+
+	cVfs_streambuf* m_buf;
+};
+
 /* *** *** *** *** *** cVfs_RWops *** *** *** *** *** *** *** *** *** *** */
 class cVfs_RWops
 {
@@ -302,7 +322,7 @@ std::istream* cVfs :: Open_Stream(fs::path file)
 		PHYSFS_File* f = PHYSFS_openRead(physfs_path.c_str());
 		if(f)
 		{
-			return new std::istream(new cVfs_streambuf(f));
+			return new cVfs_istream(new cVfs_streambuf(f));
 		}
 	}
 
