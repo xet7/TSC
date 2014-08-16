@@ -312,7 +312,7 @@ void cStaticEnemy :: Editor_Activate( void )
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "editor_static_enemy_image" ));
 	Editor_Add( UTF8_("Image"), UTF8_("Image filename"), editbox, 200 );
 
-	editbox->setText( pPackage_Manager->Get_Relative_Pixmap_Path(m_image->Get_Path()).c_str() );
+	editbox->setText( path_to_utf8(pPackage_Manager->Get_Relative_Pixmap_Path(m_image->Get_Path())) );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cStaticEnemy::Editor_Image_Text_Changed, this ) );
 
 	// rotation speed
