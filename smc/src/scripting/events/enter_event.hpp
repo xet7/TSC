@@ -5,15 +5,17 @@
 
 namespace SMC {
 
-	namespace Scripting {
+    namespace Scripting {
 
-		class cEnter_Event: public cEvent
-		{
-		public:
-			virtual std::string Event_Name(){return "enter";}
-		};
+        class cEnter_Event: public cEvent {
+        public:
+            virtual std::string Event_Name()
+            {
+                return "enter";
+            }
+        };
 
-	}
+    }
 
 }
 

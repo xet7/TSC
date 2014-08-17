@@ -29,17 +29,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cThromp* p_thromp = new cThromp(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_thromp;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cThromp* p_thromp = new cThromp(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_thromp;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_thromp->Set_Spawned(true);
+    // This is a generated object
+    p_thromp->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_thromp);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_thromp);
 
-	return self;
+    return self;
 }
 
 /**
@@ -56,13 +56,13 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Image_Dir(mrb_state* p_state, mrb_value self)
 {
-	char* cdir = NULL;
-	mrb_get_args(p_state, "z", &cdir);
+    char* cdir = NULL;
+    mrb_get_args(p_state, "z", &cdir);
 
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	p_thromp->Set_Image_Dir(utf8_to_path(cdir));
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    p_thromp->Set_Image_Dir(utf8_to_path(cdir));
 
-	return mrb_str_new_cstr(p_state, cdir);
+    return mrb_str_new_cstr(p_state, cdir);
 }
 
 /**
@@ -75,8 +75,8 @@ static mrb_value Set_Image_Dir(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Image_Dir(mrb_state* p_state,  mrb_value self)
 {
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	return mrb_str_new_cstr(p_state, path_to_utf8(p_thromp->m_img_dir).c_str());
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    return mrb_str_new_cstr(p_state, path_to_utf8(p_thromp->m_img_dir).c_str());
 }
 
 /**
@@ -92,18 +92,18 @@ static mrb_value Get_Image_Dir(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
 {
-	mrb_float distance;
-	mrb_get_args(p_state, "f", &distance);
+    mrb_float distance;
+    mrb_get_args(p_state, "f", &distance);
 
-	if (distance < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Thromp maximum distance must be >= 0");
-		return mrb_nil_value(); // Not reached
-	}
+    if (distance < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Thromp maximum distance must be >= 0");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	p_thromp->Set_Max_Distance(distance);
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    p_thromp->Set_Max_Distance(distance);
 
-	return mrb_float_value(p_state, distance);
+    return mrb_float_value(p_state, distance);
 }
 
 /**
@@ -116,8 +116,8 @@ static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
 {
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	return mrb_float_value(p_state, p_thromp->m_max_distance);
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    return mrb_float_value(p_state, p_thromp->m_max_distance);
 }
 
 /**
@@ -133,18 +133,18 @@ static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	if (speed < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Thromp fall speed must be >= 0");
-		return mrb_nil_value(); // Not reached
-	}
+    if (speed < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Thromp fall speed must be >= 0");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	p_thromp->Set_Speed(speed);
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    p_thromp->Set_Speed(speed);
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -156,8 +156,8 @@ static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
 {
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	return mrb_float_value(p_state, p_thromp->m_speed);
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    return mrb_float_value(p_state, p_thromp->m_speed);
 }
 
 /**
@@ -170,21 +170,21 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
 {
-	cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
-	return mrb_bool_value(p_thromp->m_move_back);
+    cThromp* p_thromp = Get_Data_Ptr<cThromp>(p_state, self);
+    return mrb_bool_value(p_thromp->m_move_back);
 }
 
 void SMC::Scripting::Init_Thromp(mrb_state* p_state)
 {
-	struct RClass* p_rcThromp = mrb_define_class(p_state, "Thromp", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcThromp, MRB_TT_DATA);
+    struct RClass* p_rcThromp = mrb_define_class(p_state, "Thromp", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcThromp, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcThromp, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcThromp, "image_dir", Get_Image_Dir, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcThromp, "image_dir=", Set_Image_Dir, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcThromp, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcThromp, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcThromp, "speed", Get_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcThromp, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcThromp, "moving_backwards?", Is_Moving_Backwards, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcThromp, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcThromp, "image_dir", Get_Image_Dir, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcThromp, "image_dir=", Set_Image_Dir, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcThromp, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcThromp, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcThromp, "speed", Get_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcThromp, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcThromp, "moving_backwards?", Is_Moving_Backwards, MRB_ARGS_NONE());
 }

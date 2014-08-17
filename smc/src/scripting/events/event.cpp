@@ -17,24 +17,24 @@ using namespace std;
  */
 void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_obj)
 {
-	// Menu level has no mruby interpreter
-	if (!p_mruby)
-		return;
-	mrb_state* p_state = p_mruby->Get_MRuby_State();
+    // Menu level has no mruby interpreter
+    if (!p_mruby)
+        return;
+    mrb_state* p_state = p_mruby->Get_MRuby_State();
 
-	// Iterate through the list of callbacks and execute them
-	std::string evtname = Event_Name();
-	std::vector<mrb_value>::iterator start = p_obj->event_handlers_begin(evtname);
-	std::vector<mrb_value>::iterator end = p_obj->event_handlers_end(evtname);
+    // Iterate through the list of callbacks and execute them
+    std::string evtname = Event_Name();
+    std::vector<mrb_value>::iterator start = p_obj->event_handlers_begin(evtname);
+    std::vector<mrb_value>::iterator end = p_obj->event_handlers_end(evtname);
 
-	std::vector<mrb_value>::iterator iter;
-	for(iter=start; iter != end; iter++){
-		Run_MRuby_Callback(p_mruby, *iter);
-		if (p_state->exc) {
-			cerr << "Warning: Error running mruby handler:" << endl;
-			mrb_print_error(p_state);
-		}
-	}
+    std::vector<mrb_value>::iterator iter;
+    for (iter=start; iter != end; iter++) {
+        Run_MRuby_Callback(p_mruby, *iter);
+        if (p_state->exc) {
+            cerr << "Warning: Error running mruby handler:" << endl;
+            mrb_print_error(p_state);
+        }
+    }
 }
 
 /**
@@ -48,7 +48,7 @@ void cEvent::Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_
  */
 std::string cEvent::Event_Name()
 {
-	return "generic";
+    return "generic";
 }
 
 /**
@@ -65,5 +65,5 @@ std::string cEvent::Event_Name()
  */
 void cEvent::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback)
 {
-	mrb_funcall(p_mruby->Get_MRuby_State(), callback, "call", 0);
+    mrb_funcall(p_mruby->Get_MRuby_State(), callback, "call", 0);
 }

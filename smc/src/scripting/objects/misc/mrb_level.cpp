@@ -142,10 +142,10 @@ MRUBY_IMPLEMENT_EVENT(save);
  * Methods
  ***************************************/
 
-static mrb_value Initialize(mrb_state* p_state,	 mrb_value self)
+static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
-	return self; // Not reached
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+    return self; // Not reached
 }
 
 /**
@@ -155,9 +155,9 @@ static mrb_value Initialize(mrb_state* p_state,	 mrb_value self)
  *
  * Returns the content of the level’s *Author* info field.
  */
-static mrb_value Get_Author(mrb_state* p_state,	 mrb_value self)
+static mrb_value Get_Author(mrb_state* p_state,  mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, pActive_Level->m_author.c_str());
+    return mrb_str_new_cstr(p_state, pActive_Level->m_author.c_str());
 }
 
 /**
@@ -169,7 +169,7 @@ static mrb_value Get_Author(mrb_state* p_state,	 mrb_value self)
  */
 static mrb_value Get_Description(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, pActive_Level->m_description.c_str());
+    return mrb_str_new_cstr(p_state, pActive_Level->m_description.c_str());
 }
 
 /**
@@ -183,7 +183,7 @@ static mrb_value Get_Description(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Difficulty(mrb_state* p_state, mrb_value self)
 {
-	return mrb_fixnum_value(pActive_Level->m_difficulty);
+    return mrb_fixnum_value(pActive_Level->m_difficulty);
 }
 
 /**
@@ -195,7 +195,7 @@ static mrb_value Get_Difficulty(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Engine_Version(mrb_state* p_state, mrb_value self)
 {
-	return mrb_fixnum_value(pActive_Level->m_engine_version);
+    return mrb_fixnum_value(pActive_Level->m_engine_version);
 }
 
 /**
@@ -207,7 +207,7 @@ static mrb_value Get_Engine_Version(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Filename(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->m_level_filename).c_str());
+    return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->m_level_filename).c_str());
 }
 
 /**
@@ -220,7 +220,7 @@ static mrb_value Get_Filename(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Music_Filename(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->Get_Music_Filename()).c_str());
+    return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->Get_Music_Filename()).c_str());
 }
 
 /**
@@ -232,7 +232,7 @@ static mrb_value Get_Music_Filename(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Script(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, pActive_Level->m_script.c_str());
+    return mrb_str_new_cstr(p_state, pActive_Level->m_script.c_str());
 }
 
 /**
@@ -246,7 +246,7 @@ static mrb_value Get_Script(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
 {
-	return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->m_next_level_filename).c_str());
+    return mrb_str_new_cstr(p_state, path_to_utf8(pActive_Level->m_next_level_filename).c_str());
 }
 
 /**
@@ -266,11 +266,11 @@ static mrb_value Get_Next_Level_Filename(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Finish(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "|o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "|o", &obj);
 
-	pLevel_Manager->Finish_Level(mrb_test(obj));
-	return mrb_nil_value();
+    pLevel_Manager->Finish_Level(mrb_test(obj));
+    return mrb_nil_value();
 }
 
 /**
@@ -317,11 +317,11 @@ static mrb_value Finish(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Display_Info_Message(mrb_state* p_state, mrb_value self)
 {
-	char* message = NULL;
-	mrb_get_args(p_state, "z", &message);
+    char* message = NULL;
+    mrb_get_args(p_state, "z", &message);
 
-	pHud_Infomessage->Set_Text(message);
-	return mrb_nil_value();
+    pHud_Infomessage->Set_Text(message);
+    return mrb_nil_value();
 }
 
 /**
@@ -335,16 +335,16 @@ static mrb_value Display_Info_Message(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Push_Return(mrb_state* p_state, mrb_value self)
 {
-	mrb_value stackentry;
-	mrb_get_args(p_state, "o", &stackentry);
+    mrb_value stackentry;
+    mrb_get_args(p_state, "o", &stackentry);
 
-	mrb_value level = mrb_iv_get(p_state, stackentry, mrb_intern_cstr(p_state, "@level"));
-	mrb_value entry = mrb_iv_get(p_state, stackentry, mrb_intern_cstr(p_state, "@entry"));
+    mrb_value level = mrb_iv_get(p_state, stackentry, mrb_intern_cstr(p_state, "@level"));
+    mrb_value entry = mrb_iv_get(p_state, stackentry, mrb_intern_cstr(p_state, "@entry"));
 
-	// Note that `nil.to_s' gives an empty string.
-	pLevel_Player->Push_Return(mrb_string_value_ptr(p_state, level), mrb_string_value_ptr(p_state, entry));
+    // Note that `nil.to_s' gives an empty string.
+    pLevel_Player->Push_Return(mrb_string_value_ptr(p_state, level), mrb_string_value_ptr(p_state, entry));
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -360,19 +360,19 @@ static mrb_value Push_Return(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Pop_Return(mrb_state* p_state, mrb_value self)
 {
-	std::string level, entry;
+    std::string level, entry;
 
-	if (pLevel_Player->Pop_Return(level, entry)) {
-		struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
-		mrb_value args[2];
-		args[0] = mrb_str_new_cstr(p_state, level.c_str());
-		args[1] = mrb_str_new_cstr(p_state, entry.c_str());
+    if (pLevel_Player->Pop_Return(level, entry)) {
+        struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
+        mrb_value args[2];
+        args[0] = mrb_str_new_cstr(p_state, level.c_str());
+        args[1] = mrb_str_new_cstr(p_state, entry.c_str());
 
-		return mrb_obj_new(p_state, p_klass, 2, args);
-	}
-	else {
-		return mrb_nil_value();
-	}
+        return mrb_obj_new(p_state, p_klass, 2, args);
+    }
+    else {
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -386,8 +386,8 @@ static mrb_value Pop_Return(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Clear_Return(mrb_state* p_state, mrb_value self)
 {
-	pLevel_Player->Clear_Return();
-	return mrb_nil_value();
+    pLevel_Player->Clear_Return();
+    return mrb_nil_value();
 }
 
 /**
@@ -402,21 +402,21 @@ static mrb_value Clear_Return(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Return_Stack(mrb_state* p_state, mrb_value self)
 {
-	mrb_value ary = mrb_ary_new(p_state);
+    mrb_value ary = mrb_ary_new(p_state);
 
-	std::vector<cLevel_Player_Return_Entry>::const_iterator iter;
-	struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
-	for(iter=pLevel_Player->m_return_stack.begin(); iter != pLevel_Player->m_return_stack.end(); iter++) {
-		cLevel_Player_Return_Entry entry = *iter;
-		mrb_value args[2];
-		args[0] = mrb_str_new_cstr(p_state, entry.level.c_str());
-		args[1] = mrb_str_new_cstr(p_state, entry.entry.c_str());
+    std::vector<cLevel_Player_Return_Entry>::const_iterator iter;
+    struct RClass* p_klass = mrb_class_get_under(p_state, mrb_class_get(p_state, "Level"), "StackEntry");
+    for (iter=pLevel_Player->m_return_stack.begin(); iter != pLevel_Player->m_return_stack.end(); iter++) {
+        cLevel_Player_Return_Entry entry = *iter;
+        mrb_value args[2];
+        args[0] = mrb_str_new_cstr(p_state, entry.level.c_str());
+        args[1] = mrb_str_new_cstr(p_state, entry.entry.c_str());
 
-		mrb_value stackentry = mrb_obj_new(p_state, p_klass, 2, args);
-		mrb_ary_push(p_state, ary, stackentry);
-	}
+        mrb_value stackentry = mrb_obj_new(p_state, p_klass, 2, args);
+        mrb_ary_push(p_state, ary, stackentry);
+    }
 
-	return ary;
+    return ary;
 }
 
 /********************* StackEntry ********************/
@@ -450,14 +450,14 @@ static mrb_value Get_Return_Stack(mrb_state* p_state, mrb_value self)
  */
 static mrb_value SE_Initialize(mrb_state* p_state, mrb_value self)
 {
-	mrb_value level;
-	mrb_value entry;
-	mrb_get_args(p_state, "|oo", &level, &entry);
+    mrb_value level;
+    mrb_value entry;
+    mrb_get_args(p_state, "|oo", &level, &entry);
 
-	mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "@level"), level);
-	mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "@entry"), entry);
+    mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "@level"), level);
+    mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "@entry"), entry);
 
-	return self;
+    return self;
 }
 
 /**
@@ -469,7 +469,7 @@ static mrb_value SE_Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value SE_Get_Level(mrb_state* p_state, mrb_value self)
 {
-	return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@level"));
+    return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@level"));
 }
 
 /**
@@ -481,40 +481,40 @@ static mrb_value SE_Get_Level(mrb_state* p_state, mrb_value self)
  */
 static mrb_value SE_Get_Entry(mrb_state* p_state, mrb_value self)
 {
-	return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@entry"));
+    return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@entry"));
 }
 
 void SMC::Scripting::Init_Level(mrb_state* p_state)
 {
-	struct RClass* p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
-	mrb_include_module(p_state, p_rcLevel, mrb_class_get(p_state, "Eventable"));
-	MRB_SET_INSTANCE_TT(p_rcLevel, MRB_TT_DATA);
+    struct RClass* p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
+    mrb_include_module(p_state, p_rcLevel, mrb_class_get(p_state, "Eventable"));
+    MRB_SET_INSTANCE_TT(p_rcLevel, MRB_TT_DATA);
 
-	// Make the Level constant the only instance of LevelClass
-	mrb_define_const(p_state, p_state->object_class, "Level", pSavegame->Create_MRuby_Object(p_state));
+    // Make the Level constant the only instance of LevelClass
+    mrb_define_const(p_state, p_state->object_class, "Level", pSavegame->Create_MRuby_Object(p_state));
 
-	mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "author", Get_Author, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "description", Get_Description, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "difficulty", Get_Difficulty, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "engine_version", Get_Engine_Version, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "filename", Get_Filename, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "script", Get_Script, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_OPT(1));
-	mrb_define_method(p_state, p_rcLevel, "display_info_message", Display_Info_Message, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel, "push_return", Push_Return, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel, "pop_return", Pop_Return, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "clear_return", Clear_Return, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "return_stack", Get_Return_Stack, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "author", Get_Author, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "description", Get_Description, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "difficulty", Get_Difficulty, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "engine_version", Get_Engine_Version, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "filename", Get_Filename, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "music_filename", Get_Music_Filename, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "script", Get_Script, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "next_level_filename", Get_Next_Level_Filename, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "finish", Finish, MRB_ARGS_OPT(1));
+    mrb_define_method(p_state, p_rcLevel, "display_info_message", Display_Info_Message, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel, "push_return", Push_Return, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel, "pop_return", Pop_Return, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "clear_return", Clear_Return, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "return_stack", Get_Return_Stack, MRB_ARGS_NONE());
 
-	mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "on_load", MRUBY_EVENT_HANDLER(load), MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel, "on_save", MRUBY_EVENT_HANDLER(save), MRB_ARGS_NONE());
 
-	struct RClass* p_rcLevel_StackEntry = mrb_define_class_under(p_state, p_rcLevel, "StackEntry", p_state->object_class);
+    struct RClass* p_rcLevel_StackEntry = mrb_define_class_under(p_state, p_rcLevel, "StackEntry", p_state->object_class);
 
-	mrb_define_method(p_state, p_rcLevel_StackEntry, "initialize", SE_Initialize, MRB_ARGS_OPT(2));
-	mrb_define_method(p_state, p_rcLevel_StackEntry, "level", SE_Get_Level, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_StackEntry, "entry", SE_Get_Entry, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_StackEntry, "initialize", SE_Initialize, MRB_ARGS_OPT(2));
+    mrb_define_method(p_state, p_rcLevel_StackEntry, "level", SE_Get_Level, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_StackEntry, "entry", SE_Get_Entry, MRB_ARGS_NONE());
 }

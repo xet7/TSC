@@ -3,12 +3,14 @@
 #include "../scripting.hpp"
 #include "event.hpp"
 namespace SMC {
-	namespace Scripting {
-		class cExit_Event: public cEvent
-		{
-		public:
-			virtual std::string Event_Name(){return "exit";}
-		};
-	}
+    namespace Scripting {
+        class cExit_Event: public cEvent {
+        public:
+            virtual std::string Event_Name()
+            {
+                return "exit";
+            }
+        };
+    }
 }
 #endif

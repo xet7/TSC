@@ -16,15 +16,15 @@ using namespace SMC::Scripting;
  */
 static mrb_float mrbnum2float(mrb_state* p_state, mrb_value obj)
 {
-	switch(mrb_type(obj)) {
-	case MRB_TT_FIXNUM:
-		return mrb_fixnum(obj); // Promote to float
-	case MRB_TT_FLOAT:
-		return mrb_float(obj);
-	default:
-		mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Expected Fixnum or Float, got %s", mrb_obj_class(p_state, obj));
-		return 0.0; // Not reached
-	}
+    switch (mrb_type(obj)) {
+    case MRB_TT_FIXNUM:
+        return mrb_fixnum(obj); // Promote to float
+    case MRB_TT_FLOAT:
+        return mrb_float(obj);
+    default:
+        mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Expected Fixnum or Float, got %s", mrb_obj_class(p_state, obj));
+        return 0.0; // Not reached
+    }
 }
 
 /*
@@ -32,10 +32,10 @@ static mrb_float mrbnum2float(mrb_state* p_state, mrb_value obj)
  */
 static mrb_value range_from_rand_values(mrb_state* p_state, mrb_float middle, mrb_float rand)
 {
-	mrb_value beg = mrb_float_value(p_state, middle - rand);
-	mrb_value end = mrb_float_value(p_state, middle + rand);
+    mrb_value beg = mrb_float_value(p_state, middle - rand);
+    mrb_value end = mrb_float_value(p_state, middle + rand);
 
-	return mrb_range_new(p_state, beg, end, 0); // beg..end (incl.)
+    return mrb_range_new(p_state, beg, end, 0); // beg..end (incl.)
 }
 
 /* Takes either a Fixnum, Float, or Range and calculates a
@@ -43,30 +43,30 @@ static mrb_value range_from_rand_values(mrb_state* p_state, mrb_float middle, mr
  */
 static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& value, mrb_float& rand)
 {
-	RRange* p_range = NULL;
-	mrb_float beg, end;
+    RRange* p_range = NULL;
+    mrb_float beg, end;
 
-	switch(mrb_type(obj)) {
-	case MRB_TT_RANGE:
-		p_range = mrb_range_ptr(obj);
-		beg = mrbnum2float(p_state, p_range->edges->beg);
-		end = mrbnum2float(p_state, p_range->edges->end);
+    switch (mrb_type(obj)) {
+    case MRB_TT_RANGE:
+        p_range = mrb_range_ptr(obj);
+        beg = mrbnum2float(p_state, p_range->edges->beg);
+        end = mrbnum2float(p_state, p_range->edges->end);
 
-		value = (end + beg) / 2.0; // mean
-		rand = end - value;
-		break;
-	case MRB_TT_FIXNUM:
-		value = mrb_fixnum(obj); // Promote to float
-		rand = 0;
-		break;
-	case MRB_TT_FLOAT:
-		value = mrb_float(obj);
-		rand = 0;
-		break;
-	default:
-		mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Expected Numeric or Range, got %s", mrb_obj_classname(p_state, obj));
-		return; // Not reached
-	}
+        value = (end + beg) / 2.0; // mean
+        rand = end - value;
+        break;
+    case MRB_TT_FIXNUM:
+        value = mrb_fixnum(obj); // Promote to float
+        rand = 0;
+        break;
+    case MRB_TT_FLOAT:
+        value = mrb_float(obj);
+        rand = 0;
+        break;
+    default:
+        mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Expected Numeric or Range, got %s", mrb_obj_classname(p_state, obj));
+        return; // Not reached
+    }
 }
 
 /**
@@ -87,8 +87,8 @@ static void calculate_rand_values(mrb_state* p_state, mrb_value obj, mrb_float& 
  */
 static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
 {
-	cAnimation* p_ani = Get_Data_Ptr<cAnimation>(p_state, self);
-	return range_from_rand_values(p_state, p_ani->m_time_to_live, p_ani->m_time_to_live_rand);
+    cAnimation* p_ani = Get_Data_Ptr<cAnimation>(p_state, self);
+    return range_from_rand_values(p_state, p_ani->m_time_to_live, p_ani->m_time_to_live_rand);
 }
 
 /**
@@ -100,16 +100,16 @@ static mrb_value Get_Time_to_Live(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float time, rand;
-	calculate_rand_values(p_state, obj, time, rand);
+    mrb_float time, rand;
+    calculate_rand_values(p_state, obj, time, rand);
 
-	cAnimation* p_ani = Get_Data_Ptr<cAnimation>(p_state, self);
-	p_ani->Set_Time_to_Live(time, rand);
+    cAnimation* p_ani = Get_Data_Ptr<cAnimation>(p_state, self);
+    p_ani->Set_Time_to_Live(time, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -173,34 +173,34 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_float x, y;
-	mrb_float width = 0.0f;
-	mrb_float height = 0.0f;
+    mrb_float x, y;
+    mrb_float width = 0.0f;
+    mrb_float height = 0.0f;
 
-	mrb_get_args(p_state, "ff|ff", &x, &y, &width, &height);
+    mrb_get_args(p_state, "ff|ff", &x, &y, &width, &height);
 
-	cParticle_Emitter* p_emitter = new cParticle_Emitter(pActive_Level->m_sprite_manager);
-	p_emitter->Set_Emitter_Rect(x, y, width, height);
+    cParticle_Emitter* p_emitter = new cParticle_Emitter(pActive_Level->m_sprite_manager);
+    p_emitter->Set_Emitter_Rect(x, y, width, height);
 
-	// This is a generated object
-	p_emitter->Set_Spawned(true);
+    // This is a generated object
+    p_emitter->Set_Spawned(true);
 
-	/* Let SMC manage the memory, as with all SMC level objects
-	 * This has some side effects: Although we create the object
-	 * as per the code above, we don’t have to clean it up, this
-	 * is done automatically by SMC when the particle emitter has
-	 * finished. It also means that the DATA pointer inside the
-	 * MRuby object gets invalid in the instant SMC cleans the
-	 * pointer. Not sure if we really need to cater for this, although
-	 * it of course leads to segfaults if such an MRuby object is
-	 * used...
-	 */
-	pActive_Animation_Manager->Add(p_emitter);
+    /* Let SMC manage the memory, as with all SMC level objects
+     * This has some side effects: Although we create the object
+     * as per the code above, we don’t have to clean it up, this
+     * is done automatically by SMC when the particle emitter has
+     * finished. It also means that the DATA pointer inside the
+     * MRuby object gets invalid in the instant SMC cleans the
+     * pointer. Not sure if we really need to cater for this, although
+     * it of course leads to segfaults if such an MRuby object is
+     * used...
+     */
+    pActive_Animation_Manager->Add(p_emitter);
 
-	DATA_PTR(self) = p_emitter;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_PTR(self) = p_emitter;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	return self;
+    return self;
 }
 
 /**
@@ -212,13 +212,13 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Z(mrb_state* p_state,  mrb_value self)
 {
-	mrb_float z;
-	mrb_get_args(p_state, "f", &z);
+    mrb_float z;
+    mrb_get_args(p_state, "f", &z);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Pos_Z(z);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Pos_Z(z);
 
-	return mrb_float_value(p_state, z);
+    return mrb_float_value(p_state, z);
 }
 
 /**
@@ -230,8 +230,8 @@ static mrb_value Set_Z(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Image_Filename(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return mrb_str_new_cstr(p_state, path_to_utf8(p_emitter->m_image_filename).c_str());
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return mrb_str_new_cstr(p_state, path_to_utf8(p_emitter->m_image_filename).c_str());
 }
 
 /**
@@ -243,13 +243,13 @@ static mrb_value Get_Image_Filename(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
 {
-	char* str = NULL;
-	mrb_get_args(p_state, "z", &str);
+    char* str = NULL;
+    mrb_get_args(p_state, "z", &str);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Image_Filename( utf8_to_path( str ) );
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Image_Filename(utf8_to_path(str));
 
-	return mrb_str_new_cstr(p_state, str);
+    return mrb_str_new_cstr(p_state, str);
 }
 
 /**
@@ -261,8 +261,8 @@ static mrb_value Set_Image_Filename(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Scale(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_size_scale, p_emitter->m_size_scale_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_size_scale, p_emitter->m_size_scale_rand);
 }
 
 /**
@@ -274,8 +274,8 @@ static mrb_value Get_Scale(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Speed(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_vel, p_emitter->m_vel_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_vel, p_emitter->m_vel_rand);
 }
 
 /**
@@ -287,8 +287,8 @@ static mrb_value Get_Speed(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return mrb_float_value(p_state, p_emitter->m_emitter_time_to_live);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return mrb_float_value(p_state, p_emitter->m_emitter_time_to_live);
 }
 
 /**
@@ -300,8 +300,8 @@ static mrb_value Get_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Quota(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return mrb_fixnum_value(p_emitter->m_emitter_quota);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return mrb_fixnum_value(p_emitter->m_emitter_quota);
 }
 
 /**
@@ -313,8 +313,8 @@ static mrb_value Get_Quota(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Gravity_X(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_gravity_x, p_emitter->m_gravity_x_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_gravity_x, p_emitter->m_gravity_x_rand);
 }
 
 /**
@@ -326,8 +326,8 @@ static mrb_value Get_Gravity_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Gravity_Y(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_gravity_y, p_emitter->m_gravity_y_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_gravity_y, p_emitter->m_gravity_y_rand);
 }
 
 /**
@@ -339,8 +339,8 @@ static mrb_value Get_Gravity_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Const_Rotation_X(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_const_rot_x, p_emitter->m_const_rot_x_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_const_rot_x, p_emitter->m_const_rot_x_rand);
 }
 
 /**
@@ -352,8 +352,8 @@ static mrb_value Get_Const_Rotation_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Const_Rotation_Y(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_const_rot_y, p_emitter->m_const_rot_y_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_const_rot_y, p_emitter->m_const_rot_y_rand);
 }
 
 /**
@@ -365,8 +365,8 @@ static mrb_value Get_Const_Rotation_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Const_Rotation_Z(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	return range_from_rand_values(p_state, p_emitter->m_const_rot_z, p_emitter->m_const_rot_z_rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    return range_from_rand_values(p_state, p_emitter->m_const_rot_z, p_emitter->m_const_rot_z_rand);
 }
 
 /**
@@ -378,20 +378,20 @@ static mrb_value Get_Const_Rotation_Z(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	char buffer[256];
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    char buffer[256];
 
-	int num = sprintf(	buffer,
-						"#<%s pos=(%.2f|%.2f) ETTL=%.2fs>",
-						mrb_obj_classname(p_state, self),
-						p_emitter->m_pos_x,
-						p_emitter->m_pos_y,
-						p_emitter->m_emitter_time_to_live);
+    int num = sprintf(buffer,
+                      "#<%s pos=(%.2f|%.2f) ETTL=%.2fs>",
+                      mrb_obj_classname(p_state, self),
+                      p_emitter->m_pos_x,
+                      p_emitter->m_pos_y,
+                      p_emitter->m_emitter_time_to_live);
 
-	if (num < 0)
-		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Couldn't format string, sprintf() returned %d", num);
+    if (num < 0)
+        mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Couldn't format string, sprintf() returned %d", num);
 
-	return mrb_str_new(p_state, buffer, num);
+    return mrb_str_new(p_state, buffer, num);
 }
 
 /**
@@ -403,16 +403,16 @@ static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Scale(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Scale(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Scale(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -424,16 +424,16 @@ static mrb_value Set_Scale(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Speed(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Speed(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Speed(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -445,13 +445,13 @@ static mrb_value Set_Speed(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int value;
-	mrb_get_args(p_state, "i", &value);
+    mrb_int value;
+    mrb_get_args(p_state, "i", &value);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Emitter_Time_to_Live(value);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Emitter_Time_to_Live(value);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -463,13 +463,13 @@ static mrb_value Set_Emitter_Time_To_Live(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Quota(mrb_state* p_state, mrb_value self)
 {
-	mrb_int quota;
-	mrb_get_args(p_state, "i", &quota);
+    mrb_int quota;
+    mrb_get_args(p_state, "i", &quota);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Quota(quota);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Quota(quota);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -481,16 +481,16 @@ static mrb_value Set_Quota(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Gravity_X(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Horizontal_Gravity(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Horizontal_Gravity(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -502,16 +502,16 @@ static mrb_value Set_Gravity_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Gravity_Y(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Vertical_Gravity(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Vertical_Gravity(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -523,16 +523,16 @@ static mrb_value Set_Gravity_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Const_Rotation_X(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Const_Rotation_X(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Const_Rotation_X(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -544,16 +544,16 @@ static mrb_value Set_Const_Rotation_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Const_Rotation_Y(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Const_Rotation_Y(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Const_Rotation_Y(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -565,16 +565,16 @@ static mrb_value Set_Const_Rotation_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Const_Rotation_Z(mrb_state* p_state,  mrb_value self)
 {
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
 
-	mrb_float value, rand;
-	calculate_rand_values(p_state, obj, value, rand);
+    mrb_float value, rand;
+    calculate_rand_values(p_state, obj, value, rand);
 
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Set_Const_Rotation_Z(value, rand);
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Set_Const_Rotation_Z(value, rand);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -590,9 +590,9 @@ static mrb_value Set_Const_Rotation_Z(mrb_state* p_state,  mrb_value self)
 */
 static mrb_value Emit(mrb_state* p_state, mrb_value self)
 {
-	cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
-	p_emitter->Emit();
-	return mrb_nil_value();
+    cParticle_Emitter* p_emitter = Get_Data_Ptr<cParticle_Emitter>(p_state, self);
+    p_emitter->Emit();
+    return mrb_nil_value();
 }
 
 /***************************************
@@ -601,39 +601,39 @@ static mrb_value Emit(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 {
-	struct RClass* p_rcAnimation = mrb_define_class(p_state, "Animation", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcAnimation, MRB_TT_DATA);
+    struct RClass* p_rcAnimation = mrb_define_class(p_state, "Animation", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcAnimation, MRB_TT_DATA);
 
-	// Methods
-	mrb_define_method(p_state, p_rcAnimation, "time_to_live", Get_Time_to_Live, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcAnimation, "time_to_live=", Set_Time_to_Live, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-	mrb_define_method(p_state, p_rcAnimation, "z=", Set_Z, MRB_ARGS_REQ(1));
+    // Methods
+    mrb_define_method(p_state, p_rcAnimation, "time_to_live", Get_Time_to_Live, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcAnimation, "time_to_live=", Set_Time_to_Live, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+    mrb_define_method(p_state, p_rcAnimation, "z=", Set_Z, MRB_ARGS_REQ(1));
 
-	struct RClass* p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_rcAnimation);
-	MRB_SET_INSTANCE_TT(p_rcParticleEmitter, MRB_TT_DATA);
+    struct RClass* p_rcParticleEmitter = mrb_define_class(p_state, "ParticleEmitter", p_rcAnimation);
+    MRB_SET_INSTANCE_TT(p_rcParticleEmitter, MRB_TT_DATA);
 
-	// Methods
-	mrb_define_method(p_state, p_rcParticleEmitter, "initialize", Initialize, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
-	mrb_define_method(p_state, p_rcParticleEmitter, "inspect", Inspect, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename", Get_Image_Filename, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "image_filename=", Set_Image_Filename, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "scale", Get_Scale, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "speed", Get_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live", Get_Emitter_Time_To_Live, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "quota", Get_Quota, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x", Get_Gravity_X, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y", Get_Gravity_Y, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x", Get_Const_Rotation_X, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y", Get_Const_Rotation_Y, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_Z", Get_Const_Rotation_Z, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcParticleEmitter, "scale=", Set_Scale, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live=", Set_Emitter_Time_To_Live, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "quota=", Set_Quota, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x=", Set_Gravity_X, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y=", Set_Gravity_Y, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x=", Set_Const_Rotation_X, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y=", Set_Const_Rotation_Y, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_z=", Set_Const_Rotation_Z, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcParticleEmitter, "emit", Emit, MRB_ARGS_NONE());
+    // Methods
+    mrb_define_method(p_state, p_rcParticleEmitter, "initialize", Initialize, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
+    mrb_define_method(p_state, p_rcParticleEmitter, "inspect", Inspect, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "image_filename", Get_Image_Filename, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "image_filename=", Set_Image_Filename, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "scale", Get_Scale, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "speed", Get_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live", Get_Emitter_Time_To_Live, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "quota", Get_Quota, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x", Get_Gravity_X, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y", Get_Gravity_Y, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x", Get_Const_Rotation_X, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y", Get_Const_Rotation_Y, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_Z", Get_Const_Rotation_Z, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcParticleEmitter, "scale=", Set_Scale, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "emitter_time_to_live=", Set_Emitter_Time_To_Live, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "quota=", Set_Quota, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "gravity_x=", Set_Gravity_X, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "gravity_y=", Set_Gravity_Y, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_x=", Set_Const_Rotation_X, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_y=", Set_Const_Rotation_Y, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "const_rotation_z=", Set_Const_Rotation_Z, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcParticleEmitter, "emit", Emit, MRB_ARGS_NONE());
 }

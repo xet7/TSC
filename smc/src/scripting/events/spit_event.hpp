@@ -4,12 +4,14 @@
 #include "event.hpp"
 
 namespace SMC {
-	namespace Scripting {
-		class cSpit_Event: public cEvent
-		{
-		public:
-			virtual std::string Event_Name(){return "spit";}
-		};
-	}
+    namespace Scripting {
+        class cSpit_Event: public cEvent {
+        public:
+            virtual std::string Event_Name()
+            {
+                return "spit";
+            }
+        };
+    }
 }
 #endif

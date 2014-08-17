@@ -26,17 +26,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cMushroom* p_mushroom = new cMushroom(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_mushroom;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cMushroom* p_mushroom = new cMushroom(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_mushroom;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_mushroom->Set_Spawned(true);
+    // This is a generated object
+    p_mushroom->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_mushroom);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_mushroom);
 
-	return self;
+    return self;
 }
 
 /**
@@ -67,30 +67,30 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym type;
-	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
 
-	SpriteType spritetype;
-	if (typestr == "default" || typestr == "red")
-		spritetype = TYPE_MUSHROOM_DEFAULT;
-	else if (typestr == "life" || typestr == "1up")
-		spritetype = TYPE_MUSHROOM_LIVE_1;
-	else if (typestr == "poison")
-		spritetype = TYPE_MUSHROOM_POISON;
-	else if (typestr == "blue")
-		spritetype = TYPE_MUSHROOM_BLUE;
-	else if (typestr == "ghost")
-		spritetype = TYPE_MUSHROOM_GHOST;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid mushroom type %s", typestr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    SpriteType spritetype;
+    if (typestr == "default" || typestr == "red")
+        spritetype = TYPE_MUSHROOM_DEFAULT;
+    else if (typestr == "life" || typestr == "1up")
+        spritetype = TYPE_MUSHROOM_LIVE_1;
+    else if (typestr == "poison")
+        spritetype = TYPE_MUSHROOM_POISON;
+    else if (typestr == "blue")
+        spritetype = TYPE_MUSHROOM_BLUE;
+    else if (typestr == "ghost")
+        spritetype = TYPE_MUSHROOM_GHOST;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid mushroom type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-	p_mushroom->Set_Type(spritetype);
+    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
+    p_mushroom->Set_Type(spritetype);
 
-	return mrb_symbol_value(type);
+    return mrb_symbol_value(type);
 }
 
 /**
@@ -103,21 +103,21 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
 {
-	cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-	switch(p_mushroom->m_type) {
-	case TYPE_MUSHROOM_DEFAULT:
-		return str2sym(p_state, "red");
-	case TYPE_MUSHROOM_LIVE_1:
-		return str2sym(p_state, "life");
-	case TYPE_MUSHROOM_POISON:
-		return str2sym(p_state, "poison");
-	case TYPE_MUSHROOM_BLUE:
-		return str2sym(p_state, "blue");
-	case TYPE_MUSHROOM_GHOST:
-		return str2sym(p_state, "ghost");
-	default:
-		return mrb_nil_value();
-	}
+    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
+    switch (p_mushroom->m_type) {
+    case TYPE_MUSHROOM_DEFAULT:
+        return str2sym(p_state, "red");
+    case TYPE_MUSHROOM_LIVE_1:
+        return str2sym(p_state, "life");
+    case TYPE_MUSHROOM_POISON:
+        return str2sym(p_state, "poison");
+    case TYPE_MUSHROOM_BLUE:
+        return str2sym(p_state, "blue");
+    case TYPE_MUSHROOM_GHOST:
+        return str2sym(p_state, "ghost");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -134,13 +134,13 @@ static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Glim_Mode(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool glim;
-	mrb_get_args(p_state, "b", &glim);
+    mrb_bool glim;
+    mrb_get_args(p_state, "b", &glim);
 
-	cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-	p_mushroom->m_glim_mod = glim;
+    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
+    p_mushroom->m_glim_mod = glim;
 
-	return mrb_bool_value(glim);
+    return mrb_bool_value(glim);
 }
 
 /**
@@ -152,8 +152,8 @@ static mrb_value Set_Glim_Mode(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
 {
-	cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-	return mrb_bool_value(p_mushroom->m_glim_mod);
+    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
+    return mrb_bool_value(p_mushroom->m_glim_mod);
 }
 
 /**
@@ -169,20 +169,20 @@ static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-	p_mushroom->Activate();
-	return mrb_nil_value();
+    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
+    p_mushroom->Activate();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Mushroom(mrb_state* p_state)
 {
-	struct RClass* p_rcMushroom = mrb_define_class(p_state, "Mushroom", mrb_class_get(p_state, "Powerup"));
-	MRB_SET_INSTANCE_TT(p_rcMushroom, MRB_TT_DATA);
+    struct RClass* p_rcMushroom = mrb_define_class(p_state, "Mushroom", mrb_class_get(p_state, "Powerup"));
+    MRB_SET_INSTANCE_TT(p_rcMushroom, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcMushroom, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMushroom, "type=", Set_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMushroom, "type", Get_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMushroom, "glimming=", Set_Glim_Mode, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMushroom, "glimming?", Get_Glim_Mode, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMushroom, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMushroom, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMushroom, "type=", Set_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMushroom, "type", Get_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMushroom, "glimming=", Set_Glim_Mode, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMushroom, "glimming?", Get_Glim_Mode, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMushroom, "activate!", Activate, MRB_ARGS_NONE());
 }

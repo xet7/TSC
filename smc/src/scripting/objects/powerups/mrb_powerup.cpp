@@ -30,8 +30,8 @@ MRUBY_IMPLEMENT_EVENT(activate);
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
-	return self; // Not reached
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+    return self; // Not reached
 }
 
 /**
@@ -46,18 +46,18 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cPowerUp* p_powerup = Get_Data_Ptr<cPowerUp>(p_state, self);
-	p_powerup->Activate();
-	return mrb_nil_value();
+    cPowerUp* p_powerup = Get_Data_Ptr<cPowerUp>(p_state, self);
+    p_powerup->Activate();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Powerup(mrb_state* p_state)
 {
-	struct RClass* p_rcPowerup = mrb_define_class(p_state, "Powerup", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcPowerup, MRB_TT_DATA);
+    struct RClass* p_rcPowerup = mrb_define_class(p_state, "Powerup", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcPowerup, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcPowerup, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcPowerup, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcPowerup, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcPowerup, "activate!", Activate, MRB_ARGS_NONE());
 
-	mrb_define_method(p_state, p_rcPowerup, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcPowerup, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
 }
