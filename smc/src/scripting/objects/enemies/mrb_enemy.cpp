@@ -33,8 +33,8 @@ MRUBY_IMPLEMENT_EVENT(die);
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
-	return self; // Not reached
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+    return self; // Not reached
 }
 
 /**
@@ -52,10 +52,10 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Kill(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
 
-	p_enemy->Set_Dead(true);
-	return mrb_nil_value();
+    p_enemy->Set_Dead(true);
+    return mrb_nil_value();
 }
 
 /**
@@ -72,15 +72,15 @@ static mrb_value Kill(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Kill_With_Points(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
 
-	pHud_Points->Add_Points(	p_enemy->m_kill_points,
-								p_enemy->m_pos_x,
-								p_enemy->m_pos_y - 5.0f);
-	pAudio->Play_Sound(p_enemy->m_kill_sound);
-	p_enemy->Set_Dead(true);
+    pHud_Points->Add_Points(p_enemy->m_kill_points,
+                            p_enemy->m_pos_x,
+                            p_enemy->m_pos_y - 5.0f);
+    pAudio->Play_Sound(p_enemy->m_kill_sound);
+    p_enemy->Set_Dead(true);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -93,9 +93,9 @@ static mrb_value Kill_With_Points(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Kill_Points(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
 
-	return mrb_fixnum_value(p_enemy->m_kill_points);
+    return mrb_fixnum_value(p_enemy->m_kill_points);
 }
 
 /**
@@ -114,12 +114,12 @@ static mrb_value Get_Kill_Points(mrb_state* p_state,  mrb_value self)
 */
 static mrb_value Set_Kill_Points(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
-	mrb_int points;
-	mrb_get_args(p_state, "i", &points);
-	p_enemy->m_kill_points = points;
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    mrb_int points;
+    mrb_get_args(p_state, "i", &points);
+    p_enemy->m_kill_points = points;
 
-	return mrb_fixnum_value(points);
+    return mrb_fixnum_value(points);
 }
 
 /**
@@ -132,9 +132,9 @@ static mrb_value Set_Kill_Points(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Kill_Sound(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
 
-	return mrb_str_new_cstr(p_state, p_enemy->m_kill_sound.c_str());
+    return mrb_str_new_cstr(p_state, p_enemy->m_kill_sound.c_str());
 }
 
 /**
@@ -151,12 +151,12 @@ static mrb_value Get_Kill_Sound(mrb_state* p_state,  mrb_value self)
 */
 static mrb_value Set_Kill_Sound(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
-	char* path;
-	mrb_get_args(p_state, "z", &path);
-	p_enemy->m_kill_sound = path;
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    char* path;
+    mrb_get_args(p_state, "z", &path);
+    p_enemy->m_kill_sound = path;
 
-	return mrb_str_new_cstr(p_state, path);
+    return mrb_str_new_cstr(p_state, path);
 }
 
 /**
@@ -172,12 +172,12 @@ static mrb_value Set_Kill_Sound(mrb_state* p_state,  mrb_value self)
 */
 static mrb_value Set_Fire_Resistant(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
-	mrb_value obj;
-	mrb_get_args(p_state, "o", &obj);
-	p_enemy->m_fire_resistant = mrb_test(obj) ? true : false;
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    mrb_value obj;
+    mrb_get_args(p_state, "o", &obj);
+    p_enemy->m_fire_resistant = mrb_test(obj) ? true : false;
 
-	return obj;
+    return obj;
 }
 
 /**
@@ -189,26 +189,26 @@ static mrb_value Set_Fire_Resistant(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Is_Fire_Resistant(mrb_state* p_state,  mrb_value self)
 {
-	cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
+    cEnemy* p_enemy = Get_Data_Ptr<cEnemy>(p_state, self);
 
-	return p_enemy->m_fire_resistant ? mrb_true_value() : mrb_false_value();
+    return p_enemy->m_fire_resistant ? mrb_true_value() : mrb_false_value();
 }
 
 
 void SMC::Scripting::Init_Enemy(mrb_state* p_state)
 {
-	struct RClass* p_rcEnemy = mrb_define_class(p_state, "Enemy", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);
+    struct RClass* p_rcEnemy = mrb_define_class(p_state, "Enemy", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcEnemy, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_points", Get_Kill_Points, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_points=", Set_Kill_Points, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcEnemy, "kill_sound", Get_Kill_Sound, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_sound=", Set_Kill_Sound, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcEnemy, "fire_resistant=", Set_Fire_Resistant, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcEnemy, "fire_resistant?", Is_Fire_Resistant, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill!", Kill, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcEnemy, "kill_with_points!", Kill_With_Points, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "kill_points", Get_Kill_Points, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "kill_points=", Set_Kill_Points, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcEnemy, "kill_sound", Get_Kill_Sound, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "kill_sound=", Set_Kill_Sound, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcEnemy, "fire_resistant=", Set_Fire_Resistant, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcEnemy, "fire_resistant?", Is_Fire_Resistant, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "kill!", Kill, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "kill_with_points!", Kill_With_Points, MRB_ARGS_NONE());
 
-	mrb_define_method(p_state, p_rcEnemy, "on_die", MRUBY_EVENT_HANDLER(die), MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcEnemy, "on_die", MRUBY_EVENT_HANDLER(die), MRB_ARGS_NONE());
 }

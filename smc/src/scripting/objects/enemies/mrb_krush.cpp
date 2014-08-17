@@ -28,23 +28,23 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cKrush* p_krush = new cKrush(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_krush;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cKrush* p_krush = new cKrush(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_krush;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_krush->Set_Spawned(true);
+    // This is a generated object
+    p_krush->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_krush);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_krush);
 
-	return self;
+    return self;
 }
 
 void SMC::Scripting::Init_Krush(mrb_state* p_state)
 {
-	struct RClass* p_rcKrush = mrb_define_class(p_state, "Krush", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcKrush, MRB_TT_DATA);
+    struct RClass* p_rcKrush = mrb_define_class(p_state, "Krush", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcKrush, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcKrush, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcKrush, "initialize", Initialize, MRB_ARGS_NONE());
 }

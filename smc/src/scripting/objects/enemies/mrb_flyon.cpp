@@ -35,17 +35,17 @@ using namespace SMC::Scripting;
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
 
-	cFlyon* p_flyon = new cFlyon(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_flyon;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cFlyon* p_flyon = new cFlyon(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_flyon;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_flyon->Set_Spawned(true);
+    // This is a generated object
+    p_flyon->Set_Spawned(true);
 
-	// Let SMC manager the memory
-	pActive_Level->m_sprite_manager->Add(p_flyon);
+    // Let SMC manager the memory
+    pActive_Level->m_sprite_manager->Add(p_flyon);
 
-	return self;
+    return self;
 }
 
 /**
@@ -63,13 +63,13 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Image_Dir(mrb_state* p_state, mrb_value self)
 {
-	char* cdir = NULL;
-	mrb_get_args(p_state, "z", &cdir);
+    char* cdir = NULL;
+    mrb_get_args(p_state, "z", &cdir);
 
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	p_flyon->Set_Image_Dir(utf8_to_path(cdir));
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    p_flyon->Set_Image_Dir(utf8_to_path(cdir));
 
-	return mrb_str_new_cstr(p_state, cdir);
+    return mrb_str_new_cstr(p_state, cdir);
 }
 
 /**
@@ -82,8 +82,8 @@ static mrb_value Set_Image_Dir(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Image_Dir(mrb_state* p_state, mrb_value self)
 {
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	return mrb_str_new_cstr(p_state, path_to_utf8(p_flyon->m_img_dir).c_str());
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    return mrb_str_new_cstr(p_state, path_to_utf8(p_flyon->m_img_dir).c_str());
 }
 
 /**
@@ -99,13 +99,13 @@ static mrb_value Get_Image_Dir(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
 {
-	mrb_float maxdistance;
-	mrb_get_args(p_state, "f", &maxdistance);
+    mrb_float maxdistance;
+    mrb_get_args(p_state, "f", &maxdistance);
 
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	p_flyon->Set_Max_Distance(maxdistance);
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    p_flyon->Set_Max_Distance(maxdistance);
 
-	return mrb_float_value(p_state, maxdistance);
+    return mrb_float_value(p_state, maxdistance);
 }
 
 /**
@@ -117,8 +117,8 @@ static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
 {
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	return mrb_float_value(p_state, p_flyon->m_max_distance);
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    return mrb_float_value(p_state, p_flyon->m_max_distance);
 }
 
 /**
@@ -130,13 +130,13 @@ static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	p_flyon->Set_Speed(speed);
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    p_flyon->Set_Speed(speed);
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -148,8 +148,8 @@ static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
 {
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	return mrb_float_value(p_state, p_flyon->m_speed);
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    return mrb_float_value(p_state, p_flyon->m_speed);
 }
 
 /**
@@ -166,18 +166,18 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Wait_Time(mrb_state* p_state, mrb_value self)
 {
-	mrb_float time;
-	mrb_get_args(p_state, "f", &time);
+    mrb_float time;
+    mrb_get_args(p_state, "f", &time);
 
-	if (time < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Wait time must be > 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (time < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Wait time must be > 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	p_flyon->m_wait_time = time;
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    p_flyon->m_wait_time = time;
 
-	return mrb_float_value(p_state, time);
+    return mrb_float_value(p_state, time);
 }
 
 /**
@@ -190,8 +190,8 @@ static mrb_value Set_Wait_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Wait_Time(mrb_state* p_state, mrb_value self)
 {
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	return mrb_float_value(p_state, p_flyon->m_wait_time);
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    return mrb_float_value(p_state, p_flyon->m_wait_time);
 }
 
 /**
@@ -203,8 +203,8 @@ static mrb_value Get_Wait_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_End_Distance(mrb_state* p_state, mrb_value self)
 {
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	return mrb_float_value(p_state, p_flyon->Get_End_Distance());
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    return mrb_float_value(p_state, p_flyon->Get_End_Distance());
 }
 
 /**
@@ -216,24 +216,24 @@ static mrb_value Get_End_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
 {
-	cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
-	return mrb_bool_value(p_flyon->m_move_back);
+    cFlyon* p_flyon = Get_Data_Ptr<cFlyon>(p_state, self);
+    return mrb_bool_value(p_flyon->m_move_back);
 }
 
 void SMC::Scripting::Init_Flyon(mrb_state* p_state)
 {
-	struct RClass* p_rcFlyon = mrb_define_class(p_state, "Flyon", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcFlyon, MRB_TT_DATA);
+    struct RClass* p_rcFlyon = mrb_define_class(p_state, "Flyon", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcFlyon, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcFlyon, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "image_dir=", Set_Image_Dir, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "image_dir", Get_Image_Dir, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "speed", Get_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "wait_time=", Set_Wait_Time, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFlyon, "wait_time", Get_Wait_Time, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "distance_to_end", Get_End_Distance, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFlyon, "moving_backwards?", Is_Moving_Backwards, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "image_dir=", Set_Image_Dir, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFlyon, "image_dir", Get_Image_Dir, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFlyon, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFlyon, "speed", Get_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "wait_time=", Set_Wait_Time, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFlyon, "wait_time", Get_Wait_Time, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "distance_to_end", Get_End_Distance, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFlyon, "moving_backwards?", Is_Moving_Backwards, MRB_ARGS_NONE());
 }

@@ -109,15 +109,15 @@ MRUBY_IMPLEMENT_EVENT(shoot);
  */
 static mrb_value Jump(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int deaccel = -1;
-	mrb_get_args(p_state, "|i", &deaccel);
+    mrb_int deaccel = -1;
+    mrb_get_args(p_state, "|i", &deaccel);
 
-	if (deaccel > 0)
-		pLevel_Player->Start_Jump(deaccel);
-	else
-		pLevel_Player->Start_Jump();
+    if (deaccel > 0)
+        pLevel_Player->Start_Jump(deaccel);
+    else
+        pLevel_Player->Start_Jump();
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -131,25 +131,25 @@ static mrb_value Jump(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
 {
-	switch(pLevel_Player->m_maryo_type){
-	case MARYO_DEAD:
-		return str2sym(p_state, "dead");
-	case MARYO_SMALL:
-		return str2sym(p_state, "small");
-	case MARYO_BIG:
-		return str2sym(p_state, "big");
-	case MARYO_FIRE:
-		return str2sym(p_state, "fire");
-	case MARYO_ICE:
-		return str2sym(p_state, "ice");
-	//case MARYO_CAPE:
-	//	return str2sym(p_state, "cape"); // Not implemented officially in SMC
-	case MARYO_GHOST:
-		return str2sym(p_state, "ghost");
-	default:
-		cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << endl;
-		return mrb_nil_value();
-	}
+    switch (pLevel_Player->m_maryo_type) {
+    case MARYO_DEAD:
+        return str2sym(p_state, "dead");
+    case MARYO_SMALL:
+        return str2sym(p_state, "small");
+    case MARYO_BIG:
+        return str2sym(p_state, "big");
+    case MARYO_FIRE:
+        return str2sym(p_state, "fire");
+    case MARYO_ICE:
+        return str2sym(p_state, "ice");
+    //case MARYO_CAPE:
+    //  return str2sym(p_state, "cape"); // Not implemented officially in SMC
+    case MARYO_GHOST:
+        return str2sym(p_state, "ghost");
+    default:
+        cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << endl;
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -190,36 +190,36 @@ static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
  *   : Apply the ghost mushroom.
  *
  *   Specifying an invalid type causes an error.
- * 
+ *
  */
 static mrb_value Set_Type(mrb_state* p_state,  mrb_value self)
 {
-	mrb_sym sym;
-	mrb_get_args(p_state, "n", &sym);
-	const char* typestr = mrb_sym2name(p_state, sym);
-	Maryo_type type;
+    mrb_sym sym;
+    mrb_get_args(p_state, "n", &sym);
+    const char* typestr = mrb_sym2name(p_state, sym);
+    Maryo_type type;
 
-	if (strcmp(typestr, "dead") == 0)
-		type = MARYO_DEAD;
-	else if (strcmp(typestr, "small") == 0)
-		type = MARYO_SMALL;
-	else if (strcmp(typestr, "big") == 0)
-		type = MARYO_BIG;
-	else if (strcmp(typestr, "fire") == 0)
-		type = MARYO_FIRE;
-	else if (strcmp(typestr, "ice") == 0)
-		type = MARYO_ICE;
-	//else if (strcmp(typestr, "cape") == 0) // Not implemented officially by SMC
-	//	type = MARYO_CAPE;
-	else if (strcmp(typestr, "ghost") == 0)
-		type = MARYO_GHOST;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Maryo type '%s'.", typestr);
-		return mrb_nil_value();
-	}
+    if (strcmp(typestr, "dead") == 0)
+        type = MARYO_DEAD;
+    else if (strcmp(typestr, "small") == 0)
+        type = MARYO_SMALL;
+    else if (strcmp(typestr, "big") == 0)
+        type = MARYO_BIG;
+    else if (strcmp(typestr, "fire") == 0)
+        type = MARYO_FIRE;
+    else if (strcmp(typestr, "ice") == 0)
+        type = MARYO_ICE;
+    //else if (strcmp(typestr, "cape") == 0) // Not implemented officially by SMC
+    //  type = MARYO_CAPE;
+    else if (strcmp(typestr, "ghost") == 0)
+        type = MARYO_GHOST;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Maryo type '%s'.", typestr);
+        return mrb_nil_value();
+    }
 
-	pLevel_Player->Set_Type(type);
-	return mrb_symbol_value(sym);
+    pLevel_Player->Set_Type(type);
+    return mrb_symbol_value(sym);
 }
 
 /**
@@ -231,7 +231,7 @@ static mrb_value Set_Type(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Points(mrb_state* p_state,  mrb_value self)
 {
-	return mrb_fixnum_value(pLevel_Player->m_points);
+    return mrb_fixnum_value(pLevel_Player->m_points);
 }
 
 /**
@@ -244,11 +244,11 @@ static mrb_value Get_Points(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Points(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int points;
-	mrb_get_args(p_state, "i", &points);
+    mrb_int points;
+    mrb_get_args(p_state, "i", &points);
 
-	pHud_Points->Set_Points(points);
-	return mrb_fixnum_value(points);
+    pHud_Points->Set_Points(points);
+    return mrb_fixnum_value(points);
 }
 
 /**
@@ -267,14 +267,14 @@ static mrb_value Set_Points(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Add_Points(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int points;
-	mrb_get_args(p_state, "i", &points);
+    mrb_int points;
+    mrb_get_args(p_state, "i", &points);
 
-	/* X and Y positions, multipliers, etc. are intended to be used
-	 * with enemies, not direct point increasing, so I don’t provide
-	 * MRuby bindings for those parameters here. */
-	pHud_Points->Add_Points(points);
-	return mrb_fixnum_value(pLevel_Player->m_points);
+    /* X and Y positions, multipliers, etc. are intended to be used
+     * with enemies, not direct point increasing, so I don’t provide
+     * MRuby bindings for those parameters here. */
+    pHud_Points->Add_Points(points);
+    return mrb_fixnum_value(pLevel_Player->m_points);
 }
 
 
@@ -290,8 +290,8 @@ static mrb_value Add_Points(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Kill(mrb_state* p_state, mrb_value self)
 {
-	pLevel_Player->DownGrade_Player(true, true);
-	return mrb_nil_value();
+    pLevel_Player->DownGrade_Player(true, true);
+    return mrb_nil_value();
 }
 
 /**
@@ -305,8 +305,8 @@ static mrb_value Kill(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Forced_Kill(mrb_state* p_state, mrb_value self)
 {
-	pLevel_Player->DownGrade_Player(true, true, true);
-	return mrb_nil_value();
+    pLevel_Player->DownGrade_Player(true, true, true);
+    return mrb_nil_value();
 }
 
 /**
@@ -328,7 +328,7 @@ static mrb_value Forced_Kill(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Gold(mrb_state* p_state,  mrb_value self)
 {
-	return mrb_fixnum_value(pLevel_Player->m_goldpieces);
+    return mrb_fixnum_value(pLevel_Player->m_goldpieces);
 }
 
 /**
@@ -356,11 +356,11 @@ static mrb_value Get_Gold(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Gold(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int gold;
-	mrb_get_args(p_state, "i", &gold);
+    mrb_int gold;
+    mrb_get_args(p_state, "i", &gold);
 
-	pHud_Goldpieces->Set_Gold(gold);
-	return mrb_fixnum_value(gold);
+    pHud_Goldpieces->Set_Gold(gold);
+    return mrb_fixnum_value(gold);
 }
 
 /**
@@ -394,11 +394,11 @@ static mrb_value Set_Gold(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Add_Gold(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int gold;
-	mrb_get_args(p_state, "i", &gold);
+    mrb_int gold;
+    mrb_get_args(p_state, "i", &gold);
 
-	pHud_Goldpieces->Add_Gold(gold);
-	return mrb_fixnum_value(pLevel_Player->m_goldpieces);
+    pHud_Goldpieces->Add_Gold(gold);
+    return mrb_fixnum_value(pLevel_Player->m_goldpieces);
 }
 
 /**
@@ -411,7 +411,7 @@ static mrb_value Add_Gold(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Lives(mrb_state* p_state,  mrb_value self)
 {
-	return mrb_fixnum_value(pLevel_Player->m_lives);
+    return mrb_fixnum_value(pLevel_Player->m_lives);
 }
 
 /**
@@ -430,12 +430,12 @@ static mrb_value Get_Lives(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Lives(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int lives;
-	mrb_get_args(p_state, "i", &lives);
+    mrb_int lives;
+    mrb_get_args(p_state, "i", &lives);
 
-	pHud_Lives->Set_Lives(lives);
+    pHud_Lives->Set_Lives(lives);
 
-	return mrb_fixnum_value(lives);
+    return mrb_fixnum_value(lives);
 }
 
 
@@ -458,11 +458,11 @@ static mrb_value Set_Lives(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Add_Lives(mrb_state* p_state, mrb_value self)
 {
-	mrb_int lives;
-	mrb_get_args(p_state, "i", &lives);
+    mrb_int lives;
+    mrb_get_args(p_state, "i", &lives);
 
-	pHud_Lives->Add_Lives(lives);
-	return mrb_fixnum_value(pLevel_Player->m_lives);
+    pHud_Lives->Add_Lives(lives);
+    return mrb_fixnum_value(pLevel_Player->m_lives);
 }
 
 /**
@@ -475,10 +475,10 @@ static mrb_value Add_Lives(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Invincible(mrb_state* p_state, mrb_value self)
 {
-	if (pLevel_Player->m_invincible >= 0.1f)
-		return mrb_true_value();
-	else
-		return mrb_false_value();
+    if (pLevel_Player->m_invincible >= 0.1f)
+        return mrb_true_value();
+    else
+        return mrb_false_value();
 }
 
 /**
@@ -491,8 +491,8 @@ static mrb_value Is_Invincible(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Release_Item(mrb_state* p_state, mrb_value self)
 {
-	pLevel_Player->Release_Item();
-	return mrb_nil_value();
+    pLevel_Player->Release_Item();
+    return mrb_nil_value();
 }
 
 /***************************************
@@ -501,42 +501,42 @@ static mrb_value Release_Item(mrb_state* p_state, mrb_value self)
 
 void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
 {
-	struct RClass* p_rcLevel_Player = mrb_define_class(p_state, "LevelPlayer", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcLevel_Player, MRB_TT_DATA);
+    struct RClass* p_rcLevel_Player = mrb_define_class(p_state, "LevelPlayer", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcLevel_Player, MRB_TT_DATA);
 
-	// Make the Player global the only instance of LevelPlayer
-	mrb_define_const(p_state, p_state->object_class, "Player", pLevel_Player->Create_MRuby_Object(p_state));
+    // Make the Player global the only instance of LevelPlayer
+    mrb_define_const(p_state, p_state->object_class, "Player", pLevel_Player->Create_MRuby_Object(p_state));
 
-	// Forbid creating new instances of LevelPlayer
-	mrb_undef_class_method(p_state, p_rcLevel_Player, "new");
+    // Forbid creating new instances of LevelPlayer
+    mrb_undef_class_method(p_state, p_rcLevel_Player, "new");
 
-	// Normal methods
-	mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "jump", Jump, MRB_ARGS_OPT(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "kill", Kill, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "kill!", Forced_Kill, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "lives", Get_Lives, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Player, "invincible?", Is_Invincible, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Player, "release_item", Release_Item, MRB_ARGS_NONE());
+    // Normal methods
+    mrb_define_method(p_state, p_rcLevel_Player, "type", Get_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "jump", Jump, MRB_ARGS_OPT(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "type=", Set_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "points", Get_Points, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "points=", Set_Points, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "kill", Kill, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "kill!", Forced_Kill, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "lives", Get_Lives, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "invincible?", Is_Invincible, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "release_item", Release_Item, MRB_ARGS_NONE());
 
-	// Event handlers
-	mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), MRB_ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcLevel_Player, "on_downgrade", MRUBY_EVENT_HANDLER(downgrade), MRB_ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcLevel_Player, "on_jump", MRUBY_EVENT_HANDLER(jump), MRB_ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcLevel_Player, "on_shoot", MRUBY_EVENT_HANDLER(shoot), MRB_ARGS_BLOCK());
+    // Event handlers
+    mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcLevel_Player, "on_downgrade", MRUBY_EVENT_HANDLER(downgrade), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcLevel_Player, "on_jump", MRUBY_EVENT_HANDLER(jump), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcLevel_Player, "on_shoot", MRUBY_EVENT_HANDLER(shoot), MRB_ARGS_BLOCK());
 
-	// Aliases
-	mrb_define_alias(p_state, p_rcLevel_Player, "waffles", "gold");
-	mrb_define_alias(p_state, p_rcLevel_Player, "waffles=", "gold=");
-	mrb_define_alias(p_state, p_rcLevel_Player, "add_waffles", "add_gold");
-	mrb_define_alias(p_state, p_rcLevel_Player, "on_waffles_100", "on_gold_100");
+    // Aliases
+    mrb_define_alias(p_state, p_rcLevel_Player, "waffles", "gold");
+    mrb_define_alias(p_state, p_rcLevel_Player, "waffles=", "gold=");
+    mrb_define_alias(p_state, p_rcLevel_Player, "add_waffles", "add_gold");
+    mrb_define_alias(p_state, p_rcLevel_Player, "on_waffles_100", "on_gold_100");
 }

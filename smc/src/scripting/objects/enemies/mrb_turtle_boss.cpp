@@ -29,17 +29,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cTurtleBoss* p_turtle = new cTurtleBoss(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_turtle;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cTurtleBoss* p_turtle = new cTurtleBoss(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_turtle;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_turtle->Set_Spawned(true);
+    // This is a generated object
+    p_turtle->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_turtle);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_turtle);
 
-	return self;
+    return self;
 }
 
 /**
@@ -51,8 +51,8 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Is_Walking(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLEBOSS_WALK ? mrb_true_value() : mrb_false_value();
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLEBOSS_WALK ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -64,8 +64,8 @@ static mrb_value Is_Walking(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shell_Standing(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLEBOSS_SHELL_STAND ? mrb_true_value() : mrb_false_value();
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLEBOSS_SHELL_STAND ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -77,8 +77,8 @@ static mrb_value Is_Shell_Standing(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shell_Moving(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLEBOSS_SHELL_RUN ? mrb_true_value() : mrb_false_value();
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLEBOSS_SHELL_RUN ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -91,8 +91,8 @@ static mrb_value Is_Shell_Moving(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shelled(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLEBOSS_SHELL_RUN || p_turtle->m_turtle_state == TURTLEBOSS_SHELL_STAND ? mrb_true_value() : mrb_false_value();
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLEBOSS_SHELL_RUN || p_turtle->m_turtle_state == TURTLEBOSS_SHELL_STAND ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -105,8 +105,8 @@ static mrb_value Is_Shelled(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Angry(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLEBOSS_STAND_ANGRY ? mrb_true_value() : mrb_false_value();
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLEBOSS_STAND_ANGRY ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -119,10 +119,10 @@ static mrb_value Is_Angry(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Stand_Up(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	p_turtle->Stand_Up();
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    p_turtle->Stand_Up();
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -138,17 +138,17 @@ static mrb_value Stand_Up(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Throw_Fireballs(mrb_state* p_state, mrb_value self)
 {
-	mrb_int amount = -1;
-	mrb_get_args(p_state, "|i", &amount);
+    mrb_int amount = -1;
+    mrb_get_args(p_state, "|i", &amount);
 
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
 
-	if (amount < 0)
-		p_turtle->Throw_Fireballs();
-	else
-		p_turtle->Throw_Fireballs(amount);
+    if (amount < 0)
+        p_turtle->Throw_Fireballs();
+    else
+        p_turtle->Throw_Fireballs(amount);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -165,18 +165,18 @@ static mrb_value Throw_Fireballs(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Hits(mrb_state* p_state, mrb_value self)
 {
-	mrb_int hits;
-	mrb_get_args(p_state, "i", &hits);
+    mrb_int hits;
+    mrb_get_args(p_state, "i", &hits);
 
-	if (hits <= 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Turtle boss maximum hits must be > 0.");
-		return mrb_nil_value();
-	}
+    if (hits <= 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Turtle boss maximum hits must be > 0.");
+        return mrb_nil_value();
+    }
 
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	p_turtle->Set_Max_Hits(hits);
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    p_turtle->Set_Max_Hits(hits);
 
-	return mrb_fixnum_value(hits);
+    return mrb_fixnum_value(hits);
 }
 
 /**
@@ -189,8 +189,8 @@ static mrb_value Set_Max_Hits(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Hits(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return mrb_fixnum_value(p_turtle->m_max_hits);
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return mrb_fixnum_value(p_turtle->m_max_hits);
 }
 
 /**
@@ -207,18 +207,18 @@ static mrb_value Get_Max_Hits(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
 {
-	mrb_int downgrades;
-	mrb_get_args(p_state, "i", &downgrades);
+    mrb_int downgrades;
+    mrb_get_args(p_state, "i", &downgrades);
 
-	if (downgrades < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Maximum turtle boss downgrade count must be >= 0.");
-		return mrb_nil_value();
-	}
+    if (downgrades < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Maximum turtle boss downgrade count must be >= 0.");
+        return mrb_nil_value();
+    }
 
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	p_turtle->Set_Max_Downgrade_Counts(downgrades);
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    p_turtle->Set_Max_Downgrade_Counts(downgrades);
 
-	return mrb_fixnum_value(downgrades);
+    return mrb_fixnum_value(downgrades);
 }
 
 /**
@@ -235,18 +235,18 @@ static mrb_value Set_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Shell_Time(mrb_state* p_state, mrb_value self)
 {
-	mrb_float time;
-	mrb_get_args(p_state, "f", &time);
+    mrb_float time;
+    mrb_get_args(p_state, "f", &time);
 
-	if (time < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Turtle boss shell time must be >= 0.");
-		return mrb_nil_value();
-	}
+    if (time < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Turtle boss shell time must be >= 0.");
+        return mrb_nil_value();
+    }
 
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	p_turtle->Set_Shell_Time(time);
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    p_turtle->Set_Shell_Time(time);
 
-	return mrb_float_value(p_state, time);
+    return mrb_float_value(p_state, time);
 }
 
 /**
@@ -258,8 +258,8 @@ static mrb_value Set_Shell_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Shell_Time(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return mrb_float_value(p_state, p_turtle->Get_Shell_Time());
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return mrb_float_value(p_state, p_turtle->Get_Shell_Time());
 }
 
 /**
@@ -272,8 +272,8 @@ static mrb_value Get_Shell_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return mrb_fixnum_value(p_turtle->Get_Max_Downgrade_Count());
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return mrb_fixnum_value(p_turtle->Get_Max_Downgrade_Count());
 }
 
 /**
@@ -290,13 +290,13 @@ static mrb_value Get_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Level_Ends_If_Killed(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool ends;
-	mrb_get_args(p_state, "b", &ends);
+    mrb_bool ends;
+    mrb_get_args(p_state, "b", &ends);
 
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	p_turtle->Set_Level_Ends_If_Killed(ends);
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    p_turtle->Set_Level_Ends_If_Killed(ends);
 
-	return mrb_bool_value(ends);
+    return mrb_bool_value(ends);
 }
 
 /**
@@ -309,8 +309,8 @@ static mrb_value Set_Level_Ends_If_Killed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Does_Level_End_If_Killed(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return mrb_bool_value(p_turtle->Get_Level_Ends_If_Killed());
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return mrb_bool_value(p_turtle->Get_Level_Ends_If_Killed());
 }
 
 /**
@@ -323,30 +323,30 @@ static mrb_value Does_Level_End_If_Killed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Downgrade_Count(mrb_state* p_state, mrb_value self)
 {
-	cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
-	return mrb_fixnum_value(p_turtle->Get_Downgrade_Count());
+    cTurtleBoss* p_turtle = Get_Data_Ptr<cTurtleBoss>(p_state, self);
+    return mrb_fixnum_value(p_turtle->Get_Downgrade_Count());
 }
 
 void SMC::Scripting::Init_TurtleBoss(mrb_state* p_state)
 {
-	struct RClass* p_rcTurtleBoss = mrb_define_class(p_state, "TurtleBoss", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcTurtleBoss, MRB_TT_DATA);
+    struct RClass* p_rcTurtleBoss = mrb_define_class(p_state, "TurtleBoss", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcTurtleBoss, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcTurtleBoss, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "walking?", Is_Walking, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "shell_standing?", Is_Shell_Standing, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "shell_moving?", Is_Shell_Moving, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "shelled?", Is_Shelled, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "angry?", Is_Angry, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "stand_up", Stand_Up, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "throw_fireballs", Throw_Fireballs, MRB_ARGS_OPT(1));
-	mrb_define_method(p_state, p_rcTurtleBoss, "max_hits=", Set_Max_Hits, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcTurtleBoss, "max_hits", Get_Max_Hits, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "max_downgrade_count=", Set_Max_Downgrade_Count, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcTurtleBoss, "max_downgrade_count", Get_Max_Downgrade_Count, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "shell_time=", Set_Shell_Time, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcTurtleBoss, "shell_time", Get_Shell_Time, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "level_ends_if_killed=", Set_Level_Ends_If_Killed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcTurtleBoss, "level_ends_if_killed?", Does_Level_End_If_Killed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtleBoss, "downgrade_count", Get_Downgrade_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "walking?", Is_Walking, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "shell_standing?", Is_Shell_Standing, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "shell_moving?", Is_Shell_Moving, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "shelled?", Is_Shelled, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "angry?", Is_Angry, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "stand_up", Stand_Up, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "throw_fireballs", Throw_Fireballs, MRB_ARGS_OPT(1));
+    mrb_define_method(p_state, p_rcTurtleBoss, "max_hits=", Set_Max_Hits, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcTurtleBoss, "max_hits", Get_Max_Hits, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "max_downgrade_count=", Set_Max_Downgrade_Count, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcTurtleBoss, "max_downgrade_count", Get_Max_Downgrade_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "shell_time=", Set_Shell_Time, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcTurtleBoss, "shell_time", Get_Shell_Time, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "level_ends_if_killed=", Set_Level_Ends_If_Killed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcTurtleBoss, "level_ends_if_killed?", Does_Level_End_If_Killed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtleBoss, "downgrade_count", Get_Downgrade_Count, MRB_ARGS_NONE());
 }

@@ -58,17 +58,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cRokko* p_rokko = new cRokko(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_rokko;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cRokko* p_rokko = new cRokko(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_rokko;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_rokko->Set_Spawned(true);
+    // This is a generated object
+    p_rokko->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_rokko);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_rokko);
 
-	return self;
+    return self;
 }
 
 /**
@@ -80,18 +80,18 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	if (speed <= 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Rokko speed mustbe > 0");
-		return mrb_nil_value(); // Not reached
-	}
+    if (speed <= 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Rokko speed mustbe > 0");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	p_rokko->Set_Speed(speed);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    p_rokko->Set_Speed(speed);
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -103,8 +103,8 @@ static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	return mrb_float_value(p_state, p_rokko->m_speed);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    return mrb_float_value(p_state, p_rokko->m_speed);
 }
 
 /**
@@ -121,18 +121,18 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Distance_Front(mrb_state* p_state, mrb_value self)
 {
-	mrb_float distance;
-	mrb_get_args(p_state, "f", &distance);
+    mrb_float distance;
+    mrb_get_args(p_state, "f", &distance);
 
-	if (distance < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Rokko max front distance must be >= 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (distance < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Rokko max front distance must be >= 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	p_rokko->Set_Max_Distance_Front(distance);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    p_rokko->Set_Max_Distance_Front(distance);
 
-	return mrb_float_value(p_state, distance);
+    return mrb_float_value(p_state, distance);
 }
 
 /**
@@ -145,8 +145,8 @@ static mrb_value Set_Max_Distance_Front(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Distance_Front(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	return mrb_float_value(p_state, p_rokko->m_max_distance_front);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    return mrb_float_value(p_state, p_rokko->m_max_distance_front);
 }
 
 /**
@@ -163,18 +163,18 @@ static mrb_value Get_Max_Distance_Front(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Distance_Sides(mrb_state* p_state, mrb_value self)
 {
-	mrb_float distance;
-	mrb_get_args(p_state, "f", &distance);
+    mrb_float distance;
+    mrb_get_args(p_state, "f", &distance);
 
-	if (distance < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Rokko max sides distance must be >= 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (distance < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Rokko max sides distance must be >= 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	p_rokko->Set_Max_Distance_Sides(distance);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    p_rokko->Set_Max_Distance_Sides(distance);
 
-	return mrb_float_value(p_state, distance);
+    return mrb_float_value(p_state, distance);
 }
 
 /**
@@ -187,8 +187,8 @@ static mrb_value Set_Max_Distance_Sides(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Distance_Sides(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	return mrb_float_value(p_state, p_rokko->m_max_distance_sides);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    return mrb_float_value(p_state, p_rokko->m_max_distance_sides);
 }
 
 /**
@@ -201,13 +201,13 @@ static mrb_value Get_Max_Distance_Sides(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Manual(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool manual;
-	mrb_get_args(p_state, "b", &manual);
+    mrb_bool manual;
+    mrb_get_args(p_state, "b", &manual);
 
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	p_rokko->Set_Manual(manual);
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    p_rokko->Set_Manual(manual);
 
-	return mrb_bool_value(manual);
+    return mrb_bool_value(manual);
 }
 
 /**
@@ -219,8 +219,8 @@ static mrb_value Set_Manual(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Manual(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	return mrb_bool_value(p_rokko->Get_Manual());
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    return mrb_bool_value(p_rokko->Get_Manual());
 }
 
 /**
@@ -233,8 +233,8 @@ static mrb_value Is_Manual(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Flying(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	return p_rokko->m_state == STA_FLY ? mrb_true_value() : mrb_false_value();
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    return p_rokko->m_state == STA_FLY ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -247,9 +247,9 @@ static mrb_value Is_Flying(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	p_rokko->Activate();
-	return mrb_nil_value();
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    p_rokko->Activate();
+    return mrb_nil_value();
 }
 
 /**
@@ -262,26 +262,26 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate_Bang(mrb_state* p_state, mrb_value self)
 {
-	cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
-	p_rokko->Activate(false);
-	return mrb_nil_value();
+    cRokko* p_rokko = Get_Data_Ptr<cRokko>(p_state, self);
+    p_rokko->Activate(false);
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Rokko(mrb_state* p_state)
 {
-	struct RClass* p_rcRokko = mrb_define_class(p_state, "Rokko", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcRokko, MRB_TT_DATA);
+    struct RClass* p_rcRokko = mrb_define_class(p_state, "Rokko", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcRokko, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcRokko, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcRokko, "speed", Get_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "max_front_distance=", Set_Max_Distance_Front, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcRokko, "max_front_distance", Get_Max_Distance_Front, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "max_sides_distance=", Set_Max_Distance_Sides, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcRokko, "max_sides_distance", Get_Max_Distance_Sides, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "manual=", Set_Manual, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcRokko, "manual?", Is_Manual, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "flying?", Is_Flying, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "activate", Activate, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcRokko, "activate!", Activate_Bang, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcRokko, "speed", Get_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "max_front_distance=", Set_Max_Distance_Front, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcRokko, "max_front_distance", Get_Max_Distance_Front, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "max_sides_distance=", Set_Max_Distance_Sides, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcRokko, "max_sides_distance", Get_Max_Distance_Sides, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "manual=", Set_Manual, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcRokko, "manual?", Is_Manual, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "flying?", Is_Flying, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "activate", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcRokko, "activate!", Activate_Bang, MRB_ARGS_NONE());
 }

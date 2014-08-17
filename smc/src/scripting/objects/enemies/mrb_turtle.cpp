@@ -35,17 +35,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cTurtle* p_turtle = new cTurtle(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_turtle;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cTurtle* p_turtle = new cTurtle(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_turtle;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_turtle->Set_Spawned(true);
+    // This is a generated object
+    p_turtle->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_turtle);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_turtle);
 
-	return self;
+    return self;
 }
 
 /**
@@ -61,24 +61,24 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym color;
-	mrb_get_args(p_state, "n", &color);
-	std::string colorstr(mrb_sym2name(p_state, color));
+    mrb_sym color;
+    mrb_get_args(p_state, "n", &color);
+    std::string colorstr(mrb_sym2name(p_state, color));
 
-	DefaultColor col;
-	if (colorstr == "red")
-		col = COL_RED;
-	else if (colorstr == "green")
-		col = COL_GREEN;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid turtle/armadillo color %s", colorstr.c_str());
-		return mrb_nil_value(); // Not rached
-	}
+    DefaultColor col;
+    if (colorstr == "red")
+        col = COL_RED;
+    else if (colorstr == "green")
+        col = COL_GREEN;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid turtle/armadillo color %s", colorstr.c_str());
+        return mrb_nil_value(); // Not rached
+    }
 
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	p_turtle->Set_Color(col);
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    p_turtle->Set_Color(col);
 
-	return mrb_symbol_value(color);
+    return mrb_symbol_value(color);
 }
 
 /**
@@ -91,15 +91,15 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
 {
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	switch (p_turtle->m_color_type) {
-	case COL_RED:
-		return str2sym(p_state, "red");
-	case COL_GREEN:
-		return str2sym(p_state, "green");
-	default:
-		return mrb_nil_value();
-	}
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    switch (p_turtle->m_color_type) {
+    case COL_RED:
+        return str2sym(p_state, "red");
+    case COL_GREEN:
+        return str2sym(p_state, "green");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -111,8 +111,8 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Walking(mrb_state* p_state, mrb_value self)
 {
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLE_WALK ? mrb_true_value() : mrb_false_value();
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLE_WALK ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -124,8 +124,8 @@ static mrb_value Is_Walking(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shell_Standing(mrb_state* p_state, mrb_value self)
 {
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLE_SHELL_STAND ? mrb_true_value() : mrb_false_value();
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLE_SHELL_STAND ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -137,8 +137,8 @@ static mrb_value Is_Shell_Standing(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shell_Moving(mrb_state* p_state, mrb_value self)
 {
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLE_SHELL_RUN ? mrb_true_value() : mrb_false_value();
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLE_SHELL_RUN ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -151,8 +151,8 @@ static mrb_value Is_Shell_Moving(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shelled(mrb_state* p_state, mrb_value self)
 {
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	return p_turtle->m_turtle_state == TURTLE_SHELL_RUN || p_turtle->m_turtle_state == TURTLE_SHELL_STAND ? mrb_true_value() : mrb_false_value();
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    return p_turtle->m_turtle_state == TURTLE_SHELL_RUN || p_turtle->m_turtle_state == TURTLE_SHELL_STAND ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -165,23 +165,23 @@ static mrb_value Is_Shelled(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Stand_Up(mrb_state* p_state, mrb_value self)
 {
-	cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
-	p_turtle->Stand_Up();
+    cTurtle* p_turtle = Get_Data_Ptr<cTurtle>(p_state, self);
+    p_turtle->Stand_Up();
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Turtle(mrb_state* p_state)
 {
-	struct RClass* p_rcTurtle = mrb_define_class(p_state, "Turtle", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcTurtle, MRB_TT_DATA);
+    struct RClass* p_rcTurtle = mrb_define_class(p_state, "Turtle", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcTurtle, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcTurtle, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtle, "color=", Set_Color, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcTurtle, "color", Get_Color, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtle, "walking?", Is_Walking, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtle, "shell_standing?", Is_Shell_Standing, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtle, "shell_moving?", Is_Shell_Moving, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtle, "shelled?", Is_Shelled, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTurtle, "stand_up", Stand_Up, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "color=", Set_Color, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcTurtle, "color", Get_Color, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "walking?", Is_Walking, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "shell_standing?", Is_Shell_Standing, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "shell_moving?", Is_Shell_Moving, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "shelled?", Is_Shelled, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTurtle, "stand_up", Stand_Up, MRB_ARGS_NONE());
 }
