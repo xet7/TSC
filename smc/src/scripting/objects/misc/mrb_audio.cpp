@@ -46,8 +46,8 @@ using namespace SMC::Scripting;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
-	return self; // Not reached
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+    return self; // Not reached
 }
 
 /**
@@ -102,16 +102,16 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Play_Sound(mrb_state* p_state,  mrb_value self)
 {
-	char* filename = NULL;
-	mrb_int volume = -1;
-	mrb_int loops = 0;
-	mrb_int resid = -1;
-	mrb_get_args(p_state,"z|iii", &filename, &volume, &loops, &resid);
+    char* filename = NULL;
+    mrb_int volume = -1;
+    mrb_int loops = 0;
+    mrb_int resid = -1;
+    mrb_get_args(p_state,"z|iii", &filename, &volume, &loops, &resid);
 
-	if (pAudio->Play_Sound(filename, resid, volume, loops))
-		return mrb_true_value();
-	else
-		return mrb_false_value();
+    if (pAudio->Play_Sound(filename, resid, volume, loops))
+        return mrb_true_value();
+    else
+        return mrb_false_value();
 }
 
 /**
@@ -149,31 +149,31 @@ static mrb_value Play_Sound(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Play_Music(mrb_state* p_state,  mrb_value self)
 {
-	char* filename = NULL;
-	mrb_int loops = 0;
-	mrb_value force = mrb_true_value();
-	mrb_int fadein_ms = 0;
+    char* filename = NULL;
+    mrb_int loops = 0;
+    mrb_value force = mrb_true_value();
+    mrb_int fadein_ms = 0;
 
-	mrb_get_args(p_state, "z|ioi", &filename, &loops, &force, &fadein_ms);
+    mrb_get_args(p_state, "z|ioi", &filename, &loops, &force, &fadein_ms);
 
-	if (pAudio->Play_Music(filename, loops, mrb_test(force), fadein_ms))
-		return mrb_true_value();
-	else
-		return mrb_false_value();
+    if (pAudio->Play_Music(filename, loops, mrb_test(force), fadein_ms))
+        return mrb_true_value();
+    else
+        return mrb_false_value();
 }
 
 
 
 void SMC::Scripting::Init_Audio(mrb_state* p_state)
 {
-	struct RClass* p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
-	mrb_include_module(p_state, p_rcAudio, mrb_class_get(p_state, "Eventable"));
-	MRB_SET_INSTANCE_TT(p_rcAudio, MRB_TT_DATA);
+    struct RClass* p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
+    mrb_include_module(p_state, p_rcAudio, mrb_class_get(p_state, "Eventable"));
+    MRB_SET_INSTANCE_TT(p_rcAudio, MRB_TT_DATA);
 
-	// Make the Audio constant the only instance of AudioClass
-	mrb_define_const(p_state, p_state->object_class, "Audio", pAudio->Create_MRuby_Object(p_state));
+    // Make the Audio constant the only instance of AudioClass
+    mrb_define_const(p_state, p_state->object_class, "Audio", pAudio->Create_MRuby_Object(p_state));
 
-	mrb_define_method(p_state, p_rcAudio, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcAudio, "play_sound", Play_Sound, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
-	mrb_define_method(p_state, p_rcAudio, "play_music", Play_Music, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
+    mrb_define_method(p_state, p_rcAudio, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcAudio, "play_sound", Play_Sound, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
+    mrb_define_method(p_state, p_rcAudio, "play_music", Play_Music, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
 }

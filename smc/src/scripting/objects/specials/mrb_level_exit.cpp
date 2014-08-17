@@ -59,17 +59,17 @@ MRUBY_IMPLEMENT_EVENT(exit);
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = new cLevel_Exit(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_exit;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cLevel_Exit* p_exit = new cLevel_Exit(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_exit;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_exit->Set_Spawned(true);
+    // This is a generated object
+    p_exit->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_exit);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_exit);
 
-	return self;
+    return self;
 }
 
 /**
@@ -88,24 +88,24 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym type;
-	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
 
-	Level_Exit_type let;
-	if (typestr == "beam")
-		let = LEVEL_EXIT_BEAM;
-	else if (typestr == "wrap")
-		let = LEVEL_EXIT_WARP;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid level exit type %s", typestr.c_str());
-		return mrb_nil_value();
-	}
+    Level_Exit_type let;
+    if (typestr == "beam")
+        let = LEVEL_EXIT_BEAM;
+    else if (typestr == "wrap")
+        let = LEVEL_EXIT_WARP;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid level exit type %s", typestr.c_str());
+        return mrb_nil_value();
+    }
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Type(let);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Type(let);
 
-	return mrb_symbol_value(type);
+    return mrb_symbol_value(type);
 }
 
 /**
@@ -118,15 +118,15 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	switch(p_exit->m_exit_type) {
-	case LEVEL_EXIT_BEAM:
-		return str2sym(p_state, "beam");
-	case LEVEL_EXIT_WARP:
-		return str2sym(p_state, "wrap");
-	default:
-		return mrb_nil_value();
-	}
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    switch (p_exit->m_exit_type) {
+    case LEVEL_EXIT_BEAM:
+        return str2sym(p_state, "beam");
+    case LEVEL_EXIT_WARP:
+        return str2sym(p_state, "wrap");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -159,30 +159,30 @@ static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Camera_Motion(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym camera;
-	mrb_get_args(p_state, "n", &camera);
-	std::string camerastr(mrb_sym2name(p_state, camera));
+    mrb_sym camera;
+    mrb_get_args(p_state, "n", &camera);
+    std::string camerastr(mrb_sym2name(p_state, camera));
 
-	Camera_movement mov;
-	if (camerastr == "none")
-		mov = CAMERA_MOVE_NONE;
-	else if (camerastr == "fly")
-		mov = CAMERA_MOVE_FLY;
-	else if (camerastr == "blink")
-		mov = CAMERA_MOVE_BLINK;
-	else if (camerastr == "path_forward")
-		mov = CAMERA_MOVE_ALONG_PATH;
-	else if (camerastr == "path_backward")
-		mov = CAMERA_MOVE_ALONG_PATH_BACKWARDS;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid camera movement %s", camerastr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    Camera_movement mov;
+    if (camerastr == "none")
+        mov = CAMERA_MOVE_NONE;
+    else if (camerastr == "fly")
+        mov = CAMERA_MOVE_FLY;
+    else if (camerastr == "blink")
+        mov = CAMERA_MOVE_BLINK;
+    else if (camerastr == "path_forward")
+        mov = CAMERA_MOVE_ALONG_PATH;
+    else if (camerastr == "path_backward")
+        mov = CAMERA_MOVE_ALONG_PATH_BACKWARDS;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid camera movement %s", camerastr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Camera_Motion(mov);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Camera_Motion(mov);
 
-	return mrb_symbol_value(mov);
+    return mrb_symbol_value(mov);
 }
 
 /**
@@ -195,21 +195,21 @@ static mrb_value Set_Camera_Motion(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Camera_Motion(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	switch(p_exit->m_exit_motion) {
-	case CAMERA_MOVE_NONE:
-		return str2sym(p_state, "none");
-	case CAMERA_MOVE_FLY:
-		return str2sym(p_state, "fly");
-	case CAMERA_MOVE_BLINK:
-		return str2sym(p_state, "blink");
-	case CAMERA_MOVE_ALONG_PATH:
-		return str2sym(p_state, "path_forward");
-	case CAMERA_MOVE_ALONG_PATH_BACKWARDS:
-		return str2sym(p_state, "path_backward");
-	default:
-		return mrb_nil_value();
-	}
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    switch (p_exit->m_exit_motion) {
+    case CAMERA_MOVE_NONE:
+        return str2sym(p_state, "none");
+    case CAMERA_MOVE_FLY:
+        return str2sym(p_state, "fly");
+    case CAMERA_MOVE_BLINK:
+        return str2sym(p_state, "blink");
+    case CAMERA_MOVE_ALONG_PATH:
+        return str2sym(p_state, "path_forward");
+    case CAMERA_MOVE_ALONG_PATH_BACKWARDS:
+        return str2sym(p_state, "path_backward");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -226,13 +226,13 @@ static mrb_value Get_Camera_Motion(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Level(mrb_state* p_state, mrb_value self)
 {
-	char* level = NULL;
-	mrb_get_args(p_state, "z", &level);
+    char* level = NULL;
+    mrb_get_args(p_state, "z", &level);
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Level(level);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Level(level);
 
-	return mrb_str_new_cstr(p_state, level);
+    return mrb_str_new_cstr(p_state, level);
 }
 
 /**
@@ -245,8 +245,8 @@ static mrb_value Set_Level(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Level(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_exit->m_dest_level.c_str());
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    return mrb_str_new_cstr(p_state, p_exit->m_dest_level.c_str());
 }
 
 /**
@@ -264,13 +264,13 @@ static mrb_value Get_Level(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Entry(mrb_state* p_state, mrb_value self)
 {
-	char* entry = NULL;
-	mrb_get_args(p_state, "z", &entry);
+    char* entry = NULL;
+    mrb_get_args(p_state, "z", &entry);
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Entry(entry);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Entry(entry);
 
-	return mrb_str_new_cstr(p_state, entry);
+    return mrb_str_new_cstr(p_state, entry);
 }
 
 /**
@@ -282,8 +282,8 @@ static mrb_value Set_Entry(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Entry(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_exit->m_dest_entry.c_str());
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    return mrb_str_new_cstr(p_state, p_exit->m_dest_entry.c_str());
 }
 
 /**
@@ -300,13 +300,13 @@ static mrb_value Get_Entry(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Return_Level(mrb_state* p_state, mrb_value self)
 {
-	char* level = NULL;
-	mrb_get_args(p_state, "z", &level);
+    char* level = NULL;
+    mrb_get_args(p_state, "z", &level);
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Return_Level(level);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Return_Level(level);
 
-	return mrb_str_new_cstr(p_state, level);
+    return mrb_str_new_cstr(p_state, level);
 }
 
 /**
@@ -323,8 +323,8 @@ static mrb_value Set_Return_Level(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Return_Level(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_exit->m_return_level.c_str());
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    return mrb_str_new_cstr(p_state, p_exit->m_return_level.c_str());
 }
 
 /**
@@ -338,8 +338,8 @@ static mrb_value Get_Return_Level(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Return_Entry(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_exit->m_return_entry.c_str());
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    return mrb_str_new_cstr(p_state, p_exit->m_return_entry.c_str());
 }
 
 /**
@@ -355,13 +355,13 @@ static mrb_value Get_Return_Entry(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Return_Entry(mrb_state* p_state, mrb_value self)
 {
-	char* entry = NULL;
-	mrb_get_args(p_state, "z", &entry);
+    char* entry = NULL;
+    mrb_get_args(p_state, "z", &entry);
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Return_Entry(entry);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Return_Entry(entry);
 
-	return mrb_str_new_cstr(p_state, entry);
+    return mrb_str_new_cstr(p_state, entry);
 }
 
 /**
@@ -378,13 +378,13 @@ static mrb_value Set_Return_Entry(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
 {
-	char* identifier = NULL;
-	mrb_get_args(p_state, "z", &identifier);
+    char* identifier = NULL;
+    mrb_get_args(p_state, "z", &identifier);
 
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Set_Path_Identifier(identifier);
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Set_Path_Identifier(identifier);
 
-	return mrb_str_new_cstr(p_state, identifier);
+    return mrb_str_new_cstr(p_state, identifier);
 }
 
 /**
@@ -396,8 +396,8 @@ static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Path(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_exit->m_path_identifier.c_str());
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    return mrb_str_new_cstr(p_state, p_exit->m_path_identifier.c_str());
 }
 
 /**
@@ -410,33 +410,33 @@ static mrb_value Get_Path(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
-	p_exit->Activate();
+    cLevel_Exit* p_exit = Get_Data_Ptr<cLevel_Exit>(p_state, self);
+    p_exit->Activate();
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_LevelExit(mrb_state* p_state)
 {
-	struct RClass* p_rcLevel_Exit = mrb_define_class(p_state, "LevelExit", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcLevel_Exit, MRB_TT_DATA);
+    struct RClass* p_rcLevel_Exit = mrb_define_class(p_state, "LevelExit", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcLevel_Exit, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcLevel_Exit, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "type=", Set_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Exit, "type", Get_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "camera_motion=", Set_Camera_Motion, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Exit, "camera_motion", Get_Camera_Motion, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "level=", Set_Level, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Exit, "level", Get_Level, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "entry=", Set_Entry, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Exit, "entry", Get_Entry, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "path=", Set_Path, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Exit, "path", Get_Path, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "activate", Activate, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "return_level", Get_Return_Level, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "return_level=", Set_Return_Level, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcLevel_Exit, "return_entry", Get_Return_Entry, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcLevel_Exit, "return_entry=", Set_Return_Entry, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "type=", Set_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "type", Get_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "camera_motion=", Set_Camera_Motion, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "camera_motion", Get_Camera_Motion, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "level=", Set_Level, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "level", Get_Level, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "entry=", Set_Entry, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "entry", Get_Entry, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "path=", Set_Path, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "path", Get_Path, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "activate", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "return_level", Get_Return_Level, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "return_level=", Set_Return_Level, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Exit, "return_entry", Get_Return_Entry, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "return_entry=", Set_Return_Entry, MRB_ARGS_REQ(1));
 
-	mrb_define_method(p_state, p_rcLevel_Exit, "on_exit", MRUBY_EVENT_HANDLER(exit), MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Exit, "on_exit", MRUBY_EVENT_HANDLER(exit), MRB_ARGS_NONE());
 }
