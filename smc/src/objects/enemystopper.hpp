@@ -8,7 +8,7 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
    (at your option) any later version.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -20,47 +20,48 @@
 #include "../objects/animated_sprite.hpp"
 #include "../scripting/objects/specials/mrb_enemy_stopper.hpp"
 
-namespace SMC
-{
+namespace SMC {
 
-/* *** *** *** *** *** cEnemyStopper *** *** *** *** *** *** *** *** *** *** *** *** */
+    /* *** *** *** *** *** cEnemyStopper *** *** *** *** *** *** *** *** *** *** *** *** */
 
-class cEnemyStopper : public cAnimated_Sprite
-{
-public:
-	// constructor
-	cEnemyStopper( cSprite_Manager *sprite_manager );
-	// create from stream
-	cEnemyStopper( XmlAttributes &attributes, cSprite_Manager *sprite_manager );
-	// destructor
-	virtual ~cEnemyStopper( void );
-	
-	// init defaults
-	void Init( void );
-	// copy
-	virtual cEnemyStopper *Copy( void ) const;
+    class cEnemyStopper : public cAnimated_Sprite {
+    public:
+        // constructor
+        cEnemyStopper(cSprite_Manager* sprite_manager);
+        // create from stream
+        cEnemyStopper(XmlAttributes& attributes, cSprite_Manager* sprite_manager);
+        // destructor
+        virtual ~cEnemyStopper(void);
 
-	// Create the MRuby object for this
-	virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
-	{
-		return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Enemy_Stopper"), &Scripting::rtSMC_Scriptable, this));
-	}
+        // init defaults
+        void Init(void);
+        // copy
+        virtual cEnemyStopper* Copy(void) const;
 
-	// draw
-	virtual void Draw( cSurface_Request *request = NULL );
+        // Create the MRuby object for this
+        virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
+        {
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Enemy_Stopper"), &Scripting::rtSMC_Scriptable, this));
+        }
 
-	// if draw is valid for the current state and position
-	virtual bool Is_Draw_Valid( void );
+        // draw
+        virtual void Draw(cSurface_Request* request = NULL);
 
-	// editor color
-	Color m_editor_color;
+        // if draw is valid for the current state and position
+        virtual bool Is_Draw_Valid(void);
 
-protected:
-	// save to XML node inherited
-	virtual std::string Get_XML_Type_Name(){return "";}
-};
+        // editor color
+        Color m_editor_color;
 
-/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+    protected:
+        // save to XML node inherited
+        virtual std::string Get_XML_Type_Name()
+        {
+            return "";
+        }
+    };
+
+    /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace SMC
 

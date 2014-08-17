@@ -40,8 +40,8 @@ MRUBY_IMPLEMENT_EVENT(key_down);
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
-	return self; // Not reached
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+    return self; // Not reached
 }
 
 /***************************************
@@ -50,16 +50,16 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Input(mrb_state* p_state)
 {
-	struct RClass* p_rcInput = mrb_define_class(p_state, "InputClass", p_state->object_class);
-	mrb_include_module(p_state, p_rcInput, mrb_class_get(p_state, "Eventable"));
-	MRB_SET_INSTANCE_TT(p_rcInput, MRB_TT_DATA);
+    struct RClass* p_rcInput = mrb_define_class(p_state, "InputClass", p_state->object_class);
+    mrb_include_module(p_state, p_rcInput, mrb_class_get(p_state, "Eventable"));
+    MRB_SET_INSTANCE_TT(p_rcInput, MRB_TT_DATA);
 
-	// Make the Input constant the only instance of InputClass
-	mrb_define_const(p_state, p_state->object_class, "Input", pKeyboard->Create_MRuby_Object(p_state));
+    // Make the Input constant the only instance of InputClass
+    mrb_define_const(p_state, p_state->object_class, "Input", pKeyboard->Create_MRuby_Object(p_state));
 
-	// Methods
-	mrb_define_method(p_state, p_rcInput, "initialize", Initialize, MRB_ARGS_NONE());
+    // Methods
+    mrb_define_method(p_state, p_rcInput, "initialize", Initialize, MRB_ARGS_NONE());
 
-	// Event handlers
-	mrb_define_method(p_state, p_rcInput, "on_key_down", MRUBY_EVENT_HANDLER(key_down), MRB_ARGS_NONE());
+    // Event handlers
+    mrb_define_method(p_state, p_rcInput, "on_key_down", MRUBY_EVENT_HANDLER(key_down), MRB_ARGS_NONE());
 }

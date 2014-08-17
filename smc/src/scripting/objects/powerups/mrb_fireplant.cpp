@@ -27,18 +27,18 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cFirePlant* p_fireplant = new cFirePlant(pActive_Level->m_sprite_manager);
+    cFirePlant* p_fireplant = new cFirePlant(pActive_Level->m_sprite_manager);
 
-	DATA_PTR(self) = p_fireplant;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_PTR(self) = p_fireplant;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_fireplant->Set_Spawned(true);
+    // This is a generated object
+    p_fireplant->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_fireplant);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_fireplant);
 
-	return self;
+    return self;
 }
 
 /**
@@ -54,16 +54,16 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cFirePlant* p_fireplant = Get_Data_Ptr<cFirePlant>(p_state, self);
-	p_fireplant->Activate();
-	return mrb_nil_value();
+    cFirePlant* p_fireplant = Get_Data_Ptr<cFirePlant>(p_state, self);
+    p_fireplant->Activate();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Fireplant(mrb_state* p_state)
 {
-	struct RClass* p_rcFireplant = mrb_define_class(p_state, "Fireplant", mrb_class_get(p_state, "Powerup"));
-	MRB_SET_INSTANCE_TT(p_rcFireplant, MRB_TT_DATA);
+    struct RClass* p_rcFireplant = mrb_define_class(p_state, "Fireplant", mrb_class_get(p_state, "Powerup"));
+    MRB_SET_INSTANCE_TT(p_rcFireplant, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcFireplant, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFireplant, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFireplant, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFireplant, "activate!", Activate, MRB_ARGS_NONE());
 }

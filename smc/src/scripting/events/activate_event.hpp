@@ -4,12 +4,14 @@
 #include "event.hpp"
 
 namespace SMC {
-	namespace Scripting {
-		class cActivate_Event: public cEvent
-		{
-		public:
-			virtual std::string Event_Name(){return "activate";}
-		};
-	}
+    namespace Scripting {
+        class cActivate_Event: public cEvent {
+        public:
+            virtual std::string Event_Name()
+            {
+                return "activate";
+            }
+        };
+    }
 }
 #endif

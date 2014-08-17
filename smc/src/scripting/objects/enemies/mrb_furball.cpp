@@ -43,17 +43,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cFurball* p_furball = new cFurball(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_furball;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cFurball* p_furball = new cFurball(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_furball;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_furball->Set_Spawned(true);
+    // This is a generated object
+    p_furball->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_furball);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_furball);
 
-	return self;
+    return self;
 }
 
 /**
@@ -70,26 +70,26 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym color;
-	mrb_get_args(p_state, "n", &color);
-	std::string colorstr = mrb_sym2name(p_state, color);
+    mrb_sym color;
+    mrb_get_args(p_state, "n", &color);
+    std::string colorstr = mrb_sym2name(p_state, color);
 
-	DefaultColor col;
-	if (colorstr == "brown")
-		col = COL_BROWN;
-	else if (colorstr == "blue")
-		col = COL_BLUE;
-	else if (colorstr == "black")
-		col = COL_BLACK;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid furball color %s", colorstr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    DefaultColor col;
+    if (colorstr == "brown")
+        col = COL_BROWN;
+    else if (colorstr == "blue")
+        col = COL_BLUE;
+    else if (colorstr == "black")
+        col = COL_BLACK;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid furball color %s", colorstr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
-	p_furball->Set_Color(col);
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    p_furball->Set_Color(col);
 
-	return mrb_symbol_value(color);
+    return mrb_symbol_value(color);
 }
 
 /**
@@ -103,8 +103,8 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Boss(mrb_state* p_state, mrb_value self)
 {
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
-	return p_furball->m_color_type == COL_BLACK ? mrb_true_value() : mrb_false_value();
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    return p_furball->m_color_type == COL_BLACK ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -117,18 +117,18 @@ static mrb_value Is_Boss(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
 {
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
 
-	switch(p_furball->m_color_type) {
-	case COL_BROWN:
-		return str2sym(p_state, "brown");
-	case COL_BLUE:
-		return str2sym(p_state, "blue");
-	case COL_BLACK:
-		return str2sym(p_state, "black");
-	default:
-		return mrb_nil_value();
-	}
+    switch (p_furball->m_color_type) {
+    case COL_BROWN:
+        return str2sym(p_state, "brown");
+    case COL_BLUE:
+        return str2sym(p_state, "blue");
+    case COL_BLACK:
+        return str2sym(p_state, "black");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -149,22 +149,22 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
 {
-	mrb_int downgrades;
-	mrb_get_args(p_state, "i", &downgrades);
+    mrb_int downgrades;
+    mrb_get_args(p_state, "i", &downgrades);
 
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
-	if (p_furball->m_color_type != COL_BLACK) {
-		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a boss furball.");
-		return mrb_nil_value(); // Not reached
-	}
-	else if (downgrades < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Max downgrade count must be > 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    if (p_furball->m_color_type != COL_BLACK) {
+        mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a boss furball.");
+        return mrb_nil_value(); // Not reached
+    }
+    else if (downgrades < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Max downgrade count must be > 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	p_furball->Set_Max_Downgrade_Count(downgrades);
-	return mrb_fixnum_value(downgrades);
- }
+    p_furball->Set_Max_Downgrade_Count(downgrades);
+    return mrb_fixnum_value(downgrades);
+}
 
 /**
  * Method: Furball#max_downgrade_count
@@ -174,10 +174,10 @@ static mrb_value Set_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
  * Retrieves the maximum number of downgrades this furball needs
  * to have before it dies. Only useful for the boss furball.
  */
- static mrb_value Get_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
- {
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
-	return mrb_fixnum_value(p_furball->Get_Max_Downgrade_Count());
+static mrb_value Get_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
+{
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    return mrb_fixnum_value(p_furball->Get_Max_Downgrade_Count());
 }
 
 /**
@@ -198,17 +198,17 @@ static mrb_value Set_Max_Downgrade_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Level_Ends_If_Killed(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool ends;
-	mrb_get_args(p_state, "b", &ends);
+    mrb_bool ends;
+    mrb_get_args(p_state, "b", &ends);
 
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
-	if (p_furball->m_color_type != COL_BLACK) {
-		mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a boss furball.");
-		return mrb_nil_value(); // Not reached
-	}
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    if (p_furball->m_color_type != COL_BLACK) {
+        mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "This is not a boss furball.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	p_furball->Set_Level_Ends_If_Killed(ends);
-	return mrb_bool_value(ends);
+    p_furball->Set_Level_Ends_If_Killed(ends);
+    return mrb_bool_value(ends);
 }
 
 /**
@@ -220,21 +220,21 @@ static mrb_value Set_Level_Ends_If_Killed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Does_Level_End_If_Killed(mrb_state* p_state, mrb_value self)
 {
-	cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
-	return mrb_bool_value(p_furball->Level_Ends_If_Killed());
+    cFurball* p_furball = Get_Data_Ptr<cFurball>(p_state, self);
+    return mrb_bool_value(p_furball->Level_Ends_If_Killed());
 }
 
 void SMC::Scripting::Init_Furball(mrb_state* p_state)
 {
-	struct RClass* p_rcFurball = mrb_define_class(p_state, "Furball", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcFurball, MRB_TT_DATA);
+    struct RClass* p_rcFurball = mrb_define_class(p_state, "Furball", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcFurball, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "color=", Set_Color, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "color", Get_Color, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "boss?", Is_Boss, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "max_downgrade_count=", Set_Max_Downgrade_Count, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "max_downgrade_count", Get_Max_Downgrade_Count, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed=", Set_Level_Ends_If_Killed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed?", Does_Level_End_If_Killed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFurball, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFurball, "color=", Set_Color, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFurball, "color", Get_Color, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFurball, "boss?", Is_Boss, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFurball, "max_downgrade_count=", Set_Max_Downgrade_Count, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFurball, "max_downgrade_count", Get_Max_Downgrade_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed=", Set_Level_Ends_If_Killed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcFurball, "level_ends_if_killed?", Does_Level_End_If_Killed, MRB_ARGS_NONE());
 }

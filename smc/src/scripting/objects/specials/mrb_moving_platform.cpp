@@ -26,14 +26,14 @@ using namespace std;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cMoving_Platform* p_plat = new cMoving_Platform(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_plat;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cMoving_Platform* p_plat = new cMoving_Platform(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_plat;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	p_plat->Set_Spawned(true);
-	pActive_Level->m_sprite_manager->Add(p_plat);
+    p_plat->Set_Spawned(true);
+    pActive_Level->m_sprite_manager->Add(p_plat);
 
-	return self;
+    return self;
 }
 
 /**
@@ -46,21 +46,21 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Move_Type(mrb_state* p_state, mrb_value self)
 {
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
 
-	switch(p_plat->m_move_type) {
-	case MOVING_PLATFORM_TYPE_LINE:
-		return str2sym(p_state, "line");
-	case MOVING_PLATFORM_TYPE_CIRCLE:
-		return str2sym(p_state, "circle");
-	case MOVING_PLATFORM_TYPE_PATH:
-		return str2sym(p_state, "path");
-	case MOVING_PLATFORM_TYPE_PATH_BACKWARDS:
-		return str2sym(p_state, "path_backwards");
-	default:
-		cerr << "Warning: Unknown moving platform type '" << p_plat->m_move_type << "'." << endl;
-		return mrb_nil_value();
-	}
+    switch (p_plat->m_move_type) {
+    case MOVING_PLATFORM_TYPE_LINE:
+        return str2sym(p_state, "line");
+    case MOVING_PLATFORM_TYPE_CIRCLE:
+        return str2sym(p_state, "circle");
+    case MOVING_PLATFORM_TYPE_PATH:
+        return str2sym(p_state, "path");
+    case MOVING_PLATFORM_TYPE_PATH_BACKWARDS:
+        return str2sym(p_state, "path_backwards");
+    default:
+        cerr << "Warning: Unknown moving platform type '" << p_plat->m_move_type << "'." << endl;
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -72,28 +72,28 @@ static mrb_value Get_Move_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Move_Type(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym typesym;
-	mrb_get_args(p_state, "n", &typesym);
-	std::string typestr(mrb_sym2name(p_state, typesym));
+    mrb_sym typesym;
+    mrb_get_args(p_state, "n", &typesym);
+    std::string typestr(mrb_sym2name(p_state, typesym));
 
-	Moving_Platform_Type type;
-	if (typestr == "line")
-		type = MOVING_PLATFORM_TYPE_LINE;
-	else if (typestr == "circle")
-		type = MOVING_PLATFORM_TYPE_CIRCLE;
-	else if (typestr == "path")
-		type = MOVING_PLATFORM_TYPE_PATH;
-	else if (typestr == "path_backwards")
-		type = MOVING_PLATFORM_TYPE_PATH_BACKWARDS;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid platform moving type %s", typestr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    Moving_Platform_Type type;
+    if (typestr == "line")
+        type = MOVING_PLATFORM_TYPE_LINE;
+    else if (typestr == "circle")
+        type = MOVING_PLATFORM_TYPE_CIRCLE;
+    else if (typestr == "path")
+        type = MOVING_PLATFORM_TYPE_PATH;
+    else if (typestr == "path_backwards")
+        type = MOVING_PLATFORM_TYPE_PATH_BACKWARDS;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid platform moving type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	p_plat->Set_Move_Type(type);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    p_plat->Set_Move_Type(type);
 
-	return mrb_symbol_value(typesym);
+    return mrb_symbol_value(typesym);
 }
 
 /**
@@ -105,13 +105,13 @@ static mrb_value Set_Move_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Path_Identifier(mrb_state* p_state, mrb_value self)
 {
-	char* str = NULL;
-	mrb_get_args(p_state, "z", &str);
+    char* str = NULL;
+    mrb_get_args(p_state, "z", &str);
 
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	p_plat->Set_Path_Identifier(str);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    p_plat->Set_Path_Identifier(str);
 
-	return mrb_str_new_cstr(p_state, str);
+    return mrb_str_new_cstr(p_state, str);
 }
 
 /**
@@ -123,8 +123,8 @@ static mrb_value Set_Path_Identifier(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Path_Identifier(mrb_state* p_state, mrb_value self)
 {
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	return mrb_str_new_cstr(p_state, p_plat->m_path_state.m_path_identifier.c_str());
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    return mrb_str_new_cstr(p_state, p_plat->m_path_state.m_path_identifier.c_str());
 }
 
 /**
@@ -136,13 +136,13 @@ static mrb_value Get_Path_Identifier(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	p_plat->Set_Speed(speed);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    p_plat->Set_Speed(speed);
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -154,8 +154,8 @@ static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
 {
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	return mrb_float_value(p_state, p_plat->m_speed);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    return mrb_float_value(p_state, p_plat->m_speed);
 }
 
 /**
@@ -167,13 +167,13 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Middle_Count(mrb_state* p_state, mrb_value self)
 {
-	mrb_int count;
-	mrb_get_args(p_state, "i", &count);
+    mrb_int count;
+    mrb_get_args(p_state, "i", &count);
 
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	p_plat->Set_Middle_Count(count);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    p_plat->Set_Middle_Count(count);
 
-	return mrb_fixnum_value(count);
+    return mrb_fixnum_value(count);
 }
 
 /**
@@ -185,22 +185,22 @@ static mrb_value Set_Middle_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Middle_Count(mrb_state* p_state, mrb_value self)
 {
-	cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
-	return mrb_fixnum_value(p_plat->m_middle_count);
+    cMoving_Platform* p_plat = Get_Data_Ptr<cMoving_Platform>(p_state, self);
+    return mrb_fixnum_value(p_plat->m_middle_count);
 }
 
 void SMC::Scripting::Init_Moving_Platform(mrb_state* p_state)
 {
-	struct RClass* p_rcMovingPlatform = mrb_define_class(p_state, "MovingPlatform", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcMovingPlatform, MRB_TT_DATA);
+    struct RClass* p_rcMovingPlatform = mrb_define_class(p_state, "MovingPlatform", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcMovingPlatform, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcMovingPlatform, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMovingPlatform, "move_type", Get_Move_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMovingPlatform, "move_type=", Set_Move_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMovingPlatform, "path_identifier", Get_Path_Identifier, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMovingPlatform, "move_type=", Set_Path_Identifier, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMovingPlatform, "speed", Get_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMovingPlatform, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMovingPlatform, "middle_count", Get_Middle_Count, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMovingPlatform, "middle_count=", Set_Middle_Count, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMovingPlatform, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMovingPlatform, "move_type", Get_Move_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMovingPlatform, "move_type=", Set_Move_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMovingPlatform, "path_identifier", Get_Path_Identifier, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMovingPlatform, "move_type=", Set_Path_Identifier, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMovingPlatform, "speed", Get_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMovingPlatform, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMovingPlatform, "middle_count", Get_Middle_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMovingPlatform, "middle_count=", Set_Middle_Count, MRB_ARGS_REQ(1));
 }

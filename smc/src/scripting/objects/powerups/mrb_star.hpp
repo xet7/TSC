@@ -3,8 +3,8 @@
 #include "../../scripting.hpp"
 
 namespace SMC {
-  namespace Scripting {
-    void Init_Star(mrb_state* p_state);
-  }
+    namespace Scripting {
+        void Init_Star(mrb_state* p_state);
+    }
 }
 #endif

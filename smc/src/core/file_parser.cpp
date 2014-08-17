@@ -8,7 +8,7 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
    (at your option) any later version.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -24,112 +24,105 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC
-{
+namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cFile_parser *** *** *** *** *** *** *** *** *** */
 
-cFile_parser :: cFile_parser( void )
+cFile_parser :: cFile_parser(void)
 {
-	//
+    //
 }
 
-cFile_parser :: ~cFile_parser( void )
+cFile_parser :: ~cFile_parser(void)
 {
-	//
+    //
 }
 
-bool cFile_parser :: Parse( const fs::path &filename )
+bool cFile_parser :: Parse(const fs::path& filename)
 {
-	fs::ifstream ifs( filename, ios::in );
+    fs::ifstream ifs(filename, ios::in);
 
-	if( !ifs )
-	{
-		cerr << "Could not load data file : " << path_to_utf8(filename) << endl;
-		return 0;
-	}
+    if (!ifs) {
+        cerr << "Could not load data file : " << path_to_utf8(filename) << endl;
+        return 0;
+    }
 
-	data_file = filename;
+    data_file = filename;
 
-	std::string line;
-	unsigned int line_num = 0;
+    std::string line;
+    unsigned int line_num = 0;
 
-	while( std::getline( ifs, line ) )
-	{
-		line_num++;
-		Parse_Line( line, line_num );
-	}
+    while (std::getline(ifs, line)) {
+        line_num++;
+        Parse_Line(line, line_num);
+    }
 
-	return 1;
+    return 1;
 }
 
-bool cFile_parser :: Parse_Line( std::string str_line, int line_num )
+bool cFile_parser :: Parse_Line(std::string str_line, int line_num)
 {
-	if( str_line.empty() )
-	{
-		return 1;
-	}
+    if (str_line.empty()) {
+        return 1;
+    }
 
-	// linux support
-	string_erase_all( str_line, '\r' );
-	// no tabs
-	string_replace_all( str_line, "\t", " " );
-	// remove beginning spaces
-	string_trim_from_begin( str_line, ' ' );
-	// remove trailing spaces
-	string_trim_from_end( str_line, ' ' );
+    // linux support
+    string_erase_all(str_line, '\r');
+    // no tabs
+    string_replace_all(str_line, "\t", " ");
+    // remove beginning spaces
+    string_trim_from_begin(str_line, ' ');
+    // remove trailing spaces
+    string_trim_from_end(str_line, ' ');
 
-	// ignore empty lines and comments
-	if( str_line.empty() || *str_line.begin() == '#' )
-	{
-		// no error
-		return 1;
-	}
+    // ignore empty lines and comments
+    if (str_line.empty() || *str_line.begin() == '#') {
+        // no error
+        return 1;
+    }
 
-	std::string tempstr = str_line;
-	int count = 1;
+    std::string tempstr = str_line;
+    int count = 1;
 
-	// count spaces
-	while( tempstr.find( ' ' ) != std::string::npos  )
-	{
-		tempstr.erase( tempstr.find( ' ' ) , 1 );
-		count++;
-	}
+    // count spaces
+    while (tempstr.find(' ') != std::string::npos) {
+        tempstr.erase(tempstr.find(' ') , 1);
+        count++;
+    }
 
-	tempstr = str_line;
-	
-	std::string *parts = new std::string[ count + 1 ];
-	
-	std::string::size_type len;
-	int part_count = 0;
+    tempstr = str_line;
 
-	while( count > 0 )
-	{
-		// get length of the part
-		len = tempstr.find_first_of( ' ' );
-		// create part
-		parts[part_count] = tempstr.substr( 0, len );
-		// remove part from temp string
-		tempstr.erase( 0, len + 1 );
+    std::string* parts = new std::string[ count + 1 ];
 
-		part_count++;
-		count--;
-	}
+    std::string::size_type len;
+    int part_count = 0;
 
-	parts[part_count] = tempstr;
+    while (count > 0) {
+        // get length of the part
+        len = tempstr.find_first_of(' ');
+        // create part
+        parts[part_count] = tempstr.substr(0, len);
+        // remove part from temp string
+        tempstr.erase(0, len + 1);
 
-	// Message handler
-	bool success = HandleMessage( parts, part_count, line_num );
+        part_count++;
+        count--;
+    }
 
-	delete []parts;
+    parts[part_count] = tempstr;
 
-	return success;
+    // Message handler
+    bool success = HandleMessage(parts, part_count, line_num);
+
+    delete []parts;
+
+    return success;
 }
 
-bool cFile_parser :: HandleMessage( const std::string *parts, unsigned int count, unsigned int line )
+bool cFile_parser :: HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
 {
-	// virtual
-	return 1;
+    // virtual
+    return 1;
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

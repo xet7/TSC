@@ -163,135 +163,135 @@ using namespace SMC::Scripting;
 // here. This is already done in Timer.new.
 cTimer::cTimer(cMRuby_Interpreter* p_mruby, unsigned int interval, mrb_value callback, bool is_periodic /* = false */)
 {
-	mp_mruby			= p_mruby;
-	m_interval			= interval;
-	m_is_periodic		= is_periodic;
-	m_callback			= callback;
-	m_halt				= false;
-	m_stopped			= true;
-	mp_thread			= NULL;
+    mp_mruby            = p_mruby;
+    m_interval          = interval;
+    m_is_periodic       = is_periodic;
+    m_callback          = callback;
+    m_halt              = false;
+    m_stopped           = true;
+    mp_thread           = NULL;
 }
 
 cTimer::~cTimer()
 {
-	// If the timer is ticking currently, stop it.
-	// This automatically deletes the thread.
-	if (mp_thread)
-		Interrupt();
+    // If the timer is ticking currently, stop it.
+    // This automatically deletes the thread.
+    if (mp_thread)
+        Interrupt();
 }
 
 void cTimer::Start()
 {
-	if (mp_thread)
-		return;
+    if (mp_thread)
+        return;
 
-	m_halt = false;
-	m_stopped = false;
+    m_halt = false;
+    m_stopped = false;
 
-	mp_thread = new boost::thread(Threading_Function, this);
+    mp_thread = new boost::thread(Threading_Function, this);
 }
 
 void cTimer::Stop()
 {
-	if (!mp_thread)
-		return;
+    if (!mp_thread)
+        return;
 
-	m_halt = true;
+    m_halt = true;
 
-	// A oneshot-timer thread may has ended when Stop()
-	// gets called, but terminated threads can still be joined.
-	mp_thread->join();
+    // A oneshot-timer thread may has ended when Stop()
+    // gets called, but terminated threads can still be joined.
+    mp_thread->join();
 
-	delete mp_thread;
-	mp_thread = NULL;
+    delete mp_thread;
+    mp_thread = NULL;
 }
 
 bool cTimer::Shall_Halt()
 {
-	return m_halt;
+    return m_halt;
 }
 
 void cTimer::Interrupt()
 {
-	if (!mp_thread)
-		return;
+    if (!mp_thread)
+        return;
 
-	/* A oneshot-timer may has ended when Interrupt()
-	 * gets called, but terminated threads can still be
-	 * interrupted and joined -- these method then just
-	 * do nothing. */
-	mp_thread->interrupt();
-	mp_thread->join();
+    /* A oneshot-timer may has ended when Interrupt()
+     * gets called, but terminated threads can still be
+     * interrupted and joined -- these method then just
+     * do nothing. */
+    mp_thread->interrupt();
+    mp_thread->join();
 
-	delete mp_thread;
-	mp_thread = NULL;
+    delete mp_thread;
+    mp_thread = NULL;
 }
 
 bool cTimer::Is_Active()
 {
-	return !m_stopped;
+    return !m_stopped;
 }
 
 bool cTimer::Is_Periodic()
 {
-	return m_is_periodic;
+    return m_is_periodic;
 }
 
 void cTimer::Set_Stopped() // Private API
 {
-	m_stopped = true;
+    m_stopped = true;
 }
 
 unsigned int cTimer::Get_Interval()
 {
-	return m_interval;
+    return m_interval;
 }
 
 boost::thread* cTimer::Get_Thread()
 {
-	return mp_thread;
+    return mp_thread;
 }
 
 mrb_value cTimer::Get_Callback()
 {
-	return m_callback;
+    return m_callback;
 }
 
 cMRuby_Interpreter* cTimer::Get_MRuby_Interpreter()
 {
-	return mp_mruby;
+    return mp_mruby;
 }
 
 void cTimer::Threading_Function(cTimer* timer)
 {
-	try{
-		if (timer->Is_Periodic()){
-			while (true){
-				boost::this_thread::sleep_for(boost::chrono::milliseconds(timer->Get_Interval()));
+    try {
+        if (timer->Is_Periodic()) {
+            while (true) {
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(timer->Get_Interval()));
 
-				timer->Get_MRuby_Interpreter()->Register_Callback(timer->Get_Callback()); // This method is threadsafe
+                timer->Get_MRuby_Interpreter()->Register_Callback(timer->Get_Callback()); // This method is threadsafe
 
-				// If soft stop was requested, now terminate.
-				if (timer->Shall_Halt())
-					break;
-			}
-		}
-		else{ // One-shot timer
-			boost::this_thread::sleep_for(boost::chrono::milliseconds(timer->Get_Interval()));
+                // If soft stop was requested, now terminate.
+                if (timer->Shall_Halt())
+                    break;
+            }
+        }
+        else { // One-shot timer
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(timer->Get_Interval()));
 
-			timer->Get_MRuby_Interpreter()->Register_Callback(timer->Get_Callback());
+            timer->Get_MRuby_Interpreter()->Register_Callback(timer->Get_Callback());
 
-			// Soft stop does not make sense for oneshot timers, so no code here.
-		}
-	}
-	catch(boost::thread_interrupted& e){
-		// That exception is shown when boost::thread::interrupt() is called
-		// (which we do in cTimer::Interrupt()).
-		debug_print("boost::thread_interrupted received, terminating timer thread.\n");
-	}
+            // Soft stop does not make sense for oneshot timers, so no code here.
+        }
+    }
+    catch (boost::thread_interrupted& e) {
+        // That exception is shown when boost::thread::interrupt() is called
+        // (which we do in cTimer::Interrupt()).
+        debug_print("boost::thread_interrupted received, terminating timer thread.\n");
+    }
 
-	// Mark the timer as stopped.
-	timer->Set_Stopped();
+    // Mark the timer as stopped.
+    timer->Set_Stopped();
 }
 
 /***************************************
@@ -324,28 +324,28 @@ void cTimer::Threading_Function(cTimer* timer)
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int interval;
-	mrb_value is_periodic = mrb_false_value();
-	mrb_value block;
-	mrb_get_args(p_state, "i|o&", &interval, &is_periodic, &block);
+    mrb_int interval;
+    mrb_value is_periodic = mrb_false_value();
+    mrb_value block;
+    mrb_get_args(p_state, "i|o&", &interval, &is_periodic, &block);
 
-	// The cTimer constructor needs the currently active cMRuby_Interpreter
-	// instance which is not reachable via the mrb_state*, hence we retrieve
-	// it from the currently active level which at this point is always the
-	// same MRuby instance as `p_state'.
-	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, mrb_test(is_periodic));
-	DATA_PTR(self) = p_timer;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    // The cTimer constructor needs the currently active cMRuby_Interpreter
+    // instance which is not reachable via the mrb_state*, hence we retrieve
+    // it from the currently active level which at this point is always the
+    // same MRuby instance as `p_state'.
+    cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, mrb_test(is_periodic));
+    DATA_PTR(self) = p_timer;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// Prevent the GC from collecting the objects by a) adding ourselves
-	// to the class-instance variable instances and b) adding the callback
-	// to ourselves (the GC doesn’t see the reference in the C++ cTimer
-	// instance).
-	mrb_value klass = mrb_obj_value(mrb_obj_class(p_state, self));
-	mrb_ary_push(p_state, mrb_iv_get(p_state, klass, mrb_intern_cstr(p_state, "instances")), self);
-	mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "callback"), block);
+    // Prevent the GC from collecting the objects by a) adding ourselves
+    // to the class-instance variable instances and b) adding the callback
+    // to ourselves (the GC doesn’t see the reference in the C++ cTimer
+    // instance).
+    mrb_value klass = mrb_obj_value(mrb_obj_class(p_state, self));
+    mrb_ary_push(p_state, mrb_iv_get(p_state, klass, mrb_intern_cstr(p_state, "instances")), self);
+    mrb_iv_set(p_state, self, mrb_intern_cstr(p_state, "callback"), block);
 
-	return self;
+    return self;
 }
 
 /**
@@ -366,20 +366,20 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Every(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int interval;
-	mrb_value block;
-	mrb_get_args(p_state, "i&", &interval, &block);
+    mrb_int interval;
+    mrb_value block;
+    mrb_get_args(p_state, "i&", &interval, &block);
 
-	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, true);
+    cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, true);
 
-	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
+    mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
 
-	// Prevent mruby timer from getting out of scope
-	mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
-	mrb_iv_set(p_state, instance, mrb_intern_cstr(p_state, "callback"), block);
+    // Prevent mruby timer from getting out of scope
+    mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
+    mrb_iv_set(p_state, instance, mrb_intern_cstr(p_state, "callback"), block);
 
-	p_timer->Start();
-	return instance;
+    p_timer->Start();
+    return instance;
 }
 
 /**
@@ -401,19 +401,19 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value After(mrb_state* p_state,  mrb_value self)
 {
-	mrb_int secs;
-	mrb_value block;
-	mrb_get_args(p_state, "i&", &secs, &block);
+    mrb_int secs;
+    mrb_value block;
+    mrb_get_args(p_state, "i&", &secs, &block);
 
-	cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
-	mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
+    cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
+    mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
 
-	// Prevent mruby timer from getting out of scope
-	mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
-	mrb_iv_set(p_state, instance, mrb_intern_cstr(p_state, "callback"), block);
+    // Prevent mruby timer from getting out of scope
+    mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
+    mrb_iv_set(p_state, instance, mrb_intern_cstr(p_state, "callback"), block);
 
-	p_timer->Start();
-	return instance;
+    p_timer->Start();
+    return instance;
 }
 
 /**
@@ -425,10 +425,10 @@ static mrb_value After(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Start(mrb_state* p_state,  mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
 
-	p_timer->Start();
-	return mrb_nil_value();
+    p_timer->Start();
+    return mrb_nil_value();
 }
 
 /**
@@ -456,14 +456,14 @@ static mrb_value Start(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Stop(mrb_state* p_state,  mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
 
-	// Does not make sense for oneshot timers -- they already do execute only once.
-	if (!p_timer->Is_Periodic())
-		mrb_raise(p_state, MRB_RUNTIME_ERROR(p_state), "Can't usefully soft-stop a oneshot timer!");
+    // Does not make sense for oneshot timers -- they already do execute only once.
+    if (!p_timer->Is_Periodic())
+        mrb_raise(p_state, MRB_RUNTIME_ERROR(p_state), "Can't usefully soft-stop a oneshot timer!");
 
-	p_timer->Stop();
-	return mrb_nil_value();
+    p_timer->Stop();
+    return mrb_nil_value();
 }
 /**
  * Method: Timer#stop!
@@ -479,10 +479,10 @@ static mrb_value Stop(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Interrupt(mrb_state* p_state, mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
 
-	p_timer->Interrupt();
-	return mrb_nil_value();
+    p_timer->Interrupt();
+    return mrb_nil_value();
 }
 
 /**
@@ -494,20 +494,20 @@ static mrb_value Interrupt(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
-	char buffer[256];
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    char buffer[256];
 
-	int num = sprintf(	buffer,
-						"#<%s interval=%dms (%s, %s)>",
-						mrb_obj_classname(p_state, self),
-						p_timer->Get_Interval(),
-						p_timer->Is_Periodic() ? "periodic" : "oneshot",
-						p_timer->Is_Active() ? "running" : "stopped");
+    int num = sprintf(buffer,
+                      "#<%s interval=%dms (%s, %s)>",
+                      mrb_obj_classname(p_state, self),
+                      p_timer->Get_Interval(),
+                      p_timer->Is_Periodic() ? "periodic" : "oneshot",
+                      p_timer->Is_Active() ? "running" : "stopped");
 
-	if (num < 0)
-		mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Couldn't format string, sprintf() returned %d", num);
+    if (num < 0)
+        mrb_raisef(p_state, MRB_RUNTIME_ERROR(p_state), "Couldn't format string, sprintf() returned %d", num);
 
-	return mrb_str_new(p_state, buffer, num);
+    return mrb_str_new(p_state, buffer, num);
 }
 
 /**
@@ -520,11 +520,11 @@ static mrb_value Inspect(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Shall_Halt(mrb_state* p_state,  mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
-	if (p_timer->Shall_Halt())
-		return mrb_true_value();
-	else
-		return mrb_false_value();
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    if (p_timer->Shall_Halt())
+        return mrb_true_value();
+    else
+        return mrb_false_value();
 }
 
 /**
@@ -544,12 +544,12 @@ static mrb_value Shall_Halt(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Is_Active(mrb_state* p_state,  mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
 
-	if (p_timer->Is_Active())
-		return mrb_true_value();
-	else
-		return mrb_false_value();
+    if (p_timer->Is_Active())
+        return mrb_true_value();
+    else
+        return mrb_false_value();
 }
 
 
@@ -562,30 +562,30 @@ static mrb_value Is_Active(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Interval(mrb_state* p_state,  mrb_value self)
 {
-	cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
-	return mrb_fixnum_value(p_timer->Get_Interval());
+    cTimer* p_timer = Get_Data_Ptr<cTimer>(p_state, self);
+    return mrb_fixnum_value(p_timer->Get_Interval());
 }
 
 
 void SMC::Scripting::Init_Timer(mrb_state* p_state)
 {
-	struct RClass* p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
-	MRB_SET_INSTANCE_TT(p_rcTimer, MRB_TT_DATA);
+    struct RClass* p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
+    MRB_SET_INSTANCE_TT(p_rcTimer, MRB_TT_DATA);
 
-	// Invisible (for MRuby) class instance variable for storing the
-	// Timer instances so they don’t get GC’ed.
-	mrb_iv_set(p_state, mrb_obj_value(p_rcTimer), mrb_intern_cstr(p_state, "instances"), mrb_ary_new(p_state));
+    // Invisible (for MRuby) class instance variable for storing the
+    // Timer instances so they don’t get GC’ed.
+    mrb_iv_set(p_state, mrb_obj_value(p_rcTimer), mrb_intern_cstr(p_state, "instances"), mrb_ary_new(p_state));
 
-	mrb_define_class_method(p_state, p_rcTimer, "after", After, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
-	mrb_define_class_method(p_state, p_rcTimer, "every", Every, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcTimer, "initialize", Initialize, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1) | MRB_ARGS_BLOCK());
-	mrb_define_method(p_state, p_rcTimer, "start", Start, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "stop", Stop, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "stop!", Interrupt, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "inspect", Inspect, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "shall_halt?", Shall_Halt, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "interval", Get_Interval, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcTimer, "active?", Is_Active, MRB_ARGS_NONE());
+    mrb_define_class_method(p_state, p_rcTimer, "after", After, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
+    mrb_define_class_method(p_state, p_rcTimer, "every", Every, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcTimer, "initialize", Initialize, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1) | MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcTimer, "start", Start, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTimer, "stop", Stop, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTimer, "stop!", Interrupt, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTimer, "inspect", Inspect, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTimer, "shall_halt?", Shall_Halt, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTimer, "interval", Get_Interval, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcTimer, "active?", Is_Active, MRB_ARGS_NONE());
 
-	mrb_define_alias(p_state, p_rcTimer, "interrupt", "stop!");
+    mrb_define_alias(p_state, p_rcTimer, "interrupt", "stop!");
 }
