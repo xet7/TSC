@@ -183,8 +183,12 @@ void cSave :: Init( void )
 	m_points = 0;
 	m_goldpieces = 0;
 	m_player_type = 0;
-	m_player_state = 0;
+    m_player_state = 0;
 	m_itembox_item = 0;
+
+    //Player state (ie power ups)
+    m_player_type = 0;
+    m_player_type_temp_power = 0;
 
 	// level
 	m_level_time = 0;
@@ -250,6 +254,7 @@ void cSave :: Write_To_File( fs::path filepath )
 	Add_Property(p_node, "points", m_points);
 	Add_Property(p_node, "goldpieces", m_goldpieces);
 	Add_Property(p_node, "type", m_player_type);
+    Add_Property(p_node, "type_temp_power", m_player_type_temp_power);
 	Add_Property(p_node, "state", m_player_state);
 	Add_Property(p_node, "itembox_item", m_itembox_item);
 	// if a level is available
@@ -451,16 +456,27 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 
 	// #### Level ####
 
-	// below version 8 the state was the type
-	if( savegame->m_version < 8 )
-	{
-		pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_state), 0, 0 );
-	}
-	else
-	{
-		pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), 0, 0 );
-		pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
-	}
+    // below version 8 the state was the type
+    if( savegame->m_version < 8 )
+    {
+        pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_state), 0, 0 );
+    }
+    else
+    {
+        //Set the player's power up type
+        //For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type, marking a flag for the temporary ghost power up
+        //Logic for both fields is not included above in the version 8 code because version 8 save files did not have the temporary power up field saved
+        if (savegame -> m_player_type == MARYO_GHOST)
+        {
+            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
+            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type_temp_power), false, false, true );
+        }
+        else
+        {
+            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
+        }
+        pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
+    }
 
 	// default is world savegame
 	unsigned int save_type = 2;
@@ -659,7 +675,9 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 
 	savegame->m_lives = pLevel_Player->m_lives;
 	savegame->m_points = pLevel_Player->m_points;
-	savegame->m_player_type = pLevel_Player->m_maryo_type;
+    savegame->m_player_type = pLevel_Player->m_maryo_type;
+    savegame->m_player_type_temp_power = pLevel_Player->m_maryo_type_temp_power;
+
 	savegame->m_player_state = pLevel_Player->m_state;
 	savegame->m_itembox_item = pHud_Itembox->m_item_id;
 

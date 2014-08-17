@@ -164,6 +164,8 @@ public:
 	unsigned int m_goldpieces;
 	// player type
 	unsigned int m_player_type;
+    // player's previous type (previous power before a temporary power)
+    unsigned int m_player_type_temp_power;
 	// player moving state
 	unsigned int m_player_state;
 	// item in the itembox
