@@ -29,6 +29,7 @@
 /smc/stdout.txt
 /smc/stderr.txt
 /smc/docs/scripting/html/
+/smc/docs/scripting/rdoc/
 /smc/docs/api/
 /smc/docs/ssl/
 /smc/src/credits.cpp

@@ -3,7 +3,7 @@ require "rake"
 require "rake/clean"
 
 CLEAN.include("src/credits.cpp")
-CLOBBER.include("build", "crossbuild", "docs/scripting/html")
+CLOBBER.include("build", "crossbuild", "docs/scripting/html", "docs/scripting/rdoc", "docs/api")
 
 str = File.read("CMakeLists.txt")
 SMC_VERSION_MAJOR = str.match(/^set\(SMC_VERSION_MAJOR (\d+)\)/)[1]
@@ -65,6 +65,6 @@ task :tarball => :clobber do
 
   cd "../.." do
     ln_s "SMC", "SMC-#{version}" unless File.exist?("SMC-#{version}")
-    sh "tar --exclude .git -cvJhf SMC-#{version}.tar.xz SMC-#{version}"
+    sh "tar --exclude .git --exclude drafts -cvJhf SMC-#{version}.tar.xz SMC-#{version}"
   end
 end
