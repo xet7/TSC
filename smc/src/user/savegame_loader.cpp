@@ -3,6 +3,7 @@
 #include "../overworld/world_manager.hpp"
 #include "savegame_loader.hpp"
 #include "savegame.hpp"
+#include "../level/level_player.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -204,11 +205,13 @@ void cSavegameLoader::handle_level_spawned_object(const Glib::ustring& name)
 
 void cSavegameLoader::handle_player()
 {
+    //Note: fetch defaults to a value if an xml element is not found rather than throw an exception as retrieve does
+    //This allows reverse compatibility with old save formats
     mp_save->m_lives                    = m_current_properties.retrieve<int>("lives");
     mp_save->m_points                   = m_current_properties.fetch<long>("points", 0);
     mp_save->m_goldpieces               = m_current_properties.retrieve<int>("goldpieces");
     mp_save->m_player_type              = m_current_properties.retrieve<int>("type");
-    mp_save->m_player_type_temp_power   = m_current_properties.retrieve<int>("type_temp_power");
+    mp_save->m_player_type_temp_power   = m_current_properties.fetch<int>("type_temp_power", MARYO_SMALL);
     mp_save->m_player_state             = m_current_properties.retrieve<int>("state");
     mp_save->m_itembox_item             = m_current_properties.retrieve<int>("itembox_item");
     // New in V.11
