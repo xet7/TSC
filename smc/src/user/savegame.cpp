@@ -467,9 +467,10 @@ int cSavegame :: Load_Game( unsigned int save_slot )
     }
     else
     {
-        //Set the player's power up type
-        //For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type, marking a flag for the temporary ghost power up
-        //Logic for both fields is not included above in the version 8 code because version 8 save files did not have the temporary power up field saved
+        /*Set the player's power up type.
+        For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type,
+        marking a flag for the temporary ghost power up.  Logic for both fields is not included above in the version
+        8 code because version 8 save files did not have the temporary power up field saved*/
         if (savegame -> m_player_type == MARYO_GHOST)
         {
             pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
