@@ -482,11 +482,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
         pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
     }
 
-    //Set invincibility time and star time for player
-    pLevel_Player -> m_invincible = savegame->m_invincible;
-    pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
-
-	// default is world savegame
+    // default is world savegame
 	unsigned int save_type = 2;
 
 	// load levels
@@ -572,6 +568,12 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 			evt.Fire(level->m_mruby, pSavegame);
 		}
 	}
+
+    //Load additional settings from the save file.  These steps have to be done after level -> Init() is called above.
+
+    //Set invincibility time and star time for player
+    pLevel_Player -> m_invincible = savegame->m_invincible;
+    pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
 
 	// #### Player ####
 
