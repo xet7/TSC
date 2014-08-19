@@ -170,6 +170,11 @@ public:
 	unsigned int m_player_state;
 	// item in the itembox
 	unsigned int m_itembox_item;
+    //Amount of time left for invincibility (from damage or star).  0 means not invincible.
+    float m_invincible;
+    //Amount of time left for star (used for graphic flash effect)
+    float m_invincible_star;
+
 	// return stack entries
 	std::vector<cSave_Player_Return_Entry> m_return_entries;
 

@@ -212,6 +212,8 @@ void cSavegameLoader::handle_player()
     mp_save->m_goldpieces               = m_current_properties.retrieve<int>("goldpieces");
     mp_save->m_player_type              = m_current_properties.retrieve<int>("type");
     mp_save->m_player_type_temp_power   = m_current_properties.fetch<int>("type_temp_power", MARYO_SMALL);
+    mp_save->m_invincible               = m_current_properties.fetch<float>("invincible", 0);
+    mp_save->m_invincible_star          = m_current_properties.fetch<float>("invincible_star", 0);
     mp_save->m_player_state             = m_current_properties.retrieve<int>("state");
     mp_save->m_itembox_item             = m_current_properties.retrieve<int>("itembox_item");
     // New in V.11

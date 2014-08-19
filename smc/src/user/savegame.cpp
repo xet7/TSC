@@ -185,6 +185,8 @@ void cSave :: Init( void )
 	m_player_type = 0;
     m_player_state = 0;
 	m_itembox_item = 0;
+    m_invincible = 0;
+    m_invincible_star = 0;
 
     //Player state (ie power ups)
     m_player_type = 0;
@@ -255,6 +257,8 @@ void cSave :: Write_To_File( fs::path filepath )
 	Add_Property(p_node, "goldpieces", m_goldpieces);
 	Add_Property(p_node, "type", m_player_type);
     Add_Property(p_node, "type_temp_power", m_player_type_temp_power);
+    Add_Property(p_node, "invincible_star", m_invincible_star);
+    Add_Property(p_node, "invincible", m_invincible);
 	Add_Property(p_node, "state", m_player_state);
 	Add_Property(p_node, "itembox_item", m_itembox_item);
 	// if a level is available
@@ -478,6 +482,10 @@ int cSavegame :: Load_Game( unsigned int save_slot )
         pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
     }
 
+    //Set invincibility time and star time for player
+    pLevel_Player -> m_invincible = savegame->m_invincible;
+    pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
+
 	// default is world savegame
 	unsigned int save_type = 2;
 
@@ -512,8 +520,13 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 				// position
 				pLevel_Player->Set_Pos( save_level->m_level_pos_x, save_level->m_level_pos_y );
 
-				// invincible for a second
-				pLevel_Player->m_invincible = speedfactor_fps;
+
+                //If the player had less than a second of invincibility or was not invincible (value of 0), give them a
+                //second of invincibility
+                if (pLevel_Player->m_invincible < speedfactor_fps) {
+                    pLevel_Player->m_invincible = speedfactor_fps;
+                }
+
 				// level savegame
 				save_type = 1;
 			}
@@ -673,10 +686,12 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
 		}
 	}
 
-	savegame->m_lives = pLevel_Player->m_lives;
-	savegame->m_points = pLevel_Player->m_points;
+    savegame->m_lives = pLevel_Player->m_lives;
+    savegame->m_points = pLevel_Player->m_points;
     savegame->m_player_type = pLevel_Player->m_maryo_type;
     savegame->m_player_type_temp_power = pLevel_Player->m_maryo_type_temp_power;
+    savegame->m_invincible = pLevel_Player->m_invincible;
+    savegame->m_invincible_star = pLevel_Player->m_invincible_star;
 
 	savegame->m_player_state = pLevel_Player->m_state;
 	savegame->m_itembox_item = pHud_Itembox->m_item_id;

@@ -288,7 +288,8 @@ public:
 	float m_ghost_time;
 	// ghost mode drawing modifier
 	float m_ghost_time_mod;
-	/* invincible time
+
+    /* invincible time
 	 * if 0 we are not invincible
 	*/
 	float m_invincible;
