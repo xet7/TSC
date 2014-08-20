@@ -460,29 +460,6 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 
 	// #### Level ####
 
-    // below version 8 the state was the type
-    if( savegame->m_version < 8 )
-    {
-        pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_state), 0, 0 );
-    }
-    else
-    {
-        /*Set the player's power up type.
-        For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type,
-        marking a flag for the temporary ghost power up.  Logic for both fields is not included above in the version
-        8 code because version 8 save files did not have the temporary power up field saved*/
-        if (savegame -> m_player_type == MARYO_GHOST)
-        {
-            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
-            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type_temp_power), false, false, true );
-        }
-        else
-        {
-            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
-        }
-        pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
-    }
-
     // default is world savegame
 	unsigned int save_type = 2;
 
@@ -570,13 +547,36 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 		}
 	}
 
-    //Load additional settings from the save file.  These steps have to be done after level -> Init() is called above.
+    // #### Player ####
+    //Note: Some of these steps (ie invincibility) have to be done after level -> Init() is called above.
+    //Otherwise, it will wipe them out.
+
+    // below version 8 the state was the type
+    if( savegame->m_version < 8 )
+    {
+        pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_state), 0, 0 );
+    }
+    else
+    {
+        /*Set the player's power up type.
+        For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type,
+        marking a flag for the temporary ghost power up.  Logic for both fields is not included above in the version
+        8 code because version 8 save files did not have the temporary power up field saved*/
+        if (savegame -> m_player_type == MARYO_GHOST)
+        {
+            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
+            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type_temp_power), false, false, true );
+        }
+        else
+        {
+            pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
+        }
+        pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
+    }
 
     //Set invincibility time and star time for player
     pLevel_Player -> m_invincible = savegame->m_invincible;
     pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
-
-	// #### Player ####
 
 	pHud_Points->Set_Points( savegame->m_points );
 	pHud_Goldpieces->Set_Gold( savegame->m_goldpieces );
