@@ -27,6 +27,7 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../scripting/events/level_load_event.hpp"
 #include "../scripting/events/level_save_event.hpp"
+#include "../audio/audio.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -577,6 +578,17 @@ int cSavegame :: Load_Game( unsigned int save_slot )
     //Set invincibility time and star time for player
     pLevel_Player -> m_invincible = savegame->m_invincible;
     pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
+
+    //Play the appropriate music
+    if (!Is_Float_Equal( pLevel_Player -> m_invincible_star, 0.0f))
+    {
+        pAudio->Play_Music( "game/star.ogg", 0, 1, 500 );
+        pAudio->Play_Music( pActive_Level->m_musicfile, -1, 0 );
+    }
+    else
+    {
+        pAudio->Play_Music( pActive_Level->m_musicfile, -1, 1, 1000 );
+    }
 
 	pHud_Points->Set_Points( savegame->m_points );
 	pHud_Goldpieces->Set_Gold( savegame->m_goldpieces );
