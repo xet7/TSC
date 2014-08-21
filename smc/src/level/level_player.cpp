@@ -1484,9 +1484,9 @@ void cLevel_Player :: Update_Item( void )
 	if( m_active_object )
 	{
 		// collision with something or activated
-		if( m_active_object->m_type == TYPE_TURTLE && static_cast<cTurtle *>(m_active_object)->m_dead )
+		if( (m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL) && static_cast<cTurtle *>(m_active_object)->m_dead ) // shell is a turtle anyways
 		{
-			Release_Item( 0 );
+			Release_Item( false );
 			return;
 		}
 
