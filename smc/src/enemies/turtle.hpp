@@ -110,6 +110,7 @@ namespace SMC {
         virtual void Handle_Collision_Enemy(cObjectCollision* collision);
         // collision with massive
         virtual void Handle_Collision_Massive(cObjectCollision* collision);
+        virtual void Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 );
 
         // editor activation
         virtual void Editor_Activate(void);
