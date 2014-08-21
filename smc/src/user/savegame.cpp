@@ -188,6 +188,8 @@ void cSave :: Init( void )
 	m_itembox_item = 0;
     m_invincible = 0;
     m_invincible_star = 0;
+    m_ghost_time = 0;
+    m_ghost_time_mod = 0;
 
     //Player state (ie power ups)
     m_player_type = 0;
@@ -260,6 +262,9 @@ void cSave :: Write_To_File( fs::path filepath )
     Add_Property(p_node, "type_temp_power", m_player_type_temp_power);
     Add_Property(p_node, "invincible_star", m_invincible_star);
     Add_Property(p_node, "invincible", m_invincible);
+    Add_Property(p_node, "ghost_time", m_ghost_time);
+    Add_Property(p_node, "ghost_time_mod", m_ghost_time_mod);
+
 	Add_Property(p_node, "state", m_player_state);
 	Add_Property(p_node, "itembox_item", m_itembox_item);
 	// if a level is available
@@ -579,6 +584,9 @@ int cSavegame :: Load_Game( unsigned int save_slot )
     pLevel_Player -> m_invincible = savegame->m_invincible;
     pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
 
+    pLevel_Player -> m_ghost_time = savegame->m_ghost_time;
+    pLevel_Player -> m_ghost_time_mod = savegame->m_ghost_time_mod;
+
     //Play the appropriate music
     if (!Is_Float_Equal( pLevel_Player -> m_invincible_star, 0.0f))
     {
@@ -707,6 +715,8 @@ bool cSavegame :: Save_Game( unsigned int save_slot, std::string description )
     savegame->m_player_type_temp_power = pLevel_Player->m_maryo_type_temp_power;
     savegame->m_invincible = pLevel_Player->m_invincible;
     savegame->m_invincible_star = pLevel_Player->m_invincible_star;
+    savegame->m_ghost_time = pLevel_Player -> m_ghost_time;
+    savegame->m_ghost_time_mod = pLevel_Player -> m_ghost_time_mod;
 
 	savegame->m_player_state = pLevel_Player->m_state;
 	savegame->m_itembox_item = pHud_Itembox->m_item_id;
