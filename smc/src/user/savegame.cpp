@@ -577,7 +577,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
         {
             pLevel_Player->Set_Type( static_cast<Maryo_type>(savegame->m_player_type), false, false );
         }
-        pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
+        pLevel_Player -> Set_Moving_State(static_cast<Moving_state>(savegame->m_player_state));
     }
 
     //Set invincibility time and star time for player
