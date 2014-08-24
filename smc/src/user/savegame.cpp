@@ -28,6 +28,7 @@
 #include "../scripting/events/level_load_event.hpp"
 #include "../scripting/events/level_save_event.hpp"
 #include "../audio/audio.hpp"
+#include "../enemies/turtle.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -533,7 +534,17 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 				int posy = string_to_int( save_object->Get_Value( "posy" ) );
 
 				// get level object
-				cSprite *level_object = level->m_sprite_manager->Get_from_Position( posx, posy, save_object->m_type, 1 );
+                bool checkPosition = true;
+
+                /*The Get_from_Position method below searches for the saved object in the level definition using its original position information.
+                Loose shells will slightly have their current position offset based on their image during the initialization process during level loading
+                Only require the original position field be checked for them.*/
+                if (save_object ->m_type == TYPE_SHELL)
+                {
+                    checkPosition = false;
+                }
+
+                cSprite *level_object = level->m_sprite_manager->Get_from_Position( posx, posy, save_object->m_type, checkPosition );
 
 				// if not anymore available
 				if( !level_object )
@@ -543,6 +554,17 @@ int cSavegame :: Load_Game( unsigned int save_slot )
 				}
 
 				level_object->Load_From_Savegame( save_object );
+
+                //If the currently loaded object is a shell (loose or with army in it) and if it was linked, call the Get_Item
+                //method to properly set it up with the player
+                if (save_object ->m_type == TYPE_SHELL  || save_object -> m_type == TYPE_TURTLE)
+                {
+                    cTurtle *turtle = static_cast<cTurtle *>(level_object);
+                    if (turtle ->m_state == STA_OBJ_LINKED)
+                    {
+                        pLevel_Player ->Get_Item(turtle ->m_type, false, turtle);
+                    }
+                }
 			}
 
 			// Feed the data stored by the save event back
