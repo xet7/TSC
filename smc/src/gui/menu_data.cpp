@@ -241,12 +241,12 @@ void cMenu_Main :: Init_GUI( void )
 
 	CEGUI::Window *text_version = CEGUI::WindowManager::getSingleton().getWindow( "text_version" );
 
-	if (SMC_VERSION_DEVELOPMENT) {
-		text_version->setProperty("Text", UTF8_("UNRELEASED"));
-		text_version->setProperty("TextColours", "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
-	}
-	else
-		text_version->setProperty( "Text", UTF8_("Version ") + CEGUI::PropertyHelper::intToString(SMC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_PATCH) );
+#ifdef SMC_VERSION_POSTFIX
+	text_version->setProperty("Text", CEGUI::PropertyHelper::intToString(SMC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_PATCH) + "-" + SMC_VERSION_POSTFIX);
+	text_version->setProperty("TextColours", "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
+#else
+	text_version->setProperty( "Text", UTF8_("Version ") + CEGUI::PropertyHelper::intToString(SMC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_PATCH) );
+#endif
 
 	// if in a level/world
 	if( m_exit_to_gamemode != MODE_NOTHING )
