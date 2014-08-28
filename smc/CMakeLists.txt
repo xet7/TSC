@@ -37,6 +37,7 @@ if(${CMAKE_BUILD_TYPE} MATCHES Debug)
 endif()
 
 execute_process(COMMAND git rev-parse --short HEAD
+  WORKING_DIRECTORY ${SMC_SOURCE_DIR}
   OUTPUT_VARIABLE SMC_VERSION_GIT
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -213,11 +214,12 @@ include_directories(${SMC_BINARY_DIR})
 ########################################
 # Credits file
 
-set_source_files_properties(${SMC_SOURCE_DIR}/src/credits.cpp
+set_source_files_properties(${SMC_BINARY_DIR}/credits.cpp
   PROPERTIES GENERATED true)
-add_custom_command(OUTPUT ${SMC_SOURCE_DIR}/src/credits.cpp
-  COMMAND rake src/credits.cpp
-  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt)
+add_custom_command(OUTPUT ${SMC_BINARY_DIR}/credits.cpp
+  COMMAND rake ${SMC_BINARY_DIR}/credits.cpp
+  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt
+  WORKING_DIRECTORY ${SMC_SOURCE_DIR})
 
 ########################################
 # Windows icon resource
@@ -254,9 +256,9 @@ file(GLOB_RECURSE smc_sources
 
 # Now add our build targets and their dependencies.
 if (WIN32)
-  add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp icon.res)
+  add_executable(smc ${smc_sources} ${SMC_BINARY_DIR}/credits.cpp icon.res)
 else()
-  add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp)
+  add_executable(smc ${smc_sources} ${SMC_BINARY_DIR}/credits.cpp)
 endif()
 
 if (ENABLE_MRUBY)
