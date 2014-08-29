@@ -168,9 +168,5 @@ set(CEGUI_DEFINITIONS ${PC_CEGUI_CFLAGS})
 
 #********** And we are done ********** ********** ********** ********** ********** ********** ********** **********
 
-IF(NOT CEGUI_FOUND)
-   MESSAGE(SEND_ERROR "Error(s) during CEGUI dedection!")
-ENDIF()
-
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(CEGUI DEFAULT_MSG CEGUI_LIBRARY CEGUI_INCLUDE_DIR)

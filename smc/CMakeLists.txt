@@ -97,25 +97,32 @@ endif()
 
 ########################################
 # CEGUI 0.7.x
-# This is only needed for *nix, as MXE provides
-# this old CEGUI.
+# Many Linux distributions do not provide CEGUI 0.7.x anymore.
+# Hence, if we do not detect it, try to download and compile it
+# ourselves.
 
 if (NOT(WIN32))
-  set(CEGUI_ROOT_DIR "${SMC_BINARY_DIR}/cegui")
-  set(CEGUI_SOURCE_DIR "${CEGUI_ROOT_DIR}/src/cegui07")
+  find_package(CEGUI COMPONENTS OPENGL)
 
-  ExternalProject_Add(cegui07
-    PREFIX "${CEGUI_ROOT_DIR}"
-    URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
-    URL_MD5 a8b682daf82e383edc169c2e6eb2b321
-    BUILD_IN_SOURCE 1
-    CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
-    BUILD_COMMAND make -j${NUM_CPUCORES}
-    INSTALL_COMMAND make install)
+  if (NOT(CEGUI_FOUND))
+    message("CEGUI 0.7.x was not found. It will be downloaded and compiled during the build process.")
 
-  set(CEGUI_INCLUDE_DIR ${CEGUI_ROOT_DIR}/include)
-  set(CEGUI_LIBRARY ${CEGUI_ROOT_DIR}/lib/libCEGUIOpenGLRenderer.a ${CEGUI_ROOT_DIR}/lib/libCEGUIBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUIDevILImageCodec.a ${CEGUI_ROOT_DIR}/lib/libCEGUIFalagardWRBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUILibxmlParser.a)
-  set(CEGUI_DEFINITIONS " -DCEGUI_STATIC")
+    set(CEGUI_ROOT_DIR "${SMC_BINARY_DIR}/cegui")
+    set(CEGUI_SOURCE_DIR "${CEGUI_ROOT_DIR}/src/cegui07")
+
+    ExternalProject_Add(cegui07
+      PREFIX "${CEGUI_ROOT_DIR}"
+      URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
+      URL_MD5 a8b682daf82e383edc169c2e6eb2b321
+      BUILD_IN_SOURCE 1
+      CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
+      BUILD_COMMAND make -j${NUM_CPUCORES}
+      INSTALL_COMMAND make install)
+
+    set(CEGUI_INCLUDE_DIR ${CEGUI_ROOT_DIR}/include)
+    set(CEGUI_LIBRARY ${CEGUI_ROOT_DIR}/lib/libCEGUIOpenGLRenderer.a ${CEGUI_ROOT_DIR}/lib/libCEGUIBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUIDevILImageCodec.a ${CEGUI_ROOT_DIR}/lib/libCEGUIFalagardWRBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUILibxmlParser.a)
+    set(CEGUI_DEFINITIONS " -DCEGUI_STATIC")
+  endif()
 endif()
 
 ################################################################################
