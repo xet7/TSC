@@ -906,6 +906,14 @@ void cTurtle :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
+void cTurtle :: Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 )
+{
+    pAudio->Play_Sound(m_kill_sound);
+    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1 );
+    pLevel_Player->Add_Kill_Multiplier();
+    DownGrade(true);
+}
+
 void cTurtle :: Editor_Activate(void)
 {
     // get window manager

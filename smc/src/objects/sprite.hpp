@@ -93,7 +93,15 @@ namespace SMC {
         virtual void Handle_Collision_Passive(cObjectCollision* collision) {};
         // collision with lava
         virtual void Handle_Collision_Lava(cObjectCollision* collision) {};
-        // collision from a box
+        /**
+         * \brief collision from a box below.
+         *
+         * This is called on your object when it
+         * is on top of a box that is being activated currently; in 90%
+         * of the cases `cdirection' will be DIR_BOTTOM as the box is below
+         * you. Still, it moves around a little bit so you may also get
+         * another direction.
+         */
         virtual void Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2) {};
 
         // the parent sprite manager

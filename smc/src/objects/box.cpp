@@ -399,26 +399,9 @@ void cBaseBox :: Check_Collision(ObjectDirection col_direction)
         // send box collision
         col_obj->m_obj->Handle_Collision_Box(Get_Opposite_Direction(col_obj->m_direction), &m_col_rect);
 
-        // Enemy collision
-        if (col_obj->m_array == ARRAY_ENEMY) {
-            Col_Enemy(col_obj->m_obj);
-        }
     }
 
     delete col_list;
-}
-
-void cBaseBox :: Col_Enemy(cSprite* obj)
-{
-    // todo : handle this on enemy class Handle_Collision_Box()
-    // only valid enemies
-    if (obj->m_type == TYPE_FURBALL || obj->m_type == TYPE_TURTLE || obj->m_type == TYPE_KRUSH) {
-        cEnemy* enemy = static_cast<cEnemy*>(obj);
-        pAudio->Play_Sound(enemy->m_kill_sound);
-        pHud_Points->Add_Points(enemy->m_kill_points, enemy->m_pos_x, enemy->m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
-        pLevel_Player->Add_Kill_Multiplier();
-        enemy->DownGrade(1);
-    }
 }
 
 void cBaseBox :: Activate(void)
