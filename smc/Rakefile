@@ -45,7 +45,15 @@ namespace SMC {
   end
 end
 
-file "data/translations/Secret Maryo Chronicles.pot" => SMC_SOURCE_FILES do
+# Note that strictly the .po files depend on the .pot file, but
+# the .pot file should only ever be updated on purpose and not
+# as part of updating the .po files, as it is the reference file
+# for all translators and thus must stay the same. Changes in it
+# require all translators to review their translation. Therefore
+# this task is not a file task on the .pot file; the .po files
+# depend on the .pot file, and it would be autocalled that way.
+desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
+task :potfile do
   # Note PL_() is not yet used. For future pluralization.
   # It should be defined like this in i18n.hpp:
   #   #define PL_(Singular, Plural, Num) ngettext(Singular, Plural, Num)
@@ -53,12 +61,9 @@ file "data/translations/Secret Maryo Chronicles.pot" => SMC_SOURCE_FILES do
 
   sourcefiles = SMC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
   cd "data/translations" do
-    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --copyright-holder='The SMC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --copyright-holder='The SMC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
   end
 end
-
-desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
-task :potfile => "data/translations/Secret Maryo Chronicles.pot"
 
 desc "Check the PO files for errors."
 task :checkpo do
@@ -69,20 +74,10 @@ task :checkpo do
   end
 end
 
-# Note that strictly the .po files depend on the .pot file, but
-# the .pot file should only ever be updated on purpose and not
-# as part of updating the .po files, as it is the reference file
-# for all translators and thus must stay the same. Changes in it
-# require all translators to review their translation. Therefore
-# this task is phony (always required) rather than depending
-# on the "Secret Maryo Chronicles.pot" file task above.
-desc "Update the .po files against the master .pot file."
-task :mergepo do
-  cd "data/translations" do
-    Dir["*.po"].sort.each do |pofile|
-      sh "msgmerge -U #{pofile} 'Secret Maryo Chronicles.pot'"
-    end
-  end
+# This task is intended to be called by translators that want to bring
+# their .po file up to date with the .pot file.
+rule %r{.po$} => "data/translations/Secret Maryo Chronicles.pot" do |t|
+  sh "msgmerge -U #{Rake.original_dir}/#{t.name} '#{t.source}'"
 end
 
 desc "Generate the documentation."
