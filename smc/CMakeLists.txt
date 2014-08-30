@@ -211,6 +211,21 @@ else()
   include_directories(${IL_INCLUDE_DIR})
 endif()
 
+########################################
+# Gettext internationalization
+
+# Process all PO files into MO files usable at runtime.
+file(GLOB po_files "data/translations/*.po")
+foreach(pofile ${po_files})
+  get_filename_component(lang ${pofile} NAME_WE)
+  message("-- Found gettext PO file for ${lang}: ${pofile}")
+
+  gettext_process_po_files(${lang}
+    ALL
+    INSTALL_DESTINATION share/smc/translations
+    PO_FILES ${pofile})
+endforeach()
+
 ###############################################
 # Configuration header
 
@@ -352,9 +367,6 @@ install(DIRECTORY "${SMC_SOURCE_DIR}/data/scripting/"
 install(DIRECTORY "${SMC_SOURCE_DIR}/data/sounds/"
   DESTINATION share/smc/sounds
   COMPONENT sounds)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/translations/"
-  DESTINATION share/smc/translations
-  COMPONENT base)
 install(DIRECTORY "${SMC_SOURCE_DIR}/data/worlds/"
   DESTINATION share/smc/worlds
   COMPONENT worlds)
