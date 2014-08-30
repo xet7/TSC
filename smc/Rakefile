@@ -1,6 +1,7 @@
 # -*- ruby -*-
 require "rake"
 require "rake/clean"
+require "pathname"
 
 CLOBBER.include("build", "crossbuild", "docs/scripting/html", "docs/scripting/rdoc", "docs/api")
 
@@ -8,6 +9,8 @@ str = File.read("CMakeLists.txt")
 SMC_VERSION_MAJOR = str.match(/^set\(SMC_VERSION_MAJOR (\d+)\)/)[1]
 SMC_VERSION_MINOR = str.match(/^set\(SMC_VERSION_MINOR (\d+)\)/)[1]
 SMC_VERSION_PATCH = str.match(/^set\(SMC_VERSION_PATCH (\d+)\)/)[1]
+
+SMC_SOURCE_FILES = FileList["src/**/*.cpp"] + FileList["src/**/*.hpp"]
 
 # This is called from CMake for generating the credits file.
 rule %r{credits.cpp} => "docs/authors.txt" do |t|
@@ -38,6 +41,30 @@ namespace SMC {
 
       # Write final part
       f.write("\";\n}\n")
+    end
+  end
+end
+
+file "data/translations/Secret Maryo Chronicles.pot" => SMC_SOURCE_FILES do
+  # Note PL_() is not yet used. For future pluralization.
+  # It should be defined like this in i18n.hpp:
+  #   #define PL_(Singular, Plural, Num) ngettext(Singular, Plural, Num)
+  # UTF8_() should go away.
+
+  sourcefiles = SMC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
+  cd "data/translations" do
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --copyright-holder='The SMC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
+  end
+end
+
+desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
+task :potfile => "data/translations/Secret Maryo Chronicles.pot"
+
+desc "Check the PO files for errors."
+task :checkpo do
+  cd "data/translations" do
+    Dir["*.po"].sort.each do |pofile|
+      sh "msgfmt -o /dev/null -c --statistics #{pofile}"
     end
   end
 end
