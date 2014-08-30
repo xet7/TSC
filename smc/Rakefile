@@ -69,6 +69,22 @@ task :checkpo do
   end
 end
 
+# Note that strictly the .po files depend on the .pot file, but
+# the .pot file should only ever be updated on purpose and not
+# as part of updating the .po files, as it is the reference file
+# for all translators and thus must stay the same. Changes in it
+# require all translators to review their translation. Therefore
+# this task is phony (always required) rather than depending
+# on the "Secret Maryo Chronicles.pot" file task above.
+desc "Update the .po files against the master .pot file."
+task :mergepo do
+  cd "data/translations" do
+    Dir["*.po"].sort.each do |pofile|
+      sh "msgmerge -U #{pofile} 'Secret Maryo Chronicles.pot'"
+    end
+  end
+end
+
 desc "Generate the documentation."
 task :docs do
   puts "Generating main API documentation"
