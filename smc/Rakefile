@@ -54,9 +54,6 @@ end
 # depend on the .pot file, and it would be autocalled that way.
 desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
 task :potfile do
-  # Note PL_() is not yet used. For future pluralization.
-  # It should be defined like this in i18n.hpp:
-  #   #define PL_(Singular, Plural, Num) ngettext(Singular, Plural, Num)
   # UTF8_() should go away.
 
   sourcefiles = SMC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
