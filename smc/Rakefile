@@ -2,7 +2,6 @@
 require "rake"
 require "rake/clean"
 
-CLEAN.include("src/credits.cpp")
 CLOBBER.include("build", "crossbuild", "docs/scripting/html", "docs/scripting/rdoc", "docs/api")
 
 str = File.read("CMakeLists.txt")
@@ -10,14 +9,14 @@ SMC_VERSION_MAJOR = str.match(/^set\(SMC_VERSION_MAJOR (\d+)\)/)[1]
 SMC_VERSION_MINOR = str.match(/^set\(SMC_VERSION_MINOR (\d+)\)/)[1]
 SMC_VERSION_PATCH = str.match(/^set\(SMC_VERSION_PATCH (\d+)\)/)[1]
 
-# This task is called from CMake.
-file "src/credits.cpp" => "docs/authors.txt" do
+# This is called from CMake for generating the credits file.
+rule %r{credits.cpp} => "docs/authors.txt" do |t|
   puts "Converting docs/authors.txt to C++ source file"
 
-  File.open("src/credits.cpp", "w") do |f|
+  File.open(t.name, "w") do |f|
     # Write first part
-    f.puts(%Q!#include "core/global_game.hpp"
-#include "core/main.hpp"
+    f.puts(%Q!#include "#{Dir.pwd}/src/core/global_game.hpp"
+#include "#{Dir.pwd}/src/core/main.hpp"
 
 namespace SMC {
 
