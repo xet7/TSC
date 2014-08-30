@@ -1,23 +1,18 @@
 # This file is distributed under the same license as the Secret Maryo Chronicles package.
+#
+# Copyright © 2003-2011 Rafael Ferreira <rafael.f.f1@gmail.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: Secret Maryo Chronicles v1.0.0\n"
+"Project-Id-Version: Secret Maryo Chronicles\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-30 18:31+0200\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2014-08-30 19:48+0200\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
-"Language-Team: \n"
-"Language: \n"
+"Language-Team: UNMAINTAINED\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: _;N_;UTF8_\n"
-"X-Poedit-Basepath: ../../../../\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SearchPath-0: src\n"
 
 #: ../../src/audio/random_sound.cpp:484 ../../src/video/animation.cpp:1528
 msgid "Filename"

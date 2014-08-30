@@ -1,22 +1,24 @@
 # This file is distributed under the same license as the Secret Maryo Chronicles package.
+#
+# Copyright © 2003-2011 Florian Richter
+# Copyright © 2014 Marvin Gülker <quintus@quintilianus.eu>
+#
+# Dies ist die deutsche Übersetzung von SMC. Fehler bitte melden
+# an:
+#
+#   quintus@quintilianus.eu
 msgid ""
 msgstr ""
 "Project-Id-Version: Secret Maryo Chronicles\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-30 18:31+0200\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2014-08-30 19:51+0200\n"
 "Last-Translator: Florian Richter <fluxey@gmail.com>\n"
-"Language-Team: SMC Team\n"
-"Language: \n"
+"Language-Team: SMC German translation team\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: GERMANY\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: _;N_;UTF8_\n"
-"X-Poedit-Basepath: ../../../../\n"
-"X-Poedit-SearchPath-0: src\n"
 
 #: ../../src/audio/random_sound.cpp:484 ../../src/video/animation.cpp:1528
 msgid "Filename"
