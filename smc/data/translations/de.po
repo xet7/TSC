@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secret Maryo Chronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-30 21:36+0200\n"
-"PO-Revision-Date: 2014-08-30 22:32+0200\n"
-"Last-Translator: Florian Richter <fluxey@gmail.com>\n"
+"POT-Creation-Date: 2014-08-30 23:27+0200\n"
+"PO-Revision-Date: 2014-08-30 23:53+0200\n"
+"Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: SMC German translation team\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -94,9 +94,12 @@ msgstr "Ladevorgang"
 msgid "Editor enabled"
 msgstr "Editor aktiviert"
 
-#: ../../src/core/editor/editor.cpp:1594
-msgid "Change selected Sprite(s) image to"
-msgstr ""
+#: ../../src/core/editor/editor.cpp:1595
+#, c-format
+msgid "Change selected sprite's image"
+msgid_plural "Change selected %d sprites' images"
+msgstr[0] "Ändere Bild des ausgewählten Elements"
+msgstr[1] "Ändere Bilder der ausgewählten %d Elemente"
 
 #: ../../src/core/game_core.cpp:240
 msgid "Loading Level failed : "
