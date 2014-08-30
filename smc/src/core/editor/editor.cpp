@@ -316,7 +316,7 @@ void cEditor :: Enable( void )
 		return;
 	}
 
-	// Draw Loading Text
+	// TRANS: displayed to the user when opening the editor
 	Draw_Static_Text( _("Loading"), &orange, NULL, 0 );
 
 	// Basic Initialize
