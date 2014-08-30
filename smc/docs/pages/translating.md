@@ -152,3 +152,13 @@ do one of the following:
   https://github.com/Secretchronicles/SMC/issues
 * Post to the forums at http://smc.quintilianus.eu
 * Write an email to me: quintus@quintilianus.eu
+
+Appendix: Generating the POT file
+---------------------------------
+
+Use this to have `xgettext` scan through SMC’s sources and update the
+POT file:
+
+~~~~~~~~~~~~~~~~~~~~
+$ rake potfile
+~~~~~~~~~~~~~~~~~~~~
