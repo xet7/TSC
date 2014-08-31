@@ -42,6 +42,7 @@
 # endif
 
 #else
+#warning Native language support (NLS) disabled. SMC will only use raw untranslated English.
 
 /* Solaris /usr/include/locale.h includes /usr/include/libintl.h, which
    chokes if dcgettext is defined as a macro.  So include it now, to make

@@ -64,6 +64,9 @@
 #include <stdexcept>
 #include <map>
 
+// SMC build configuration header
+#include "config.hpp"
+
 // Boost
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -129,9 +132,6 @@
 #ifndef PNG_COLOR_TYPE_RGBA
 	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
 #endif
-
-// SMC build configuration header
-#include "config.hpp"
 
 using std::vector;
 using std::ifstream;
