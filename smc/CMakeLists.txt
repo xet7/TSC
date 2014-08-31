@@ -12,9 +12,9 @@ include(ExternalProject)
 # Version number
 
 set(SMC_VERSION_MAJOR 2)
-set(SMC_VERSION_MINOR 0)
+set(SMC_VERSION_MINOR 1)
 set(SMC_VERSION_PATCH 0)
-set(SMC_VERSION_POSTFIX "beta2+")
+set(SMC_VERSION_POSTFIX "dev")
 
 ###############################################
 # Flags & Options
