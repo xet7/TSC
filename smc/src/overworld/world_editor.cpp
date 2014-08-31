@@ -173,7 +173,7 @@ void cEditor_World :: Activate_Menu_Item( cEditor_Menu_Object *entry )
 
 bool cEditor_World :: Function_New( void )
 {
-	std::string world_name = Box_Text_Input( _("Create a new World"), _("Name") );
+	std::string world_name = Box_Text_Input( _("Create a new World"), C_("world", "Name") );
 
 	// aborted/invalid
 	if( world_name.empty() )
@@ -203,12 +203,12 @@ bool cEditor_World :: Function_New( void )
 
 void cEditor_World :: Function_Load( void )
 {
-	std::string world_name = _("Name");
+	std::string world_name = C_("world", "Name");
 
 	// valid world
 	while( world_name.length() )
 	{
-		world_name = Box_Text_Input( world_name, _("Load an Overworld"), world_name.compare( _("Name") ) == 0 ? 1 : 0 );
+		world_name = Box_Text_Input( world_name, _("Load an Overworld"), world_name.compare( C_("world", "Name") ) == 0 ? 1 : 0 );
 
 		// break if empty
 		if( world_name.empty() )

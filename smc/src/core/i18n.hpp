@@ -26,11 +26,14 @@ namespace SMC
 // translates the string with gettext
 #define _(String) gettext(String)
 // translates the utf8 string with gettext
-#define UTF8_(String) reinterpret_cast<CEGUI::utf8*>(gettext(String))
+#define UTF8_(String) reinterpret_cast<const CEGUI::utf8*>(gettext(String))
 // not translated and only for gettext detection
 #define N_(String) String
 // translates with singular and plural
 #define PL_(Singular, Plural, Num) ngettext((Singular), (Plural), (Num))
+// translates with context where ambigous (see section 11.2.5 of
+// the Gettext manual).
+#define C_(Context, String) pgettext(Context, String)
 
 // init internationalization
 void I18N_Init( void );

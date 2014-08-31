@@ -1628,7 +1628,9 @@ void cMenu_Options :: Init_GUI_Keyboard( void )
 
 	CEGUI::MultiColumnList *listbox_keyboard = static_cast<CEGUI::MultiColumnList *>(wmgr.getWindow( "keyboard_listbox" ));
 
-	listbox_keyboard->addColumn( UTF8_("Name"), 0, CEGUI::UDim( 0.47f, 0 ) );
+	// TRANS: Name of an action that can be bound to a key
+	listbox_keyboard->addColumn( reinterpret_cast<const CEGUI::utf8*>(C_("action", "Name")), 0, CEGUI::UDim( 0.47f, 0 ) );
+	// TRANS: Key on a keyboard
 	listbox_keyboard->addColumn( UTF8_("Key"), 1, CEGUI::UDim( 0.47f, 0 ) );
 	Build_Shortcut_List();
 
@@ -1750,7 +1752,7 @@ void cMenu_Options :: Init_GUI_Joystick( void )
 
 	CEGUI::MultiColumnList *listbox_joystick = static_cast<CEGUI::MultiColumnList *>(wmgr.getWindow( "joystick_listbox" ));
 
-	listbox_joystick->addColumn( UTF8_("Name"), 0, CEGUI::UDim( 0.47f, 0 ) );
+	listbox_joystick->addColumn( reinterpret_cast<const CEGUI::utf8*>(C_("action", "Name")), 0, CEGUI::UDim( 0.47f, 0 ) );
 	listbox_joystick->addColumn( UTF8_("Button"), 1, CEGUI::UDim( 0.47f, 0 ) );
 	Build_Shortcut_List( 1 );
 
