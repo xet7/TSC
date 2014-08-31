@@ -8,8 +8,8 @@
 #define SMC_VERSION_MAJOR @SMC_VERSION_MAJOR@
 #define SMC_VERSION_MINOR @SMC_VERSION_MINOR@
 #define SMC_VERSION_PATCH @SMC_VERSION_PATCH@
-#define SMC_VERSION_DEVELOPMENT true
 #define SMC_VERSION_GIT "@SMC_VERSION_GIT@"
+#cmakedefine SMC_VERSION_POSTFIX "@SMC_VERSION_POSTFIX@"
 
 // Enables the mruby scripting engine (-DENABLE_MRUBY)
 // FIXME: This option currently does nothing.

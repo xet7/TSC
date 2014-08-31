@@ -301,7 +301,7 @@ void cEditor :: Enable(void)
         return;
     }
 
-    // Draw Loading Text
+    // TRANS: displayed to the user when opening the editor
     Draw_Static_Text(_("Loading"), &orange, NULL, 0);
 
     // Basic Initialize
@@ -1398,7 +1398,10 @@ void cEditor :: Replace_Sprites(void)
         return;
     }
 
-    std::string image_filename = Box_Text_Input(path_to_utf8(pMouseCursor->m_selected_objects[0]->m_obj->m_start_image->m_path), _("Change selected Sprite(s) image to"), 0);
+    char i18nstr[256];
+    sprintf(i18nstr, PL_("Change selected sprite's image", "Change selected %d sprites' images", pMouseCursor->Get_Selected_Object_Size()), pMouseCursor->Get_Selected_Object_Size());
+
+    std::string image_filename = Box_Text_Input(path_to_utf8(pMouseCursor->m_selected_objects[0]->m_obj->m_start_image->m_path), i18nstr, 0 );
 
     // aborted/invalid
     if (image_filename.empty()) {

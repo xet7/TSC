@@ -1,0 +1,2019 @@
+# This file is distributed under the same license as the Secret Maryo Chronicles package.
+#
+# Copyright © 2003-2011 Florian Richter
+msgid ""
+msgstr ""
+"Project-Id-Version: Secret Maryo Chronicles\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-30 18:31+0200\n"
+"PO-Revision-Date: 2014-08-30 19:49+0200\n"
+"Last-Translator: Florian Richter <fluxey@gmail.com>\n"
+"Language-Team: UNMAINTAINED\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../src/audio/random_sound.cpp:484 ../../src/video/animation.cpp:1528
+msgid "Filename"
+msgstr "Dosya adı"
+
+#: ../../src/audio/random_sound.cpp:484
+msgid "Sound filename"
+msgstr "Ses dosyası adı"
+
+#: ../../src/audio/random_sound.cpp:491
+msgid "Continuous"
+msgstr "Devamlı"
+
+#: ../../src/audio/random_sound.cpp:491
+msgid "Check if the sound should be played continuously instead of randomly"
+msgstr "Sesin rastgele yerine devamlı çalınabilirliğini kontrol et"
+
+#: ../../src/audio/random_sound.cpp:498
+msgid "Delay Minimum"
+msgstr "En Az Gecikme"
+
+#: ../../src/audio/random_sound.cpp:498
+msgid "Minimal delay until played again"
+msgstr "Tekrar oynatılana kadar en az gecikme"
+
+#: ../../src/audio/random_sound.cpp:506 ../../src/audio/random_sound.cpp:522
+msgid "Maximum"
+msgstr "En fazla"
+
+#: ../../src/audio/random_sound.cpp:506
+msgid "Maximal delay until played again"
+msgstr "Tekrar oynatılana kadar en fazla gecikme"
+
+#: ../../src/audio/random_sound.cpp:514
+msgid "Volume Minimum"
+msgstr "En Az Ses"
+
+#: ../../src/audio/random_sound.cpp:514
+msgid "Minimal random volume for each play"
+msgstr "Her çalma için en az rastgele ses seviyesi"
+
+#: ../../src/audio/random_sound.cpp:522
+msgid "Maximal random volume for each play"
+msgstr "Her çalma için en fazla rastgele ses seviyesi"
+
+#: ../../src/audio/random_sound.cpp:530
+msgid "Volume Reduction Begin"
+msgstr "Ses Azaltımı Başladı"
+
+#: ../../src/audio/random_sound.cpp:530
+msgid "Volume reduction begins gradually at this distance"
+msgstr "Bu uzaklıktan itibaren ses azaltımı kademeli olarak başlar"
+
+#: ../../src/audio/random_sound.cpp:538
+msgid "End"
+msgstr "Son"
+
+#: ../../src/audio/random_sound.cpp:538
+msgid ""
+"Volume reduction ends at this distance. Sound is not played beyond this."
+msgstr "Ses azaltımı bu uzaklıkta sonlanır. Bu noktadan sonra ses çalınmaz."
+
+#: ../../src/core/editor/editor.cpp:320 ../../src/video/video.cpp:2358
+msgid "Loading"
+msgstr "Yükleniyor"
+
+#: ../../src/core/editor/editor.cpp:326
+msgid "Editor enabled"
+msgstr "Editör seçilebilir"
+
+#: ../../src/core/editor/editor.cpp:1594
+msgid "Change selected Sprite(s) image to"
+msgstr ""
+
+#: ../../src/core/game_core.cpp:240
+msgid "Loading Level failed : "
+msgstr "Bölüm Yüklemesi başarısız : "
+
+#: ../../src/core/game_core.cpp:358
+msgid "Loading Images"
+msgstr "Görüntüler Yükleniyor"
+
+#: ../../src/core/game_core.cpp:504
+msgid "Loading Sounds"
+msgstr "Sesler Yükleniyor"
+
+#: ../../src/core/property_helper.cpp:517
+#: ../../src/core/property_helper.cpp:772
+msgid "undefined"
+msgstr "tanımsız"
+
+#: ../../src/core/property_helper.cpp:518
+msgid "left"
+msgstr "sol"
+
+#: ../../src/core/property_helper.cpp:519
+msgid "right"
+msgstr "sağ"
+
+#: ../../src/core/property_helper.cpp:520
+msgid "up"
+msgstr "yukarı"
+
+#: ../../src/core/property_helper.cpp:521
+msgid "down"
+msgstr "aşağı"
+
+#: ../../src/core/property_helper.cpp:522
+msgid "top_left"
+msgstr "üst_sol"
+
+#: ../../src/core/property_helper.cpp:523
+msgid "top_right"
+msgstr "sağ_üst"
+
+#: ../../src/core/property_helper.cpp:524
+msgid "bottom_left"
+msgstr "sol_alt"
+
+#: ../../src/core/property_helper.cpp:525
+msgid "bottom_right"
+msgstr "sağ_alt"
+
+#: ../../src/core/property_helper.cpp:526
+msgid "left_top"
+msgstr "sol_üst"
+
+#: ../../src/core/property_helper.cpp:527
+msgid "left_bottom"
+msgstr "sol_alt"
+
+#: ../../src/core/property_helper.cpp:528
+msgid "right_top"
+msgstr "sağ_üst"
+
+#: ../../src/core/property_helper.cpp:529
+msgid "right_bottom"
+msgstr "sağ_alt"
+
+#: ../../src/core/property_helper.cpp:530
+msgid "horizontal"
+msgstr "yatay"
+
+#: ../../src/core/property_helper.cpp:531
+msgid "vertical"
+msgstr "düşey"
+
+#: ../../src/core/property_helper.cpp:532
+msgid "all"
+msgstr "hepsi"
+
+#: ../../src/core/property_helper.cpp:533
+msgid "first"
+msgstr "ilk"
+
+#: ../../src/core/property_helper.cpp:534
+msgid "last"
+msgstr "son"
+
+#: ../../src/core/property_helper.cpp:773
+#: ../../src/core/property_helper.cpp:874
+msgid "green"
+msgstr "yeşil"
+
+#: ../../src/core/property_helper.cpp:774
+msgid "jungle"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:775
+msgid "ice"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:776
+msgid "snow"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:777
+msgid "water"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:778
+msgid "candy"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:779
+msgid "desert"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:780
+msgid "sand"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:781
+msgid "castle"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:782
+#, fuzzy
+msgid "underground"
+msgstr "tanımsız"
+
+#: ../../src/core/property_helper.cpp:783
+msgid "crystal"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:784
+#, fuzzy
+msgid "ghost"
+msgstr "Hayalet"
+
+#: ../../src/core/property_helper.cpp:785
+#, fuzzy
+msgid "mushroom"
+msgstr "Mantar"
+
+#: ../../src/core/property_helper.cpp:786
+msgid "sky"
+msgstr ""
+
+#: ../../src/core/property_helper.cpp:787
+#, fuzzy
+msgid "plastic"
+msgstr "son"
+
+#: ../../src/core/property_helper.cpp:868 ../../src/gui/menu_data.cpp:1297
+#: ../../src/gui/menu_data.cpp:1322 ../../src/gui/menu_data.cpp:2358
+msgid "default"
+msgstr "varsayılan"
+
+#: ../../src/core/property_helper.cpp:869
+msgid "white"
+msgstr "beyaz"
+
+#: ../../src/core/property_helper.cpp:870
+msgid "black"
+msgstr "siyah"
+
+#: ../../src/core/property_helper.cpp:871
+msgid "red"
+msgstr "kırmızı"
+
+#: ../../src/core/property_helper.cpp:872
+msgid "orange"
+msgstr "turuncu"
+
+#: ../../src/core/property_helper.cpp:873
+msgid "yellow"
+msgstr "sarı"
+
+#: ../../src/core/property_helper.cpp:875
+msgid "blue"
+msgstr "mavi"
+
+#: ../../src/core/property_helper.cpp:876
+msgid "brown"
+msgstr "kahverengi"
+
+#: ../../src/core/property_helper.cpp:877
+msgid "grey"
+msgstr "gri"
+
+#: ../../src/core/property_helper.cpp:878
+msgid "violet"
+msgstr ""
+
+#: ../../src/enemies/beetle.cpp:255
+#: ../../src/enemies/bosses/turtle_boss.cpp:1153
+#: ../../src/enemies/eato.cpp:279 ../../src/enemies/flyon.cpp:627
+#: ../../src/enemies/furball.cpp:853 ../../src/enemies/gee.cpp:642
+#: ../../src/enemies/krush.cpp:410 ../../src/enemies/larry.cpp:400
+#: ../../src/enemies/pip.cpp:352 ../../src/enemies/rokko.cpp:621
+#: ../../src/enemies/spikeball.cpp:574 ../../src/enemies/thromp.cpp:730
+#: ../../src/enemies/turtle.cpp:1069 ../../src/level/level_player.cpp:4601
+#: ../../src/objects/level_entry.cpp:425 ../../src/objects/level_exit.cpp:504
+#: ../../src/objects/moving_platform.cpp:1109
+#: ../../src/video/animation.cpp:1702
+msgid "Direction"
+msgstr "Dizin"
+
+#: ../../src/enemies/beetle.cpp:255
+#: ../../src/enemies/bosses/turtle_boss.cpp:1153
+#: ../../src/enemies/furball.cpp:853 ../../src/enemies/gee.cpp:642
+#: ../../src/enemies/krush.cpp:410 ../../src/enemies/larry.cpp:400
+#: ../../src/enemies/spikeball.cpp:574 ../../src/enemies/turtle.cpp:1069
+#: ../../src/objects/moving_platform.cpp:1109
+msgid "Starting direction."
+msgstr "Başlama yönü."
+
+#: ../../src/enemies/beetle.cpp:263
+msgid "Color"
+msgstr ""
+
+#: ../../src/enemies/beetle.cpp:263
+msgid "Color."
+msgstr ""
+
+#: ../../src/enemies/beetle_barrage.cpp:340 ../../src/enemies/gee.cpp:686
+msgid "Fly distance"
+msgstr "Uçuş mesafesi"
+
+#: ../../src/enemies/beetle_barrage.cpp:340
+msgid "Initial beetle flying distance"
+msgstr ""
+
+#: ../../src/enemies/beetle_barrage.cpp:347
+#, fuzzy
+msgid "Action range"
+msgstr "Yön menzili"
+
+#: ../../src/enemies/beetle_barrage.cpp:347
+msgid "Radius in which it reacts on Maryo"
+msgstr ""
+
+#: ../../src/enemies/beetle_barrage.cpp:353
+msgid "Count"
+msgstr ""
+
+#: ../../src/enemies/beetle_barrage.cpp:353
+msgid "Number of beetles spit out at a time"
+msgstr ""
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1163
+msgid "Hits"
+msgstr "Vuruşlar"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1163
+msgid "Hits until a downgrade"
+msgstr "Bir azalmaya kadarki vuruşlar"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1171
+#: ../../src/enemies/furball.cpp:865
+msgid "Downgrades"
+msgstr "Azalmalar"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1171
+#: ../../src/enemies/furball.cpp:865
+msgid "Downgrades until death"
+msgstr "Ölüme kadarki azalmalar"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1179
+msgid "Shell Time"
+msgstr "Kabuk Zamanı"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1179
+msgid "Time running as shell to rise again"
+msgstr "Kabuk yeniden canlanırken geçen zaman"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1187
+#: ../../src/enemies/furball.cpp:873
+#, fuzzy
+msgid "End Level"
+msgstr "Menü Bölümü"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1187
+#: ../../src/enemies/furball.cpp:873
+msgid "End the level if it is killed."
+msgstr ""
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1189
+#: ../../src/enemies/bosses/turtle_boss.cpp:1194
+#: ../../src/enemies/bosses/turtle_boss.cpp:1251
+#: ../../src/enemies/furball.cpp:875 ../../src/enemies/furball.cpp:880
+#: ../../src/enemies/furball.cpp:898 ../../src/enemies/gee.cpp:662
+#: ../../src/enemies/gee.cpp:667 ../../src/enemies/gee.cpp:721
+#: ../../src/enemies/static.cpp:344 ../../src/enemies/static.cpp:349
+#: ../../src/enemies/static.cpp:417 ../../src/objects/bonusbox.cpp:535
+#: ../../src/objects/bonusbox.cpp:540 ../../src/objects/bonusbox.cpp:659
+#: ../../src/overworld/world_waypoint.cpp:438
+#: ../../src/overworld/world_waypoint.cpp:443
+#: ../../src/overworld/world_waypoint.cpp:508
+msgid "Enabled"
+msgstr "Seçilebilir"
+
+#: ../../src/enemies/bosses/turtle_boss.cpp:1190
+#: ../../src/enemies/bosses/turtle_boss.cpp:1198
+#: ../../src/enemies/furball.cpp:876 ../../src/enemies/furball.cpp:884
+#: ../../src/enemies/gee.cpp:663 ../../src/enemies/gee.cpp:671
+#: ../../src/enemies/static.cpp:345 ../../src/enemies/static.cpp:353
+#: ../../src/objects/bonusbox.cpp:536 ../../src/objects/bonusbox.cpp:544
+#: ../../src/objects/box.cpp:814 ../../src/objects/box.cpp:833
+#: ../../src/overworld/world_waypoint.cpp:439
+#: ../../src/overworld/world_waypoint.cpp:447
+msgid "Disabled"
+msgstr "Seçilemez"
+
+#: ../../src/enemies/eato.cpp:295 ../../src/enemies/flyon.cpp:639
+#: ../../src/enemies/thromp.cpp:742
+msgid "Image directory"
+msgstr "Görüntü dizini"
+
+#: ../../src/enemies/eato.cpp:295 ../../src/enemies/flyon.cpp:639
+#: ../../src/enemies/thromp.cpp:742
+msgid "Directory containing the images"
+msgstr "Görüntüleri bulunduran dizin"
+
+#: ../../src/enemies/flyon.cpp:627 ../../src/enemies/rokko.cpp:621
+#: ../../src/enemies/thromp.cpp:730
+msgid "Direction it moves into."
+msgstr "Hareket ettiği yön."
+
+#: ../../src/enemies/flyon.cpp:646 ../../src/enemies/gee.cpp:652
+#: ../../src/enemies/thromp.cpp:749 ../../src/objects/moving_platform.cpp:1121
+msgid "Distance"
+msgstr "Mesafe"
+
+#: ../../src/enemies/flyon.cpp:646
+msgid "Movable Distance into its direction"
+msgstr "Yönüne olan taşınabilir uzaklık"
+
+#: ../../src/enemies/flyon.cpp:654 ../../src/enemies/rokko.cpp:633
+#: ../../src/enemies/static.cpp:334 ../../src/enemies/thromp.cpp:757
+#: ../../src/objects/moving_platform.cpp:1129
+msgid "Speed"
+msgstr "Hız"
+
+#: ../../src/enemies/flyon.cpp:654
+msgid "Initial speed when jumping out"
+msgstr "Zıplarkenki ilk hız"
+
+#: ../../src/enemies/gee.cpp:652
+msgid "Movable distance"
+msgstr "Oynatılabilir uzaklık"
+
+#: ../../src/enemies/gee.cpp:660
+msgid "Always fly"
+msgstr "Her zaman uç"
+
+#: ../../src/enemies/gee.cpp:660
+msgid "Move without stopping at the fly distance"
+msgstr "Uçuş uzaklığında durmadan hareket et"
+
+#: ../../src/enemies/gee.cpp:678
+msgid "Wait time"
+msgstr "Bekleme zamanı"
+
+#: ../../src/enemies/gee.cpp:678
+msgid "Time to wait until moving again after a stop"
+msgstr "Durduktan sonra tekrar harekete geçme süresi"
+
+#: ../../src/enemies/gee.cpp:686
+msgid "The distance to move each time"
+msgstr "Bir seferdeki hareket mesafesi"
+
+#: ../../src/enemies/pip.cpp:352
+#, fuzzy
+msgid "Starting direction"
+msgstr "Başlama yönü."
+
+#: ../../src/enemies/rokko.cpp:633 ../../src/enemies/thromp.cpp:757
+msgid "Speed when activated"
+msgstr "Etkinleştirildiğindeki hız"
+
+#: ../../src/enemies/static.cpp:312 ../../src/objects/sprite.cpp:1542
+msgid "Image"
+msgstr "Görüntü"
+
+#: ../../src/enemies/static.cpp:312 ../../src/objects/sprite.cpp:1542
+#: ../../src/video/animation.cpp:1528
+msgid "Image filename"
+msgstr "Görüntü dosyası adı"
+
+#: ../../src/enemies/static.cpp:319
+msgid "Rotation Speed"
+msgstr "Dönüş hızı"
+
+#: ../../src/enemies/static.cpp:327 ../../src/objects/level_exit.cpp:573
+#: ../../src/objects/moving_platform.cpp:1102
+msgid "Path Identifier"
+msgstr "Yol Belirteci"
+
+#: ../../src/enemies/static.cpp:327 ../../src/objects/moving_platform.cpp:1102
+msgid "Name of the Path to move along."
+msgstr "Üzerinde hareket edilecek yolun adı."
+
+#: ../../src/enemies/static.cpp:334 ../../src/objects/moving_platform.cpp:1129
+msgid "Maximum speed"
+msgstr "En fazla hız"
+
+#: ../../src/enemies/static.cpp:342
+#, fuzzy
+msgid "Fire Resistant"
+msgstr "Alev Bitkisi"
+
+#: ../../src/enemies/static.cpp:342
+msgid "If it is resistant against fire"
+msgstr ""
+
+#: ../../src/enemies/static.cpp:360
+#, fuzzy
+msgid "Ice Resistance"
+msgstr "Mesafe"
+
+#: ../../src/enemies/static.cpp:360
+msgid "Resistance against Ice (0.0-1.0)"
+msgstr ""
+
+#: ../../src/enemies/thromp.cpp:749
+msgid "Detection distance into its direction"
+msgstr "Yönüne olan keşif uzaklığı"
+
+#: ../../src/gui/hud.cpp:450
+#, c-format
+msgid "Points %08d"
+msgstr "Puan %08d"
+
+#: ../../src/gui/hud.cpp:606
+msgid "Lives : "
+msgstr "Canlar : "
+
+#: ../../src/gui/hud.cpp:669
+#, c-format
+msgid "Time %02d:%02d"
+msgstr "Süre %02d:%02d"
+
+#: ../../src/gui/hud.cpp:1008 ../../src/overworld/world_waypoint.cpp:388
+#: ../../src/overworld/world_waypoint.cpp:393
+#: ../../src/overworld/world_waypoint.cpp:461
+msgid "Level"
+msgstr "Bölüm"
+
+#: ../../src/gui/hud.cpp:1009
+msgid "Player"
+msgstr "Oyuncu"
+
+#: ../../src/gui/hud.cpp:1105
+msgid "FPS : best "
+msgstr "FPS : en iyi "
+
+#: ../../src/gui/hud.cpp:1105
+msgid ", worst "
+msgstr ", en kötü "
+
+#: ../../src/gui/hud.cpp:1105
+msgid ", current "
+msgstr ", şu anki "
+
+#: ../../src/gui/hud.cpp:1107
+msgid "average "
+msgstr "ortalama "
+
+#: ../../src/gui/hud.cpp:1109
+msgid "Speed factor "
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1139
+msgid "Camera : X "
+msgstr "Kamera : X "
+
+#: ../../src/gui/hud.cpp:1145
+msgid "Name : "
+msgstr "Ad : "
+
+#: ../../src/gui/hud.cpp:1156
+msgid "Objects : "
+msgstr "Nesneler : "
+
+#: ../../src/gui/hud.cpp:1164
+msgid "Passive : "
+msgstr "Pasif : "
+
+#: ../../src/gui/hud.cpp:1172
+msgid "Massive : "
+msgstr "Ağırlık : "
+
+#: ../../src/gui/hud.cpp:1180
+msgid "Enemy : "
+msgstr "Düşman : "
+
+#: ../../src/gui/hud.cpp:1188
+msgid "Active : "
+msgstr "Etkin : "
+
+#: ../../src/gui/hud.cpp:1205
+msgid "Halfmassive : "
+msgstr "Yarı ağırlık : "
+
+#: ../../src/gui/hud.cpp:1222
+msgid "Moving Platform : "
+msgstr "Hareketi Platform : "
+
+#: ../../src/gui/hud.cpp:1244
+msgid "Goldbox : "
+msgstr "Altın kutu :"
+
+#: ../../src/gui/hud.cpp:1266
+msgid "Bonusbox : "
+msgstr "Bonus kutu :"
+
+#: ../../src/gui/hud.cpp:1272
+msgid "Other : "
+msgstr "Diğer : "
+
+#: ../../src/gui/hud.cpp:1284
+msgid "Velocity X "
+msgstr "Hız X "
+
+#: ../../src/gui/hud.cpp:1287
+msgid "Moving State "
+msgstr "Hareket Hali "
+
+#: ../../src/gui/hud.cpp:1295
+msgid "Ground "
+msgstr "Yer "
+
+#: ../../src/gui/hud.cpp:1300
+msgid "Game Mode : "
+msgstr "Oyun Modu : "
+
+#: ../../src/gui/hud.cpp:1336
+msgid "Draw"
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1340 ../../src/gui/hud.cpp:1379
+msgid "World : "
+msgstr "Dünya : "
+
+#: ../../src/gui/hud.cpp:1349 ../../src/gui/hud.cpp:1392
+msgid "Menu : "
+msgstr "Menü : "
+
+#: ../../src/gui/hud.cpp:1358 ../../src/gui/hud.cpp:1405
+msgid "Level Settings : "
+msgstr "Bölüm Ayarları : "
+
+#: ../../src/gui/hud.cpp:1367
+msgid "Level Layer 1 : "
+msgstr "Bölüm Katmanı 1 : "
+
+#: ../../src/gui/hud.cpp:1368
+msgid "Level Player : "
+msgstr "Bölüm Oyuncusu : "
+
+#: ../../src/gui/hud.cpp:1369
+msgid "Level Layer 2 : "
+msgstr "Bölüm Katmanı 2 : "
+
+#: ../../src/gui/hud.cpp:1370
+msgid "Level Hud : "
+msgstr "Bölüm Göstergeleri : "
+
+#: ../../src/gui/hud.cpp:1371
+msgid "Level Editor : "
+msgstr "Bölüm Editörü : "
+
+#: ../../src/gui/hud.cpp:1373
+msgid "Mouse : "
+msgstr "Fare : "
+
+#: ../../src/gui/hud.cpp:1375
+msgid "Update"
+msgstr "Güncelleme"
+
+#: ../../src/gui/hud.cpp:1418
+msgid "process input : "
+msgstr "işlem girdisi : "
+
+#: ../../src/gui/hud.cpp:1419
+msgid "level : "
+msgstr "bölüm : "
+
+#: ../../src/gui/hud.cpp:1420
+msgid "level editor : "
+msgstr "bölüm editörü : "
+
+#: ../../src/gui/hud.cpp:1421
+msgid "hud : "
+msgstr "gösterge : "
+
+#: ../../src/gui/hud.cpp:1422
+msgid "player : "
+msgstr "oyuncu : "
+
+#: ../../src/gui/hud.cpp:1423
+msgid "player collisions : "
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1424
+msgid "level late : "
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1425
+msgid "level collisions : "
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1426
+msgid "camera : "
+msgstr "kamera : "
+
+#: ../../src/gui/hud.cpp:1430
+msgid "Render"
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1431
+msgid "Game : "
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1432
+msgid "Gui : "
+msgstr ""
+
+#: ../../src/gui/hud.cpp:1433
+msgid "Buffer : "
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:218
+msgid "Credits"
+msgstr "Krediler"
+
+#: ../../src/gui/menu_data.cpp:248
+msgid "Version "
+msgstr "Sürüm "
+
+#: ../../src/gui/menu_data.cpp:664 ../../src/gui/menu_data.cpp:704
+#: ../../src/gui/menu_data.cpp:733
+msgid ""
+"This will reset your current progress.\n"
+"Continue ?"
+msgstr ""
+"Şu anki ilerlemenizi kaybedeceksiniz.\n"
+"Devam?"
+
+#: ../../src/gui/menu_data.cpp:674
+#, fuzzy
+msgid "Couldn't load campaign "
+msgstr "Bölüm yüklenemedi."
+
+#: ../../src/gui/menu_data.cpp:714
+msgid "Couldn't load overworld "
+msgstr "Dış dünya yüklenemiyor"
+
+#: ../../src/gui/menu_data.cpp:743
+msgid "Couldn't load level "
+msgstr "Bölüm yüklenemedi."
+
+#: ../../src/gui/menu_data.cpp:1136
+msgid "Delete "
+msgstr "Sil"
+
+#: ../../src/gui/menu_data.cpp:1212 ../../src/gui/menu_data.cpp:2998
+#: ../../src/gui/menu_data.cpp:3303
+msgid "Back"
+msgstr "Geri"
+
+#: ../../src/gui/menu_data.cpp:1251
+msgid "Always Run"
+msgstr "Her Zaman Koş"
+
+#: ../../src/gui/menu_data.cpp:1255 ../../src/gui/menu_data.cpp:1264
+#: ../../src/gui/menu_data.cpp:1438 ../../src/gui/menu_data.cpp:1447
+#: ../../src/gui/menu_data.cpp:1462 ../../src/gui/menu_data.cpp:1471
+#: ../../src/gui/menu_data.cpp:1556 ../../src/gui/menu_data.cpp:1565
+#: ../../src/gui/menu_data.cpp:1589 ../../src/gui/menu_data.cpp:1598
+#: ../../src/gui/menu_data.cpp:1713 ../../src/gui/menu_data.cpp:1722
+#: ../../src/gui/menu_data.cpp:1776 ../../src/gui/menu_data.cpp:1785
+#: ../../src/gui/menu_data.cpp:1809 ../../src/gui/menu_data.cpp:1818
+#: ../../src/gui/menu_data.cpp:1879 ../../src/gui/menu_data.cpp:1988
+#: ../../src/gui/menu_data.cpp:2002 ../../src/gui/menu_data.cpp:2047
+#: ../../src/gui/menu_data.cpp:2061 ../../src/gui/menu_data.cpp:2089
+#: ../../src/gui/menu_data.cpp:2108 ../../src/gui/menu_data.cpp:2320
+#: ../../src/gui/menu_data.cpp:2460 ../../src/gui/menu_data.cpp:2477
+#: ../../src/gui/menu_data.cpp:2535 ../../src/gui/menu_data.cpp:2545
+#: ../../src/gui/menu_data.cpp:2632 ../../src/gui/menu_data.cpp:2670
+#: ../../src/gui/menu_data.cpp:2840 ../../src/gui/menu_data.cpp:2904
+#: ../../src/gui/menu_data.cpp:2931
+msgid "On"
+msgstr "Açık"
+
+#: ../../src/gui/menu_data.cpp:1258 ../../src/gui/menu_data.cpp:1268
+#: ../../src/gui/menu_data.cpp:1441 ../../src/gui/menu_data.cpp:1451
+#: ../../src/gui/menu_data.cpp:1465 ../../src/gui/menu_data.cpp:1475
+#: ../../src/gui/menu_data.cpp:1559 ../../src/gui/menu_data.cpp:1569
+#: ../../src/gui/menu_data.cpp:1592 ../../src/gui/menu_data.cpp:1602
+#: ../../src/gui/menu_data.cpp:1716 ../../src/gui/menu_data.cpp:1726
+#: ../../src/gui/menu_data.cpp:1779 ../../src/gui/menu_data.cpp:1789
+#: ../../src/gui/menu_data.cpp:1812 ../../src/gui/menu_data.cpp:1822
+#: ../../src/gui/menu_data.cpp:1883 ../../src/gui/menu_data.cpp:1992
+#: ../../src/gui/menu_data.cpp:2006 ../../src/gui/menu_data.cpp:2051
+#: ../../src/gui/menu_data.cpp:2065 ../../src/gui/menu_data.cpp:2093
+#: ../../src/gui/menu_data.cpp:2112 ../../src/gui/menu_data.cpp:2539
+#: ../../src/gui/menu_data.cpp:2549
+msgid "Off"
+msgstr "Kapalı"
+
+#: ../../src/gui/menu_data.cpp:1275
+msgid "Camera Hor Speed"
+msgstr "Yatay Kamera Hızı"
+
+#: ../../src/gui/menu_data.cpp:1284
+msgid "Camera Ver Speed"
+msgstr "Düşey Kamera Hızı"
+
+#: ../../src/gui/menu_data.cpp:1293
+msgid "Language"
+msgstr "Dil"
+
+#: ../../src/gui/menu_data.cpp:1333
+msgid "Menu Level"
+msgstr "Menü Bölümü"
+
+#: ../../src/gui/menu_data.cpp:1349 ../../src/gui/menu_data.cpp:1508
+#: ../../src/gui/menu_data.cpp:1617 ../../src/gui/menu_data.cpp:1648
+#: ../../src/gui/menu_data.cpp:1762 ../../src/gui/menu_data.cpp:1830
+msgid "Reset"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1359
+msgid "Resolution"
+msgstr "Çözünürlük"
+
+#: ../../src/gui/menu_data.cpp:1417
+msgid "Bpp"
+msgstr "Bpp"
+
+#: ../../src/gui/menu_data.cpp:1434
+msgid "Fullscreen"
+msgstr "Tam Ekran"
+
+#: ../../src/gui/menu_data.cpp:1458
+msgid "VSync"
+msgstr "VSync"
+
+#: ../../src/gui/menu_data.cpp:1482
+msgid "FPS Limit"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1491
+msgid "Geometry Quality"
+msgstr "Geometri Kalitesi"
+
+#: ../../src/gui/menu_data.cpp:1499
+msgid "Texture Quality"
+msgstr "Doku Kalitesi"
+
+#: ../../src/gui/menu_data.cpp:1513
+msgid "Apply"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1518
+msgid "Recreate Cache"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1528
+msgid "Hertz (Hz)"
+msgstr "Hertz (Hz)"
+
+#: ../../src/gui/menu_data.cpp:1529
+msgid "You should only change the value if the audio is scratchy."
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1551
+msgid "Music"
+msgstr "Müzik"
+
+#: ../../src/gui/menu_data.cpp:1552
+msgid "Enable to play music. You need to have the Music Addon installed."
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1576
+msgid "Set the Music Volume."
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1584
+msgid "Sound"
+msgstr "Ses"
+
+#: ../../src/gui/menu_data.cpp:1585
+msgid "Enable to play Sounds."
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1609
+msgid "Set the Sound Volume."
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1627 ../../src/gui/menu_data.cpp:1749
+msgid "Shortcuts"
+msgstr "Kısayollar"
+
+#: ../../src/gui/menu_data.cpp:1631 ../../src/gui/menu_data.cpp:1753
+#: ../../src/level/level_editor.cpp:311 ../../src/level/level_editor.cpp:340
+#: ../../src/level/level_editor.cpp:345 ../../src/objects/level_entry.cpp:438
+#: ../../src/overworld/world_editor.cpp:176
+#: ../../src/overworld/world_editor.cpp:206
+#: ../../src/overworld/world_editor.cpp:211
+msgid "Name"
+msgstr "Ad"
+
+#: ../../src/gui/menu_data.cpp:1632
+msgid "Key"
+msgstr "Tuş"
+
+#: ../../src/gui/menu_data.cpp:1639
+msgid "Scroll Speed"
+msgstr "Kayma Hızı"
+
+#: ../../src/gui/menu_data.cpp:1658
+msgid "Sensitivity"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:1662
+msgid "Analog Jump"
+msgstr "Analog Zıplama"
+
+#: ../../src/gui/menu_data.cpp:1666
+msgid "Joystick"
+msgstr "Joystick"
+
+#: ../../src/gui/menu_data.cpp:1673 ../../src/gui/menu_data.cpp:2812
+msgid "None"
+msgstr "Hiç"
+
+#: ../../src/gui/menu_data.cpp:1733
+msgid "Axis Hor"
+msgstr "Yatay Eksen"
+
+#: ../../src/gui/menu_data.cpp:1741
+msgid "Ver"
+msgstr "Düşey"
+
+#: ../../src/gui/menu_data.cpp:1754
+msgid "Button"
+msgstr "Buton"
+
+#: ../../src/gui/menu_data.cpp:1772
+msgid "Show images"
+msgstr "Görüntüleri göster"
+
+#: ../../src/gui/menu_data.cpp:1796
+msgid "Item image size"
+msgstr "Obje görüntüsü büyüklüğü"
+
+#: ../../src/gui/menu_data.cpp:1805
+msgid "Auto-Hide Mouse"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2147
+msgid "Up"
+msgstr "Yukarı"
+
+#: ../../src/gui/menu_data.cpp:2148
+msgid "Down"
+msgstr "Aşağı"
+
+#: ../../src/gui/menu_data.cpp:2149
+msgid "Left"
+msgstr "Sol"
+
+#: ../../src/gui/menu_data.cpp:2150
+msgid "Right"
+msgstr "Sağ"
+
+#: ../../src/gui/menu_data.cpp:2151 ../../src/gui/menu_data.cpp:2168
+msgid "Jump"
+msgstr "Zıplama"
+
+#: ../../src/gui/menu_data.cpp:2152 ../../src/gui/menu_data.cpp:2169
+msgid "Shoot"
+msgstr "Ateş"
+
+#: ../../src/gui/menu_data.cpp:2153 ../../src/gui/menu_data.cpp:2171
+#: ../../src/objects/bonusbox.cpp:475
+msgid "Item"
+msgstr "Obje"
+
+#: ../../src/gui/menu_data.cpp:2154 ../../src/gui/menu_data.cpp:2170
+msgid "Action"
+msgstr "Eylem"
+
+#: ../../src/gui/menu_data.cpp:2155
+msgid "Screenshot"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2156
+msgid "Editor fast copy up"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2157
+msgid "Editor fast copy down"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2158
+msgid "Editor fast copy left"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2159
+msgid "Editor fast copy right"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2160
+msgid "Editor pixel move up"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2161
+#, fuzzy
+msgid "Editor pixel move down"
+msgstr "Editör seçilebilir"
+
+#: ../../src/gui/menu_data.cpp:2162
+msgid "Editor pixel move left"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2163
+msgid "Editor pixel move right"
+msgstr ""
+
+#: ../../src/gui/menu_data.cpp:2172
+msgid "Exit"
+msgstr "Çıkış"
+
+#: ../../src/gui/menu_data.cpp:2236
+msgid "Press a key"
+msgstr "Bir tuşa basın"
+
+#: ../../src/gui/menu_data.cpp:2240
+msgid "Press a button"
+msgstr "Bir butona basın"
+
+#: ../../src/gui/menu_data.cpp:2243
+msgid " for "
+msgstr " için"
+
+#: ../../src/gui/menu_data.cpp:2243
+msgid ". Press ESC to cancel."
+msgstr ". İptal etmek için ESC'e basın."
+
+#: ../../src/gui/menu_data.cpp:2568
+msgid "Reinitialization"
+msgstr "Yeniden sıfırlama"
+
+#: ../../src/gui/menu_data.cpp:2614
+msgid "Reloading"
+msgstr "Yeniden yükleniyor"
+
+#: ../../src/gui/menu_data.cpp:2644
+msgid ""
+"Music addon not detected.\n"
+"You can download it from the Website."
+msgstr ""
+"Müzik eklentisi bulunamadı.\n"
+"Websitesinden indirebilirsiniz."
+
+#: ../../src/gui/menu_data.cpp:2792
+msgid "Enabled : "
+msgstr "Seçilebilir :"
+
+#: ../../src/gui/menu_data.cpp:3186
+msgid ""
+"3000 Points needed for saving in a level.\n"
+"Saving on the Overworld is free."
+msgstr ""
+"Bölüm içinde kaydetmek için 3000 puana gerekir.\n"
+"Dünya dışında kaydetmek serbesttir."
+
+#: ../../src/gui/menu_data.cpp:3205
+msgid "No Description"
+msgstr "Açıklama Yok"
+
+#: ../../src/gui/menu_data.cpp:3209
+msgid "Enter Description"
+msgstr "Açıklama Gir"
+
+#: ../../src/input/mouse.cpp:1268
+msgid "Snap to object mode enabled"
+msgstr ""
+
+#: ../../src/input/mouse.cpp:1272
+msgid "Snap to object mode disabled"
+msgstr ""
+
+#: ../../src/input/mouse.cpp:1730 ../../src/input/mouse.cpp:1756
+msgid "Halfmassive - "
+msgstr "Yarı Ağırlık -"
+
+#: ../../src/input/mouse.cpp:1734
+msgid "Massive - "
+msgstr "Ağırlık -"
+
+#: ../../src/input/mouse.cpp:1745
+msgid "Front Passive - "
+msgstr "Ön Pasif - "
+
+#: ../../src/input/mouse.cpp:1749
+msgid "Passive - "
+msgstr "Pasif -"
+
+#: ../../src/input/mouse.cpp:1760
+msgid "Climbable - "
+msgstr "Tırmanılabilir - "
+
+#: ../../src/input/mouse.cpp:1806
+msgid "  Editor Z : "
+msgstr " Editör Z : "
+
+#: ../../src/level/level.cpp:209
+#, fuzzy
+msgid "Unsupported Level format : "
+msgstr "Desteklenmiyor : "
+
+#: ../../src/level/level.cpp:375
+msgid "Couldn't save level "
+msgstr "Bölüm kaydedilemiyor "
+
+#: ../../src/level/level.cpp:382 ../../src/level/level_editor.cpp:322
+msgid "Level "
+msgstr "Bölüm "
+
+#: ../../src/level/level.cpp:382 ../../src/overworld/overworld.cpp:255
+#: ../../src/video/video.cpp:1732
+msgid " saved"
+msgstr " kayıtlı"
+
+#: ../../src/level/level_editor.cpp:118
+msgid "Level Editor disabled"
+msgstr "Bölüm Editörü seçilemez"
+
+#: ../../src/level/level_editor.cpp:311
+msgid "Create a new Level"
+msgstr "Yeni bölüm oluştur"
+
+#: ../../src/level/level_editor.cpp:322
+#: ../../src/overworld/world_editor.cpp:198
+msgid " already exists"
+msgstr " zaten var"
+
+#: ../../src/level/level_editor.cpp:334
+#: ../../src/overworld/world_editor.cpp:193
+msgid "Created "
+msgstr "Oluşturuldu "
+
+#: ../../src/level/level_editor.cpp:345
+msgid "Load a Level"
+msgstr "Bir Bölüm Yükle"
+
+#: ../../src/level/level_editor.cpp:366
+#: ../../src/overworld/world_editor.cpp:229
+msgid "Loaded "
+msgstr "Yüklendi "
+
+#: ../../src/level/level_editor.cpp:387 ../../src/level/level_settings.cpp:253
+#: ../../src/overworld/world_editor.cpp:243
+msgid "Save "
+msgstr "Kaydet "
+
+#: ../../src/level/level_editor.cpp:397
+msgid "Save Level as"
+msgstr "Bölümü Farklı Kaydet"
+
+#: ../../src/level/level_editor.cpp:397
+msgid "New name"
+msgstr "Yeni ad"
+
+#: ../../src/level/level_editor.cpp:414
+msgid "Level was not yet saved"
+msgstr ""
+
+#: ../../src/level/level_editor.cpp:419
+msgid "Delete and Unload "
+msgstr "Sil ve Boşalt "
+
+#: ../../src/level/level_editor.cpp:443
+msgid "Reload Level ?"
+msgstr "Bölümü Yeniden Yükle ?"
+
+#: ../../src/level/level_player.cpp:4601
+msgid "Initial direction"
+msgstr "İlk Yön"
+
+#: ../../src/objects/bonusbox.cpp:230
+msgid "Box Goldpiece Yellow"
+msgstr "Kutu Sarı Altın"
+
+#: ../../src/objects/bonusbox.cpp:235
+msgid "Box Goldpiece Red"
+msgstr "Kutu Kırmızı Altın"
+
+#: ../../src/objects/bonusbox.cpp:463
+msgid "Animation"
+msgstr "Animasyon"
+
+#: ../../src/objects/bonusbox.cpp:463
+msgid ""
+"Use the Power animation if the box has a good or needed item for this level"
+msgstr ""
+"Eğer kutu bu bölüm için iyi veya gerekli bir şey taşıyorsa Güç animasyonunu "
+"kullan"
+
+#: ../../src/objects/bonusbox.cpp:475
+msgid "The item that gets spawned"
+msgstr "Ortaya çıkan obje"
+
+#: ../../src/objects/bonusbox.cpp:477 ../../src/objects/bonusbox.cpp:526
+#: ../../src/overworld/overworld.cpp:51
+msgid "Empty"
+msgstr "Boş"
+
+#: ../../src/objects/bonusbox.cpp:478 ../../src/objects/bonusbox.cpp:522
+#: ../../src/objects/bonusbox.cpp:640 ../../src/video/animation.cpp:1520
+#: ../../src/video/animation.cpp:1598 ../../src/video/animation.cpp:1614
+#: ../../src/video/animation.cpp:1694 ../../src/video/animation.cpp:1710
+#: ../../src/video/animation.cpp:1726 ../../src/video/animation.cpp:1742
+#: ../../src/video/animation.cpp:1758
+msgid "Random"
+msgstr "Rastgele"
+
+#: ../../src/objects/bonusbox.cpp:479 ../../src/objects/bonusbox.cpp:490
+#: ../../src/objects/bonusbox.cpp:608
+msgid "Mushroom"
+msgstr "Mantar"
+
+#: ../../src/objects/bonusbox.cpp:480 ../../src/objects/bonusbox.cpp:494
+#: ../../src/objects/bonusbox.cpp:612 ../../src/objects/powerup.cpp:564
+msgid "Fireplant"
+msgstr "Alev Bitkisi"
+
+#: ../../src/objects/bonusbox.cpp:481 ../../src/objects/bonusbox.cpp:498
+#: ../../src/objects/bonusbox.cpp:616 ../../src/objects/powerup.cpp:319
+msgid "Mushroom Blue"
+msgstr "Mavi Mantar"
+
+#: ../../src/objects/bonusbox.cpp:482 ../../src/objects/bonusbox.cpp:502
+#: ../../src/objects/bonusbox.cpp:620 ../../src/objects/powerup.cpp:324
+msgid "Mushroom Ghost"
+msgstr "Hayalet Mantar"
+
+#: ../../src/objects/bonusbox.cpp:483 ../../src/objects/bonusbox.cpp:506
+#: ../../src/objects/bonusbox.cpp:624 ../../src/objects/powerup.cpp:309
+msgid "Mushroom 1-UP"
+msgstr "1-Can Mantarı"
+
+#: ../../src/objects/bonusbox.cpp:484 ../../src/objects/bonusbox.cpp:510
+#: ../../src/objects/bonusbox.cpp:628 ../../src/objects/star.cpp:63
+msgid "Star"
+msgstr "Yıldız"
+
+#: ../../src/objects/bonusbox.cpp:485 ../../src/objects/bonusbox.cpp:514
+#: ../../src/objects/bonusbox.cpp:632 ../../src/objects/goldpiece.cpp:208
+msgid "Goldpiece"
+msgstr "Altın"
+
+#: ../../src/objects/bonusbox.cpp:486 ../../src/objects/bonusbox.cpp:518
+#: ../../src/objects/bonusbox.cpp:636 ../../src/objects/powerup.cpp:314
+msgid "Mushroom Poison"
+msgstr "Zehirli Mantar"
+
+#: ../../src/objects/bonusbox.cpp:533
+msgid "Force item"
+msgstr "Objeyi zorla"
+
+#: ../../src/objects/bonusbox.cpp:533
+msgid "Force best available item when activated"
+msgstr "Etkinleştirildiğinde en uygun objeyi zorla"
+
+#: ../../src/objects/bonusbox.cpp:551
+msgid "Gold color"
+msgstr "Altın rengi"
+
+#: ../../src/objects/bonusbox.cpp:551
+msgid "Gold color if the item is a goldpiece"
+msgstr "Eğer obje altınsa altın rengi"
+
+#: ../../src/objects/box.cpp:804
+msgid "Useable Count"
+msgstr "Kullanılabilir Miktar"
+
+#: ../../src/objects/box.cpp:812
+msgid "Invisible"
+msgstr "Görünmez"
+
+#: ../../src/objects/box.cpp:812
+msgid ""
+"Massive is invisible until activated.\n"
+"Ghost is only visible and activateable if in ghost mode.\n"
+"Semi Massive is like Massive but only touchable in the activation direction."
+msgstr ""
+"Ağırlık etkinleştirilene kadar görünmezdir.\n"
+"Hayalet, sadece hayalet modunda görünebilir ve etkinleştirilebilirdir.\n"
+"Yarı Ağırlık, Ağırlığa benzer ama sadece etkinleştirme yönünde "
+"dokunulabilirdir."
+
+#: ../../src/objects/box.cpp:815 ../../src/objects/box.cpp:821
+#: ../../src/objects/box.cpp:860
+msgid "Massive"
+msgstr "Ağırlık"
+
+#: ../../src/objects/box.cpp:816 ../../src/objects/box.cpp:825
+#: ../../src/objects/box.cpp:864
+msgid "Ghost"
+msgstr "Hayalet"
+
+#: ../../src/objects/box.cpp:817 ../../src/objects/box.cpp:829
+#: ../../src/objects/box.cpp:868
+msgid "Semi Massive"
+msgstr "Yarı Ağırlık"
+
+#: ../../src/objects/box.cpp:939
+msgid "Invisible "
+msgstr "Görünmez "
+
+#: ../../src/objects/box.cpp:943
+msgid "Ghost "
+msgstr "Hayalet "
+
+#: ../../src/objects/box.cpp:947
+msgid "Invisible Semi Massive "
+msgstr "Görünmez Yarı Ağırlık "
+
+#: ../../src/objects/crate.cpp:57
+msgid "Crate"
+msgstr ""
+
+#: ../../src/objects/enemystopper.cpp:59
+msgid "Enemystopper"
+msgstr "Düşman durdurucu"
+
+#: ../../src/objects/goldpiece.cpp:158
+msgid "Red Falling Goldpiece"
+msgstr ""
+
+#: ../../src/objects/goldpiece.cpp:174
+msgid "Falling Goldpiece"
+msgstr ""
+
+#: ../../src/objects/goldpiece.cpp:192
+msgid "Red Goldpiece"
+msgstr "Kırmızı Altın"
+
+#: ../../src/objects/lava.cpp:55
+msgid "Lava"
+msgstr ""
+
+#: ../../src/objects/level_entry.cpp:138 ../../src/objects/level_exit.cpp:202
+msgid " Beam"
+msgstr " Işın"
+
+#: ../../src/objects/level_entry.cpp:142 ../../src/objects/level_exit.cpp:206
+msgid " Warp"
+msgstr " Eğrilik"
+
+#: ../../src/objects/level_entry.cpp:425
+msgid "The direction to come out"
+msgstr "Çıkılacak yön"
+
+#: ../../src/objects/level_entry.cpp:438
+msgid "Name for identification"
+msgstr "Tanıma için ad"
+
+#: ../../src/objects/level_exit.cpp:504
+msgid "Direction to move in"
+msgstr "Gidilecek yön"
+
+#: ../../src/objects/level_exit.cpp:517
+msgid "Motion"
+msgstr "Hareket"
+
+#: ../../src/objects/level_exit.cpp:517
+msgid "Camera Motion"
+msgstr "Kamera Hareketi"
+
+#: ../../src/objects/level_exit.cpp:545
+msgid "Destination Level"
+msgstr "Gidilecek Bölüm"
+
+#: ../../src/objects/level_exit.cpp:545
+msgid ""
+"Name of the level that should be entered. If empty uses the current level."
+msgstr "Girilmesi gereken bölümün adı. Boşsa şu anki bölümü kullanır."
+
+#: ../../src/objects/level_exit.cpp:552
+msgid "Destination Entry"
+msgstr "Varış Yeri Girdisi"
+
+#: ../../src/objects/level_exit.cpp:552
+msgid ""
+"Name of the Entry in the destination level. If empty the entry point is the "
+"player start position."
+msgstr ""
+"Gidilecek bölümündeki girdinin adı. Eğer boşsa giriş noktası oyuncunun "
+"başlama noktasıdır."
+
+#: ../../src/objects/level_exit.cpp:559
+#, fuzzy
+msgid "Return Level"
+msgstr "Menü Bölümü"
+
+#: ../../src/objects/level_exit.cpp:559
+#, fuzzy
+msgid "Name of the level that should be pushed onto return stack."
+msgstr "Girilmesi gereken bölümün adı. Boşsa şu anki bölümü kullanır."
+
+#: ../../src/objects/level_exit.cpp:566
+#, fuzzy
+msgid "Return Entry"
+msgstr "Varış Yeri Girdisi"
+
+#: ../../src/objects/level_exit.cpp:566
+#, fuzzy
+msgid "Name of the Entry in the return level."
+msgstr "Üzerinde hareket edilecek yolun adı."
+
+#: ../../src/objects/level_exit.cpp:573
+msgid "Name of the Path to use for the camera movement."
+msgstr "Kamera hareketi için kullanılacak yolun adı."
+
+#: ../../src/objects/moving_platform.cpp:1074 ../../src/objects/path.cpp:790
+msgid "Move Type"
+msgstr "Hareket Türü"
+
+#: ../../src/objects/moving_platform.cpp:1074
+msgid "Movement type."
+msgstr "Hareket türü."
+
+#: ../../src/objects/moving_platform.cpp:1121
+msgid ""
+"Movable distance into its direction if type is line or radius if circle."
+msgstr "Çizgiyse, yönüne olan hareket edilebilir uzaklık; çemberse, yarıçap."
+
+#: ../../src/objects/moving_platform.cpp:1137
+msgid "Touch time"
+msgstr "Dokunma süresi"
+
+#: ../../src/objects/moving_platform.cpp:1137
+msgid "Time when touched until shaking starts"
+msgstr "Temastan sallantının başlamasına kadar geçen zaman"
+
+#: ../../src/objects/moving_platform.cpp:1145
+msgid "Shake time"
+msgstr "Sallanma süresi"
+
+#: ../../src/objects/moving_platform.cpp:1145
+msgid "Time it's shaking until falling"
+msgstr "Düşüşüne kadarki sallanma süresi"
+
+#: ../../src/objects/moving_platform.cpp:1153
+msgid "Touch move time"
+msgstr "Temas hareket süresi"
+
+#: ../../src/objects/moving_platform.cpp:1153
+msgid "If set does not move until this time has elapsed after touched"
+msgstr "Eğer temastan bu kadar zaman sonra set hareket etmezse"
+
+#: ../../src/objects/moving_platform.cpp:1161
+msgid "Hor image count"
+msgstr "Yatay görüntü sayısı"
+
+#: ../../src/objects/moving_platform.cpp:1161
+msgid "Horizontal middle image count"
+msgstr "Yatay orta görüntü sayısı"
+
+#: ../../src/objects/moving_platform.cpp:1171
+msgid "Image top left"
+msgstr "Sol üst görüntü"
+
+#: ../../src/objects/moving_platform.cpp:1179
+msgid "Image top middle"
+msgstr "Orta üst görüntü"
+
+#: ../../src/objects/moving_platform.cpp:1187
+msgid "Image top right"
+msgstr "Sağ üst görüntü"
+
+#: ../../src/objects/moving_platform.cpp:1403
+msgid "Falling "
+msgstr "Düşen "
+
+#: ../../src/objects/moving_platform.cpp:1407
+msgid "Delayed "
+msgstr "Gecikmiş "
+
+#: ../../src/objects/moving_platform.cpp:1411
+msgid "Moving "
+msgstr "Hareketli "
+
+#: ../../src/objects/moving_platform.cpp:1414
+msgid "Platform - "
+msgstr "Platform - "
+
+#: ../../src/objects/path.cpp:515
+msgid "Path"
+msgstr "Yol"
+
+#: ../../src/objects/path.cpp:769
+msgid "Identifier"
+msgstr "Belirleyici"
+
+#: ../../src/objects/path.cpp:769
+msgid ""
+"Identifier name of the Path. This is needed for objects that can link to "
+"this."
+msgstr "Yolun belirleyici adı. Buna bağlanabilen objeler için gereklidir."
+
+#: ../../src/objects/path.cpp:776
+#, fuzzy
+msgid "Show Line"
+msgstr "Görüntüleri göster"
+
+#: ../../src/objects/path.cpp:776
+msgid "Wether or not to show the path's moving line ingame."
+msgstr ""
+
+#: ../../src/objects/path.cpp:790
+msgid ""
+"Movement type. Mirror moves forth and back and rewind starts from the "
+"beginning again."
+msgstr ""
+
+#: ../../src/objects/path.cpp:809
+msgid "Segment"
+msgstr "Dilim"
+
+#: ../../src/objects/path.cpp:809
+msgid "Select the Segment to edit."
+msgstr "Değiştirelecek dilimi seç."
+
+#: ../../src/objects/path.cpp:822
+msgid "Add a Segment after the selected one."
+msgstr "Seçilenin ardına bir dilim ekle."
+
+#: ../../src/objects/path.cpp:824
+msgid "Add"
+msgstr "Ekle"
+
+#: ../../src/objects/path.cpp:829
+msgid "Delete the selected Segment."
+msgstr "Seçili dilimi sil."
+
+#: ../../src/objects/path.cpp:831
+msgid "Delete"
+msgstr "Sil"
+
+#: ../../src/objects/path.cpp:836
+msgid "Pos X1"
+msgstr "Konum X1"
+
+#: ../../src/objects/path.cpp:836
+msgid "Line position X1"
+msgstr "Çizgi Konumu X1"
+
+#: ../../src/objects/path.cpp:844
+msgid "Y1"
+msgstr "Y1"
+
+#: ../../src/objects/path.cpp:844
+msgid "Line position Y1"
+msgstr "Çizgi Konumu Y1"
+
+#: ../../src/objects/path.cpp:852
+msgid "Pos X2"
+msgstr "Konum X2"
+
+#: ../../src/objects/path.cpp:852
+msgid "Line position X2"
+msgstr "Çizgi Konumu X2"
+
+#: ../../src/objects/path.cpp:860
+msgid "Y2"
+msgstr "Y2"
+
+#: ../../src/objects/path.cpp:860
+msgid "Line position Y2"
+msgstr "Çizgi Konumu Y2"
+
+#: ../../src/objects/powerup.cpp:304
+msgid "Mushroom Red"
+msgstr "Kırmızı Mantar"
+
+#: ../../src/objects/powerup.cpp:697
+msgid "Moon (3-UP)"
+msgstr "Ay (3-Can)"
+
+#: ../../src/objects/text_box.cpp:267
+msgid "Text"
+msgstr "Metin"
+
+#: ../../src/objects/text_box.cpp:267
+msgid "Text to display when activated"
+msgstr "Etkinleştirildiğinde gösterilecek yazı"
+
+#: ../../src/overworld/overworld.cpp:47
+msgid "Unnamed"
+msgstr "Adsız"
+
+#: ../../src/overworld/overworld.cpp:68
+msgid "Couldn't save world description "
+msgstr "Dünya açıklaması kaydedilemiyor "
+
+#: ../../src/overworld/overworld.cpp:250
+msgid "Couldn't save world "
+msgstr "Dünya kaydedilemiyor "
+
+#: ../../src/overworld/overworld.cpp:255
+#: ../../src/overworld/world_editor.cpp:198
+msgid "World "
+msgstr "Dünya "
+
+#: ../../src/overworld/world_editor.cpp:89
+msgid "World Editor disabled"
+msgstr "Dünya Editörü kullanılamaz"
+
+#: ../../src/overworld/world_editor.cpp:176
+msgid "Create a new World"
+msgstr "Yeni Dünya Yarat"
+
+#: ../../src/overworld/world_editor.cpp:211
+msgid "Load an Overworld"
+msgstr "Dış Dünya Yükle"
+
+#: ../../src/overworld/world_editor.cpp:254
+msgid "Reload World ?"
+msgstr "Dünyayı Yeniden Yükle ?"
+
+#: ../../src/overworld/world_layer.cpp:47
+msgid "Line Start Point"
+msgstr "Çizgi Başlangıç Noktası"
+
+#: ../../src/overworld/world_layer.cpp:52
+msgid "Line End Point"
+msgstr "Çizgi Bitiş Noktası"
+
+#: ../../src/overworld/world_layer.cpp:261
+msgid "Waypoint origin"
+msgstr "Yön başlangıç noktası"
+
+#: ../../src/overworld/world_waypoint.cpp:93
+msgid "Waypoint"
+msgstr "Yön noktası"
+
+#: ../../src/overworld/world_waypoint.cpp:386
+msgid "Type"
+msgstr "Tür"
+
+#: ../../src/overworld/world_waypoint.cpp:386
+msgid "Destination type"
+msgstr "Hedef türü"
+
+#: ../../src/overworld/world_waypoint.cpp:389
+#: ../../src/overworld/world_waypoint.cpp:397
+msgid "World"
+msgstr "Dünya"
+
+#: ../../src/overworld/world_waypoint.cpp:405
+msgid "Destination"
+msgstr "Hedef"
+
+#: ../../src/overworld/world_waypoint.cpp:405
+msgid "Destination level or world"
+msgstr ""
+
+#: ../../src/overworld/world_waypoint.cpp:412
+msgid "Backward Direction"
+msgstr "Geri Yön"
+
+#: ../../src/overworld/world_waypoint.cpp:424
+msgid "Forward Direction"
+msgstr "İleri Yön"
+
+#: ../../src/overworld/world_waypoint.cpp:436
+msgid "Default Access"
+msgstr "Varsayılan Erişim"
+
+#: ../../src/overworld/world_waypoint.cpp:436
+msgid "Enable if the Waypoint should be always accessible."
+msgstr ""
+
+#: ../../src/user/savegame.cpp:553
+msgid "Savegame "
+msgstr "Kayıtlı oyun "
+
+#: ../../src/user/savegame.cpp:553
+msgid " loaded"
+msgstr " yüklendi"
+
+#: ../../src/user/savegame.cpp:734
+#, fuzzy
+msgid "Couldn't save savegame "
+msgstr "Bölüm kaydedilemiyor "
+
+#: ../../src/user/savegame.cpp:739
+msgid "Saved to Slot "
+msgstr "Yere Kaydedildi "
+
+#: ../../src/user/savegame.cpp:806
+msgid " -  Level "
+msgstr " -  Bölüm "
+
+#: ../../src/user/savegame.cpp:814
+msgid " -  Unknown"
+msgstr ""
+
+#: ../../src/user/savegame.cpp:818
+msgid " - Date "
+msgstr " - Tarih "
+
+#: ../../src/user/savegame_loader.cpp:53
+#, fuzzy
+msgid "No description"
+msgstr "Açıklama Yok"
+
+#: ../../src/video/animation.cpp:1512
+msgid "Position z"
+msgstr "Konum z"
+
+#: ../../src/video/animation.cpp:1512
+msgid "Initial depth position. Use values from 0.00011 to 0.12."
+msgstr ""
+
+#: ../../src/video/animation.cpp:1520 ../../src/video/animation.cpp:1598
+#: ../../src/video/animation.cpp:1614 ../../src/video/animation.cpp:1694
+#: ../../src/video/animation.cpp:1710 ../../src/video/animation.cpp:1726
+#: ../../src/video/animation.cpp:1742 ../../src/video/animation.cpp:1758
+msgid "Additional random value"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1535
+msgid "Based on camera pos."
+msgstr ""
+
+#: ../../src/video/animation.cpp:1535
+msgid "The emitter position is based on the camera position"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1542
+msgid "Particles Based on Emitter pos."
+msgstr ""
+
+#: ../../src/video/animation.cpp:1542
+msgid "The particle position is based on the emitter position"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1550
+msgid "Emitter width"
+msgstr "Emitör genişliği"
+
+#: ../../src/video/animation.cpp:1550
+msgid "Emitter width in which the particles spawn"
+msgstr "Taneciklerin ortaya çıktığı emitör genişliği"
+
+#: ../../src/video/animation.cpp:1558 ../../src/video/animation.cpp:1790
+msgid "Height"
+msgstr "Yükseklik"
+
+#: ../../src/video/animation.cpp:1558
+msgid "Emitter height in which the particles spawn"
+msgstr "Taneciklerin ortaya çıktığı emitör yüksekliği"
+
+#: ../../src/video/animation.cpp:1566
+msgid "Emitter TTL"
+msgstr "Emitör TTL"
+
+#: ../../src/video/animation.cpp:1566
+msgid "Emitter time to live. Set -1 for infinite."
+msgstr "Emitörün yaşam süresi. Sonsuz için -1'e ayarlayın."
+
+#: ../../src/video/animation.cpp:1574
+msgid "Emitter interval"
+msgstr "Emitör süresi"
+
+#: ../../src/video/animation.cpp:1574
+#, fuzzy
+msgid "Time between spawning particles. Amount is the quota."
+msgstr "Kotaya dayalı olarak ortaya çıkan tanecikler arasındaki zaman"
+
+#: ../../src/video/animation.cpp:1582
+msgid "Quota"
+msgstr "Kota"
+
+#: ../../src/video/animation.cpp:1582
+msgid "The amount of particles to spawn for an interval"
+msgstr "Bir zaman aralığında ortaya çıkan tanecik miktarı"
+
+#: ../../src/video/animation.cpp:1590
+msgid "TTL"
+msgstr "TTL"
+
+#: ../../src/video/animation.cpp:1590
+msgid "Particle time to live(TTL)"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1606
+msgid "Velocity"
+msgstr "Hız"
+
+#: ../../src/video/animation.cpp:1606
+msgid "Initial particle velocity or speed"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1639
+msgid "Rotation z"
+msgstr "Dönüş z"
+
+#: ../../src/video/animation.cpp:1639
+#, fuzzy
+msgid "Initial rotation z"
+msgstr "Sabit dönüş z"
+
+#: ../../src/video/animation.cpp:1647
+msgid "Add direction"
+msgstr "Yön ekle"
+
+#: ../../src/video/animation.cpp:1647
+msgid "Start direction is added to the z rotation"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1686
+msgid "Const. rotation z"
+msgstr "Sabit dönüş z"
+
+#: ../../src/video/animation.cpp:1686
+#, fuzzy
+msgid "Initial constant rotation z"
+msgstr "Sabit dönüş z üssü"
+
+#: ../../src/video/animation.cpp:1702
+#, fuzzy
+msgid "Initial direction/angle"
+msgstr "İlk Yön"
+
+#: ../../src/video/animation.cpp:1718
+msgid "Scale"
+msgstr "Skala"
+
+#: ../../src/video/animation.cpp:1718
+#, fuzzy
+msgid "Initial size scale"
+msgstr "İlk Yön"
+
+#: ../../src/video/animation.cpp:1734
+msgid "Hor gravity"
+msgstr "Yatay Yerçekimi"
+
+#: ../../src/video/animation.cpp:1734
+#, fuzzy
+msgid "Initial horizontal gravity"
+msgstr "Yatay yerçekimi üssü"
+
+#: ../../src/video/animation.cpp:1750
+msgid "Ver gravity"
+msgstr "Düşey yerçekimi"
+
+#: ../../src/video/animation.cpp:1750
+#, fuzzy
+msgid "Initial vertical gravity"
+msgstr "Düşey yerçekimi üssü"
+
+#: ../../src/video/animation.cpp:1766
+msgid "Clip rect x"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1766
+msgid "Clipping rectangle position x"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1774
+msgid "Width"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1774
+msgid "Clipping rectangle width"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1782
+msgid "Clip rect y"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1782
+msgid "Clipping rectangle position y"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1790
+msgid "Clipping rectangle height"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1798
+msgid "Clip mode"
+msgstr ""
+
+#: ../../src/video/animation.cpp:1798
+msgid "Clipping mode if particle is out the rectangle"
+msgstr ""
+
+#: ../../src/video/img_manager.cpp:123
+msgid "Saving Textures"
+msgstr "Dokular Kaydediliyor"
+
+#: ../../src/video/img_manager.cpp:174
+msgid "Restoring Textures"
+msgstr "Dokular Geri Getiriliyor"
+
+#: ../../src/video/video.cpp:686
+msgid "Caching Images failed : Could not remove old images"
+msgstr "Görüntüler Ön Belleğe Alınamadı : Eski görüntüler silinemiyor"
+
+#: ../../src/video/video.cpp:720
+msgid "Caching Images"
+msgstr "Görüntüler Ön Belleğe Alınıyor"
+
+#~ msgid "Turtle Boss"
+#~ msgstr "Patron Kaplumbağa"
+
+#~ msgid "Clear Level ?"
+#~ msgstr "Bölümü Temizle ?"
+
+#~ msgid "Box Empty"
+#~ msgstr "Boş Kutu"
+
+#~ msgid "Box Random"
+#~ msgstr "Rastgele Kutu"
+
+#~ msgid "Spinbox"
+#~ msgstr "Dönüş kutusu"
+
+#~ msgid "Textbox"
+#~ msgstr "Metin kutusu"
+
+#~ msgid "Box Mushroom"
+#~ msgstr "Kutu Mantar"
+
+#~ msgid "Box Mushroom - Fireplant"
+#~ msgstr "Kutu Mantar - Alev Bitkisi"
+
+#~ msgid "Box Mushroom - Blue Mushroom"
+#~ msgstr "Kutu Mantar - Mavi Mantar"
+
+#~ msgid "Box Mushroom - Ghost Mushroom"
+#~ msgstr "Kutu Mantar - Hayalet Mantar"
+
+#~ msgid "Box 1-UP"
+#~ msgstr "Kutu 1-Can"
+
+#~ msgid "Box Star"
+#~ msgstr "Kutu Yıldız"
+
+#~ msgid "Box Goldpiece"
+#~ msgstr "Kutu Altın"
+
+#~ msgid "Box Mushroom Poison"
+#~ msgstr "Kutu Zehirli Mantar"
+
+#~ msgid "Box Unknown Item Type"
+#~ msgstr "Kutu Bilinmeyen Ojbe Türü"
+
+#~ msgid "Level Entry"
+#~ msgstr "Bölüm Girişi"
+
+#~ msgid "Level Exit"
+#~ msgstr "Bölüm Çıkışı"
+
+#~ msgid "World Loading failed : "
+#~ msgstr "Dünya Yüklemesi başarısız "
+
+#~ msgid "Clear World ?"
+#~ msgstr "Dünyayı Temizle ?"
+
+#~ msgid "Line Layer Loading failed : "
+#~ msgstr "Çizgi Katmanı Yüklemesi Başarısız : "
+
+#~ msgid "Couldn't save world layer "
+#~ msgstr "Dünya katmanı kaydedilemiyor "
+
+#~ msgid "Preferences Loading failed : "
+#~ msgstr "Ayarların Yüklenmesi başarısız : "
+
+#~ msgid "Savegame Loading failed : "
+#~ msgstr "Kayıtlı Oyunun Yüklenmesi başarısız : "
+
+#~ msgid "Position z base"
+#~ msgstr "Konum z üssü"
+
+#~ msgid "Position z rand"
+#~ msgstr "Konum z bandı"
+
+#~ msgid "Time to live base"
+#~ msgstr "Yaşam süresi üssü"
+
+#~ msgid "Time to live random"
+#~ msgstr "Rastgele yaşam süresi"
+
+#~ msgid "Velocity base"
+#~ msgstr "Hız üssü"
+
+#~ msgid "Velocity random"
+#~ msgstr "Rastgele hız"
+
+#~ msgid "Rotation z base"
+#~ msgstr "Dönüş z üssü"
+
+#~ msgid "Start rotation z uses start direction"
+#~ msgstr "Bağlangıç z dönüşü, başlangıç yönünü kullanır"
+
+#~ msgid "Constant rotation z random"
+#~ msgstr "Rastgele sabit dönüş z"
+
+#~ msgid "Direction start"
+#~ msgstr "Yön başlangıcı"
+
+#~ msgid "Scale base"
+#~ msgstr "Skala üssü"
+
+#~ msgid "Scale random"
+#~ msgstr "Rastgele skala"
+
+#~ msgid "Horizontal gravity random"
+#~ msgstr "Rastgele yatay yerçekimi"
+
+#~ msgid "Vertical gravity random"
+#~ msgstr "Rastgele düşey yerçekimi"

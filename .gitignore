@@ -32,8 +32,8 @@
 /smc/docs/scripting/rdoc/
 /smc/docs/api/
 /smc/docs/ssl/
-/smc/src/credits.cpp
 Thumbs.db
+*.mo
 
 # Arch package
 /smc/extras/archlinux/SMC

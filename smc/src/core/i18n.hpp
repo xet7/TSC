@@ -28,6 +28,8 @@ namespace SMC {
 #define UTF8_(String) reinterpret_cast<CEGUI::utf8*>(gettext(String))
 // not translated and only for gettext detection
 #define N_(String) String
+// translates with singular and plural
+#define PL_(Singular, Plural, Num) ngettext((Singular), (Plural), (Num))
 
 // init internationalization
     void I18N_Init(void);

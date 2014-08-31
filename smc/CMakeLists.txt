@@ -14,6 +14,7 @@ include(ExternalProject)
 set(SMC_VERSION_MAJOR 2)
 set(SMC_VERSION_MINOR 0)
 set(SMC_VERSION_PATCH 0)
+set(SMC_VERSION_POSTFIX "beta2+")
 
 ###############################################
 # Flags & Options
@@ -36,6 +37,7 @@ if(${CMAKE_BUILD_TYPE} MATCHES Debug)
 endif()
 
 execute_process(COMMAND git rev-parse --short HEAD
+  WORKING_DIRECTORY ${SMC_SOURCE_DIR}
   OUTPUT_VARIABLE SMC_VERSION_GIT
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -95,25 +97,32 @@ endif()
 
 ########################################
 # CEGUI 0.7.x
-# This is only needed for *nix, as MXE provides
-# this old CEGUI.
+# Many Linux distributions do not provide CEGUI 0.7.x anymore.
+# Hence, if we do not detect it, try to download and compile it
+# ourselves.
 
 if (NOT(WIN32))
-  set(CEGUI_ROOT_DIR "${SMC_BINARY_DIR}/cegui")
-  set(CEGUI_SOURCE_DIR "${CEGUI_ROOT_DIR}/src/cegui07")
+  find_package(CEGUI COMPONENTS OPENGL)
 
-  ExternalProject_Add(cegui07
-    PREFIX "${CEGUI_ROOT_DIR}"
-    URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
-    URL_MD5 a8b682daf82e383edc169c2e6eb2b321
-    BUILD_IN_SOURCE 1
-    CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
-    BUILD_COMMAND make -j${NUM_CPUCORES}
-    INSTALL_COMMAND make install)
+  if (NOT(CEGUI_FOUND))
+    message("CEGUI 0.7.x was not found. It will be downloaded and compiled during the build process.")
 
-  set(CEGUI_INCLUDE_DIR ${CEGUI_ROOT_DIR}/include)
-  set(CEGUI_LIBRARY ${CEGUI_ROOT_DIR}/lib/libCEGUIOpenGLRenderer.a ${CEGUI_ROOT_DIR}/lib/libCEGUIBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUIDevILImageCodec.a ${CEGUI_ROOT_DIR}/lib/libCEGUIFalagardWRBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUILibxmlParser.a)
-  set(CEGUI_DEFINITIONS " -DCEGUI_STATIC")
+    set(CEGUI_ROOT_DIR "${SMC_BINARY_DIR}/cegui")
+    set(CEGUI_SOURCE_DIR "${CEGUI_ROOT_DIR}/src/cegui07")
+
+    ExternalProject_Add(cegui07
+      PREFIX "${CEGUI_ROOT_DIR}"
+      URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
+      URL_MD5 a8b682daf82e383edc169c2e6eb2b321
+      BUILD_IN_SOURCE 1
+      CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
+      BUILD_COMMAND make -j${NUM_CPUCORES}
+      INSTALL_COMMAND make install)
+
+    set(CEGUI_INCLUDE_DIR ${CEGUI_ROOT_DIR}/include)
+    set(CEGUI_LIBRARY ${CEGUI_ROOT_DIR}/lib/libCEGUIOpenGLRenderer.a ${CEGUI_ROOT_DIR}/lib/libCEGUIBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUIDevILImageCodec.a ${CEGUI_ROOT_DIR}/lib/libCEGUIFalagardWRBase.a ${CEGUI_ROOT_DIR}/lib/libCEGUILibxmlParser.a)
+    set(CEGUI_DEFINITIONS " -DCEGUI_STATIC")
+  endif()
 endif()
 
 ################################################################################
@@ -202,6 +211,20 @@ else()
   include_directories(${IL_INCLUDE_DIR})
 endif()
 
+########################################
+# Gettext internationalization
+
+# Process all PO files into MO files usable at runtime.
+file(GLOB po_files "data/translations/*.po")
+foreach(pofile ${po_files})
+  get_filename_component(lang ${pofile} NAME_WE)
+  message("-- Found gettext PO file for ${lang}: ${pofile}")
+
+  gettext_process_po_files(${lang}
+    ALL
+    PO_FILES ${pofile})
+endforeach()
+
 ###############################################
 # Configuration header
 
@@ -212,11 +235,12 @@ include_directories(${SMC_BINARY_DIR})
 ########################################
 # Credits file
 
-set_source_files_properties(${SMC_SOURCE_DIR}/src/credits.cpp
+set_source_files_properties(${SMC_BINARY_DIR}/credits.cpp
   PROPERTIES GENERATED true)
-add_custom_command(OUTPUT ${SMC_SOURCE_DIR}/src/credits.cpp
-  COMMAND rake src/credits.cpp
-  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt)
+add_custom_command(OUTPUT ${SMC_BINARY_DIR}/credits.cpp
+  COMMAND rake ${SMC_BINARY_DIR}/credits.cpp
+  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt
+  WORKING_DIRECTORY ${SMC_SOURCE_DIR})
 
 ########################################
 # Windows icon resource
@@ -253,9 +277,9 @@ file(GLOB_RECURSE smc_sources
 
 # Now add our build targets and their dependencies.
 if (WIN32)
-  add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp icon.res)
+  add_executable(smc ${smc_sources} ${SMC_BINARY_DIR}/credits.cpp icon.res)
 else()
-  add_executable(smc ${smc_sources} ${SMC_SOURCE_DIR}/src/credits.cpp)
+  add_executable(smc ${smc_sources} ${SMC_BINARY_DIR}/credits.cpp)
 endif()
 
 if (ENABLE_MRUBY)
@@ -342,12 +366,18 @@ install(DIRECTORY "${SMC_SOURCE_DIR}/data/scripting/"
 install(DIRECTORY "${SMC_SOURCE_DIR}/data/sounds/"
   DESTINATION share/smc/sounds
   COMPONENT sounds)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/translations/"
-  DESTINATION share/smc/translations
-  COMPONENT base)
 install(DIRECTORY "${SMC_SOURCE_DIR}/data/worlds/"
   DESTINATION share/smc/worlds
   COMPONENT worlds)
+
+foreach(pofile ${po_files})
+  get_filename_component(lang ${pofile} NAME_WE)
+
+  install(FILES "${SMC_BINARY_DIR}/${lang}.gmo" # .gmo is generated by gettext_process_po_files() further above
+    DESTINATION share/smc/translations/${lang}/LC_MESSAGES
+    RENAME "Secret Maryo Chronicles.mo"
+    COMPONENT base)
+endforeach()
 
 ########################################
 # Packager
