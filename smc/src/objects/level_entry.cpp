@@ -435,7 +435,7 @@ void cLevel_Entry :: Editor_Activate( void )
 
 	// destination entry
 	CEGUI::Editbox *editbox = static_cast<CEGUI::Editbox *>(wmgr.createWindow( "TaharezLook/Editbox", "level_entry_name" ));
-	Editor_Add( UTF8_("Name"), UTF8_("Name for identification"), editbox, 150 );
+	Editor_Add( reinterpret_cast<const CEGUI::utf8*>(C_("level", "Name")), UTF8_("Name for identification"), editbox, 150 );
 
 	editbox->setText( m_entry_name.c_str() );
 	editbox->subscribeEvent( CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber( &cLevel_Entry::Editor_Name_Text_Changed, this ) );
