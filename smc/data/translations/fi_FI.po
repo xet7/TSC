@@ -375,7 +375,7 @@ msgstr "Lopeta taso"
 #: ../../src/enemies/bosses/turtle_boss.cpp:1187
 #: ../../src/enemies/furball.cpp:873
 msgid "End the level if it is killed."
-msgstr "Lopeta taso jos se tapetaan."
+msgstr "Lopeta taso jos se kuolee."
 
 #: ../../src/enemies/bosses/turtle_boss.cpp:1189
 #: ../../src/enemies/bosses/turtle_boss.cpp:1194
@@ -578,7 +578,7 @@ msgstr "Passiivinen : "
 
 #: ../../src/gui/hud.cpp:1172
 msgid "Massive : "
-msgstr "Valtava : "
+msgstr "Massiivinen : "
 
 #: ../../src/gui/hud.cpp:1180
 msgid "Enemy : "
@@ -590,11 +590,11 @@ msgstr "Aktiivinen : "
 
 #: ../../src/gui/hud.cpp:1205
 msgid "Halfmassive : "
-msgstr "Puolivaltava : "
+msgstr "Puolimassiivinen : "
 
 #: ../../src/gui/hud.cpp:1222
 msgid "Moving Platform : "
-msgstr "Liikkuva tasohyppely : "
+msgstr "Liikkuva alusta : "
 
 #: ../../src/gui/hud.cpp:1244
 msgid "Goldbox : "
@@ -618,7 +618,7 @@ msgstr "Liikkumistila "
 
 #: ../../src/gui/hud.cpp:1295
 msgid "Ground "
-msgstr "Maa"
+msgstr "Maa "
 
 #: ../../src/gui/hud.cpp:1300
 msgid "Game Mode : "
@@ -726,7 +726,7 @@ msgstr "Tekijät"
 
 #: ../../src/gui/menu_data.cpp:248
 msgid "Version "
-msgstr "Versio"
+msgstr "Versio "
 
 #: ../../src/gui/menu_data.cpp:664 ../../src/gui/menu_data.cpp:704
 #: ../../src/gui/menu_data.cpp:733
@@ -739,7 +739,7 @@ msgstr ""
 
 #: ../../src/gui/menu_data.cpp:674
 msgid "Couldn't load campaign "
-msgstr "Ei saatu ladattua kampanjaa"
+msgstr "Ei saatu ladattua kampanjaa "
 
 #: ../../src/gui/menu_data.cpp:714
 msgid "Couldn't load overworld "
@@ -818,7 +818,7 @@ msgstr "Valikko taso"
 #: ../../src/gui/menu_data.cpp:1617 ../../src/gui/menu_data.cpp:1648
 #: ../../src/gui/menu_data.cpp:1762 ../../src/gui/menu_data.cpp:1830
 msgid "Reset"
-msgstr "Oletus"
+msgstr "Resetoi"
 
 #: ../../src/gui/menu_data.cpp:1359
 msgid "Resolution"
@@ -981,7 +981,7 @@ msgstr "Esine"
 
 #: ../../src/gui/menu_data.cpp:2154 ../../src/gui/menu_data.cpp:2170
 msgid "Action"
-msgstr "Toiminta"
+msgstr "Juokse"
 
 #: ../../src/gui/menu_data.cpp:2155
 msgid "Screenshot"
@@ -1085,11 +1085,11 @@ msgstr "Kiinnitä esineeseen tila ei käytössä"
 
 #: ../../src/input/mouse.cpp:1730 ../../src/input/mouse.cpp:1756
 msgid "Halfmassive - "
-msgstr "Puolivaltava - "
+msgstr "Puolimassiivinen - "
 
 #: ../../src/input/mouse.cpp:1734
 msgid "Massive - "
-msgstr "Valtava - "
+msgstr "Massiivinen - "
 
 #: ../../src/input/mouse.cpp:1745
 msgid "Front Passive - "
@@ -1149,12 +1149,12 @@ msgstr "Lataa taso"
 #: ../../src/level/level_editor.cpp:366
 #: ../../src/overworld/world_editor.cpp:229
 msgid "Loaded "
-msgstr "Ladattu"
+msgstr "Ladattu "
 
 #: ../../src/level/level_editor.cpp:387 ../../src/level/level_settings.cpp:253
 #: ../../src/overworld/world_editor.cpp:243
 msgid "Save "
-msgstr "Tallenna"
+msgstr "Tallenna "
 
 #: ../../src/level/level_editor.cpp:397
 msgid "Save Level as"
@@ -1170,7 +1170,7 @@ msgstr "Tasoa ei vielä tallennettu"
 
 #: ../../src/level/level_editor.cpp:419
 msgid "Delete and Unload "
-msgstr "Poista ja pura"
+msgstr "Poista ja pura "
 
 #: ../../src/level/level_editor.cpp:443
 msgid "Reload Level ?"
@@ -1286,14 +1286,15 @@ msgid ""
 "Ghost is only visible and activateable if in ghost mode.\n"
 "Semi Massive is like Massive but only touchable in the activation direction."
 msgstr ""
-"Valtava on näkymätön kunnes aktivoidaan.\n"
+"Massiivinen on näkymätön kunnes aktivoidaan.\n"
 "Aave on vain näkyvä ja aktivoituva jos aave tilassa.\n"
-"Puolivaltava on kuten Valtava mutta vain kosketettavissa aktivointisuunnassa."
+"Puolimassiivinen on kuten Massiivinen mutta vain kosketettavissa "
+"aktivointisuunnassa."
 
 #: ../../src/objects/box.cpp:815 ../../src/objects/box.cpp:821
 #: ../../src/objects/box.cpp:860
 msgid "Massive"
-msgstr "Valtava"
+msgstr "Massiivinen"
 
 #: ../../src/objects/box.cpp:816 ../../src/objects/box.cpp:825
 #: ../../src/objects/box.cpp:864
@@ -1303,7 +1304,7 @@ msgstr "Aave"
 #: ../../src/objects/box.cpp:817 ../../src/objects/box.cpp:829
 #: ../../src/objects/box.cpp:868
 msgid "Semi Massive"
-msgstr "Puolivaltava"
+msgstr "Puolimassiivinen"
 
 #: ../../src/objects/box.cpp:939
 msgid "Invisible "
@@ -1315,7 +1316,7 @@ msgstr "Aave"
 
 #: ../../src/objects/box.cpp:947
 msgid "Invisible Semi Massive "
-msgstr "Näkymätön puolivaltava"
+msgstr "Näkymätön puolimassiivinen"
 
 #: ../../src/objects/crate.cpp:57
 msgid "Crate"
@@ -1426,7 +1427,7 @@ msgstr ""
 
 #: ../../src/objects/moving_platform.cpp:1137
 msgid "Touch time"
-msgstr "Kosketus aika"
+msgstr "Kosketusaika"
 
 #: ../../src/objects/moving_platform.cpp:1137
 msgid "Time when touched until shaking starts"
@@ -1442,7 +1443,7 @@ msgstr "Aika joka ravistetaan ennenkuin putoaa"
 
 #: ../../src/objects/moving_platform.cpp:1153
 msgid "Touch move time"
-msgstr "Kosketus liikkumis aika"
+msgstr "Kosketus liikkumisaika"
 
 #: ../../src/objects/moving_platform.cpp:1153
 msgid "If set does not move until this time has elapsed after touched"
@@ -1470,11 +1471,11 @@ msgstr "Kuva yläoikealla"
 
 #: ../../src/objects/moving_platform.cpp:1403
 msgid "Falling "
-msgstr "Putoaa"
+msgstr "Putoaa "
 
 #: ../../src/objects/moving_platform.cpp:1407
 msgid "Delayed "
-msgstr "Viivästynyt"
+msgstr "Viivästynyt "
 
 #: ../../src/objects/moving_platform.cpp:1411
 msgid "Moving "
@@ -1482,7 +1483,7 @@ msgstr "Liikkuu "
 
 #: ../../src/objects/moving_platform.cpp:1414
 msgid "Platform - "
-msgstr "Tasohyppely - "
+msgstr "Alusta - "
 
 #: ../../src/objects/path.cpp:515
 msgid "Path"
@@ -1593,11 +1594,11 @@ msgstr "Nimeämätön"
 
 #: ../../src/overworld/overworld.cpp:68
 msgid "Couldn't save world description "
-msgstr "Ei voitu tallentaa maailman kuvausta"
+msgstr "Ei voitu tallentaa maailman kuvausta "
 
 #: ../../src/overworld/overworld.cpp:250
 msgid "Couldn't save world "
-msgstr "Ei voitu tallentaa maailmaa"
+msgstr "Ei voitu tallentaa maailmaa "
 
 #: ../../src/overworld/overworld.cpp:255
 #: ../../src/overworld/world_editor.cpp:198
@@ -1618,7 +1619,7 @@ msgstr "Lataa ylimaailma"
 
 #: ../../src/overworld/world_editor.cpp:254
 msgid "Reload World ?"
-msgstr "Uudelleenlataa maailma?"
+msgstr "Uudelleenlataa maailma ?"
 
 #: ../../src/overworld/world_layer.cpp:47
 msgid "Line Start Point"
@@ -1630,7 +1631,7 @@ msgstr "Viivan loppupiste"
 
 #: ../../src/overworld/world_layer.cpp:261
 msgid "Waypoint origin"
-msgstr "Reittipiste alkuperä"
+msgstr "Reittipisteen lähtöpaikka"
 
 #: ../../src/overworld/world_waypoint.cpp:93
 msgid "Waypoint"
@@ -1675,11 +1676,11 @@ msgstr "Ota käyttöön jos reittipiste pitäisi olla aina saatavilla."
 
 #: ../../src/user/savegame.cpp:553
 msgid "Savegame "
-msgstr "Pelitallennus"
+msgstr "Pelitallennus "
 
 #: ../../src/user/savegame.cpp:553
 msgid " loaded"
-msgstr "ladattu"
+msgstr " ladattu"
 
 #: ../../src/user/savegame.cpp:734
 msgid "Couldn't save savegame "
@@ -1687,7 +1688,7 @@ msgstr "Pelin tallennus epäonnistui "
 
 #: ../../src/user/savegame.cpp:739
 msgid "Saved to Slot "
-msgstr "Tallennettu korttipaikkaan"
+msgstr "Tallennettu korttipaikkaan "
 
 #: ../../src/user/savegame.cpp:806
 msgid " -  Level "
@@ -1699,7 +1700,7 @@ msgstr "- Tuntematon"
 
 #: ../../src/user/savegame.cpp:818
 msgid " - Date "
-msgstr "- Pvm"
+msgstr "- Pvm "
 
 #: ../../src/user/savegame_loader.cpp:53
 msgid "No description"
