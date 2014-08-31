@@ -33,6 +33,7 @@
 /smc/docs/api/
 /smc/docs/ssl/
 Thumbs.db
+*.mo
 
 # Arch package
 /smc/extras/archlinux/SMC

@@ -1,6 +1,7 @@
 # -*- ruby -*-
 require "rake"
 require "rake/clean"
+require "pathname"
 
 CLOBBER.include("build", "crossbuild", "docs/scripting/html", "docs/scripting/rdoc", "docs/api")
 
@@ -8,6 +9,8 @@ str = File.read("CMakeLists.txt")
 SMC_VERSION_MAJOR = str.match(/^set\(SMC_VERSION_MAJOR (\d+)\)/)[1]
 SMC_VERSION_MINOR = str.match(/^set\(SMC_VERSION_MINOR (\d+)\)/)[1]
 SMC_VERSION_PATCH = str.match(/^set\(SMC_VERSION_PATCH (\d+)\)/)[1]
+
+SMC_SOURCE_FILES = FileList["src/**/*.cpp"] + FileList["src/**/*.hpp"]
 
 # This is called from CMake for generating the credits file.
 rule %r{credits.cpp} => "docs/authors.txt" do |t|
@@ -40,6 +43,38 @@ namespace SMC {
       f.write("\";\n}\n")
     end
   end
+end
+
+# Note that strictly the .po files depend on the .pot file, but
+# the .pot file should only ever be updated on purpose and not
+# as part of updating the .po files, as it is the reference file
+# for all translators and thus must stay the same. Changes in it
+# require all translators to review their translation. Therefore
+# this task is not a file task on the .pot file; the .po files
+# depend on the .pot file, and it would be autocalled that way.
+desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
+task :potfile do
+  # UTF8_() should go away.
+
+  sourcefiles = SMC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
+  cd "data/translations" do
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --copyright-holder='The SMC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
+  end
+end
+
+desc "Check the PO files for errors."
+task :checkpo do
+  cd "data/translations" do
+    Dir["*.po"].sort.each do |pofile|
+      sh "msgfmt -o /dev/null -c --statistics #{pofile}"
+    end
+  end
+end
+
+# This task is intended to be called by translators that want to bring
+# their .po file up to date with the .pot file.
+rule %r{.po$} => "data/translations/Secret Maryo Chronicles.pot" do |t|
+  sh "msgmerge -U #{Rake.original_dir}/#{t.name} '#{t.source}'"
 end
 
 desc "Generate the documentation."
