@@ -97,7 +97,7 @@
 
 // Other libs
 #include <png.h>
-#include <libintl.h>
+#include "gettext.h"
 
 // System-specific includes
 #ifdef __unix__

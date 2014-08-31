@@ -15,6 +15,10 @@
 // FIXME: This option currently does nothing.
 #cmakedefine ENABLE_MRUBY
 
+// Enables translations and localisations. Unsetting it
+// will cause SMC to be always in English.
+#cmakedefine ENABLE_NLS
+
 // Enforce a specifc, static directory for graphics, music,
 // etc. If this is unset, SMC determines the data directory
 // dynamically by looking for a directory ../share/smc,
