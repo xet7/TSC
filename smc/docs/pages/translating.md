@@ -142,6 +142,45 @@ $ rake checkpo
 You will see error and warning messages if you made a mistake, plus
 nice statistics on how much you already translated.
 
+Special cases
+-------------
+
+Usually the strings to translate look like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+#: ../../src/gui/menu_data.cpp:1585
+msgid "Enable to play Sounds."
+msgstr "Aktiviere um Sounds abzuspielen."
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`msgid` is the key under which the string is looked up, and `mgstr` is
+your translation. Occsionally, however, you encounter strings that
+look like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+#. TRANS: Key on a keyboard
+#: ../../src/gui/menu_data.cpp:1634
+msgid "Key"
+msgstr "Taste"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`TRANS` comments are left by the developers and are intended as a help
+for translation if a word is not unique.
+
+Or you may find something like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+#: ../../src/gui/menu_data.cpp:1632 ../../src/gui/menu_data.cpp:1755
+msgctxt "action"
+msgid "Name"
+msgstr "Name"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`msgcxt` lines denote a context in which a word is used. They are used
+when the same word (in English) is used with different cases, so that
+translators can translate the same word differently depending on the
+context.
+
 Sending your translation upstream
 ---------------------------------
 
