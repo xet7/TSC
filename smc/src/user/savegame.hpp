@@ -164,10 +164,21 @@ public:
 	unsigned int m_goldpieces;
 	// player type
 	unsigned int m_player_type;
+    // player's previous type (previous power before a temporary power)
+    unsigned int m_player_type_temp_power;
 	// player moving state
 	unsigned int m_player_state;
 	// item in the itembox
 	unsigned int m_itembox_item;
+    //Amount of time left for invincibility (from damage, star, or file load).  0 means not invincible.
+    float m_invincible;
+    //Amount of time left for star (used for graphic flash effect)
+    float m_invincible_star;
+    // time maryo is in ghost mode
+    float m_ghost_time;
+    // ghost mode drawing modifier
+    float m_ghost_time_mod;
+
 	// return stack entries
 	std::vector<cSave_Player_Return_Entry> m_return_entries;
 

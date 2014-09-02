@@ -46,7 +46,7 @@ void cShell::Init()
 
 	m_type = TYPE_SHELL;
 	m_name = "Shell";
-	m_gravity_max = 22.0f;
+    m_gravity_max = 22.0f;
 
 	Set_Turtle_Moving_State(TURTLE_SHELL_STAND);
 }
