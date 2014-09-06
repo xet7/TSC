@@ -69,6 +69,7 @@ void cAudio_Sound :: Free(void)
 {
     Stop();
 
+
     if (m_data) {
         m_data = NULL;
     }

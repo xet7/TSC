@@ -29,8 +29,11 @@
 #include "../scripting/events/level_load_event.hpp"
 #include "../scripting/events/level_save_event.hpp"
 #include "../core/global_basic.hpp"
+#include "../audio/audio.hpp"
+#include "../enemies/turtle.hpp"
 
 using namespace std;
+
 
 namespace fs = boost::filesystem;
 
@@ -179,6 +182,14 @@ void cSave :: Init(void)
     m_player_type = 0;
     m_player_state = 0;
     m_itembox_item = 0;
+    m_invincible = 0;
+    m_invincible_star = 0;
+    m_ghost_time = 0;
+    m_ghost_time_mod = 0;
+
+    //Player state (ie power ups)
+    m_player_type = 0;
+    m_player_type_temp_power = 0;
 
     // level
     m_level_time = 0;
@@ -240,6 +251,12 @@ void cSave :: Write_To_File(fs::path filepath)
     Add_Property(p_node, "points", m_points);
     Add_Property(p_node, "goldpieces", m_goldpieces);
     Add_Property(p_node, "type", m_player_type);
+    Add_Property(p_node, "type_temp_power", m_player_type_temp_power);
+    Add_Property(p_node, "invincible_star", m_invincible_star);
+    Add_Property(p_node, "invincible", m_invincible);
+    Add_Property(p_node, "ghost_time", m_ghost_time);
+    Add_Property(p_node, "ghost_time_mod", m_ghost_time_mod);
+
     Add_Property(p_node, "state", m_player_state);
     Add_Property(p_node, "itembox_item", m_itembox_item);
     // if a level is available
@@ -428,15 +445,6 @@ int cSavegame :: Load_Game(unsigned int save_slot)
 
     // #### Level ####
 
-    // below version 8 the state was the type
-    if (savegame->m_version < 8) {
-        pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_state), 0, 0);
-    }
-    else {
-        pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type), 0, 0);
-        pLevel_Player->m_state = static_cast<Moving_state>(savegame->m_player_state);
-    }
-
     // default is world savegame
     unsigned int save_type = 2;
 
@@ -492,7 +500,16 @@ int cSavegame :: Load_Game(unsigned int save_slot)
                 int posy = string_to_int(save_object->Get_Value("posy"));
 
                 // get level object
-                cSprite* level_object = level->m_sprite_manager->Get_from_Position(posx, posy, save_object->m_type, 1);
+                bool checkPosition = true;
+
+                /*The Get_from_Position method below searches for the saved object in the level definition using its original position information.
+                Loose shells will slightly have their current position offset based on their image during the initialization process during level loading
+                Only require the original position field be checked for them.*/
+                if (save_object ->m_type == TYPE_SHELL) {
+                    checkPosition = false;
+                }
+
+                cSprite* level_object = level->m_sprite_manager->Get_from_Position(posx, posy, save_object->m_type, checkPosition);
 
                 // if not anymore available
                 if (!level_object) {
@@ -501,6 +518,14 @@ int cSavegame :: Load_Game(unsigned int save_slot)
                 }
 
                 level_object->Load_From_Savegame(save_object);
+                //If the currently loaded object is a shell (loose or with army in it) and if it was linked, call the Get_Item
+                //method to properly set it up with the player
+                if (save_object ->m_type == TYPE_SHELL  || save_object -> m_type == TYPE_TURTLE) {
+                    cTurtle* turtle = static_cast<cTurtle*>(level_object);
+                    if (turtle ->m_state == STA_OBJ_LINKED) {
+                        pLevel_Player ->Get_Item(turtle ->m_type, false, turtle);
+                    }
+                }
             }
 
             // Feed the data stored by the save event back
@@ -512,6 +537,43 @@ int cSavegame :: Load_Game(unsigned int save_slot)
     }
 
     // #### Player ####
+    //Note: Some of these steps (ie invincibility) have to be done after level -> Init() is called above.
+    //Otherwise, it will wipe them out.
+
+    // below version 8 the state was the type
+    if (savegame->m_version < 8) {
+        pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_state), 0, 0);
+    }
+    else {
+        /*Set the player's power up type.
+        For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type,
+        marking a flag for the temporary ghost power up.  Logic for both fields is not included above in the version
+        8 code because version 8 save files did not have the temporary power up field saved*/
+        if (savegame -> m_player_type == MARYO_GHOST) {
+            pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type), false, false);
+            pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type_temp_power), false, false, true);
+        }
+        else {
+            pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type), false, false);
+        }
+        pLevel_Player -> Set_Moving_State(static_cast<Moving_state>(savegame->m_player_state));
+    }
+
+    //Set invincibility time and star time for player
+    pLevel_Player -> m_invincible = savegame->m_invincible;
+    pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
+
+    pLevel_Player -> m_ghost_time = savegame->m_ghost_time;
+    pLevel_Player -> m_ghost_time_mod = savegame->m_ghost_time_mod;
+
+    //Play the appropriate music
+    if (!Is_Float_Equal(pLevel_Player -> m_invincible_star, 0.0f)) {
+        pAudio->Play_Music("game/star.ogg", 0, 1, 500);
+        pAudio->Play_Music(pActive_Level->m_musicfile, -1, 0);
+    }
+    else {
+        pAudio->Play_Music(pActive_Level->m_musicfile, -1, 1, 1000);
+    }
 
     pHud_Points->Set_Points(savegame->m_points);
     pHud_Goldpieces->Set_Gold(savegame->m_goldpieces);
@@ -616,6 +678,12 @@ bool cSavegame :: Save_Game(unsigned int save_slot, std::string description)
     savegame->m_lives = pLevel_Player->m_lives;
     savegame->m_points = pLevel_Player->m_points;
     savegame->m_player_type = pLevel_Player->m_maryo_type;
+    savegame->m_player_type_temp_power = pLevel_Player->m_maryo_type_temp_power;
+    savegame->m_invincible = pLevel_Player->m_invincible;
+    savegame->m_invincible_star = pLevel_Player->m_invincible_star;
+    savegame->m_ghost_time = pLevel_Player -> m_ghost_time;
+    savegame->m_ghost_time_mod = pLevel_Player -> m_ghost_time_mod;
+
     savegame->m_player_state = pLevel_Player->m_state;
     savegame->m_itembox_item = pHud_Itembox->m_item_id;
 

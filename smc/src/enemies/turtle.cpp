@@ -111,7 +111,9 @@ void cTurtle :: Load_From_Savegame(cSave_Level_Object* save_object)
     if (save_object->exists("turtle_state")) {
         Turtle_state mov_state = static_cast<Turtle_state>(string_to_int(save_object->Get_Value("turtle_state")));
 
-        if (mov_state == TURTLE_SHELL_STAND || mov_state == TURTLE_SHELL_RUN) {
+        //Note: if the turtle object is in a linked status (STA_OBJ_LINKED), we are holding it and do not want to call
+        //Set_Turtle_Moving_State, since it will destroy this linked state
+        if (m_state != STA_OBJ_LINKED && (mov_state == TURTLE_SHELL_STAND || mov_state == TURTLE_SHELL_RUN)) {
             Set_Turtle_Moving_State(mov_state);
             // set shell image without position changes
             cSprite::Set_Image(m_images[5 + 5].m_image);
@@ -906,10 +908,10 @@ void cTurtle :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cTurtle :: Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 )
+void cTurtle :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     pAudio->Play_Sound(m_kill_sound);
-    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1 );
+    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
     pLevel_Player->Add_Kill_Multiplier();
     DownGrade(true);
 }

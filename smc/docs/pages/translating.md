@@ -142,6 +142,46 @@ $ rake checkpo
 You will see error and warning messages if you made a mistake, plus
 nice statistics on how much you already translated.
 
+Special cases
+-------------
+
+Usually the strings to translate look like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+#: ../../src/gui/menu_data.cpp:1585
+msgid "Enable to play Sounds."
+msgstr "Aktiviere um Sounds abzuspielen."
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`msgid` is the key under which the string is looked up, and `mgstr` is
+your translation. Occasionally, however, you encounter strings that
+look like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+#. TRANS: Key on a keyboard
+#: ../../src/gui/menu_data.cpp:1634
+msgid "Key"
+msgstr "Taste"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`TRANS` comments are left by the developers and are intended as a help
+for translation if a word is not unique or to give additional
+information that may be useful for translation.
+
+Or you may find something like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+#: ../../src/gui/menu_data.cpp:1632 ../../src/gui/menu_data.cpp:1755
+msgctxt "action"
+msgid "Name"
+msgstr "Name"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`msgcxt` lines denote a context in which a word is used. They are used
+when the same word (in English) is used with different cases, so that
+translators can translate the same word differently depending on the
+context.
+
 Sending your translation upstream
 ---------------------------------
 
@@ -153,12 +193,89 @@ do one of the following:
 * Post to the forums at http://smc.quintilianus.eu
 * Write an email to me: quintus@quintilianus.eu
 
-Appendix: Generating the POT file
+Appendix A: Generating the POT file
 ---------------------------------
 
 Use this to have `xgettext` scan through SMC’s sources and update the
-POT file:
+`.pot` file:
 
 ~~~~~~~~~~~~~~~~~~~~
 $ rake potfile
 ~~~~~~~~~~~~~~~~~~~~
+
+Appendix B: Guidelines for developers
+-------------------------------------
+
+Rule No. 1: Read the [Gettext manual](https://www.gnu.org/software/gettext/manual).
+
+As a developer, always use the macros defined at the top of `i18n.hpp`
+for retrieving the translations, don’t call gettext() directly, or
+your strings will not be found by `xgettext`. If for example you want
+to make "Hello, world" translatable, this is how it would look like:
+
+~~~~~~~~~~~~~~~~~~ c++
+std::cout << _("Hello, world") << std::endl;
+~~~~~~~~~~~~~~~~~~
+
+This way, `xgettext` as called by `rake potfile` will find the string
+and add it to the `.pot` file so that translators can find it. Avoid
+the use of the `UTF8_()` macro, it only exists for CEGUI 0.7
+interaction and should be removed when the CEGUI 0.8 move has been
+completed.
+
+Be sure to use the `PL_()` macro when you have messages that report
+amounts of something. Different languages can have more plural forms
+than English (such as different forms for "one", "two", and "anything
+above") and you should let the translator decide how many plural forms
+he needs. The `PL_()` macro allows you to directly specifcy a singular
+and a plural version for English, and Gettext will use that
+information to allow the translator to use any number of plurals he
+needs:
+
+~~~~~~~~~~~~~~~~~~ c++
+printf(PL_("You found one item", "You found %d items", item_count), item_count);
+puts("\n");
+~~~~~~~~~~~~~~~~~~
+
+For interpolating numbers into strings, you have to use format
+strings, most likely with `sprintf()`, because the order of words is
+likely to be different in languages other than English, so that you
+can’t predict where to put the number. Be careful to make the `sprintf()`
+buffer large enough, because the target language may use significantly
+more bytes for the same message as English (think especially non-latin
+based languages).
+
+~~~~~~~~~~~~~~~~~~ c++
+char buf[500];
+sprintf(buf, _("I greet %d people"), num_people);
+
+display(buf, num_people);
+~~~~~~~~~~~~~~~~~~
+
+Be sure to leave `TRANS` comments in the code where the meaning of a
+word is not clear enough or where you think adding information may
+prove useful for the translators. `rake potfile` intructs `xgettext`
+to add these comments right before the next `msgid` it encounters:
+
+~~~~~~~~~~~~~~~~~~ c++
+// TRANS: "Key" as in "keyhole", not as in "keyboard"
+std::cout << _("Select key:");
+~~~~~~~~~~~~~~~~~~
+
+If you encounter a very short string that needs to be translated, and
+you know that this string is used in a completely different meaning
+elsewhere, use _contexts_ to prevent Gettext from merging both uses
+into one, as in other languages it is likely that the two meanings of
+the English word result in actually two different words in the target
+language. "Game" for example may be used as in "playing", or as in
+"hunting", where in German the correct translation for the first use
+is "Spiel" and the one for the latter use is "Wild". Contexts are
+easily set up by using the `C_()` macro instead of `_()`.
+
+~~~~~~~~~~~~~~~~~~ c++
+std::cout << C_("playing", "game") << std::endl;
+std::cout << C_("hunting", "game") << std::endl;
+~~~~~~~~~~~~~~~~~~
+
+In that example, `xgettext` will add _two_ entries to the `.pot`
+file. Also, please always use _lowercase_ for the context names.

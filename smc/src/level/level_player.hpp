@@ -283,11 +283,9 @@ namespace SMC {
         float m_ghost_time;
         // ghost mode drawing modifier
         float m_ghost_time_mod;
-        /* invincible time
-         * if 0 we are not invincible
-        */
+        // Amount of time left for invincibility (from damage, star, or file load). 0 means not invincible.
         float m_invincible;
-        // invincible time if maryo got a star
+        // Amount of time left for star (used for graphic flash effect)
         float m_invincible_star;
         // invincible drawing modifier
         float m_invincible_mod;

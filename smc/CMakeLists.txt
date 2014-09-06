@@ -20,6 +20,7 @@ set(SMC_VERSION_POSTFIX "dev")
 # Flags & Options
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
+option(ENABLE_NLS "Enable translations and localisations" ON)
 set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having SMC determine it dynamically.")
 
 #FIXME: Actually use ENABLE_MRUBY
@@ -216,14 +217,7 @@ endif()
 
 # Process all PO files into MO files usable at runtime.
 file(GLOB po_files "data/translations/*.po")
-foreach(pofile ${po_files})
-  get_filename_component(lang ${pofile} NAME_WE)
-  message("-- Found gettext PO file for ${lang}: ${pofile}")
-
-  gettext_process_po_files(${lang}
-    ALL
-    PO_FILES ${pofile})
-endforeach()
+gettext_process_po_files(languages ALL PO_FILES ${po_files})
 
 ###############################################
 # Configuration header

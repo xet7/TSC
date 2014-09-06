@@ -4,6 +4,7 @@
 #include "savegame_loader.hpp"
 #include "savegame.hpp"
 #include "../core/global_basic.hpp"
+#include "../level/level_player.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
@@ -206,12 +207,22 @@ void cSavegameLoader::handle_level_spawned_object(const Glib::ustring& name)
 
 void cSavegameLoader::handle_player()
 {
-    mp_save->m_lives        = m_current_properties.retrieve<int>("lives");
-    mp_save->m_points       = m_current_properties.fetch<long>("points", 0);
-    mp_save->m_goldpieces   = m_current_properties.retrieve<int>("goldpieces");
-    mp_save->m_player_type  = m_current_properties.retrieve<int>("type");
-    mp_save->m_player_state = m_current_properties.retrieve<int>("state");
-    mp_save->m_itembox_item = m_current_properties.retrieve<int>("itembox_item");
+    //Note: fetch defaults to a value if an xml element is not found rather than throw an exception as retrieve does
+    //This allows reverse compatibility with old save formats
+    mp_save->m_lives                    = m_current_properties.retrieve<int>("lives");
+    mp_save->m_points                   = m_current_properties.fetch<long>("points", 0);
+    mp_save->m_goldpieces               = m_current_properties.retrieve<int>("goldpieces");
+    mp_save->m_player_type              = m_current_properties.retrieve<int>("type");
+    mp_save->m_player_type_temp_power   = m_current_properties.fetch<int>("type_temp_power", MARYO_SMALL);
+    mp_save->m_invincible               = m_current_properties.fetch<float>("invincible", 0);
+    mp_save->m_invincible_star          = m_current_properties.fetch<float>("invincible_star", 0);
+    //Pre Version 2.0 files did not save the ghost time.  For such files, default the ghost time to 10 seconds if the saved player type is a ghost type and 0 it not
+    //Properly setting this prevents a weird display color for Maryo for old save files that saved with ghost Maryo
+    mp_save->m_ghost_time               = m_current_properties.fetch<float>("ghost_time", (mp_save ->m_player_type == MARYO_GHOST ? speedfactor_fps * 10 : 0));
+    mp_save->m_ghost_time_mod           = m_current_properties.fetch<float>("ghost_time_mod", 0);
+    mp_save->m_player_state             = m_current_properties.retrieve<int>("state");
+    mp_save->m_itembox_item             = m_current_properties.retrieve<int>("itembox_item");
+
     // New in V.11
     if (m_current_properties.exists("level_time"))
         mp_save->m_level_time = m_current_properties.retrieve<int>("level_time");

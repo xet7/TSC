@@ -13,11 +13,27 @@ this command from the "smc" directory:
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
--- Coders --
+-- Project Leaders --
 
 Marvin Gülker (Quintus)
- - Interim Project Leader
+ - Project Leader
  - Main Developer
+
+Luiji
+ - Project Vice
+ - Forum moderator
+
+Florian Richter (FluXy)
+ - Former Project Leader
+ - German Translator
+
+-- Coders --
+
+datahead8888
+ - Coder
+
+Brian Allen Vanderburg II (brianvanderburg2)
+ - Coder
 
 -- Artists --
 
@@ -41,6 +57,9 @@ Yoshis_Fan
 josephgbr
  - Portugese Translator
 
+Lauri Ojansivu (xet7)
+ - Finnish Translator
+
 -- Most Valued Persons (MVP) --
 
 DarkAceZ
@@ -52,10 +71,6 @@ Tristan Heaven (nyhm)
 
 Muammar El Khatib (muammar)
  - Debian Package Maintainer
-
-Luiji
- - Forum moderator
- - All-Hands Person
 
 Robert W. (BowserJr)
  - Forum/Wiki Moderator
@@ -116,10 +131,6 @@ Polilla86
 
 Mark Richards (dteck)
  - Graphic Designer
-
-Florian Richter (FluXy)
- - Former Project Leader
- - German Translator
 
 Robert (Consonance)
  - Sound and Music Artist

@@ -57,7 +57,7 @@ Thumbs.db
 *.pgc
 
 # QT Creator
-CMakeLists.txt.user
+CMakeLists.txt.user*
 
 # Installer
 /smc/extras/Setup/*.exe

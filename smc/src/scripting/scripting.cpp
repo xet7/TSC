@@ -177,6 +177,9 @@ void cMRuby_Interpreter::Load_Scripts()
         cerr << "Warning: Error loading main mruby script '"
              << path_to_utf8(mainfile)
              << "'!" << endl;
+        std::cerr << "Warning: Error loading main mruby script '"
+                  << path_to_utf8(mainfile)
+                  << "'!" << std::endl;
     }
 }
 
@@ -206,6 +209,7 @@ void cMRuby_Interpreter::Evaluate_Timer_Callbacks()
         mrb_funcall(mp_mruby, *iter, "call", 0);
         if (mp_mruby->exc) {
             cerr << "Warning: Error running timer callback: " << endl;
+            std::cerr << "Warning: Error running timer callback: " << std::endl;
             mrb_print_error(mp_mruby);
         }
     }

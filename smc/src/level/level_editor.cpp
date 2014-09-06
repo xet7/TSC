@@ -268,7 +268,7 @@ bool cEditor_Level :: Switch_Object_State(cSprite* obj) const
 
 bool cEditor_Level :: Function_New(void)
 {
-    std::string level_name = Box_Text_Input(_("Create a new Level"), _("Name"));
+    std::string level_name = Box_Text_Input(_("Create a new Level"), C_("level", "Name"));
 
     // aborted
     if (level_name.empty()) {
@@ -295,11 +295,11 @@ bool cEditor_Level :: Function_New(void)
 
 void cEditor_Level :: Function_Load(void)
 {
-    std::string level_name = _("Name");
+    std::string level_name = C_("level", "Name");
 
     // valid level
     while (level_name.length()) {
-        level_name = Box_Text_Input(level_name, _("Load a Level"), level_name.compare(_("Name")) == 0 ? 1 : 0);
+        level_name = Box_Text_Input(level_name, _("Load a Level"), level_name.compare(C_("level", "Name")) == 0 ? 1 : 0);
 
         // aborted
         if (level_name.empty()) {
