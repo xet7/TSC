@@ -14,7 +14,7 @@ include(ExternalProject)
 set(SMC_VERSION_MAJOR 2)
 set(SMC_VERSION_MINOR 0)
 set(SMC_VERSION_PATCH 0)
-set(SMC_VERSION_POSTFIX "beta3")
+set(SMC_VERSION_POSTFIX "beta3+")
 
 ###############################################
 # Flags & Options
