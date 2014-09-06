@@ -29,8 +29,8 @@ MRUBY_IMPLEMENT_EVENT(activate);
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of Box.");
-	return self;
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of Box.");
+    return self;
 }
 
 /**
@@ -57,28 +57,28 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Animation_Type(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym type;
-	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
 
-	std::string anitype;
-	if (typestr == "bonus")
-		anitype = "Bonus";
-	else if (typestr == "default")
-		anitype = "Default";
-	else if (typestr == "power")
-		anitype = "Power";
-	else if (typestr == "spin")
-		anitype = "Spain";
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid box animation type %s", typestr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    std::string anitype;
+    if (typestr == "bonus")
+        anitype = "Bonus";
+    else if (typestr == "default")
+        anitype = "Default";
+    else if (typestr == "power")
+        anitype = "Power";
+    else if (typestr == "spin")
+        anitype = "Spain";
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid box animation type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	p_box->Set_Animation_Type(anitype);
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Set_Animation_Type(anitype);
 
-	return mrb_symbol_value(type);
+    return mrb_symbol_value(type);
 }
 
 /**
@@ -91,8 +91,8 @@ static mrb_value Set_Animation_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Animation_Type(mrb_state* p_state, mrb_value self)
 {
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	return str2sym(p_state, p_box->m_anim_type);
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    return str2sym(p_state, p_box->m_anim_type);
 }
 
 /**
@@ -110,13 +110,13 @@ static mrb_value Get_Animation_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Usable_Count(mrb_state* p_state, mrb_value self)
 {
-	mrb_int count;
-	mrb_get_args(p_state, "i", &count);
+    mrb_int count;
+    mrb_get_args(p_state, "i", &count);
 
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	p_box->Set_Useable_Count(count, true);
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Set_Useable_Count(count, true);
 
-	return mrb_fixnum_value(count);
+    return mrb_fixnum_value(count);
 }
 
 /**
@@ -129,8 +129,8 @@ static mrb_value Set_Usable_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Usable_Count(mrb_state* p_state, mrb_value self)
 {
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	return mrb_fixnum_value(p_box->m_start_useable_count);
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    return mrb_fixnum_value(p_box->m_start_useable_count);
 }
 
 /**
@@ -144,8 +144,8 @@ static mrb_value Get_Usable_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Remaining_Usable_Count(mrb_state* p_state, mrb_value self)
 {
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	return mrb_fixnum_value(p_box->m_useable_count);
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    return mrb_fixnum_value(p_box->m_useable_count);
 }
 
 /**
@@ -177,28 +177,28 @@ static mrb_value Get_Remaining_Usable_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Invisible(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym type;
-	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
 
-	Box_Invisible_Type invis;
-	if (typestr == "visible")
-		invis = BOX_VISIBLE;
-	else if (typestr == "massive")
-		invis = BOX_INVISIBLE_MASSIVE;
-	else if (typestr == "ghost")
-		invis = BOX_GHOST;
-	else if (typestr == "semi_massive")
-		invis = BOX_INVISIBLE_SEMI_MASSIVE;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid box invisible type %s", typestr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    Box_Invisible_Type invis;
+    if (typestr == "visible")
+        invis = BOX_VISIBLE;
+    else if (typestr == "massive")
+        invis = BOX_INVISIBLE_MASSIVE;
+    else if (typestr == "ghost")
+        invis = BOX_GHOST;
+    else if (typestr == "semi_massive")
+        invis = BOX_INVISIBLE_SEMI_MASSIVE;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid box invisible type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	p_box->Set_Invisible(invis);
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Set_Invisible(invis);
 
-	return mrb_symbol_value(type);
+    return mrb_symbol_value(type);
 }
 
 /**
@@ -211,19 +211,19 @@ static mrb_value Set_Invisible(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Invisible(mrb_state* p_state, mrb_value self)
 {
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	switch (p_box->m_box_invisible) {
-	case BOX_VISIBLE:
-		return str2sym(p_state, "visible");
-	case BOX_INVISIBLE_MASSIVE:
-		return str2sym(p_state, "massive");
-	case BOX_GHOST:
-		return str2sym(p_state, "ghost");
-	case BOX_INVISIBLE_SEMI_MASSIVE:
-		return str2sym(p_state, "semi_massive");
-	default:
-		return mrb_nil_value();
-	}
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    switch (p_box->m_box_invisible) {
+    case BOX_VISIBLE:
+        return str2sym(p_state, "visible");
+    case BOX_INVISIBLE_MASSIVE:
+        return str2sym(p_state, "massive");
+    case BOX_GHOST:
+        return str2sym(p_state, "ghost");
+    case BOX_INVISIBLE_SEMI_MASSIVE:
+        return str2sym(p_state, "semi_massive");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -236,25 +236,25 @@ static mrb_value Get_Invisible(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
-	p_box->Activate();
-	return mrb_nil_value();
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Activate();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Box(mrb_state* p_state)
 {
-	struct RClass* p_rcBox = mrb_define_class(p_state, "Box", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcBox, MRB_TT_DATA);
+    struct RClass* p_rcBox = mrb_define_class(p_state, "Box", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcBox, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcBox, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBox, "animation_type=", Set_Animation_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBox, "animation_type", Get_Animation_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBox, "max_uses=", Set_Usable_Count, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBox, "max_uses", Get_Usable_Count, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBox, "remaining_uses", Get_Remaining_Usable_Count, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBox, "invisible=", Set_Invisible, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBox, "invisible", Get_Invisible, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBox, "activate", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "animation_type=", Set_Animation_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBox, "animation_type", Get_Animation_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "max_uses=", Set_Usable_Count, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBox, "max_uses", Get_Usable_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "remaining_uses", Get_Remaining_Usable_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "invisible=", Set_Invisible, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBox, "invisible", Get_Invisible, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "activate", Activate, MRB_ARGS_NONE());
 
-	mrb_define_method(p_state, p_rcBox, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcBox, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
 }

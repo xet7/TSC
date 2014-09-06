@@ -33,17 +33,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cBeetle* p_beetle = new cBeetle(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_beetle;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cBeetle* p_beetle = new cBeetle(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_beetle;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_beetle->Set_Spawned(true);
+    // This is a generated object
+    p_beetle->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_beetle);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_beetle);
 
-	return self;
+    return self;
 }
 
 /**
@@ -55,13 +55,13 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Rest_Living_Time(mrb_state* p_state, mrb_value self)
 {
-	float time = 0.0f;
-	mrb_get_args(p_state, "f", &time);
+    float time = 0.0f;
+    mrb_get_args(p_state, "f", &time);
 
-	cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
-	p_beetle->Set_Rest_Living_Time(time);
+    cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
+    p_beetle->Set_Rest_Living_Time(time);
 
-	return mrb_float_value(p_state, time);
+    return mrb_float_value(p_state, time);
 }
 
 /**
@@ -73,8 +73,8 @@ static mrb_value Set_Rest_Living_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Rest_Living_Time(mrb_state* p_state, mrb_value self)
 {
-	cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
-	return mrb_float_value(p_state, p_beetle->Get_Rest_Living_Time());
+    cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
+    return mrb_float_value(p_state, p_beetle->Get_Rest_Living_Time());
 }
 
 /**
@@ -92,30 +92,30 @@ static mrb_value Get_Rest_Living_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym color;
-	mrb_get_args(p_state, "n", &color);
-	std::string colorstr = mrb_sym2name(p_state, color);
+    mrb_sym color;
+    mrb_get_args(p_state, "n", &color);
+    std::string colorstr = mrb_sym2name(p_state, color);
 
-	DefaultColor col;
-	if (colorstr == "blue")
-		col = COL_BLUE;
-	else if (colorstr == "green")
-		col = COL_GREEN;
-	else if (colorstr == "red")
-		col = COL_RED;
-	else if (colorstr == "violet")
-		col = COL_VIOLET;
-	else if (colorstr == "yellow")
-		col = COL_YELLOW;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid beetle color %s", colorstr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    DefaultColor col;
+    if (colorstr == "blue")
+        col = COL_BLUE;
+    else if (colorstr == "green")
+        col = COL_GREEN;
+    else if (colorstr == "red")
+        col = COL_RED;
+    else if (colorstr == "violet")
+        col = COL_VIOLET;
+    else if (colorstr == "yellow")
+        col = COL_YELLOW;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid beetle color %s", colorstr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
-	p_beetle->Set_Color(col);
+    cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
+    p_beetle->Set_Color(col);
 
-	return mrb_symbol_value(color);
+    return mrb_symbol_value(color);
 }
 
 /**
@@ -128,32 +128,32 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
 {
-	cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
+    cBeetle* p_beetle = Get_Data_Ptr<cBeetle>(p_state, self);
 
-	switch(p_beetle->Get_Color()) {
-	case COL_BLUE:
-		return str2sym(p_state, "blue");
-	case COL_GREEN:
-		return str2sym(p_state, "green");
-	case COL_RED:
-		return str2sym(p_state, "red");
-	case COL_VIOLET:
-		return str2sym(p_state, "violet");
-	case COL_YELLOW:
-		return str2sym(p_state, "yellow");
-	default:
-		return mrb_nil_value();
-	}
+    switch (p_beetle->Get_Color()) {
+    case COL_BLUE:
+        return str2sym(p_state, "blue");
+    case COL_GREEN:
+        return str2sym(p_state, "green");
+    case COL_RED:
+        return str2sym(p_state, "red");
+    case COL_VIOLET:
+        return str2sym(p_state, "violet");
+    case COL_YELLOW:
+        return str2sym(p_state, "yellow");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 void SMC::Scripting::Init_Beetle(mrb_state* p_state)
 {
-	struct RClass* p_rcBeetle = mrb_define_class(p_state, "Beetle", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcBeetle, MRB_TT_DATA);
+    struct RClass* p_rcBeetle = mrb_define_class(p_state, "Beetle", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcBeetle, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcBeetle, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetle, "rest_living_time", Get_Rest_Living_Time, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetle, "rest_living_time=", Set_Rest_Living_Time, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBeetle, "color", Get_Color, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetle, "color=", Set_Color, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBeetle, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetle, "rest_living_time", Get_Rest_Living_Time, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetle, "rest_living_time=", Set_Rest_Living_Time, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBeetle, "color", Get_Color, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetle, "color=", Set_Color, MRB_ARGS_REQ(1));
 }

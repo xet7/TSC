@@ -95,8 +95,8 @@ using namespace SMC::Scripting;
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
-	return self; // Not reached
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of this class.");
+    return self; // Not reached
 }
 
 
@@ -116,14 +116,14 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Accelerate(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_float velx;
-	mrb_float vely;
-	mrb_get_args(p_state, "ff", &velx, &vely);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_float velx;
+    mrb_float vely;
+    mrb_get_args(p_state, "ff", &velx, &vely);
 
-	p_sprite->Add_Velocity(velx, vely);
+    p_sprite->Add_Velocity(velx, vely);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -167,64 +167,64 @@ static mrb_value Accelerate(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Direction(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	std::string dir;
-	switch(p_sprite->m_direction){
-	case DIR_UNDEFINED:
-		dir = "undefined";
-		break;
-	case DIR_LEFT:
-		dir = "left";
-		break;
-	case DIR_RIGHT:
-		dir = "right";
-		break;
-	case DIR_UP:
-		dir = "up";
-		break;
-	case DIR_DOWN:
-		dir = "down";
-		break;
-	case DIR_UP_LEFT:
-		dir = "up_left";
-		break;
-	case DIR_UP_RIGHT:
-		dir = "up_right";
-		break;
-	case DIR_DOWN_LEFT:
-		dir = "down_left";
-		break;
-	case DIR_DOWN_RIGHT:
-		dir = "down_right";
-		break;
-	case DIR_LEFT_UP:
-		dir = "left_up";
-		break;
-	case DIR_LEFT_DOWN:
-		dir = "left_down";
-		break;
-	case DIR_HORIZONTAL:
-		dir = "horizontal";
-		break;
-	case DIR_VERTICAL:
-		dir = "vertical";
-		break;
-	case DIR_ALL:
-		dir = "all";
-		break;
-	case DIR_FIRST:
-		dir = "first";
-		break;
-	case DIR_LAST:
-		dir = "last";
-		break;
-	default: // Shouldn’t happen
-		std::cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
-		return mrb_nil_value();
-	}
-	// A world for a consecutive enum!
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    std::string dir;
+    switch (p_sprite->m_direction) {
+    case DIR_UNDEFINED:
+        dir = "undefined";
+        break;
+    case DIR_LEFT:
+        dir = "left";
+        break;
+    case DIR_RIGHT:
+        dir = "right";
+        break;
+    case DIR_UP:
+        dir = "up";
+        break;
+    case DIR_DOWN:
+        dir = "down";
+        break;
+    case DIR_UP_LEFT:
+        dir = "up_left";
+        break;
+    case DIR_UP_RIGHT:
+        dir = "up_right";
+        break;
+    case DIR_DOWN_LEFT:
+        dir = "down_left";
+        break;
+    case DIR_DOWN_RIGHT:
+        dir = "down_right";
+        break;
+    case DIR_LEFT_UP:
+        dir = "left_up";
+        break;
+    case DIR_LEFT_DOWN:
+        dir = "left_down";
+        break;
+    case DIR_HORIZONTAL:
+        dir = "horizontal";
+        break;
+    case DIR_VERTICAL:
+        dir = "vertical";
+        break;
+    case DIR_ALL:
+        dir = "all";
+        break;
+    case DIR_FIRST:
+        dir = "first";
+        break;
+    case DIR_LAST:
+        dir = "last";
+        break;
+    default: // Shouldn’t happen
+        std::cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+        return mrb_nil_value();
+    }
+    // A world for a consecutive enum!
 
-	return str2sym(p_state, dir);
+    return str2sym(p_state, dir);
 }
 
 /**
@@ -242,54 +242,54 @@ static mrb_value Get_Direction(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Direction(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_sym rdir;
-	mrb_get_args(p_state, "n", &rdir);
-	std::string dirstr = mrb_sym2name(p_state, rdir);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_sym rdir;
+    mrb_get_args(p_state, "n", &rdir);
+    std::string dirstr = mrb_sym2name(p_state, rdir);
 
-	ObjectDirection dir;
-	if (dirstr == "left")
-		dir = DIR_LEFT;
-	else if (dirstr == "right")
-		dir = DIR_RIGHT;
-	else if (dirstr == "up" || dirstr == "top")
-		dir = DIR_UP;
-	else if (dirstr == "down" || dirstr == "bottom")
-		dir = DIR_DOWN;
-	else if (dirstr == "up_left" || dirstr == "top_left")
-		dir = DIR_UP_LEFT;
-	else if (dirstr == "up_right" || dirstr == "top_right")
-		dir = DIR_UP_RIGHT;
-	else if (dirstr == "down_left" || dirstr == "bottom_left")
-		dir = DIR_DOWN_LEFT;
-	else if (dirstr == "down right" || dirstr == "bottom_right")
-		dir = DIR_DOWN_RIGHT;
-	else if (dirstr == "left_up" || dirstr == "left_top")
-		dir = DIR_LEFT_UP;
-	else if (dirstr == "left_down" || dirstr == "left_bottom")
-		dir = DIR_LEFT_DOWN;
-	else if (dirstr == "right_up" || dirstr == "right_top")
-		dir = DIR_RIGHT_UP;
-	else if (dirstr == "right_down" || dirstr == "right_bottom")
-		dir = DIR_RIGHT_DOWN;
-	else if (dirstr == "horizontal")
-		dir = DIR_HORIZONTAL;
-	else if (dirstr == "vertical")
-		dir = DIR_VERTICAL;
-	else if (dirstr == "all")
-		dir = DIR_ALL;
-	else if (dirstr == "first")
-		dir = DIR_FIRST;
-	else if (dirstr == "last")
-		dir = DIR_LAST;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid direction '%s'.", dirstr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
-	// A world for a consecutive enum!
+    ObjectDirection dir;
+    if (dirstr == "left")
+        dir = DIR_LEFT;
+    else if (dirstr == "right")
+        dir = DIR_RIGHT;
+    else if (dirstr == "up" || dirstr == "top")
+        dir = DIR_UP;
+    else if (dirstr == "down" || dirstr == "bottom")
+        dir = DIR_DOWN;
+    else if (dirstr == "up_left" || dirstr == "top_left")
+        dir = DIR_UP_LEFT;
+    else if (dirstr == "up_right" || dirstr == "top_right")
+        dir = DIR_UP_RIGHT;
+    else if (dirstr == "down_left" || dirstr == "bottom_left")
+        dir = DIR_DOWN_LEFT;
+    else if (dirstr == "down right" || dirstr == "bottom_right")
+        dir = DIR_DOWN_RIGHT;
+    else if (dirstr == "left_up" || dirstr == "left_top")
+        dir = DIR_LEFT_UP;
+    else if (dirstr == "left_down" || dirstr == "left_bottom")
+        dir = DIR_LEFT_DOWN;
+    else if (dirstr == "right_up" || dirstr == "right_top")
+        dir = DIR_RIGHT_UP;
+    else if (dirstr == "right_down" || dirstr == "right_bottom")
+        dir = DIR_RIGHT_DOWN;
+    else if (dirstr == "horizontal")
+        dir = DIR_HORIZONTAL;
+    else if (dirstr == "vertical")
+        dir = DIR_VERTICAL;
+    else if (dirstr == "all")
+        dir = DIR_ALL;
+    else if (dirstr == "first")
+        dir = DIR_FIRST;
+    else if (dirstr == "last")
+        dir = DIR_LAST;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid direction '%s'.", dirstr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
+    // A world for a consecutive enum!
 
-	p_sprite->Set_Direction(dir);
-	return mrb_symbol_value(rdir);
+    p_sprite->Set_Direction(dir);
+    return mrb_symbol_value(rdir);
 }
 
 /**
@@ -302,54 +302,54 @@ static mrb_value Set_Direction(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_sym rdir;
-	mrb_get_args(p_state, "n", &rdir);
-	std::string dirstr = mrb_sym2name(p_state, rdir);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_sym rdir;
+    mrb_get_args(p_state, "n", &rdir);
+    std::string dirstr = mrb_sym2name(p_state, rdir);
 
-	ObjectDirection dir;
-	if (dirstr == "left")
-		dir = DIR_LEFT;
-	else if (dirstr == "right")
-		dir = DIR_RIGHT;
-	else if (dirstr == "up" || dirstr == "top")
-		dir = DIR_UP;
-	else if (dirstr == "down" || dirstr == "bottom")
-		dir = DIR_DOWN;
-	else if (dirstr == "up_left" || dirstr == "top_left")
-		dir = DIR_UP_LEFT;
-	else if (dirstr == "up_right" || dirstr == "top_right")
-		dir = DIR_UP_RIGHT;
-	else if (dirstr == "down_left" || dirstr == "bottom_left")
-		dir = DIR_DOWN_LEFT;
-	else if (dirstr == "down right" || dirstr == "bottom_right")
-		dir = DIR_DOWN_RIGHT;
-	else if (dirstr == "left_up" || dirstr == "left_top")
-		dir = DIR_LEFT_UP;
-	else if (dirstr == "left_down" || dirstr == "left_bottom")
-		dir = DIR_LEFT_DOWN;
-	else if (dirstr == "right_up" || dirstr == "right_top")
-		dir = DIR_RIGHT_UP;
-	else if (dirstr == "right_down" || dirstr == "right_bottom")
-		dir = DIR_RIGHT_DOWN;
-	else if (dirstr == "horizontal")
-		dir = DIR_HORIZONTAL;
-	else if (dirstr == "vertical")
-		dir = DIR_VERTICAL;
-	else if (dirstr == "all")
-		dir = DIR_ALL;
-	else if (dirstr == "first")
-		dir = DIR_FIRST;
-	else if (dirstr == "last")
-		dir = DIR_LAST;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid direction '%s'.", dirstr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
-	// A world for a consecutive enum!
+    ObjectDirection dir;
+    if (dirstr == "left")
+        dir = DIR_LEFT;
+    else if (dirstr == "right")
+        dir = DIR_RIGHT;
+    else if (dirstr == "up" || dirstr == "top")
+        dir = DIR_UP;
+    else if (dirstr == "down" || dirstr == "bottom")
+        dir = DIR_DOWN;
+    else if (dirstr == "up_left" || dirstr == "top_left")
+        dir = DIR_UP_LEFT;
+    else if (dirstr == "up_right" || dirstr == "top_right")
+        dir = DIR_UP_RIGHT;
+    else if (dirstr == "down_left" || dirstr == "bottom_left")
+        dir = DIR_DOWN_LEFT;
+    else if (dirstr == "down right" || dirstr == "bottom_right")
+        dir = DIR_DOWN_RIGHT;
+    else if (dirstr == "left_up" || dirstr == "left_top")
+        dir = DIR_LEFT_UP;
+    else if (dirstr == "left_down" || dirstr == "left_bottom")
+        dir = DIR_LEFT_DOWN;
+    else if (dirstr == "right_up" || dirstr == "right_top")
+        dir = DIR_RIGHT_UP;
+    else if (dirstr == "right_down" || dirstr == "right_bottom")
+        dir = DIR_RIGHT_DOWN;
+    else if (dirstr == "horizontal")
+        dir = DIR_HORIZONTAL;
+    else if (dirstr == "vertical")
+        dir = DIR_VERTICAL;
+    else if (dirstr == "all")
+        dir = DIR_ALL;
+    else if (dirstr == "first")
+        dir = DIR_FIRST;
+    else if (dirstr == "last")
+        dir = DIR_LAST;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid direction '%s'.", dirstr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
+    // A world for a consecutive enum!
 
-	p_sprite->Set_Direction(dir, true);
-	return mrb_symbol_value(rdir);
+    p_sprite->Set_Direction(dir, true);
+    return mrb_symbol_value(rdir);
 }
 
 /**
@@ -362,64 +362,64 @@ static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	std::string dir;
-	switch(p_sprite->m_start_direction){
-	case DIR_UNDEFINED:
-		dir = "undefined";
-		break;
-	case DIR_LEFT:
-		dir = "left";
-		break;
-	case DIR_RIGHT:
-		dir = "right";
-		break;
-	case DIR_UP:
-		dir = "up";
-		break;
-	case DIR_DOWN:
-		dir = "down";
-		break;
-	case DIR_UP_LEFT:
-		dir = "up_left";
-		break;
-	case DIR_UP_RIGHT:
-		dir = "up_right";
-		break;
-	case DIR_DOWN_LEFT:
-		dir = "down_left";
-		break;
-	case DIR_DOWN_RIGHT:
-		dir = "down_right";
-		break;
-	case DIR_LEFT_UP:
-		dir = "left_up";
-		break;
-	case DIR_LEFT_DOWN:
-		dir = "left_down";
-		break;
-	case DIR_HORIZONTAL:
-		dir = "horizontal";
-		break;
-	case DIR_VERTICAL:
-		dir = "vertical";
-		break;
-	case DIR_ALL:
-		dir = "all";
-		break;
-	case DIR_FIRST:
-		dir = "first";
-		break;
-	case DIR_LAST:
-		dir = "last";
-		break;
-	default: // Shouldn’t happen
-		std::cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
-		return mrb_nil_value();
-	}
-	// A world for a consecutive enum!
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    std::string dir;
+    switch (p_sprite->m_start_direction) {
+    case DIR_UNDEFINED:
+        dir = "undefined";
+        break;
+    case DIR_LEFT:
+        dir = "left";
+        break;
+    case DIR_RIGHT:
+        dir = "right";
+        break;
+    case DIR_UP:
+        dir = "up";
+        break;
+    case DIR_DOWN:
+        dir = "down";
+        break;
+    case DIR_UP_LEFT:
+        dir = "up_left";
+        break;
+    case DIR_UP_RIGHT:
+        dir = "up_right";
+        break;
+    case DIR_DOWN_LEFT:
+        dir = "down_left";
+        break;
+    case DIR_DOWN_RIGHT:
+        dir = "down_right";
+        break;
+    case DIR_LEFT_UP:
+        dir = "left_up";
+        break;
+    case DIR_LEFT_DOWN:
+        dir = "left_down";
+        break;
+    case DIR_HORIZONTAL:
+        dir = "horizontal";
+        break;
+    case DIR_VERTICAL:
+        dir = "vertical";
+        break;
+    case DIR_ALL:
+        dir = "all";
+        break;
+    case DIR_FIRST:
+        dir = "first";
+        break;
+    case DIR_LAST:
+        dir = "last";
+        break;
+    default: // Shouldn’t happen
+        std::cerr << "Warning: Encountered unknown sprite direction '" << p_sprite->m_direction << "'." << std::endl;
+        return mrb_nil_value();
+    }
+    // A world for a consecutive enum!
 
-	return str2sym(p_state, dir);
+    return str2sym(p_state, dir);
 }
 
 /**
@@ -432,8 +432,8 @@ static mrb_value Get_Start_Direction(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Max_Gravity(mrb_state* p_state, mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	return mrb_float_value(p_state, p_sprite->m_gravity_max);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    return mrb_float_value(p_state, p_sprite->m_gravity_max);
 }
 
 /**
@@ -452,13 +452,13 @@ static mrb_value Get_Max_Gravity(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Gravity(mrb_state* p_state, mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_float grav;
-	mrb_get_args(p_state, "f", &grav);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_float grav;
+    mrb_get_args(p_state, "f", &grav);
 
-	p_sprite->m_gravity_max = grav;
+    p_sprite->m_gravity_max = grav;
 
-	return mrb_float_value(p_state, grav);
+    return mrb_float_value(p_state, grav);
 }
 
 /**
@@ -471,8 +471,8 @@ static mrb_value Set_Max_Gravity(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Velocity_X(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	return mrb_float_value(p_state, p_sprite->m_velx);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    return mrb_float_value(p_state, p_sprite->m_velx);
 }
 
 /**
@@ -485,8 +485,8 @@ static mrb_value Get_Velocity_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Velocity_Y(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	return mrb_float_value(p_state, p_sprite->m_vely);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    return mrb_float_value(p_state, p_sprite->m_vely);
 }
 
 /**
@@ -499,13 +499,13 @@ static mrb_value Get_Velocity_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Velocity(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
 
-	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_float_value(p_state, p_sprite->m_velx));
-	mrb_ary_push(p_state, result, mrb_float_value(p_state, p_sprite->m_vely));
+    mrb_value result = mrb_ary_new(p_state);
+    mrb_ary_push(p_state, result, mrb_float_value(p_state, p_sprite->m_velx));
+    mrb_ary_push(p_state, result, mrb_float_value(p_state, p_sprite->m_vely));
 
-	return result;
+    return result;
 }
 
 /**
@@ -523,13 +523,13 @@ static mrb_value Get_Velocity(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Velocity_X(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_float xvel;
-	mrb_get_args(p_state, "f", &xvel);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_float xvel;
+    mrb_get_args(p_state, "f", &xvel);
 
-	p_sprite->Set_Velocity(xvel, p_sprite->m_vely); // Keep Y velocity
+    p_sprite->Set_Velocity(xvel, p_sprite->m_vely); // Keep Y velocity
 
-	return mrb_float_value(p_state, xvel);
+    return mrb_float_value(p_state, xvel);
 }
 
 /**
@@ -547,13 +547,13 @@ static mrb_value Set_Velocity_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Velocity_Y(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_float yvel;
-	mrb_get_args(p_state, "f", &yvel);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_float yvel;
+    mrb_get_args(p_state, "f", &yvel);
 
-	p_sprite->Set_Velocity(p_sprite->m_velx, yvel); // Keep X velocity
+    p_sprite->Set_Velocity(p_sprite->m_velx, yvel); // Keep X velocity
 
-	return mrb_float_value(p_state, yvel);
+    return mrb_float_value(p_state, yvel);
 }
 
 /**
@@ -580,21 +580,21 @@ static mrb_value Set_Velocity_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Velocity(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_value ary;
-	mrb_get_args(p_state, "o", &ary);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_value ary;
+    mrb_get_args(p_state, "o", &ary);
 
-	if (!mrb_array_p(ary))
-		mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Not an array: '%s'", mrb_string_value_ptr(p_state, mrb_inspect(p_state, ary)));
-	if (mrb_ary_len(p_state, ary) != 2)
-		mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Not a two-element array.");
+    if (!mrb_array_p(ary))
+        mrb_raisef(p_state, MRB_TYPE_ERROR(p_state), "Not an array: '%s'", mrb_string_value_ptr(p_state, mrb_inspect(p_state, ary)));
+    if (mrb_ary_len(p_state, ary) != 2)
+        mrb_raise(p_state, MRB_ARGUMENT_ERROR(p_state), "Not a two-element array.");
 
-	mrb_float xvel = mrb_float(mrb_ary_ref(p_state, ary, 0));
-	mrb_float yvel = mrb_float(mrb_ary_ref(p_state, ary, 1));
+    mrb_float xvel = mrb_float(mrb_ary_ref(p_state, ary, 0));
+    mrb_float yvel = mrb_float(mrb_ary_ref(p_state, ary, 1));
 
-	p_sprite->Set_Velocity(xvel, yvel);
+    p_sprite->Set_Velocity(xvel, yvel);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -610,13 +610,13 @@ static mrb_value Set_Velocity(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Accelerate_X(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_float a;
-	mrb_get_args(p_state, "f", &a);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_float a;
+    mrb_get_args(p_state, "f", &a);
 
-	p_sprite->Add_Velocity_X(a);
+    p_sprite->Add_Velocity_X(a);
 
-	return mrb_float_value(p_state, a);
+    return mrb_float_value(p_state, a);
 }
 
 /**
@@ -632,13 +632,13 @@ static mrb_value Accelerate_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Accelerate_Y(mrb_state* p_state,  mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	mrb_float a;
-	mrb_get_args(p_state, "f", &a);
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    mrb_float a;
+    mrb_get_args(p_state, "f", &a);
 
-	p_sprite->Add_Velocity_Y(a);
+    p_sprite->Add_Velocity_Y(a);
 
-	return mrb_float_value(p_state, a);
+    return mrb_float_value(p_state, a);
 }
 
 /**
@@ -651,9 +651,9 @@ static mrb_value Accelerate_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Turn_Around(mrb_state* p_state, mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	p_sprite->Turn_Around();
-	return mrb_nil_value();
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    p_sprite->Turn_Around();
+    return mrb_nil_value();
 }
 
 /**
@@ -666,31 +666,31 @@ static mrb_value Turn_Around(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Down_Grade(mrb_state* p_state, mrb_value self)
 {
-	cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
-	p_sprite->DownGrade();
-	return mrb_nil_value();
+    cMovingSprite* p_sprite = Get_Data_Ptr<cMovingSprite>(p_state, self);
+    p_sprite->DownGrade();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
-	struct RClass* p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", mrb_class_get(p_state, "Sprite"));
+    struct RClass* p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", mrb_class_get(p_state, "Sprite"));
 
-	mrb_define_method(p_state, p_rcMoving_Sprite, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_x!", Accelerate_X, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_y!", Accelerate_Y, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate!", Accelerate, MRB_ARGS_REQ(2));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "direction", Get_Direction, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "direction=", Set_Direction, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction", Get_Start_Direction, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction=", Set_Start_Direction, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "max_gravity", Get_Max_Gravity, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "max_gravity=", Set_Max_Gravity, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x", Get_Velocity_X, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y", Get_Velocity_Y, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity", Get_Velocity, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x=", Set_Velocity_X, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y=", Set_Velocity_Y, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "velocity=", Set_Velocity, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcMoving_Sprite, "turn_around", Turn_Around, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoving_Sprite, "downgrade", Down_Grade, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_x!", Accelerate_X, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate_y!", Accelerate_Y, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "accelerate!", Accelerate, MRB_ARGS_REQ(2));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "direction", Get_Direction, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "direction=", Set_Direction, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction", Get_Start_Direction, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "start_direction=", Set_Start_Direction, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "max_gravity", Get_Max_Gravity, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "max_gravity=", Set_Max_Gravity, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x", Get_Velocity_X, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y", Get_Velocity_Y, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "velocity", Get_Velocity, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_x=", Set_Velocity_X, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "velocity_y=", Set_Velocity_Y, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "velocity=", Set_Velocity, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMoving_Sprite, "turn_around", Turn_Around, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoving_Sprite, "downgrade", Down_Grade, MRB_ARGS_NONE());
 }

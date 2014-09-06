@@ -27,17 +27,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cBonusBox* p_box = new cBonusBox(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_box;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cBonusBox* p_box = new cBonusBox(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_box;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_box->Set_Spawned(true);
+    // This is a generated object
+    p_box->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_box);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_box);
 
-	return self;
+    return self;
 }
 
 /**
@@ -88,38 +88,38 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Bonus_Type(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym type;
-	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
 
-	SpriteType bonustype;
-	if (typestr == "undefined" || typestr == "empty")
-		bonustype = TYPE_UNDEFINED;
-	else if (typestr == "mushroom_default" || typestr == "mushroom_red")
-		bonustype = TYPE_MUSHROOM_DEFAULT;
-	else if (typestr == "fireplant")
-		bonustype = TYPE_FIREPLANT;
-	else if (typestr == "mushroom_blue")
-		bonustype = TYPE_MUSHROOM_BLUE;
-	else if (typestr == "mushroom_ghost")
-		bonustype = TYPE_MUSHROOM_GHOST;
-	else if (typestr == "mushroom_live_1")
-		bonustype = TYPE_MUSHROOM_LIVE_1;
-	else if (typestr == "star")
-		bonustype = TYPE_STAR;
-	else if (typestr == "goldpiece")
-		bonustype = TYPE_GOLDPIECE;
-	else if (typestr == "mushroom_poison")
-		bonustype = TYPE_MUSHROOM_POISON;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid bonus box type %s", typestr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    SpriteType bonustype;
+    if (typestr == "undefined" || typestr == "empty")
+        bonustype = TYPE_UNDEFINED;
+    else if (typestr == "mushroom_default" || typestr == "mushroom_red")
+        bonustype = TYPE_MUSHROOM_DEFAULT;
+    else if (typestr == "fireplant")
+        bonustype = TYPE_FIREPLANT;
+    else if (typestr == "mushroom_blue")
+        bonustype = TYPE_MUSHROOM_BLUE;
+    else if (typestr == "mushroom_ghost")
+        bonustype = TYPE_MUSHROOM_GHOST;
+    else if (typestr == "mushroom_live_1")
+        bonustype = TYPE_MUSHROOM_LIVE_1;
+    else if (typestr == "star")
+        bonustype = TYPE_STAR;
+    else if (typestr == "goldpiece")
+        bonustype = TYPE_GOLDPIECE;
+    else if (typestr == "mushroom_poison")
+        bonustype = TYPE_MUSHROOM_POISON;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid bonus box type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
-	p_box->Set_Bonus_Type(bonustype);
+    cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
+    p_box->Set_Bonus_Type(bonustype);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -131,29 +131,29 @@ static mrb_value Set_Bonus_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Bonus_Type(mrb_state* p_state, mrb_value self)
 {
-	cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
-	switch(p_box->box_type) {
-	case TYPE_UNDEFINED:
-		return str2sym(p_state, "undefined");
-	case TYPE_MUSHROOM_DEFAULT:
-		return str2sym(p_state, "mushroom_default");
-	case TYPE_FIREPLANT:
-		return str2sym(p_state, "fireplant");
-	case TYPE_MUSHROOM_BLUE:
-		return str2sym(p_state, "mushroom_blue");
-	case TYPE_MUSHROOM_GHOST:
-		return str2sym(p_state, "mushroom_ghost");
-	case TYPE_MUSHROOM_LIVE_1:
-		return str2sym(p_state, "mushroom_live_1");
-	case TYPE_STAR:
-		return str2sym(p_state, "star");
-	case TYPE_GOLDPIECE:
-		return str2sym(p_state, "goldpiece");
-	case TYPE_MUSHROOM_POISON:
-		return str2sym(p_state, "mushroom_poison");
-	default:
-		return mrb_nil_value();
-	}
+    cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
+    switch (p_box->box_type) {
+    case TYPE_UNDEFINED:
+        return str2sym(p_state, "undefined");
+    case TYPE_MUSHROOM_DEFAULT:
+        return str2sym(p_state, "mushroom_default");
+    case TYPE_FIREPLANT:
+        return str2sym(p_state, "fireplant");
+    case TYPE_MUSHROOM_BLUE:
+        return str2sym(p_state, "mushroom_blue");
+    case TYPE_MUSHROOM_GHOST:
+        return str2sym(p_state, "mushroom_ghost");
+    case TYPE_MUSHROOM_LIVE_1:
+        return str2sym(p_state, "mushroom_live_1");
+    case TYPE_STAR:
+        return str2sym(p_state, "star");
+    case TYPE_GOLDPIECE:
+        return str2sym(p_state, "goldpiece");
+    case TYPE_MUSHROOM_POISON:
+        return str2sym(p_state, "mushroom_poison");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -173,13 +173,13 @@ static mrb_value Get_Bonus_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Force_Best_Item(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool force;
-	mrb_get_args(p_state, "b", &force);
+    mrb_bool force;
+    mrb_get_args(p_state, "b", &force);
 
-	cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
-	p_box->Set_Force_Best_Item(force);
+    cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
+    p_box->Set_Force_Best_Item(force);
 
-	return mrb_bool_value(force);
+    return mrb_bool_value(force);
 }
 
 /**
@@ -192,8 +192,8 @@ static mrb_value Set_Force_Best_Item(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Does_Force_Best_Item(mrb_state* p_state, mrb_value self)
 {
-	cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
-	return mrb_bool_value(p_box->m_force_best_item);
+    cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
+    return mrb_bool_value(p_box->m_force_best_item);
 }
 
 /**
@@ -210,26 +210,26 @@ static mrb_value Does_Force_Best_Item(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Goldcolor(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym color;
-	mrb_get_args(p_state, "n", &color);
-	std::string colorstr(mrb_sym2name(p_state, color));
+    mrb_sym color;
+    mrb_get_args(p_state, "n", &color);
+    std::string colorstr(mrb_sym2name(p_state, color));
 
-	DefaultColor col;
-	if (colorstr == "default")
-		col = COL_DEFAULT;
-	else if (colorstr == "yellow")
-		col = COL_YELLOW;
-	else if (colorstr == "red")
-		col = COL_RED;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid bonus box goldcolor %s", colorstr.c_str());
-		return mrb_nil_value();
-	}
+    DefaultColor col;
+    if (colorstr == "default")
+        col = COL_DEFAULT;
+    else if (colorstr == "yellow")
+        col = COL_YELLOW;
+    else if (colorstr == "red")
+        col = COL_RED;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid bonus box goldcolor %s", colorstr.c_str());
+        return mrb_nil_value();
+    }
 
-	cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
-	p_box->Set_Goldcolor(col);
+    cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
+    p_box->Set_Goldcolor(col);
 
-	return mrb_symbol_value(col);
+    return mrb_symbol_value(col);
 }
 
 /**
@@ -242,29 +242,29 @@ static mrb_value Set_Goldcolor(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Goldcolor(mrb_state* p_state, mrb_value self)
 {
-	cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
-	switch(p_box->m_gold_color) {
-	case COL_DEFAULT:
-		return str2sym(p_state, "default");
-	case COL_YELLOW:
-		return str2sym(p_state, "yellow");
-	case COL_RED:
-		return str2sym(p_state, "red");
-	default:
-		return mrb_nil_value();
-	}
+    cBonusBox* p_box = Get_Data_Ptr<cBonusBox>(p_state, self);
+    switch (p_box->m_gold_color) {
+    case COL_DEFAULT:
+        return str2sym(p_state, "default");
+    case COL_YELLOW:
+        return str2sym(p_state, "yellow");
+    case COL_RED:
+        return str2sym(p_state, "red");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 void SMC::Scripting::Init_BonusBox(mrb_state* p_state)
 {
-	struct RClass* p_rcBonus_Box = mrb_define_class(p_state, "BonusBox", mrb_class_get(p_state, "Box"));
-	MRB_SET_INSTANCE_TT(p_rcBonus_Box, MRB_TT_DATA);
+    struct RClass* p_rcBonus_Box = mrb_define_class(p_state, "BonusBox", mrb_class_get(p_state, "Box"));
+    MRB_SET_INSTANCE_TT(p_rcBonus_Box, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcBonus_Box, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBonus_Box, "bonus_type=", Set_Bonus_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBonus_Box, "bonus_type", Get_Bonus_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBonus_Box, "force_best_item=", Set_Force_Best_Item, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBonus_Box, "force_best_item?", Does_Force_Best_Item, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBonus_Box, "goldcolor=", Set_Goldcolor, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBonus_Box, "goldcolor", Get_Goldcolor, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBonus_Box, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBonus_Box, "bonus_type=", Set_Bonus_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBonus_Box, "bonus_type", Get_Bonus_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBonus_Box, "force_best_item=", Set_Force_Best_Item, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBonus_Box, "force_best_item?", Does_Force_Best_Item, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBonus_Box, "goldcolor=", Set_Goldcolor, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBonus_Box, "goldcolor", Get_Goldcolor, MRB_ARGS_NONE());
 }

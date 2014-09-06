@@ -4,14 +4,16 @@
 #include "event.hpp"
 
 namespace SMC {
-	namespace Scripting {
+    namespace Scripting {
 
-		class cJump_Event: public cEvent
-		{
-		public:
-			virtual std::string Event_Name(){return "jump";}
-		};
-	}
+        class cJump_Event: public cEvent {
+        public:
+            virtual std::string Event_Name()
+            {
+                return "jump";
+            }
+        };
+    }
 }
 
 #endif

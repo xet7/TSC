@@ -31,34 +31,34 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym type;
-	mrb_get_args(p_state, "n", &type);
-	std::string typestr(mrb_sym2name(p_state, type));
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
 
-	cBall* p_ball = new cBall(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_ball;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cBall* p_ball = new cBall(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_ball;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	ball_effect effect;
-	if (typestr == "fire")
-		effect = FIREBALL_DEFAULT;
-	else if (typestr == "fire_explosion")
-		effect = FIREBALL_EXPLOSION;
-	else if (typestr == "ice")
-		effect = ICEBALL_DEFAULT;
-	else if (typestr == "ice_explosion")
-		effect = ICEBALL_EXPLOSION;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid ball effect %s", typestr.c_str());
-		return mrb_nil_value(); // not reached
-	}
+    ball_effect effect;
+    if (typestr == "fire")
+        effect = FIREBALL_DEFAULT;
+    else if (typestr == "fire_explosion")
+        effect = FIREBALL_EXPLOSION;
+    else if (typestr == "ice")
+        effect = ICEBALL_DEFAULT;
+    else if (typestr == "ice_explosion")
+        effect = ICEBALL_EXPLOSION;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid ball effect %s", typestr.c_str());
+        return mrb_nil_value(); // not reached
+    }
 
-	p_ball->Set_Ball_Type(effect);
+    p_ball->Set_Ball_Type(effect);
 
-	p_ball->Set_Spawned(true);
-	pActive_Level->m_sprite_manager->Add(p_ball);
+    p_ball->Set_Spawned(true);
+    pActive_Level->m_sprite_manager->Add(p_ball);
 
-	return self;
+    return self;
 }
 
 /**
@@ -71,21 +71,21 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Ball_Type(mrb_state* p_state, mrb_value self)
 {
-	cBall* p_ball = Get_Data_Ptr<cBall>(p_state, self);
+    cBall* p_ball = Get_Data_Ptr<cBall>(p_state, self);
 
-	switch (p_ball->m_ball_type) {
-	case FIREBALL_DEFAULT:
-		return str2sym(p_state, "fire");
-	case FIREBALL_EXPLOSION:
-		return str2sym(p_state, "fire_explosion");
-	case ICEBALL_DEFAULT:
-		return str2sym(p_state, "ice");
-	case ICEBALL_EXPLOSION:
-		return str2sym(p_state, "ice_explosion");
-	default:
-		std::cerr << "Unknown ball effect type " << p_ball->m_ball_type << "." << std::endl;
-		return mrb_nil_value();
-	}
+    switch (p_ball->m_ball_type) {
+    case FIREBALL_DEFAULT:
+        return str2sym(p_state, "fire");
+    case FIREBALL_EXPLOSION:
+        return str2sym(p_state, "fire_explosion");
+    case ICEBALL_DEFAULT:
+        return str2sym(p_state, "ice");
+    case ICEBALL_EXPLOSION:
+        return str2sym(p_state, "ice_explosion");
+    default:
+        std::cerr << "Unknown ball effect type " << p_ball->m_ball_type << "." << std::endl;
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -98,17 +98,17 @@ static mrb_value Get_Ball_Type(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Destroy_With_Sound(mrb_state* p_state, mrb_value self)
 {
-	cBall* p_ball = Get_Data_Ptr<cBall>(p_state, self);
-	p_ball->Destroy_Ball(true);
-	return mrb_nil_value();
+    cBall* p_ball = Get_Data_Ptr<cBall>(p_state, self);
+    p_ball->Destroy_Ball(true);
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Ball(mrb_state* p_state)
 {
-	struct RClass* p_rcBall = mrb_define_class(p_state, "Ball", mrb_class_get(p_state, "AnimatedSprite"));
-	MRB_SET_INSTANCE_TT(p_rcBall, MRB_TT_DATA);
+    struct RClass* p_rcBall = mrb_define_class(p_state, "Ball", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcBall, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcBall, "initialize", Initialize, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBall, "ball_type", Get_Ball_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBall, "destroy_with_sound", Destroy_With_Sound, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBall, "initialize", Initialize, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBall, "ball_type", Get_Ball_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBall, "destroy_with_sound", Destroy_With_Sound, MRB_ARGS_NONE());
 }

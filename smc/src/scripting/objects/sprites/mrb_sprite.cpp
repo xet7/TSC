@@ -94,39 +94,39 @@ MRUBY_IMPLEMENT_EVENT(touch);
 
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	mrb_int uid = -1;
-	char* path = NULL;
-	mrb_get_args(p_state, "|zi", &path, &uid);
+    mrb_int uid = -1;
+    char* path = NULL;
+    mrb_get_args(p_state, "|zi", &path, &uid);
 
-	// Insert a new sprite instance into the MRuby object
-	cSprite* p_sprite = new cSprite(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_sprite;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    // Insert a new sprite instance into the MRuby object
+    cSprite* p_sprite = new cSprite(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_sprite;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// Arguments
-	if (path)
-		p_sprite->Set_Image(pVideo->Get_Surface(utf8_to_path(path)), true);
-	if (uid != -1) {
-		if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
-			mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "UID %d is already used.", uid);
+    // Arguments
+    if (path)
+        p_sprite->Set_Image(pVideo->Get_Surface(utf8_to_path(path)), true);
+    if (uid != -1) {
+        if (pActive_Level->m_sprite_manager->Is_UID_In_Use(uid))
+            mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "UID %d is already used.", uid);
 
-		p_sprite->m_uid = uid;
-	}
+        p_sprite->m_uid = uid;
+    }
 
-	// Default massivity type is front passive
-	p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
+    // Default massivity type is front passive
+    p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
 
-	// Hidden by default
-	p_sprite->Set_Active(false);
+    // Hidden by default
+    p_sprite->Set_Active(false);
 
-	// This is a generated object that should neither be saved
-	// nor should it be editable in the editor.
-	p_sprite->Set_Spawned(true);
+    // This is a generated object that should neither be saved
+    // nor should it be editable in the editor.
+    p_sprite->Set_Spawned(true);
 
-	// Add to the sprite manager for automatic memory management by SMC
-	pActive_Level->m_sprite_manager->Add(p_sprite);
+    // Add to the sprite manager for automatic memory management by SMC
+    pActive_Level->m_sprite_manager->Add(p_sprite);
 
-	return self;
+    return self;
 }
 
 /**
@@ -138,9 +138,9 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 mrb_value Show(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	p_sprite->Set_Active(true);
-	return mrb_nil_value();
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    p_sprite->Set_Active(true);
+    return mrb_nil_value();
 }
 
 /**
@@ -152,9 +152,9 @@ mrb_value Show(mrb_state* p_state, mrb_value self)
  */
 mrb_value Hide(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	p_sprite->Set_Active(false);
-	return mrb_nil_value();
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    p_sprite->Set_Active(false);
+    return mrb_nil_value();
 }
 
 /**
@@ -166,9 +166,9 @@ mrb_value Hide(mrb_state* p_state, mrb_value self)
  */
 mrb_value Get_UID(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	return mrb_fixnum_value(p_sprite->m_uid);
+    return mrb_fixnum_value(p_sprite->m_uid);
 }
 
 /**
@@ -193,26 +193,26 @@ mrb_value Get_UID(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_sym typesym;
-	std::string type;
-	mrb_get_args(p_state, "n", &typesym);
-	type = mrb_sym2name(p_state, typesym);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_sym typesym;
+    std::string type;
+    mrb_get_args(p_state, "n", &typesym);
+    type = mrb_sym2name(p_state, typesym);
 
-	if (type == "passive")
-		p_sprite->Set_Massive_Type(MASS_PASSIVE);
-	else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
-		p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
-	else if (type == "massive")
-		p_sprite->Set_Massive_Type(MASS_MASSIVE);
-	else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
-		p_sprite->Set_Massive_Type(MASS_HALFMASSIVE);
-	else if (type == "climbable")
-		p_sprite->Set_Massive_Type(MASS_CLIMBABLE);
-	else // Non-standard types are not allowed here
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid massive type '%s'.", type.c_str());
+    if (type == "passive")
+        p_sprite->Set_Massive_Type(MASS_PASSIVE);
+    else if (type == "frontpassive" || type == "front_passive") // Official: "front_passive"
+        p_sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
+    else if (type == "massive")
+        p_sprite->Set_Massive_Type(MASS_MASSIVE);
+    else if (type == "halfmassive" || type == "half_massive") // Official: "halfmassive"
+        p_sprite->Set_Massive_Type(MASS_HALFMASSIVE);
+    else if (type == "climbable")
+        p_sprite->Set_Massive_Type(MASS_CLIMBABLE);
+    else // Non-standard types are not allowed here
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid massive type '%s'.", type.c_str());
 
-	return mrb_symbol_value(typesym);
+    return mrb_symbol_value(typesym);
 }
 
 /**
@@ -227,19 +227,19 @@ static mrb_value Set_Massive_Type(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Massive_Type(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	switch (p_sprite->m_massive_type) {
-	case MASS_PASSIVE:
-		return str2sym(p_state, "passive");
-	case MASS_FRONT_PASSIVE:
-		return str2sym(p_state, "frontpassive");
-	case MASS_MASSIVE:
-		return str2sym(p_state, "massive");
-	case MASS_CLIMBABLE:
-		return str2sym(p_state, "climbable");
-	default:
-		return mrb_nil_value();
-	}
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    switch (p_sprite->m_massive_type) {
+    case MASS_PASSIVE:
+        return str2sym(p_state, "passive");
+    case MASS_FRONT_PASSIVE:
+        return str2sym(p_state, "frontpassive");
+    case MASS_MASSIVE:
+        return str2sym(p_state, "massive");
+    case MASS_CLIMBABLE:
+        return str2sym(p_state, "climbable");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -251,9 +251,9 @@ static mrb_value Get_Massive_Type(mrb_state* p_state, mrb_value self)
  */
 mrb_value Get_X(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	return mrb_fixnum_value(p_sprite->m_pos_x);
+    return mrb_fixnum_value(p_sprite->m_pos_x);
 }
 
 /**
@@ -265,9 +265,9 @@ mrb_value Get_X(mrb_state* p_state, mrb_value self)
  */
 mrb_value Get_Y(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	return mrb_fixnum_value(p_sprite->m_pos_y);
+    return mrb_fixnum_value(p_sprite->m_pos_y);
 }
 
 /**
@@ -279,13 +279,13 @@ mrb_value Get_Y(mrb_state* p_state, mrb_value self)
  */
 mrb_value Set_X(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_int x;
-	mrb_get_args(p_state, "i", &x);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_int x;
+    mrb_get_args(p_state, "i", &x);
 
-	p_sprite->Set_Pos_X(x);
+    p_sprite->Set_Pos_X(x);
 
-	return mrb_fixnum_value(x);
+    return mrb_fixnum_value(x);
 }
 
 /**
@@ -297,13 +297,13 @@ mrb_value Set_X(mrb_state* p_state, mrb_value self)
  */
 mrb_value Set_Y(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_int y;
-	mrb_get_args(p_state, "i", &y);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_int y;
+    mrb_get_args(p_state, "i", &y);
 
-	p_sprite->Set_Pos_Y(y);
+    p_sprite->Set_Pos_Y(y);
 
-	return mrb_fixnum_value(y);
+    return mrb_fixnum_value(y);
 }
 
 /**
@@ -315,9 +315,9 @@ mrb_value Set_Y(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Start_X(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	return mrb_fixnum_value(p_sprite->m_start_pos_x);
+    return mrb_fixnum_value(p_sprite->m_start_pos_x);
 }
 
 /**
@@ -329,9 +329,9 @@ static mrb_value Get_Start_X(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Get_Start_Y(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	return mrb_fixnum_value(p_sprite->m_start_pos_y);
+    return mrb_fixnum_value(p_sprite->m_start_pos_y);
 }
 
 /**
@@ -343,13 +343,13 @@ static mrb_value Get_Start_Y(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_int start_x;
-	mrb_get_args(p_state, "i", &start_x);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_int start_x;
+    mrb_get_args(p_state, "i", &start_x);
 
-	p_sprite->Set_Pos_X(start_x, true);
+    p_sprite->Set_Pos_X(start_x, true);
 
-	return mrb_fixnum_value(start_x);
+    return mrb_fixnum_value(start_x);
 }
 
 /**
@@ -361,13 +361,13 @@ static mrb_value Set_Start_X(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_int start_y;
-	mrb_get_args(p_state, "i", &start_y);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_int start_y;
+    mrb_get_args(p_state, "i", &start_y);
 
-	p_sprite->Set_Pos_Y(start_y, true);
+    p_sprite->Set_Pos_Y(start_y, true);
 
-	return mrb_fixnum_value(start_y);
+    return mrb_fixnum_value(start_y);
 }
 
 /**
@@ -380,9 +380,9 @@ static mrb_value Set_Start_Y(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Z(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	return mrb_fixnum_value(p_sprite->m_pos_z);
+    return mrb_fixnum_value(p_sprite->m_pos_z);
 }
 
 /**
@@ -398,13 +398,13 @@ static mrb_value Get_Z(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Pos(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_x));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_y));
+    mrb_value result = mrb_ary_new(p_state);
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_x));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_pos_y));
 
-	return result;
+    return result;
 }
 
 /**
@@ -420,13 +420,13 @@ static mrb_value Pos(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Start_Pos(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_x));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_y));
+    mrb_value result = mrb_ary_new(p_state);
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_x));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_start_pos_y));
 
-	return result;
+    return result;
 }
 
 /**
@@ -438,15 +438,15 @@ static mrb_value Start_Pos(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Rect(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_x));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_y));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_w));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_h));
+    mrb_value result = mrb_ary_new(p_state);
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_x));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_y));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_w));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_rect.m_h));
 
-	return result;
+    return result;
 }
 
 /**
@@ -458,15 +458,15 @@ static mrb_value Rect(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Collision_Rect(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	mrb_value result = mrb_ary_new(p_state);
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_x));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_y));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_w));
-	mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_h));
+    mrb_value result = mrb_ary_new(p_state);
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_x));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_y));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_w));
+    mrb_ary_push(p_state, result, mrb_fixnum_value(p_sprite->m_col_rect.m_h));
 
-	return result;
+    return result;
 }
 
 /**
@@ -491,14 +491,14 @@ static mrb_value Collision_Rect(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Warp(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_int x;
-	mrb_int y;
-	mrb_get_args(p_state, "ii", &x, &y);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_int x;
+    mrb_int y;
+    mrb_get_args(p_state, "ii", &x, &y);
 
-	p_sprite->Set_Pos(x, y);
+    p_sprite->Set_Pos(x, y);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -517,14 +517,14 @@ static mrb_value Warp(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Start_At(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	mrb_int start_x;
-	mrb_int start_y;
-	mrb_get_args(p_state, "ii", &start_x, &start_y);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    mrb_int start_x;
+    mrb_int start_y;
+    mrb_get_args(p_state, "ii", &start_x, &start_y);
 
-	p_sprite->Set_Pos(start_x, start_y, true);
+    p_sprite->Set_Pos(start_x, start_y, true);
 
-	return mrb_nil_value();
+    return mrb_nil_value();
 }
 
 /**
@@ -541,12 +541,12 @@ static mrb_value Start_At(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Player(mrb_state* p_state,  mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
 
-	if (p_sprite == pLevel_Player)
-		return mrb_true_value();
-	else
-		return mrb_false_value();
+    if (p_sprite == pLevel_Player)
+        return mrb_true_value();
+    else
+        return mrb_false_value();
 }
 
 /**
@@ -562,13 +562,13 @@ static mrb_value Is_Player(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Image(mrb_state* p_state, mrb_value self)
 {
-	char* path = NULL;
-	mrb_get_args(p_state, "z", &path);
+    char* path = NULL;
+    mrb_get_args(p_state, "z", &path);
 
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	p_sprite->Set_Image(pVideo->Get_Surface(utf8_to_path(path), true));
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    p_sprite->Set_Image(pVideo->Get_Surface(utf8_to_path(path), true));
 
-	return mrb_str_new_cstr(p_state, path);
+    return mrb_str_new_cstr(p_state, path);
 }
 
 /**
@@ -581,13 +581,13 @@ static mrb_value Set_Image(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Image(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	boost::filesystem::path imgpath = p_sprite->m_start_image->Get_Path();
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    boost::filesystem::path imgpath = p_sprite->m_start_image->Get_Path();
 
-	if (imgpath.empty())
-		return mrb_nil_value();
-	else
-		return mrb_str_new_cstr(p_state, path_to_utf8(imgpath).c_str());
+    if (imgpath.empty())
+        return mrb_nil_value();
+    else
+        return mrb_str_new_cstr(p_state, path_to_utf8(imgpath).c_str());
 }
 
 /**
@@ -599,12 +599,12 @@ static mrb_value Get_Image(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Active(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool status;
-	mrb_get_args(p_state, "b", &status);
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	p_sprite->Set_Active(status);
+    mrb_bool status;
+    mrb_get_args(p_state, "b", &status);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    p_sprite->Set_Active(status);
 
-	return mrb_bool_value(status);
+    return mrb_bool_value(status);
 }
 
 /**
@@ -616,47 +616,47 @@ static mrb_value Set_Active(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Active(mrb_state* p_state, mrb_value self)
 {
-	cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
-	return mrb_bool_value(p_sprite->m_active);
+    cSprite* p_sprite = Get_Data_Ptr<cSprite>(p_state, self);
+    return mrb_bool_value(p_sprite->m_active);
 }
 
 void SMC::Scripting::Init_Sprite(mrb_state* p_state)
 {
-	struct RClass* p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
-	mrb_include_module(p_state, p_rcSprite, mrb_class_get(p_state, "Eventable"));
-	MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
+    struct RClass* p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
+    mrb_include_module(p_state, p_rcSprite, mrb_class_get(p_state, "Eventable"));
+    MRB_SET_INSTANCE_TT(p_rcSprite, MRB_TT_DATA);
 
-	mrb_define_const(p_state, p_rcSprite, "PASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_passive_start));
-	mrb_define_const(p_state, p_rcSprite, "MASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_massive_start));
-	mrb_define_const(p_state, p_rcSprite, "FRONTPASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_front_passive_start));
-	mrb_define_const(p_state, p_rcSprite, "HALFMASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_halfmassive_start));
+    mrb_define_const(p_state, p_rcSprite, "PASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_passive_start));
+    mrb_define_const(p_state, p_rcSprite, "MASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_massive_start));
+    mrb_define_const(p_state, p_rcSprite, "FRONTPASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_front_passive_start));
+    mrb_define_const(p_state, p_rcSprite, "HALFMASSIVE_Z_START", mrb_float_value(p_state, cSprite::m_pos_z_halfmassive_start));
 
-	mrb_define_method(p_state, p_rcSprite, "initialize", Initialize, MRB_ARGS_OPT(2));
-	mrb_define_method(p_state, p_rcSprite, "show", Show, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "hide", Hide, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "massive_type=", Set_Massive_Type, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "massive_type", Get_Massive_Type, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "x", Get_X, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "y", Get_Y, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "x=", Set_X, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "y=", Set_Y, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "z", Get_Z, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "start_x", Get_Start_X, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "start_y", Get_Start_Y, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "start_x=", Set_Start_X, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "start_y=", Set_Start_Y, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "pos", Pos, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "start_pos", Start_Pos, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "rect", Rect, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "collision_rect", Collision_Rect, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "warp", Warp, MRB_ARGS_REQ(2));
-	mrb_define_method(p_state, p_rcSprite, "start_at", Start_At, MRB_ARGS_REQ(2));
-	mrb_define_method(p_state, p_rcSprite, "player?", Is_Player, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "image", Get_Image, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSprite, "image=", Set_Image, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "active=", Set_Active, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcSprite, "active?", Is_Active, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "initialize", Initialize, MRB_ARGS_OPT(2));
+    mrb_define_method(p_state, p_rcSprite, "show", Show, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "hide", Hide, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "uid", Get_UID, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "massive_type=", Set_Massive_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "massive_type", Get_Massive_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "x", Get_X, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "y", Get_Y, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "x=", Set_X, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "y=", Set_Y, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "z", Get_Z, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "start_x", Get_Start_X, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "start_y", Get_Start_Y, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "start_x=", Set_Start_X, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "start_y=", Set_Start_Y, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "pos", Pos, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "start_pos", Start_Pos, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "rect", Rect, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "collision_rect", Collision_Rect, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "warp", Warp, MRB_ARGS_REQ(2));
+    mrb_define_method(p_state, p_rcSprite, "start_at", Start_At, MRB_ARGS_REQ(2));
+    mrb_define_method(p_state, p_rcSprite, "player?", Is_Player, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "image", Get_Image, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "image=", Set_Image, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "active=", Set_Active, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcSprite, "active?", Is_Active, MRB_ARGS_NONE());
 
-	mrb_define_method(p_state, p_rcSprite, "on_touch", MRUBY_EVENT_HANDLER(touch), MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSprite, "on_touch", MRUBY_EVENT_HANDLER(touch), MRB_ARGS_NONE());
 }

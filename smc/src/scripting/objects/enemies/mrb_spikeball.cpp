@@ -35,17 +35,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cSpikeball* p_spikeball = new cSpikeball(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_spikeball;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cSpikeball* p_spikeball = new cSpikeball(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_spikeball;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_spikeball->Set_Spawned(true);
+    // This is a generated object
+    p_spikeball->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_spikeball);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_spikeball);
 
-	return self;
+    return self;
 }
 
 // TODO: Currently there is only the grey spikeball. Hence exposing
@@ -54,8 +54,8 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 
 void SMC::Scripting::Init_Spikeball(mrb_state* p_state)
 {
-	struct RClass* p_rcSpikeball = mrb_define_class(p_state, "Spikeball", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcSpikeball, MRB_TT_DATA);
+    struct RClass* p_rcSpikeball = mrb_define_class(p_state, "Spikeball", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcSpikeball, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcSpikeball, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSpikeball, "initialize", Initialize, MRB_ARGS_NONE());
 }

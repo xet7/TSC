@@ -28,17 +28,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cGee* p_gee = new cGee(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_gee;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cGee* p_gee = new cGee(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_gee;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_gee->Set_Spawned(true);
+    // This is a generated object
+    p_gee->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_gee);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_gee);
 
-	return self;
+    return self;
 }
 
 /**
@@ -58,26 +58,26 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
 {
-	mrb_sym color;
-	mrb_get_args(p_state, "n", &color);
-	std::string colorstr(mrb_sym2name(p_state, color));
+    mrb_sym color;
+    mrb_get_args(p_state, "n", &color);
+    std::string colorstr(mrb_sym2name(p_state, color));
 
-	DefaultColor col;
-	if (colorstr == "yellow")
-		col = COL_YELLOW;
-	else if (colorstr == "red")
-		col = COL_RED;
-	else if (colorstr == "green")
-		col = COL_GREEN;
-	else {
-		mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Gee color %s", colorstr.c_str());
-		return mrb_nil_value(); // Not reached
-	}
+    DefaultColor col;
+    if (colorstr == "yellow")
+        col = COL_YELLOW;
+    else if (colorstr == "red")
+        col = COL_RED;
+    else if (colorstr == "green")
+        col = COL_GREEN;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Gee color %s", colorstr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
 
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	p_gee->Set_Color(col);
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    p_gee->Set_Color(col);
 
-	return mrb_symbol_value(color);
+    return mrb_symbol_value(color);
 }
 
 /**
@@ -93,18 +93,18 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
 {
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
 
-	switch(p_gee->m_color_type) {
-	case COL_YELLOW:
-		return str2sym(p_state, "yellow");
-	case COL_RED:
-		return str2sym(p_state, "red");
-	case COL_GREEN:
-		return str2sym(p_state, "green");
-	default:
-		return mrb_nil_value();
-	}
+    switch (p_gee->m_color_type) {
+    case COL_YELLOW:
+        return str2sym(p_state, "yellow");
+    case COL_RED:
+        return str2sym(p_state, "red");
+    case COL_GREEN:
+        return str2sym(p_state, "green");
+    default:
+        return mrb_nil_value();
+    }
 }
 
 /**
@@ -120,18 +120,18 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
 {
-	mrb_int maxdistance;
-	mrb_get_args(p_state, "i", &maxdistance);
+    mrb_int maxdistance;
+    mrb_get_args(p_state, "i", &maxdistance);
 
-	if (maxdistance < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Gee max distance must be > 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (maxdistance < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Gee max distance must be > 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	p_gee->Set_Max_Distance(maxdistance);
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    p_gee->Set_Max_Distance(maxdistance);
 
-	return mrb_fixnum_value(maxdistance);
+    return mrb_fixnum_value(maxdistance);
 }
 
 /**
@@ -143,8 +143,8 @@ static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
 {
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	return mrb_fixnum_value(p_gee->m_max_distance);
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    return mrb_fixnum_value(p_gee->m_max_distance);
 }
 
 /**
@@ -160,18 +160,18 @@ static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Fly_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	if (speed < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Gee fly speed must be > 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (speed < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Gee fly speed must be > 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	p_gee->m_speed_fly = speed;
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    p_gee->m_speed_fly = speed;
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -183,8 +183,8 @@ static mrb_value Set_Fly_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Fly_Speed(mrb_state* p_state, mrb_value self)
 {
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	return mrb_float_value(p_state, p_gee->m_speed_fly);
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    return mrb_float_value(p_state, p_gee->m_speed_fly);
 }
 
 /**
@@ -196,13 +196,13 @@ static mrb_value Get_Fly_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Always_Fly(mrb_state* p_state, mrb_value self)
 {
-	mrb_bool fly;
-	mrb_get_args(p_state, "b", &fly);
+    mrb_bool fly;
+    mrb_get_args(p_state, "b", &fly);
 
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	p_gee->m_always_fly = fly;
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    p_gee->m_always_fly = fly;
 
-	return mrb_bool_value(fly);
+    return mrb_bool_value(fly);
 }
 
 /**
@@ -214,8 +214,8 @@ static mrb_value Set_Always_Fly(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Does_Always_Fly(mrb_state* p_state, mrb_value self)
 {
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	return p_gee->m_always_fly ? mrb_true_value() : mrb_false_value();
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    return p_gee->m_always_fly ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -232,18 +232,18 @@ static mrb_value Does_Always_Fly(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Wait_Time(mrb_state* p_state, mrb_value self)
 {
-	mrb_float time;
-	mrb_get_args(p_state, "f", &time);
+    mrb_float time;
+    mrb_get_args(p_state, "f", &time);
 
-	if (time < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Gee wait time must be > 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (time < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Gee wait time must be > 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	p_gee->m_wait_time = time;
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    p_gee->m_wait_time = time;
 
-	return mrb_float_value(p_state, time);
+    return mrb_float_value(p_state, time);
 }
 
 /**
@@ -257,24 +257,24 @@ static mrb_value Set_Wait_Time(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Wait_Time(mrb_state* p_state, mrb_value self)
 {
-	cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
-	return mrb_float_value(p_state, p_gee->m_wait_time);
+    cGee* p_gee = Get_Data_Ptr<cGee>(p_state, self);
+    return mrb_float_value(p_state, p_gee->m_wait_time);
 }
 
 void SMC::Scripting::Init_Gee(mrb_state* p_state)
 {
-	struct RClass* p_rcGee = mrb_define_class(p_state, "Gee", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcGee, MRB_TT_DATA);
+    struct RClass* p_rcGee = mrb_define_class(p_state, "Gee", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcGee, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcGee, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcGee, "color=", Set_Color, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcGee, "color", Get_Color, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcGee, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcGee, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcGee, "fly_speed=", Set_Fly_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcGee, "fly_speed", Get_Fly_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcGee, "always_flying=", Set_Always_Fly, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcGee, "always_flying?", Does_Always_Fly, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcGee, "wait_time=", Set_Wait_Time, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcGee, "wait_time", Get_Wait_Time, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcGee, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcGee, "color=", Set_Color, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcGee, "color", Get_Color, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcGee, "max_distance=", Set_Max_Distance, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcGee, "max_distance", Get_Max_Distance, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcGee, "fly_speed=", Set_Fly_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcGee, "fly_speed", Get_Fly_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcGee, "always_flying=", Set_Always_Fly, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcGee, "always_flying?", Does_Always_Fly, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcGee, "wait_time=", Set_Wait_Time, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcGee, "wait_time", Get_Wait_Time, MRB_ARGS_NONE());
 }
