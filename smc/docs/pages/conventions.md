@@ -290,6 +290,92 @@ code. Please do **not** follow the old SMC style of using `namespace
 SMC {` and not indenting the rest of the file, this is highly
 discouraged.
 
+Version policy
+--------------
+
+SMC uses [semantic versioning](http://semver.org/). In short this
+means:
+
+* Version numbers are triplets of form `MAJOR.MINOR.TINY`.
+* `TINY` is increased for bugfixes, internal code restructuring, etc.
+* `MINOR` is increased when new features are added that maintain
+  backward compatibility (especially with regard to level and save
+  file formats).
+* `MAJOR` is increased when backward compatibility is broken.
+
+Additionally, each compiled executable of SMC knows about the exact
+commit’s hash it was compiled from. Execute SMC like this to receive
+the full version information:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ smc --version
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Branching
+---------
+
+The version control system (VCS) in use for SMC is
+[Git](http://www.git-scm.com/), and the repository currently resides
+at [GitHub](https://github.com/Secretchronicles/SMC). For managing
+these sources, we generally follow the so-called [“Git
+Flow”](http://nvie.com/posts/a-successful-git-branching-model/) model,
+which heavily relies on Git’s lightweight branches and in a nutshell
+means the following for SMC:
+
+* Each commit on `master` is a final release and is tagged
+  accordingly.
+* The development of the next feature release happens in `devel`.
+* If a regular release is about to be shipped, a branch
+  `release-X.Y.Z` is created, where `X.Y.Z` is the version
+  number. This branch only receives bugfixes, and it is merged every
+  now and then into `devel` to make it also receive the bugfixes.
+* Larger new features in development are branched off `devel` into a
+  branch named `feature-something`, where `something` is a short
+  description of the feature. `devel` should be merged every now
+  and then into the feature branch. When the feature is completed,
+  it is merged back into `devel` (unless it breaks compatibility, see
+  below).
+
+Beware the following exception, which is a **difference to official
+GitFlow**: As we use semantic versioning (see the preceeding section),
+we must be careful as to what to merge into `devel` as `devel` will
+automatically become the codebase for the next release. Semantic
+versioning however requires us to handle features or other changes
+that break backward compatibility specifically, they are not allowed
+to just go into the next release, i.e. into `devel`, so that the user
+is able to derive compatibility information from SMC’s version
+number. To prevent feature branches from getting silently out-of-date
+when they are completed and not merged into devel, we maintain
+specific `devel-X.0.0` branches that serve the purpose of the `devel`
+branch for the next **breaking** release. The lifecycle of a feature
+branch whose feature breaks backward compatibility hence looks like
+this:
+
+1. If you know from the beginning your feature will break backward
+  compatibility, branch off `devel-X.0.0` a branch named
+  `bfeature-something` (note the leading `b`). If you don’t know that,
+  or if there is no `devel-X.0.0` branch yet, branch off `devel`. Once
+  you know your feature will break, correct your branch name (by
+  creating a new `bfeature` branch and merging your `feature` branch
+  into it, then deleting the `feature` branch).
+2. Make your development in the `bfeature` branch, occasionally
+  merging `devel-3.0.0`, or if that doesn’t exist, `devel` into your
+  branch.
+3. Once the breaking feature is completed, merge it into
+  `devel-X.0.0`. If there is no `devel-X.0.0` branch at that time,
+  punch the project lead until he creates one.
+
+Occasionally, `devel` will be merged into `devel-X.0.0`, but this
+doesn’t have to be done by you. Also, when the breaking major release
+is finally due, `devel-X.0.0` will be merged into `devel`, as it then
+constitutes the next release anyway.
+
+If you feel the need to discuss the code you wrote, be it a feature or
+a bugfix, open a pull request on GitHub even if you have write access
+to the repository; GitHub allows pull requests in the same
+repository. If your code is not ready yet, prepend a prominent “[WIP]” (=
+Work In Progress) mark to the title.
+
 Documentation
 -------------
 
