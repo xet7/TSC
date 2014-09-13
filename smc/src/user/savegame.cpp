@@ -610,14 +610,18 @@ int cSavegame :: Load_Game( unsigned int save_slot )
     pLevel_Player -> m_ghost_time_mod = savegame->m_ghost_time_mod;
 
     //Play the appropriate music
-    if (!Is_Float_Equal( pLevel_Player -> m_invincible_star, 0.0f))
+    if (!Is_Float_Equal(pLevel_Player -> m_invincible_star, 0.0f))
     {
-        pAudio->Play_Music( "game/star.ogg", 0, 1, 500 );
-        pAudio->Play_Music( pActive_Level->m_musicfile, -1, 0 );
+        pAudio->Play_Music("game/star.ogg", 0, 1, 500);
+        pAudio->Play_Music(pActive_Level->m_musicfile, -1, 0);
+    }
+    else if (Game_Mode == MODE_LEVEL)
+    {
+        pAudio->Play_Music(pActive_Level->m_musicfile, -1, 1, 1000);
     }
     else
     {
-        pAudio->Play_Music( pActive_Level->m_musicfile, -1, 1, 1000 );
+        pAudio->Play_Music(pActive_Overworld->m_musicfile, -1, 1, 1000);
     }
 
 	pHud_Points->Set_Points( savegame->m_points );
