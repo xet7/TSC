@@ -32,17 +32,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cStaticEnemy* p_static = new cStaticEnemy(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_static;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cStaticEnemy* p_static = new cStaticEnemy(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_static;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_static->Set_Spawned(true);
+    // This is a generated object
+    p_static->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_static);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_static);
 
-	return self;
+    return self;
 }
 
 /**
@@ -59,18 +59,18 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Rotation_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	if (speed < 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Static enemy rotation speed must be >= 0");
-		return mrb_nil_value(); // Not reached
-	}
+    if (speed < 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Static enemy rotation speed must be >= 0");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	p_static->Set_Rotation_Speed(speed);
+    cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
+    p_static->Set_Rotation_Speed(speed);
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -82,8 +82,8 @@ static mrb_value Set_Rotation_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Rotation_Speed(mrb_state* p_state, mrb_value self)
 {
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	return mrb_float_value(p_state, p_static->m_rotation_speed);
+    cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
+    return mrb_float_value(p_state, p_static->m_rotation_speed);
 }
 
 /**
@@ -101,18 +101,18 @@ static mrb_value Get_Rotation_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
 {
-	mrb_float speed;
-	mrb_get_args(p_state, "f", &speed);
+    mrb_float speed;
+    mrb_get_args(p_state, "f", &speed);
 
-	if (speed <= 0) {
-		mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Static enemy speed must be >= 0.");
-		return mrb_nil_value(); // Not reached
-	}
+    if (speed <= 0) {
+        mrb_raise(p_state, MRB_RANGE_ERROR(p_state), "Static enemy speed must be >= 0.");
+        return mrb_nil_value(); // Not reached
+    }
 
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	p_static->Set_Speed(speed);
+    cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
+    p_static->Set_Speed(speed);
 
-	return mrb_float_value(p_state, speed);
+    return mrb_float_value(p_state, speed);
 }
 
 /**
@@ -124,8 +124,8 @@ static mrb_value Set_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
 {
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	return mrb_float_value(p_state, p_static->m_speed);
+    cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
+    return mrb_float_value(p_state, p_static->m_speed);
 }
 
 /**
@@ -145,13 +145,13 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
 {
-	char* ident = NULL;
-	mrb_get_args(p_state, "z", &ident);
+    char* ident = NULL;
+    mrb_get_args(p_state, "z", &ident);
 
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	p_static->Set_Path_Identifier(ident);
+    cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
+    p_static->Set_Path_Identifier(ident);
 
-	return mrb_str_new_cstr(p_state, ident);
+    return mrb_str_new_cstr(p_state, ident);
 }
 
 /**
@@ -167,25 +167,25 @@ static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Path(mrb_state* p_state, mrb_value self)
 {
-	cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
-	std::string ident = p_static->m_path_state.m_path_identifier;
+    cStaticEnemy* p_static = Get_Data_Ptr<cStaticEnemy>(p_state, self);
+    std::string ident = p_static->m_path_state.m_path_identifier;
 
-	if (ident.empty())
-		return mrb_nil_value();
-	else
-		return mrb_str_new_cstr(p_state, ident.c_str());
+    if (ident.empty())
+        return mrb_nil_value();
+    else
+        return mrb_str_new_cstr(p_state, ident.c_str());
 }
 
 void SMC::Scripting::Init_StaticEnemy(mrb_state* p_state)
 {
-	struct RClass* p_rcStaticEnemy = mrb_define_class(p_state, "StaticEnemy", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcStaticEnemy, MRB_TT_DATA);
+    struct RClass* p_rcStaticEnemy = mrb_define_class(p_state, "StaticEnemy", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcStaticEnemy, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcStaticEnemy, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcStaticEnemy, "rotation_speed=", Set_Rotation_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcStaticEnemy, "rotation_speed", Get_Rotation_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcStaticEnemy, "speed=", Set_Speed, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcStaticEnemy, "speed", Get_Speed, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcStaticEnemy, "path=", Set_Path, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcStaticEnemy, "path", Get_Path, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcStaticEnemy, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcStaticEnemy, "rotation_speed=", Set_Rotation_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcStaticEnemy, "rotation_speed", Get_Rotation_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcStaticEnemy, "speed=", Set_Speed, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcStaticEnemy, "speed", Get_Speed, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcStaticEnemy, "path=", Set_Path, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcStaticEnemy, "path", Get_Path, MRB_ARGS_NONE());
 }

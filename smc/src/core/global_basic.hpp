@@ -8,7 +8,7 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
    (at your option) any later version.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -29,15 +29,15 @@
 /* *** *** *** *** *** *** *** Debugging *** *** *** *** *** *** *** *** *** *** */
 
 #if defined(_MSC_VER) && defined(_DEBUG)
-		// disable possible loss of data
-		#pragma warning ( disable : 4267 )
+// disable possible loss of data
+#pragma warning ( disable : 4267 )
 #endif
 
 // debug printf macro
 #ifdef _DEBUG
-	#define debug_print(format, ...) printf(format, ##__VA_ARGS__)
+#define debug_print(format, ...) printf(format, ##__VA_ARGS__)
 #else
-	#define debug_print(format, ...)
+#define debug_print(format, ...)
 #endif
 
 /* *** *** *** *** *** *** *** Includes *** *** *** *** *** *** *** *** *** *** */
@@ -89,7 +89,7 @@
 
 // SDL
 #ifdef __unix__
-  #define NO_SDL_GLEXT
+#define NO_SDL_GLEXT
 #endif
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -130,7 +130,7 @@
 #include <mruby/range.h>
 
 #ifndef PNG_COLOR_TYPE_RGBA
-	#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
+#define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA
 #endif
 
 using std::vector;

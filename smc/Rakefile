@@ -102,3 +102,11 @@ task :tarball => :clobber do
     sh "tar --exclude .git --exclude drafts -cvJhf SMC-#{version}.tar.xz SMC-#{version}"
   end
 end
+
+# Ensure :clobber also wipes out mruby build content
+task :clean_mruby do
+  cd "../mruby/mruby" do
+    sh "rake clean"
+  end
+end
+task :clobber => :clean_mruby

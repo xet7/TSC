@@ -33,18 +33,18 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cMoon* p_moon = new cMoon(pActive_Level->m_sprite_manager);
+    cMoon* p_moon = new cMoon(pActive_Level->m_sprite_manager);
 
-	DATA_PTR(self) = p_moon;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_PTR(self) = p_moon;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_moon->Set_Spawned(true);
+    // This is a generated object
+    p_moon->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_moon);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_moon);
 
-	return self;
+    return self;
 }
 
 /**
@@ -59,16 +59,16 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-	cMoon* p_moon = Get_Data_Ptr<cMoon>(p_state, self);
-	p_moon->Activate();
-	return mrb_nil_value();
+    cMoon* p_moon = Get_Data_Ptr<cMoon>(p_state, self);
+    p_moon->Activate();
+    return mrb_nil_value();
 }
 
 void SMC::Scripting::Init_Moon(mrb_state* p_state)
 {
-	struct RClass* p_rcMoon = mrb_define_class(p_state, "Moon", mrb_class_get(p_state, "Powerup"));
-	MRB_SET_INSTANCE_TT(p_rcMoon, MRB_TT_DATA);
+    struct RClass* p_rcMoon = mrb_define_class(p_state, "Moon", mrb_class_get(p_state, "Powerup"));
+    MRB_SET_INSTANCE_TT(p_rcMoon, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcMoon, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcMoon, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoon, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcMoon, "activate!", Activate, MRB_ARGS_NONE());
 }

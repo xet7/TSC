@@ -30,23 +30,23 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cPip* p_pip = new cPip(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_pip;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cPip* p_pip = new cPip(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_pip;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_pip->Set_Spawned(true);
+    // This is a generated object
+    p_pip->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_pip);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_pip);
 
-	return self;
+    return self;
 }
 
 void SMC::Scripting::Init_Pip(mrb_state* p_state)
 {
-	struct RClass* p_rcPip = mrb_define_class(p_state, "Pip", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcPip, MRB_TT_DATA);
+    struct RClass* p_rcPip = mrb_define_class(p_state, "Pip", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcPip, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcPip, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcPip, "initialize", Initialize, MRB_ARGS_NONE());
 }

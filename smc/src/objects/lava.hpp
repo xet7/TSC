@@ -4,30 +4,29 @@
 
 namespace SMC {
 
-	class cLava: public cAnimated_Sprite
-	{
-	public:
-		cLava(cSprite_Manager* p_sprite_manager);
-		cLava(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager);
-		virtual ~cLava();
+    class cLava: public cAnimated_Sprite {
+    public:
+        cLava(cSprite_Manager* p_sprite_manager);
+        cLava(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager);
+        virtual ~cLava();
 
-		virtual cLava* Copy() const;
-		virtual void Update();
-		virtual void Draw(cSurface_Request* p_request = NULL);
+        virtual cLava* Copy() const;
+        virtual void Update();
+        virtual void Draw(cSurface_Request* p_request = NULL);
 
-		virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
+        virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
-		void Set_Massive_Type( MassiveType type );
+        void Set_Massive_Type(MassiveType type);
 
-		virtual void Handle_Collision_Player(cObjectCollision* p_collision);
-		virtual void Handle_Collision_Enemy(cObjectCollision* p_collision);
+        virtual void Handle_Collision_Player(cObjectCollision* p_collision);
+        virtual void Handle_Collision_Enemy(cObjectCollision* p_collision);
 
-	protected:
-		virtual std::string Get_XML_Type_Name();
+    protected:
+        virtual std::string Get_XML_Type_Name();
 
-	private:
-		void Init();
-	};
+    private:
+        void Init();
+    };
 
 }
 

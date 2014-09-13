@@ -5,12 +5,12 @@ using namespace SMC::Scripting;
 
 cScriptable_Object::cScriptable_Object()
 {
-	//
+    //
 }
 
 cScriptable_Object::~cScriptable_Object()
 {
-	clear_event_handlers();
+    clear_event_handlers();
 }
 
 /**
@@ -27,7 +27,7 @@ cScriptable_Object::~cScriptable_Object()
  */
 void cScriptable_Object::clear_event_handlers()
 {
-	m_callbacks.clear();
+    m_callbacks.clear();
 }
 
 /**
@@ -43,7 +43,7 @@ void cScriptable_Object::clear_event_handlers()
  */
 void cScriptable_Object::register_event_handler(const std::string& evtname, mrb_value callback)
 {
-	m_callbacks[evtname].push_back(callback);
+    m_callbacks[evtname].push_back(callback);
 }
 
 /**
@@ -56,7 +56,7 @@ void cScriptable_Object::register_event_handler(const std::string& evtname, mrb_
  */
 std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_begin(const std::string& evtname)
 {
-	return m_callbacks[evtname].begin();
+    return m_callbacks[evtname].begin();
 }
 
 /**
@@ -69,5 +69,5 @@ std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_begin(const 
  */
 std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_end(const std::string& evtname)
 {
-	return m_callbacks[evtname].end();
+    return m_callbacks[evtname].end();
 }

@@ -28,17 +28,17 @@ using namespace SMC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-	cSpinBox* p_box = new cSpinBox(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_box;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cSpinBox* p_box = new cSpinBox(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_box;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_box->Set_Spawned(true);
+    // This is a generated object
+    p_box->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_box);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_box);
 
-	return self;
+    return self;
 }
 
 /**
@@ -50,9 +50,9 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Stop(mrb_state* p_state, mrb_value self)
 {
-	cSpinBox* p_box = Get_Data_Ptr<cSpinBox>(p_state, self);
-	p_box->Stop();
-	return mrb_nil_value();
+    cSpinBox* p_box = Get_Data_Ptr<cSpinBox>(p_state, self);
+    p_box->Stop();
+    return mrb_nil_value();
 }
 
 /**
@@ -65,16 +65,16 @@ static mrb_value Stop(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Spinning(mrb_state* p_state, mrb_value self)
 {
-	cSpinBox* p_box = Get_Data_Ptr<cSpinBox>(p_state, self);
-	return mrb_bool_value(p_box->m_spin);
+    cSpinBox* p_box = Get_Data_Ptr<cSpinBox>(p_state, self);
+    return mrb_bool_value(p_box->m_spin);
 }
 
 void SMC::Scripting::Init_SpinBox(mrb_state* p_state)
 {
-	struct RClass* p_rcSpin_Box = mrb_define_class(p_state, "SpinBox", mrb_class_get(p_state, "Box"));
-	MRB_SET_INSTANCE_TT(p_rcSpin_Box, MRB_TT_DATA);
+    struct RClass* p_rcSpin_Box = mrb_define_class(p_state, "SpinBox", mrb_class_get(p_state, "Box"));
+    MRB_SET_INSTANCE_TT(p_rcSpin_Box, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcSpin_Box, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSpin_Box, "stop", Stop, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcSpin_Box, "spinning?", Is_Spinning, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSpin_Box, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSpin_Box, "stop", Stop, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcSpin_Box, "spinning?", Is_Spinning, MRB_ARGS_NONE());
 }

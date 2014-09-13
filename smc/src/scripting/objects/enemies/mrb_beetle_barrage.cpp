@@ -46,17 +46,17 @@ MRUBY_IMPLEMENT_EVENT(spit);
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-	cBeetleBarrage* p_bb = new cBeetleBarrage(pActive_Level->m_sprite_manager);
-	DATA_PTR(self) = p_bb;
-	DATA_TYPE(self) = &rtSMC_Scriptable;
+    cBeetleBarrage* p_bb = new cBeetleBarrage(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_bb;
+    DATA_TYPE(self) = &rtSMC_Scriptable;
 
-	// This is a generated object
-	p_bb->Set_Spawned(true);
+    // This is a generated object
+    p_bb->Set_Spawned(true);
 
-	// Let SMC manage the memory
-	pActive_Level->m_sprite_manager->Add(p_bb);
+    // Let SMC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_bb);
 
-	return self;
+    return self;
 }
 
 /**
@@ -75,13 +75,13 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value Set_Active_Range(mrb_state* p_state, mrb_value self)
 {
-	float range = 0.0f;
-	mrb_get_args(p_state, "f", &range);
+    float range = 0.0f;
+    mrb_get_args(p_state, "f", &range);
 
-	cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
-	p_bb->Set_Active_Range(range);
+    cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
+    p_bb->Set_Active_Range(range);
 
-	return mrb_float_value(p_state, range);
+    return mrb_float_value(p_state, range);
 }
 
 /**
@@ -93,8 +93,8 @@ static mrb_value Set_Active_Range(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Active_Range(mrb_state* p_state, mrb_value self)
 {
-	cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
-	return mrb_float_value(p_state, p_bb->Get_Active_Range());
+    cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
+    return mrb_float_value(p_state, p_bb->Get_Active_Range());
 }
 
 /**
@@ -112,13 +112,13 @@ static mrb_value Get_Active_Range(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Spit_Count(mrb_state* p_state, mrb_value self)
 {
-	int count = 0;
-	mrb_get_args(p_state, "i", &count);
+    int count = 0;
+    mrb_get_args(p_state, "i", &count);
 
-	cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
-	p_bb->Set_Beetle_Spit_Count(count);
+    cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
+    p_bb->Set_Beetle_Spit_Count(count);
 
-	return mrb_fixnum_value(count);
+    return mrb_fixnum_value(count);
 }
 
 /**
@@ -130,8 +130,8 @@ static mrb_value Set_Spit_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Spit_Count(mrb_state* p_state, mrb_value self)
 {
-	cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
-	return mrb_fixnum_value(p_bb->Get_Beetle_Spit_Count());
+    cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
+    return mrb_fixnum_value(p_bb->Get_Beetle_Spit_Count());
 }
 
 /**
@@ -149,13 +149,13 @@ static mrb_value Get_Spit_Count(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Set_Fly_Distance(mrb_state* p_state, mrb_value self)
 {
-	float distance = 0.0f;
-	mrb_get_args(p_state, "f", &distance);
+    float distance = 0.0f;
+    mrb_get_args(p_state, "f", &distance);
 
-	cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
-	p_bb->Set_Beetle_Fly_Distance(distance);
+    cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
+    p_bb->Set_Beetle_Fly_Distance(distance);
 
-	return mrb_float_value(p_state, distance);
+    return mrb_float_value(p_state, distance);
 }
 
 /**
@@ -168,22 +168,22 @@ static mrb_value Set_Fly_Distance(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Fly_Distance(mrb_state* p_state, mrb_value self)
 {
-	cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
-	return mrb_float_value(p_state, p_bb->Get_Beetle_Fly_Distance());
+    cBeetleBarrage* p_bb = Get_Data_Ptr<cBeetleBarrage>(p_state, self);
+    return mrb_float_value(p_state, p_bb->Get_Beetle_Fly_Distance());
 }
 
 void SMC::Scripting::Init_BeetleBarrage(mrb_state* p_state)
 {
-	struct RClass* p_rcBeetleBarrage = mrb_define_class(p_state, "BeetleBarrage", mrb_class_get(p_state, "Enemy"));
-	MRB_SET_INSTANCE_TT(p_rcBeetleBarrage, MRB_TT_DATA);
+    struct RClass* p_rcBeetleBarrage = mrb_define_class(p_state, "BeetleBarrage", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcBeetleBarrage, MRB_TT_DATA);
 
-	mrb_define_method(p_state, p_rcBeetleBarrage, "initialize", Initialize, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetleBarrage, "active_range", Get_Active_Range, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetleBarrage, "active_range=", Set_Active_Range, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBeetleBarrage, "spit_count", Get_Spit_Count, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetleBarrage, "spit_count=", Set_Spit_Count, MRB_ARGS_REQ(1));
-	mrb_define_method(p_state, p_rcBeetleBarrage, "fly_distance", Get_Fly_Distance, MRB_ARGS_NONE());
-	mrb_define_method(p_state, p_rcBeetleBarrage, "fly_distance=", Set_Fly_Distance, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBeetleBarrage, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetleBarrage, "active_range", Get_Active_Range, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetleBarrage, "active_range=", Set_Active_Range, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBeetleBarrage, "spit_count", Get_Spit_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetleBarrage, "spit_count=", Set_Spit_Count, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBeetleBarrage, "fly_distance", Get_Fly_Distance, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetleBarrage, "fly_distance=", Set_Fly_Distance, MRB_ARGS_REQ(1));
 
-	mrb_define_method(p_state, p_rcBeetleBarrage, "on_spit", MRUBY_EVENT_HANDLER(spit), MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBeetleBarrage, "on_spit", MRUBY_EVENT_HANDLER(spit), MRB_ARGS_NONE());
 }
