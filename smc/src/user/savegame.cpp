@@ -615,7 +615,7 @@ int cSavegame :: Load_Game( unsigned int save_slot )
         pAudio->Play_Music("game/star.ogg", 0, 1, 500);
         pAudio->Play_Music(pActive_Level->m_musicfile, -1, 0);
     }
-    else if (Game_Mode == MODE_LEVEL)
+    else if (save_type == 1)
     {
         pAudio->Play_Music(pActive_Level->m_musicfile, -1, 1, 1000);
     }
