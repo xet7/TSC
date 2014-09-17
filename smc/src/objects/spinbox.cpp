@@ -16,6 +16,7 @@
 #include "../objects/spinbox.hpp"
 #include "../core/framerate.hpp"
 #include "../core/game_core.hpp"
+#include "../user/savegame.hpp"
 
 namespace SMC {
 
@@ -76,6 +77,40 @@ void cSpinBox :: Load_From_XML(XmlAttributes& attributes)
 xmlpp::Element* cSpinBox :: Save_To_XML_Node(xmlpp::Element* p_element)
 {
     return cBaseBox::Save_To_XML_Node(p_element);
+}
+
+void cSpinBox :: Load_From_Savegame(cSave_Level_Object* save_object)
+{
+    if(save_object->exists("spin_counter")) {
+    // Let Activate do the work, then just set the counter
+        Activate();
+        m_spin_counter = string_to_float(save_object->Get_Value("spin_counter"));
+    }
+}
+
+cSave_Level_Object* cSpinBox :: Save_To_Savegame(void)
+{
+    if(!m_spin)
+        return NULL;
+
+    // This is a hack to force cBaseBox to save. We need a "force" option for Save_To_Savegame
+    // We make sure the usable count and start count differ so it saves by changing the start
+    // count since it saves the useable count.
+    int original_count = m_start_useable_count;
+    m_start_useable_count = m_useable_count + 1;
+    
+    cSave_Level_Object* save_object = cBaseBox::Save_To_Savegame();
+    m_start_useable_count = original_count; // Restore original start count
+
+    if(save_object == NULL) {
+        // oh well, can't save spin counter
+        return NULL;
+    }
+
+    // spin counter
+    save_object->m_properties.push_back(cSave_Level_Object_Property("spin_counter", float_to_string(m_spin_counter)));
+
+    return save_object;
 }
 
 void cSpinBox :: Activate(void)
