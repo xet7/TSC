@@ -56,7 +56,7 @@ void cSpinBox :: Init(void)
     Set_Animation_Type("Spin");
 
     // editor image
-    m_item_image = pVideo->Get_Surface("game/arrow/small/white/up.png");
+    m_item_image = pVideo->Get_Package_Surface("game/arrow/small/white/up.png");
 }
 
 cSpinBox* cSpinBox :: Copy(void) const

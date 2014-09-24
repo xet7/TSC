@@ -18,6 +18,8 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/i18n.hpp"
 
+using namespace std;
+
 namespace SMC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -36,7 +38,7 @@ void I18N_Init(void)
     const char* textdomain_directory = bindtextdomain(CAPTION, path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()).c_str());
 
     if (!textdomain_directory) {
-        std::cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << std::endl;
+        cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << endl;
     }
 
     const char* textdomain_codeset = bind_textdomain_codeset(CAPTION, "UTF-8");

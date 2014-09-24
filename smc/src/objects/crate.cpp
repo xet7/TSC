@@ -62,7 +62,7 @@ void cCrate::Init()
     m_can_be_ground = true;
     Set_Scale_Directions(1, 1, 1, 1);
 
-    Add_Image(pVideo->Get_Surface("blocks/extra/box.png"));
+    Add_Image(pVideo->Get_Package_Surface("blocks/extra/box.png"));
     Set_Animation(false);
     Set_Image_Num(0, true, false);
 }

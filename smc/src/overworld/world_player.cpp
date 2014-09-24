@@ -22,6 +22,9 @@
 #include "../audio/audio.hpp"
 #include "../gui/menu.hpp"
 #include "../video/renderer.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -77,27 +80,27 @@ void cOverworld_Player :: Load_Images(void)
     Unload_Images();
 
     if (m_maryo_state == MARYO_SMALL) {
-        Add_Image(pVideo->Get_Surface("world/maryo/small/down.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/down_1.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/down.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/down_2.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/up_1.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/up.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/up_1.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/up_2.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/left.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/left_1.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/left.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/left_2.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/right.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/right_1.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/right.png"));
-        Add_Image(pVideo->Get_Surface("world/maryo/small/right_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right_2.png"));
 
         Set_Animation(1);
     }
     else {
-        printf("Unsupported Maryo state : %d\n", static_cast<unsigned int>(m_maryo_state));
+        cerr << "Unsupported Maryo state : " << static_cast<unsigned int>(m_maryo_state) << endl;
         return;
     }
 
@@ -345,7 +348,7 @@ void cOverworld_Player :: Activate_Waypoint(void)
                 Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_BLACK));
             }
             else {
-                printf("Warning : Overworld not found %s\n", str_world.c_str());
+                cerr << "Warning : Overworld not found " << str_world << endl;
             }
         }
     }
@@ -380,16 +383,16 @@ bool cOverworld_Player :: Start_Walk(ObjectDirection new_direction)
 
     // invalid direction
     if (!(new_direction == DIR_UP || new_direction == DIR_DOWN || new_direction == DIR_LEFT || new_direction == DIR_RIGHT)) {
-        printf("Warning : New direction is invalid : %d\n", new_direction);
+        cerr << "Warning : New direction is invalid : " << new_direction << endl;
         return 0;
     }
 
     // print debug info
     if (pOverworld_Manager->m_debug_mode) {
-        printf("Current Maryo Direction : %d\n", m_direction);
+        cout << "Current Maryo Direction : " << m_direction << endl;
 
         if (m_current_waypoint > 0) {
-            printf("Waypoint Direction Forward : %d Backward : %d\n", Get_Waypoint()->m_direction_forward, Get_Waypoint()->m_direction_backward);
+            cout << "Waypoint Direction Forward : " << Get_Waypoint()->m_direction_forward << " Backward : " << Get_Waypoint()->m_direction_backward << endl;
         }
     }
 
@@ -400,14 +403,14 @@ bool cOverworld_Player :: Start_Walk(ObjectDirection new_direction)
 
         if (!front_line) {
             if (pOverworld_Manager->m_debug_mode) {
-                printf("Waypoint Front line not detected\n");
+                cout << "Waypoint Front line not detected" << endl;
             }
 
             return 0;
         }
 
         if (pOverworld_Manager->m_debug_mode) {
-            printf("Waypoint Front line id %d, origin id %d\n", m_overworld->m_layer->Get_Array_Num(front_line), front_line->m_origin);
+            cout << "Waypoint Front line id " << m_overworld->m_layer->Get_Array_Num(front_line) << ", origin id " << front_line->m_origin << endl;
         }
 
         // forward
@@ -415,21 +418,21 @@ bool cOverworld_Player :: Start_Walk(ObjectDirection new_direction)
             cWaypoint* next_waypoint = front_line->Get_End_Waypoint();
 
             if (!next_waypoint) {
-                printf("Next waypoint not detected\n");
+                cout << "Next waypoint not detected" << endl;
                 return 0;
             }
 
             // next waypoint is not accessible
             if (!next_waypoint->m_access) {
                 if (pOverworld_Manager->m_debug_mode) {
-                    printf("No access to next waypoint\n");
+                    cout << "No access to next waypoint" << endl;
                 }
 
                 return 0;
             }
 
             if (pOverworld_Manager->m_debug_mode) {
-                printf("Next waypoint id : %d\n", m_current_waypoint);
+                cout << "Next waypoint id : " << m_current_waypoint << endl;
             }
 
             // set line waypoint
@@ -490,10 +493,10 @@ void cOverworld_Player :: Update_Walk(void)
             (m_line_hor.m_line_number < 0 && m_line_ver.m_line_number < 0)) {
         if (pOverworld_Manager->m_debug_mode) {
             if (m_direction == DIR_UP || m_direction == DIR_DOWN) {
-                printf("horizontal line connection broken : num %d diff %f\n", m_line_hor.m_line_number, m_line_hor.m_difference);
+                cout << "horizontal line connection broken : num " << m_line_hor.m_line_number << " diff " << m_line_hor.m_difference << endl;
             }
             else if (m_direction == DIR_LEFT || m_direction == DIR_RIGHT) {
-                printf("vertical line connection broken : num %d diff %f\n", m_line_ver.m_line_number, m_line_ver.m_difference);
+                cout << "vertical line connection broken : num " << m_line_ver.m_line_number << " diff " << m_line_ver.m_difference << endl;
             }
         }
 
@@ -703,12 +706,12 @@ void cOverworld_Player :: Change_Direction(void)
         }
     }
     else {
-        printf("Warning : Unknown Maryo direction %d\n", static_cast<int>(m_direction));
+        cerr << "Warning : Unknown Maryo direction " << static_cast<int>(m_direction) << endl;
         Set_Direction(DIR_DOWN);
     }
 
     if (pOverworld_Manager->m_debug_mode) {
-        printf("Changed direction to %s\n", Get_Direction_Name(m_direction).c_str());
+        cout << "Changed direction to " << Get_Direction_Name(m_direction) << endl;
     }
 }
 

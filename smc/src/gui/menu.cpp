@@ -27,6 +27,11 @@
 #include "../user/preferences.hpp"
 #include "../input/keyboard.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
+
 
 namespace SMC {
 
@@ -103,7 +108,15 @@ void cMenu_Item :: Draw(cSurface_Request* request /* = NULL */)
 
 cMenuHandler :: cMenuHandler(void)
 {
-    m_level = cLevel::Load_From_File(pResource_Manager->Get_Game_Level(pPreferences->m_menu_level + ".smclvl"));
+    boost::filesystem::path lvl_path = pPackage_Manager->Get_Menu_Level_Path();
+    if (boost::filesystem::exists(lvl_path)) {
+        m_level = cLevel::Load_From_File(lvl_path);
+    }
+    else {
+        // at least give it something so it doesn't crash
+        m_level = new cLevel();
+    }
+
     m_camera = new cCamera(m_level->m_sprite_manager);
     m_player = new cSprite(m_level->m_sprite_manager);
     m_player->Set_Massive_Type(MASS_PASSIVE);
@@ -111,7 +124,7 @@ cMenuHandler :: cMenuHandler(void)
 
     // SMC logo image
     cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
-    sprite->Set_Image(pVideo->Get_Surface("game/logo/smc_big_1.png"));
+    sprite->Set_Image(pVideo->Get_Package_Surface("game/logo/smc_big_1.png"));
     sprite->Set_Pos(180.0f, 20.0f);
     sprite->Set_Scale(0.8f);
     sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
@@ -130,7 +143,7 @@ cMenuHandler :: ~cMenuHandler(void)
 void cMenuHandler :: Add_Menu_Item(cMenu_Item* item, float shadow_pos /* = 0 */, Color shadow_color /* = static_cast<Uint8>(0) */)
 {
     if (!item) {
-        printf("Menu item is NULL ( current Menu size : %d )\n", Get_Size());
+        cerr << "Menu item is NULL ( current Menu size : " << Get_Size() << ")" << endl;
         return;
     }
 
@@ -465,12 +478,12 @@ cMenu_Item* cMenuCore :: Auto_Menu(std::string imagename, std::string imagefilen
 
     // the menu image
     if (imagefilename_menu.length() > 0) {
-        temp_item->m_image_menu->Set_Image(pVideo->Get_Surface(pResource_Manager->Get_Game_Pixmap("menu/items/" + imagefilename_menu)), 1);
+        temp_item->m_image_menu->Set_Image(pVideo->Get_Package_Surface("menu/items/" + imagefilename_menu), 1);
     }
 
     // the active image
     if (imagename.length() > 0) {
-        temp_item->m_image_default->Set_Image(pVideo->Get_Surface(pResource_Manager->Get_Game_Pixmap("menu/" + imagename)), 1);
+        temp_item->m_image_default->Set_Image(pVideo->Get_Package_Surface("menu/" + imagename), 1);
     }
 
     // position and initialization

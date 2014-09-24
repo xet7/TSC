@@ -20,11 +20,15 @@
 #include "../user/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../input/mouse.hpp"
 #include "../video/gl_surface.hpp"
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -145,9 +149,9 @@ void cFlyon :: Set_Image_Dir(fs::path dir)
     }
 
     // if not image directory
-    if (!File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("closed_1.settings")) && !File_Exists(pResource_Manager->Get_Game_Pixmaps_Directory() / dir / utf8_to_path("closed_1.png"))) {
-        std::cerr   << "Warning: Flyon image files not found; does the flyon directory "
-                    << path_to_utf8(dir) << " exist?" << std::endl;
+    if (!File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(dir) + "/closed_1.settings", true)) && !File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(dir) + "/closed_1.png"))) {
+        cerr    << "Warning: Flyon image files not found; does the flyon directory "
+                << path_to_utf8(dir) << " exist?" << endl;
         return;
     }
 
@@ -156,10 +160,10 @@ void cFlyon :: Set_Image_Dir(fs::path dir)
     // clear images
     Clear_Images();
     // set images
-    Add_Image(pVideo->Get_Surface(m_img_dir / utf8_to_path("closed_1.png")));
-    Add_Image(pVideo->Get_Surface(m_img_dir / utf8_to_path("closed_2.png")));
-    Add_Image(pVideo->Get_Surface(m_img_dir / utf8_to_path("open_1.png")));
-    Add_Image(pVideo->Get_Surface(m_img_dir / utf8_to_path("open_2.png")));
+    Add_Image(pVideo->Get_Package_Surface(m_img_dir / utf8_to_path("closed_1.png")));
+    Add_Image(pVideo->Get_Package_Surface(m_img_dir / utf8_to_path("closed_2.png")));
+    Add_Image(pVideo->Get_Package_Surface(m_img_dir / utf8_to_path("open_1.png")));
+    Add_Image(pVideo->Get_Package_Surface(m_img_dir / utf8_to_path("open_2.png")));
     // set start image
     Set_Image_Num(0, 1);
 
@@ -177,7 +181,7 @@ void cFlyon :: Set_Direction(const ObjectDirection dir)
     }
 
     if (dir != DIR_UP && dir != DIR_DOWN && dir != DIR_LEFT && dir != DIR_RIGHT) {
-        printf("Error : Unknown Flyon direction %d\n", m_direction);
+        cerr << "Error : Unknown Flyon direction " << m_direction << endl;
         return;
     }
 

@@ -19,6 +19,9 @@
 #include "../video/img_manager.hpp"
 #include "../objects/sprite.hpp"
 #include "../core/property_helper.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -152,7 +155,7 @@ void cGL_Surface :: Blit_Data(cSurface_Request* request) const
 void cGL_Surface :: Save(const std::string& filename)
 {
     if (!m_image) {
-        printf("Couldn't save cGL_Surface : No Image Texture ID set\n");
+        cerr << "Couldn't save cGL_Surface : No Image Texture ID set" << endl;
         return;
     }
 
@@ -220,7 +223,7 @@ cSaved_Texture* cGL_Surface :: Get_Software_Texture(bool only_filename /* = 0 */
         }
         else {
             bpp = 4;
-            printf("Warning: cGL_Surface :: Get_Software_Texture : Unknown format\n");
+            cerr << "Warning: cGL_Surface :: Get_Software_Texture : Unknown format" << endl;
         }
 
         // texture data
@@ -271,7 +274,7 @@ void cGL_Surface :: Load_Software_Texture(cSaved_Texture* soft_tex)
         cGL_Surface* surface_copy = pVideo->Load_GL_Surface(m_path);
 
         if (!surface_copy) {
-            printf("Warning: cGL_Surface :: Load_Software_Texture %s loading failed\n", m_path.c_str());
+            cerr << "Warning: cGL_Surface :: Load_Software_Texture " << m_path.c_str() << " loading failed" << endl;
             return;
         }
 

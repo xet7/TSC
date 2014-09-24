@@ -28,7 +28,11 @@
 #include "../scripting/events/touch_event.hpp"
 #include "../level/level_editor.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -314,7 +318,7 @@ cSprite :: cSprite(XmlAttributes& attributes, cSprite_Manager* sprite_manager, c
     // position
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
     // image
-    Set_Image(pVideo->Get_Surface(utf8_to_path(attributes["image"])), true) ;
+    Set_Image(pVideo->Get_Package_Surface(utf8_to_path(attributes["image"])), true) ;
     // Massivity.
     // FIXME: Should be separate "massivity" attribute or so.
     Set_Massive_Type(Get_Massive_Type_Id(attributes["type"]));
@@ -454,12 +458,12 @@ xmlpp::Element* cSprite :: Save_To_XML_Node(xmlpp::Element* p_element)
     else if (m_image)
         img_filename = m_image->m_path;
     else
-        std::cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << std::endl;
+        cerr << "Warnung: cSprite::Save_To_XML_Node() no image from type '" << m_type << "'" << endl;
 
     // Only save the relative part of the filename -- otherwise the
     // generated levels wouldn’t be portable.
     if (img_filename.is_absolute())
-        img_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), img_filename);
+        img_filename = pPackage_Manager->Get_Relative_Pixmap_Path(img_filename);
 
     Add_Property(p_node, "image", img_filename.generic_string());
 
@@ -595,7 +599,7 @@ std::string cSprite :: Get_XML_Type_Name()
         return "animation";
     }
     else {
-        printf("Warning : Sprite unknown array %d\n", m_sprite_array);
+        cerr << "Warning : Sprite unknown array " << m_sprite_array << endl;
     }
 
     return "";
@@ -1397,7 +1401,7 @@ void cSprite :: Editor_Activate(void)
     CEGUI::Editbox* editbox = static_cast<CEGUI::Editbox*>(wmgr.createWindow("TaharezLook/Editbox", "editor_sprite_image"));
     Editor_Add(UTF8_("Image"), UTF8_("Image filename"), editbox, 200);
 
-    fs::path rel = fs::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), m_start_image->Get_Path());
+    fs::path rel = pPackage_Manager->Get_Relative_Pixmap_Path(m_start_image->Get_Path());
     editbox->setText(path_to_utf8(rel));
     editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&cSprite::Editor_Image_Text_Changed, this));
 
@@ -1504,7 +1508,7 @@ bool cSprite :: Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
 
-    Set_Image(pVideo->Get_Surface(utf8_to_path(str_text)), true);       // Automatically converted to absolute path by Get_Surface()
+    Set_Image(pVideo->Get_Package_Surface(utf8_to_path(str_text)), true);       // Automatically converted to absolute path by Get_Surface()
 
     return 1;
 }

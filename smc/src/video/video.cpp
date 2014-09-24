@@ -28,7 +28,11 @@
 #include "../core/math/size.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../gui/spinner.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -76,7 +80,7 @@ void cVideo :: Init_CEGUI(void) const
     }
     // catch CEGUI Exceptions
     catch (CEGUI::Exception& ex) {
-        printf("CEGUI Exception occurred : %s\n", ex.getMessage().c_str());
+        cerr << "CEGUI Exception occurred : " << ex.getMessage() << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -125,7 +129,7 @@ void cVideo :: Init_CEGUI(void) const
     }
     // catch CEGUI Exceptions
     catch (CEGUI::Exception& ex) {
-        printf("CEGUI Exception occurred : %s\n", ex.getMessage().c_str());
+        cerr << "CEGUI Exception occurred : " << ex.getMessage() << endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -145,7 +149,7 @@ void cVideo :: Init_CEGUI_Data(void) const
     }
     // catch CEGUI Exceptions
     catch (CEGUI::Exception& ex) {
-        printf("CEGUI Scheme Exception occurred : %s\n", ex.getMessage().c_str());
+        cerr << "CEGUI Scheme Exception occurred : " << ex.getMessage() << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -165,14 +169,14 @@ void cVideo :: Init_CEGUI_Data(void) const
 void cVideo :: Init_SDL(void)
 {
     if (SDL_Init(SDL_INIT_VIDEO) == -1) {
-        printf("Error : SDL initialization failed\nReason : %s\n", SDL_GetError());
+        cerr << "Error : SDL initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         exit(EXIT_FAILURE);
     }
 
     atexit(SDL_Quit);
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) == -1) {
-        printf("Warning : SDL Joystick initialization failed\nReason : %s\n", SDL_GetError());
+        cerr << "Warning : SDL Joystick initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         m_joy_init_failed = 1;
     }
     else {
@@ -180,7 +184,7 @@ void cVideo :: Init_SDL(void)
     }
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) {
-        printf("Warning : SDL Audio initialization failed\nReason : %s\n", SDL_GetError());
+        cerr << "Warning : SDL Audio initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         m_audio_init_failed = 1;
     }
     else {
@@ -234,7 +238,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
             SDL_FreeSurface(icon);
         }
         else {
-            std::cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << std::endl;
+            cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << endl;
         }
     }
 
@@ -243,7 +247,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
 
     // failed
     if (screen_test == 0) {
-        printf("Warning : Video Resolution %dx%d is not supported\n", screen_w, screen_h);
+        cerr << "Warning : Video Resolution " << screen_w << "x" << screen_h << " is not supported" << endl;
 
         // set lowest available settings
         screen_w = 640;
@@ -258,7 +262,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
     }
     // can not handle bits per pixel
     else if (screen_test > 1 && screen_bpp > 0 && screen_test < screen_bpp) {
-        printf("Warning : Video Bpp %d is not supported but %d is\n", screen_bpp, screen_test);
+        cerr << "Warning : Video Bpp " << screen_bpp << " is not supported but " << screen_test << " is" << endl;
         // set closest supported bpp
         screen_bpp = screen_test;
 
@@ -338,7 +342,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
     screen = SDL_SetVideoMode(screen_w, screen_h, screen_bpp, flags);
 
     if (!screen) {
-        printf("Error : Screen mode creation failed\nReason : %s\n", SDL_GetError());
+        cerr << "Error : Screen mode creation failed" << endl << "Reason : " << SDL_GetError() << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -347,7 +351,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
         bool is_fullscreen = ((screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN);
 
         if (!is_fullscreen) {
-            printf("Warning : Fullscreen mode could not be set\n");
+            cerr << "Warning : Fullscreen mode could not be set" << endl;
         }
     }
 
@@ -359,7 +363,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
     if (!m_double_buffer) {
         // only important on full initialization
         if (use_preferences) {
-            printf("Warning : Double Buffering could not be set\n");
+            cerr << "Warning : Double Buffering could not be set" << endl;
         }
     }
 
@@ -370,7 +374,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
         SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &is_vsync);
 
         if (!is_vsync) {
-            printf("Warning : VSync could not be set\n");
+            cerr << "Warning : VSync could not be set" << endl;
         }
     }
 
@@ -382,15 +386,15 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
     // check if color bit size is set as wanted
     if (use_preferences) {
         if (m_rgb_size[0] < screen_rgb_size[0]) {
-            printf("Warning : smaller red bit size %d as requested %d\n", m_rgb_size[0], screen_rgb_size[0]);
+            cerr << "Warning : smaller red bit size " << m_rgb_size[0] << " as requested " << screen_rgb_size[0] << endl;
         }
 
         if (m_rgb_size[1] < screen_rgb_size[1]) {
-            printf("Warning : smaller green bit size %d as requested %d\n", m_rgb_size[1], screen_rgb_size[1]);
+            cerr << "Warning : smaller green bit size " << m_rgb_size[1] << " as requested " << screen_rgb_size[1] << endl;
         }
 
         if (m_rgb_size[2] < screen_rgb_size[2]) {
-            printf("Warning : smaller blue bit size %d as requested %d\n", m_rgb_size[2], screen_rgb_size[2]);
+            cerr << "Warning : smaller blue bit size " << m_rgb_size[2] << " as requested " << screen_rgb_size[2] << endl;
         }
     }
 
@@ -406,7 +410,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
 
     // get window manager information
     if (!SDL_GetWMInfo(&wm_info)) {
-        printf("Error: SDL_GetWMInfo not implemented\n");
+        cerr << "Error: SDL_GetWMInfo not implemented" << endl;
     }
 #ifdef __unix__
     // get context
@@ -463,10 +467,18 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
         // if below optimal version
         if (m_opengl_version < 1.4f) {
             if (m_opengl_version >= 1.3f) {
-                printf("Info : OpenGL Version %.1f is below the optimal version 1.4 and higher\n", m_opengl_version);
+                cout << "Info : OpenGL Version " << fixed << setprecision(1) << m_opengl_version << " is below the optimal version 1.4 and higher" << endl;
+
+                //Restore cout format settings (so that we don't change them for the entire game)
+                cout.unsetf(ios::fixed);
+                cout << setprecision(6); //6 is the default in C++
             }
             else {
-                printf("Warning : OpenGL Version %.1f is below version 1.3\n", m_opengl_version);
+                cerr << "Warning : OpenGL Version " << fixed << setprecision(1) << m_opengl_version << " is below version 1.3" << endl;
+
+                //Restore cerr format settings
+                cerr.unsetf(ios::fixed);
+                cerr << setprecision(6);
             }
 
         }
@@ -614,7 +626,7 @@ void cVideo :: Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */
             }
             // could happen if a file is locked or we have no write rights
             catch (const std::exception& ex) {
-                printf("%s\n", ex.what());
+                cerr << ex.what() << endl;
 
                 if (draw_gui) {
                     // caching failed
@@ -965,13 +977,33 @@ void cVideo :: Toggle_Fullscreen(void)
 
 cGL_Surface* cVideo :: Get_Surface(fs::path filename, bool print_errors /* = true */)
 {
+    return Get_Surface_Helper(filename, print_errors, false);
+}
+
+cGL_Surface* cVideo :: Get_Package_Surface(fs::path filename, bool print_errors /* = true */)
+{
+    return Get_Surface_Helper(filename, print_errors, true);
+}
+
+cGL_Surface* cVideo :: Get_Surface_Helper(fs::path filename, bool print_errors /* = true */, bool package /* = true */)
+{
     // .settings file type can't be used directly
     if (filename.extension() == fs::path(".settings"))
         filename.replace_extension(".png");
 
     // pixmaps dir must be given
-    if (!filename.is_absolute())
-        filename = pResource_Manager->Get_Game_Pixmaps_Directory() / filename;
+    if (!filename.is_absolute()) {
+        if (package) {
+            filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), true);
+            // .settings file type can't be used directly, and Get_Pixmap_Reading_Path
+            // may have found a settings file
+            if (filename.extension() == fs::path(".settings"))
+                filename.replace_extension(".png");
+        }
+        else {
+            filename = pResource_Manager->Get_Game_Pixmaps_Directory() / filename;
+        }
+    }
 
     // check if already loaded
     cGL_Surface* image = pImage_Manager->Get_Pointer(path_to_utf8(filename));
@@ -981,7 +1013,7 @@ cGL_Surface* cVideo :: Get_Surface(fs::path filename, bool print_errors /* = tru
     }
 
     // load new image
-    image = Load_GL_Surface(path_to_utf8(filename), 1, print_errors);
+    image = Load_GL_Surface_Helper(path_to_utf8(filename), 1, print_errors, package);
     // add new image
     if (image) {
         pImage_Manager->Add(image);
@@ -992,8 +1024,27 @@ cGL_Surface* cVideo :: Get_Surface(fs::path filename, bool print_errors /* = tru
 
 cVideo::cSoftware_Image cVideo :: Load_Image(boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */) const
 {
+    return Load_Image_Helper(filename, load_settings, print_errors, 0);
+}
+
+cVideo::cSoftware_Image cVideo :: Load_Package_Image(boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */) const
+{
+    return Load_Image_Helper(filename, load_settings, print_errors, 1);
+}
+
+cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */, bool package /* = 1 */) const
+{
     // pixmaps dir must be given
-    filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+    if (!filename.is_absolute()) {
+        if (package) {
+            filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), load_settings);
+            if (filename.extension() == fs::path(".settings"))
+                filename.replace_extension(".png");
+        }
+        else {
+            filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+        }
+    }
 
     cSoftware_Image software_image = cSoftware_Image();
     SDL_Surface* sdl_surface = NULL;
@@ -1010,9 +1061,19 @@ cVideo::cSoftware_Image cVideo :: Load_Image(boost::filesystem::path filename, b
         if (fs::exists(settings_file) && fs::is_regular_file(settings_file)) {
             settings = pSettingsParser->Get(settings_file);
 
-            fs::path img_filename_cache = m_imgcache_dir / fs::relative(pResource_Manager->Get_Game_Data_Directory(), settings_file); // Why add .png here? Should be in the return value of fs::relative() anyway.
+            // With packages support, an image loaded from a user path would have a relative path
+            // such as "../../path/to/user/files".  Since these files are not cached, don't attempt
+            // to load them.  However, package pixmaps in the game path can be cached.
+            // Because we use the path relative to the game data directory regardless of the package,
+            // normal pixmaps can be found under CACHEDIR/pixmaps/... and package pixmaps can be
+            // found under CACHEDIR/packages/PACKAGE/pixmaps/...
+            fs::path rel = fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename);
+            fs::path img_filename_cache;
+            if (rel.begin() != rel.end() && *(rel.begin()) != fs::path(".."))
+                img_filename_cache = m_imgcache_dir / rel; // Why add .png here? Should be in the return value of fs::relative() anyway.
+
             // check if image cache file exists
-            if (fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
+            if (!img_filename_cache.empty() && fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
                 sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
             // image given in base settings
             else if (!settings->m_base.empty()) {
@@ -1024,7 +1085,10 @@ cVideo::cSoftware_Image cVideo :: Load_Image(boost::filesystem::path filename, b
                     img_filename = settings->m_base;
 
                     // pixmaps dir must be given
-                    img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+                    if (package)
+                        img_filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(img_filename));
+                    else
+                        img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
                 }
 
                 sdl_surface = IMG_Load(path_to_utf8(img_filename).c_str());
@@ -1044,7 +1108,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image(boost::filesystem::path filename, b
         }
 
         if (print_errors) {
-            std::cerr << "Error loading image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+            cerr << "Error loading image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
         }
 
         return software_image;
@@ -1057,13 +1121,32 @@ cVideo::cSoftware_Image cVideo :: Load_Image(boost::filesystem::path filename, b
 
 cGL_Surface* cVideo :: Load_GL_Surface(boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */)
 {
+    return Load_GL_Surface_Helper(filename, use_settings, print_errors, 0);
+}
+
+cGL_Surface* cVideo :: Load_GL_Package_Surface(boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */)
+{
+    return Load_GL_Surface_Helper(filename, use_settings, print_errors, 1);
+}
+
+cGL_Surface* cVideo :: Load_GL_Surface_Helper(boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */, bool package /* = 1 */)
+{
     using namespace boost::filesystem;
 
     // pixmaps dir must be given
-    filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+    if (!filename.is_absolute()) {
+        if (package) {
+            filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(filename), use_settings);
+            if (filename.extension() == fs::path(".settings"))
+                filename.replace_extension(".png");
+        }
+        else {
+            filename = fs::absolute(filename, pResource_Manager->Get_Game_Pixmaps_Directory());
+        }
+    }
 
     // load software image
-    cSoftware_Image software_image = Load_Image(filename, use_settings, print_errors);
+    cSoftware_Image software_image = Load_Image_Helper(filename, use_settings, print_errors, package);
     SDL_Surface* sdl_surface = software_image.m_sdl_surface;
     cImage_Settings_Data* settings = software_image.m_settings;
 
@@ -1091,7 +1174,7 @@ cGL_Surface* cVideo :: Load_GL_Surface(boost::filesystem::path filename, bool us
     }
     // print error
     else if (print_errors) {
-        std::cerr << "Error loading GL surface image : " << path_to_utf8(filename) << std::endl << "Reason : " << SDL_GetError() << std::endl;
+        cerr << "Error loading GL surface image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
     }
 
     return image;
@@ -1146,7 +1229,7 @@ cGL_Surface* cVideo :: Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 *
 
     // if image id is 0 it failed
     if (!image_num) {
-        printf("Error : GL image generation failed\n");
+        cerr << "Error : GL image generation failed" << endl;
         SDL_FreeSurface(surface);
         return NULL;
     }
@@ -1228,7 +1311,7 @@ cGL_Surface* cVideo :: Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 *
     GLenum error = glGetError();
 
     if (error != GL_NO_ERROR) {
-        printf("CreateTexture : GL Error found : %s\n", gluErrorString(error));
+        cerr << "CreateTexture : GL Error found : " << gluErrorString(error) << endl;
     }
 #endif
 
@@ -1565,7 +1648,7 @@ void cVideo :: Save_Screenshot(void)
     fs::path filename;
 
     for (unsigned int i = 1; i < 1000; i++) {
-        filename = pResource_Manager->Get_User_Screenshot_Directory() / utf8_to_path(int_to_string(i) + ".png");
+        filename = pPackage_Manager->Get_User_Screenshot_Path() / utf8_to_path(int_to_string(i) + ".png");
 
         if (!File_Exists(filename)) {
             // create image data
@@ -1603,7 +1686,7 @@ void cVideo :: Save_Surface(const fs::path& filename, const unsigned char* data,
 #endif
 
     if (!fp) {
-        std::cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << std::endl;
+        cerr << "Warning: cVideo :: Save_Surface : Could not create file " << path_to_utf8(filename) << " for writing" << endl;
         return;
     }
 
@@ -1616,7 +1699,7 @@ void cVideo :: Save_Surface(const fs::path& filename, const unsigned char* data,
         png_color_type = PNG_COLOR_TYPE_RGB;
     }
     else {
-        printf("Warning: cVideo :: Save_Surface : %s Unknown bytes per pixel %d\n", filename.c_str(), bpp);
+        cerr << "Warning: cVideo :: Save_Surface : " << filename.c_str() << " Unknown bytes per pixel " << bpp << endl;
         fclose(fp);
         return;
     }
@@ -1785,19 +1868,19 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
 
         // item based on the camera x position
         if (pActive_Camera->m_x < 2000) {
-            image = pVideo->Get_Surface("game/items/mushroom_red.png");
+            image = pVideo->Get_Package_Surface("game/items/mushroom_red.png");
         }
         else if (pActive_Camera->m_x < 5000) {
-            image = pVideo->Get_Surface("game/items/fireplant.png");
+            image = pVideo->Get_Package_Surface("game/items/fireplant.png");
         }
         else if (pActive_Camera->m_x < 10000) {
-            image = pVideo->Get_Surface("game/items/mushroom_green.png");
+            image = pVideo->Get_Package_Surface("game/items/mushroom_green.png");
         }
         else if (pActive_Camera->m_x < 20000) {
-            image = pVideo->Get_Surface("game/items/star.png");
+            image = pVideo->Get_Package_Surface("game/items/star.png");
         }
         else {
-            image = pVideo->Get_Surface("game/items/moon_1.png");
+            image = pVideo->Get_Package_Surface("game/items/moon_1.png");
         }
 
         Color color = white;
@@ -2125,7 +2208,7 @@ void Draw_Effect_In(Effect_Fadein effect /* = EFFECT_IN_RANDOM */, float speed /
 void Loading_Screen_Init(void)
 {
     if (CEGUI::WindowManager::getSingleton().isWindowPresent("loading")) {
-        printf("Warning: Loading Screen already initialized.");
+        cerr << "Warning: Loading Screen already initialized.";
         return;
     }
 
@@ -2150,7 +2233,7 @@ void Loading_Screen_Draw_Text(const std::string& str_info /* = "Loading" */)
     // set info text
     CEGUI::Window* text_default = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_loading"));
     if (!text_default) {
-        printf("Warning: Loading Screen not initialized.");
+        cerr << "Warning: Loading Screen not initialized.";
         return;
     }
     text_default->setText(reinterpret_cast<const CEGUI::utf8*>(str_info.c_str()));

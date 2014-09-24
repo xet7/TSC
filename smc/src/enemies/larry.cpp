@@ -59,17 +59,17 @@ void cLarry::Init()
     m_explosion_counter = 0.0f;
     m_kill_sound = "ambient/thunder_1.ogg";
 
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_3.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_walk_4.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/plain_turn.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_3.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_walk_4.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/active_turn.png"));
-    Add_Image(pVideo->Get_Surface("enemy/larry/grey/action.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/plain_walk_1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/plain_walk_2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/plain_walk_3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/plain_walk_4.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/plain_turn.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/active_walk_1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/active_walk_2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/active_walk_3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/active_walk_4.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/active_turn.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/larry/grey/action.png"));
 
     Set_Moving_State(STA_WALK);
     Set_Direction(DIR_RIGHT);
@@ -364,7 +364,7 @@ void cLarry::Explosion_Animation()
     p_em->Set_Emitter_Rect(m_col_rect);
     p_em->Set_Quota(10);
     p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.01f);
-    p_em->Set_Image(pVideo->Get_Surface("animation/particles/smoke.png"));
+    p_em->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke.png"));
     p_em->Set_Time_to_Live(3.5f);
     p_em->Set_Scale(1.5f);
     p_em->Set_Emitter_Time_to_Live(2.0f);
@@ -374,7 +374,7 @@ void cLarry::Explosion_Animation()
     p_em->Set_Emitter_Rect(m_col_rect);
     p_em->Set_Quota(5);
     p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.01f);
-    p_em->Set_Image(pVideo->Get_Surface("animation/particles/smoke_grey_big.png"));
+    p_em->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_grey_big.png"));
     p_em->Set_Time_to_Live(5.0f);
     p_em->Set_Scale(1.5f);
     p_em->Set_Emitter_Time_to_Live(2.0f);
@@ -384,7 +384,7 @@ void cLarry::Explosion_Animation()
     p_em->Set_Emitter_Rect(m_col_rect);
     p_em->Set_Quota(5);
     p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.02f);
-    p_em->Set_Image(pVideo->Get_Surface("animation/particles/cloud.png"));
+    p_em->Set_Image(pVideo->Get_Package_Surface("animation/particles/cloud.png"));
     p_em->Set_Time_to_Live(7.0f);
     p_em->Set_Scale(1.0f);
     p_em->Set_Emitter_Time_to_Live(2.0f);

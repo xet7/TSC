@@ -24,13 +24,19 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "preferences_loader.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
+
+using namespace std;
 
 namespace SMC {
 
 /* *** *** *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** */
 
+// Package and skin
+const std::string cPreferences::m_package_default = "";
+const std::string cPreferences::m_skin_default = "";
 // Game
 const bool cPreferences::m_always_run_default = 0;
 const std::string cPreferences::m_menu_level_default = "menu_brown_1";
@@ -109,7 +115,7 @@ cPreferences* cPreferences :: Load_From_File(fs::path filename)
 {
     // If the preferences file doesn’t exist, use default values.
     if (!File_Exists(filename)) {
-        std::cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << std::endl;
+        cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << endl;
         cPreferences* p_pref = new cPreferences();
         p_pref->m_config_filename = filename;
         return p_pref;
@@ -138,6 +144,9 @@ void cPreferences :: Save(void)
     xmlpp::Document doc;
     xmlpp::Element* p_root = doc.create_root_node("config");
 
+    // Package and skin
+    Add_Property(p_root, "package_name", m_package);
+    Add_Property(p_root, "skin_name", m_skin);
     // Game
     Add_Property(p_root, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
     Add_Property(p_root, "game_language", m_language);
@@ -207,6 +216,7 @@ void cPreferences :: Reset_All(void)
 {
     // Game
     m_game_version = smc_version;
+    m_package = m_package_default;
 
     Reset_Game();
     Reset_Video();

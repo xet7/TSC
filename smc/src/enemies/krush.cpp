@@ -59,14 +59,14 @@ void cKrush :: Init(void)
     m_pos_z = 0.093f;
     m_gravity_max = 27.0f;
 
-    Add_Image(pVideo->Get_Surface("enemy/krush/big_1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/big_2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/big_3.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/big_4.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/small_1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/small_2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/small_3.png"));
-    Add_Image(pVideo->Get_Surface("enemy/krush/small_4.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/big_1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/big_2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/big_3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/big_4.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/small_1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/small_2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/small_3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/krush/small_4.png"));
 
     m_state = STA_FALL;
     Set_Moving_State(STA_WALK);
@@ -350,10 +350,10 @@ void cKrush :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cKrush :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
+void cKrush :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect *r2)
 {
     pAudio->Play_Sound(m_kill_sound);
-    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1 );
     pLevel_Player->Add_Kill_Multiplier();
     DownGrade(true);
 }

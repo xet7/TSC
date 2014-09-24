@@ -220,16 +220,16 @@ void cGee :: Set_Color(DefaultColor col)
         m_fire_resistant = 0;
     }
 
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/3.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/4.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/5.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/6.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/7.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/8.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/9.png"));
-    Add_Image(pVideo->Get_Surface("enemy/gee/" + filename_dir + "/10.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/4.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/5.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/6.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/7.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/8.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/9.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/gee/" + filename_dir + "/10.png"));
 
     Set_Image_Num(0, 1);
 
@@ -408,7 +408,7 @@ void cGee :: Stop(void)
 void cGee :: Generate_Particles(unsigned int amount /* = 4 */) const
 {
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
-    anim->Set_Image(pVideo->Get_Surface("animation/particles/cloud.png"));
+    anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/cloud.png"));
     anim->Set_Pos_Z(m_pos_z - 0.00001f);
     anim->Set_Emitter_Rect(m_col_rect.m_x + (m_col_rect.m_w * 0.3f), m_col_rect.m_y + (m_col_rect.m_h * 0.2f), m_col_rect.m_w * 0.4f, m_col_rect.m_h * 0.3f);
     anim->Set_Quota(amount);

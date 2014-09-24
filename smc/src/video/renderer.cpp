@@ -15,6 +15,9 @@
 
 #include "../video/renderer.hpp"
 #include "../core/game_core.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -124,7 +127,7 @@ void cRender_Request_Advanced :: Render_Basic_Clear(void) const
     GLenum error = glGetError();
 
     if (error != GL_NO_ERROR) {
-        printf("RenderRequest : GL Error found : %s\n", gluErrorString(error));
+        cerr << "RenderRequest : GL Error found : " << gluErrorString(error) << endl;
     }
 #endif
 }

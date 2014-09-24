@@ -1,8 +1,11 @@
 #include "overworld_description_loader.hpp"
 #include "overworld.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+
+using namespace std;
 
 cOverworldDescriptionLoader::cOverworldDescriptionLoader()
     : xmlpp::SaxParser()
@@ -80,7 +83,7 @@ void cOverworldDescriptionLoader::on_end_element(const Glib::ustring& name)
         /* Ignore */
     }
     else
-        std::cerr << "Warning: Unknown World Description element '" << name << "'." << std::endl;
+        cerr << "Warning: Unknown World Description element '" << name << "'." << endl;
 
     m_current_properties.clear();
 }

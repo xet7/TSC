@@ -56,7 +56,7 @@ void cjStar :: Init(void)
 
     m_velx = 5;
 
-    Add_Image(pVideo->Get_Surface("game/items/star.png"));
+    Add_Image(pVideo->Get_Package_Surface("game/items/star.png"));
     Set_Image_Num(0, 1, 0);
 
     m_name = _("Star");
@@ -173,7 +173,7 @@ void cjStar :: Generate_Particles(float x /* = 0.0f */, float y /* = 0.0f */, bo
 
     // create emitter
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
-    anim->Set_Image(pVideo->Get_Surface("animation/particles/star.png"));
+    anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/star.png"));
     anim->Set_Pos_Z(m_pos_z + 0.0001f);
 
     if (random) {

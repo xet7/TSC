@@ -54,6 +54,7 @@
 #include "objects/specials/mrb_falling_goldpiece.hpp"
 #include "objects/specials/mrb_crate.hpp"
 #include "objects/specials/mrb_moving_platform.hpp"
+#include "../core/global_basic.hpp"
 
 ////////////////////////////////////////
 // Be sure to review docs/scripting.md!
@@ -61,6 +62,8 @@
 
 // Extern
 mrb_data_type SMC::Scripting::rtSMC_Scriptable = {"SmcScriptable", NULL};
+
+using namespace std;
 
 namespace SMC {
 
@@ -151,7 +154,7 @@ bool cMRuby_Interpreter::Run_File(const boost::filesystem::path& filepath)
     // Open the file.
     boost::filesystem::ifstream file(filepath);
     if (!file.is_open()) {
-        std::cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << std::endl;
+        cerr << "Failed to open mruby script file '" << path_to_utf8(filepath) << "'" << endl;
         return false;
     }
 
@@ -171,6 +174,9 @@ void cMRuby_Interpreter::Load_Scripts()
 
     // Warn user if user’s main.rb errors.
     if (!Run_File(mainfile)) {
+        cerr << "Warning: Error loading main mruby script '"
+             << path_to_utf8(mainfile)
+             << "'!" << endl;
         std::cerr << "Warning: Error loading main mruby script '"
                   << path_to_utf8(mainfile)
                   << "'!" << std::endl;
@@ -202,6 +208,7 @@ void cMRuby_Interpreter::Evaluate_Timer_Callbacks()
     for (iter = m_callbacks.begin(); iter != m_callbacks.end(); iter++) {
         mrb_funcall(mp_mruby, *iter, "call", 0);
         if (mp_mruby->exc) {
+            cerr << "Warning: Error running timer callback: " << endl;
             std::cerr << "Warning: Error running timer callback: " << std::endl;
             mrb_print_error(mp_mruby);
         }

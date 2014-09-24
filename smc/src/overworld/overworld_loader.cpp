@@ -3,9 +3,12 @@
 #include "overworld_loader.hpp"
 #include "overworld_description_loader.hpp"
 #include "overworld.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+
+using namespace std;
 
 cOverworldLoader::cOverworldLoader()
     : xmlpp::SaxParser()
@@ -98,7 +101,7 @@ void cOverworldLoader::on_end_element(const Glib::ustring& name)
         if (p_object)
             mp_overworld->m_sprite_manager->Add(p_object);
         else
-            std::cerr << "Warning: Unknown overworld element '" << name << "'" << std::endl;
+            cerr << "Warning: Unknown overworld element '" << name << "'" << endl;
     }
 
     // Everything handled, so we can now safely clear the
@@ -162,7 +165,7 @@ cSprite* cOverworldLoader::Create_World_Object_From_XML(const std::string& name,
     else if (name == "line")
         return Create_Line_From_XML_Tag(attributes, engine_version, p_sprite_manager, p_overworld);
     else
-        std::cerr << "Warning: Unknown world object XML tag '" << name << "'" << std::endl;
+        cerr << "Warning: Unknown world object XML tag '" << name << "'" << endl;
 
     return NULL;
 }
@@ -201,13 +204,13 @@ cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes,
         cSprite* p_copy = p_sprite->Copy();
 
         // middle
-        p_copy->Set_Image(pVideo->Get_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_middle.png")), true);
+        p_copy->Set_Image(pVideo->Get_Package_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_middle.png")), true);
         p_copy->Set_Pos_Y(p_copy->m_start_pos_y + 32, true);
         p_sprite_manager->Add(p_copy); // HACK: Should be done by the caller! (unexpected parameter modification)
 
         // end
         p_copy = p_copy->Copy();
-        p_copy->Set_Image(pVideo->Get_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_end.png")), true);
+        p_copy->Set_Image(pVideo->Get_Package_Surface(utf8_to_path("world/objects/bridge/bridge_1_ver_end.png")), true);
         p_copy->Set_Pos_Y(p_copy->m_start_pos_y + 32, true);
         p_sprite_manager->Add(p_copy); // HACK: Should be done by the caller! (unexpected parameter modification)
     }

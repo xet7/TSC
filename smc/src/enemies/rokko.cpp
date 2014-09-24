@@ -23,6 +23,9 @@
 #include "../input/mouse.hpp"
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -85,12 +88,12 @@ void cRokko :: Init(void)
     m_kill_sound = "enemy/rokko/hit.wav";
     m_kill_points = 250;
 
-    Add_Image(pVideo->Get_Surface("enemy/rokko/yellow/fly_1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/rokko/yellow/fly_2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/rokko/yellow/fly_3.png"));
-    Add_Image(pVideo->Get_Surface("enemy/rokko/yellow/break_1.png"));
-    Add_Image(pVideo->Get_Surface("enemy/rokko/yellow/break_2.png"));
-    Add_Image(pVideo->Get_Surface("enemy/rokko/yellow/break_3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/rokko/yellow/fly_1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/rokko/yellow/fly_2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/rokko/yellow/fly_3.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/rokko/yellow/break_1.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/rokko/yellow/break_2.png"));
+    Add_Image(pVideo->Get_Package_Surface("enemy/rokko/yellow/break_3.png"));
     Set_Image_Num(0, true);
     Set_Animation(true);
     Set_Animation_Image_Range(0, 2);
@@ -162,7 +165,7 @@ void cRokko :: Set_Direction(const ObjectDirection dir, bool new_start_direction
         Set_Rotation(0.0f, 0.0f, 270.0f, 1);
     }
     else {
-        printf("Warning: Unknown Rokko direction %s\n", Get_Direction_Name(dir).c_str());
+        cerr << "Warning: Unknown Rokko direction " << Get_Direction_Name(dir) << endl;
     }
 
     Update_Rotation_Hor();
@@ -447,7 +450,7 @@ void cRokko :: Generate_Smoke(unsigned int amount /* = 10 */) const
 
     // - 0.000001f caused a weird graphical z pos bug with an ATI card
     anim->Set_Pos_Z(m_pos_z - 0.00001f);
-    anim->Set_Image(pVideo->Get_Surface("animation/particles/smoke_grey_big.png"));
+    anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_grey_big.png"));
     anim->Set_Quota(amount);
     anim->Set_Time_to_Live(0.8f, 0.8f);
     anim->Set_Speed(1.0f, 0.2f);
@@ -468,7 +471,7 @@ void cRokko :: Generate_Sparks(unsigned int amount /* = 5 */) const
     anim->Set_Quota(amount);
     anim->Set_Time_to_Live(0.2f, 0.1f);
     anim->Set_Speed(1.2f, 1.1f);
-    anim->Set_Image(pVideo->Get_Surface("animation/particles/light.png"));
+    anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
     anim->Set_Color(Color(static_cast<Uint8>(250), 250, 200), Color(static_cast<Uint8>(5), 5, 0, 0));
     anim->Set_Scale(0.3f, 0.3f);
     anim->Set_Fading_Size(1);

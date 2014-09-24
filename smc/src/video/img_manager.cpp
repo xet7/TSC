@@ -16,6 +16,9 @@
 #include "../video/img_manager.hpp"
 #include "../video/renderer.hpp"
 #include "../core/i18n.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -206,7 +209,7 @@ void cImage_Manager :: Delete_Hardware_Textures(void)
     // delete all hardware surfaces
     for (GLuint i = 0; i < m_high_texture_id; i++) {
         if (glIsTexture(i)) {
-            printf("ImageManager : deleting texture %d\n", i);
+            cout << "ImageManager : deleting texture " << i << endl;
             glDeleteTextures(1, &i);
         }
     }

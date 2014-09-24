@@ -18,9 +18,13 @@
 #include "../overworld/overworld.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../overworld/world_editor.hpp"
 #include "../input/mouse.hpp"
 #include "../video/animation.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -76,8 +80,8 @@ void cOverworld_Manager :: Init(void)
     }
 
     // Load Worlds
-    Load_Dir(pResource_Manager->Get_User_World_Directory(), true);
-    Load_Dir(pResource_Manager->Get_Game_Overworld_Directory());
+    Load_Dir(pPackage_Manager->Get_User_World_Path(), true);
+    Load_Dir(pPackage_Manager->Get_Game_World_Path());
 }
 
 void cOverworld_Manager :: Load_Dir(const fs::path& dir, bool user_dir /* = false */)
@@ -105,7 +109,7 @@ void cOverworld_Manager :: Load_Dir(const fs::path& dir, bool user_dir /* = fals
             }
         }
         catch (const std::exception& ex) {
-            printf("%s %s\n", path_to_utf8(*curdir).c_str(), ex.what());
+            cerr << path_to_utf8(*curdir) << " " << ex.what() << endl;
         }
     }
 }
@@ -150,7 +154,8 @@ void cOverworld_Manager :: Reset(void)
     Set_Active("World 1");
 
     // Set Player to first Waypoint
-    pOverworld_Player->Set_Waypoint(pActive_Overworld->m_player_start_waypoint);
+    if (pActive_Overworld) // World 1 may not exist in the active package
+        pOverworld_Player->Set_Waypoint(pActive_Overworld->m_player_start_waypoint);
 
     // Reset all Waypoints
     for (vector<cOverworld*>::iterator itr = objects.begin(); itr != objects.end(); ++itr) {

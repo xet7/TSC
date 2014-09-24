@@ -17,6 +17,7 @@
 #include "../core/game_core.hpp"
 #include "../core/main.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../level/level.hpp"
 #include "../gui/menu.hpp"
@@ -38,6 +39,8 @@
 #include "../core/i18n.hpp"
 #include "../gui/generic.hpp"
 
+using namespace std;
+
 // SMC namespace is set later to exclude main() from it
 using namespace SMC;
 
@@ -45,6 +48,11 @@ using namespace SMC;
 #if defined( __WIN32__ ) && defined( _DEBUG )
 #undef main
 #endif
+
+
+/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+
+static std::string g_cmdline_package;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -77,13 +85,13 @@ int main(int argc, char** argv)
         datapath = contents.substr(0, contents.find("/bin")) + "/share/smc";
     }
     else {
-        std::cerr << "Warning: Could not determine installation type\n";
+        cerr << "Warning: Could not determine installation type\n";
     }
 
     if (!datapath.empty()) {
-        std::cout << "setting CWD to " << datapath.c_str() << std::endl;
+        cout << "setting CWD to " << datapath.c_str() << endl;
         if (chdir(datapath.c_str()) != 0) {
-            std::cerr << "Warning: Failed changing CWD\n";
+            cerr << "Warning: Failed changing CWD\n";
         }
     }
 #endif
@@ -95,33 +103,34 @@ int main(int argc, char** argv)
         for (unsigned int i = 1; i < arguments.size(); i++) {
             // help
             if (arguments[i] == "--help" || arguments[i] == "-h") {
-                printf("Usage: %s [OPTIONS]\n", arguments[0].c_str());
-                printf("Where OPTIONS is one of the following:\n");
-                printf("-h, --help\tDisplay this message\n");
-                printf("-v, --version\tShow the version of %s\n", CAPTION);
-                printf("-d, --debug\tEnable debug modes with the options : game performance\n");
-                printf("-l, --level\tLoad the given level\n");
-                printf("-w, --world\tLoad the given world\n");
+                cout << "Usage: " << arguments[0] << " [OPTIONS]" << endl;
+                cout << "Where OPTIONS is one of the following:" << endl;
+                cout << "-h, --help\tDisplay this message" << endl;
+                cout << "-v, --version\tShow the version of " << CAPTION << endl;
+                cout << "-d, --debug\tEnable debug modes with the options : game performance" << endl;
+                cout << "-l, --level\tLoad the given level" << endl;
+                cout << "-w, --world\tLoad the given world" << endl;
+                cout << "-p, --package\tLoad the given package" << endl;
                 return EXIT_SUCCESS;
             }
             // version
             else if (arguments[i] == "--version" || arguments[i] == "-v") {
-                std::cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH;
+	      std::cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH;
 #ifdef SMC_VERSION_POSTFIX
-                std::cout << "-" << SMC_VERSION_POSTFIX << "." << std::endl;
-                std::cout << " --- This is a DEVELOPMENT built! It may eat your hamster! ---" << std::endl;
+	      std::cout << "-" << SMC_VERSION_POSTFIX << "." << std::endl;
+	      std::cout << " --- This is a DEVELOPMENT built! It may eat your hamster! ---" << std::endl;
 #else
-                std::cout << "." << std::endl;
+	      std::cout << "." << std::endl;
 #endif
 
-                std::cout << "It was compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
+	      std::cout << "It was compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
                 return EXIT_SUCCESS;
             }
             // debug
             else if (arguments[i] == "--debug" || arguments[i] == "-d") {
                 // no value
                 if (i + 1 >= arguments.size()) {
-                    printf("%s requires a value\n", arguments[i].c_str());
+                    cerr << arguments[i] << " requires a value" << endl;
                     return EXIT_FAILURE;
                 }
                 // with value
@@ -136,11 +145,16 @@ int main(int argc, char** argv)
                             game_debug_performance = 1;
                         }
                         else {
-                            printf("Unknown debug option %s\n", option_str.c_str());
+                            cerr << "Unknown debug option " << option_str << endl;
                             return EXIT_FAILURE;
                         }
                     }
                 }
+            }
+            // package
+            else if (arguments[i] == "--package" || arguments[i] == "-p") {
+                if (i + 1 < arguments.size())
+                    g_cmdline_package = arguments[i + 1];
             }
             // level loading is handled later
             else if (arguments[i] == "--level" || arguments[i] == "-l") {
@@ -152,7 +166,7 @@ int main(int argc, char** argv)
             }
             // unknown argument
             else if (arguments[i].substr(0, 1) == "-") {
-                printf("Unknown argument %s\nUse -h to list all possible arguments\n", arguments[i].c_str());
+                cerr << "Unknown argument " << arguments[i] << endl << "Use -h to list all possible arguments" << endl;
                 return EXIT_FAILURE;
             }
         }
@@ -216,6 +230,7 @@ void Init_Game(void)
     // Init Stage 1 - core classes
     debug_print("Initializing resource manager and core classes\n");
     pResource_Manager = new cResource_Manager();
+    pPackage_Manager = new cPackage_Manager();
     pVideo = new cVideo();
     pAudio = new cAudio();
     pFont = new cFont_Manager();
@@ -238,6 +253,11 @@ void Init_Game(void)
     I18N_Init();
     // init user dir directory
     pResource_Manager->Init_User_Directory();
+    // init pacakge from command line or preferences
+    if (!g_cmdline_package.empty())
+        pPackage_Manager->Set_Current_Package(g_cmdline_package);
+    else
+        pPackage_Manager->Set_Current_Package(pPreferences->m_package);
     // video init
     pVideo->Init_SDL();
     pVideo->Init_Video();
@@ -438,6 +458,11 @@ void Exit_Game(void)
         pFont = NULL;
     }
 
+    if (pPackage_Manager) {
+        delete pPackage_Manager;
+        pPackage_Manager = NULL;
+    }
+
     if (pResource_Manager) {
         delete pResource_Manager;
         pResource_Manager = NULL;
@@ -445,7 +470,7 @@ void Exit_Game(void)
 
     char* last_sdl_error = SDL_GetError();
     if (strlen(last_sdl_error) > 0) {
-        printf("Last known SDL Error : %s\n", last_sdl_error);
+        cerr << "Last known SDL Error : " << last_sdl_error << endl;
     }
 
     // unload the sdl_image preloaded libraries

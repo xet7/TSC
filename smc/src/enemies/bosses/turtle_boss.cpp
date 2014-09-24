@@ -24,6 +24,9 @@
 #include "../../core/sprite_manager.hpp"
 #include "../../core/i18n.hpp"
 #include "../../core/xml_attributes.hpp"
+#include "../../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -161,7 +164,7 @@ void cTurtleBoss :: Set_Shell_Time(float nmax_downgrade_time)
 void cTurtleBoss :: Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
 {
     if (dir != DIR_RIGHT && dir != DIR_LEFT) {
-        printf("Warning : Unknown Turtle Boss direction set %s\n", Get_Direction_Name(dir).c_str());
+        cerr << "Warning : Unknown Turtle Boss direction set " << Get_Direction_Name(dir) << endl;
         return;
     }
 
@@ -202,7 +205,7 @@ void cTurtleBoss :: Set_Color(DefaultColor col)
     }
     // unknown color
     else {
-        printf("Error : Unknown TurtleBoss color : %d\n", m_color_type);
+        cerr << "Error : Unknown Turtle Boss color : " << m_color_type << endl;
     }
 
     Set_Image_Num(0, 1);

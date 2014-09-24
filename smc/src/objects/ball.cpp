@@ -25,6 +25,9 @@
 #include "../gui/hud.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../user/savegame.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -169,15 +172,15 @@ void cBall :: Set_Ball_Type(ball_effect type)
     Clear_Images();
 
     if (type == FIREBALL_DEFAULT || type == FIREBALL_EXPLOSION) {
-        Set_Image(pVideo->Get_Surface("animation/fireball/1.png"));
+        Set_Image(pVideo->Get_Package_Surface("animation/fireball/1.png"));
         m_ball_type = FIREBALL_DEFAULT;
     }
     else if (type == ICEBALL_DEFAULT || type == ICEBALL_EXPLOSION) {
-        Set_Image(pVideo->Get_Surface("animation/iceball/1.png"));
+        Set_Image(pVideo->Get_Package_Surface("animation/iceball/1.png"));
         m_ball_type = ICEBALL_DEFAULT;
     }
     else {
-        printf("Warning : Ball unknown type %d\n", type);
+        cerr << "Warning : Ball unknown type " << type << endl;
         cAnimated_Sprite::Destroy();
     }
 }
@@ -316,13 +319,13 @@ void cBall :: Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
         unsigned int rand_image = rand() % 3;
 
         if (rand_image == 0) {
-            anim->Set_Image(pVideo->Get_Surface("animation/particles/fire_1.png"));
+            anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/fire_1.png"));
         }
         else if (rand_image == 1) {
-            anim->Set_Image(pVideo->Get_Surface("animation/particles/fire_2.png"));
+            anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/fire_2.png"));
         }
         else {
-            anim->Set_Image(pVideo->Get_Surface("animation/particles/fire_4.png"));
+            anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/fire_4.png"));
         }
 
         anim->Set_Time_to_Live(0.2f);
@@ -330,7 +333,7 @@ void cBall :: Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
     }
     // ice
     else {
-        anim->Set_Image(pVideo->Get_Surface("animation/particles/light.png"));
+        anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
         anim->Set_Time_to_Live(0.5f);
         anim->Set_Color(Color(static_cast<Uint8>(90), 90, 255));
     }
@@ -465,7 +468,7 @@ void cBall :: Handle_Collision_Massive(cObjectCollision* collision)
             // create animation
             cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
             anim->Set_Pos(m_pos_x + m_col_rect.m_w / 2, m_pos_y + m_col_rect.m_h / 2, 1);
-            anim->Set_Image(pVideo->Get_Surface("animation/particles/cloud.png"));
+            anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/cloud.png"));
             anim->Set_Direction_Range(0, 180);
             anim->Set_Quota(3);
             anim->Set_Time_to_Live(0.8f);

@@ -424,7 +424,7 @@ std::string Get_Clipboard_Content(void)
 
         // no handle
         if (!h) {
-            printf("Could not get clipboard data\n");
+            cerr << "Could not get clipboard data" << endl;
             CloseClipboard();
             return content;
         }
@@ -488,7 +488,7 @@ void Set_Clipboard_Content(std::string str)
 #ifdef _WIN32
     if (OpenClipboard(NULL)) {
         if (!EmptyClipboard()) {
-            printf("Failed to empty clipboard\n");
+            cerr << "Failed to empty clipboard" << endl;
             return;
         }
 
@@ -496,7 +496,7 @@ void Set_Clipboard_Content(std::string str)
         HANDLE h = GlobalAlloc((GMEM_MOVEABLE|GMEM_DDESHARE|GMEM_ZEROINIT), length);
 
         if (!h) {
-            printf("Could not allocate clipboard memory\n");
+            cerr << "Could not allocate clipboard memory" << endl;
             return;
         }
 
@@ -505,7 +505,7 @@ void Set_Clipboard_Content(std::string str)
         if (!data) {
             GlobalFree(h);
             CloseClipboard();
-            printf("Could not lock clipboard memory\n");
+            cerr << "Could not lock clipboard memory" << endl;
             return;
         }
 
@@ -517,7 +517,7 @@ void Set_Clipboard_Content(std::string str)
         if (!data_result) {
             GlobalFree(h);
             CloseClipboard();
-            printf("Could not set clipboard data\n");
+            cerr << "Could not set clipboard data" << endl;
         }
 
         CloseClipboard();

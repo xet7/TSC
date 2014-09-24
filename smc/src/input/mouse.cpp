@@ -32,6 +32,8 @@
 #include "../video/renderer.hpp"
 #include "../core/i18n.hpp"
 
+using namespace std;
+
 namespace SMC {
 
 /* *** *** *** *** *** cSelectedObject *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -1127,13 +1129,13 @@ cSprite* cMouseCursor :: Copy(const cSprite* copy_object, float px, float py) co
 
     // only copy in editor mode
     if (!editor_enabled) {
-        std::cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << std::endl;
+        cerr << "Warning: No editor enabled for copy object: " << copy_object->Create_Name() << endl;
         return NULL;
     }
 
     // if invalid
     if (!copy_object->Is_Sprite_Managed()) {
-        printf("Warning : cMouseCursor copy : invalid object array : %d\n", copy_object->m_sprite_array);
+        cerr << "Warning : cMouseCursor copy : invalid object array : " << copy_object->m_sprite_array << endl;
         return NULL;
     }
 

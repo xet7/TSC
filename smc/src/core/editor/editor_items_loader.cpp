@@ -1,5 +1,8 @@
 #include "editor_items_loader.hpp"
 #include "../../objects/sprite.hpp"
+#include "../global_basic.hpp"
+
+using namespace std;
 
 using namespace SMC;
 namespace fs = boost::filesystem;
@@ -74,7 +77,7 @@ void cEditorItemsLoader::on_end_element(const Glib::ustring& name)
     std::vector<cSprite*> sprites = mfp_callback(objname, m_current_properties, level_engine_version, mp_sprite_manager, mp_data);
 
     if (sprites.empty()) {
-        std::cerr << "Warning: Editor item could not be created: " << objname << std::endl;
+        cerr << "Warning: Editor item could not be created: " << objname << endl;
         return;
     }
 

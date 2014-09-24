@@ -30,6 +30,9 @@
 #include "../gui/hud.hpp"
 #include "../scripting/events/activate_event.hpp"
 #include "../level/level.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -154,14 +157,14 @@ void cBaseBox :: Set_Animation_Type(const std::string& new_anim_type)
 
     if (m_anim_type.compare("Bonus") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Surface("game/box/brown1_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/brown1_1.png"));
         // animation images
-        Add_Image(pVideo->Get_Surface("game/box/yellow/bonus/1.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/bonus/2.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/bonus/3.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/bonus/4.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/bonus/5.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/bonus/6.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/1.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/2.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/3.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/4.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/5.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/6.png"));
 
         Set_Animation(1);
         Set_Animation_Image_Range(1, 6);
@@ -169,21 +172,21 @@ void cBaseBox :: Set_Animation_Type(const std::string& new_anim_type)
     }
     else if (m_anim_type.compare("Default") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Surface("game/box/brown1_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/brown1_1.png"));
         // default
-        Add_Image(pVideo->Get_Surface("game/box/yellow/default.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/default.png"));
 
         Set_Animation(0);
         Set_Animation_Image_Range(1, 1);
     }
     else if (m_anim_type.compare("Power") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Surface("game/box/brown1_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/brown1_1.png"));
         // animation images
-        Add_Image(pVideo->Get_Surface("game/box/yellow/power_1.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/power_2.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/power_3.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/power_4.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_3.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_4.png"));
 
         Set_Animation(1);
         Set_Animation_Image_Range(1, 4);
@@ -191,21 +194,21 @@ void cBaseBox :: Set_Animation_Type(const std::string& new_anim_type)
     }
     else if (m_anim_type.compare("Spin") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Surface("game/box/yellow/spin/disabled.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/disabled.png"));
         // animation images
-        Add_Image(pVideo->Get_Surface("game/box/yellow/default.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/spin/1.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/spin/2.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/spin/3.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/spin/4.png"));
-        Add_Image(pVideo->Get_Surface("game/box/yellow/spin/5.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/default.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/1.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/2.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/3.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/4.png"));
+        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/5.png"));
 
         Set_Animation(0);
         Set_Animation_Image_Range(1, 6);
         Set_Time_All(80, 1);
     }
     else {
-        printf("Warning : Unknown Box Animation Type %s\n", m_anim_type.c_str());
+        cerr << "Warning : Unknown Box Animation Type : " << m_anim_type << endl;
         Set_Animation_Type("Bonus");
     }
 
@@ -318,7 +321,7 @@ void cBaseBox :: Update_Collision(void)
 
     // invalid direction
     if (m_move_col_dir != DIR_UP && m_move_col_dir != DIR_DOWN && m_move_col_dir != DIR_RIGHT && m_move_col_dir != DIR_LEFT) {
-        printf("Warning : wrong box collision direction %d\n", m_move_col_dir);
+        cerr << "Warning : wrong box collision direction " << m_move_col_dir << endl;
         m_move_col_dir = DIR_UNDEFINED;
         Update_Valid_Update();
         return;
@@ -395,6 +398,7 @@ void cBaseBox :: Check_Collision(ObjectDirection col_direction)
 
         // send box collision
         col_obj->m_obj->Handle_Collision_Box(Get_Opposite_Direction(col_obj->m_direction), &m_col_rect);
+
     }
 
     delete col_list;
@@ -491,12 +495,12 @@ void cBaseBox :: Generate_Activation_Particles(void)
     if (m_particle_counter_active > 0.0f) {
         cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
         if (box_type == TYPE_MUSHROOM_POISON) {
-            anim->Set_Image(pVideo->Get_Surface("animation/particles/green_ghost_light.png"));
+            anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/green_ghost_light.png"));
             anim->Set_Speed(1.0f, 0.1f);
             anim->Set_Time_to_Live(1.4f);
         }
         else {
-            anim->Set_Image(pVideo->Get_Surface("animation/particles/light.png"));
+            anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
             anim->Set_Speed(7.0f, 0.5f);
             anim->Set_Time_to_Live(0.2f);
         }

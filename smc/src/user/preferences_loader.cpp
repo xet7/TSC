@@ -1,7 +1,9 @@
 #include "preferences_loader.hpp"
+#include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
 using namespace SMC;
+using namespace std;
 
 cPreferencesLoader::cPreferencesLoader()
     : xmlpp::SaxParser()
@@ -95,8 +97,13 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
 {
     int val = 0;
 
+    ////////////////// Package/skin //////////////////
+    if (name == "package_name")
+        mp_preferences->m_package = value;
+    else if (name == "skin_name")
+        mp_preferences->m_skin = value;
     //////////////////// Game ////////////////////
-    if (name == "game_version")
+    else if (name == "game_version")
         mp_preferences->m_game_version = string_to_version_number(value);
     else if (name == "game_language")
         mp_preferences->m_language = value;
@@ -314,6 +321,6 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
     else if (name == "editor_item_image_size")
         mp_preferences->m_editor_item_image_size = string_to_int(value);
     else {
-        std::cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << std::endl;
+        cerr << "Warning: Unknown config option '" << name << "'. Ignoring." << endl;
     }
 }

@@ -24,6 +24,8 @@
 #include "../level/level.hpp"
 #include "../overworld/overworld.hpp"
 
+using namespace std;
+
 namespace SMC {
 
 /* *** *** *** *** *** *** cJoystick *** *** *** *** *** *** *** *** *** *** *** */
@@ -62,13 +64,13 @@ int cJoystick :: Init(void)
 
     // no joystick available
     if (joy_count <= 0) {
-        printf("No joysticks available\n");
+        cout << "No joysticks available" << endl;
         pPreferences->m_joy_enabled = 0;
         return 0;
     }
 
     if (m_debug) {
-        printf("Joysticks found : %d\n\n", joy_count);
+        cout << "Joysticks found : " << joy_count << endl << endl;
     }
 
     unsigned int default_joy = 0;
@@ -91,7 +93,7 @@ int cJoystick :: Init(void)
     Stick_Open(default_joy);
 
     if (m_debug) {
-        printf("Joypad System Initialized\n");
+        cout << "Joypad System Initialized" << endl;
     }
 
     return 1;
@@ -112,7 +114,7 @@ bool cJoystick :: Stick_Open(unsigned int index)
     m_joystick = SDL_JoystickOpen(index);
 
     if (!m_joystick) {
-        printf("Couldn't open joystick %d\n", index);
+        cerr << "Couldn't open joystick " << index << endl;
         m_joystick_open = 0;
         return 0;
     }
@@ -127,11 +129,11 @@ bool cJoystick :: Stick_Open(unsigned int index)
     m_buttons.assign(m_num_buttons, 0);
 
     if (m_debug) {
-        printf("Opened Joystick %d\n", m_current_joystick);
-        printf("Name: %s\n", Get_Name().c_str());
-        printf("Number of Buttons: %d\n", m_num_buttons);
-        printf("Number of Axes: %d\n", m_num_axes);
-        printf("Number of Balls: %d\n\n", m_num_balls);
+        cout << "Opened Joystick " << m_current_joystick << endl;
+        cout << "Name: " << Get_Name() << endl;
+        cout << "Number of Buttons: " << m_num_buttons << endl;
+        cout << "Number of Axes: " << m_num_axes << endl;
+        cout << "Number of Balls: " << m_num_balls << endl << endl;
     }
 
     m_joystick_open = 1;
@@ -158,7 +160,7 @@ void cJoystick :: Stick_Close(void)
     m_joystick_open = 0;
 
     if (m_debug) {
-        printf("Joystick %d closed\n", m_current_joystick);
+        cout << "Joystick " << m_current_joystick << " closed" << endl;
     }
 
     m_current_joystick = 0;
@@ -261,7 +263,7 @@ void cJoystick :: Handle_Motion(SDL_Event* ev)
         // Up
         if (ev->jaxis.value < -pPreferences->m_joy_axis_threshold) {
             if (m_debug) {
-                printf("Joystick %d : Up Button pressed\n", m_current_joystick);
+                cout << "Joystick " << m_current_joystick << " : Up Button pressed" << endl;
             }
 
             if (!m_up) {
@@ -277,7 +279,7 @@ void cJoystick :: Handle_Motion(SDL_Event* ev)
         // Down
         else if (ev->jaxis.value > pPreferences->m_joy_axis_threshold) {
             if (m_debug) {
-                printf("Joystick %d : Down Button pressed\n", m_current_joystick);
+                cout << "Joystick " << m_current_joystick << " : Down Button pressed" << endl;
             }
 
             if (!m_down) {
@@ -308,7 +310,7 @@ void cJoystick :: Handle_Motion(SDL_Event* ev)
         // Left
         if (ev->jaxis.value < -pPreferences->m_joy_axis_threshold) {
             if (m_debug) {
-                printf("Joystick %d : Left Button pressed\n", m_current_joystick);
+                cout << "Joystick " << m_current_joystick << " : Left Button pressed" << endl;
             }
 
             if (!m_left) {
@@ -324,7 +326,7 @@ void cJoystick :: Handle_Motion(SDL_Event* ev)
         // Right
         else if (ev->jaxis.value > pPreferences->m_joy_axis_threshold) {
             if (m_debug) {
-                printf("Joystick %d : Right Button pressed\n", m_current_joystick);
+                cout << "Joystick " << m_current_joystick << " : Right Button pressed" << endl;
             }
 
             if (!m_right) {
@@ -498,10 +500,10 @@ void cJoystick :: Set_Button(Uint8 num, bool pressed)
 
     if (m_debug) {
         if (pressed) {
-            printf("Joystick %d : Joy Button %d pressed\n", m_current_joystick, num);
+            cout << "Joystick " << m_current_joystick << " : Joy Button " << num << " pressed" << endl;
         }
         else {
-            printf("Joystick %d : Joy Button %d released\n", m_current_joystick, num);
+            cout << "Joystick " << m_current_joystick << " : Joy Button " << num << " released" << endl;
         }
     }
 

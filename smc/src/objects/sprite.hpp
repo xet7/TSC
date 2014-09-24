@@ -101,7 +101,7 @@ namespace SMC {
          * of the cases `cdirection' will be DIR_BOTTOM as the box is below
          * you. Still, it moves around a little bit so you may also get
          * another direction.
-        */
+         */
         virtual void Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2) {};
 
         // the parent sprite manager

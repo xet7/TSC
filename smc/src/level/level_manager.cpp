@@ -23,7 +23,11 @@
 #include "../audio/audio.hpp"
 #include "../level/level_editor.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../input/mouse.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -160,7 +164,7 @@ fs::path cLevel_Manager :: Get_Path(const std::string& levelname, bool check_onl
     fs::path filename = Trim_Filename(utf8_to_path(levelname));
 
     // user level directory as default
-    fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
+    fs::path user_filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());
     // use new file type as default
     user_filename.replace_extension(".smclvl");
 
@@ -178,7 +182,7 @@ fs::path cLevel_Manager :: Get_Path(const std::string& levelname, bool check_onl
     }
 
     if (!check_only_user_dir) {
-        fs::path game_filename = fs::absolute(filename, pResource_Manager->Get_Game_Level_Directory());
+        fs::path game_filename = fs::absolute(filename, pPackage_Manager->Get_Game_Level_Path());
 
         // use new file type
         game_filename.replace_extension(".smclvl");
@@ -358,7 +362,7 @@ void cLevel_Manager :: Goto_Sub_Level(std::string str_level, const std::string& 
         }
         // not found
         else if (!str_entry.empty()) {
-            printf("Warning : Level entry %s not found\n", str_entry.c_str());
+            cerr << "Warning : Level entry " << str_entry << " not found" << endl;
         }
 
         // move camera to new position
@@ -425,7 +429,7 @@ void cLevel_Manager :: Goto_Sub_Level(std::string str_level, const std::string& 
                     }
                     // not found
                     else {
-                        printf("Warning : Level path %s not found\n", path_identifier.c_str());
+                        cerr << "Warning : Level path " << path_identifier << " not found" << endl;
                     }
                 }
 

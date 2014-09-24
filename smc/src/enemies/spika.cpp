@@ -23,6 +23,9 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace SMC {
 
@@ -102,7 +105,7 @@ void cSpika :: Set_Color(DefaultColor col)
     m_color_type = col;
 
     if (m_color_type == COL_ORANGE) {
-        Add_Image(pVideo->Get_Surface("enemy/spika/orange.png"));
+        Add_Image(pVideo->Get_Package_Surface("enemy/spika/orange.png"));
 
         m_speed = 3;
         m_detection_size = 160.0f;
@@ -112,7 +115,7 @@ void cSpika :: Set_Color(DefaultColor col)
         m_ice_resistance = 0.0f;
     }
     else if (m_color_type == COL_GREEN) {
-        Add_Image(pVideo->Get_Surface("enemy/spika/green.png"));
+        Add_Image(pVideo->Get_Package_Surface("enemy/spika/green.png"));
 
         m_speed = 4;
         m_detection_size = 220.0f;
@@ -122,7 +125,7 @@ void cSpika :: Set_Color(DefaultColor col)
         m_ice_resistance = 0.1f;
     }
     else if (m_color_type == COL_GREY) {
-        Add_Image(pVideo->Get_Surface("enemy/spika/grey.png"));
+        Add_Image(pVideo->Get_Package_Surface("enemy/spika/grey.png"));
 
         m_speed = 7;
         m_detection_size = 330.0f;
@@ -132,7 +135,7 @@ void cSpika :: Set_Color(DefaultColor col)
         m_ice_resistance = 0.5f;
     }
     else if (m_color_type == COL_RED) {
-        Add_Image(pVideo->Get_Surface("enemy/spika/red.png"));
+        Add_Image(pVideo->Get_Package_Surface("enemy/spika/red.png"));
 
         m_speed = 10;
         m_detection_size = 300.0f;
@@ -142,7 +145,7 @@ void cSpika :: Set_Color(DefaultColor col)
         m_ice_resistance = 1.0f;
     }
     else {
-        printf("Error : Unknown Spika Color %d\n", m_color_type);
+        cerr << "Error : Unknown Spika Color " << m_color_type << endl;
     }
 
     Set_Image_Num(0, 1);

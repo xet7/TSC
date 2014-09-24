@@ -2,6 +2,7 @@
 #include "../../../level/level.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "mrb_ball.hpp"
+#include "../../../core/global_basic.hpp"
 
 /**
  * Class: Ball
@@ -17,6 +18,7 @@
 
 using namespace SMC;
 using namespace SMC::Scripting;
+using namespace std;
 
 /**
  * Method: Ball::new
@@ -83,7 +85,7 @@ static mrb_value Get_Ball_Type(mrb_state* p_state, mrb_value self)
     case ICEBALL_EXPLOSION:
         return str2sym(p_state, "ice_explosion");
     default:
-        std::cerr << "Unknown ball effect type " << p_ball->m_ball_type << "." << std::endl;
+        cerr << "Unknown ball effect type " << p_ball->m_ball_type << "." << endl;
         return mrb_nil_value();
     }
 }

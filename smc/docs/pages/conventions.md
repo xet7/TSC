@@ -2,60 +2,111 @@ Coding conventions
 ==================
 
 This file documents the coding conventions used in SMC. If you plan on
-contirbuting to the game, please read this.
+contributing to the game, please read this.
+
+The general style used for SMC’s codebase is the [Stroustrup
+style][1]. For any formatting questions, you should therefore read
+that document prior to consulting this one, which outlines the
+additions and differences to the standard Stroustrup style.
+
+Note that for Emacs an appropriate style file is already provided in
+the source tree, `smc/.dir_locals.el`. That file will automatically be
+picked up by Emacs when you edit the sourcecode, so you don’t have to
+worry about changing the indentation and other style settings
+manually. Stil, a style file doesn’t lift the burden of properly
+formatting the code, it is just a help.
+
+File names
+----------
+
+Sourcecode files end in `.cpp`, header files end in `.hpp` in case of
+C++ code (which should be everything in SMC). Use `.c` and `.h` if for
+some unknown reason pure C code is required.
 
 Indentation
 -----------
 
-Code in SMC is indented with tabs. One tab spans 4 spaces.
+Code in SMC is indented with 4 spaces, no tabs. Most code editors can
+be configured to automatically insert the required number of spaces
+when you hit the TAB key.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
 void foo()
 {
-	cool_code();
+    cool_code();
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Classes
--------
+License header
+--------------
 
-Class names start with a lowercase c, following by the real name in
+Each file in SMC is required to start with the following license
+header:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+/***************************************************************************
+* <FILENAME>.<cpp/hpp> - <SHORT DESCRIPTION OF THE FILE>
+*
+* Copyright © <YEAR> The SMC Contributors
+***************************************************************************
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3 of the License, or
+* (at your option) any later version.
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you contribute to SMC the first time, don’t forget to include
+yourself into `docs/authors.txt` so you show up in the credits!
+
+Class names
+-----------
+
+As a difference to Stroustrup style, due to historical reasons class
+names start with a lowercase c, following by the real name in
 Camel_Case.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-class cFoo_Bar
-{
-	// ...
+class cFoo_Bar {
+    // ...
 };
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The opening and closing brace for the class definition have its own line.
+Nesting classes is OK for indicating a very strong relationship
+between two classes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+class cPath {
+
+    class cSegment {
+    };
+
+};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Do not repeat the outer class name in the inner class’ name, it’s
+obvious from the namespacing (`cPath::cPathSegment` is **wrong**,
+`cPath::cSegment` is correct). Do not nest further than one level
+unless absolutely required.
 
 Methods
 -------
 
-Methods in classes are uppercase, both for member and static
-methods, and long names use Camel_Case. Class-independent methods
-(i.e. utility methods) are lowercase
+Another difference to Stroustrup style is method naming, again for
+historical reasons. Methods in classes are uppercase, both for member
+and static methods, and long names use Camel_Case. Class-independent
+methods (i.e. utility methods) are lowercase.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-class cFoo
-{
+class cFoo {
 public:
-	void Cool_Method();
+    void Cool_Method();
 };
 
 void utility_method();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When defining methods, the opening and closing braces are on its own
-line.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-void utility_method()
-{
-	//
-}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Variables and parameters
@@ -82,48 +133,6 @@ int* p_count; // local-var pointer
 int* mp_count; // member-var pointer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The `*` that determines a pointer is considered to be part of the
-type, and not of the name, so it should come *before* the space
-between type and name of a variable. The same goes for the `&` for
-reference variables.
-
-Control structures
-------------------
-
-`if`, `for`, etc. are so common that having their opening braces on an
-own line is unnessesarily verbose. Just place them on the line the
-control structure is on:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-if (condition) {
-  // stuff
-}
-
-for(int i=0; i<x; i++) {
-  // stuff
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You may ommit braces for one-line control structures. But do *not* do
-this if you place a comment between condition and structure body, even
-though this is technically possible. It destroys overview.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-if (condition)
-  code();
-
-for(i=0; i<x; i++)
-  code();
-
-// WRONG!
-if (condition)
-  // Long comment to explain this
-  // call that distracts the user
-  // and makes the code hard to
-  // understand.
-  code();
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Variable access
 ---------------
 
@@ -134,15 +143,124 @@ class that nobody messes with the variables from the outside in an
 unexpected way.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-class cFoo
-{
+class cFoo {
 public:
-  int Get_Bar();
-  void Set_Bar(int x);
+    int Get_Bar();
+    void Set_Bar(int x);
 
 private:
-  int m_bar;
+    int m_bar;
 };
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Additional method calls have performance overhead. Most getters and
+setters are trivial, so you want to squash the performance overhead by
+taking advantage of C++’s `inline` keyword that retains the secrecy
+principle and still allows the compiler to optimize the method call
+away:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+class cFoo {
+public:
+    inline int Get_Bar(){ return m_bar; }
+    inline void Set_Bar(int x){ m_bar = x; }
+
+private:
+    int m_bar;
+};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Only do this for small one-line accessor methods, otherwise
+you abuse the `inline` keyword.
+
+Macros
+------
+
+Try to prevent macro use as much as possible. C++ has templates that
+will cover a good number of macro usecases, but sometimes you just
+can’t avoid a macro (such as the one defining the event handler
+callback for mruby (a C library!) functions; doing that without the
+`MRUBY_IMPLEMENT_EVENT()` macro would be much more work and much more
+unclear than this way). If you come to the conclusion you absolutely
+must use a macro, make it use a name IN_ALL_CAPS so it stands out of
+the code and warns everyone it is a macro.
+
+The header guards that prevent `#include` from including a header file
+multiple times are of course an exception. Header guard macros in SMC
+should always look like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+#ifndef SMC_NAMESPACE_CLASS_HPP
+#define SMC_NAMESPACE_CLASS_HPP
+// Code...
+#endif
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Do not indent `#ifdef` and `#if defined` conditions. They are not part
+of the code and must quickly be found from just glancing over the file
+when you want to know whether you are in a Windows- or Linux-specific
+part of the code.
+
+Implementing code that needs to differenciate between multiple
+different operating systems (or other environment-related macros)
+should look like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+void foo()
+{
+#if defined(_WIN32)
+    windows_specific_stuff();
+    with_another_line();
+#elsif defined(__linux)
+    linux_specific_stuff();
+#else
+#error unsupported platform
+#endif
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Be sure to always add an `#else` part containing an `#error` line so
+that users that want to compile on an unhandled platform receive a
+compilation error rather than a dysfunctional program.
+
+Comments
+--------
+
+Comments should be added as suggested in the Stroustrup style
+document, i.e. where you have to say things that you can’t express in
+code. Comments that repeat what the code is saying already are bad,
+especially if they get out of sync with the code itself.
+
+Single and two-line comments use `//`. For comments with three and
+more lines, use `/* */`.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+// Short comment
+
+/* Long comment that explains a more complicated factum that
+ * definitely needs more than three lines, because the explanation
+ * is so insanely complicated that each less line would prevent
+ * the understanding.
+ */
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Comments should not exceed a line-length of 80 characters, try to
+break at column 60. Use proper English grammar and punctuation. Short
+oneline comments may ommit the final period.
+
+Namespace resolution
+--------------------
+
+Don’t leave spaces around the `::` operator, neither in a definition
+nor in the implementation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+cFoo :: Bar() // WRONG
+{
+}
+
+cFoo::Bar() // correct
+{
+}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 External includes
@@ -155,6 +273,22 @@ is important, which cannot easily be guaranteed when headers include
 other headers of SMC, which include yet another SMC header, which then
 finally includes some library header, etc. `#include` statements for
 SMC-own headers can be done anywhere you need them.
+
+SMC namespace
+-------------
+
+All SMC code is required to be defined under the `SMC` namespace. In
+the header files, always write out `namespace SMC {` in full and
+indent accordingly. In your sourcecode files, add a line
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+using namespace SMC;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+near the top so you don’t have to indent all your implementation
+code. Please do **not** follow the old SMC style of using `namespace
+SMC {` and not indenting the rest of the file, this is highly
+discouraged.
 
 Version policy
 --------------
@@ -245,27 +379,28 @@ Work In Progress) mark to the title.
 Documentation
 -------------
 
-SMC uses [Doxygen](http://www.stack.nl/~dimitri/doxygen) for
-documentation. Inside the header files, please only provide brief
-descriptions of the elements (if any) in order to not clutter the
-header files, which this way can be used as a short
-quick-reference. For the more complete descriptions, use doxygen
-documentation comments around the actual definitions in the `.cpp`
-files.
+SMC uses [Doxygen][2] for documentation. Inside the header files,
+please only provide Doxygen "brief" descriptions of the elements (if
+any) in order to not clutter the header files, which this way can be
+used as a short quick-reference (Doxygen uses the "brief" comment for
+display in the function summary). For the more complete descriptions,
+use doxygen "full" documentation comments around the actual
+definitions in the `.cpp` files. Doxygen comment style is `/**` for
+full comment blocks, and `///` for brief comments.
 
 Example `foo.hpp`:
 
-~~~~~~~~~~~~~~~~~~~~~~~~ c++
+\verbatim
 class cFoo
 {
-  /// Does important things.
-  void Bar();
-}
-~~~~~~~~~~~~~~~~~~~~~~~~
+   /// Does important things.
+   void Bar();
+};
+\endverbatim
 
 Example `foo.cpp`:
 
-~~~~~~~~~~~~~~~~~~~~~~~~ c++
+\verbatim
 /**
  * This method does important things by
  * implementing the XYZ pattern. It
@@ -273,9 +408,47 @@ Example `foo.cpp`:
  */
 void cFoo::Bar()
 {
-  // Code...
+    // Code...
 }
-~~~~~~~~~~~~~~~~~~~~~~~~
+\endverbatim
+
+Example of a fully documented function:
+
+\verbatim
+// .hpp file
+class cFoo {
+public:
+    /// Do important things with the position.
+    Bar(int x, int y, int count);
+};
+\endverbatim
+
+\verbatim
+// .cpp file
+
+/**
+ * This method does important things with
+ * the given position.
+ *
+ * \param x     The X coordinate.
+ * \param y     The Y coordinate.
+ * \param count The number of times to do it.
+ *
+ * \returns whether the action was successful.
+bool cFoo::Bar(int x, int y, int count)
+{
+    // Code...
+}
+\endverbatim
+
+Miscellanea
+-----------
+
+* Use `true` and `false` instead of `1` and `0`.
+* A function should ideally fit onto a single screen page. While this
+  is not always possible (both due to logical code requirements and
+  different screen sizes), you should ask yourself if refactoring is
+  needed when your function gets a thousand lines long.
 
 State of transition
 -------------------
@@ -283,3 +456,6 @@ State of transition
 SMC’s codebase has seen different coding styles in the past. You will
 find that most of SMC does not correspond to this styleguide, but we
 are working on it. Some day we will have it done...
+
+[1]: http://www.stroustrup.com/Programming/PPP-style-rev3.pdf
+[2]: http://www.stack.nl/~dimitri/doxygen

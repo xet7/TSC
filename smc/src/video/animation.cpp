@@ -22,9 +22,13 @@
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/filesystem/boost_relative.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../input/mouse.hpp"
+#include "../core/global_basic.hpp"
+
+using namespace std;
 
 namespace fs = boost::filesystem;
 
@@ -95,9 +99,9 @@ void cAnimation :: Set_Pos_Z(float pos, float pos_rand /* = 0.0f */)
 cAnimation_Goldpiece :: cAnimation_Goldpiece(cSprite_Manager* sprite_manager, float posx, float posy, float height /* = 40.0f */, float width /* = 20.0f */)
     : cAnimation(sprite_manager)
 {
-    Add_Image(pVideo->Get_Surface("animation/light_1/1.png"));
-    Add_Image(pVideo->Get_Surface("animation/light_1/2.png"));
-    Add_Image(pVideo->Get_Surface("animation/light_1/3.png"));
+    Add_Image(pVideo->Get_Package_Surface("animation/light_1/1.png"));
+    Add_Image(pVideo->Get_Package_Surface("animation/light_1/2.png"));
+    Add_Image(pVideo->Get_Package_Surface("animation/light_1/3.png"));
 
     Set_Pos(posx, posy, 1);
     m_rect.m_w = width;
@@ -244,10 +248,10 @@ cAnimation_Fireball :: cAnimation_Fireball(cSprite_Manager* sprite_manager, floa
         cAnimation_Fireball_Item* obj = new cAnimation_Fireball_Item(sprite_manager);
 
         // images
-        obj->Add_Image(pVideo->Get_Surface("animation/particles/fire_4.png"));
-        obj->Add_Image(pVideo->Get_Surface("animation/particles/fire_3.png"));
-        obj->Add_Image(pVideo->Get_Surface("animation/particles/fire_2.png"));
-        obj->Add_Image(pVideo->Get_Surface("animation/particles/fire_1.png"));
+        obj->Add_Image(pVideo->Get_Package_Surface("animation/particles/fire_4.png"));
+        obj->Add_Image(pVideo->Get_Package_Surface("animation/particles/fire_3.png"));
+        obj->Add_Image(pVideo->Get_Package_Surface("animation/particles/fire_2.png"));
+        obj->Add_Image(pVideo->Get_Package_Surface("animation/particles/fire_1.png"));
         obj->Set_Image_Num(0);
 
         // velocity
@@ -1148,10 +1152,10 @@ void cParticle_Emitter :: Set_Image_Filename(const fs::path& filename)
     // remember the filename for saving
     m_image_filename = filename;
     if (filename.is_absolute())
-        m_image_filename = boost::filesystem::relative(pResource_Manager->Get_Game_Pixmaps_Directory(), filename);
+        m_image_filename = pPackage_Manager->Get_Relative_Pixmap_Path(filename);
 
     // set new image
-    Set_Image(pVideo->Get_Surface(m_image_filename, 0));
+    Set_Image(pVideo->Get_Package_Surface(m_image_filename, 0));
 }
 
 void cParticle_Emitter :: Set_Spawned(bool enable /* = 0 */)
@@ -1299,16 +1303,16 @@ void cParticle_Emitter :: Set_Color(const Color& col, const Color& col_rand /* =
 
 #ifdef _DEBUG
     if (m_color.red + col_rand.red > 255) {
-        printf("cParticle_Emitter::Set_Color random color red (%d) is too high for %s\n", col_rand.red, path_to_utf8(m_image_filename).c_str());
+        cerr << "cParticle_Emitter::Set_Color random color red (" << col_rand.red << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
     if (m_color.green + col_rand.green > 255) {
-        printf("cParticle_Emitter::Set_Color random color green (%d) is too high for %s\n", col_rand.green, path_to_utf8(m_image_filename).c_str());
+        cerr << "cParticle_Emitter::Set_Color random color green (" << col_rand.green << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
     if (m_color.blue + col_rand.blue > 255) {
-        printf("cParticle_Emitter::Set_Color random color blue (%d) is too high for %s\n", col_rand.blue, path_to_utf8(m_image_filename).c_str());
+        cerr << "cParticle_Emitter::Set_Color random color blue (" << col_rand.blue << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
     if (m_color.alpha + col_rand.alpha > 255) {
-        printf("cParticle_Emitter::Set_Color random color alpha (%d) is too high for %s\n", col_rand.alpha, path_to_utf8(m_image_filename).c_str());
+        cerr << "cParticle_Emitter::Set_Color random color alpha (" << col_rand.alpha << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
 #endif
 }
