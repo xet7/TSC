@@ -571,8 +571,11 @@ int cSavegame :: Load_Game(unsigned int save_slot)
         pAudio->Play_Music("game/star.ogg", 0, 1, 500);
         pAudio->Play_Music(pActive_Level->m_musicfile, -1, 0);
     }
-    else {
+    else if (save_type == 1) {
         pAudio->Play_Music(pActive_Level->m_musicfile, -1, 1, 1000);
+    }
+    else {
+        pAudio->Play_Music(pActive_Overworld->m_musicfile, -1, 1, 1000);
     }
 
     pHud_Points->Set_Points(savegame->m_points);
