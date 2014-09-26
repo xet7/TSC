@@ -1,6 +1,11 @@
 Secret Maryo Chronicles
 =======================
 
+NOTE
+----
+
+We are in the process of renaming. See issue [#92](https://github.com/Secretchronicles/SMC/issues/92).
+
 What is it?
 -----------
 
@@ -26,13 +31,12 @@ want to compile SMC yourself, please see the INSTALL.md file.
 Links
 -----
 
-* The SMC website: http://www.secretmaryo.org
-* The official, but largely unmaintained SMC forums:
+* The TSC website: http://www.secretchronicles.de
+* The forums: http://smc.quintilianus.eu
+* The old, and largely unmaintained SMC forums:
   http://secretmaryo.org/phpBB3
-* The alternative, more vivid SMC forums focusing on scripting:
-  http://smc.quintilianus.eu
-* The bugtracker: https://github.com/Quintus/SMC/issues
-* The scripting API documentation: http://smcsdocs.quintilianus.eu
+* The bugtracker: https://github.com/Secretchronicles/SMC/issues
+* The documentation: http://docs.secretchronicles.de
 
 License
 -------
