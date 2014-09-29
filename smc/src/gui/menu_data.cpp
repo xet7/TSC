@@ -687,6 +687,9 @@ bool cMenu_Start::Load_Level(std::string level_name)
         return 0;
     }
 
+    // Disable editor (does nothing if already disabled)
+    pLevel_Editor->Disable();
+
     // enter level
     Game_Action = GA_ENTER_LEVEL;
     Game_Mode_Type = MODE_TYPE_LEVEL_CUSTOM;
