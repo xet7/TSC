@@ -24,13 +24,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cjStar *** *** *** *** *** *** *** *** *** *** *** */
 
-cjStar :: cjStar(cSprite_Manager* sprite_manager)
+cjStar::cjStar(cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cjStar::Init();
 }
 
-cjStar :: cjStar(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cjStar::cjStar(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cjStar::Init();
@@ -39,12 +39,12 @@ cjStar :: cjStar(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 }
 
-cjStar :: ~cjStar(void)
+cjStar::~cjStar(void)
 {
     //
 }
 
-void cjStar :: Init(void)
+void cjStar::Init(void)
 {
     m_type = TYPE_STAR;
     m_pos_z = 0.053f;
@@ -62,14 +62,14 @@ void cjStar :: Init(void)
     m_name = _("Star");
 }
 
-cjStar* cjStar :: Copy(void) const
+cjStar* cjStar::Copy(void) const
 {
     cjStar* star = new cjStar(m_sprite_manager);
     star->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
     return star;
 }
 
-void cjStar :: Activate(void)
+void cjStar::Activate(void)
 {
     if (!m_active) {
         return;
@@ -93,7 +93,7 @@ void cjStar :: Activate(void)
     }
 }
 
-void cjStar :: Update(void)
+void cjStar::Update(void)
 {
     if (!m_valid_update || !Is_In_Range()) {
         return;
@@ -145,7 +145,7 @@ void cjStar :: Update(void)
     }
 }
 
-void cjStar :: Draw(cSurface_Request* request /* = NULL */)
+void cjStar::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -156,7 +156,7 @@ void cjStar :: Draw(cSurface_Request* request /* = NULL */)
     cPowerUp::Draw();
 }
 
-void cjStar :: Generate_Particles(float x /* = 0.0f */, float y /* = 0.0f */, bool random /* = 1 */, unsigned int quota /* = 2 */) const
+void cjStar::Generate_Particles(float x /* = 0.0f */, float y /* = 0.0f */, bool random /* = 1 */, unsigned int quota /* = 2 */) const
 {
     if (Is_Float_Equal(x, 0.0f)) {
         x = m_pos_x;
@@ -198,7 +198,7 @@ void cjStar :: Generate_Particles(float x /* = 0.0f */, float y /* = 0.0f */, bo
     pActive_Animation_Manager->Add(anim);
 }
 
-void cjStar :: Handle_Collision_Massive(cObjectCollision* collision)
+void cjStar::Handle_Collision_Massive(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_RIGHT || collision->m_direction == DIR_LEFT) {
         Turn_Around(collision->m_direction);

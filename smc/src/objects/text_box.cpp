@@ -31,25 +31,25 @@ namespace SMC {
 static unsigned int text_box_window_width = 300;
 static unsigned int text_box_window_height = 200;
 
-cText_Box :: cText_Box(cSprite_Manager* sprite_manager)
+cText_Box::cText_Box(cSprite_Manager* sprite_manager)
     : cBaseBox(sprite_manager)
 {
     cText_Box::Init();
 }
 
-cText_Box :: cText_Box(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cText_Box::cText_Box(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cBaseBox(sprite_manager)
 {
     cText_Box::Init();
     cText_Box::Load_From_XML(attributes);
 }
 
-cText_Box :: ~cText_Box(void)
+cText_Box::~cText_Box(void)
 {
 
 }
 
-void cText_Box :: Init(void)
+void cText_Box::Init(void)
 {
     m_type = TYPE_TEXT_BOX;
     box_type = m_type;
@@ -65,7 +65,7 @@ void cText_Box :: Init(void)
     //item_image = NULL;
 }
 
-cText_Box* cText_Box :: Copy(void) const
+cText_Box* cText_Box::Copy(void) const
 {
     cText_Box* text_box = new cText_Box(m_sprite_manager);
     text_box->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -74,7 +74,7 @@ cText_Box* cText_Box :: Copy(void) const
     return text_box;
 }
 
-void cText_Box :: Load_From_XML(XmlAttributes& attributes)
+void cText_Box::Load_From_XML(XmlAttributes& attributes)
 {
     cBaseBox::Load_From_XML(attributes);
 
@@ -82,7 +82,7 @@ void cText_Box :: Load_From_XML(XmlAttributes& attributes)
     Set_Text(xml_string_to_string(attributes["text"]));
 }
 
-xmlpp::Element* cText_Box :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cText_Box::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cBaseBox::Save_To_XML_Node(p_element);
 
@@ -92,7 +92,7 @@ xmlpp::Element* cText_Box :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cText_Box :: Activate(void)
+void cText_Box::Activate(void)
 {
     cBaseBox::Activate();
 
@@ -220,7 +220,7 @@ void cText_Box :: Activate(void)
     wmgr.destroyWindow(editbox);
 }
 
-void cText_Box :: Update(void)
+void cText_Box::Update(void)
 {
     if (!m_valid_update || !Is_In_Range()) {
         return;
@@ -229,12 +229,12 @@ void cText_Box :: Update(void)
     cBaseBox::Update();
 }
 
-void cText_Box :: Set_Text(const std::string& str_text)
+void cText_Box::Set_Text(const std::string& str_text)
 {
     m_text = str_text;
 }
 
-void cText_Box :: Editor_Activate(void)
+void cText_Box::Editor_Activate(void)
 {
     // BaseBox Settings first
     cBaseBox::Editor_Activate();
@@ -253,7 +253,7 @@ void cText_Box :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cText_Box :: Editor_Text_Text_Changed(const CEGUI::EventArgs& event)
+bool cText_Box::Editor_Text_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::MultiLineEditbox*>(windowEventArgs.window)->getText().c_str();

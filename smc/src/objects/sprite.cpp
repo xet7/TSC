@@ -40,22 +40,22 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cCollidingSprite *** *** *** *** *** *** *** *** *** */
 
-cCollidingSprite :: cCollidingSprite(cSprite_Manager* sprite_manager)
+cCollidingSprite::cCollidingSprite(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
 }
 
-cCollidingSprite :: ~cCollidingSprite(void)
+cCollidingSprite::~cCollidingSprite(void)
 {
     Clear_Collisions();
 }
 
-void cCollidingSprite :: Set_Sprite_Manager(cSprite_Manager* sprite_manager)
+void cCollidingSprite::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
 }
 
-void cCollidingSprite :: Handle_Collisions(void)
+void cCollidingSprite::Handle_Collisions(void)
 {
     // get collision list
     cObjectCollision_List col_list;
@@ -75,7 +75,7 @@ void cCollidingSprite :: Handle_Collisions(void)
     col_list.clear();
 }
 
-cObjectCollision* cCollidingSprite :: Create_Collision_Object(const cSprite* base, cSprite* col, Col_Valid_Type valid_type) const
+cObjectCollision* cCollidingSprite::Create_Collision_Object(const cSprite* base, cSprite* col, Col_Valid_Type valid_type) const
 {
     // if invalid
     if (!base || valid_type == COL_VTYPE_NOT_VALID) {
@@ -105,7 +105,7 @@ cObjectCollision* cCollidingSprite :: Create_Collision_Object(const cSprite* bas
     return collision;
 }
 
-bool cCollidingSprite :: Add_Collision(cObjectCollision* collision, bool add_if_new /* = 0 */)
+bool cCollidingSprite::Add_Collision(cObjectCollision* collision, bool add_if_new /* = 0 */)
 {
     // invalid collision data
     if (!collision) {
@@ -126,7 +126,7 @@ bool cCollidingSprite :: Add_Collision(cObjectCollision* collision, bool add_if_
     return 1;
 }
 
-void cCollidingSprite :: Add_Collisions(cObjectCollisionType* col_list, bool add_if_new /* = 0 */)
+void cCollidingSprite::Add_Collisions(cObjectCollisionType* col_list, bool add_if_new /* = 0 */)
 {
     // insert all objects
     for (cObjectCollision_List::iterator itr = col_list->objects.begin(); itr != col_list->objects.end(); ++itr) {
@@ -138,7 +138,7 @@ void cCollidingSprite :: Add_Collisions(cObjectCollisionType* col_list, bool add
     col_list->objects.clear();
 }
 
-void cCollidingSprite :: Delete_Collision(cObjectCollision* collision)
+void cCollidingSprite::Delete_Collision(cObjectCollision* collision)
 {
     if (!collision) {
         return;
@@ -158,7 +158,7 @@ void cCollidingSprite :: Delete_Collision(cObjectCollision* collision)
     delete collision;
 }
 
-void cCollidingSprite :: Delete_Last_Collision(void)
+void cCollidingSprite::Delete_Last_Collision(void)
 {
     if (m_collisions.empty()) {
         return;
@@ -170,7 +170,7 @@ void cCollidingSprite :: Delete_Last_Collision(void)
     m_collisions.erase(end_itr);
 }
 
-int cCollidingSprite :: Is_Collision_In_Direction(const ObjectDirection dir) const
+int cCollidingSprite::Is_Collision_In_Direction(const ObjectDirection dir) const
 {
     int pos = 0;
 
@@ -187,7 +187,7 @@ int cCollidingSprite :: Is_Collision_In_Direction(const ObjectDirection dir) con
     return -1;
 }
 
-cObjectCollision* cCollidingSprite :: Get_Last_Collision(bool only_blocking /* = 0 */) const
+cObjectCollision* cCollidingSprite::Get_Last_Collision(bool only_blocking /* = 0 */) const
 {
     // no collisions available
     if (m_collisions.empty()) {
@@ -224,7 +224,7 @@ cObjectCollision* cCollidingSprite :: Get_Last_Collision(bool only_blocking /* =
     return *(m_collisions.end() - 1);
 }
 
-bool cCollidingSprite :: Is_Collision_Included(const cSprite* obj) const
+bool cCollidingSprite::Is_Collision_Included(const cSprite* obj) const
 {
     // check if in collisions list
     for (cObjectCollision_List::const_iterator itr = m_collisions.begin(); itr != m_collisions.end(); ++itr) {
@@ -241,7 +241,7 @@ bool cCollidingSprite :: Is_Collision_Included(const cSprite* obj) const
     return 0;
 }
 
-void cCollidingSprite :: Clear_Collisions(void)
+void cCollidingSprite::Clear_Collisions(void)
 {
     for (cObjectCollision_List::iterator itr = m_collisions.begin(); itr != m_collisions.end(); ++itr) {
         delete *itr;
@@ -250,7 +250,7 @@ void cCollidingSprite :: Clear_Collisions(void)
     m_collisions.clear();
 }
 
-void cCollidingSprite :: Handle_Collision(cObjectCollision* collision)
+void cCollidingSprite::Handle_Collision(cObjectCollision* collision)
 {
     /* Issue the touch event, but only if we’re currently in
      * a level (remember: Sprites are not only used in levels...)
@@ -304,13 +304,13 @@ const float cSprite::m_pos_z_massive_start = 0.08f;
 const float cSprite::m_pos_z_front_passive_start = 0.1f;
 const float cSprite::m_pos_z_halfmassive_start = 0.04f;
 
-cSprite :: cSprite(cSprite_Manager* sprite_manager, const std::string type_name /* = "sprite" */)
+cSprite::cSprite(cSprite_Manager* sprite_manager, const std::string type_name /* = "sprite" */)
     : cCollidingSprite(sprite_manager), m_type_name(type_name)
 {
     cSprite::Init();
 }
 
-cSprite :: cSprite(XmlAttributes& attributes, cSprite_Manager* sprite_manager, const std::string type_name /* = "sprite" */)
+cSprite::cSprite(XmlAttributes& attributes, cSprite_Manager* sprite_manager, const std::string type_name /* = "sprite" */)
     : cCollidingSprite(sprite_manager), m_type_name(type_name)
 {
     cSprite::Init();
@@ -324,7 +324,7 @@ cSprite :: cSprite(XmlAttributes& attributes, cSprite_Manager* sprite_manager, c
     Set_Massive_Type(Get_Massive_Type_Id(attributes["type"]));
 }
 
-cSprite :: ~cSprite(void)
+cSprite::~cSprite(void)
 {
     if (m_delete_image && m_image) {
         delete m_image;
@@ -332,7 +332,7 @@ cSprite :: ~cSprite(void)
     }
 }
 
-void cSprite :: Init(void)
+void cSprite::Init(void)
 {
     // undefined
     m_type = TYPE_UNDEFINED;
@@ -409,7 +409,7 @@ void cSprite :: Init(void)
     m_uid = -1;
 }
 
-cSprite* cSprite :: Copy(void) const
+cSprite* cSprite::Copy(void) const
 {
     cSprite* basic_sprite = new cSprite(m_sprite_manager);
     basic_sprite->Set_Image(m_start_image, true);
@@ -441,7 +441,7 @@ cSprite* cSprite :: Copy(void) const
  * \return Exactly `p_element`.
  *
 */
-xmlpp::Element* cSprite :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cSprite::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = p_element->add_child(m_type_name);
 
@@ -491,7 +491,7 @@ xmlpp::Element* cSprite :: Save_To_XML_Node(xmlpp::Element* p_element)
  *   in the editor.
  * \param del_img The given image will be deleted.
  */
-void cSprite :: Set_Image(cGL_Surface* new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */)
+void cSprite::Set_Image(cGL_Surface* new_image, bool new_start_image /* = 0 */, bool del_img /* = 0 */)
 {
     if (m_delete_image) {
         if (m_image) {
@@ -576,7 +576,7 @@ void cSprite :: Set_Image(cGL_Surface* new_image, bool new_start_image /* = 0 */
     Update_Position_Rect();
 }
 
-void cSprite :: Set_Sprite_Type(SpriteType type)
+void cSprite::Set_Sprite_Type(SpriteType type)
 {
     m_type = type;
 }
@@ -587,7 +587,7 @@ void cSprite :: Set_Sprite_Type(SpriteType type)
  * the parent method. Returning an empty string causes
  * no `type` property to be written.
  */
-std::string cSprite :: Get_XML_Type_Name()
+std::string cSprite::Get_XML_Type_Name()
 {
     if (m_sprite_array == ARRAY_UNDEFINED) {
         return "undefined";
@@ -605,7 +605,7 @@ std::string cSprite :: Get_XML_Type_Name()
     return "";
 }
 
-void cSprite :: Set_Ignore_Camera(bool enable /* = 0 */)
+void cSprite::Set_Ignore_Camera(bool enable /* = 0 */)
 {
     // already set
     if (m_no_camera == enable) {
@@ -617,7 +617,7 @@ void cSprite :: Set_Ignore_Camera(bool enable /* = 0 */)
     Update_Valid_Draw();
 }
 
-void cSprite :: Set_Pos(float x, float y, bool new_startpos /* = 0 */)
+void cSprite::Set_Pos(float x, float y, bool new_startpos /* = 0 */)
 {
     m_pos_x = x;
     m_pos_y = y;
@@ -630,7 +630,7 @@ void cSprite :: Set_Pos(float x, float y, bool new_startpos /* = 0 */)
     Update_Position_Rect();
 }
 
-void cSprite :: Set_Pos_X(float x, bool new_startpos /* = 0 */)
+void cSprite::Set_Pos_X(float x, bool new_startpos /* = 0 */)
 {
     m_pos_x = x;
 
@@ -641,7 +641,7 @@ void cSprite :: Set_Pos_X(float x, bool new_startpos /* = 0 */)
     Update_Position_Rect();
 }
 
-void cSprite :: Set_Pos_Y(float y, bool new_startpos /* = 0 */)
+void cSprite::Set_Pos_Y(float y, bool new_startpos /* = 0 */)
 {
     m_pos_y = y;
 
@@ -652,7 +652,7 @@ void cSprite :: Set_Pos_Y(float y, bool new_startpos /* = 0 */)
     Update_Position_Rect();
 }
 
-void cSprite :: Set_Active(bool enabled)
+void cSprite::Set_Active(bool enabled)
 {
     // already set
     if (m_active == enabled) {
@@ -676,7 +676,7 @@ void cSprite :: Set_Active(bool enabled)
  * 1.0 is the maximum and the given color has maximum value
  * 0.0 is the minimum and the given color has minimum value
  */
-void cSprite :: Set_Color_Combine(const float red, const float green, const float blue, const GLint com_type)
+void cSprite::Set_Color_Combine(const float red, const float green, const float blue, const GLint com_type)
 {
     m_combine_type = com_type;
     m_combine_color[0] = Clamp(red, 0.000001f, 1.0f);
@@ -684,7 +684,7 @@ void cSprite :: Set_Color_Combine(const float red, const float green, const floa
     m_combine_color[2] = Clamp(blue, 0.000001f, 1.0f);
 }
 
-void cSprite :: Update_Rect_Rotation_Z(void)
+void cSprite::Update_Rect_Rotation_Z(void)
 {
     // rotate 270°
     if (m_rot_z >= 270.0f) {
@@ -725,7 +725,7 @@ void cSprite :: Update_Rect_Rotation_Z(void)
     }
 }
 
-void cSprite :: Set_Rotation_X(float rot, bool new_start_rot /* = 0 */)
+void cSprite::Set_Rotation_X(float rot, bool new_start_rot /* = 0 */)
 {
     m_rot_x = fmod(rot, 360.0f);
 
@@ -738,7 +738,7 @@ void cSprite :: Set_Rotation_X(float rot, bool new_start_rot /* = 0 */)
     }
 }
 
-void cSprite :: Set_Rotation_Y(float rot, bool new_start_rot /* = 0 */)
+void cSprite::Set_Rotation_Y(float rot, bool new_start_rot /* = 0 */)
 {
     m_rot_y = fmod(rot, 360.0f);
 
@@ -751,7 +751,7 @@ void cSprite :: Set_Rotation_Y(float rot, bool new_start_rot /* = 0 */)
     }
 }
 
-void cSprite :: Set_Rotation_Z(float rot, bool new_start_rot /* = 0 */)
+void cSprite::Set_Rotation_Z(float rot, bool new_start_rot /* = 0 */)
 {
     m_rot_z = fmod(rot, 360.0f);
 
@@ -763,7 +763,7 @@ void cSprite :: Set_Rotation_Z(float rot, bool new_start_rot /* = 0 */)
         Update_Rect_Rotation_Z();
     }
 }
-void cSprite :: Set_Scale_X(const float scale, const bool new_startscale /* = 0 */)
+void cSprite::Set_Scale_X(const float scale, const bool new_startscale /* = 0 */)
 {
     // invalid value
     if (Is_Float_Equal(scale, 0.0f)) {
@@ -789,7 +789,7 @@ void cSprite :: Set_Scale_X(const float scale, const bool new_startscale /* = 0 
     }
 }
 
-void cSprite :: Set_Scale_Y(const float scale, const bool new_startscale /* = 0 */)
+void cSprite::Set_Scale_Y(const float scale, const bool new_startscale /* = 0 */)
 {
     // invalid value
     if (Is_Float_Equal(scale, 0.0f)) {
@@ -814,7 +814,7 @@ void cSprite :: Set_Scale_Y(const float scale, const bool new_startscale /* = 0 
         m_start_scale_y = m_scale_y;
     }
 }
-void cSprite :: Set_On_Top(const cSprite* sprite, bool optimize_hor_pos /* = 1 */)
+void cSprite::Set_On_Top(const cSprite* sprite, bool optimize_hor_pos /* = 1 */)
 {
     // set ground position 0.1f over it
     m_pos_y = sprite->m_col_rect.m_y - m_col_pos.m_y - m_col_rect.m_h - 0.1f;
@@ -827,7 +827,7 @@ void cSprite :: Set_On_Top(const cSprite* sprite, bool optimize_hor_pos /* = 1 *
     Update_Position_Rect();
 }
 
-void cSprite :: Move(float move_x, float move_y, const bool real /* = 0 */)
+void cSprite::Move(float move_x, float move_y, const bool real /* = 0 */)
 {
     if (Is_Float_Equal(move_x, 0.0f) && Is_Float_Equal(move_y, 0.0f)) {
         return;
@@ -844,7 +844,7 @@ void cSprite :: Move(float move_x, float move_y, const bool real /* = 0 */)
     Update_Position_Rect();
 }
 
-void cSprite :: Update_Position_Rect(void)
+void cSprite::Update_Position_Rect(void)
 {
     // if not editor mode
     if (!editor_enabled) {
@@ -871,17 +871,17 @@ void cSprite :: Update_Position_Rect(void)
     Update_Valid_Draw();
 }
 
-void cSprite :: Update_Valid_Draw(void)
+void cSprite::Update_Valid_Draw(void)
 {
     m_valid_draw = Is_Draw_Valid();
 }
 
-void cSprite :: Update_Valid_Update(void)
+void cSprite::Update_Valid_Update(void)
 {
     m_valid_update = Is_Update_Valid();
 }
 
-void cSprite :: Draw(cSurface_Request* request /* = NULL */)
+void cSprite::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -957,7 +957,7 @@ void cSprite :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cSprite :: Draw_Image(cSurface_Request* request /* = NULL */) const
+void cSprite::Draw_Image(cSurface_Request* request /* = NULL */) const
 {
     if (!m_valid_draw) {
         return;
@@ -986,7 +986,7 @@ void cSprite :: Draw_Image(cSurface_Request* request /* = NULL */) const
     }
 }
 
-void cSprite :: Draw_Image_Normal(cSurface_Request* request /* = NULL */) const
+void cSprite::Draw_Image_Normal(cSurface_Request* request /* = NULL */) const
 {
     // texture id
     request->m_texture_id = m_image->m_image;
@@ -1078,7 +1078,7 @@ void cSprite :: Draw_Image_Normal(cSurface_Request* request /* = NULL */) const
     }
 }
 
-void cSprite :: Draw_Image_Editor(cSurface_Request* request /* = NULL */) const
+void cSprite::Draw_Image_Editor(cSurface_Request* request /* = NULL */) const
 {
     // texture id
     request->m_texture_id = m_start_image->m_image;
@@ -1181,7 +1181,7 @@ void cSprite :: Draw_Image_Editor(cSurface_Request* request /* = NULL */) const
  * - Overwrite this if you don’t want your object to me affected by "m"
  *   toggling in the level editor.
  */
-void cSprite :: Set_Massive_Type(MassiveType type)
+void cSprite::Set_Massive_Type(MassiveType type)
 {
     m_massive_type = type;
 
@@ -1216,7 +1216,7 @@ void cSprite :: Set_Massive_Type(MassiveType type)
     m_sprite_manager->Move_To_Back(this);
 }
 
-bool cSprite :: Is_On_Top(const cSprite* obj) const
+bool cSprite::Is_On_Top(const cSprite* obj) const
 {
     // invalid
     if (!obj) {
@@ -1232,7 +1232,7 @@ bool cSprite :: Is_On_Top(const cSprite* obj) const
     return 0;
 }
 
-bool cSprite :: Is_Visible_On_Screen(void) const
+bool cSprite::Is_Visible_On_Screen(void) const
 {
     // camera position
     float cam_x = 0.0f;
@@ -1263,7 +1263,7 @@ bool cSprite :: Is_Visible_On_Screen(void) const
     return 1;
 }
 
-bool cSprite :: Is_In_Range(void) const
+bool cSprite::Is_In_Range(void) const
 {
     // no camera range set
     if (m_camera_range < 300) {
@@ -1282,7 +1282,7 @@ bool cSprite :: Is_In_Range(void) const
     return 1;
 }
 
-bool cSprite :: Is_Update_Valid()
+bool cSprite::Is_Update_Valid()
 {
     // if destroyed
     if (m_auto_destroy) {
@@ -1292,7 +1292,7 @@ bool cSprite :: Is_Update_Valid()
     return 1;
 }
 
-bool cSprite :: Is_Draw_Valid(void)
+bool cSprite::Is_Draw_Valid(void)
 {
     // if editor not enabled
     if (!editor_enabled) {
@@ -1322,7 +1322,7 @@ bool cSprite :: Is_Draw_Valid(void)
     return 1;
 }
 
-void cSprite :: Destroy(void)
+void cSprite::Destroy(void)
 {
     // already destroyed
     if (m_auto_destroy) {
@@ -1343,7 +1343,7 @@ void cSprite :: Destroy(void)
     Set_Image(NULL, 1);
 }
 
-void cSprite :: Editor_Add(const CEGUI::String& name, const CEGUI::String& tooltip, CEGUI::Window* window_setting, float obj_width, float obj_height /* = 28 */, bool advance_row /* = 1 */)
+void cSprite::Editor_Add(const CEGUI::String& name, const CEGUI::String& tooltip, CEGUI::Window* window_setting, float obj_width, float obj_height /* = 28 */, bool advance_row /* = 1 */)
 {
     if (obj_height < 28.0f) {
         obj_height = 28.0f;
@@ -1387,7 +1387,7 @@ void cSprite :: Editor_Add(const CEGUI::String& name, const CEGUI::String& toolt
     guisheet->addChildWindow(window_setting);
 }
 
-void cSprite :: Editor_Activate(void)
+void cSprite::Editor_Activate(void)
 {
     // if this is not a basic sprite
     if (!Is_Basic_Sprite()) {
@@ -1409,7 +1409,7 @@ void cSprite :: Editor_Activate(void)
     Editor_Init();
 }
 
-void cSprite :: Editor_Deactivate(void)
+void cSprite::Editor_Deactivate(void)
 {
     // remove editor controls
     for (Editor_Object_Settings_List::iterator itr = m_editor_windows.begin(); itr != m_editor_windows.end(); ++itr) {
@@ -1421,7 +1421,7 @@ void cSprite :: Editor_Deactivate(void)
     m_editor_windows.clear();
 }
 
-void cSprite :: Editor_Init(void)
+void cSprite::Editor_Init(void)
 {
     // set state
     Editor_State_Update();
@@ -1441,7 +1441,7 @@ void cSprite :: Editor_Init(void)
     Editor_Position_Update();
 }
 
-void cSprite :: Editor_Position_Update(void)
+void cSprite::Editor_Position_Update(void)
 {
     float obj_posx = 0.0f;
     float obj_posy = 0.0f;
@@ -1503,7 +1503,7 @@ void cSprite :: Editor_Position_Update(void)
     }
 }
 
-bool cSprite :: Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
+bool cSprite::Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -1519,7 +1519,7 @@ bool cSprite :: Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
  * This is how the object is presented to the user
  * in the editor. By default it just returns `m_name`.
  */
-std::string cSprite :: Create_Name() const
+std::string cSprite::Create_Name() const
 {
     return m_name;
 }

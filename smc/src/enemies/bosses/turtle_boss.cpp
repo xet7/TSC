@@ -32,13 +32,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cTurtleBoss *** *** *** *** *** *** *** *** *** *** *** */
 
-cTurtleBoss :: cTurtleBoss(cSprite_Manager* sprite_manager)
+cTurtleBoss::cTurtleBoss(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cTurtleBoss::Init();
 }
 
-cTurtleBoss :: cTurtleBoss(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cTurtleBoss::cTurtleBoss(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cTurtleBoss::Init();
@@ -66,12 +66,12 @@ cTurtleBoss :: cTurtleBoss(XmlAttributes& attributes, cSprite_Manager* sprite_ma
 }
 
 
-cTurtleBoss :: ~cTurtleBoss(void)
+cTurtleBoss::~cTurtleBoss(void)
 {
     //
 }
 
-void cTurtleBoss :: Init(void)
+void cTurtleBoss::Init(void)
 {
     m_type = TYPE_TURTLE_BOSS;
     m_name = "Turtle Boss";
@@ -102,7 +102,7 @@ void cTurtleBoss :: Init(void)
     Set_Direction(DIR_RIGHT, 1);
 }
 
-cTurtleBoss* cTurtleBoss :: Copy(void) const
+cTurtleBoss* cTurtleBoss::Copy(void) const
 {
     cTurtleBoss* turtle = new cTurtleBoss(m_sprite_manager);
     turtle->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -115,12 +115,12 @@ cTurtleBoss* cTurtleBoss :: Copy(void) const
     return turtle;
 }
 
-std::string cTurtleBoss :: Get_XML_Type_Name()
+std::string cTurtleBoss::Get_XML_Type_Name()
 {
     return "turtleboss";
 }
 
-xmlpp::Element* cTurtleBoss :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cTurtleBoss::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -134,7 +134,7 @@ xmlpp::Element* cTurtleBoss :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cTurtleBoss :: Set_Max_Hits(int nmax_hits)
+void cTurtleBoss::Set_Max_Hits(int nmax_hits)
 {
     m_max_hits = nmax_hits;
 
@@ -143,7 +143,7 @@ void cTurtleBoss :: Set_Max_Hits(int nmax_hits)
     }
 }
 
-void cTurtleBoss :: Set_Max_Downgrade_Counts(int nmax_downgrade_counts)
+void cTurtleBoss::Set_Max_Downgrade_Counts(int nmax_downgrade_counts)
 {
     m_max_downgrade_count = nmax_downgrade_counts;
 
@@ -152,7 +152,7 @@ void cTurtleBoss :: Set_Max_Downgrade_Counts(int nmax_downgrade_counts)
     }
 }
 
-void cTurtleBoss :: Set_Shell_Time(float nmax_downgrade_time)
+void cTurtleBoss::Set_Shell_Time(float nmax_downgrade_time)
 {
     m_shell_time = nmax_downgrade_time;
 
@@ -161,7 +161,7 @@ void cTurtleBoss :: Set_Shell_Time(float nmax_downgrade_time)
     }
 }
 
-void cTurtleBoss :: Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
+void cTurtleBoss::Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
 {
     if (dir != DIR_RIGHT && dir != DIR_LEFT) {
         cerr << "Warning : Unknown Turtle Boss direction set " << Get_Direction_Name(dir) << endl;
@@ -172,7 +172,7 @@ void cTurtleBoss :: Set_Direction(const ObjectDirection dir, bool new_start_dire
     Update_Rotation_Hor(new_start_direction);
 }
 
-void cTurtleBoss :: Set_Color(DefaultColor col)
+void cTurtleBoss::Set_Color(DefaultColor col)
 {
     // already set
     if (m_color_type == col) {
@@ -211,12 +211,12 @@ void cTurtleBoss :: Set_Color(DefaultColor col)
     Set_Image_Num(0, 1);
 }
 
-void cTurtleBoss :: Set_Level_Ends_If_Killed(bool level_ends_if_killed)
+void cTurtleBoss::Set_Level_Ends_If_Killed(bool level_ends_if_killed)
 {
     m_level_ends_if_killed = level_ends_if_killed;
 }
 
-void cTurtleBoss :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
+void cTurtleBoss::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
     cEnemy::Turn_Around(col_dir);
 
@@ -231,7 +231,7 @@ void cTurtleBoss :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     Update_Rotation_Hor();
 }
 
-void cTurtleBoss :: DownGrade(bool force /* = 0 */)
+void cTurtleBoss::DownGrade(bool force /* = 0 */)
 {
     if (!force) {
         // normal walking
@@ -292,7 +292,7 @@ void cTurtleBoss :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cTurtleBoss :: Update_Normal_Dying()
+void cTurtleBoss::Update_Normal_Dying()
 {
     if (m_scale_x > 0.1f) {
         float speed_x = pFramerate->m_speed_factor * 10.0f;
@@ -342,12 +342,12 @@ void cTurtleBoss :: Update_Normal_Dying()
     }
 }
 
-void cTurtleBoss :: Update_Instant_Dying()
+void cTurtleBoss::Update_Instant_Dying()
 {
     Update_Normal_Dying();
 }
 
-void cTurtleBoss :: Set_Turtle_Moving_State(TurtleBoss_state new_state)
+void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
 {
     if (new_state == m_turtle_state) {
         return;
@@ -404,7 +404,7 @@ void cTurtleBoss :: Set_Turtle_Moving_State(TurtleBoss_state new_state)
     Update_Rotation_Hor();
 }
 
-void cTurtleBoss :: Update(void)
+void cTurtleBoss::Update(void)
 {
     cEnemy::Update();
 
@@ -551,7 +551,7 @@ void cTurtleBoss :: Update(void)
     }
 }
 
-void cTurtleBoss :: Stand_Up(void)
+void cTurtleBoss::Stand_Up(void)
 {
     if (m_turtle_state != TURTLEBOSS_SHELL_STAND && m_turtle_state != TURTLEBOSS_SHELL_RUN) {
         return;
@@ -575,7 +575,7 @@ void cTurtleBoss :: Stand_Up(void)
     Set_Turtle_Moving_State(TURTLEBOSS_WALK);
 }
 
-bool cTurtleBoss :: Hit_Enemy(cEnemy* enemy) const
+bool cTurtleBoss::Hit_Enemy(cEnemy* enemy) const
 {
     // invalid
     if (!enemy) {
@@ -596,7 +596,7 @@ bool cTurtleBoss :: Hit_Enemy(cEnemy* enemy) const
     return 1;
 }
 
-void cTurtleBoss :: Throw_Fireballs(unsigned int amount /* = 6 */)
+void cTurtleBoss::Throw_Fireballs(unsigned int amount /* = 6 */)
 {
     // start angle
     float ball_angle = -180.0f;
@@ -629,7 +629,7 @@ void cTurtleBoss :: Throw_Fireballs(unsigned int amount /* = 6 */)
     pActive_Animation_Manager->Add(anim);
 }
 
-void cTurtleBoss :: Generate_Stars(unsigned int amount /* = 1 */, float particle_scale /* = 0.4f */) const
+void cTurtleBoss::Generate_Stars(unsigned int amount /* = 1 */, float particle_scale /* = 0.4f */) const
 {
     // animation
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
@@ -647,7 +647,7 @@ void cTurtleBoss :: Generate_Stars(unsigned int amount /* = 1 */, float particle
     pActive_Animation_Manager->Add(anim);
 }
 
-void cTurtleBoss :: Update_Velocity_Max(void)
+void cTurtleBoss::Update_Velocity_Max(void)
 {
     if (m_color_type == COL_RED) {
         if (m_turtle_state == TURTLEBOSS_WALK) {
@@ -670,7 +670,7 @@ void cTurtleBoss :: Update_Velocity_Max(void)
     }
 }
 
-Col_Valid_Type cTurtleBoss :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cTurtleBoss::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -767,7 +767,7 @@ Col_Valid_Type cTurtleBoss :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cTurtleBoss :: Handle_Collision_Player(cObjectCollision* collision)
+void cTurtleBoss::Handle_Collision_Player(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_UNDEFINED || (m_turtle_state == TURTLEBOSS_SHELL_RUN && m_player_counter > 0.0f) || m_state == STA_OBJ_LINKED) {
         return;
@@ -893,7 +893,7 @@ void cTurtleBoss :: Handle_Collision_Player(cObjectCollision* collision)
     }
 }
 
-void cTurtleBoss :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cTurtleBoss::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     cEnemy* enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(collision->m_number));
 
@@ -921,7 +921,7 @@ void cTurtleBoss :: Handle_Collision_Enemy(cObjectCollision* collision)
     }
 }
 
-void cTurtleBoss :: Handle_Collision_Massive(cObjectCollision* collision)
+void cTurtleBoss::Handle_Collision_Massive(cObjectCollision* collision)
 {
     if (m_turtle_state == TURTLEBOSS_WALK) {
         Send_Collision(collision);
@@ -996,7 +996,7 @@ void cTurtleBoss :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cTurtleBoss :: Editor_Activate(void)
+void cTurtleBoss::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -1054,7 +1054,7 @@ void cTurtleBoss :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cTurtleBoss :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cTurtleBoss::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -1064,7 +1064,7 @@ bool cTurtleBoss :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cTurtleBoss :: Editor_Max_Hits_Text_Changed(const CEGUI::EventArgs& event)
+bool cTurtleBoss::Editor_Max_Hits_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -1074,7 +1074,7 @@ bool cTurtleBoss :: Editor_Max_Hits_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cTurtleBoss :: Editor_Max_Downgrade_Counts_Text_Changed(const CEGUI::EventArgs& event)
+bool cTurtleBoss::Editor_Max_Downgrade_Counts_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -1084,7 +1084,7 @@ bool cTurtleBoss :: Editor_Max_Downgrade_Counts_Text_Changed(const CEGUI::EventA
     return 1;
 }
 
-bool cTurtleBoss :: Editor_Shell_Time_Text_Changed(const CEGUI::EventArgs& event)
+bool cTurtleBoss::Editor_Shell_Time_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -1094,7 +1094,7 @@ bool cTurtleBoss :: Editor_Shell_Time_Text_Changed(const CEGUI::EventArgs& event
     return 1;
 }
 
-bool cTurtleBoss :: Editor_Level_Ends_If_Killed(const CEGUI::EventArgs& event)
+bool cTurtleBoss::Editor_Level_Ends_If_Killed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -1109,7 +1109,7 @@ bool cTurtleBoss :: Editor_Level_Ends_If_Killed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-std::string cTurtleBoss :: Create_Name(void) const
+std::string cTurtleBoss::Create_Name(void) const
 {
     std::string name = m_name; // dup
     name += " " + Get_Direction_Name(m_start_direction);
@@ -1118,22 +1118,22 @@ std::string cTurtleBoss :: Create_Name(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-int cTurtleBoss :: Get_Downgrade_Count()
+int cTurtleBoss::Get_Downgrade_Count()
 {
     return m_downgrade_count;
 }
 
-int cTurtleBoss :: Get_Max_Downgrade_Count()
+int cTurtleBoss::Get_Max_Downgrade_Count()
 {
     return m_max_downgrade_count;
 }
 
-float cTurtleBoss :: Get_Shell_Time()
+float cTurtleBoss::Get_Shell_Time()
 {
     return m_shell_time;
 }
 
-bool cTurtleBoss :: Get_Level_Ends_If_Killed()
+bool cTurtleBoss::Get_Level_Ends_If_Killed()
 {
     return m_level_ends_if_killed;
 }

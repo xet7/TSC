@@ -33,13 +33,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cBall *** *** *** *** *** *** *** *** *** *** *** */
 
-cBall :: cBall(cSprite_Manager* sprite_manager)
+cBall::cBall(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "ball")
 {
     cBall::Init();
 }
 
-cBall :: cBall(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cBall::cBall(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "ball")
 {
     cBall::Init();
@@ -59,7 +59,7 @@ cBall :: cBall(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 }
 
 
-cBall :: ~cBall(void)
+cBall::~cBall(void)
 {
     // always destroy
     if (!m_auto_destroy) {
@@ -67,7 +67,7 @@ cBall :: ~cBall(void)
     }
 }
 
-void cBall :: Init(void)
+void cBall::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_type = TYPE_BALL;
@@ -87,7 +87,7 @@ void cBall :: Init(void)
     Set_Ball_Type(FIREBALL_DEFAULT);
 }
 
-cBall* cBall :: Copy(void) const
+cBall* cBall::Copy(void) const
 {
     cBall* ball = new cBall(m_sprite_manager);
     ball->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -96,12 +96,12 @@ cBall* cBall :: Copy(void) const
     return ball;
 }
 
-std::string cBall :: Get_XML_Type_Name()
+std::string cBall::Get_XML_Type_Name()
 {
     return "";
 }
 
-xmlpp::Element* cBall :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cBall::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
@@ -116,7 +116,7 @@ xmlpp::Element* cBall :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cBall :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cBall::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     // new position x
     if (save_object->exists("new_posx")) {
@@ -144,7 +144,7 @@ void cBall :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cBall :: Save_To_Savegame(void)
+cSave_Level_Object* cBall::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = new cSave_Level_Object();
 
@@ -167,7 +167,7 @@ cSave_Level_Object* cBall :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cBall :: Set_Ball_Type(ball_effect type)
+void cBall::Set_Ball_Type(ball_effect type)
 {
     Clear_Images();
 
@@ -185,13 +185,13 @@ void cBall :: Set_Ball_Type(ball_effect type)
     }
 }
 
-void cBall :: Set_Origin(ArrayType origin_array, SpriteType origin_type)
+void cBall::Set_Origin(ArrayType origin_array, SpriteType origin_type)
 {
     m_origin_array = origin_array;
     m_origin_type = origin_type;
 }
 
-void cBall :: Destroy_Ball(bool with_sound /* = 0 */)
+void cBall::Destroy_Ball(bool with_sound /* = 0 */)
 {
     if (with_sound) {
         if (m_ball_type == FIREBALL_DEFAULT) {
@@ -202,7 +202,7 @@ void cBall :: Destroy_Ball(bool with_sound /* = 0 */)
     Destroy();
 }
 
-void cBall :: Destroy(void)
+void cBall::Destroy(void)
 {
     if (m_auto_destroy) {
         return;
@@ -223,7 +223,7 @@ void cBall :: Destroy(void)
     cAnimated_Sprite::Destroy();
 }
 
-void cBall :: Update(void)
+void cBall::Update(void)
 {
     if (!m_valid_update) {
         return;
@@ -282,7 +282,7 @@ void cBall :: Update(void)
     }
 }
 
-void cBall :: Draw(cSurface_Request* request /* = NULL */)
+void cBall::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -303,7 +303,7 @@ void cBall :: Draw(cSurface_Request* request /* = NULL */)
     cAnimated_Sprite::Draw(request);
 }
 
-void cBall :: Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
+void cBall::Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
 {
     bool create_anim = 0;
 
@@ -348,7 +348,7 @@ void cBall :: Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
     }
 }
 
-Col_Valid_Type cBall :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cBall::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -391,7 +391,7 @@ Col_Valid_Type cBall :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cBall :: Handle_Collision(cObjectCollision* collision)
+void cBall::Handle_Collision(cObjectCollision* collision)
 {
     // already destroyed
     if (m_auto_destroy) {
@@ -401,7 +401,7 @@ void cBall :: Handle_Collision(cObjectCollision* collision)
     cAnimated_Sprite::Handle_Collision(collision);
 }
 
-void cBall :: Handle_Collision_Player(cObjectCollision* collision)
+void cBall::Handle_Collision_Player(cObjectCollision* collision)
 {
     // velocity hit
     if (collision->m_direction == DIR_LEFT) {
@@ -429,7 +429,7 @@ void cBall :: Handle_Collision_Player(cObjectCollision* collision)
     Destroy();
 }
 
-void cBall :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cBall::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     cEnemy* enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(collision->m_number));
 
@@ -445,7 +445,7 @@ void cBall :: Handle_Collision_Enemy(cObjectCollision* collision)
     Destroy();
 }
 
-void cBall :: Handle_Collision_Massive(cObjectCollision* collision)
+void cBall::Handle_Collision_Massive(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_DOWN) {
         // if directly hitting the ground
@@ -487,7 +487,7 @@ void cBall :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cBall :: Handle_Collision_Lava(cObjectCollision* collision)
+void cBall::Handle_Collision_Lava(cObjectCollision* collision)
 {
     // Fireballs jump when colliding with lava, ice balls melt.
     if (m_ball_type == FIREBALL_DEFAULT)
@@ -496,7 +496,7 @@ void cBall :: Handle_Collision_Lava(cObjectCollision* collision)
         Destroy_Ball(true);
 }
 
-void cBall :: Handle_out_of_Level(ObjectDirection dir)
+void cBall::Handle_out_of_Level(ObjectDirection dir)
 {
     // ignore top
     if (dir == DIR_TOP) {

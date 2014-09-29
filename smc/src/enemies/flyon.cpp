@@ -36,13 +36,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cFlyon *** *** *** *** *** *** *** *** *** *** *** */
 
-cFlyon :: cFlyon(cSprite_Manager* sprite_manager)
+cFlyon::cFlyon(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cFlyon::Init();
 }
 
-cFlyon :: cFlyon(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cFlyon::cFlyon(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cFlyon::Init();
@@ -63,12 +63,12 @@ cFlyon :: cFlyon(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     Set_Speed(string_to_float(attributes.fetch("speed", float_to_string(m_speed))));
 }
 
-cFlyon :: ~cFlyon(void)
+cFlyon::~cFlyon(void)
 {
     //
 }
 
-void cFlyon :: Init(void)
+void cFlyon::Init(void)
 {
     m_type = TYPE_FLYON;
     m_name = "Flyon";
@@ -92,7 +92,7 @@ void cFlyon :: Init(void)
     m_move_back = 0;
 }
 
-cFlyon* cFlyon :: Copy(void) const
+cFlyon* cFlyon::Copy(void) const
 {
     cFlyon* jpiranha = new cFlyon(m_sprite_manager);
     jpiranha->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -103,12 +103,12 @@ cFlyon* cFlyon :: Copy(void) const
     return jpiranha;
 }
 
-std::string cFlyon :: Get_XML_Type_Name()
+std::string cFlyon::Get_XML_Type_Name()
 {
     return "flyon";
 }
 
-xmlpp::Element* cFlyon :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cFlyon::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -120,7 +120,7 @@ xmlpp::Element* cFlyon :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cFlyon :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cFlyon::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
 
@@ -130,7 +130,7 @@ void cFlyon :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cFlyon :: Save_To_Savegame(void)
+cSave_Level_Object* cFlyon::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
 
@@ -142,7 +142,7 @@ cSave_Level_Object* cFlyon :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cFlyon :: Set_Image_Dir(fs::path dir)
+void cFlyon::Set_Image_Dir(fs::path dir)
 {
     if (dir.empty()) {
         return;
@@ -173,7 +173,7 @@ void cFlyon :: Set_Image_Dir(fs::path dir)
     Reset_Animation();
 }
 
-void cFlyon :: Set_Direction(const ObjectDirection dir)
+void cFlyon::Set_Direction(const ObjectDirection dir)
 {
     // already set
     if (dir == m_direction) {
@@ -207,7 +207,7 @@ void cFlyon :: Set_Direction(const ObjectDirection dir)
     Update_Dest_Vel();
 }
 
-void cFlyon :: Set_Max_Distance(float nmax_distance)
+void cFlyon::Set_Max_Distance(float nmax_distance)
 {
     m_max_distance = nmax_distance;
 
@@ -216,7 +216,7 @@ void cFlyon :: Set_Max_Distance(float nmax_distance)
     }
 }
 
-void cFlyon :: Set_Speed(float val)
+void cFlyon::Set_Speed(float val)
 {
     if (m_speed < 0.1f) {
         m_speed = 0.1f;
@@ -227,7 +227,7 @@ void cFlyon :: Set_Speed(float val)
     Update_Dest_Vel();
 }
 
-void cFlyon :: DownGrade(bool force /* = 0 */)
+void cFlyon::DownGrade(bool force /* = 0 */)
 {
     Set_Dead(1);
     m_massive_type = MASS_PASSIVE;
@@ -250,13 +250,13 @@ void cFlyon :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cFlyon :: Update_Normal_Dying()
+void cFlyon::Update_Normal_Dying()
 {
     // Immediately disappears
     Set_Active(false);
 }
 
-void cFlyon :: Set_Moving_State(Moving_state new_state)
+void cFlyon::Set_Moving_State(Moving_state new_state)
 {
     if (new_state == m_state) {
         return;
@@ -282,7 +282,7 @@ void cFlyon :: Set_Moving_State(Moving_state new_state)
     m_state = new_state;
 }
 
-void cFlyon :: Update(void)
+void cFlyon::Update(void)
 {
     cEnemy::Update();
 
@@ -421,7 +421,7 @@ void cFlyon :: Update(void)
     }
 }
 
-void cFlyon :: Draw(cSurface_Request* request /* = NULL */)
+void cFlyon::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -446,7 +446,7 @@ void cFlyon :: Draw(cSurface_Request* request /* = NULL */)
     cEnemy::Draw(request);
 }
 
-float cFlyon :: Get_End_Distance(void) const
+float cFlyon::Get_End_Distance(void) const
 {
     switch (m_direction) {
     case DIR_LEFT: {
@@ -469,7 +469,7 @@ float cFlyon :: Get_End_Distance(void) const
     return 0;
 }
 
-void cFlyon :: Update_Dest_Vel(void)
+void cFlyon::Update_Dest_Vel(void)
 {
     if (m_direction == DIR_UP) {
         m_dest_velx = 0.0f;
@@ -493,7 +493,7 @@ void cFlyon :: Update_Dest_Vel(void)
     }
 }
 
-bool cFlyon :: Is_Draw_Valid(void)
+bool cFlyon::Is_Draw_Valid(void)
 {
     bool valid = cEnemy::Is_Draw_Valid();
 
@@ -508,7 +508,7 @@ bool cFlyon :: Is_Draw_Valid(void)
     return valid;
 }
 
-Col_Valid_Type cFlyon :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cFlyon::Validate_Collision(cSprite* obj)
 {
     if (obj->m_massive_type == MASS_MASSIVE) {
         if (obj->m_type == TYPE_PLAYER) {
@@ -524,7 +524,7 @@ Col_Valid_Type cFlyon :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cFlyon :: Handle_Collision_Player(cObjectCollision* collision)
+void cFlyon::Handle_Collision_Player(cObjectCollision* collision)
 {
     // unknown direction
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -540,7 +540,7 @@ void cFlyon :: Handle_Collision_Player(cObjectCollision* collision)
     pLevel_Player->DownGrade_Player();
 }
 
-void cFlyon :: Handle_out_of_Level(ObjectDirection dir)
+void cFlyon::Handle_out_of_Level(ObjectDirection dir)
 {
     // Flyons don’t die in abyss.
     if (dir == DIR_BOTTOM)
@@ -549,7 +549,7 @@ void cFlyon :: Handle_out_of_Level(ObjectDirection dir)
         cEnemy::Handle_out_of_Level(dir);
 }
 
-void cFlyon :: Editor_Activate(void)
+void cFlyon::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -593,7 +593,7 @@ void cFlyon :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cFlyon :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cFlyon::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -603,7 +603,7 @@ bool cFlyon :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cFlyon :: Editor_Image_Dir_Text_Changed(const CEGUI::EventArgs& event)
+bool cFlyon::Editor_Image_Dir_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -613,7 +613,7 @@ bool cFlyon :: Editor_Image_Dir_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cFlyon :: Editor_Max_Distance_Text_Changed(const CEGUI::EventArgs& event)
+bool cFlyon::Editor_Max_Distance_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -623,7 +623,7 @@ bool cFlyon :: Editor_Max_Distance_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cFlyon :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
+bool cFlyon::Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -633,7 +633,7 @@ bool cFlyon :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-std::string cFlyon :: Create_Name(void) const
+std::string cFlyon::Create_Name(void) const
 {
     std::string name = "Flyon "; // dup
     name += _(Get_Direction_Name(m_start_direction).c_str());

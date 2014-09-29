@@ -64,6 +64,7 @@ float global_upscaley = 1.0f;
 float global_downscalex = 1.0f;
 float global_downscaley = 1.0f;
 
+// FIXME: Duplicates the information in pLevel_Editor->m_enabled (set in cLevel::Enter())
 bool editor_enabled = 0;
 bool editor_level_enabled = 0;
 bool editor_world_enabled = 0;

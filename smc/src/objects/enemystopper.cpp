@@ -23,32 +23,32 @@ namespace SMC {
 
 /* *** *** *** *** *** cEnemyStopper *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cEnemyStopper :: cEnemyStopper(cSprite_Manager* sprite_manager)
+cEnemyStopper::cEnemyStopper(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "enemystopper")
 {
     cEnemyStopper::Init();
 }
 
-cEnemyStopper :: cEnemyStopper(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cEnemyStopper::cEnemyStopper(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "enemystopper")
 {
     cEnemyStopper::Init();
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 }
 
-cEnemyStopper :: ~cEnemyStopper(void)
+cEnemyStopper::~cEnemyStopper(void)
 {
     //
 }
 
-cEnemyStopper* cEnemyStopper :: Copy(void) const
+cEnemyStopper* cEnemyStopper::Copy(void) const
 {
     cEnemyStopper* enemystopper = new cEnemyStopper(m_sprite_manager);
     enemystopper->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
     return enemystopper;
 }
 
-void cEnemyStopper :: Init(void)
+void cEnemyStopper::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_type = TYPE_ENEMY_STOPPER;
@@ -68,7 +68,7 @@ void cEnemyStopper :: Init(void)
     m_editor_color = Color(static_cast<Uint8>(0), 0, 255, 128);
 }
 
-void cEnemyStopper :: Draw(cSurface_Request* request /* = NULL */)
+void cEnemyStopper::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -77,7 +77,7 @@ void cEnemyStopper :: Draw(cSurface_Request* request /* = NULL */)
     pVideo->Draw_Rect(m_col_rect.m_x - pActive_Camera->m_x, m_col_rect.m_y - pActive_Camera->m_y, m_col_rect.m_w, m_col_rect.m_h, m_editor_pos_z, &m_editor_color);
 }
 
-bool cEnemyStopper :: Is_Draw_Valid(void)
+bool cEnemyStopper::Is_Draw_Valid(void)
 {
     // if editor not enabled
     if (!editor_enabled) {

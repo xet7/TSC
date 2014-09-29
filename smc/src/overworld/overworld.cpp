@@ -43,7 +43,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cOverworld_description *** *** *** *** *** *** *** *** *** */
 
-cOverworld_description :: cOverworld_description(void)
+cOverworld_description::cOverworld_description(void)
 {
     m_path = "world_1"; // FIXME: Don’t assume this world exists.
     m_name = _("Unnamed");
@@ -53,12 +53,12 @@ cOverworld_description :: cOverworld_description(void)
     m_comment = _("Empty");
 }
 
-cOverworld_description :: ~cOverworld_description(void)
+cOverworld_description::~cOverworld_description(void)
 {
     //
 }
 
-void cOverworld_description :: Save(void)
+void cOverworld_description::Save(void)
 {
     fs::path filename = pPackage_Manager->Get_User_World_Path() / m_path.filename() / utf8_to_path("description.xml");
 
@@ -72,7 +72,7 @@ void cOverworld_description :: Save(void)
     }
 }
 
-void cOverworld_description :: Save_To_File(fs::path path)
+void cOverworld_description::Save_To_File(fs::path path)
 {
     xmlpp::Document doc;
     xmlpp::Element* p_root = doc.create_root_node("description");
@@ -86,12 +86,12 @@ void cOverworld_description :: Save_To_File(fs::path path)
     debug_print("Wrote world description file '%s'.\n", path_to_utf8(path).c_str());
 }
 
-fs::path cOverworld_description :: Get_Path()
+fs::path cOverworld_description::Get_Path()
 {
     return m_path;
 }
 
-void cOverworld_description :: Set_Path(fs::path directory, bool set_name /* = false */)
+void cOverworld_description::Set_Path(fs::path directory, bool set_name /* = false */)
 {
     m_path = directory;
 
@@ -101,12 +101,12 @@ void cOverworld_description :: Set_Path(fs::path directory, bool set_name /* = f
 
 /* *** *** *** *** *** *** *** *** cOverworld *** *** *** *** *** *** *** *** *** */
 
-cOverworld :: cOverworld(void)
+cOverworld::cOverworld(void)
 {
     Init();
 }
 
-cOverworld* cOverworld :: Load_From_Directory(fs::path directory, int user_dir /* = 0 */)
+cOverworld* cOverworld::Load_From_Directory(fs::path directory, int user_dir /* = 0 */)
 {
     // Overworld loading consists of three steps: Loading the description file,
     // loading the main world file and loading the layers file.
@@ -144,7 +144,7 @@ cOverworld* cOverworld :: Load_From_Directory(fs::path directory, int user_dir /
     return p_overworld;
 }
 
-cOverworld :: ~cOverworld(void)
+cOverworld::~cOverworld(void)
 {
     Unload();
 
@@ -180,13 +180,13 @@ void cOverworld::Init()
     m_player_moving_state = STA_STAY;
 }
 
-void cOverworld :: Replace_Description(cOverworld_description* p_desc)
+void cOverworld::Replace_Description(cOverworld_description* p_desc)
 {
     delete m_description;
     m_description = p_desc;
 }
 
-bool cOverworld :: New(std::string name)
+bool cOverworld::New(std::string name)
 {
     if (name.empty()) {
         return 0;
@@ -205,7 +205,7 @@ bool cOverworld :: New(std::string name)
     return 1;
 }
 
-void cOverworld :: Unload(void)
+void cOverworld::Unload(void)
 {
     // not loaded
     if (!Is_Loaded()) {
@@ -226,7 +226,7 @@ void cOverworld :: Unload(void)
     m_last_saved = 0;
 }
 
-void cOverworld :: Save(void)
+void cOverworld::Save(void)
 {
     pAudio->Play_Sound("editor/save.ogg");
 
@@ -254,7 +254,7 @@ void cOverworld :: Save(void)
     pHud_Debug->Set_Text(_("World ") + m_description->m_name + _(" saved"));
 }
 
-void cOverworld :: Save_To_Directory(fs::path path)
+void cOverworld::Save_To_Directory(fs::path path)
 {
     // As with loading, saving is a three-step process:
     // main world file, layer file, description file.
@@ -264,7 +264,7 @@ void cOverworld :: Save_To_Directory(fs::path path)
     m_description->Save(); // FIXME: When m_path is moved to cOverworld, replace with call to cOverworld_description::Save_To_File()
 }
 
-void cOverworld :: Save_To_File(fs::path path)
+void cOverworld::Save_To_File(fs::path path)
 {
     xmlpp::Document doc;
     xmlpp::Element* p_root = doc.create_root_node("overworld");
@@ -307,7 +307,7 @@ void cOverworld :: Save_To_File(fs::path path)
     debug_print("Wrote world file '%s'.\n", path_to_utf8(path).c_str());
 }
 
-void cOverworld :: Enter(const GameMode old_mode /* = MODE_NOTHING */)
+void cOverworld::Enter(const GameMode old_mode /* = MODE_NOTHING */)
 {
     if (game_exit) {
         return;
@@ -383,7 +383,7 @@ void cOverworld :: Enter(const GameMode old_mode /* = MODE_NOTHING */)
     pFramerate->Reset();
 }
 
-void cOverworld :: Leave(const GameMode next_mode /* = MODE_NOTHING */)
+void cOverworld::Leave(const GameMode next_mode /* = MODE_NOTHING */)
 {
     // if not in world mode
     if (Game_Mode != MODE_OVERWORLD) {
@@ -421,7 +421,7 @@ void cOverworld :: Leave(const GameMode next_mode /* = MODE_NOTHING */)
     }
 }
 
-void cOverworld :: Draw(void)
+void cOverworld::Draw(void)
 {
     // Background
     pVideo->Clear_Screen();
@@ -439,7 +439,7 @@ void cOverworld :: Draw(void)
     pFramerate->m_perf_timer[PERF_DRAW_OVERWORLD]->Update();
 }
 
-void cOverworld :: Draw_Layer_1(void)
+void cOverworld::Draw_Layer_1(void)
 {
     pVideo->Draw_Rect(NULL, 0.0001f, &m_background_color);
 
@@ -449,7 +449,7 @@ void cOverworld :: Draw_Layer_1(void)
     m_animation_manager->Draw();
 }
 
-void cOverworld :: Draw_HUD(void)
+void cOverworld::Draw_HUD(void)
 {
     // if not editor mode
     if (!editor_world_enabled) {
@@ -469,7 +469,7 @@ void cOverworld :: Draw_HUD(void)
     pHud_Manager->Draw();
 }
 
-void cOverworld :: Update(void)
+void cOverworld::Update(void)
 {
     // editor
     pWorld_Editor->Process_Input();
@@ -505,7 +505,7 @@ void cOverworld :: Update(void)
     pFramerate->m_perf_timer[PERF_UPDATE_OVERWORLD]->Update();
 }
 
-void cOverworld :: Update_Camera(void)
+void cOverworld::Update_Camera(void)
 {
     if (editor_world_enabled) {
         return;
@@ -532,7 +532,7 @@ void cOverworld :: Update_Camera(void)
     }
 }
 
-bool cOverworld :: Key_Down(SDLKey key)
+bool cOverworld::Key_Down(SDLKey key)
 {
     if (key == SDLK_LEFT) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
@@ -601,7 +601,7 @@ bool cOverworld :: Key_Down(SDLKey key)
     return 1;
 }
 
-bool cOverworld :: Key_Up(SDLKey key)
+bool cOverworld::Key_Up(SDLKey key)
 {
     // nothing yet
     if (0) {
@@ -616,7 +616,7 @@ bool cOverworld :: Key_Up(SDLKey key)
     return 1;
 }
 
-bool cOverworld :: Mouse_Down(Uint8 button)
+bool cOverworld::Mouse_Down(Uint8 button)
 {
     // ## editor
     if (pWorld_Editor->Mouse_Down(button)) {
@@ -632,7 +632,7 @@ bool cOverworld :: Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cOverworld :: Mouse_Up(Uint8 button)
+bool cOverworld::Mouse_Up(Uint8 button)
 {
     // ## editor
     if (pWorld_Editor->Mouse_Up(button)) {
@@ -648,7 +648,7 @@ bool cOverworld :: Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cOverworld :: Joy_Button_Down(Uint8 button)
+bool cOverworld::Joy_Button_Down(Uint8 button)
 {
     // Exit
     if (button == pPreferences->m_joy_button_exit) {
@@ -667,7 +667,7 @@ bool cOverworld :: Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cOverworld :: Joy_Button_Up(Uint8 button)
+bool cOverworld::Joy_Button_Up(Uint8 button)
 {
     // nothing yet
     if (0) {
@@ -682,7 +682,7 @@ bool cOverworld :: Joy_Button_Up(Uint8 button)
     return 1;
 }
 
-void cOverworld :: Set_Progress(unsigned int normal_level, bool force /* = 1 */)
+void cOverworld::Set_Progress(unsigned int normal_level, bool force /* = 1 */)
 {
     unsigned int level_num = 0;
 
@@ -702,7 +702,7 @@ void cOverworld :: Set_Progress(unsigned int normal_level, bool force /* = 1 */)
     }
 }
 
-cWaypoint* cOverworld :: Get_Waypoint(const std::string& name)
+cWaypoint* cOverworld::Get_Waypoint(const std::string& name)
 {
     for (WaypointList::iterator itr = m_waypoints.begin(); itr != m_waypoints.end(); ++itr) {
         cWaypoint* obj = (*itr);
@@ -716,7 +716,7 @@ cWaypoint* cOverworld :: Get_Waypoint(const std::string& name)
     return NULL;
 }
 
-cWaypoint* cOverworld :: Get_Waypoint(unsigned int num)
+cWaypoint* cOverworld::Get_Waypoint(unsigned int num)
 {
     if (num >= m_waypoints.size()) {
         // out of bounds
@@ -727,7 +727,7 @@ cWaypoint* cOverworld :: Get_Waypoint(unsigned int num)
     return m_waypoints[num];
 }
 
-int cOverworld :: Get_Level_Waypoint_Num(std::string level_name)
+int cOverworld::Get_Level_Waypoint_Num(std::string level_name)
 {
     // erase file type if set
     if (level_name.rfind(".txt") != std::string::npos || level_name.rfind(".smclvl") != std::string::npos) {
@@ -737,7 +737,7 @@ int cOverworld :: Get_Level_Waypoint_Num(std::string level_name)
     return Get_Waypoint_Num(level_name);
 }
 
-int cOverworld :: Get_Waypoint_Num(const std::string& name)
+int cOverworld::Get_Waypoint_Num(const std::string& name)
 {
     int count = 0;
 
@@ -757,7 +757,7 @@ int cOverworld :: Get_Waypoint_Num(const std::string& name)
     return -1;
 }
 
-int cOverworld :: Get_Waypoint_Collision(const GL_rect& rect_2)
+int cOverworld::Get_Waypoint_Collision(const GL_rect& rect_2)
 {
     int count = 0;
 
@@ -774,7 +774,7 @@ int cOverworld :: Get_Waypoint_Collision(const GL_rect& rect_2)
     return -1;
 }
 
-int cOverworld :: Get_Last_Valid_Waypoint(void)
+int cOverworld::Get_Last_Valid_Waypoint(void)
 {
     // no waypoints
     if (m_waypoints.empty()) {
@@ -790,7 +790,7 @@ int cOverworld :: Get_Last_Valid_Waypoint(void)
     return -1;
 }
 
-void cOverworld :: Update_Waypoint_text(void)
+void cOverworld::Update_Waypoint_text(void)
 {
     // get waypoint
     cWaypoint* waypoint = m_waypoints[pOverworld_Player->m_current_waypoint];
@@ -808,7 +808,7 @@ void cOverworld :: Update_Waypoint_text(void)
     m_hud_level_name->Set_Image(pFont->Render_Text(pFont->m_font_normal, waypoint->Get_Destination(), color), 1, 1);
 }
 
-bool cOverworld :: Goto_Next_Level(void)
+bool cOverworld::Goto_Next_Level(void)
 {
     // if not in overworld only go to the next level on overworld enter
     if (Game_Mode != MODE_OVERWORLD) {
@@ -879,7 +879,7 @@ bool cOverworld :: Goto_Next_Level(void)
     return  1;
 }
 
-void cOverworld :: Reset_Waypoints(void)
+void cOverworld::Reset_Waypoints(void)
 {
     for (WaypointList::iterator itr = m_waypoints.begin(); itr != m_waypoints.end(); ++itr) {
         cWaypoint* obj = (*itr);
@@ -888,7 +888,7 @@ void cOverworld :: Reset_Waypoints(void)
     }
 }
 
-bool cOverworld :: Is_Loaded(void) const
+bool cOverworld::Is_Loaded(void) const
 {
     // if not loaded version is -1
     if (m_engine_version >= 0) {

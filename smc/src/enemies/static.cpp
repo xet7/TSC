@@ -34,14 +34,14 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cStaticEnemy *** *** *** *** *** *** *** *** *** *** *** */
 
-cStaticEnemy :: cStaticEnemy(cSprite_Manager* sprite_manager)
+cStaticEnemy::cStaticEnemy(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager), m_path_state(sprite_manager)
 {
     cStaticEnemy::Init();
 }
 
 
-cStaticEnemy :: cStaticEnemy(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cStaticEnemy::cStaticEnemy(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager), m_path_state(sprite_manager)
 {
     cStaticEnemy::Init();
@@ -70,12 +70,12 @@ cStaticEnemy :: cStaticEnemy(XmlAttributes& attributes, cSprite_Manager* sprite_
     m_ice_resistance = string_to_float(attributes.fetch("ice_resistance", float_to_string(m_ice_resistance)));
 }
 
-cStaticEnemy :: ~cStaticEnemy(void)
+cStaticEnemy::~cStaticEnemy(void)
 {
     //
 }
 
-void cStaticEnemy :: Init(void)
+void cStaticEnemy::Init(void)
 {
     m_type = TYPE_STATIC_ENEMY;
     m_name = "Static Enemy";
@@ -88,13 +88,13 @@ void cStaticEnemy :: Init(void)
     Set_Image(pVideo->Get_Package_Surface(utf8_to_path("enemy/static/blocks/spike_1/2_grey.png")), true);
 }
 
-void cStaticEnemy :: Init_Links(void)
+void cStaticEnemy::Init_Links(void)
 {
     // link to parent path
     m_path_state.Set_Path_Identifier(m_path_state.m_path_identifier);
 }
 
-cStaticEnemy* cStaticEnemy :: Copy(void) const
+cStaticEnemy* cStaticEnemy::Copy(void) const
 {
     cStaticEnemy* static_enemy = new cStaticEnemy(m_sprite_manager);
     static_enemy->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -107,12 +107,12 @@ cStaticEnemy* cStaticEnemy :: Copy(void) const
     return static_enemy;
 }
 
-std::string cStaticEnemy :: Get_XML_Type_Name()
+std::string cStaticEnemy::Get_XML_Type_Name()
 {
     return "static";
 }
 
-xmlpp::Element* cStaticEnemy :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cStaticEnemy::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -126,19 +126,19 @@ xmlpp::Element* cStaticEnemy :: Save_To_XML_Node(xmlpp::Element* p_element)
 }
 
 
-void cStaticEnemy :: Set_Sprite_Manager(cSprite_Manager* sprite_manager)
+void cStaticEnemy::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
     cSprite::Set_Sprite_Manager(sprite_manager);
     m_path_state.Set_Sprite_Manager(sprite_manager);
 }
 
-void cStaticEnemy :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cStaticEnemy::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
     m_path_state.Load_From_Savegame(save_object);
 }
 
-cSave_Level_Object* cStaticEnemy :: Save_To_Savegame(void)
+cSave_Level_Object* cStaticEnemy::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
     m_path_state.Save_To_Savegame(save_object);
@@ -146,23 +146,23 @@ cSave_Level_Object* cStaticEnemy :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cStaticEnemy :: Set_Rotation_Speed(float speed)
+void cStaticEnemy::Set_Rotation_Speed(float speed)
 {
     m_rotation_speed = speed;
 }
 
-void cStaticEnemy :: Set_Path_Identifier(const std::string& path)
+void cStaticEnemy::Set_Path_Identifier(const std::string& path)
 {
     m_path_state.Set_Path_Identifier(path);
     Set_Velocity(0.0f, 0.0f);
 }
 
-void cStaticEnemy :: Set_Speed(float speed)
+void cStaticEnemy::Set_Speed(float speed)
 {
     m_speed = speed;
 }
 
-void cStaticEnemy :: DownGrade(bool force /* = 0 */)
+void cStaticEnemy::DownGrade(bool force /* = 0 */)
 {
     Set_Dead(1);
     m_massive_type = MASS_PASSIVE;
@@ -175,7 +175,7 @@ void cStaticEnemy :: DownGrade(bool force /* = 0 */)
     Set_Rotation_Z(180.0f);
 }
 
-void cStaticEnemy :: Update(void)
+void cStaticEnemy::Update(void)
 {
     cEnemy::Update();
 
@@ -206,7 +206,7 @@ void cStaticEnemy :: Update(void)
     }
 }
 
-void cStaticEnemy :: Draw(cSurface_Request* request /* = NULL */)
+void cStaticEnemy::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -221,7 +221,7 @@ void cStaticEnemy :: Draw(cSurface_Request* request /* = NULL */)
     cEnemy::Draw(request);
 }
 
-Col_Valid_Type cStaticEnemy :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cStaticEnemy::Validate_Collision(cSprite* obj)
 {
     if (obj->m_massive_type == MASS_MASSIVE) {
         switch (obj->m_type) {
@@ -258,12 +258,12 @@ Col_Valid_Type cStaticEnemy :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cStaticEnemy :: Handle_Collision_Player(cObjectCollision* collision)
+void cStaticEnemy::Handle_Collision_Player(cObjectCollision* collision)
 {
     pLevel_Player->DownGrade_Player();
 }
 
-void cStaticEnemy :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cStaticEnemy::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     // invalid
     if (collision->m_number < 0) {
@@ -283,7 +283,7 @@ void cStaticEnemy :: Handle_Collision_Enemy(cObjectCollision* collision)
     enemy->DownGrade(1);
 }
 
-void cStaticEnemy :: Editor_Activate(void)
+void cStaticEnemy::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -346,7 +346,7 @@ void cStaticEnemy :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cStaticEnemy :: Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
+bool cStaticEnemy::Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -358,7 +358,7 @@ bool cStaticEnemy :: Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cStaticEnemy :: Editor_Rotation_Speed_Text_Changed(const CEGUI::EventArgs& event)
+bool cStaticEnemy::Editor_Rotation_Speed_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -368,7 +368,7 @@ bool cStaticEnemy :: Editor_Rotation_Speed_Text_Changed(const CEGUI::EventArgs& 
     return 1;
 }
 
-bool cStaticEnemy :: Editor_Path_Identifier_Text_Changed(const CEGUI::EventArgs& event)
+bool cStaticEnemy::Editor_Path_Identifier_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -378,7 +378,7 @@ bool cStaticEnemy :: Editor_Path_Identifier_Text_Changed(const CEGUI::EventArgs&
     return 1;
 }
 
-bool cStaticEnemy :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
+bool cStaticEnemy::Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -388,7 +388,7 @@ bool cStaticEnemy :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cStaticEnemy :: Editor_Fire_Resistant_Select(const CEGUI::EventArgs& event)
+bool cStaticEnemy::Editor_Fire_Resistant_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -403,7 +403,7 @@ bool cStaticEnemy :: Editor_Fire_Resistant_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cStaticEnemy :: Editor_Ice_Resistance_Text_Changed(const CEGUI::EventArgs& event)
+bool cStaticEnemy::Editor_Ice_Resistance_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -417,7 +417,7 @@ bool cStaticEnemy :: Editor_Ice_Resistance_Text_Changed(const CEGUI::EventArgs& 
     return 1;
 }
 
-std::string cStaticEnemy :: Create_Name(void) const
+std::string cStaticEnemy::Create_Name(void) const
 {
     std::string name = m_name; // dup
 

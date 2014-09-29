@@ -22,17 +22,17 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** Sound *** *** *** *** *** *** *** *** *** */
 
-cSound :: cSound(void)
+cSound::cSound(void)
 {
     m_chunk = NULL;
 }
 
-cSound :: ~cSound(void)
+cSound::~cSound(void)
 {
     Free();
 }
 
-bool cSound :: Load(const fs::path& filename)
+bool cSound::Load(const fs::path& filename)
 {
     Free();
 
@@ -46,7 +46,7 @@ bool cSound :: Load(const fs::path& filename)
     return 0;
 }
 
-void cSound :: Free(void)
+void cSound::Free(void)
 {
     if (m_chunk) {
         Mix_FreeChunk(m_chunk);
@@ -59,18 +59,18 @@ void cSound :: Free(void)
 
 /* *** *** *** *** *** *** cSound_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cSound_Manager :: cSound_Manager(void)
+cSound_Manager::cSound_Manager(void)
     : cObject_Manager<cSound>()
 {
     m_load_count = 0;
 }
 
-cSound_Manager :: ~cSound_Manager(void)
+cSound_Manager::~cSound_Manager(void)
 {
     cSound_Manager::Delete_All();
 }
 
-cSound* cSound_Manager :: Get_Pointer(const fs::path& path) const
+cSound* cSound_Manager::Get_Pointer(const fs::path& path) const
 {
     for (SoundList::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cSound* obj = (*itr);
@@ -85,13 +85,13 @@ cSound* cSound_Manager :: Get_Pointer(const fs::path& path) const
     return NULL;
 }
 
-void cSound_Manager :: Add(cSound* sound)
+void cSound_Manager::Add(cSound* sound)
 {
     m_load_count++;
     cObject_Manager<cSound>::Add(sound);
 }
 
-void cSound_Manager :: Delete_Sounds(void)
+void cSound_Manager::Delete_Sounds(void)
 {
     for (SoundList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cSound* obj = (*itr);

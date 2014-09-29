@@ -37,7 +37,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cMenu_Item :: cMenu_Item(cSprite_Manager* sprite_manager)
+cMenu_Item::cMenu_Item(cSprite_Manager* sprite_manager)
     : cHudSprite(sprite_manager)
 {
     Set_Scale_Directions(1, 1, 1, 1);
@@ -48,7 +48,7 @@ cMenu_Item :: cMenu_Item(cSprite_Manager* sprite_manager)
     m_image_menu = new cHudSprite(sprite_manager);
 }
 
-cMenu_Item :: ~cMenu_Item(void)
+cMenu_Item::~cMenu_Item(void)
 {
     if (m_image_default) {
         delete m_image_default;
@@ -59,7 +59,7 @@ cMenu_Item :: ~cMenu_Item(void)
     }
 }
 
-void cMenu_Item :: Set_Active(bool active /* = 0 */)
+void cMenu_Item::Set_Active(bool active /* = 0 */)
 {
     m_active = active;
     m_rot_z = 0;
@@ -70,7 +70,7 @@ void cMenu_Item :: Set_Active(bool active /* = 0 */)
     }
 }
 
-void cMenu_Item :: Draw(cSurface_Request* request /* = NULL */)
+void cMenu_Item::Draw(cSurface_Request* request /* = NULL */)
 {
     if (m_active) {
         // rotation is used for the scale state
@@ -106,7 +106,7 @@ void cMenu_Item :: Draw(cSurface_Request* request /* = NULL */)
 
 /* *** *** *** *** *** *** cMenuHandler *** *** *** *** *** *** *** *** *** *** *** */
 
-cMenuHandler :: cMenuHandler(void)
+cMenuHandler::cMenuHandler(void)
 {
     boost::filesystem::path lvl_path = pPackage_Manager->Get_Menu_Level_Path();
     if (boost::filesystem::exists(lvl_path)) {
@@ -131,7 +131,7 @@ cMenuHandler :: cMenuHandler(void)
     m_level->m_sprite_manager->Add(sprite);
 }
 
-cMenuHandler :: ~cMenuHandler(void)
+cMenuHandler::~cMenuHandler(void)
 {
     Reset();
 
@@ -140,7 +140,7 @@ cMenuHandler :: ~cMenuHandler(void)
     delete m_player;
 }
 
-void cMenuHandler :: Add_Menu_Item(cMenu_Item* item, float shadow_pos /* = 0 */, Color shadow_color /* = static_cast<Uint8>(0) */)
+void cMenuHandler::Add_Menu_Item(cMenu_Item* item, float shadow_pos /* = 0 */, Color shadow_color /* = static_cast<Uint8>(0) */)
 {
     if (!item) {
         cerr << "Menu item is NULL ( current Menu size : " << Get_Size() << ")" << endl;
@@ -157,7 +157,7 @@ void cMenuHandler :: Add_Menu_Item(cMenu_Item* item, float shadow_pos /* = 0 */,
     }
 }
 
-void cMenuHandler :: Reset(void)
+void cMenuHandler::Reset(void)
 {
     for (MenuList::iterator itr = m_items.begin(); itr != m_items.end(); ++itr) {
         delete *itr;
@@ -169,7 +169,7 @@ void cMenuHandler :: Reset(void)
     m_active = -1;
 }
 
-void cMenuHandler :: Set_Active(int num)
+void cMenuHandler::Set_Active(int num)
 {
     // if not already active and exists
     if (num == static_cast<int>(m_active) || num >= static_cast<int>(m_items.size()) || (num >= 0 && !m_items[num])) {
@@ -193,7 +193,7 @@ void cMenuHandler :: Set_Active(int num)
     }
 }
 
-void cMenuHandler :: Update_Mouse(void)
+void cMenuHandler::Update_Mouse(void)
 {
     int found = -1;
 
@@ -213,7 +213,7 @@ void cMenuHandler :: Update_Mouse(void)
     Set_Active(found);
 }
 
-void cMenuHandler :: Update(void)
+void cMenuHandler::Update(void)
 {
     // level
     m_level->Update();
@@ -221,7 +221,7 @@ void cMenuHandler :: Update(void)
     m_level->m_sprite_manager->Handle_Collision_Items();
 }
 
-void cMenuHandler :: Draw(bool with_background /* = 1 */)
+void cMenuHandler::Draw(bool with_background /* = 1 */)
 {
     if (with_background) {
         // draw menu level
@@ -234,7 +234,7 @@ void cMenuHandler :: Draw(bool with_background /* = 1 */)
     }
 }
 
-cMenu_Item* cMenuHandler :: Get_Active_Item(void)
+cMenu_Item* cMenuHandler::Get_Active_Item(void)
 {
     if (m_active < 0 || static_cast<unsigned int>(m_active) > m_items.size()) {
         return NULL;
@@ -243,14 +243,14 @@ cMenu_Item* cMenuHandler :: Get_Active_Item(void)
     return m_items[m_active];
 }
 
-unsigned int cMenuHandler :: Get_Size(void) const
+unsigned int cMenuHandler::Get_Size(void) const
 {
     return static_cast<unsigned int>(m_items.size());
 }
 
 /* *** *** *** *** *** *** *** cMenuCore *** *** *** *** *** *** *** *** *** *** */
 
-cMenuCore :: cMenuCore(void)
+cMenuCore::cMenuCore(void)
 {
     m_menu_id = MENU_NOTHING;
 
@@ -293,7 +293,7 @@ cMenuCore :: cMenuCore(void)
     m_animation_manager->Add(anim);
 }
 
-cMenuCore :: ~cMenuCore(void)
+cMenuCore::~cMenuCore(void)
 {
     Unload();
 
@@ -301,7 +301,7 @@ cMenuCore :: ~cMenuCore(void)
     delete m_animation_manager;
 }
 
-bool cMenuCore :: Handle_Event(SDL_Event* ev)
+bool cMenuCore::Handle_Event(SDL_Event* ev)
 {
     switch (ev->type) {
     case SDL_MOUSEMOTION: {
@@ -317,7 +317,7 @@ bool cMenuCore :: Handle_Event(SDL_Event* ev)
     return 0;
 }
 
-bool cMenuCore :: Key_Down(SDLKey key)
+bool cMenuCore::Key_Down(SDLKey key)
 {
     // Down (todo: detect event for joystick better)
     if (key == SDLK_DOWN || key == pPreferences->m_key_down) {
@@ -386,7 +386,7 @@ bool cMenuCore :: Key_Down(SDLKey key)
     return 1;
 }
 
-bool cMenuCore :: Key_Up(SDLKey key)
+bool cMenuCore::Key_Up(SDLKey key)
 {
     // nothing yet
     if (0) {
@@ -401,7 +401,7 @@ bool cMenuCore :: Key_Up(SDLKey key)
     return 1;
 }
 
-bool cMenuCore :: Joy_Button_Down(Uint8 button)
+bool cMenuCore::Joy_Button_Down(Uint8 button)
 {
     // Activate button
     if (button == pPreferences->m_joy_button_action) {
@@ -422,7 +422,7 @@ bool cMenuCore :: Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cMenuCore :: Joy_Button_Up(Uint8 button)
+bool cMenuCore::Joy_Button_Up(Uint8 button)
 {
     // nothing yet
     if (0) {
@@ -437,7 +437,7 @@ bool cMenuCore :: Joy_Button_Up(Uint8 button)
     return 1;
 }
 
-bool cMenuCore :: Mouse_Down(Uint8 button)
+bool cMenuCore::Mouse_Down(Uint8 button)
 {
     // nothing yet
     if (button == SDL_BUTTON_LEFT) {
@@ -457,7 +457,7 @@ bool cMenuCore :: Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cMenuCore :: Mouse_Up(Uint8 button)
+bool cMenuCore::Mouse_Up(Uint8 button)
 {
     // nothing yet
     if (0) {
@@ -472,7 +472,7 @@ bool cMenuCore :: Mouse_Up(Uint8 button)
     return 1;
 }
 
-cMenu_Item* cMenuCore :: Auto_Menu(std::string imagename, std::string imagefilename_menu, float ypos /* = 0 */, bool is_quit /* = 0 */)
+cMenu_Item* cMenuCore::Auto_Menu(std::string imagename, std::string imagefilename_menu, float ypos /* = 0 */, bool is_quit /* = 0 */)
 {
     cMenu_Item* temp_item = new cMenu_Item(m_handler->m_level->m_sprite_manager);
 
@@ -493,7 +493,7 @@ cMenu_Item* cMenuCore :: Auto_Menu(std::string imagename, std::string imagefilen
     return temp_item;
 }
 
-void cMenuCore :: Load(const MenuID menu /* = MENU_MAIN */, const GameMode exit_gamemode /* = MODE_NOTHING */)
+void cMenuCore::Load(const MenuID menu /* = MENU_MAIN */, const GameMode exit_gamemode /* = MODE_NOTHING */)
 {
     Unload();
     // reset menu handler
@@ -538,7 +538,7 @@ void cMenuCore :: Load(const MenuID menu /* = MENU_MAIN */, const GameMode exit_
     m_menu_data->Init();
 }
 
-void cMenuCore :: Enter(const GameMode old_mode /* = MODE_NOTHING */)
+void cMenuCore::Enter(const GameMode old_mode /* = MODE_NOTHING */)
 {
     // set active camera
     pActive_Camera = m_handler->m_camera;
@@ -602,7 +602,7 @@ void cMenuCore :: Enter(const GameMode old_mode /* = MODE_NOTHING */)
     }
 }
 
-void cMenuCore :: Leave(const GameMode next_mode /* = MODE_NOTHING */)
+void cMenuCore::Leave(const GameMode next_mode /* = MODE_NOTHING */)
 {
     // if not in menu mode
     if (Game_Mode != MODE_MENU) {
@@ -619,7 +619,7 @@ void cMenuCore :: Leave(const GameMode next_mode /* = MODE_NOTHING */)
     }
 }
 
-void cMenuCore :: Unload(void)
+void cMenuCore::Unload(void)
 {
     m_menu_id = MENU_NOTHING;
 
@@ -629,7 +629,7 @@ void cMenuCore :: Unload(void)
     }
 }
 
-void cMenuCore :: Update(void)
+void cMenuCore::Update(void)
 {
     if (!m_menu_data) {
         return;
@@ -646,7 +646,7 @@ void cMenuCore :: Update(void)
     pFramerate->m_perf_timer[PERF_UPDATE_MENU]->Update();
 }
 
-void cMenuCore :: Draw(void)
+void cMenuCore::Draw(void)
 {
     if (!m_menu_data) {
         return;

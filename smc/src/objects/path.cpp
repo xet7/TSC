@@ -29,7 +29,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** Path state class *** *** *** *** *** *** *** *** *** *** */
 
-cPath_State :: cPath_State(cSprite_Manager* sprite_manager)
+cPath_State::cPath_State(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
     m_path = NULL;
@@ -41,7 +41,7 @@ cPath_State :: cPath_State(cSprite_Manager* sprite_manager)
     m_current_segment = 0;
 }
 
-cPath_State :: ~cPath_State(void)
+cPath_State::~cPath_State(void)
 {
     // remove link
     if (m_path) {
@@ -49,7 +49,7 @@ cPath_State :: ~cPath_State(void)
     }
 }
 
-void cPath_State :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cPath_State::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     // path position
     if (save_object->exists("new_pos_x")) {
@@ -70,7 +70,7 @@ void cPath_State :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-void cPath_State :: Save_To_Savegame(cSave_Level_Object* save_object)
+void cPath_State::Save_To_Savegame(cSave_Level_Object* save_object)
 {
     // path position
     save_object->m_properties.push_back(cSave_Level_Object_Property("new_pos_x", float_to_string(m_pos_x)));
@@ -86,12 +86,12 @@ void cPath_State :: Save_To_Savegame(cSave_Level_Object* save_object)
     save_object->m_properties.push_back(cSave_Level_Object_Property("forward", int_to_string(static_cast<int>(m_forward))));
 }
 
-void cPath_State :: Set_Sprite_Manager(cSprite_Manager* sprite_manager)
+void cPath_State::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
 }
 
-void cPath_State :: Draw(void)
+void cPath_State::Draw(void)
 {
     if (!m_path) {
         return;
@@ -100,7 +100,7 @@ void cPath_State :: Draw(void)
     pVideo->Draw_Rect(m_path->m_col_rect.m_x + m_pos_x - 4 - pActive_Camera->m_x, m_path->m_col_rect.m_y + m_pos_y - 4 - pActive_Camera->m_y, 8, 8, m_path->m_editor_pos_z + 0.00002f, &orange);
 }
 
-cPath* cPath_State :: Get_Path_Object(const std::string& identifier)
+cPath* cPath_State::Get_Path_Object(const std::string& identifier)
 {
     if (identifier.empty()) {
         return NULL;
@@ -125,7 +125,7 @@ cPath* cPath_State :: Get_Path_Object(const std::string& identifier)
     return NULL;
 }
 
-void cPath_State :: Set_Path_Identifier(const std::string& path)
+void cPath_State::Set_Path_Identifier(const std::string& path)
 {
     // remove old link
     if (m_path) {
@@ -148,12 +148,12 @@ void cPath_State :: Set_Path_Identifier(const std::string& path)
     Move_Reset();
 }
 
-void cPath_State :: Path_Destroyed_Event(void)
+void cPath_State::Path_Destroyed_Event(void)
 {
     m_path = NULL;
 }
 
-void cPath_State :: Move_Toggle(void)
+void cPath_State::Move_Toggle(void)
 {
     if (m_forward) {
         Move_Start_Backward();
@@ -163,7 +163,7 @@ void cPath_State :: Move_Toggle(void)
     }
 }
 
-void cPath_State :: Move_Reset(void)
+void cPath_State::Move_Reset(void)
 {
     if (m_forward) {
         Move_Start_Forward();
@@ -173,12 +173,12 @@ void cPath_State :: Move_Reset(void)
     }
 }
 
-void cPath_State :: Move_Reverse(void)
+void cPath_State::Move_Reverse(void)
 {
     m_forward = !m_forward;
 }
 
-void cPath_State :: Move_Start_Forward(void)
+void cPath_State::Move_Start_Forward(void)
 {
     if (!m_path || m_path->m_segments.empty()) {
         return;
@@ -188,7 +188,7 @@ void cPath_State :: Move_Start_Forward(void)
     Move_From_Segment(0);
 }
 
-void cPath_State :: Move_Start_Backward(void)
+void cPath_State::Move_Start_Backward(void)
 {
     if (!m_path || m_path->m_segments.empty()) {
         return;
@@ -198,7 +198,7 @@ void cPath_State :: Move_Start_Backward(void)
     Move_From_Segment(m_path->m_segments.size() - 1);
 }
 
-void cPath_State :: Move_From_Segment(unsigned int segment)
+void cPath_State::Move_From_Segment(unsigned int segment)
 {
     if (!m_path) {
         return;
@@ -224,7 +224,7 @@ void cPath_State :: Move_From_Segment(unsigned int segment)
     }
 }
 
-bool cPath_State :: Path_Move(float distance)
+bool cPath_State::Path_Move(float distance)
 {
     if (!m_path) {
         return 0;
@@ -325,7 +325,7 @@ bool cPath_State :: Path_Move(float distance)
 
 /* *** *** *** *** *** *** cPath_Segment *** *** *** *** *** *** *** *** *** *** *** */
 
-cPath_Segment :: cPath_Segment(void)
+cPath_Segment::cPath_Segment(void)
 {
     m_x1 = 0;
     m_y1 = 0;
@@ -337,12 +337,12 @@ cPath_Segment :: cPath_Segment(void)
     m_distance = 0;
 }
 
-cPath_Segment :: ~cPath_Segment(void)
+cPath_Segment::~cPath_Segment(void)
 {
 
 }
 
-void cPath_Segment :: Set_Pos(float x1, float y1, float x2, float y2)
+void cPath_Segment::Set_Pos(float x1, float y1, float x2, float y2)
 {
     m_x1 = x1;
     m_y1 = y1;
@@ -352,7 +352,7 @@ void cPath_Segment :: Set_Pos(float x1, float y1, float x2, float y2)
     Update();
 }
 
-void cPath_Segment :: Set_Pos_Start(float x1, float y1)
+void cPath_Segment::Set_Pos_Start(float x1, float y1)
 {
     m_x1 = x1;
     m_y1 = y1;
@@ -360,7 +360,7 @@ void cPath_Segment :: Set_Pos_Start(float x1, float y1)
     Update();
 }
 
-void cPath_Segment :: Set_Pos_End(float x2, float y2)
+void cPath_Segment::Set_Pos_End(float x2, float y2)
 {
     m_x2 = x2;
     m_y2 = y2;
@@ -368,35 +368,35 @@ void cPath_Segment :: Set_Pos_End(float x2, float y2)
     Update();
 }
 
-void cPath_Segment :: Set_Pos_Start_X(float x1)
+void cPath_Segment::Set_Pos_Start_X(float x1)
 {
     m_x1 = x1;
 
     Update();
 }
 
-void cPath_Segment :: Set_Pos_Start_Y(float y1)
+void cPath_Segment::Set_Pos_Start_Y(float y1)
 {
     m_y1 = y1;
 
     Update();
 }
 
-void cPath_Segment :: Set_Pos_End_X(float x2)
+void cPath_Segment::Set_Pos_End_X(float x2)
 {
     m_x2 = x2;
 
     Update();
 }
 
-void cPath_Segment :: Set_Pos_End_Y(float y2)
+void cPath_Segment::Set_Pos_End_Y(float y2)
 {
     m_y2 = y2;
 
     Update();
 }
 
-void cPath_Segment :: Update(void)
+void cPath_Segment::Update(void)
 {
     float dx = m_x2 - m_x1;
     float dy = m_y2 - m_y1;
@@ -411,14 +411,14 @@ void cPath_Segment :: Update(void)
 
 /* *** *** *** *** *** *** *** Path class *** *** *** *** *** *** *** *** *** *** */
 
-cPath :: cPath(cSprite_Manager* sprite_manager)
+cPath::cPath(cSprite_Manager* sprite_manager)
     : cSprite(sprite_manager, "path")
 {
     // Set defaults
     cPath::Init();
 }
 
-cPath :: cPath(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cPath::cPath(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cSprite(sprite_manager, "path")
 {
     cPath::Init();
@@ -458,12 +458,12 @@ cPath :: cPath(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     }
 }
 
-cPath :: ~cPath(void)
+cPath::~cPath(void)
 {
     Remove_Links();
 }
 
-void cPath :: Init(void)
+void cPath::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_type = TYPE_PATH;
@@ -486,7 +486,7 @@ void cPath :: Init(void)
     m_editor_selected_segment = 0;
 }
 
-cPath* cPath :: Copy(void) const
+cPath* cPath::Copy(void) const
 {
     cPath* path = new cPath(m_sprite_manager);
     path->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -496,12 +496,12 @@ cPath* cPath :: Copy(void) const
     return path;
 }
 
-std::string cPath :: Get_XML_Type_Name()
+std::string cPath::Get_XML_Type_Name()
 {
     return "";
 }
 
-xmlpp::Element* cPath :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cPath::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
 
@@ -523,12 +523,12 @@ xmlpp::Element* cPath :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cPath :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cPath::Load_From_Savegame(cSave_Level_Object* save_object)
 {
 
 }
 
-cSave_Level_Object* cPath :: Save_To_Savegame(void)
+cSave_Level_Object* cPath::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = new cSave_Level_Object();
 
@@ -540,7 +540,7 @@ cSave_Level_Object* cPath :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cPath :: Set_Identifier(const std::string& identifier)
+void cPath::Set_Identifier(const std::string& identifier)
 {
     m_identifier = identifier;
 
@@ -584,12 +584,12 @@ void cPath :: Set_Identifier(const std::string& identifier)
     }
 }
 
-void cPath :: Set_Show_Line(bool show)
+void cPath::Set_Show_Line(bool show)
 {
     m_show_line = show;
 }
 
-void cPath :: Set_Rewind(bool rewind)
+void cPath::Set_Rewind(bool rewind)
 {
     // already set
     if (m_rewind == rewind) {
@@ -608,7 +608,7 @@ void cPath :: Set_Rewind(bool rewind)
     }
 }
 
-void cPath :: Create_Link(cPath_State* path_state)
+void cPath::Create_Link(cPath_State* path_state)
 {
     if (!path_state) {
         return;
@@ -617,7 +617,7 @@ void cPath :: Create_Link(cPath_State* path_state)
     m_linked_path_states.push_back(path_state);
 }
 
-void cPath :: Remove_Link(cPath_State* path_state)
+void cPath::Remove_Link(cPath_State* path_state)
 {
     if (!path_state) {
         return;
@@ -633,7 +633,7 @@ void cPath :: Remove_Link(cPath_State* path_state)
     }
 }
 
-void cPath :: Remove_Links(void)
+void cPath::Remove_Links(void)
 {
     for (PathStateList::iterator itr = m_linked_path_states.begin(); itr != m_linked_path_states.end(); ++itr) {
         cPath_State* obj = (*itr);
@@ -642,14 +642,14 @@ void cPath :: Remove_Links(void)
     }
 }
 
-void cPath :: Update(void)
+void cPath::Update(void)
 {
     if (!m_valid_update) {
         return;
     }
 }
 
-void cPath :: Draw(cSurface_Request* request /* = NULL */)
+void cPath::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -683,7 +683,7 @@ void cPath :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-bool cPath :: Is_Draw_Valid(void)
+bool cPath::Is_Draw_Valid(void)
 {
     // if editor not enabled, line drawing hasn’t been requested
     // manually and debug mode is not active
@@ -699,7 +699,7 @@ bool cPath :: Is_Draw_Valid(void)
     return 1;
 }
 
-void cPath :: Editor_Activate(void)
+void cPath::Editor_Activate(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -803,7 +803,7 @@ void cPath :: Editor_Activate(void)
     Editor_Init();
 }
 
-void cPath :: Editor_State_Update(void)
+void cPath::Editor_State_Update(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -842,7 +842,7 @@ void cPath :: Editor_State_Update(void)
     }
 }
 
-bool cPath :: Editor_Identifier_Text_Changed(const CEGUI::EventArgs& event)
+bool cPath::Editor_Identifier_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -852,7 +852,7 @@ bool cPath :: Editor_Identifier_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Show_Line_Select(const CEGUI::EventArgs& event)
+bool cPath::Editor_Show_Line_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -865,7 +865,7 @@ bool cPath :: Editor_Show_Line_Select(const CEGUI::EventArgs& event)
     return true;
 }
 
-bool cPath :: Editor_Move_Type_Select(const CEGUI::EventArgs& event)
+bool cPath::Editor_Move_Type_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -881,7 +881,7 @@ bool cPath :: Editor_Move_Type_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Selected_Segment_Select(const CEGUI::EventArgs& event)
+bool cPath::Editor_Selected_Segment_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -897,7 +897,7 @@ bool cPath :: Editor_Selected_Segment_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Button_Add_Segment_Clicked(const CEGUI::EventArgs& event)
+bool cPath::Editor_Button_Add_Segment_Clicked(const CEGUI::EventArgs& event)
 {
     cPath_Segment new_segment = m_segments[m_editor_selected_segment];
     new_segment.Set_Pos(new_segment.m_x2, new_segment.m_y2, new_segment.m_x2 + 20, new_segment.m_y2 - 20);
@@ -909,7 +909,7 @@ bool cPath :: Editor_Button_Add_Segment_Clicked(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Button_Delete_Segment_Clicked(const CEGUI::EventArgs& event)
+bool cPath::Editor_Button_Delete_Segment_Clicked(const CEGUI::EventArgs& event)
 {
     // always keep one
     if (m_segments.size() == 1) {
@@ -936,7 +936,7 @@ bool cPath :: Editor_Button_Delete_Segment_Clicked(const CEGUI::EventArgs& event
     return 1;
 }
 
-bool cPath :: Editor_Pos_X1_Text_Changed(const CEGUI::EventArgs& event)
+bool cPath::Editor_Pos_X1_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -948,7 +948,7 @@ bool cPath :: Editor_Pos_X1_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Pos_Y1_Text_Changed(const CEGUI::EventArgs& event)
+bool cPath::Editor_Pos_Y1_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -960,7 +960,7 @@ bool cPath :: Editor_Pos_Y1_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Pos_X2_Text_Changed(const CEGUI::EventArgs& event)
+bool cPath::Editor_Pos_X2_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -972,7 +972,7 @@ bool cPath :: Editor_Pos_X2_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cPath :: Editor_Pos_Y2_Text_Changed(const CEGUI::EventArgs& event)
+bool cPath::Editor_Pos_Y2_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -984,7 +984,7 @@ bool cPath :: Editor_Pos_Y2_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-void cPath :: Editor_Segment_Pos_Changed(void)
+void cPath::Editor_Segment_Pos_Changed(void)
 {
     for (PathStateList::iterator itr = m_linked_path_states.begin(); itr != m_linked_path_states.end(); ++itr) {
         cPath_State* obj = (*itr);
@@ -995,7 +995,7 @@ void cPath :: Editor_Segment_Pos_Changed(void)
     }
 }
 
-void cPath :: Add_Segment(cPath_Segment segment)
+void cPath::Add_Segment(cPath_Segment segment)
 {
     m_segments.push_back(segment);
 }

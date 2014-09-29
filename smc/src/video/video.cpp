@@ -40,7 +40,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** Video class *** *** *** *** *** *** *** *** *** *** */
 
-cVideo :: cVideo(void)
+cVideo::cVideo(void)
 {
     m_opengl_version = 0;
 
@@ -67,12 +67,12 @@ cVideo :: cVideo(void)
     m_initialised = 0;
 }
 
-cVideo :: ~cVideo(void)
+cVideo::~cVideo(void)
 {
 
 }
 
-void cVideo :: Init_CEGUI(void) const
+void cVideo::Init_CEGUI(void) const
 {
     // create renderer
     try {
@@ -134,7 +134,7 @@ void cVideo :: Init_CEGUI(void) const
     }
 }
 
-void cVideo :: Init_CEGUI_Data(void) const
+void cVideo::Init_CEGUI_Data(void) const
 {
     // set the default resource groups to be used
     CEGUI::Scheme::setDefaultResourceGroup("schemes");
@@ -166,7 +166,7 @@ void cVideo :: Init_CEGUI_Data(void) const
     window_root->activate();
 }
 
-void cVideo :: Init_SDL(void)
+void cVideo::Init_SDL(void)
 {
     if (SDL_Init(SDL_INIT_VIDEO) == -1) {
         cerr << "Error : SDL initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
@@ -199,7 +199,7 @@ void cVideo :: Init_SDL(void)
     SDL_ShowCursor(SDL_DISABLE);
 }
 
-void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */)
+void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */)
 {
     Render_Finish();
 
@@ -487,7 +487,7 @@ void cVideo :: Init_Video(bool reload_textures_from_file /* = 0 */, bool use_pre
     }
 }
 
-void cVideo :: Init_OpenGL(void)
+void cVideo::Init_OpenGL(void)
 {
     // viewport should cover the whole screen
     glViewport(0, 0, pPreferences->m_video_screen_w, pPreferences->m_video_screen_h);
@@ -541,7 +541,7 @@ void cVideo :: Init_OpenGL(void)
     SDL_GL_SwapBuffers();
 }
 
-void cVideo :: Init_Geometry(void)
+void cVideo::Init_Geometry(void)
 {
     Render_Finish();
 
@@ -580,7 +580,7 @@ void cVideo :: Init_Geometry(void)
     }
 }
 
-void cVideo :: Init_Texture_Detail(void)
+void cVideo::Init_Texture_Detail(void)
 {
     Render_Finish();
 
@@ -597,7 +597,7 @@ void cVideo :: Init_Texture_Detail(void)
     }
 }
 
-void cVideo :: Init_Resolution_Scale(void) const
+void cVideo::Init_Resolution_Scale(void) const
 {
     // up scale
     global_upscalex = static_cast<float>(pPreferences->m_video_screen_w) / static_cast<float>(game_res_w);
@@ -607,7 +607,7 @@ void cVideo :: Init_Resolution_Scale(void) const
     global_downscaley = static_cast<float>(game_res_h) / static_cast<float>(pPreferences->m_video_screen_h);
 }
 
-void cVideo :: Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
+void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
 {
     m_imgcache_dir = pResource_Manager->Get_User_Imgcache_Directory();
     fs::path imgcache_dir_active = m_imgcache_dir / utf8_to_path(int_to_string(pPreferences->m_video_screen_w) + "x" + int_to_string(pPreferences->m_video_screen_h));
@@ -789,7 +789,7 @@ void cVideo :: Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */
     m_imgcache_dir = imgcache_dir_active;
 }
 
-int cVideo :: Test_Video(int width, int height, int bpp, int flags /* = 0 */) const
+int cVideo::Test_Video(int width, int height, int bpp, int flags /* = 0 */) const
 {
     // auto set the video flags
     if (!flags) {
@@ -804,7 +804,7 @@ int cVideo :: Test_Video(int width, int height, int bpp, int flags /* = 0 */) co
     return SDL_VideoModeOK(width, height, bpp, flags);
 }
 
-vector<cSize_Int> cVideo :: Get_Supported_Resolutions(int flags /* = 0 */) const
+vector<cSize_Int> cVideo::Get_Supported_Resolutions(int flags /* = 0 */) const
 {
     vector<cSize_Int> valid_resolutions;
 
@@ -843,7 +843,7 @@ vector<cSize_Int> cVideo :: Get_Supported_Resolutions(int flags /* = 0 */) const
     return valid_resolutions;
 }
 
-void cVideo :: Make_GL_Context_Current(void)
+void cVideo::Make_GL_Context_Current(void)
 {
     // scoped context lock here
 #ifdef _WIN32
@@ -862,7 +862,7 @@ void cVideo :: Make_GL_Context_Current(void)
     SDL_GetWMInfo(&wm_info);
 }
 
-void cVideo :: Make_GL_Context_Inactive(void)
+void cVideo::Make_GL_Context_Inactive(void)
 {
 #ifdef _WIN32
     wglMakeCurrent(NULL, NULL);
@@ -876,7 +876,7 @@ void cVideo :: Make_GL_Context_Inactive(void)
     SDL_GetWMInfo(&wm_info);
 }
 
-void cVideo :: Render_From_Thread(void)
+void cVideo::Render_From_Thread(void)
 {
     Make_GL_Context_Current();
 
@@ -889,7 +889,7 @@ void cVideo :: Render_From_Thread(void)
     Make_GL_Context_Inactive();
 }
 
-void cVideo :: Render(bool threaded /* = 0 */)
+void cVideo::Render(bool threaded /* = 0 */)
 {
     Render_Finish();
 
@@ -939,7 +939,7 @@ void cVideo :: Render(bool threaded /* = 0 */)
     }
 }
 
-void cVideo :: Render_Finish(void)
+void cVideo::Render_Finish(void)
 {
 #ifndef SMC_RENDER_THREAD_TEST
     return;
@@ -952,7 +952,7 @@ void cVideo :: Render_Finish(void)
     Make_GL_Context_Current();
 }
 
-void cVideo :: Toggle_Fullscreen(void)
+void cVideo::Toggle_Fullscreen(void)
 {
     Render_Finish();
 
@@ -975,7 +975,7 @@ void cVideo :: Toggle_Fullscreen(void)
     glClearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
 }
 
-cGL_Surface* cVideo :: Get_Surface(fs::path filename, bool print_errors /* = true */)
+cGL_Surface* cVideo::Get_Surface(fs::path filename, bool print_errors /* = true */)
 {
     return Get_Surface_Helper(filename, print_errors, false);
 }
@@ -1022,7 +1022,7 @@ cGL_Surface* cVideo :: Get_Surface_Helper(fs::path filename, bool print_errors /
     return image;
 }
 
-cVideo::cSoftware_Image cVideo :: Load_Image(boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */) const
+cVideo::cSoftware_Image cVideo::Load_Image(boost::filesystem::path filename, bool load_settings /* = 1 */, bool print_errors /* = 1 */) const
 {
     return Load_Image_Helper(filename, load_settings, print_errors, 0);
 }
@@ -1119,7 +1119,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
     return software_image;
 }
 
-cGL_Surface* cVideo :: Load_GL_Surface(boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */)
+cGL_Surface* cVideo::Load_GL_Surface(boost::filesystem::path filename, bool use_settings /* = 1 */, bool print_errors /* = 1 */)
 {
     return Load_GL_Surface_Helper(filename, use_settings, print_errors, 0);
 }
@@ -1180,7 +1180,7 @@ cGL_Surface* cVideo :: Load_GL_Surface_Helper(boost::filesystem::path filename, 
     return image;
 }
 
-SDL_Surface* cVideo :: Convert_To_Final_Software_Image(SDL_Surface* surface) const
+SDL_Surface* cVideo::Convert_To_Final_Software_Image(SDL_Surface* surface) const
 {
     // get power of two size
     const unsigned int width = Get_Power_of_2(surface->w);
@@ -1209,7 +1209,7 @@ SDL_Surface* cVideo :: Convert_To_Final_Software_Image(SDL_Surface* surface) con
     return surface;
 }
 
-cGL_Surface* cVideo :: Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */, unsigned int force_width /* = 0 */, unsigned int force_height /* = 0 */) const
+cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */, unsigned int force_width /* = 0 */, unsigned int force_height /* = 0 */) const
 {
     if (!surface) {
         return NULL;
@@ -1318,7 +1318,7 @@ cGL_Surface* cVideo :: Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 *
     return image;
 }
 
-void cVideo :: Create_GL_Texture(unsigned int width, unsigned int height, const void* pixels, bool mipmap /* = 0 */) const
+void cVideo::Create_GL_Texture(unsigned int width, unsigned int height, const void* pixels, bool mipmap /* = 0 */) const
 {
     // unsigned byte is an unsigned 8-bit integer (1 byte)
     // create mipmaps
@@ -1348,7 +1348,7 @@ void cVideo :: Create_GL_Texture(unsigned int width, unsigned int height, const 
     }
 }
 
-Color cVideo :: Get_Pixel(int x, int y) const
+Color cVideo::Get_Pixel(int x, int y) const
 {
     GLubyte* pixel = new GLubyte[3];
     // read it
@@ -1362,12 +1362,12 @@ Color cVideo :: Get_Pixel(int x, int y) const
     return color;
 }
 
-void cVideo :: Clear_Screen(void) const
+void cVideo::Clear_Screen(void) const
 {
     pRenderer->Add(new cClear_Request());
 }
 
-void cVideo :: Draw_Rect(const GL_rect* rect, float z, const Color* color, cRect_Request* request /* = NULL */) const
+void cVideo::Draw_Rect(const GL_rect* rect, float z, const Color* color, cRect_Request* request /* = NULL */) const
 {
     if (!rect) {
         Draw_Rect(0, 0, static_cast<float>(game_res_w), static_cast<float>(game_res_h), z, color, request);
@@ -1377,7 +1377,7 @@ void cVideo :: Draw_Rect(const GL_rect* rect, float z, const Color* color, cRect
     }
 }
 
-void cVideo :: Draw_Rect(float x, float y, float width, float height, float z, const Color* color, cRect_Request* request /* = NULL */) const
+void cVideo::Draw_Rect(float x, float y, float width, float height, float z, const Color* color, cRect_Request* request /* = NULL */) const
 {
     if (!color || height == 0 || width == 0) {
         return;
@@ -1409,7 +1409,7 @@ void cVideo :: Draw_Rect(float x, float y, float width, float height, float z, c
     }
 }
 
-void cVideo :: Draw_Gradient(const GL_rect* rect, float z, const Color* color_1, const Color* color_2, ObjectDirection direction, cGradient_Request* request /* = NULL */) const
+void cVideo::Draw_Gradient(const GL_rect* rect, float z, const Color* color_1, const Color* color_2, ObjectDirection direction, cGradient_Request* request /* = NULL */) const
 {
     if (!rect) {
         Draw_Gradient(0, 0, static_cast<float>(game_res_w), static_cast<float>(game_res_h), z, color_1, color_2, direction, request);
@@ -1419,7 +1419,7 @@ void cVideo :: Draw_Gradient(const GL_rect* rect, float z, const Color* color_1,
     }
 }
 
-void cVideo :: Draw_Gradient(float x, float y, float width, float height, float z, const Color* color_1, const Color* color_2, ObjectDirection direction, cGradient_Request* request /* = NULL */) const
+void cVideo::Draw_Gradient(float x, float y, float width, float height, float z, const Color* color_1, const Color* color_2, ObjectDirection direction, cGradient_Request* request /* = NULL */) const
 {
     if (!color_1 || !color_2 || height == 0 || width == 0) {
         return;
@@ -1455,7 +1455,7 @@ void cVideo :: Draw_Gradient(float x, float y, float width, float height, float 
     }
 }
 
-void cVideo :: Draw_Circle(float x, float y, float radius, float z, const Color* color, cCircle_Request* request /* = NULL */) const
+void cVideo::Draw_Circle(float x, float y, float radius, float z, const Color* color, cCircle_Request* request /* = NULL */) const
 {
     if (!color || radius <= 0) {
         return;
@@ -1487,7 +1487,7 @@ void cVideo :: Draw_Circle(float x, float y, float radius, float z, const Color*
     }
 }
 
-void cVideo :: Draw_Line(const GL_line* line, float z, const Color* color, cLine_Request* request /* = NULL */) const
+void cVideo::Draw_Line(const GL_line* line, float z, const Color* color, cLine_Request* request /* = NULL */) const
 {
     if (!line) {
         return;
@@ -1496,7 +1496,7 @@ void cVideo :: Draw_Line(const GL_line* line, float z, const Color* color, cLine
     Draw_Line(line->m_x1, line->m_y1, line->m_x2, line->m_y2, z, color, request);
 }
 
-void cVideo :: Draw_Line(float x1, float y1, float x2, float y2, float z, const Color* color, cLine_Request* request /* = NULL */) const
+void cVideo::Draw_Line(float x1, float y1, float x2, float y2, float z, const Color* color, cLine_Request* request /* = NULL */) const
 {
     if (!color) {
         return;
@@ -1528,7 +1528,7 @@ void cVideo :: Draw_Line(float x1, float y1, float x2, float y2, float z, const 
     }
 }
 
-float cVideo :: Get_Scale(const cGL_Surface* image, float width, float height, bool only_downscale /* = 1 */) const
+float cVideo::Get_Scale(const cGL_Surface* image, float width, float height, bool only_downscale /* = 1 */) const
 {
     if (!image) {
         return 0;
@@ -1548,7 +1548,7 @@ float cVideo :: Get_Scale(const cGL_Surface* image, float width, float height, b
     return 1;
 }
 
-void cVideo :: Apply_Max_Texture_Size(int& width, int& height) const
+void cVideo::Apply_Max_Texture_Size(int& width, int& height) const
 {
     if (width > m_max_texture_size) {
         // change height to keep aspect ratio
@@ -1580,7 +1580,7 @@ void cVideo :: Apply_Max_Texture_Size(int& width, int& height) const
  * from image helper functions
  * MIT license
 */
-bool cVideo :: Downscale_Image(const unsigned char* const orig, int width, int height, int channels, unsigned char* resampled, int block_size_x, int block_size_y) const
+bool cVideo::Downscale_Image(const unsigned char* const orig, int width, int height, int channels, unsigned char* resampled, int block_size_x, int block_size_y) const
 {
     // error check
     if (width <= 0 || height <= 0 || channels <= 0 || orig == NULL || resampled == NULL || block_size_x <= 0 || block_size_y <= 0) {
@@ -1641,7 +1641,7 @@ bool cVideo :: Downscale_Image(const unsigned char* const orig, int width, int h
     return 1;
 }
 
-void cVideo :: Save_Screenshot(void)
+void cVideo::Save_Screenshot(void)
 {
     Render_Finish();
 
@@ -1669,7 +1669,7 @@ void cVideo :: Save_Screenshot(void)
     }
 }
 
-void cVideo :: Save_Surface(const fs::path& filename, const unsigned char* data, unsigned int width, unsigned int height, unsigned int bpp /* = 4 */, bool reverse_data /* = 0 */) const
+void cVideo::Save_Surface(const fs::path& filename, const unsigned char* data, unsigned int width, unsigned int height, unsigned int bpp /* = 4 */, bool reverse_data /* = 0 */) const
 {
     FILE* fp = NULL;
 

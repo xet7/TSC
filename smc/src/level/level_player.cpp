@@ -51,7 +51,7 @@ const float cLevel_Player::m_default_pos_y = -300.0f;
 
 /* *** *** *** *** *** *** *** *** cLevel_Player *** *** *** *** *** *** *** *** *** */
 
-cLevel_Player :: cLevel_Player(cSprite_Manager* sprite_manager)
+cLevel_Player::cLevel_Player(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager)
 {
     m_sprite_array = ARRAY_PLAYER;
@@ -114,18 +114,18 @@ cLevel_Player :: cLevel_Player(cSprite_Manager* sprite_manager)
     Set_Pos(m_default_pos_x, m_default_pos_y, 1);
 }
 
-cLevel_Player :: ~cLevel_Player(void)
+cLevel_Player::~cLevel_Player(void)
 {
     Ball_Clear();
 }
 
-cLevel_Player* cLevel_Player :: Copy(void) const
+cLevel_Player* cLevel_Player::Copy(void) const
 {
     // not copyable
     return NULL;
 }
 
-void cLevel_Player :: Init(void)
+void cLevel_Player::Init(void)
 {
     Load_Images();
     // default direction : right
@@ -134,7 +134,7 @@ void cLevel_Player :: Init(void)
     m_uid = 0;
 }
 
-void cLevel_Player :: Hold(void)
+void cLevel_Player::Hold(void)
 {
     if (!m_ground_object || (m_state != STA_WALK && m_state != STA_RUN)) {
         return;
@@ -143,7 +143,7 @@ void cLevel_Player :: Hold(void)
     Set_Moving_State(STA_STAY);
 }
 
-void cLevel_Player :: Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
+void cLevel_Player::Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
 {
     // set start image
     if (new_start_direction) {
@@ -157,7 +157,7 @@ void cLevel_Player :: Set_Direction(const ObjectDirection dir, bool new_start_di
     cAnimated_Sprite::Set_Direction(dir, new_start_direction);
 }
 
-bool cLevel_Player :: Set_On_Ground(cSprite* obj, bool set_on_top /* = 1 */)
+bool cLevel_Player::Set_On_Ground(cSprite* obj, bool set_on_top /* = 1 */)
 {
     bool valid = cMovingSprite::Set_On_Ground(obj, set_on_top);
 
@@ -183,12 +183,12 @@ bool cLevel_Player :: Set_On_Ground(cSprite* obj, bool set_on_top /* = 1 */)
     return valid;
 }
 
-void cLevel_Player :: DownGrade(bool force /* = 0 */)
+void cLevel_Player::DownGrade(bool force /* = 0 */)
 {
     DownGrade_Player(true, force);
 }
 
-void cLevel_Player :: DownGrade_Player(bool delayed /* = true */, bool force /* = false */, bool ignore_invincible /* = false */)
+void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = false */, bool ignore_invincible /* = false */)
 {
     if (m_god_mode)
         return;
@@ -431,7 +431,7 @@ animation_end:
     Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_BLACK));
 }
 
-void cLevel_Player :: Move_Player(float velocity, float vel_wrongway)
+void cLevel_Player::Move_Player(float velocity, float vel_wrongway)
 {
     if (m_direction == DIR_LEFT) {
         velocity *= -1;
@@ -510,7 +510,7 @@ void cLevel_Player :: Move_Player(float velocity, float vel_wrongway)
     }
 }
 
-void cLevel_Player :: Generate_Feet_Clouds(cParticle_Emitter* anim /* = NULL */)
+void cLevel_Player::Generate_Feet_Clouds(cParticle_Emitter* anim /* = NULL */)
 {
     // check if valid
     if (!m_ground_object || !m_ground_object->m_image || m_ground_object->m_image->m_ground_type == GROUND_NORMAL) {
@@ -598,7 +598,7 @@ void cLevel_Player :: Generate_Feet_Clouds(cParticle_Emitter* anim /* = NULL */)
     }
 }
 
-void cLevel_Player :: Update_Walking(void)
+void cLevel_Player::Update_Walking(void)
 {
     if (m_ducked_counter || !m_ground_object || (m_state != STA_STAY && m_state != STA_WALK && m_state != STA_RUN)) {
         return;
@@ -654,7 +654,7 @@ void cLevel_Player :: Update_Walking(void)
     }
 }
 
-void cLevel_Player :: Update_Running(void)
+void cLevel_Player::Update_Running(void)
 {
     if (m_ducked_counter || !m_ground_object || m_state != STA_RUN) {
         return;
@@ -706,7 +706,7 @@ void cLevel_Player :: Update_Running(void)
     }
 }
 
-void cLevel_Player :: Update_Staying(void)
+void cLevel_Player::Update_Staying(void)
 {
     // only if player is onground
     if (!m_ground_object || m_ducked_counter || m_state == STA_JUMP || m_state == STA_CLIMB) {
@@ -753,7 +753,7 @@ void cLevel_Player :: Update_Staying(void)
     }
 }
 
-void cLevel_Player :: Update_Flying(void)
+void cLevel_Player::Update_Flying(void)
 {
     /* only if not onground
      * if jumping update jump is already used
@@ -849,7 +849,7 @@ void cLevel_Player :: Update_Flying(void)
     }
 }
 
-void cLevel_Player :: Stop_Flying(bool parachute /* = 1 */)
+void cLevel_Player::Stop_Flying(bool parachute /* = 1 */)
 {
     if (m_state != STA_FLY) {
         return;
@@ -862,7 +862,7 @@ void cLevel_Player :: Stop_Flying(bool parachute /* = 1 */)
     Set_Moving_State(STA_FALL);
 }
 
-void cLevel_Player :: Parachute(bool enable)
+void cLevel_Player::Parachute(bool enable)
 {
     if (m_parachute == enable) {
         return;
@@ -878,7 +878,7 @@ void cLevel_Player :: Parachute(bool enable)
     }
 }
 
-void cLevel_Player :: Start_Falling(void)
+void cLevel_Player::Start_Falling(void)
 {
     const float move_y = 1.9f;
 
@@ -904,7 +904,7 @@ void cLevel_Player :: Start_Falling(void)
     Set_Moving_State(STA_FALL);
 }
 
-void cLevel_Player :: Update_Falling(void)
+void cLevel_Player::Update_Falling(void)
 {
     // only if not on ground
     if (m_ground_object || m_state == STA_CLIMB || m_state == STA_FLY) {
@@ -929,7 +929,7 @@ void cLevel_Player :: Update_Falling(void)
     }
 }
 
-void cLevel_Player :: Start_Ducking(void)
+void cLevel_Player::Start_Ducking(void)
 {
     // only if massive ground
     if ((m_state != STA_STAY && m_state != STA_WALK && m_state != STA_RUN) || m_state == STA_CLIMB || !m_ground_object || m_ground_object->m_massive_type == MASS_HALFMASSIVE || m_ducked_counter) {
@@ -956,7 +956,7 @@ void cLevel_Player :: Start_Ducking(void)
     Set_Moving_State(STA_STAY);
 }
 
-void cLevel_Player :: Stop_Ducking(void)
+void cLevel_Player::Stop_Ducking(void)
 {
     if (!m_ducked_counter) {
         return;
@@ -986,7 +986,7 @@ void cLevel_Player :: Stop_Ducking(void)
     Set_Moving_State(STA_STAY);
 }
 
-void cLevel_Player :: Update_Ducking(void)
+void cLevel_Player::Update_Ducking(void)
 {
     if (!m_ducked_counter) {
         return;
@@ -1033,7 +1033,7 @@ void cLevel_Player :: Update_Ducking(void)
     }
 }
 
-void cLevel_Player :: Start_Climbing(void)
+void cLevel_Player::Start_Climbing(void)
 {
     // invalid state
     if (m_ducked_counter || m_state == STA_CLIMB || m_jump_power > 5.0f) {
@@ -1054,7 +1054,7 @@ void cLevel_Player :: Start_Climbing(void)
     Set_Moving_State(STA_CLIMB);
 }
 
-void cLevel_Player :: Update_Climbing(void)
+void cLevel_Player::Update_Climbing(void)
 {
     if (m_state != STA_CLIMB) {
         return;
@@ -1094,7 +1094,7 @@ void cLevel_Player :: Update_Climbing(void)
     }
 }
 
-bool cLevel_Player :: Is_On_Climbable(float move_y /* = 0.0f */)
+bool cLevel_Player::Is_On_Climbable(float move_y /* = 0.0f */)
 {
     // create climb rect
     GL_rect climb_rect = m_col_rect;
@@ -1121,14 +1121,14 @@ bool cLevel_Player :: Is_On_Climbable(float move_y /* = 0.0f */)
     return 0;
 }
 
-void cLevel_Player :: Start_Jump_Keytime(void)
+void cLevel_Player::Start_Jump_Keytime(void)
 {
     if (m_god_mode || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_FALL || m_state == STA_FLY || m_state == STA_JUMP || (m_state == STA_CLIMB && !pKeyboard->m_keys[pPreferences->m_key_up])) {
         m_up_key_time = speedfactor_fps / 4;
     }
 }
 
-void cLevel_Player :: Update_Jump_Keytime(void)
+void cLevel_Player::Update_Jump_Keytime(void)
 {
     // handle jumping start
     if (m_force_jump || (m_up_key_time && (m_ground_object || m_god_mode || m_state == STA_CLIMB))) {
@@ -1136,7 +1136,7 @@ void cLevel_Player :: Update_Jump_Keytime(void)
     }
 }
 
-void cLevel_Player :: Start_Jump(float deaccel /* = 0.08f */)
+void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
 {
     // play sound
     if (m_next_jump_sound) {
@@ -1233,7 +1233,7 @@ void cLevel_Player :: Start_Jump(float deaccel /* = 0.08f */)
     m_next_jump_accel = 4.0f;
 }
 
-void cLevel_Player :: Update_Jump(void)
+void cLevel_Player::Update_Jump(void)
 {
     // jumping keytime
     if (m_up_key_time) {
@@ -1286,7 +1286,7 @@ void cLevel_Player :: Update_Jump(void)
     }
 }
 
-void cLevel_Player :: Update_Item(void)
+void cLevel_Player::Update_Item(void)
 {
     // if active object item is available
     if (m_active_object) {
@@ -1375,7 +1375,7 @@ void cLevel_Player :: Update_Item(void)
     }
 }
 
-void cLevel_Player :: Release_Item(bool set_position /* = 1 */, bool no_action /* = 0 */)
+void cLevel_Player::Release_Item(bool set_position /* = 1 */, bool no_action /* = 0 */)
 {
     if (!m_active_object) {
         return;
@@ -1547,7 +1547,7 @@ void cLevel_Player :: Release_Item(bool set_position /* = 1 */, bool no_action /
     Load_Images();
 }
 
-void cLevel_Player :: Set_Type(SpriteType item_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
+void cLevel_Player::Set_Type(SpriteType item_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
 {
     if (item_type == TYPE_PLAYER) {
         Set_Type(MARYO_SMALL, animation, sound, temp_power);
@@ -1566,7 +1566,7 @@ void cLevel_Player :: Set_Type(SpriteType item_type, bool animation /* = 1 */, b
     }
 }
 
-void cLevel_Player :: Set_Type(Maryo_type new_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
+void cLevel_Player::Set_Type(Maryo_type new_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
 {
     // already set
     if (m_maryo_type == new_type) {
@@ -1658,7 +1658,7 @@ void cLevel_Player :: Set_Type(Maryo_type new_type, bool animation /* = 1 */, bo
     Check_on_Ground();
 }
 
-void cLevel_Player :: Set_Moving_State(Moving_state new_state)
+void cLevel_Player::Set_Moving_State(Moving_state new_state)
 {
     if (new_state == m_state) {
         return;
@@ -1729,7 +1729,7 @@ void cLevel_Player :: Set_Moving_State(Moving_state new_state)
     }
 }
 
-bool cLevel_Player :: Change_Size(float x, float y, bool only_check /* = 0 */)
+bool cLevel_Player::Change_Size(float x, float y, bool only_check /* = 0 */)
 {
     bool valid_hor = 0;
     float check_pos = x;
@@ -1824,7 +1824,7 @@ bool cLevel_Player :: Change_Size(float x, float y, bool only_check /* = 0 */)
     return 0;
 }
 
-void cLevel_Player :: Reset_Save(void)
+void cLevel_Player::Reset_Save(void)
 {
     // reset worlds
     pOverworld_Manager->Reset();
@@ -1843,7 +1843,7 @@ void cLevel_Player :: Reset_Save(void)
     pHud_Itembox->Reset();
 }
 
-void cLevel_Player :: Reset(bool full /* = 1 */)
+void cLevel_Player::Reset(bool full /* = 1 */)
 {
     // reset level states
     Set_Active(1);
@@ -1881,7 +1881,7 @@ void cLevel_Player :: Reset(bool full /* = 1 */)
     }
 }
 
-void cLevel_Player :: Reset_Position(void)
+void cLevel_Player::Reset_Position(void)
 {
     Set_Pos(m_start_pos_x, m_start_pos_y);
 
@@ -1891,7 +1891,7 @@ void cLevel_Player :: Reset_Position(void)
     Col_Move(0.0f, m_start_image->m_h - m_rect.m_h, 1, 0, 0);
 }
 
-void cLevel_Player :: Update(void)
+void cLevel_Player::Update(void)
 {
     if (editor_enabled) {
         return;
@@ -2179,7 +2179,7 @@ void cLevel_Player :: Update(void)
     Update_Kill_Multiplier();
 }
 
-void cLevel_Player :: Draw(cSurface_Request* request /* = NULL */)
+void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -2247,7 +2247,7 @@ void cLevel_Player :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cLevel_Player :: Draw_Animation(Maryo_type new_mtype)
+void cLevel_Player::Draw_Animation(Maryo_type new_mtype)
 {
     // already set or invalid
     if (new_mtype == m_maryo_type || m_maryo_type == MARYO_DEAD || new_mtype == MARYO_DEAD) {
@@ -2314,7 +2314,7 @@ void cLevel_Player :: Draw_Animation(Maryo_type new_mtype)
     pFramerate->Reset();
 }
 
-unsigned int cLevel_Player :: Get_Image(void) const
+unsigned int cLevel_Player::Get_Image(void) const
 {
     // throwing
     if (m_throwing_counter && (m_maryo_type == MARYO_FIRE || m_maryo_type == MARYO_ICE) && !m_ducked_counter && (m_state == STA_FALL || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_JUMP)) {
@@ -2414,7 +2414,7 @@ unsigned int cLevel_Player :: Get_Image(void) const
     return MARYO_IMG_STAND;
 }
 
-void cLevel_Player :: Load_Images(void)
+void cLevel_Player::Load_Images(void)
 {
     // not valid
     if (m_maryo_type == MARYO_DEAD) {
@@ -2676,7 +2676,7 @@ void cLevel_Player :: Load_Images(void)
     Set_Image_Num(Get_Image() + m_direction);
 }
 
-void cLevel_Player :: Get_Item(SpriteType item_type, bool force /* = 0 */, cMovingSprite* base /* = NULL */)
+void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMovingSprite* base /* = NULL */)
 {
     Maryo_type current_maryo_type;
     bool use_temp_power;
@@ -2850,7 +2850,7 @@ void cLevel_Player :: Get_Item(SpriteType item_type, bool force /* = 0 */, cMovi
     }
 }
 
-float cLevel_Player :: Get_Vel_Modifier(void) const
+float cLevel_Player::Get_Vel_Modifier(void) const
 {
     float vel_mod = 1.0f;
 
@@ -2870,7 +2870,7 @@ float cLevel_Player :: Get_Vel_Modifier(void) const
     return vel_mod;
 }
 
-void cLevel_Player :: Action_Jump(bool enemy_jump /* = 0 */)
+void cLevel_Player::Action_Jump(bool enemy_jump /* = 0 */)
 {
     if (m_ducked_counter) {
         // power jump
@@ -2897,7 +2897,7 @@ void cLevel_Player :: Action_Jump(bool enemy_jump /* = 0 */)
     Update_Jump_Keytime();
 }
 
-void cLevel_Player :: Action_Interact(input_identifier key_type)
+void cLevel_Player::Action_Interact(input_identifier key_type)
 {
     // Up
     if (key_type == INP_UP) {
@@ -3122,7 +3122,7 @@ void cLevel_Player :: Action_Interact(input_identifier key_type)
     }
 }
 
-void cLevel_Player :: Action_Shoot(void)
+void cLevel_Player::Action_Shoot(void)
 {
     // add fire or ice-ball
     ball_effect ball_type = FIREBALL_DEFAULT;
@@ -3150,13 +3150,13 @@ void cLevel_Player :: Action_Shoot(void)
 
 }
 
-void cLevel_Player :: Action_Stop_Jump(void)
+void cLevel_Player::Action_Stop_Jump(void)
 {
     Stop_Flying();
     m_up_key_time = 0;
 }
 
-void cLevel_Player :: Action_Stop_Interact(input_identifier key_type)
+void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
 {
     // Action
     if (key_type == INP_ACTION) {
@@ -3196,12 +3196,12 @@ void cLevel_Player :: Action_Stop_Interact(input_identifier key_type)
     }
 }
 
-void cLevel_Player :: Action_Stop_Shoot(void)
+void cLevel_Player::Action_Stop_Shoot(void)
 {
     // nothing
 }
 
-bool cLevel_Player :: Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, float ball_start_angle /* = -1 */, unsigned int amount /* = 0 */) const
+bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, float ball_start_angle /* = -1 */, unsigned int amount /* = 0 */) const
 {
     if ((m_maryo_type != MARYO_FIRE && m_maryo_type_temp_power != MARYO_FIRE && m_maryo_type != MARYO_ICE && m_maryo_type_temp_power != MARYO_ICE) || m_ducked_counter) {
         return 0;
@@ -3334,7 +3334,7 @@ bool cLevel_Player :: Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */,
     return 1;
 }
 
-void cLevel_Player :: Ball_Clear(void) const
+void cLevel_Player::Ball_Clear(void) const
 {
     // destroy all fireballs from the player
     for (cSprite_List::iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr) {
@@ -3351,7 +3351,7 @@ void cLevel_Player :: Ball_Clear(void) const
     }
 }
 
-void cLevel_Player :: Add_Kill_Multiplier(void)
+void cLevel_Player::Add_Kill_Multiplier(void)
 {
     m_kill_multiplier += 0.1f;
 
@@ -3367,7 +3367,7 @@ void cLevel_Player :: Add_Kill_Multiplier(void)
     m_last_kill_counter = 0;
 }
 
-void cLevel_Player :: Update_Kill_Multiplier(void)
+void cLevel_Player::Update_Kill_Multiplier(void)
 {
     m_last_kill_counter += pFramerate->m_speed_factor;
 
@@ -3379,7 +3379,7 @@ void cLevel_Player :: Update_Kill_Multiplier(void)
     }
 }
 
-Col_Valid_Type cLevel_Player :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
 {
     // don't collide with anything if dead
     if (m_maryo_type == MARYO_DEAD) {
@@ -3597,7 +3597,7 @@ Col_Valid_Type cLevel_Player :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cLevel_Player :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cLevel_Player::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     // if invalid
     if (collision->m_direction == DIR_UNDEFINED || m_maryo_type == MARYO_DEAD || !m_active) {
@@ -3720,7 +3720,7 @@ void cLevel_Player :: Handle_Collision_Enemy(cObjectCollision* collision)
     Send_Collision(collision);
 }
 
-void cLevel_Player :: Handle_Collision_Massive(cObjectCollision* collision)
+void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
 {
     // if invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -3827,7 +3827,7 @@ void cLevel_Player :: Handle_Collision_Massive(cObjectCollision* collision)
             // jumping
             if (m_state == STA_JUMP) {
                 /* hack : only pick up after some time of jumping because moving objects collide move before the player
-                 * also see cMovingSprite :: Validate_Collision_Object_On_Top
+                 * also see cMovingSprite::Validate_Collision_Object_On_Top
                 */
                 if (m_jump_power < 6.0f) {
                     m_vely = 0.0f;
@@ -3882,7 +3882,7 @@ void cLevel_Player :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cLevel_Player :: Handle_Collision_Passive(cObjectCollision* collision)
+void cLevel_Player::Handle_Collision_Passive(cObjectCollision* collision)
 {
     // if invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -3896,7 +3896,7 @@ void cLevel_Player :: Handle_Collision_Passive(cObjectCollision* collision)
     Send_Collision(collision);
 }
 
-void cLevel_Player :: Handle_Collision_Lava(cObjectCollision* p_collision)
+void cLevel_Player::Handle_Collision_Lava(cObjectCollision* p_collision)
 {
     if (p_collision->m_direction == DIR_UNDEFINED)
         return;
@@ -3905,7 +3905,7 @@ void cLevel_Player :: Handle_Collision_Lava(cObjectCollision* p_collision)
     Send_Collision(p_collision);
 }
 
-void cLevel_Player :: Handle_out_of_Level(ObjectDirection dir)
+void cLevel_Player::Handle_out_of_Level(ObjectDirection dir)
 {
     if (dir == DIR_LEFT) {
         Set_Pos_X(pLevel_Manager->m_camera->m_limit_rect.m_x - m_col_pos.m_x);
@@ -3943,7 +3943,7 @@ void cLevel_Player :: Handle_out_of_Level(ObjectDirection dir)
     }
 }
 
-void cLevel_Player :: Editor_Activate(void)
+void cLevel_Player::Editor_Activate(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -3961,7 +3961,7 @@ void cLevel_Player :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cLevel_Player :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cLevel_Player::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -3971,7 +3971,7 @@ bool cLevel_Player :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-void cLevel_Player :: Push_Return(const std::string& level, const std::string& entry)
+void cLevel_Player::Push_Return(const std::string& level, const std::string& entry)
 {
     cLevel_Player_Return_Entry e;
     e.level = level;
@@ -3980,7 +3980,7 @@ void cLevel_Player :: Push_Return(const std::string& level, const std::string& e
     m_return_stack.push_back(e);
 }
 
-bool cLevel_Player :: Pop_Return(std::string& level, std::string& entry)
+bool cLevel_Player::Pop_Return(std::string& level, std::string& entry)
 {
     if (!m_return_stack.empty()) {
         cLevel_Player_Return_Entry e = m_return_stack.back();
@@ -3997,7 +3997,7 @@ bool cLevel_Player :: Pop_Return(std::string& level, std::string& entry)
     }
 }
 
-void cLevel_Player :: Clear_Return(void)
+void cLevel_Player::Clear_Return(void)
 {
     m_return_stack.clear();
 }

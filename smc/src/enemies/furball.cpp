@@ -32,13 +32,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cFurball *** *** *** *** *** *** *** *** *** *** *** */
 
-cFurball :: cFurball(cSprite_Manager* sprite_manager)
+cFurball::cFurball(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cFurball::Init();
 }
 
-cFurball :: cFurball(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cFurball::cFurball(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cFurball::Init();
@@ -61,12 +61,12 @@ cFurball :: cFurball(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     }
 }
 
-cFurball :: ~cFurball(void)
+cFurball::~cFurball(void)
 {
     //
 }
 
-void cFurball :: Init(void)
+void cFurball::Init(void)
 {
     m_type = TYPE_FURBALL;
     m_name = "Furball";
@@ -87,7 +87,7 @@ void cFurball :: Init(void)
     Set_Direction(DIR_RIGHT);
 }
 
-cFurball* cFurball :: Copy(void) const
+cFurball* cFurball::Copy(void) const
 {
     cFurball* furball = new cFurball(m_sprite_manager);
     furball->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -100,12 +100,12 @@ cFurball* cFurball :: Copy(void) const
     return furball;
 }
 
-std::string cFurball :: Get_XML_Type_Name()
+std::string cFurball::Get_XML_Type_Name()
 {
     return "furball";
 }
 
-xmlpp::Element* cFurball :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cFurball::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -120,14 +120,14 @@ xmlpp::Element* cFurball :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cFurball :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cFurball::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
 
     Update_Rotation_Hor();
 }
 
-void cFurball :: Set_Max_Downgrade_Count(int max_downgrade_counts)
+void cFurball::Set_Max_Downgrade_Count(int max_downgrade_counts)
 {
     m_max_downgrade_count = max_downgrade_counts;
 
@@ -136,12 +136,12 @@ void cFurball :: Set_Max_Downgrade_Count(int max_downgrade_counts)
     }
 }
 
-void cFurball :: Set_Level_Ends_If_Killed(bool level_ends_if_killed)
+void cFurball::Set_Level_Ends_If_Killed(bool level_ends_if_killed)
 {
     m_level_ends_if_killed = level_ends_if_killed;
 }
 
-void cFurball :: Set_Direction(const ObjectDirection dir)
+void cFurball::Set_Direction(const ObjectDirection dir)
 {
     // already set
     if (m_start_direction == dir) {
@@ -153,7 +153,7 @@ void cFurball :: Set_Direction(const ObjectDirection dir)
     Update_Rotation_Hor(1);
 }
 
-void cFurball :: Set_Color(const DefaultColor& col)
+void cFurball::Set_Color(const DefaultColor& col)
 {
     // already set
     if (m_color_type == col) {
@@ -220,7 +220,7 @@ void cFurball :: Set_Color(const DefaultColor& col)
     Set_Image_Num(0, 1);
 }
 
-void cFurball :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
+void cFurball::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
     cEnemy::Turn_Around(col_dir);
 
@@ -240,7 +240,7 @@ void cFurball :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     }
 }
 
-void cFurball :: DownGrade(bool force /* = 0 */)
+void cFurball::DownGrade(bool force /* = 0 */)
 {
     // boss
     if (!force && m_type == TYPE_FURBALL_BOSS) {
@@ -308,7 +308,7 @@ void cFurball :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cFurball :: Update_Normal_Dying()
+void cFurball::Update_Normal_Dying()
 {
     // boss
     if (m_type == TYPE_FURBALL_BOSS) {
@@ -361,7 +361,7 @@ void cFurball :: Update_Normal_Dying()
         cEnemy::Update_Normal_Dying();
 }
 
-void cFurball :: Set_Moving_State(Moving_state new_state)
+void cFurball::Set_Moving_State(Moving_state new_state)
 {
     if (new_state == m_state) {
         return;
@@ -399,7 +399,7 @@ void cFurball :: Set_Moving_State(Moving_state new_state)
     Update_Rotation_Hor();
 }
 
-void cFurball :: Update(void)
+void cFurball::Update(void)
 {
     cEnemy::Update();
 
@@ -520,7 +520,7 @@ void cFurball :: Update(void)
     }
 }
 
-void cFurball :: Generate_Smoke(unsigned int amount /* = 1 */, float particle_scale /* = 0.4f */) const
+void cFurball::Generate_Smoke(unsigned int amount /* = 1 */, float particle_scale /* = 0.4f */) const
 {
     // animation
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
@@ -537,7 +537,7 @@ void cFurball :: Generate_Smoke(unsigned int amount /* = 1 */, float particle_sc
     pActive_Animation_Manager->Add(anim);
 }
 
-void cFurball :: Update_Velocity_Max(void)
+void cFurball::Update_Velocity_Max(void)
 {
     if (m_state == STA_STAY) {
         m_velx_max = 0.0f;
@@ -573,7 +573,7 @@ void cFurball :: Update_Velocity_Max(void)
     }
 }
 
-Col_Valid_Type cFurball :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cFurball::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -655,7 +655,7 @@ Col_Valid_Type cFurball :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cFurball :: Handle_Collision_Player(cObjectCollision* collision)
+void cFurball::Handle_Collision_Player(cObjectCollision* collision)
 {
     // invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -692,7 +692,7 @@ void cFurball :: Handle_Collision_Player(cObjectCollision* collision)
     }
 }
 
-void cFurball :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cFurball::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_RIGHT || collision->m_direction == DIR_LEFT) {
         Turn_Around(collision->m_direction);
@@ -701,7 +701,7 @@ void cFurball :: Handle_Collision_Enemy(cObjectCollision* collision)
     Send_Collision(collision);
 }
 
-void cFurball :: Handle_Collision_Massive(cObjectCollision* collision)
+void cFurball::Handle_Collision_Massive(cObjectCollision* collision)
 {
     if (m_state == STA_OBJ_LINKED) {
         return;
@@ -731,7 +731,7 @@ void cFurball :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cFurball :: Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 )
+void cFurball::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     pAudio->Play_Sound(m_kill_sound);
     pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1 );
@@ -739,7 +739,7 @@ void cFurball :: Handle_Collision_Box( ObjectDirection cdirection, GL_rect *r2 )
     DownGrade(true);
 }
 
-void cFurball :: Editor_Activate(void)
+void cFurball::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -783,7 +783,7 @@ void cFurball :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cFurball :: Editor_Level_Ends_If_Killed(const CEGUI::EventArgs& event)
+bool cFurball::Editor_Level_Ends_If_Killed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -798,7 +798,7 @@ bool cFurball :: Editor_Level_Ends_If_Killed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cFurball :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cFurball::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -808,7 +808,7 @@ bool cFurball :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cFurball :: Editor_Max_Downgrade_Count_Text_Changed(const CEGUI::EventArgs& event)
+bool cFurball::Editor_Max_Downgrade_Count_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();

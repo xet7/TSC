@@ -31,13 +31,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cRokko *** *** *** *** *** *** *** *** *** *** *** */
 
-cRokko :: cRokko(cSprite_Manager* sprite_manager)
+cRokko::cRokko(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cRokko::Init();
 }
 
-cRokko :: cRokko(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cRokko::cRokko(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cRokko::Init();
@@ -53,12 +53,12 @@ cRokko :: cRokko(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 }
 
 
-cRokko :: ~cRokko(void)
+cRokko::~cRokko(void)
 {
     //
 }
 
-void cRokko :: Init(void)
+void cRokko::Init(void)
 {
     m_type = TYPE_ROKKO;
     m_name = "Rokko";
@@ -100,7 +100,7 @@ void cRokko :: Init(void)
     Set_Time_All(130, true);
 }
 
-cRokko* cRokko :: Copy(void) const
+cRokko* cRokko::Copy(void) const
 {
     cRokko* rokko = new cRokko(m_sprite_manager);
     rokko->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -109,12 +109,12 @@ cRokko* cRokko :: Copy(void) const
     return rokko;
 }
 
-std::string cRokko :: Get_XML_Type_Name()
+std::string cRokko::Get_XML_Type_Name()
 {
     return "rokko";
 }
 
-xmlpp::Element* cRokko :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cRokko::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -125,7 +125,7 @@ xmlpp::Element* cRokko :: Save_To_XML_Node(xmlpp::Element* p_element)
 }
 
 
-void cRokko :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cRokko::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
 
@@ -140,7 +140,7 @@ void cRokko :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-void cRokko :: Set_Direction(const ObjectDirection dir, bool new_start_direction /* = true */)
+void cRokko::Set_Direction(const ObjectDirection dir, bool new_start_direction /* = true */)
 {
     // already set
     if (m_start_direction == dir) {
@@ -173,7 +173,7 @@ void cRokko :: Set_Direction(const ObjectDirection dir, bool new_start_direction
     //Set_Image_Num( 0, 1 );
 }
 
-void cRokko :: Set_Speed(float nspeed)
+void cRokko::Set_Speed(float nspeed)
 {
     if (nspeed < 2.0f) {
         nspeed = 2.0f;
@@ -182,7 +182,7 @@ void cRokko :: Set_Speed(float nspeed)
     m_speed = nspeed;
 }
 
-void cRokko :: Set_Max_Distance_Front(float distance)
+void cRokko::Set_Max_Distance_Front(float distance)
 {
     if (distance < m_min_distance_front) {
         distance = m_min_distance_front;
@@ -193,7 +193,7 @@ void cRokko :: Set_Max_Distance_Front(float distance)
     Update_Distance_rect();
 }
 
-void cRokko :: Set_Max_Distance_Sides(float distance)
+void cRokko::Set_Max_Distance_Sides(float distance)
 {
     if (distance < 50.0f) {
         distance = 50.0f;
@@ -204,7 +204,7 @@ void cRokko :: Set_Max_Distance_Sides(float distance)
     Update_Distance_rect();
 }
 
-void cRokko :: Activate(bool with_sound /* = 1 */)
+void cRokko::Activate(bool with_sound /* = 1 */)
 {
     if (with_sound) {
         pAudio->Play_Sound("enemy/rokko/activate.wav");
@@ -228,7 +228,7 @@ void cRokko :: Activate(bool with_sound /* = 1 */)
     }
 }
 
-void cRokko :: DownGrade(bool force /* = 0 */)
+void cRokko::DownGrade(bool force /* = 0 */)
 {
     Set_Animation(false); // We will update this ourselves in Update_Normal_Dying()
     Set_Dead(1);
@@ -249,7 +249,7 @@ void cRokko :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cRokko :: Update_Normal_Dying(void)
+void cRokko::Update_Normal_Dying(void)
 {
     if (m_vely < m_gravity_max) {
         Add_Velocity_Y_Max(1.5f, m_gravity_max);
@@ -285,12 +285,12 @@ void cRokko :: Update_Normal_Dying(void)
     }
 }
 
-void cRokko :: Update_Instant_Dying()
+void cRokko::Update_Instant_Dying()
 {
     Update_Normal_Dying();
 }
 
-void cRokko :: Update(void)
+void cRokko::Update(void)
 {
     cEnemy::Update();
 
@@ -323,7 +323,7 @@ void cRokko :: Update(void)
     }
 }
 
-void cRokko :: Draw(cSurface_Request* request /* = NULL */)
+void cRokko::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -360,7 +360,7 @@ void cRokko :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cRokko :: Update_Distance_rect(void)
+void cRokko::Update_Distance_rect(void)
 {
     if (m_start_direction == DIR_LEFT) {
         m_distance_rect.m_x = -m_max_distance_front;
@@ -402,7 +402,7 @@ void cRokko :: Update_Distance_rect(void)
     }
 }
 
-GL_rect cRokko :: Get_Final_Distance_Rect(void) const
+GL_rect cRokko::Get_Final_Distance_Rect(void) const
 {
     GL_rect final_distance = m_distance_rect;
 
@@ -412,7 +412,7 @@ GL_rect cRokko :: Get_Final_Distance_Rect(void) const
     return final_distance;
 }
 
-void cRokko :: Generate_Smoke(unsigned int amount /* = 10 */) const
+void cRokko::Generate_Smoke(unsigned int amount /* = 10 */) const
 {
     cParticle_Emitter* anim = NULL;
 
@@ -462,7 +462,7 @@ void cRokko :: Generate_Smoke(unsigned int amount /* = 10 */) const
     pActive_Animation_Manager->Add(anim);
 }
 
-void cRokko :: Generate_Sparks(unsigned int amount /* = 5 */) const
+void cRokko::Generate_Sparks(unsigned int amount /* = 5 */) const
 {
     // animation
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
@@ -480,7 +480,7 @@ void cRokko :: Generate_Sparks(unsigned int amount /* = 5 */) const
     pActive_Animation_Manager->Add(anim);
 }
 
-bool cRokko :: Is_Draw_Valid(void)
+bool cRokko::Is_Draw_Valid(void)
 {
     bool valid = cEnemy::Is_Draw_Valid();
 
@@ -495,7 +495,7 @@ bool cRokko :: Is_Draw_Valid(void)
     return valid;
 }
 
-Col_Valid_Type cRokko :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cRokko::Validate_Collision(cSprite* obj)
 {
     if (obj->m_massive_type == MASS_MASSIVE) {
         switch (obj->m_type) {
@@ -516,7 +516,7 @@ Col_Valid_Type cRokko :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cRokko :: Handle_Collision_Player(cObjectCollision* collision)
+void cRokko::Handle_Collision_Player(cObjectCollision* collision)
 {
     // if invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -555,13 +555,13 @@ void cRokko :: Handle_Collision_Player(cObjectCollision* collision)
     }
 }
 
-void cRokko :: Handle_out_of_Level(ObjectDirection dir)
+void cRokko::Handle_out_of_Level(ObjectDirection dir)
 {
     // fixme : needs a Handle_out_of_Level_Complete function
     //Set_Active( 0 );
 }
 
-void cRokko :: Editor_Activate(void)
+void cRokko::Editor_Activate(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -589,7 +589,7 @@ void cRokko :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cRokko :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cRokko::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -599,7 +599,7 @@ bool cRokko :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cRokko :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
+bool cRokko::Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -609,12 +609,12 @@ bool cRokko :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-void cRokko :: Set_Manual(bool manual)
+void cRokko::Set_Manual(bool manual)
 {
     m_manual = manual;
 }
 
-bool cRokko :: Get_Manual()
+bool cRokko::Get_Manual()
 {
     return m_manual;
 }

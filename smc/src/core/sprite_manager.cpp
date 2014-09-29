@@ -27,7 +27,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cSprite_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cSprite_Manager :: cSprite_Manager(unsigned int reserve_items /* = 2000 */, unsigned int zpos_items /* = 100 */)
+cSprite_Manager::cSprite_Manager(unsigned int reserve_items /* = 2000 */, unsigned int zpos_items /* = 100 */)
     : cObject_Manager<cSprite>()
 {
     objects.reserve(reserve_items);
@@ -37,12 +37,12 @@ cSprite_Manager :: cSprite_Manager(unsigned int reserve_items /* = 2000 */, unsi
     m_z_pos_data_editor.assign(zpos_items,0.0f);
 }
 
-cSprite_Manager :: ~cSprite_Manager(void)
+cSprite_Manager::~cSprite_Manager(void)
 {
     Delete_All();
 }
 
-void cSprite_Manager :: Add(cSprite* sprite)
+void cSprite_Manager::Add(cSprite* sprite)
 {
     // empty object
     if (!sprite) {
@@ -100,7 +100,7 @@ void cSprite_Manager :: Add(cSprite* sprite)
     cObject_Manager<cSprite>::Add(sprite);
 }
 
-cSprite* cSprite_Manager :: Copy(unsigned int identifier)
+cSprite* cSprite_Manager::Copy(unsigned int identifier)
 {
     if (identifier >= objects.size()) {
         return NULL;
@@ -109,7 +109,7 @@ cSprite* cSprite_Manager :: Copy(unsigned int identifier)
     return objects[identifier]->Copy();
 }
 
-void cSprite_Manager :: Ensure_Different_Z(cSprite* sprite)
+void cSprite_Manager::Ensure_Different_Z(cSprite* sprite)
 {
     /*The following sprites should never be placed over one another,
      * so they are excluded from the Z correction any may well have
@@ -150,7 +150,7 @@ void cSprite_Manager :: Ensure_Different_Z(cSprite* sprite)
     }
 }
 
-void cSprite_Manager :: Move_To_Front(cSprite* sprite)
+void cSprite_Manager::Move_To_Front(cSprite* sprite)
 {
     // not needed
     if (objects.size() <= 1) {
@@ -181,7 +181,7 @@ void cSprite_Manager :: Move_To_Front(cSprite* sprite)
     sprite->m_pos_z = Get_First(sprite->m_type)->m_pos_z - 0.000001f;
 }
 
-void cSprite_Manager :: Move_To_Back(cSprite* sprite)
+void cSprite_Manager::Move_To_Back(cSprite* sprite)
 {
     // not needed
     if (objects.size() <= 1) {
@@ -212,7 +212,7 @@ void cSprite_Manager :: Move_To_Back(cSprite* sprite)
     sprite->m_pos_z = Get_Last(sprite->m_type)->m_pos_z + 0.000001f;
 }
 
-void cSprite_Manager :: Delete_All(bool delayed /* = 0 */)
+void cSprite_Manager::Delete_All(bool delayed /* = 0 */)
 {
     // delayed
     if (delayed) {
@@ -250,7 +250,7 @@ void cSprite_Manager :: Delete_All(bool delayed /* = 0 */)
     std::fill(m_z_pos_data_editor.begin(), m_z_pos_data_editor.end(), 0.0f);
 }
 
-cSprite* cSprite_Manager :: Get_First(const SpriteType type) const
+cSprite* cSprite_Manager::Get_First(const SpriteType type) const
 {
     cSprite* first = NULL;
 
@@ -267,7 +267,7 @@ cSprite* cSprite_Manager :: Get_First(const SpriteType type) const
     return first;
 }
 
-cSprite* cSprite_Manager :: Get_Last(const SpriteType type) const
+cSprite* cSprite_Manager::Get_Last(const SpriteType type) const
 {
     cSprite* last = NULL;
 
@@ -284,7 +284,7 @@ cSprite* cSprite_Manager :: Get_Last(const SpriteType type) const
     return last;
 }
 
-cSprite* cSprite_Manager :: Get_from_Position(int start_pos_x, int start_pos_y, const SpriteType type /* = TYPE_UNDEFINED */, int check_pos /* = 0 */) const
+cSprite* cSprite_Manager::Get_from_Position(int start_pos_x, int start_pos_y, const SpriteType type /* = TYPE_UNDEFINED */, int check_pos /* = 0 */) const
 {
     for (cSprite_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         // get object pointer
@@ -316,7 +316,7 @@ cSprite* cSprite_Manager :: Get_from_Position(int start_pos_x, int start_pos_y, 
     return NULL;
 }
 
-cSprite* cSprite_Manager :: Get_by_UID(int uid) const
+cSprite* cSprite_Manager::Get_by_UID(int uid) const
 {
     for (cSprite_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         if ((*itr)->m_uid == uid)
@@ -325,7 +325,7 @@ cSprite* cSprite_Manager :: Get_by_UID(int uid) const
     return NULL;
 }
 
-void cSprite_Manager :: Get_Objects_sorted(cSprite_List& new_objects, bool editor_sort /* = 0 */, bool with_player /* = 0 */) const
+void cSprite_Manager::Get_Objects_sorted(cSprite_List& new_objects, bool editor_sort /* = 0 */, bool with_player /* = 0 */) const
 {
     new_objects = objects;
 
@@ -344,7 +344,7 @@ void cSprite_Manager :: Get_Objects_sorted(cSprite_List& new_objects, bool edito
     }
 }
 
-void cSprite_Manager :: Get_Colliding_Objects(cSprite_List& col_objects, const GL_rect& rect, bool with_player /* = 0 */, const cSprite* exclude_sprite /* = NULL */) const
+void cSprite_Manager::Get_Colliding_Objects(cSprite_List& col_objects, const GL_rect& rect, bool with_player /* = 0 */, const cSprite* exclude_sprite /* = NULL */) const
 {
     // Check objects
     for (cSprite_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
@@ -371,7 +371,7 @@ void cSprite_Manager :: Get_Colliding_Objects(cSprite_List& col_objects, const G
     }
 }
 
-void cSprite_Manager :: Get_Colliding_Objects(cSprite_List& col_objects, const GL_Circle& circle, bool with_player /* = 0 */, const cSprite* exclude_sprite /* = NULL */) const
+void cSprite_Manager::Get_Colliding_Objects(cSprite_List& col_objects, const GL_Circle& circle, bool with_player /* = 0 */, const cSprite* exclude_sprite /* = NULL */) const
 {
     // Check objects
     for (cSprite_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
@@ -398,7 +398,7 @@ void cSprite_Manager :: Get_Colliding_Objects(cSprite_List& col_objects, const G
     }
 }
 
-void cSprite_Manager :: Handle_Collision_Items(void)
+void cSprite_Manager::Handle_Collision_Items(void)
 {
     for (cSprite_List::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cSprite* obj = (*itr);
@@ -420,7 +420,7 @@ void cSprite_Manager :: Handle_Collision_Items(void)
     }
 }
 
-unsigned int cSprite_Manager :: Get_Size_Array(const ArrayType sprite_array)
+unsigned int cSprite_Manager::Get_Size_Array(const ArrayType sprite_array)
 {
     unsigned int count = 0;
 
@@ -449,7 +449,7 @@ unsigned int cSprite_Manager :: Get_Size_Array(const ArrayType sprite_array)
  * never need right from the start on, we instead just allocate the
  * next ten UIDs for the pool if it is empty, remembering the new
  * highest possible UID in m_max_uid_mark. */
-int cSprite_Manager :: Generate_UID()
+int cSprite_Manager::Generate_UID()
 {
     // Allocate 10 new UIDs if the pool is empty
     if (m_uid_pool.empty())
@@ -462,7 +462,7 @@ int cSprite_Manager :: Generate_UID()
 }
 
 // We need `long', because we must check an `int' overflow (see below)
-void cSprite_Manager :: Allocate_UIDs(long new_max_uid_mark)
+void cSprite_Manager::Allocate_UIDs(long new_max_uid_mark)
 {
     // The pool can’t be shrinked
     if (new_max_uid_mark <= m_max_uid_mark)
@@ -483,7 +483,7 @@ void cSprite_Manager :: Allocate_UIDs(long new_max_uid_mark)
     m_max_uid_mark = static_cast<int>(new_max_uid_mark);
 }
 
-bool cSprite_Manager :: Is_UID_In_Use(int uid)
+bool cSprite_Manager::Is_UID_In_Use(int uid)
 {
     // The "invalid UID" always is in use
     if (uid == 0)

@@ -38,6 +38,9 @@ namespace SMC {
         cCrate(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager);
         virtual ~cCrate();
 
+        virtual void Load_From_Savegame(cSave_Level_Object* p_save_object);
+        virtual cSave_Level_Object* Save_To_Savegame(void);
+
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {

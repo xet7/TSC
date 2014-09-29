@@ -33,7 +33,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cPowerUp *** *** *** *** *** *** *** *** *** *** *** */
 
-cPowerUp :: cPowerUp(cSprite_Manager* sprite_manager)
+cPowerUp::cPowerUp(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "item")
 {
     m_sprite_array = ARRAY_ACTIVE;
@@ -45,12 +45,12 @@ cPowerUp :: cPowerUp(cSprite_Manager* sprite_manager)
     m_counter = 0;
 }
 
-cPowerUp :: ~cPowerUp(void)
+cPowerUp::~cPowerUp(void)
 {
     //
 }
 
-void cPowerUp :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cPowerUp::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     // new position x
     if (save_object->exists("new_posx")) {
@@ -83,7 +83,7 @@ void cPowerUp :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cPowerUp :: Save_To_Savegame(void)
+cSave_Level_Object* cPowerUp::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = new cSave_Level_Object();
 
@@ -113,7 +113,7 @@ cSave_Level_Object* cPowerUp :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cPowerUp :: Draw(cSurface_Request* request /* = NULL */)
+void cPowerUp::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -127,7 +127,7 @@ void cPowerUp :: Draw(cSurface_Request* request /* = NULL */)
     cAnimated_Sprite::Draw(request);
 }
 
-bool cPowerUp :: Is_Update_Valid(void)
+bool cPowerUp::Is_Update_Valid(void)
 {
     // if not visible
     if (!m_active) {
@@ -137,7 +137,7 @@ bool cPowerUp :: Is_Update_Valid(void)
     return 1;
 }
 
-void cPowerUp :: Activate(void)
+void cPowerUp::Activate(void)
 {
     if (!m_active)
         return;
@@ -146,7 +146,7 @@ void cPowerUp :: Activate(void)
     evt.Fire(pActive_Level->m_mruby, this);
 }
 
-Col_Valid_Type cPowerUp :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cPowerUp::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -185,7 +185,7 @@ Col_Valid_Type cPowerUp :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cPowerUp :: Handle_out_of_Level(ObjectDirection dir)
+void cPowerUp::Handle_out_of_Level(ObjectDirection dir)
 {
     if (dir == DIR_LEFT) {
         m_pos_x = pActive_Camera->m_limit_rect.m_x;
@@ -197,7 +197,7 @@ void cPowerUp :: Handle_out_of_Level(ObjectDirection dir)
     Turn_Around(dir);
 }
 
-void cPowerUp :: Handle_Collision_Player(cObjectCollision* collision)
+void cPowerUp::Handle_Collision_Player(cObjectCollision* collision)
 {
     // invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -209,13 +209,13 @@ void cPowerUp :: Handle_Collision_Player(cObjectCollision* collision)
 
 /* *** *** *** *** *** *** cMushroom *** *** *** *** *** *** *** *** *** *** *** */
 
-cMushroom :: cMushroom(cSprite_Manager* sprite_manager)
+cMushroom::cMushroom(cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cMushroom::Init();
 }
 
-cMushroom :: cMushroom(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cMushroom::cMushroom(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cMushroom::Init();
@@ -227,12 +227,12 @@ cMushroom :: cMushroom(XmlAttributes& attributes, cSprite_Manager* sprite_manage
 }
 
 
-cMushroom :: ~cMushroom(void)
+cMushroom::~cMushroom(void)
 {
     //
 }
 
-void cMushroom :: Init(void)
+void cMushroom::Init(void)
 {
     m_velx = 3.0f;
     m_direction = DIR_RIGHT;
@@ -244,7 +244,7 @@ void cMushroom :: Init(void)
     m_glim_mod = 1;
 }
 
-cMushroom* cMushroom :: Copy(void) const
+cMushroom* cMushroom::Copy(void) const
 {
     cMushroom* mushroom = new cMushroom(m_sprite_manager);
     mushroom->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -252,12 +252,12 @@ cMushroom* cMushroom :: Copy(void) const
     return mushroom;
 }
 
-std::string cMushroom :: Get_XML_Type_Name()
+std::string cMushroom::Get_XML_Type_Name()
 {
     return "mushroom";
 }
 
-xmlpp::Element* cMushroom :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cMushroom::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cPowerUp::Save_To_XML_Node(p_element);
 
@@ -266,7 +266,7 @@ xmlpp::Element* cMushroom :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cMushroom :: Set_Type(SpriteType new_type)
+void cMushroom::Set_Type(SpriteType new_type)
 {
     // already set
     if (m_type == new_type) {
@@ -306,7 +306,7 @@ void cMushroom :: Set_Type(SpriteType new_type)
     Set_Image_Num(0, 1, 0);
 }
 
-void cMushroom :: Activate(void)
+void cMushroom::Activate(void)
 {
     if (!m_active) {
         return;
@@ -342,7 +342,7 @@ void cMushroom :: Activate(void)
     }
 }
 
-void cMushroom :: Update(void)
+void cMushroom::Update(void)
 {
     if (!m_valid_update || !Is_In_Range()) {
         return;
@@ -439,12 +439,12 @@ void cMushroom :: Update(void)
     }
 }
 
-void cMushroom :: Handle_Collision_Massive(cObjectCollision* collision)
+void cMushroom::Handle_Collision_Massive(cObjectCollision* collision)
 {
     Turn_Around(collision->m_direction);
 }
 
-void cMushroom :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
+void cMushroom::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     if (cdirection == DIR_DOWN) {
         m_vely = -30.0f;
@@ -472,13 +472,13 @@ void cMushroom :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 
 /* *** *** *** *** *** *** cFirePlant *** *** *** *** *** *** *** *** *** *** *** */
 
-cFirePlant :: cFirePlant(cSprite_Manager* sprite_manager)
+cFirePlant::cFirePlant(cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cFirePlant::Init();
 }
 
-cFirePlant :: cFirePlant(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cFirePlant::cFirePlant(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cFirePlant::Init();
@@ -487,12 +487,12 @@ cFirePlant :: cFirePlant(XmlAttributes& attributes, cSprite_Manager* sprite_mana
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 }
 
-cFirePlant :: ~cFirePlant(void)
+cFirePlant::~cFirePlant(void)
 {
     //
 }
 
-void cFirePlant :: Init(void)
+void cFirePlant::Init(void)
 {
     m_type = TYPE_FIREPLANT;
     m_can_be_on_ground = 0;
@@ -509,14 +509,14 @@ void cFirePlant :: Init(void)
     m_particle_counter = 0.0f;
 }
 
-cFirePlant* cFirePlant :: Copy(void) const
+cFirePlant* cFirePlant::Copy(void) const
 {
     cFirePlant* fireplant = new cFirePlant(m_sprite_manager);
     fireplant->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
     return fireplant;
 }
 
-void cFirePlant :: Activate(void)
+void cFirePlant::Activate(void)
 {
     if (!m_active) {
         return;
@@ -538,7 +538,7 @@ void cFirePlant :: Activate(void)
     }
 }
 
-void cFirePlant :: Update(void)
+void cFirePlant::Update(void)
 {
     if (!m_valid_update || !Is_Visible_On_Screen()) {
         return;
@@ -592,13 +592,13 @@ void cFirePlant :: Update(void)
 
 /* *** *** *** *** *** *** *** cMoon *** *** *** *** *** *** *** *** *** *** */
 
-cMoon :: cMoon(cSprite_Manager* sprite_manager)
+cMoon::cMoon(cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cMoon::Init();
 }
 
-cMoon :: cMoon(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cMoon::cMoon(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cPowerUp(sprite_manager)
 {
     cMoon::Init();
@@ -607,12 +607,12 @@ cMoon :: cMoon(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 }
 
-cMoon :: ~cMoon(void)
+cMoon::~cMoon(void)
 {
     //
 }
 
-void cMoon :: Init(void)
+void cMoon::Init(void)
 {
     m_type = TYPE_MOON;
     m_can_be_on_ground = 0;
@@ -630,14 +630,14 @@ void cMoon :: Init(void)
     m_particle_counter = 0.0f;
 }
 
-cMoon* cMoon :: Copy(void) const
+cMoon* cMoon::Copy(void) const
 {
     cMoon* moon = new cMoon(m_sprite_manager);
     moon->Set_Pos(m_start_pos_x, m_start_pos_y);
     return moon;
 }
 
-void cMoon :: Activate(void)
+void cMoon::Activate(void)
 {
     if (!m_active) {
         return;
@@ -659,7 +659,7 @@ void cMoon :: Activate(void)
     }
 }
 
-void cMoon :: Update(void)
+void cMoon::Update(void)
 {
     if (!m_valid_update || !Is_Visible_On_Screen()) {
         return;
