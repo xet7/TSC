@@ -64,11 +64,11 @@ void cSprite_Manager::Add(cSprite* sprite)
             Allocate_UIDs(sprite->m_uid + 1);
         }
 
-#ifdef _DEBUG
-        // This slows down performance, so only check this in debug mode
-        if (Is_UID_In_Use(sprite->m_uid))
-            std::cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << std::endl;
-#endif
+//#ifdef _DEBUG
+//        // This slows down performance, so only check this in debug mode
+//        if (Is_UID_In_Use(sprite->m_uid))
+//            std::cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << std::endl;
+//#endif
 
         // Mark the sprite’s UID as taken
         m_uid_pool.erase(sprite->m_uid);
