@@ -29,13 +29,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cTurtle *** *** *** *** *** *** *** *** *** *** *** */
 
-cTurtle :: cTurtle(cSprite_Manager* sprite_manager)
+cTurtle::cTurtle(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cTurtle::Init();
 }
 
-cTurtle :: cTurtle(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cTurtle::cTurtle(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cTurtle::Init();
@@ -51,12 +51,12 @@ cTurtle :: cTurtle(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 }
 
 
-cTurtle :: ~cTurtle(void)
+cTurtle::~cTurtle(void)
 {
     //
 }
 
-void cTurtle :: Init(void)
+void cTurtle::Init(void)
 {
     m_type = TYPE_TURTLE;
     m_name = "Armadillo";
@@ -74,7 +74,7 @@ void cTurtle :: Init(void)
     m_kill_sound = "stomp_4.ogg";
 }
 
-cTurtle* cTurtle :: Copy(void) const
+cTurtle* cTurtle::Copy(void) const
 {
     cTurtle* turtle = new cTurtle(m_sprite_manager);
     turtle->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -83,12 +83,12 @@ cTurtle* cTurtle :: Copy(void) const
     return turtle;
 }
 
-std::string cTurtle :: Get_XML_Type_Name()
+std::string cTurtle::Get_XML_Type_Name()
 {
     return "turtle";
 }
 
-xmlpp::Element* cTurtle :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cTurtle::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -100,7 +100,7 @@ xmlpp::Element* cTurtle :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cTurtle :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cTurtle::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
 
@@ -122,7 +122,7 @@ void cTurtle :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cTurtle :: Save_To_Savegame(void)
+cSave_Level_Object* cTurtle::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
 
@@ -134,7 +134,7 @@ cSave_Level_Object* cTurtle :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cTurtle :: Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
+void cTurtle::Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
 {
     if (dir != DIR_RIGHT && dir != DIR_LEFT) {
         printf("Warning : Unknown Turtle direction set %s\n", Get_Direction_Name(dir).c_str());
@@ -148,7 +148,7 @@ void cTurtle :: Set_Direction(const ObjectDirection dir, bool new_start_directio
     }
 }
 
-void cTurtle :: Set_Color(DefaultColor col)
+void cTurtle::Set_Color(DefaultColor col)
 {
     // already set
     if (m_color_type == col) {
@@ -200,7 +200,7 @@ void cTurtle :: Set_Color(DefaultColor col)
     Set_Image_Num(0, 1);
 }
 
-void cTurtle :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
+void cTurtle::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
     cEnemy::Turn_Around(col_dir);
 
@@ -217,7 +217,7 @@ void cTurtle :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     }
 }
 
-void cTurtle :: DownGrade(bool force /* = 0 */)
+void cTurtle::DownGrade(bool force /* = 0 */)
 {
     if (!force) {
         // normal walking
@@ -252,7 +252,7 @@ void cTurtle :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cTurtle :: Update_Normal_Dying()
+void cTurtle::Update_Normal_Dying()
 {
     // if not below the ground : fall
     if (m_col_rect.m_y < pActive_Camera->m_limit_rect.m_y) {
@@ -285,12 +285,12 @@ void cTurtle :: Update_Normal_Dying()
     }
 }
 
-void cTurtle :: Update_Instant_Dying()
+void cTurtle::Update_Instant_Dying()
 {
     Update_Normal_Dying();
 }
 
-void cTurtle :: Set_Turtle_Moving_State(Turtle_state new_state)
+void cTurtle::Set_Turtle_Moving_State(Turtle_state new_state)
 {
     if (new_state == m_turtle_state) {
         return;
@@ -332,7 +332,7 @@ void cTurtle :: Set_Turtle_Moving_State(Turtle_state new_state)
     Update_Velocity_Max();
 }
 
-void cTurtle :: Update(void)
+void cTurtle::Update(void)
 {
     cEnemy::Update();
 
@@ -423,7 +423,7 @@ void cTurtle :: Update(void)
     }
 }
 
-void cTurtle :: Stand_Up(void)
+void cTurtle::Stand_Up(void)
 {
     if (m_turtle_state != TURTLE_SHELL_STAND && m_turtle_state != TURTLE_SHELL_RUN) {
         return;
@@ -447,7 +447,7 @@ void cTurtle :: Stand_Up(void)
     Set_Turtle_Moving_State(TURTLE_WALK);
 }
 
-bool cTurtle :: Hit_Enemy(cEnemy* enemy)
+bool cTurtle::Hit_Enemy(cEnemy* enemy)
 {
     // invalid
     if (!enemy) {
@@ -492,7 +492,7 @@ bool cTurtle :: Hit_Enemy(cEnemy* enemy)
     return 1;
 }
 
-void cTurtle :: Update_Velocity_Max(void)
+void cTurtle::Update_Velocity_Max(void)
 {
     if (m_turtle_state == TURTLE_WALK) {
         if (m_color_type == COL_RED) {
@@ -520,7 +520,7 @@ void cTurtle :: Update_Velocity_Max(void)
     }
 }
 
-bool cTurtle :: Is_Update_Valid()
+bool cTurtle::Is_Update_Valid()
 {
     if (m_dead || m_freeze_counter || m_state == STA_OBJ_LINKED) {
         return false;
@@ -529,7 +529,7 @@ bool cTurtle :: Is_Update_Valid()
     return true;
 }
 
-Col_Valid_Type cTurtle :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cTurtle::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -634,7 +634,7 @@ Col_Valid_Type cTurtle :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cTurtle :: Handle_Collision_Player(cObjectCollision* collision)
+void cTurtle::Handle_Collision_Player(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_UNDEFINED || (m_turtle_state == TURTLE_SHELL_RUN && m_player_counter > 0.0f)) {
         return;
@@ -766,7 +766,7 @@ void cTurtle :: Handle_Collision_Player(cObjectCollision* collision)
     }
 }
 
-void cTurtle :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cTurtle::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     if (m_turtle_state == TURTLE_SHELL_STAND) {
         cEnemy* enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(collision->m_number));
@@ -814,7 +814,7 @@ void cTurtle :: Handle_Collision_Enemy(cObjectCollision* collision)
     }
 }
 
-void cTurtle :: Handle_Collision_Massive(cObjectCollision* collision)
+void cTurtle::Handle_Collision_Massive(cObjectCollision* collision)
 {
     // get colliding object
     cSprite* col_object = m_sprite_manager->Get_Pointer(collision->m_number);
@@ -905,7 +905,7 @@ void cTurtle :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cTurtle :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
+void cTurtle::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     pAudio->Play_Sound(m_kill_sound);
     pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
@@ -913,7 +913,7 @@ void cTurtle :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
     DownGrade(true);
 }
 
-void cTurtle :: Editor_Activate(void)
+void cTurtle::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -932,7 +932,7 @@ void cTurtle :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cTurtle :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cTurtle::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();

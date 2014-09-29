@@ -35,13 +35,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cLevel_Exit :: cLevel_Exit(cSprite_Manager* sprite_manager)
+cLevel_Exit::cLevel_Exit(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "levelexit")
 {
     cLevel_Exit::Init();
 }
 
-cLevel_Exit :: cLevel_Exit(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cLevel_Exit::cLevel_Exit(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "levelexit")
 {
     cLevel_Exit::Init();
@@ -88,7 +88,7 @@ cLevel_Exit :: cLevel_Exit(XmlAttributes& attributes, cSprite_Manager* sprite_ma
     }
 }
 
-cLevel_Exit :: ~cLevel_Exit(void)
+cLevel_Exit::~cLevel_Exit(void)
 {
     if (m_editor_entry_name) {
         delete m_editor_entry_name;
@@ -96,7 +96,7 @@ cLevel_Exit :: ~cLevel_Exit(void)
     }
 }
 
-void cLevel_Exit :: Init(void)
+void cLevel_Exit::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_type = TYPE_LEVEL_EXIT;
@@ -124,7 +124,7 @@ void cLevel_Exit :: Init(void)
     m_editor_entry_name = NULL;
 }
 
-cLevel_Exit* cLevel_Exit :: Copy(void) const
+cLevel_Exit* cLevel_Exit::Copy(void) const
 {
     cLevel_Exit* level_exit = new cLevel_Exit(m_sprite_manager);
     level_exit->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -139,12 +139,12 @@ cLevel_Exit* cLevel_Exit :: Copy(void) const
     return level_exit;
 }
 
-std::string cLevel_Exit :: Get_XML_Type_Name()
+std::string cLevel_Exit::Get_XML_Type_Name()
 {
     return int_to_string(m_exit_type);
 }
 
-xmlpp::Element* cLevel_Exit :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cLevel_Exit::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
@@ -180,7 +180,7 @@ xmlpp::Element* cLevel_Exit :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cLevel_Exit :: Set_Direction(const ObjectDirection dir, bool initial /* = true */)
+void cLevel_Exit::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 {
     // already set
     if (m_direction == dir) {
@@ -190,7 +190,7 @@ void cLevel_Exit :: Set_Direction(const ObjectDirection dir, bool initial /* = t
     cAnimated_Sprite::Set_Direction(dir, initial);
 }
 
-std::string cLevel_Exit :: Create_Name(void) const
+std::string cLevel_Exit::Create_Name(void) const
 {
     std::string name = m_name; // dup
 
@@ -217,7 +217,7 @@ std::string cLevel_Exit :: Create_Name(void) const
     return name;
 }
 
-void cLevel_Exit :: Draw(cSurface_Request* request /* = NULL */)
+void cLevel_Exit::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -239,7 +239,7 @@ void cLevel_Exit :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cLevel_Exit :: Activate(void)
+void cLevel_Exit::Activate(void)
 {
     // warp player out
     if (m_exit_type == LEVEL_EXIT_WARP) {
@@ -367,17 +367,17 @@ void cLevel_Exit :: Activate(void)
     }
 }
 
-void cLevel_Exit :: Set_Type(Level_Exit_type exit_type)
+void cLevel_Exit::Set_Type(Level_Exit_type exit_type)
 {
     m_exit_type = exit_type;
 }
 
-void cLevel_Exit :: Set_Camera_Motion(Camera_movement camera_motion)
+void cLevel_Exit::Set_Camera_Motion(Camera_movement camera_motion)
 {
     m_exit_motion = camera_motion;
 }
 
-void cLevel_Exit :: Set_Level(std::string filename)
+void cLevel_Exit::Set_Level(std::string filename)
 {
     if (filename.empty() && m_dest_entry.empty()) {
         m_dest_level.clear();
@@ -394,17 +394,17 @@ void cLevel_Exit :: Set_Level(std::string filename)
     m_dest_level = filename;
 }
 
-std::string cLevel_Exit :: Get_Level() const
+std::string cLevel_Exit::Get_Level() const
 {
     return m_dest_level;
 }
 
-fs::path cLevel_Exit :: Get_Level_Path()
+fs::path cLevel_Exit::Get_Level_Path()
 {
     return pLevel_Manager->Get_Path(m_dest_level);
 }
 
-void cLevel_Exit :: Set_Entry(const std::string& entry_name)
+void cLevel_Exit::Set_Entry(const std::string& entry_name)
 {
     if (m_editor_entry_name) {
         delete m_editor_entry_name;
@@ -422,22 +422,22 @@ void cLevel_Exit :: Set_Entry(const std::string& entry_name)
     m_editor_entry_name = pFont->Render_Text(pFont->m_font_small, m_dest_entry, white);
 }
 
-void cLevel_Exit :: Set_Return_Level(const std::string& level)
+void cLevel_Exit::Set_Return_Level(const std::string& level)
 {
     m_return_level = level;
 }
 
-void cLevel_Exit :: Set_Return_Entry(const std::string& entry)
+void cLevel_Exit::Set_Return_Entry(const std::string& entry)
 {
     m_return_entry = entry;
 }
 
-void cLevel_Exit :: Set_Path_Identifier(const std::string& identifier)
+void cLevel_Exit::Set_Path_Identifier(const std::string& identifier)
 {
     m_path_identifier = identifier;
 }
 
-bool cLevel_Exit :: Is_Draw_Valid(void)
+bool cLevel_Exit::Is_Draw_Valid(void)
 {
     // if editor not enabled
     if (!editor_enabled) {
@@ -452,7 +452,7 @@ bool cLevel_Exit :: Is_Draw_Valid(void)
     return 1;
 }
 
-void cLevel_Exit :: Editor_Activate(void)
+void cLevel_Exit::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -536,7 +536,7 @@ void cLevel_Exit :: Editor_Activate(void)
     Editor_Init();
 }
 
-void cLevel_Exit :: Editor_State_Update(void)
+void cLevel_Exit::Editor_State_Update(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -572,7 +572,7 @@ void cLevel_Exit :: Editor_State_Update(void)
     }*/
 }
 
-bool cLevel_Exit :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -582,7 +582,7 @@ bool cLevel_Exit :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cLevel_Exit :: Editor_Motion_Select(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Motion_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -606,7 +606,7 @@ bool cLevel_Exit :: Editor_Motion_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cLevel_Exit :: Editor_Destination_Level_Text_Changed(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Destination_Level_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -616,7 +616,7 @@ bool cLevel_Exit :: Editor_Destination_Level_Text_Changed(const CEGUI::EventArgs
     return 1;
 }
 
-bool cLevel_Exit :: Editor_Destination_Entry_Text_Changed(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Destination_Entry_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -626,7 +626,7 @@ bool cLevel_Exit :: Editor_Destination_Entry_Text_Changed(const CEGUI::EventArgs
     return 1;
 }
 
-bool cLevel_Exit :: Editor_Return_Level_Text_Changed(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Return_Level_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -636,7 +636,7 @@ bool cLevel_Exit :: Editor_Return_Level_Text_Changed(const CEGUI::EventArgs& eve
     return 1;
 }
 
-bool cLevel_Exit :: Editor_Return_Entry_Text_Changed(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Return_Entry_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -646,7 +646,7 @@ bool cLevel_Exit :: Editor_Return_Entry_Text_Changed(const CEGUI::EventArgs& eve
     return 1;
 }
 
-bool cLevel_Exit :: Editor_Path_Identifier_Text_Changed(const CEGUI::EventArgs& event)
+bool cLevel_Exit::Editor_Path_Identifier_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();

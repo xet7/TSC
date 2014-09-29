@@ -26,7 +26,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cGL_Surface *** *** *** *** *** *** *** *** *** */
 
-cGL_Surface :: cGL_Surface(void)
+cGL_Surface::cGL_Surface(void)
 {
     m_image = 0;
 
@@ -62,7 +62,7 @@ cGL_Surface :: cGL_Surface(void)
     destruction_function = NULL;
 }
 
-cGL_Surface :: ~cGL_Surface(void)
+cGL_Surface::~cGL_Surface(void)
 {
     // don't delete a managed OpenGL image if still in use by another managed cGL_Surface
     if (m_auto_del_img && glIsTexture(m_image) && (!m_managed || !Is_Texture_Use_Multiple())) {
@@ -74,7 +74,7 @@ cGL_Surface :: ~cGL_Surface(void)
     }
 }
 
-cGL_Surface* cGL_Surface :: Copy(void) const
+cGL_Surface* cGL_Surface::Copy(void) const
 {
     // create copy image
     cGL_Surface* new_surface = new cGL_Surface();
@@ -107,7 +107,7 @@ cGL_Surface* cGL_Surface :: Copy(void) const
     return new_surface;
 }
 
-void cGL_Surface :: Blit(float x, float y, float z, cSurface_Request* request /* = NULL */) const
+void cGL_Surface::Blit(float x, float y, float z, cSurface_Request* request /* = NULL */) const
 {
     bool create_request = 0;
 
@@ -130,7 +130,7 @@ void cGL_Surface :: Blit(float x, float y, float z, cSurface_Request* request /*
     }
 }
 
-void cGL_Surface :: Blit_Data(cSurface_Request* request) const
+void cGL_Surface::Blit_Data(cSurface_Request* request) const
 {
     // texture id
     request->m_texture_id = m_image;
@@ -149,7 +149,7 @@ void cGL_Surface :: Blit_Data(cSurface_Request* request) const
     request->m_rot_z += m_base_rot_z;
 }
 
-void cGL_Surface :: Save(const std::string& filename)
+void cGL_Surface::Save(const std::string& filename)
 {
     if (!m_image) {
         printf("Couldn't save cGL_Surface : No Image Texture ID set\n");
@@ -169,12 +169,12 @@ void cGL_Surface :: Save(const std::string& filename)
     delete[] data;
 }
 
-void cGL_Surface :: Set_Ground_Type(GroundType gtype)
+void cGL_Surface::Set_Ground_Type(GroundType gtype)
 {
     m_ground_type = gtype;
 }
 
-bool cGL_Surface :: Is_Texture_Use_Multiple(void) const
+bool cGL_Surface::Is_Texture_Use_Multiple(void) const
 {
     for (GL_Surface_List::iterator itr = pImage_Manager->objects.begin(); itr != pImage_Manager->objects.end(); ++itr) {
         cGL_Surface* obj = (*itr);
@@ -191,7 +191,7 @@ bool cGL_Surface :: Is_Texture_Use_Multiple(void) const
     return 0;
 }
 
-cSaved_Texture* cGL_Surface :: Get_Software_Texture(bool only_filename /* = 0 */)
+cSaved_Texture* cGL_Surface::Get_Software_Texture(bool only_filename /* = 0 */)
 {
     cSaved_Texture* soft_tex = new cSaved_Texture();
 
@@ -220,7 +220,7 @@ cSaved_Texture* cGL_Surface :: Get_Software_Texture(bool only_filename /* = 0 */
         }
         else {
             bpp = 4;
-            printf("Warning: cGL_Surface :: Get_Software_Texture : Unknown format\n");
+            printf("Warning: cGL_Surface::Get_Software_Texture : Unknown format\n");
         }
 
         // texture data
@@ -235,7 +235,7 @@ cSaved_Texture* cGL_Surface :: Get_Software_Texture(bool only_filename /* = 0 */
     return soft_tex;
 }
 
-void cGL_Surface :: Load_Software_Texture(cSaved_Texture* soft_tex)
+void cGL_Surface::Load_Software_Texture(cSaved_Texture* soft_tex)
 {
     if (!soft_tex) {
         return;
@@ -271,7 +271,7 @@ void cGL_Surface :: Load_Software_Texture(cSaved_Texture* soft_tex)
         cGL_Surface* surface_copy = pVideo->Load_GL_Surface(m_path);
 
         if (!surface_copy) {
-            printf("Warning: cGL_Surface :: Load_Software_Texture %s loading failed\n", m_path.c_str());
+            printf("Warning: cGL_Surface::Load_Software_Texture %s loading failed\n", m_path.c_str());
             return;
         }
 
@@ -286,12 +286,12 @@ void cGL_Surface :: Load_Software_Texture(cSaved_Texture* soft_tex)
     }
 }
 
-fs::path cGL_Surface :: Get_Path()
+fs::path cGL_Surface::Get_Path()
 {
     return m_path;
 }
 
-void cGL_Surface :: Set_Destruction_Function(void (*nfunction)(cGL_Surface*))
+void cGL_Surface::Set_Destruction_Function(void (*nfunction)(cGL_Surface*))
 {
     destruction_function = nfunction;
 }

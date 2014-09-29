@@ -27,18 +27,18 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** cCampaign *** *** *** *** *** *** *** *** *** *** */
 
-cCampaign :: cCampaign(void)
+cCampaign::cCampaign(void)
 {
     m_is_target_level = 0;
     m_user = 0;
 }
 
-cCampaign :: ~cCampaign(void)
+cCampaign::~cCampaign(void)
 {
 
 }
 
-void cCampaign :: Save_To_File(const fs::path& filename)
+void cCampaign::Save_To_File(const fs::path& filename)
 {
     xmlpp::Document doc;
     xmlpp::Element* p_root = doc.create_root_node("campaign");
@@ -63,17 +63,17 @@ void cCampaign :: Save_To_File(const fs::path& filename)
 
 /* *** *** *** *** *** *** *** cCampaign_Manager *** *** *** *** *** *** *** *** *** *** */
 
-cCampaign_Manager :: cCampaign_Manager(void)
+cCampaign_Manager::cCampaign_Manager(void)
 {
     Load();
 }
 
-cCampaign_Manager :: ~cCampaign_Manager(void)
+cCampaign_Manager::~cCampaign_Manager(void)
 {
     Delete_All();
 }
 
-void cCampaign_Manager :: Load(void)
+void cCampaign_Manager::Load(void)
 {
     vector<fs::path> user_files = Get_Directory_Files(pResource_Manager->Get_User_Campaign_Directory(), ".smccpn", false, false);
     vector<fs::path> game_files = Get_Directory_Files(pResource_Manager->Get_Game_Campaign_Directory(), ".smccpn", false, false);
@@ -115,7 +115,7 @@ void cCampaign_Manager :: Load(void)
     }
 }
 
-cCampaign* cCampaign_Manager :: Load_Campaign(const fs::path& filename)
+cCampaign* cCampaign_Manager::Load_Campaign(const fs::path& filename)
 {
     if (!File_Exists(filename)) {
         std::cerr << "Error : Campaign loading failed : " << path_to_utf8(filename) << std::endl;
@@ -129,7 +129,7 @@ cCampaign* cCampaign_Manager :: Load_Campaign(const fs::path& filename)
     return parser.Get_Campaign();
 }
 
-cCampaign* cCampaign_Manager :: Get_from_Name(const std::string& name)
+cCampaign* cCampaign_Manager::Get_from_Name(const std::string& name)
 {
     for (vector<cCampaign*>::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cCampaign* obj = (*itr);

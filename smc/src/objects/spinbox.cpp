@@ -21,25 +21,25 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cSpinBox *** *** *** *** *** *** *** *** *** */
 
-cSpinBox :: cSpinBox(cSprite_Manager* sprite_manager)
+cSpinBox::cSpinBox(cSprite_Manager* sprite_manager)
     : cBaseBox(sprite_manager)
 {
     cSpinBox::Init();
 }
 
-cSpinBox :: cSpinBox(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cSpinBox::cSpinBox(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cBaseBox(sprite_manager)
 {
     cSpinBox::Init();
     cSpinBox::Load_From_XML(attributes);
 }
 
-cSpinBox :: ~cSpinBox(void)
+cSpinBox::~cSpinBox(void)
 {
 
 }
 
-void cSpinBox :: Init(void)
+void cSpinBox::Init(void)
 {
     m_type = TYPE_SPIN_BOX;
     box_type = m_type;
@@ -59,7 +59,7 @@ void cSpinBox :: Init(void)
     m_item_image = pVideo->Get_Surface("game/arrow/small/white/up.png");
 }
 
-cSpinBox* cSpinBox :: Copy(void) const
+cSpinBox* cSpinBox::Copy(void) const
 {
     cSpinBox* spinbox = new cSpinBox(m_sprite_manager);
     spinbox->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -68,17 +68,17 @@ cSpinBox* cSpinBox :: Copy(void) const
     return spinbox;
 }
 
-void cSpinBox :: Load_From_XML(XmlAttributes& attributes)
+void cSpinBox::Load_From_XML(XmlAttributes& attributes)
 {
     cBaseBox::Load_From_XML(attributes);
 }
 
-xmlpp::Element* cSpinBox :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cSpinBox::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     return cBaseBox::Save_To_XML_Node(p_element);
 }
 
-void cSpinBox :: Activate(void)
+void cSpinBox::Activate(void)
 {
     // already spinning
     if (m_spin) {
@@ -98,7 +98,7 @@ void cSpinBox :: Activate(void)
     Reset_Animation();
 }
 
-void cSpinBox :: Stop(void)
+void cSpinBox::Stop(void)
 {
     // already stopped spinning
     if (!m_spin) {
@@ -125,7 +125,7 @@ void cSpinBox :: Stop(void)
     Reset_Animation();
 }
 
-void cSpinBox :: Update(void)
+void cSpinBox::Update(void)
 {
     if (!m_valid_update || !Is_In_Range()) {
         return;
@@ -185,7 +185,7 @@ void cSpinBox :: Update(void)
     }
 }
 
-bool cSpinBox :: Is_Update_Valid(void)
+bool cSpinBox::Is_Update_Valid(void)
 {
     if (m_spin) {
         return 1;

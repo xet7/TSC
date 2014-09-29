@@ -23,7 +23,7 @@ namespace SMC {
 
 /* *** *** *** *** *** cSaved_Texture *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cSaved_Texture :: cSaved_Texture(void)
+cSaved_Texture::cSaved_Texture(void)
 {
     m_base = NULL;
     m_pixels = NULL;
@@ -38,7 +38,7 @@ cSaved_Texture :: cSaved_Texture(void)
     m_wrap_t = 0;
 }
 
-cSaved_Texture :: ~cSaved_Texture(void)
+cSaved_Texture::~cSaved_Texture(void)
 {
     if (m_pixels) {
         delete[] m_pixels;
@@ -47,18 +47,18 @@ cSaved_Texture :: ~cSaved_Texture(void)
 
 /* *** *** *** *** *** *** cImage_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cImage_Manager :: cImage_Manager(void)
+cImage_Manager::cImage_Manager(void)
     : cObject_Manager<cGL_Surface>()
 {
     m_high_texture_id = 0;
 }
 
-cImage_Manager :: ~cImage_Manager(void)
+cImage_Manager::~cImage_Manager(void)
 {
     cImage_Manager::Delete_All();
 }
 
-void cImage_Manager :: Add(cGL_Surface* obj)
+void cImage_Manager::Add(cGL_Surface* obj)
 {
     if (!obj) {
         return;
@@ -71,7 +71,7 @@ void cImage_Manager :: Add(cGL_Surface* obj)
     cObject_Manager<cGL_Surface>::Add(obj);
 }
 
-cGL_Surface* cImage_Manager :: Get_Pointer(const fs::path& path) const
+cGL_Surface* cImage_Manager::Get_Pointer(const fs::path& path) const
 {
     for (GL_Surface_List::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cGL_Surface* obj = (*itr);
@@ -86,7 +86,7 @@ cGL_Surface* cImage_Manager :: Get_Pointer(const fs::path& path) const
     return NULL;
 }
 
-cGL_Surface* cImage_Manager :: Copy(const fs::path& path)
+cGL_Surface* cImage_Manager::Copy(const fs::path& path)
 {
     for (GL_Surface_List::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         // get object
@@ -102,7 +102,7 @@ cGL_Surface* cImage_Manager :: Copy(const fs::path& path)
     return NULL;
 }
 
-void cImage_Manager :: Grab_Textures(bool from_file /* = 0 */, bool draw_gui /* = 0 */)
+void cImage_Manager::Grab_Textures(bool from_file /* = 0 */, bool draw_gui /* = 0 */)
 {
     // progress bar
     CEGUI::ProgressBar* progress_bar = NULL;
@@ -148,7 +148,7 @@ void cImage_Manager :: Grab_Textures(bool from_file /* = 0 */, bool draw_gui /* 
     }
 }
 
-void cImage_Manager :: Restore_Textures(bool draw_gui /* = 0 */)
+void cImage_Manager::Restore_Textures(bool draw_gui /* = 0 */)
 {
     // progress bar
     CEGUI::ProgressBar* progress_bar = NULL;
@@ -189,7 +189,7 @@ void cImage_Manager :: Restore_Textures(bool draw_gui /* = 0 */)
     m_saved_textures.clear();
 }
 
-void cImage_Manager :: Delete_Image_Textures(void)
+void cImage_Manager::Delete_Image_Textures(void)
 {
     for (GL_Surface_List::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         // get object
@@ -201,7 +201,7 @@ void cImage_Manager :: Delete_Image_Textures(void)
     }
 }
 
-void cImage_Manager :: Delete_Hardware_Textures(void)
+void cImage_Manager::Delete_Hardware_Textures(void)
 {
     // delete all hardware surfaces
     for (GLuint i = 0; i < m_high_texture_id; i++) {
@@ -214,7 +214,7 @@ void cImage_Manager :: Delete_Hardware_Textures(void)
     m_high_texture_id = 0;
 }
 
-void cImage_Manager :: Delete_All(void)
+void cImage_Manager::Delete_All(void)
 {
     // stops cGL_Surface destructor from checking if GL texture id still in use
     Delete_Image_Textures();

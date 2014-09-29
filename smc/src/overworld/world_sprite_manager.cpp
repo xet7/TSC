@@ -20,18 +20,18 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cWorld_Sprite_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cWorld_Sprite_Manager :: cWorld_Sprite_Manager(cOverworld* overworld)
+cWorld_Sprite_Manager::cWorld_Sprite_Manager(cOverworld* overworld)
     : cSprite_Manager(500)
 {
     m_overworld = overworld;
 }
 
-cWorld_Sprite_Manager :: ~cWorld_Sprite_Manager(void)
+cWorld_Sprite_Manager::~cWorld_Sprite_Manager(void)
 {
     Delete_All();
 }
 
-void cWorld_Sprite_Manager :: Add(cSprite* sprite)
+void cWorld_Sprite_Manager::Add(cSprite* sprite)
 {
     // empty sprite
     if (!sprite) {

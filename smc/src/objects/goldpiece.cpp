@@ -30,13 +30,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cGoldpiece *** *** *** *** *** *** *** *** *** *** *** */
 
-cGoldpiece :: cGoldpiece(cSprite_Manager* sprite_manager)
+cGoldpiece::cGoldpiece(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "item")
 {
     cGoldpiece::Init();
 }
 
-cGoldpiece :: cGoldpiece(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cGoldpiece::cGoldpiece(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "item")
 {
     cGoldpiece::Init();
@@ -47,12 +47,12 @@ cGoldpiece :: cGoldpiece(XmlAttributes& attributes, cSprite_Manager* sprite_mana
     Set_Gold_Color(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type))));
 }
 
-cGoldpiece :: ~cGoldpiece(void)
+cGoldpiece::~cGoldpiece(void)
 {
     //
 }
 
-void cGoldpiece :: Init(void)
+void cGoldpiece::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_massive_type = MASS_PASSIVE;
@@ -63,7 +63,7 @@ void cGoldpiece :: Init(void)
     Set_Gold_Color(COL_YELLOW);
 }
 
-cGoldpiece* cGoldpiece :: Copy(void) const
+cGoldpiece* cGoldpiece::Copy(void) const
 {
     cGoldpiece* goldpiece = new cGoldpiece(m_sprite_manager);
     goldpiece->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -71,12 +71,12 @@ cGoldpiece* cGoldpiece :: Copy(void) const
     return goldpiece;
 }
 
-std::string cGoldpiece :: Get_XML_Type_Name()
+std::string cGoldpiece::Get_XML_Type_Name()
 {
     return "goldpiece";
 }
 
-xmlpp::Element* cGoldpiece :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cGoldpiece::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
@@ -86,7 +86,7 @@ xmlpp::Element* cGoldpiece :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cGoldpiece :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cGoldpiece::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     // new position x
     if (save_object->exists("new_posx")) {
@@ -104,7 +104,7 @@ void cGoldpiece :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cGoldpiece :: Save_To_Savegame(void)
+cSave_Level_Object* cGoldpiece::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = new cSave_Level_Object();
 
@@ -127,7 +127,7 @@ cSave_Level_Object* cGoldpiece :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cGoldpiece :: Set_Gold_Color(DefaultColor color)
+void cGoldpiece::Set_Gold_Color(DefaultColor color)
 {
     m_color_type = color;
 
@@ -211,7 +211,7 @@ void cGoldpiece :: Set_Gold_Color(DefaultColor color)
     Reset_Animation();
 }
 
-void cGoldpiece :: Activate(void)
+void cGoldpiece::Activate(void)
 {
     if (!m_active) {
         return;
@@ -264,7 +264,7 @@ void cGoldpiece :: Activate(void)
     }
 }
 
-void cGoldpiece :: Update(void)
+void cGoldpiece::Update(void)
 {
     if (!m_valid_update || !Is_Visible_On_Screen()) {
         return;
@@ -273,7 +273,7 @@ void cGoldpiece :: Update(void)
     Update_Animation();
 }
 
-void cGoldpiece :: Draw(cSurface_Request* request /* = NULL */)
+void cGoldpiece::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -287,7 +287,7 @@ void cGoldpiece :: Draw(cSurface_Request* request /* = NULL */)
     cAnimated_Sprite::Draw(request);
 }
 
-bool cGoldpiece :: Is_Update_Valid()
+bool cGoldpiece::Is_Update_Valid()
 {
     // if not visible
     if (!m_active) {
@@ -297,7 +297,7 @@ bool cGoldpiece :: Is_Update_Valid()
     return 1;
 }
 
-void cGoldpiece :: Handle_Collision_Player(cObjectCollision* collision)
+void cGoldpiece::Handle_Collision_Player(cObjectCollision* collision)
 {
     // invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -307,14 +307,14 @@ void cGoldpiece :: Handle_Collision_Player(cObjectCollision* collision)
     Activate();
 }
 
-void cGoldpiece :: Handle_Collision_Lava(cObjectCollision* collision)
+void cGoldpiece::Handle_Collision_Lava(cObjectCollision* collision)
 {
     Set_Active(false);
 }
 
 /* *** *** *** *** *** *** cJGoldpiecee *** *** *** *** *** *** *** *** *** *** *** */
 
-cJGoldpiece :: cJGoldpiece(cSprite_Manager* sprite_manager)
+cJGoldpiece::cJGoldpiece(cSprite_Manager* sprite_manager)
     : cGoldpiece(sprite_manager)
 {
     m_type = TYPE_JUMPING_GOLDPIECE;
@@ -325,12 +325,12 @@ cJGoldpiece :: cJGoldpiece(cSprite_Manager* sprite_manager)
     m_vely = -18.0f;
 }
 
-cJGoldpiece :: ~cJGoldpiece(void)
+cJGoldpiece::~cJGoldpiece(void)
 {
     //
 }
 
-void cJGoldpiece :: Update(void)
+void cJGoldpiece::Update(void)
 {
     if (!m_active) {
         return;
@@ -348,14 +348,14 @@ void cJGoldpiece :: Update(void)
     }
 }
 
-Col_Valid_Type cJGoldpiece :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cJGoldpiece::Validate_Collision(cSprite* obj)
 {
     return COL_VTYPE_NOT_VALID;
 }
 
 /* *** *** *** *** *** *** cFGoldpiecee *** *** *** *** *** *** *** *** *** *** *** */
 
-cFGoldpiece :: cFGoldpiece(cSprite_Manager* sprite_manager, ObjectDirection dir /* = DIR_NOTHING */)
+cFGoldpiece::cFGoldpiece(cSprite_Manager* sprite_manager, ObjectDirection dir /* = DIR_NOTHING */)
     : cGoldpiece(sprite_manager)
 {
     m_type = TYPE_FALLING_GOLDPIECE;
@@ -387,12 +387,12 @@ cFGoldpiece :: cFGoldpiece(cSprite_Manager* sprite_manager, ObjectDirection dir 
     cFGoldpiece::Set_Gold_Color(COL_YELLOW);
 }
 
-cFGoldpiece :: ~cFGoldpiece(void)
+cFGoldpiece::~cFGoldpiece(void)
 {
     //
 }
 
-void cFGoldpiece :: Update(void)
+void cFGoldpiece::Update(void)
 {
     if (!m_valid_update || !Is_In_Range()) {
         return;
@@ -406,7 +406,7 @@ void cFGoldpiece :: Update(void)
     }
 }
 
-Col_Valid_Type cFGoldpiece :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cFGoldpiece::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -445,7 +445,7 @@ Col_Valid_Type cFGoldpiece :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cFGoldpiece :: Handle_Collision_Massive(cObjectCollision* collision)
+void cFGoldpiece::Handle_Collision_Massive(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_RIGHT || collision->m_direction == DIR_LEFT) {
         Turn_Around(collision->m_direction);
@@ -469,7 +469,7 @@ void cFGoldpiece :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cFGoldpiece :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
+void cFGoldpiece::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     // if unsupported collision direction
     if (cdirection != DIR_DOWN && cdirection != DIR_LEFT && cdirection != DIR_RIGHT) {

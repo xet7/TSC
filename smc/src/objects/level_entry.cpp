@@ -32,13 +32,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cLevel_Entry :: cLevel_Entry(cSprite_Manager* sprite_manager)
+cLevel_Entry::cLevel_Entry(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "level_entry")
 {
     cLevel_Entry::Init();
 }
 
-cLevel_Entry :: cLevel_Entry(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cLevel_Entry::cLevel_Entry(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "level_entry")
 {
     cLevel_Entry::Init();
@@ -53,7 +53,7 @@ cLevel_Entry :: cLevel_Entry(XmlAttributes& attributes, cSprite_Manager* sprite_
     Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
 }
 
-cLevel_Entry :: ~cLevel_Entry(void)
+cLevel_Entry::~cLevel_Entry(void)
 {
     if (m_editor_entry_name) {
         delete m_editor_entry_name;
@@ -61,7 +61,7 @@ cLevel_Entry :: ~cLevel_Entry(void)
     }
 }
 
-void cLevel_Entry :: Init(void)
+void cLevel_Entry::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_type = TYPE_LEVEL_ENTRY;
@@ -87,7 +87,7 @@ void cLevel_Entry :: Init(void)
     m_editor_entry_name = NULL;
 }
 
-cLevel_Entry* cLevel_Entry :: Copy(void) const
+cLevel_Entry* cLevel_Entry::Copy(void) const
 {
     cLevel_Entry* level_entry = new cLevel_Entry(m_sprite_manager);
     level_entry->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -97,12 +97,12 @@ cLevel_Entry* cLevel_Entry :: Copy(void) const
     return level_entry;
 }
 
-std::string cLevel_Entry :: Get_XML_Type_Name()
+std::string cLevel_Entry::Get_XML_Type_Name()
 {
     return int_to_string(m_entry_type);
 }
 
-xmlpp::Element* cLevel_Entry :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cLevel_Entry::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
@@ -116,7 +116,7 @@ xmlpp::Element* cLevel_Entry :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cLevel_Entry :: Set_Direction(const ObjectDirection dir)
+void cLevel_Entry::Set_Direction(const ObjectDirection dir)
 {
     // already set
     if (m_direction == dir) {
@@ -126,7 +126,7 @@ void cLevel_Entry :: Set_Direction(const ObjectDirection dir)
     cAnimated_Sprite::Set_Direction(dir, 1);
 }
 
-std::string cLevel_Entry :: Create_Name(void) const
+std::string cLevel_Entry::Create_Name(void) const
 {
     std::string name = m_name; // Dup
 
@@ -153,7 +153,7 @@ std::string cLevel_Entry :: Create_Name(void) const
     return name;
 }
 
-void cLevel_Entry :: Draw(cSurface_Request* request /* = NULL */)
+void cLevel_Entry::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -175,7 +175,7 @@ void cLevel_Entry :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cLevel_Entry :: Activate(void)
+void cLevel_Entry::Activate(void)
 {
     // warp player in
     if (m_entry_type == LEVEL_ENTRY_WARP) {
@@ -287,12 +287,12 @@ void cLevel_Entry :: Activate(void)
     evt.Fire(pActive_Level->m_mruby, this);
 }
 
-void cLevel_Entry :: Set_Type(Level_Entry_type new_type)
+void cLevel_Entry::Set_Type(Level_Entry_type new_type)
 {
     m_entry_type = new_type;
 }
 
-float cLevel_Entry :: Get_Player_Pos_X(void) const
+float cLevel_Entry::Get_Player_Pos_X(void) const
 {
     if (m_entry_type == LEVEL_ENTRY_WARP) {
         // left
@@ -314,7 +314,7 @@ float cLevel_Entry :: Get_Player_Pos_X(void) const
     return 0;
 }
 
-float cLevel_Entry :: Get_Player_Pos_Y(void) const
+float cLevel_Entry::Get_Player_Pos_Y(void) const
 {
     if (m_entry_type == LEVEL_ENTRY_WARP) {
         // up
@@ -336,7 +336,7 @@ float cLevel_Entry :: Get_Player_Pos_Y(void) const
     return 0;
 }
 
-void cLevel_Entry :: Set_Name(const std::string& str_name)
+void cLevel_Entry::Set_Name(const std::string& str_name)
 {
     // delete editor image
     if (m_editor_entry_name) {
@@ -355,7 +355,7 @@ void cLevel_Entry :: Set_Name(const std::string& str_name)
     m_editor_entry_name = pFont->Render_Text(pFont->m_font_small, m_entry_name, white);
 }
 
-bool cLevel_Entry :: Is_Draw_Valid(void)
+bool cLevel_Entry::Is_Draw_Valid(void)
 {
     // if editor not enabled
     if (!editor_enabled) {
@@ -370,7 +370,7 @@ bool cLevel_Entry :: Is_Draw_Valid(void)
     return 1;
 }
 
-void cLevel_Entry :: Editor_Activate(void)
+void cLevel_Entry::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -401,7 +401,7 @@ void cLevel_Entry :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cLevel_Entry :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cLevel_Entry::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -411,7 +411,7 @@ bool cLevel_Entry :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cLevel_Entry :: Editor_Name_Text_Changed(const CEGUI::EventArgs& event)
+bool cLevel_Entry::Editor_Name_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();

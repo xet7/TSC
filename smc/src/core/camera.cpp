@@ -31,7 +31,7 @@ namespace SMC {
 
 const GL_rect cCamera::m_default_limits = GL_rect(0, 0, 20000, -4000);
 
-cCamera :: cCamera(cSprite_Manager* sprite_manager)
+cCamera::cCamera(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
     m_x = 0.0f;
@@ -48,17 +48,17 @@ cCamera :: cCamera(cSprite_Manager* sprite_manager)
     Reset_Limits();
 }
 
-cCamera :: ~cCamera(void)
+cCamera::~cCamera(void)
 {
 
 }
 
-void cCamera :: Set_Sprite_Manager(cSprite_Manager* sprite_manager)
+void cCamera::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
 }
 
-void cCamera :: Set_Pos(float x, float y)
+void cCamera::Set_Pos(float x, float y)
 {
     // level mode
     if (Game_Mode == MODE_LEVEL || Game_Mode == MODE_OVERWORLD) {
@@ -78,7 +78,7 @@ void cCamera :: Set_Pos(float x, float y)
     Update_Position();
 }
 
-void cCamera :: Set_Pos_X(float x)
+void cCamera::Set_Pos_X(float x)
 {
     // level mode
     if (Game_Mode == MODE_LEVEL || Game_Mode == MODE_OVERWORLD) {
@@ -96,7 +96,7 @@ void cCamera :: Set_Pos_X(float x)
     Update_Position();
 }
 
-void cCamera :: Set_Pos_Y(float y)
+void cCamera::Set_Pos_Y(float y)
 {
     // level mode
     if (Game_Mode == MODE_LEVEL || Game_Mode == MODE_OVERWORLD) {
@@ -114,7 +114,7 @@ void cCamera :: Set_Pos_Y(float y)
     Update_Position();
 }
 
-void cCamera :: Reset_Pos(void)
+void cCamera::Reset_Pos(void)
 {
     m_x = m_limit_rect.m_x;
     m_y = m_limit_rect.m_y - static_cast<float>(game_res_h);
@@ -125,7 +125,7 @@ void cCamera :: Reset_Pos(void)
     Update_Position();
 }
 
-void cCamera :: Move(const float move_x, const float move_y)
+void cCamera::Move(const float move_x, const float move_y)
 {
     if ((Game_Mode == MODE_LEVEL || Game_Mode == MODE_OVERWORLD) && !editor_enabled) {
         Set_Pos(m_x + move_x - m_x_offset, m_y + move_y - m_y_offset);
@@ -135,7 +135,7 @@ void cCamera :: Move(const float move_x, const float move_y)
     }
 }
 
-bool cCamera :: Move_to_Position_Gradually(const float pos_x, const float pos_y, const unsigned int frames /* = 200 */)
+bool cCamera::Move_to_Position_Gradually(const float pos_x, const float pos_y, const unsigned int frames /* = 200 */)
 {
     for (float i = 0.0f; i < frames; i += pFramerate->m_speed_factor) {
         if (Step_to_Position_Gradually(pos_x, pos_y) == 0) {
@@ -164,7 +164,7 @@ bool cCamera :: Move_to_Position_Gradually(const float pos_x, const float pos_y,
     return 1;
 }
 
-bool cCamera :: Step_to_Position_Gradually(const float pos_x, const float pos_y)
+bool cCamera::Step_to_Position_Gradually(const float pos_x, const float pos_y)
 {
     // limit to nearest possible position
     float pos_x_final = pos_x + m_x_offset;
@@ -224,7 +224,7 @@ bool cCamera :: Step_to_Position_Gradually(const float pos_x, const float pos_y)
     return 1;
 }
 
-void cCamera :: Center(const ObjectDirection direction /* = DIR_ALL */)
+void cCamera::Center(const ObjectDirection direction /* = DIR_ALL */)
 {
     // Center camera on a not changing player position
     if (direction == DIR_VERTICAL) {
@@ -238,22 +238,22 @@ void cCamera :: Center(const ObjectDirection direction /* = DIR_ALL */)
     }
 }
 
-float cCamera :: Get_Center_Pos_X(void) const
+float cCamera::Get_Center_Pos_X(void) const
 {
     return pActive_Player->m_col_rect.m_x + 5.0f - (game_res_w * 0.5f);
 }
 
-float cCamera :: Get_Center_Pos_Y(void) const
+float cCamera::Get_Center_Pos_Y(void) const
 {
     return pActive_Player->m_col_rect.m_y + pActive_Player->m_col_rect.m_h - 5.0f - (game_res_h * 0.5f);
 }
 
-GL_rect cCamera :: Get_Rect(void) const
+GL_rect cCamera::Get_Rect(void) const
 {
     return GL_rect(m_x, m_y, static_cast<float>(game_res_w), static_cast<float>(game_res_h));
 }
 
-void cCamera :: Set_Limits(const GL_rect& rect)
+void cCamera::Set_Limits(const GL_rect& rect)
 {
     m_limit_rect = rect;
 
@@ -266,7 +266,7 @@ void cCamera :: Set_Limits(const GL_rect& rect)
     }
 }
 
-void cCamera :: Update_Limit_X(float& x) const
+void cCamera::Update_Limit_X(float& x) const
 {
     // left
     if (x < m_limit_rect.m_x) {
@@ -278,7 +278,7 @@ void cCamera :: Update_Limit_X(float& x) const
     }
 }
 
-void cCamera :: Update_Limit_Y(float& y) const
+void cCamera::Update_Limit_Y(float& y) const
 {
     // down
     if (y > m_limit_rect.m_y - game_res_h) {
@@ -290,7 +290,7 @@ void cCamera :: Update_Limit_Y(float& y) const
     }
 }
 
-void cCamera :: Update(void)
+void cCamera::Update(void)
 {
     // level
     if (Game_Mode == MODE_LEVEL) {
@@ -381,7 +381,7 @@ void cCamera :: Update(void)
     }
 }
 
-void cCamera :: Update_Position(void) const
+void cCamera::Update_Position(void) const
 {
     // mouse
     pMouseCursor->Update_Position();

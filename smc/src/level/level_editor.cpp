@@ -34,7 +34,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** cEditor_Level *** *** *** *** *** *** *** *** *** *** */
 
-cEditor_Level :: cEditor_Level(cSprite_Manager* sprite_manager, cLevel* level)
+cEditor_Level::cEditor_Level(cSprite_Manager* sprite_manager, cLevel* level)
     : cEditor(sprite_manager)
 {
     m_menu_filename = pResource_Manager->Get_Game_Editor("level_menu.xml");
@@ -46,12 +46,12 @@ cEditor_Level :: cEditor_Level(cSprite_Manager* sprite_manager, cLevel* level)
     m_settings_screen = new cLevel_Settings(sprite_manager, m_level);
 }
 
-cEditor_Level :: ~cEditor_Level(void)
+cEditor_Level::~cEditor_Level(void)
 {
     delete m_settings_screen;
 }
 
-void cEditor_Level :: Init(void)
+void cEditor_Level::Init(void)
 {
     // already loaded
     if (m_editor_window) {
@@ -63,7 +63,7 @@ void cEditor_Level :: Init(void)
     cEditor::Init();
 }
 
-void cEditor_Level :: Enable(void)
+void cEditor_Level::Enable(void)
 {
     // already enabled
     if (m_enabled) {
@@ -100,7 +100,7 @@ void cEditor_Level :: Enable(void)
     cEditor::Enable();
 }
 
-void cEditor_Level :: Disable(bool native_mode /* = 0 */)
+void cEditor_Level::Disable(bool native_mode /* = 0 */)
 {
     // already disabled
     if (!m_enabled) {
@@ -119,7 +119,7 @@ void cEditor_Level :: Disable(bool native_mode /* = 0 */)
     cEditor::Disable(native_mode);
 }
 
-bool cEditor_Level :: Key_Down(SDLKey key)
+bool cEditor_Level::Key_Down(SDLKey key)
 {
     if (!m_enabled) {
         return 0;
@@ -188,19 +188,19 @@ bool cEditor_Level :: Key_Down(SDLKey key)
     return 1;
 }
 
-void cEditor_Level :: Set_Level(cLevel* level)
+void cEditor_Level::Set_Level(cLevel* level)
 {
     m_level = level;
     m_settings_screen->Set_Level(level);
 }
 
-void cEditor_Level :: Set_Sprite_Manager(cSprite_Manager* sprite_manager)
+void cEditor_Level::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
     cEditor::Set_Sprite_Manager(sprite_manager);
     m_settings_screen->Set_Sprite_Manager(sprite_manager);
 }
 
-void cEditor_Level :: Activate_Menu_Item(cEditor_Menu_Object* entry)
+void cEditor_Level::Activate_Menu_Item(cEditor_Menu_Object* entry)
 {
     // If Function
     if (entry->bfunction) {
@@ -236,7 +236,7 @@ void cEditor_Level :: Activate_Menu_Item(cEditor_Menu_Object* entry)
     }
 }
 
-bool cEditor_Level :: Switch_Object_State(cSprite* obj) const
+bool cEditor_Level::Switch_Object_State(cSprite* obj) const
 {
     // empty object or lava
     if (!obj || obj->m_sprite_array == ARRAY_LAVA) {
@@ -266,7 +266,7 @@ bool cEditor_Level :: Switch_Object_State(cSprite* obj) const
     return 1;
 }
 
-bool cEditor_Level :: Function_New(void)
+bool cEditor_Level::Function_New(void)
 {
     std::string level_name = Box_Text_Input(_("Create a new Level"), C_("level", "Name"));
 
@@ -293,7 +293,7 @@ bool cEditor_Level :: Function_New(void)
     return 1;
 }
 
-void cEditor_Level :: Function_Load(void)
+void cEditor_Level::Function_Load(void)
 {
     std::string level_name = C_("level", "Name");
 
@@ -329,7 +329,7 @@ void cEditor_Level :: Function_Load(void)
     }
 }
 
-void cEditor_Level :: Function_Save(bool with_dialog /* = 0 */)
+void cEditor_Level::Function_Save(bool with_dialog /* = 0 */)
 {
     // not loaded
     if (!pActive_Level->Is_Loaded()) {
@@ -344,7 +344,7 @@ void cEditor_Level :: Function_Save(bool with_dialog /* = 0 */)
     pActive_Level->Save();
 }
 
-void cEditor_Level :: Function_Save_as(void)
+void cEditor_Level::Function_Save_as(void)
 {
     std::string levelname = Box_Text_Input(_("Save Level as"), _("New name"), 1);
 
@@ -357,7 +357,7 @@ void cEditor_Level :: Function_Save_as(void)
     pActive_Level->Save();
 }
 
-void cEditor_Level :: Function_Delete(void)
+void cEditor_Level::Function_Delete(void)
 {
     std::string levelname = pActive_Level->Get_Level_Name();
     if (pLevel_Manager->Get_Path(levelname, true).empty()) {
@@ -385,7 +385,7 @@ void cEditor_Level :: Function_Delete(void)
     Game_Action_Data_End.add("screen_fadein_speed", "3");
 }
 
-void cEditor_Level :: Function_Reload(void)
+void cEditor_Level::Function_Reload(void)
 {
     // if denied
     if (!Box_Question(_("Reload Level ?"))) {
@@ -408,7 +408,7 @@ void cEditor_Level :: Function_Reload(void)
     Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_RANDOM));
 }
 
-void cEditor_Level :: Function_Settings(void)
+void cEditor_Level::Function_Settings(void)
 {
     Game_Action = GA_ENTER_LEVEL_SETTINGS;
     Game_Action_Data_Start.add("screen_fadeout", CEGUI::PropertyHelper::intToString(EFFECT_OUT_BLACK));
@@ -418,13 +418,13 @@ void cEditor_Level :: Function_Settings(void)
 }
 
 // static
-std::vector<cSprite*> cEditor_Level :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+std::vector<cSprite*> cEditor_Level::items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
 {
     return cLevelLoader::Create_Level_Objects_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
 }
 
 // virtual
-void cEditor_Level :: Parse_Items_File(boost::filesystem::path filename)
+void cEditor_Level::Parse_Items_File(boost::filesystem::path filename)
 {
     cEditorItemsLoader parser;
     parser.parse_file(filename, m_sprite_manager, NULL, items_loader_callback);

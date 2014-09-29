@@ -88,7 +88,7 @@ namespace SMC {
 
 /* *** *** *** *** *** cLevel *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cLevel :: cLevel(void)
+cLevel::cLevel(void)
 {
     // settings
     Reset_Settings();
@@ -110,7 +110,7 @@ cLevel :: cLevel(void)
     m_background_manager->Add(gradient_background);
 }
 
-cLevel :: ~cLevel(void)
+cLevel::~cLevel(void)
 {
     Unload();
 
@@ -120,7 +120,7 @@ cLevel :: ~cLevel(void)
     delete m_sprite_manager;
 }
 
-bool cLevel :: New(std::string levelname)
+bool cLevel::New(std::string levelname)
 {
     Unload();
 
@@ -182,7 +182,7 @@ bool cLevel :: New(std::string levelname)
     return 0;
 }
 
-cLevel* cLevel :: Load_From_File(fs::path filename)
+cLevel* cLevel::Load_From_File(fs::path filename)
 {
     if (filename.empty())
         throw(InvalidLevelError("Empty level filename!"));
@@ -221,7 +221,7 @@ cLevel* cLevel :: Load_From_File(fs::path filename)
     return p_level;
 }
 
-void cLevel :: Unload(bool delayed /* = 0 */)
+void cLevel::Unload(bool delayed /* = 0 */)
 {
     if (delayed) {
         m_delayed_unload = 1;
@@ -275,7 +275,7 @@ void cLevel :: Unload(bool delayed /* = 0 */)
     m_sprite_manager->Delete_All();
 }
 
-fs::path cLevel :: Save_To_File(fs::path filename /* = fs::path() */)
+fs::path cLevel::Save_To_File(fs::path filename /* = fs::path() */)
 {
     xmlpp::Document doc;
     xmlpp::Element* p_root = doc.create_root_node("level");
@@ -343,7 +343,7 @@ fs::path cLevel :: Save_To_File(fs::path filename /* = fs::path() */)
 
 // TODO: Merge Save() with Save_To_File() after ENABLE_NEW_LOADER
 // is the only variant?
-void cLevel :: Save(void)
+void cLevel::Save(void)
 {
     pAudio->Play_Sound("editor/save.ogg");
 
@@ -371,13 +371,13 @@ void cLevel :: Save(void)
     pHud_Debug->Set_Text(_("Level ") + path_to_utf8(Trim_Filename(m_level_filename, false, false)) + _(" saved"));
 }
 
-void cLevel :: Delete(void)
+void cLevel::Delete(void)
 {
     fs::remove(m_level_filename);
     Unload();
 }
 
-void cLevel :: Reset_Settings(void)
+void cLevel::Reset_Settings(void)
 {
     // no engine version
     m_engine_version = -1;
@@ -408,7 +408,7 @@ void cLevel :: Reset_Settings(void)
     m_script = std::string();
 }
 
-void cLevel :: Init(void)
+void cLevel::Init(void)
 {
     // if not loaded
     if (!Is_Loaded()) {
@@ -437,12 +437,12 @@ void cLevel :: Init(void)
 #endif
 }
 
-std::string cLevel :: Get_Level_Name()
+std::string cLevel::Get_Level_Name()
 {
     return path_to_utf8(Trim_Filename(m_level_filename, false, false));
 }
 
-void cLevel :: Set_Sprite_Manager(void)
+void cLevel::Set_Sprite_Manager(void)
 {
     pHud_Manager->Set_Sprite_Manager(m_sprite_manager);
     pMouseCursor->Set_Sprite_Manager(m_sprite_manager);
@@ -456,7 +456,7 @@ void cLevel :: Set_Sprite_Manager(void)
     pLevel_Player->Set_Sprite_Manager(m_sprite_manager);
 }
 
-void cLevel :: Enter(const GameMode old_mode /* = MODE_NOTHING */)
+void cLevel::Enter(const GameMode old_mode /* = MODE_NOTHING */)
 {
     // if not loaded
     if (!Is_Loaded()) {
@@ -509,7 +509,7 @@ void cLevel :: Enter(const GameMode old_mode /* = MODE_NOTHING */)
     pFramerate->Reset();
 }
 
-void cLevel :: Leave(const GameMode next_mode /* = MODE_NOTHING */)
+void cLevel::Leave(const GameMode next_mode /* = MODE_NOTHING */)
 {
     // if not in level mode
     if (Game_Mode != MODE_LEVEL) {
@@ -546,7 +546,7 @@ void cLevel :: Leave(const GameMode next_mode /* = MODE_NOTHING */)
     }
 }
 
-void cLevel :: Update(void)
+void cLevel::Update(void)
 {
     if (m_delayed_unload) {
         Unload();
@@ -591,7 +591,7 @@ void cLevel :: Update(void)
     }
 }
 
-void cLevel :: Update_Late(void)
+void cLevel::Update_Late(void)
 {
     // if leveleditor is not active
     if (!editor_level_enabled) {
@@ -600,7 +600,7 @@ void cLevel :: Update_Late(void)
     }
 }
 
-void cLevel :: Draw_Layer_1(LevelDrawType type /* = LVL_DRAW */)
+void cLevel::Draw_Layer_1(LevelDrawType type /* = LVL_DRAW */)
 {
     // with background
     if (type != LVL_DRAW_NO_BG) {
@@ -620,7 +620,7 @@ void cLevel :: Draw_Layer_1(LevelDrawType type /* = LVL_DRAW */)
     m_animation_manager->Draw();
 }
 
-void cLevel :: Draw_Layer_2(LevelDrawType type /* = LVL_DRAW */)
+void cLevel::Draw_Layer_2(LevelDrawType type /* = LVL_DRAW */)
 {
     // only background
     if (type == LVL_DRAW_BG) {
@@ -656,7 +656,7 @@ void cLevel :: Draw_Layer_2(LevelDrawType type /* = LVL_DRAW */)
     }
 }
 
-void cLevel :: Process_Input(void)
+void cLevel::Process_Input(void)
 {
     // only non editor
     if (!editor_level_enabled) {
@@ -664,7 +664,7 @@ void cLevel :: Process_Input(void)
     }
 }
 
-bool cLevel :: Key_Down(const SDLKey key)
+bool cLevel::Key_Down(const SDLKey key)
 {
     // debug key F2
     if (key == SDLK_F2 && game_debug && !editor_level_enabled) {
@@ -780,7 +780,7 @@ bool cLevel :: Key_Down(const SDLKey key)
     return 1;
 }
 
-bool cLevel :: Key_Up(const SDLKey key)
+bool cLevel::Key_Up(const SDLKey key)
 {
     // only if not in Editor
     if (editor_level_enabled) {
@@ -815,7 +815,7 @@ bool cLevel :: Key_Up(const SDLKey key)
     return 1;
 }
 
-bool cLevel :: Mouse_Down(Uint8 button)
+bool cLevel::Mouse_Down(Uint8 button)
 {
     // ## editor
     if (pLevel_Editor->Mouse_Down(button)) {
@@ -831,7 +831,7 @@ bool cLevel :: Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cLevel :: Mouse_Up(Uint8 button)
+bool cLevel::Mouse_Up(Uint8 button)
 {
     // ## editor
     if (pLevel_Editor->Mouse_Up(button)) {
@@ -847,7 +847,7 @@ bool cLevel :: Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cLevel :: Joy_Button_Down(Uint8 button)
+bool cLevel::Joy_Button_Down(Uint8 button)
 {
     // Shoot
     if (button == pPreferences->m_joy_button_shoot && !editor_enabled) {
@@ -878,7 +878,7 @@ bool cLevel :: Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cLevel :: Joy_Button_Up(Uint8 button)
+bool cLevel::Joy_Button_Up(Uint8 button)
 {
     // only if not in Editor
     if (editor_level_enabled) {
@@ -903,12 +903,12 @@ bool cLevel :: Joy_Button_Up(Uint8 button)
     return 1;
 }
 
-fs::path cLevel :: Get_Music_Filename() const
+fs::path cLevel::Get_Music_Filename() const
 {
     return fs::relative(pResource_Manager->Get_Game_Music_Directory(), m_musicfile);
 }
 
-void cLevel :: Set_Music(fs::path filename)
+void cLevel::Set_Music(fs::path filename)
 {
     // add music dir
     if (!filename.is_absolute())
@@ -924,7 +924,7 @@ void cLevel :: Set_Music(fs::path filename)
     m_valid_music = File_Exists(filename);
 }
 
-void cLevel :: Set_Filename(fs::path filename, bool rename_old /* = true */)
+void cLevel::Set_Filename(fs::path filename, bool rename_old /* = true */)
 {
     // erase file type and directory
     filename = Trim_Filename(filename, 0, 0);
@@ -949,22 +949,22 @@ void cLevel :: Set_Filename(fs::path filename, bool rename_old /* = true */)
     m_level_filename = filename;
 }
 
-void cLevel :: Set_Author(const std::string& name)
+void cLevel::Set_Author(const std::string& name)
 {
     m_author = name;
 }
 
-void cLevel :: Set_Version(const std::string& level_version)
+void cLevel::Set_Version(const std::string& level_version)
 {
     m_version = level_version;
 }
 
-void cLevel :: Set_Description(const std::string& level_description)
+void cLevel::Set_Description(const std::string& level_description)
 {
     m_description = level_description;
 }
 
-void cLevel :: Set_Difficulty(const Uint8 level_difficulty)
+void cLevel::Set_Difficulty(const Uint8 level_difficulty)
 {
     m_difficulty = level_difficulty;
 
@@ -974,12 +974,12 @@ void cLevel :: Set_Difficulty(const Uint8 level_difficulty)
     }
 }
 
-void cLevel :: Set_Land_Type(const LevelLandType level_land_type)
+void cLevel::Set_Land_Type(const LevelLandType level_land_type)
 {
     m_land_type = level_land_type;
 }
 
-cLevel_Entry* cLevel :: Get_Entry(const std::string& name)
+cLevel_Entry* cLevel::Get_Entry(const std::string& name)
 {
     if (name.empty()) {
         return NULL;
@@ -1011,7 +1011,7 @@ cLevel_Entry* cLevel :: Get_Entry(const std::string& name)
     return NULL;
 }
 
-bool cLevel :: Is_Loaded(void) const
+bool cLevel::Is_Loaded(void) const
 {
     // if not loaded version is -1
     if (m_engine_version >= 0) {
@@ -1033,7 +1033,7 @@ bool cLevel :: Is_Loaded(void) const
  *
  * It should NEVER be called outside one of these contexts.
  */
-void cLevel :: Reinitialize_MRuby_Interpreter()
+void cLevel::Reinitialize_MRuby_Interpreter()
 {
     // Wipe out all existing event handlers
     cSprite_List::iterator iter;

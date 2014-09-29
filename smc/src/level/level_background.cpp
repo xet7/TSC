@@ -28,25 +28,25 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** cBackground *** *** *** *** *** *** *** *** *** *** */
 
-cBackground :: cBackground(cSprite_Manager* sprite_manager)
+cBackground::cBackground(cSprite_Manager* sprite_manager)
 {
     cBackground::Init();
     cBackground::Set_Sprite_Manager(sprite_manager);
 }
 
-cBackground :: cBackground(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cBackground::cBackground(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 {
     cBackground::Init();
     cBackground::Set_Sprite_Manager(sprite_manager);
     cBackground::Load_From_Attributes(attributes);
 }
 
-cBackground :: ~cBackground(void)
+cBackground::~cBackground(void)
 {
     //
 }
 
-void cBackground :: Init(void)
+void cBackground::Init(void)
 {
     m_sprite_manager = NULL;
     m_type = BG_NONE;
@@ -68,7 +68,7 @@ void cBackground :: Init(void)
     m_const_vel_y = 0.0f;
 }
 
-void cBackground :: Load_From_Attributes(XmlAttributes& attributes)
+void cBackground::Load_From_Attributes(XmlAttributes& attributes)
 {
     Set_Type(static_cast<BackgroundType>(string_to_int(attributes["type"])));
 
@@ -96,7 +96,7 @@ void cBackground :: Load_From_Attributes(XmlAttributes& attributes)
     }
 }
 
-void cBackground :: Save_To_XML_Node(xmlpp::Element* p_parent)
+void cBackground::Save_To_XML_Node(xmlpp::Element* p_parent)
 {
     if (m_type == BG_NONE)
         return;
@@ -137,17 +137,17 @@ void cBackground :: Save_To_XML_Node(xmlpp::Element* p_parent)
     // </background>
 }
 
-void cBackground :: Set_Sprite_Manager(cSprite_Manager* sprite_manager)
+void cBackground::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
     m_sprite_manager = sprite_manager;
 }
 
-void cBackground :: Set_Type(const BackgroundType type)
+void cBackground::Set_Type(const BackgroundType type)
 {
     m_type = type;
 }
 
-void cBackground :: Set_Type(const std::string& type)
+void cBackground::Set_Type(const std::string& type)
 {
     if (type.compare("Disabled") == 0) {
         m_type = BG_NONE;
@@ -172,17 +172,17 @@ void cBackground :: Set_Type(const std::string& type)
     }
 }
 
-void cBackground :: Set_Color_1(const Color& color)
+void cBackground::Set_Color_1(const Color& color)
 {
     m_color_1 = color;
 }
 
-void cBackground :: Set_Color_2(const Color& color)
+void cBackground::Set_Color_2(const Color& color)
 {
     m_color_2 = color;
 }
 
-void cBackground :: Set_Image(const fs::path& img_file_1)
+void cBackground::Set_Image(const fs::path& img_file_1)
 {
     m_image_1_filename = img_file_1;
 
@@ -199,13 +199,13 @@ void cBackground :: Set_Image(const fs::path& img_file_1)
     m_image_1 = pVideo->Get_Surface(m_image_1_filename);
 }
 
-void cBackground :: Set_Scroll_Speed(const float x /* = 1.0f */, const float y /* = 1.0f */)
+void cBackground::Set_Scroll_Speed(const float x /* = 1.0f */, const float y /* = 1.0f */)
 {
     m_speed_x = x;
     m_speed_y = y;
 }
 
-void cBackground :: Set_Start_Pos(const float x, const float y)
+void cBackground::Set_Start_Pos(const float x, const float y)
 {
     m_start_pos_x = x;
     m_start_pos_y = y;
@@ -214,26 +214,26 @@ void cBackground :: Set_Start_Pos(const float x, const float y)
     m_pos_y = m_start_pos_y;
 }
 
-void cBackground :: Set_Pos_Z(const float val)
+void cBackground::Set_Pos_Z(const float val)
 {
     m_pos_z = val;
 }
 
-void cBackground :: Set_Const_Velocity_X(const float vel)
+void cBackground::Set_Const_Velocity_X(const float vel)
 {
     m_const_vel_x = vel;
     // reset current position
     m_pos_x = m_start_pos_x;
 }
 
-void cBackground :: Set_Const_Velocity_Y(const float vel)
+void cBackground::Set_Const_Velocity_Y(const float vel)
 {
     m_const_vel_y = vel;
     // reset current position
     m_pos_y = m_start_pos_y;
 }
 
-void cBackground :: Update(void)
+void cBackground::Update(void)
 {
     if (!Is_Float_Equal(m_const_vel_x, 0.0f)) {
         m_pos_x += (m_const_vel_x * 2) * pFramerate->m_speed_factor;
@@ -244,7 +244,7 @@ void cBackground :: Update(void)
     }
 }
 
-void cBackground :: Draw(void)
+void cBackground::Draw(void)
 {
     // gradient
     if (m_type == BG_GR_VER || m_type == BG_GR_HOR) {
@@ -309,7 +309,7 @@ void cBackground :: Draw(void)
     }
 }
 
-void cBackground :: Draw_Gradient(void)
+void cBackground::Draw_Gradient(void)
 {
     // no need to draw a gradient if both colors are the same
     if (m_color_1 == m_color_2) {
@@ -342,12 +342,12 @@ void cBackground :: Draw_Gradient(void)
     }
 }
 
-std::string cBackground :: Get_Type_Name(void) const
+std::string cBackground::Get_Type_Name(void) const
 {
     return Get_Type_Name(m_type);
 }
 
-std::string cBackground :: Get_Type_Name(const BackgroundType type)
+std::string cBackground::Get_Type_Name(const BackgroundType type)
 {
     switch (type) {
     case BG_NONE:
@@ -371,13 +371,13 @@ std::string cBackground :: Get_Type_Name(const BackgroundType type)
 
 /* *** *** *** *** *** *** cBackground_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cBackground_Manager :: cBackground_Manager(void)
+cBackground_Manager::cBackground_Manager(void)
     : cObject_Manager<cBackground>()
 {
     //
 }
 
-cBackground_Manager :: ~cBackground_Manager(void)
+cBackground_Manager::~cBackground_Manager(void)
 {
     cBackground_Manager::Delete_All();
 }

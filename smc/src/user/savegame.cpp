@@ -36,24 +36,24 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** cSave_Overworld_Waypoint *** *** *** *** *** *** *** *** *** *** */
 
-cSave_Overworld_Waypoint :: cSave_Overworld_Waypoint(void)
+cSave_Overworld_Waypoint::cSave_Overworld_Waypoint(void)
 {
     m_access = 0;
 }
 
-cSave_Overworld_Waypoint :: ~cSave_Overworld_Waypoint(void)
+cSave_Overworld_Waypoint::~cSave_Overworld_Waypoint(void)
 {
 
 }
 
 /* *** *** *** *** *** *** *** cSave_Overworld *** *** *** *** *** *** *** *** *** *** */
 
-cSave_Overworld :: cSave_Overworld(void)
+cSave_Overworld::cSave_Overworld(void)
 {
 
 }
 
-cSave_Overworld :: ~cSave_Overworld(void)
+cSave_Overworld::~cSave_Overworld(void)
 {
     for (unsigned int i = 0; i < m_waypoints.size(); i++) {
         delete m_waypoints[i];
@@ -64,7 +64,7 @@ cSave_Overworld :: ~cSave_Overworld(void)
 
 /* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
 
-cSave_Level_Object_Property :: cSave_Level_Object_Property(const std::string& new_name /* = "" */, const std::string& new_value /* = "" */)
+cSave_Level_Object_Property::cSave_Level_Object_Property(const std::string& new_name /* = "" */, const std::string& new_value /* = "" */)
 {
     m_name = new_name;
     m_value = new_value;
@@ -72,17 +72,17 @@ cSave_Level_Object_Property :: cSave_Level_Object_Property(const std::string& ne
 
 /* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
 
-cSave_Level_Object :: cSave_Level_Object(void)
+cSave_Level_Object::cSave_Level_Object(void)
 {
     m_type = TYPE_UNDEFINED;
 }
 
-cSave_Level_Object :: ~cSave_Level_Object(void)
+cSave_Level_Object::~cSave_Level_Object(void)
 {
     m_properties.clear();
 }
 
-bool cSave_Level_Object :: exists(const std::string& val_name)
+bool cSave_Level_Object::exists(const std::string& val_name)
 {
     for (Save_Level_Object_ProprtyList::iterator itr = m_properties.begin(); itr != m_properties.end(); ++itr) {
         cSave_Level_Object_Property obj = (*itr);
@@ -97,7 +97,7 @@ bool cSave_Level_Object :: exists(const std::string& val_name)
     return 0;
 }
 
-std::string cSave_Level_Object :: Get_Value(const std::string& val_name)
+std::string cSave_Level_Object::Get_Value(const std::string& val_name)
 {
     for (Save_Level_Object_ProprtyList::iterator itr = m_properties.begin(); itr != m_properties.end(); ++itr) {
         cSave_Level_Object_Property obj = (*itr);
@@ -114,14 +114,14 @@ std::string cSave_Level_Object :: Get_Value(const std::string& val_name)
 
 /* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
 
-cSave_Level :: cSave_Level(void)
+cSave_Level::cSave_Level(void)
 {
     // level
     m_level_pos_x = 0.0f;
     m_level_pos_y = 0.0f;
 }
 
-cSave_Level :: ~cSave_Level(void)
+cSave_Level::~cSave_Level(void)
 {
     for (Save_Level_ObjectList::iterator itr = m_level_objects.begin(); itr != m_level_objects.end(); ++itr) {
         delete *itr;
@@ -137,19 +137,19 @@ cSave_Level :: ~cSave_Level(void)
 }
 
 /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
-cSave_Player_Return_Entry :: cSave_Player_Return_Entry(const std::string& level, const std::string& entry) :
+cSave_Player_Return_Entry::cSave_Player_Return_Entry(const std::string& level, const std::string& entry) :
     m_level(level), m_entry(entry)
 {
 }
 
 /* *** *** *** *** *** *** *** cSave *** *** *** *** *** *** *** *** *** *** */
 
-cSave :: cSave(void)
+cSave::cSave(void)
 {
     Init();
 }
 
-cSave :: ~cSave(void)
+cSave::~cSave(void)
 {
     for (Save_LevelList::iterator itr = m_levels.begin(); itr != m_levels.end(); ++itr) {
         delete *itr;
@@ -164,7 +164,7 @@ cSave :: ~cSave(void)
     m_overworlds.clear();
 }
 
-void cSave :: Init(void)
+void cSave::Init(void)
 {
     // save
     m_save_time = 0;
@@ -195,7 +195,7 @@ void cSave :: Init(void)
     m_overworld_current_waypoint = 0;
 }
 
-cSave* cSave :: Load_From_File(fs::path filepath)
+cSave* cSave::Load_From_File(fs::path filepath)
 {
     debug_print("Loading savegame file '%s'\n", path_to_utf8(filepath).c_str());
 
@@ -204,7 +204,7 @@ cSave* cSave :: Load_From_File(fs::path filepath)
     return loader.Get_Save();
 }
 
-std::string cSave :: Get_Active_Level(void)
+std::string cSave::Get_Active_Level(void)
 {
     if (m_levels.empty()) {
         return "";
@@ -226,7 +226,7 @@ std::string cSave :: Get_Active_Level(void)
     return "";
 }
 
-void cSave :: Write_To_File(fs::path filepath)
+void cSave::Write_To_File(fs::path filepath)
 {
     xmlpp::Document doc;
     xmlpp::Element* p_root = doc.create_root_node("savegame");
@@ -357,17 +357,17 @@ void cSave :: Write_To_File(fs::path filepath)
 
 /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
 
-cSavegame :: cSavegame(void)
+cSavegame::cSavegame(void)
 {
     m_savegame_dir = pResource_Manager->Get_User_Savegame_Directory();
 }
 
-cSavegame :: ~cSavegame(void)
+cSavegame::~cSavegame(void)
 {
     //
 }
 
-int cSavegame :: Load_Game(unsigned int save_slot)
+int cSavegame::Load_Game(unsigned int save_slot)
 {
     cSave* savegame = Load(save_slot);
 
@@ -600,7 +600,7 @@ int cSavegame :: Load_Game(unsigned int save_slot)
     return save_type;
 }
 
-bool cSavegame :: Save_Game(unsigned int save_slot, std::string description)
+bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 {
     if (pLevel_Player->m_maryo_type == MARYO_DEAD || pLevel_Player->m_lives < 0) {
         printf("Error : Couldn't save savegame %s because of invalid game state\n", description.c_str());
@@ -765,7 +765,7 @@ bool cSavegame :: Save_Game(unsigned int save_slot, std::string description)
     return 1;
 }
 
-cSave* cSavegame :: Load(unsigned int save_slot)
+cSave* cSavegame::Load(unsigned int save_slot)
 {
     fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
 
@@ -785,7 +785,7 @@ cSave* cSavegame :: Load(unsigned int save_slot)
     return savegame;
 }
 
-std::string cSavegame :: Get_Description(unsigned int save_slot, bool only_description /* = 0 */)
+std::string cSavegame::Get_Description(unsigned int save_slot, bool only_description /* = 0 */)
 {
     std::string str_description;
 
@@ -837,7 +837,7 @@ std::string cSavegame :: Get_Description(unsigned int save_slot, bool only_descr
     return str_description;
 }
 
-bool cSavegame :: Is_Valid(unsigned int save_slot) const
+bool cSavegame::Is_Valid(unsigned int save_slot) const
 {
     return (File_Exists(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav")) || File_Exists(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save")));
 }

@@ -31,13 +31,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cWaypoint *** *** *** *** *** *** *** *** *** */
 
-cWaypoint :: cWaypoint(cSprite_Manager* sprite_manager)
+cWaypoint::cWaypoint(cSprite_Manager* sprite_manager)
     : cSprite(sprite_manager, "waypoint")
 {
     cWaypoint::Init();
 }
 
-cWaypoint :: cWaypoint(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cWaypoint::cWaypoint(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cSprite(sprite_manager, "waypoint")
 {
     cWaypoint::Init();
@@ -75,12 +75,12 @@ cWaypoint :: cWaypoint(XmlAttributes& attributes, cSprite_Manager* sprite_manage
     Set_Access(attributes.fetch<bool>("access", true), true);
 }
 
-cWaypoint :: ~cWaypoint(void)
+cWaypoint::~cWaypoint(void)
 {
     //
 }
 
-void cWaypoint :: Init(void)
+void cWaypoint::Init(void)
 {
     m_sprite_array = ARRAY_PASSIVE;
     m_type = TYPE_OW_WAYPOINT;
@@ -105,7 +105,7 @@ void cWaypoint :: Init(void)
     Set_Image(pVideo->Get_Surface("world/waypoint/default_1.png"));
 }
 
-cWaypoint* cWaypoint :: Copy(void) const
+cWaypoint* cWaypoint::Copy(void) const
 {
     cWaypoint* waypoint = new cWaypoint(m_sprite_manager);
     waypoint->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -118,12 +118,12 @@ cWaypoint* cWaypoint :: Copy(void) const
     return waypoint;
 }
 
-std::string cWaypoint :: Get_XML_Type_Name()
+std::string cWaypoint::Get_XML_Type_Name()
 {
     return int_to_string(m_waypoint_type);
 }
 
-xmlpp::Element* cWaypoint :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cWaypoint::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
 
@@ -139,7 +139,7 @@ xmlpp::Element* cWaypoint :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cWaypoint :: Update(void)
+void cWaypoint::Update(void)
 {
     if (m_auto_destroy) {
         return;
@@ -162,7 +162,7 @@ void cWaypoint :: Update(void)
     }
 }
 
-void cWaypoint :: Draw(cSurface_Request* request /* = NULL  */)
+void cWaypoint::Draw(cSurface_Request* request /* = NULL  */)
 {
     if (m_auto_destroy) {
         return;
@@ -273,7 +273,7 @@ void cWaypoint :: Draw(cSurface_Request* request /* = NULL  */)
     }
 }
 
-void cWaypoint :: Set_Direction_Forward(ObjectDirection direction)
+void cWaypoint::Set_Direction_Forward(ObjectDirection direction)
 {
     m_direction_forward = direction;
 
@@ -291,7 +291,7 @@ void cWaypoint :: Set_Direction_Forward(ObjectDirection direction)
     }
 }
 
-void cWaypoint :: Set_Direction_Backward(ObjectDirection direction)
+void cWaypoint::Set_Direction_Backward(ObjectDirection direction)
 {
     m_direction_backward = direction;
 
@@ -309,7 +309,7 @@ void cWaypoint :: Set_Direction_Backward(ObjectDirection direction)
     }
 }
 
-void cWaypoint :: Set_Access(bool enabled, bool new_start_access /* = 0 */)
+void cWaypoint::Set_Access(bool enabled, bool new_start_access /* = 0 */)
 {
     m_access = enabled;
 
@@ -318,17 +318,17 @@ void cWaypoint :: Set_Access(bool enabled, bool new_start_access /* = 0 */)
     }
 }
 
-void cWaypoint :: Set_Destination(std::string level_or_worldname)
+void cWaypoint::Set_Destination(std::string level_or_worldname)
 {
     m_destination = level_or_worldname;
 }
 
-std::string cWaypoint :: Get_Destination() const
+std::string cWaypoint::Get_Destination() const
 {
     return m_destination;
 }
 
-boost::filesystem::path cWaypoint :: Get_Destination_Path()
+boost::filesystem::path cWaypoint::Get_Destination_Path()
 {
     switch (m_waypoint_type) {
     case WAYPOINT_NORMAL:
@@ -342,7 +342,7 @@ boost::filesystem::path cWaypoint :: Get_Destination_Path()
     }
 }
 
-void cWaypoint :: Editor_Activate(void)
+void cWaypoint::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -415,7 +415,7 @@ void cWaypoint :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cWaypoint :: Editor_Type_Select(const CEGUI::EventArgs& event)
+bool cWaypoint::Editor_Type_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -430,7 +430,7 @@ bool cWaypoint :: Editor_Type_Select(const CEGUI::EventArgs& event)
     return 1;
 
 }
-bool cWaypoint :: Editor_Destination_Text_Changed(const CEGUI::EventArgs& event)
+bool cWaypoint::Editor_Destination_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -440,7 +440,7 @@ bool cWaypoint :: Editor_Destination_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cWaypoint :: Editor_Backward_Direction_Select(const CEGUI::EventArgs& event)
+bool cWaypoint::Editor_Backward_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -450,7 +450,7 @@ bool cWaypoint :: Editor_Backward_Direction_Select(const CEGUI::EventArgs& event
     return 1;
 }
 
-bool cWaypoint :: Editor_Forward_Direction_Select(const CEGUI::EventArgs& event)
+bool cWaypoint::Editor_Forward_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -460,7 +460,7 @@ bool cWaypoint :: Editor_Forward_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cWaypoint :: Editor_Access_Select(const CEGUI::EventArgs& event)
+bool cWaypoint::Editor_Access_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();

@@ -27,14 +27,14 @@ namespace SMC {
 
 /* *** *** *** *** *** cRandom_Sound *** *** *** *** *** *** *** *** *** *** *** */
 
-cRandom_Sound :: cRandom_Sound(cSprite_Manager* sprite_manager)
+cRandom_Sound::cRandom_Sound(cSprite_Manager* sprite_manager)
     : cSprite(sprite_manager, "sound")
 {
     // Set defaults
     cRandom_Sound::Init();
 }
 
-cRandom_Sound :: cRandom_Sound(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cRandom_Sound::cRandom_Sound(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cSprite(sprite_manager, "sound")
 {
     cRandom_Sound::Init();
@@ -61,12 +61,12 @@ cRandom_Sound :: cRandom_Sound(XmlAttributes& attributes, cSprite_Manager* sprit
     Set_Volume_Reduction_End(attributes.fetch<float>("volume_reduction_end", m_volume_reduction_end));
 }
 
-cRandom_Sound :: ~cRandom_Sound(void)
+cRandom_Sound::~cRandom_Sound(void)
 {
 
 }
 
-void cRandom_Sound :: Init(void)
+void cRandom_Sound::Init(void)
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_type = TYPE_SOUND;
@@ -99,7 +99,7 @@ void cRandom_Sound :: Init(void)
     m_editor_color_volume_reduction_end = Color(0.2f, 0.4f, 0.1f, 0.2f);
 }
 
-cRandom_Sound* cRandom_Sound :: Copy(void) const
+cRandom_Sound* cRandom_Sound::Copy(void) const
 {
     cRandom_Sound* random_sound = new cRandom_Sound(m_sprite_manager);
     random_sound->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
@@ -114,12 +114,12 @@ cRandom_Sound* cRandom_Sound :: Copy(void) const
     return random_sound;
 }
 
-std::string cRandom_Sound :: Get_XML_Type_Name()
+std::string cRandom_Sound::Get_XML_Type_Name()
 {
     return "";
 }
 
-xmlpp::Element* cRandom_Sound :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cRandom_Sound::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cSprite::Save_To_XML_Node(p_element);
 
@@ -141,7 +141,7 @@ xmlpp::Element* cRandom_Sound :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cRandom_Sound :: Set_Filename(const std::string& str)
+void cRandom_Sound::Set_Filename(const std::string& str)
 {
     // stop playing sounds
     for (unsigned int i = 0; i < 100; i++) {
@@ -157,17 +157,17 @@ void cRandom_Sound :: Set_Filename(const std::string& str)
     m_filename = str;
 }
 
-std::string cRandom_Sound :: Get_Filename(void) const
+std::string cRandom_Sound::Get_Filename(void) const
 {
     return m_filename;
 }
 
-void cRandom_Sound :: Set_Continuous(bool continuous)
+void cRandom_Sound::Set_Continuous(bool continuous)
 {
     m_continuous = continuous;
 }
 
-void cRandom_Sound :: Set_Delay_Min(unsigned int delay)
+void cRandom_Sound::Set_Delay_Min(unsigned int delay)
 {
     if (delay < 20) {
         delay = 20;
@@ -176,12 +176,12 @@ void cRandom_Sound :: Set_Delay_Min(unsigned int delay)
     m_delay_min = delay;
 }
 
-unsigned int cRandom_Sound :: Get_Delay_Min(void) const
+unsigned int cRandom_Sound::Get_Delay_Min(void) const
 {
     return m_delay_min;
 }
 
-void cRandom_Sound :: Set_Delay_Max(unsigned int delay)
+void cRandom_Sound::Set_Delay_Max(unsigned int delay)
 {
     if (delay < 20) {
         delay = 20;
@@ -193,12 +193,12 @@ void cRandom_Sound :: Set_Delay_Max(unsigned int delay)
     m_delay_max = delay;
 }
 
-unsigned int cRandom_Sound :: Get_Delay_Max(void) const
+unsigned int cRandom_Sound::Get_Delay_Max(void) const
 {
     return m_delay_max;
 }
 
-void cRandom_Sound :: Set_Volume_Min(float volume)
+void cRandom_Sound::Set_Volume_Min(float volume)
 {
     if (volume < 0.1f) {
         volume = 0.1f;
@@ -213,12 +213,12 @@ void cRandom_Sound :: Set_Volume_Min(float volume)
     m_volume_min = volume;
 }
 
-float cRandom_Sound :: Get_Volume_Min(void) const
+float cRandom_Sound::Get_Volume_Min(void) const
 {
     return m_volume_min;
 }
 
-void cRandom_Sound :: Set_Volume_Max(float volume)
+void cRandom_Sound::Set_Volume_Max(float volume)
 {
     if (volume < 0.1f) {
         volume = 0.1f;
@@ -233,12 +233,12 @@ void cRandom_Sound :: Set_Volume_Max(float volume)
     m_volume_max = volume;
 }
 
-float cRandom_Sound :: Get_Volume_Max(void) const
+float cRandom_Sound::Get_Volume_Max(void) const
 {
     return m_volume_max;
 }
 
-void cRandom_Sound :: Set_Volume_Reduction_Begin(float distance)
+void cRandom_Sound::Set_Volume_Reduction_Begin(float distance)
 {
     if (distance < 1.0f) {
         distance = 1.0f;
@@ -250,12 +250,12 @@ void cRandom_Sound :: Set_Volume_Reduction_Begin(float distance)
     m_volume_reduction_begin = distance;
 }
 
-float cRandom_Sound :: Get_Volume_Reduction_Begin(void) const
+float cRandom_Sound::Get_Volume_Reduction_Begin(void) const
 {
     return m_volume_reduction_begin;
 }
 
-void cRandom_Sound :: Set_Volume_Reduction_End(float distance)
+void cRandom_Sound::Set_Volume_Reduction_End(float distance)
 {
     if (distance < 1.0f) {
         distance = 1.0f;
@@ -267,12 +267,12 @@ void cRandom_Sound :: Set_Volume_Reduction_End(float distance)
     m_volume_reduction_end = distance;
 }
 
-float cRandom_Sound :: Get_Volume_Reduction_End(void) const
+float cRandom_Sound::Get_Volume_Reduction_End(void) const
 {
     return m_volume_reduction_end;
 }
 
-float cRandom_Sound :: Get_Distance_Volume_Mod(void) const
+float cRandom_Sound::Get_Distance_Volume_Mod(void) const
 {
     // if in volume reduction range
     if (m_distance_to_camera > m_volume_reduction_begin) {
@@ -284,7 +284,7 @@ float cRandom_Sound :: Get_Distance_Volume_Mod(void) const
     return 1.0f;
 }
 
-void cRandom_Sound :: Update(void)
+void cRandom_Sound::Update(void)
 {
     Update_Valid_Update();
 
@@ -375,7 +375,7 @@ void cRandom_Sound :: Update(void)
     }
 }
 
-void cRandom_Sound :: Draw(cSurface_Request* request /* = NULL */)
+void cRandom_Sound::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -397,7 +397,7 @@ void cRandom_Sound :: Draw(cSurface_Request* request /* = NULL */)
     pRenderer->Add(circle_request);
 }
 
-bool cRandom_Sound :: Is_Update_Valid()
+bool cRandom_Sound::Is_Update_Valid()
 {
     // if destroyed
     if (m_auto_destroy) {
@@ -419,7 +419,7 @@ bool cRandom_Sound :: Is_Update_Valid()
     return 1;
 }
 
-bool cRandom_Sound :: Is_Draw_Valid(void)
+bool cRandom_Sound::Is_Draw_Valid(void)
 {
     // if editor not enabled
     if (!editor_enabled) {
@@ -434,13 +434,13 @@ bool cRandom_Sound :: Is_Draw_Valid(void)
     return 1;
 }
 
-void cRandom_Sound :: Event_Out_Of_Range(void) const
+void cRandom_Sound::Event_Out_Of_Range(void) const
 {
     // fade out sounds if out of range
     pAudio->Fadeout_Sounds(500, m_filename);
 }
 
-void cRandom_Sound :: Editor_Activate(void)
+void cRandom_Sound::Editor_Activate(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -510,7 +510,7 @@ void cRandom_Sound :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cRandom_Sound :: Editor_Filename_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Filename_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     Set_Filename(static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str());
@@ -518,7 +518,7 @@ bool cRandom_Sound :: Editor_Filename_Text_Changed(const CEGUI::EventArgs& event
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Continuous_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Continuous_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     bool enabled = static_cast<CEGUI::Checkbox*>(windowEventArgs.window)->isSelected();
@@ -528,7 +528,7 @@ bool cRandom_Sound :: Editor_Continuous_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Delay_Min_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Delay_Min_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -538,7 +538,7 @@ bool cRandom_Sound :: Editor_Delay_Min_Text_Changed(const CEGUI::EventArgs& even
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Delay_Max_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Delay_Max_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -548,7 +548,7 @@ bool cRandom_Sound :: Editor_Delay_Max_Text_Changed(const CEGUI::EventArgs& even
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Volume_Min_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Volume_Min_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -558,7 +558,7 @@ bool cRandom_Sound :: Editor_Volume_Min_Text_Changed(const CEGUI::EventArgs& eve
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Volume_Max_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Volume_Max_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -568,7 +568,7 @@ bool cRandom_Sound :: Editor_Volume_Max_Text_Changed(const CEGUI::EventArgs& eve
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Volume_Reduction_Begin_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Volume_Reduction_Begin_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -578,7 +578,7 @@ bool cRandom_Sound :: Editor_Volume_Reduction_Begin_Text_Changed(const CEGUI::Ev
     return 1;
 }
 
-bool cRandom_Sound :: Editor_Volume_Reduction_End_Text_Changed(const CEGUI::EventArgs& event)
+bool cRandom_Sound::Editor_Volume_Reduction_End_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();

@@ -31,7 +31,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cResource_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cResource_Manager :: cResource_Manager(void)
+cResource_Manager::cResource_Manager(void)
 {
     init_directories();
 
@@ -43,7 +43,7 @@ cResource_Manager :: cResource_Manager(void)
     debug_print("User config directory: %s\n", path_to_utf8(m_paths.user_config_dir).c_str());
 }
 
-cResource_Manager :: ~cResource_Manager(void)
+cResource_Manager::~cResource_Manager(void)
 {
 
 }
@@ -53,7 +53,7 @@ fs::path cResource_Manager::Get_Game_Data_Directory()
     return m_paths.game_data_dir;
 }
 
-void cResource_Manager :: Init_User_Directory(void)
+void cResource_Manager::Init_User_Directory(void)
 {
     // Create savegame directory
     if (!Dir_Exists(Get_User_Savegame_Directory())) {
@@ -91,182 +91,182 @@ void cResource_Manager :: Init_User_Directory(void)
 #endif
 }
 
-fs::path cResource_Manager :: Get_Game_Pixmaps_Directory()
+fs::path cResource_Manager::Get_Game_Pixmaps_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_PIXMAPS_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Pixmap(std::string pixmap)
+fs::path cResource_Manager::Get_Game_Pixmap(std::string pixmap)
 {
     return Get_Game_Pixmaps_Directory() / utf8_to_path(pixmap);
 }
 
-fs::path cResource_Manager :: Get_User_Level_Directory()
+fs::path cResource_Manager::Get_User_Level_Directory()
 {
     return m_paths.user_data_dir / utf8_to_path(USER_LEVEL_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_Level(std::string filename)
+fs::path cResource_Manager::Get_User_Level(std::string filename)
 {
     return Get_User_Level_Directory() / utf8_to_path(filename);
 }
 
-fs::path cResource_Manager :: Get_User_Savegame_Directory()
+fs::path cResource_Manager::Get_User_Savegame_Directory()
 {
     return m_paths.user_data_dir / utf8_to_path(USER_SAVEGAME_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_Screenshot_Directory()
+fs::path cResource_Manager::Get_User_Screenshot_Directory()
 {
     return m_paths.user_data_dir / utf8_to_path(USER_SCREENSHOT_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_World_Directory()
+fs::path cResource_Manager::Get_User_World_Directory()
 {
     return m_paths.user_data_dir / utf8_to_path(USER_WORLD_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_Campaign_Directory()
+fs::path cResource_Manager::Get_User_Campaign_Directory()
 {
     return m_paths.user_data_dir / utf8_to_path(USER_CAMPAIGN_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_Imgcache_Directory()
+fs::path cResource_Manager::Get_User_Imgcache_Directory()
 {
     return m_paths.user_cache_dir / utf8_to_path(USER_IMGCACHE_DIR);
 }
 
-fs::path cResource_Manager :: Get_User_CEGUI_Logfile()
+fs::path cResource_Manager::Get_User_CEGUI_Logfile()
 {
     return m_paths.user_cache_dir / utf8_to_path("cegui.log");
 }
 
-fs::path cResource_Manager :: Get_Game_Schema_Directory()
+fs::path cResource_Manager::Get_Game_Schema_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_SCHEMA_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Schema(std::string schema)
+fs::path cResource_Manager::Get_Game_Schema(std::string schema)
 {
     return Get_Game_Schema_Directory() / utf8_to_path(schema);
 }
 
-fs::path cResource_Manager :: Get_Game_Level_Directory()
+fs::path cResource_Manager::Get_Game_Level_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_LEVEL_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Level(std::string level)
+fs::path cResource_Manager::Get_Game_Level(std::string level)
 {
     return Get_Game_Level_Directory() / utf8_to_path(level);
 }
 
-fs::path cResource_Manager :: Get_Game_Translation_Directory()
+fs::path cResource_Manager::Get_Game_Translation_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_TRANSLATION_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Translation(std::string transname)
+fs::path cResource_Manager::Get_Game_Translation(std::string transname)
 {
     return Get_Game_Translation_Directory() / utf8_to_path(transname);
 }
 
-fs::path cResource_Manager :: Get_Game_Sounds_Directory()
+fs::path cResource_Manager::Get_Game_Sounds_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_SOUNDS_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Sound(std::string sound)
+fs::path cResource_Manager::Get_Game_Sound(std::string sound)
 {
     return Get_Game_Sounds_Directory() / utf8_to_path(sound);
 }
 
-fs::path cResource_Manager :: Get_Game_Campaign_Directory()
+fs::path cResource_Manager::Get_Game_Campaign_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_CAMPAIGN_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Campaign(std::string campaign)
+fs::path cResource_Manager::Get_Game_Campaign(std::string campaign)
 {
     return Get_Game_Campaign_Directory() / utf8_to_path(campaign);
 }
 
-fs::path cResource_Manager :: Get_Game_Overworld_Directory()
+fs::path cResource_Manager::Get_Game_Overworld_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_OVERWORLD_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Overworld(std::string overworld)
+fs::path cResource_Manager::Get_Game_Overworld(std::string overworld)
 {
     return Get_Game_Overworld_Directory() / utf8_to_path(overworld);
 }
 
-fs::path cResource_Manager :: Get_Gui_Scheme_Directory()
+fs::path cResource_Manager::Get_Gui_Scheme_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GUI_SCHEME_DIR);
 }
 
-fs::path cResource_Manager :: Get_Gui_Imageset_Directory()
+fs::path cResource_Manager::Get_Gui_Imageset_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GUI_IMAGESET_DIR);
 }
 
-fs::path cResource_Manager :: Get_Gui_Font_Directory()
+fs::path cResource_Manager::Get_Gui_Font_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GUI_FONT_DIR);
 }
 
-fs::path cResource_Manager :: Get_Gui_LookNFeel_Directory()
+fs::path cResource_Manager::Get_Gui_LookNFeel_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GUI_LOOKNFEEL_DIR);
 }
 
-fs::path cResource_Manager :: Get_Gui_Layout_Directory()
+fs::path cResource_Manager::Get_Gui_Layout_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GUI_LAYOUT_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Music_Directory()
+fs::path cResource_Manager::Get_Game_Music_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_MUSIC_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Music(std::string music)
+fs::path cResource_Manager::Get_Game_Music(std::string music)
 {
     return Get_Game_Music_Directory() / utf8_to_path(music);
 }
 
-fs::path cResource_Manager :: Get_Game_Editor_Directory()
+fs::path cResource_Manager::Get_Game_Editor_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_EDITOR_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Editor(std::string editor)
+fs::path cResource_Manager::Get_Game_Editor(std::string editor)
 {
     return Get_Game_Editor_Directory() / utf8_to_path(editor);
 }
 
-fs::path cResource_Manager :: Get_Game_Scripting_Directory()
+fs::path cResource_Manager::Get_Game_Scripting_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_SCRIPTING_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Scripting(std::string script)
+fs::path cResource_Manager::Get_Game_Scripting(std::string script)
 {
     return Get_Game_Scripting_Directory() / utf8_to_path(script);
 }
 
-fs::path cResource_Manager :: Get_Game_Icon_Directory()
+fs::path cResource_Manager::Get_Game_Icon_Directory()
 {
     return m_paths.game_data_dir / utf8_to_path(GAME_ICON_DIR);
 }
 
-fs::path cResource_Manager :: Get_Game_Icon(std::string icon)
+fs::path cResource_Manager::Get_Game_Icon(std::string icon)
 {
     return Get_Game_Icon_Directory() / utf8_to_path(icon);
 }
 
-fs::path cResource_Manager :: Get_Preferences_File()
+fs::path cResource_Manager::Get_Preferences_File()
 {
     return m_paths.user_config_dir / path_to_utf8("config.xml");
 }

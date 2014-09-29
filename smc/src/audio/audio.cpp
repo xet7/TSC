@@ -42,26 +42,26 @@ void Finished_Sound(const int channel)
 
 /* *** *** *** *** *** *** *** *** Audio Sound *** *** *** *** *** *** *** *** *** */
 
-cAudio_Sound :: cAudio_Sound(void)
+cAudio_Sound::cAudio_Sound(void)
 {
     m_data = NULL;
     m_channel = -1;
     m_resource_id = -1;
 }
 
-cAudio_Sound :: ~cAudio_Sound(void)
+cAudio_Sound::~cAudio_Sound(void)
 {
     Free();
 }
 
-void cAudio_Sound :: Load(cSound* data)
+void cAudio_Sound::Load(cSound* data)
 {
     Free();
 
     m_data = data;
 }
 
-void cAudio_Sound :: Free(void)
+void cAudio_Sound::Free(void)
 {
     Stop();
 
@@ -73,12 +73,12 @@ void cAudio_Sound :: Free(void)
     m_resource_id = -1;
 }
 
-void cAudio_Sound :: Finished(void)
+void cAudio_Sound::Finished(void)
 {
     m_channel = -1;
 }
 
-int cAudio_Sound :: Play(int use_res_id /* = -1 */, int loops /* = 0 */)
+int cAudio_Sound::Play(int use_res_id /* = -1 */, int loops /* = 0 */)
 {
     if (!m_data || !m_data->m_chunk) {
         return 0;
@@ -110,7 +110,7 @@ int cAudio_Sound :: Play(int use_res_id /* = -1 */, int loops /* = 0 */)
     return m_channel;
 }
 
-void cAudio_Sound :: Stop(void)
+void cAudio_Sound::Stop(void)
 {
     // if not loaded or not playing
     if (!m_data || m_channel < 0) {
@@ -123,7 +123,7 @@ void cAudio_Sound :: Stop(void)
 
 /* *** *** *** *** *** *** *** *** Audio *** *** *** *** *** *** *** *** *** */
 
-cAudio :: cAudio(void)
+cAudio::cAudio(void)
 {
     m_initialised = 0;
     m_sound_enabled = 0;
@@ -143,12 +143,12 @@ cAudio :: cAudio(void)
     m_audio_channels = MIX_DEFAULT_CHANNELS; // 1 = Mono, 2 = Stereo
 }
 
-cAudio :: ~cAudio(void)
+cAudio::~cAudio(void)
 {
     Close();
 }
 
-bool cAudio :: Init(void)
+bool cAudio::Init(void)
 {
     // Get current device parameters
     int dev_frequency = 0;
@@ -279,7 +279,7 @@ bool cAudio :: Init(void)
     return 1;
 }
 
-void cAudio :: Close(void)
+void cAudio::Close(void)
 {
     if (m_initialised) {
         if (m_debug) {
@@ -323,7 +323,7 @@ void cAudio :: Close(void)
     }
 }
 
-void cAudio :: Set_Max_Sounds(unsigned int limit /* = 10 */)
+void cAudio::Set_Max_Sounds(unsigned int limit /* = 10 */)
 {
     if (!m_initialised || !m_sound_enabled) {
         return;
@@ -356,7 +356,7 @@ void cAudio :: Set_Max_Sounds(unsigned int limit /* = 10 */)
     }
 }
 
-cSound* cAudio :: Get_Sound_File(fs::path filename) const
+cSound* cAudio::Get_Sound_File(fs::path filename) const
 {
     if (!m_initialised || !m_sound_enabled) {
         return NULL;
@@ -395,7 +395,7 @@ cSound* cAudio :: Get_Sound_File(fs::path filename) const
     return sound;
 }
 
-bool cAudio :: Play_Sound(fs::path filename, int res_id /* = -1 */, int volume /* = -1 */, int loops /* = 0 */)
+bool cAudio::Play_Sound(fs::path filename, int res_id /* = -1 */, int volume /* = -1 */, int loops /* = 0 */)
 {
     if (!m_initialised || !m_sound_enabled) {
         return 0;
@@ -459,7 +459,7 @@ bool cAudio :: Play_Sound(fs::path filename, int res_id /* = -1 */, int volume /
     return 1;
 }
 
-bool cAudio :: Play_Music(fs::path filename, int loops /* = 0 */, bool force /* = 1 */, unsigned int fadein_ms /* = 0 */)
+bool cAudio::Play_Music(fs::path filename, int loops /* = 0 */, bool force /* = 1 */, unsigned int fadein_ms /* = 0 */)
 {
     if (!filename.is_absolute())
         filename = pResource_Manager->Get_Game_Music_Directory() / filename;
@@ -538,7 +538,7 @@ bool cAudio :: Play_Music(fs::path filename, int loops /* = 0 */, bool force /* 
     return true;
 }
 
-cAudio_Sound* cAudio :: Get_Playing_Sound(fs::path filename)
+cAudio_Sound* cAudio::Get_Playing_Sound(fs::path filename)
 {
     if (!m_sound_enabled || !m_initialised) {
         return NULL;
@@ -569,7 +569,7 @@ cAudio_Sound* cAudio :: Get_Playing_Sound(fs::path filename)
     return NULL;
 }
 
-cAudio_Sound* cAudio :: Create_Sound_Channel(void)
+cAudio_Sound* cAudio::Create_Sound_Channel(void)
 {
     // get all sounds
     for (AudioSoundList::iterator itr = m_active_sounds.begin(); itr != m_active_sounds.end(); ++itr) {
@@ -595,7 +595,7 @@ cAudio_Sound* cAudio :: Create_Sound_Channel(void)
     return NULL;
 }
 
-void cAudio :: Toggle_Music(void)
+void cAudio::Toggle_Music(void)
 {
     pPreferences->m_audio_music = !pPreferences->m_audio_music;
     Init();
@@ -606,7 +606,7 @@ void cAudio :: Toggle_Music(void)
     }
 }
 
-void cAudio :: Toggle_Sounds(void)
+void cAudio::Toggle_Sounds(void)
 {
     pPreferences->m_audio_sound = !pPreferences->m_audio_sound;
     Init();
@@ -617,7 +617,7 @@ void cAudio :: Toggle_Sounds(void)
     }
 }
 
-void cAudio :: Pause_Music(void) const
+void cAudio::Pause_Music(void) const
 {
     if (!m_music_enabled || !m_initialised) {
         return;
@@ -629,7 +629,7 @@ void cAudio :: Pause_Music(void) const
     }
 }
 
-void cAudio :: Resume_Sound(int channel /* = -1 */) const
+void cAudio::Resume_Sound(int channel /* = -1 */) const
 {
     if (!m_sound_enabled || !m_initialised) {
         return;
@@ -639,7 +639,7 @@ void cAudio :: Resume_Sound(int channel /* = -1 */) const
     Mix_Resume(channel);
 }
 
-void cAudio :: Resume_Music(void) const
+void cAudio::Resume_Music(void) const
 {
     if (!m_music_enabled || !m_initialised) {
         return;
@@ -651,7 +651,7 @@ void cAudio :: Resume_Music(void) const
     }
 }
 
-void cAudio :: Fadeout_Sounds(unsigned int ms /* = 200 */, int channel /* = -1 */, bool overwrite_fading /* = 0 */) const
+void cAudio::Fadeout_Sounds(unsigned int ms /* = 200 */, int channel /* = -1 */, bool overwrite_fading /* = 0 */) const
 {
     if (!m_sound_enabled || !m_initialised) {
         return;
@@ -670,7 +670,7 @@ void cAudio :: Fadeout_Sounds(unsigned int ms /* = 200 */, int channel /* = -1 *
     Mix_FadeOutChannel(channel, ms);
 }
 
-void cAudio :: Fadeout_Sounds(unsigned int ms, fs::path filename, bool overwrite_fading /* = 0 */)
+void cAudio::Fadeout_Sounds(unsigned int ms, fs::path filename, bool overwrite_fading /* = 0 */)
 {
     if (!m_sound_enabled || !m_initialised) {
         return;
@@ -699,7 +699,7 @@ void cAudio :: Fadeout_Sounds(unsigned int ms, fs::path filename, bool overwrite
     }
 }
 
-void cAudio :: Fadeout_Music(unsigned int ms /* = 500 */, bool overwrite_fading /* = 0 */) const
+void cAudio::Fadeout_Music(unsigned int ms /* = 500 */, bool overwrite_fading /* = 0 */) const
 {
     if (!m_music_enabled || !m_initialised) {
         return;
@@ -732,7 +732,7 @@ void cAudio :: Fadeout_Music(unsigned int ms /* = 500 */, bool overwrite_fading 
     }
 }
 
-void cAudio :: Set_Music_Position(float position) const
+void cAudio::Set_Music_Position(float position) const
 {
     if (!m_music_enabled || !m_initialised || Is_Music_Fading() == MIX_FADING_OUT) {
         return;
@@ -741,7 +741,7 @@ void cAudio :: Set_Music_Position(float position) const
     Mix_SetMusicPosition(position);
 }
 
-Mix_Fading cAudio :: Is_Music_Fading(void) const
+Mix_Fading cAudio::Is_Music_Fading(void) const
 {
     if (!m_music_enabled || !m_initialised) {
         return MIX_NO_FADING;
@@ -750,7 +750,7 @@ Mix_Fading cAudio :: Is_Music_Fading(void) const
     return Mix_FadingMusic();
 }
 
-Mix_Fading cAudio :: Is_Sound_Fading(int sound_channel) const
+Mix_Fading cAudio::Is_Sound_Fading(int sound_channel) const
 {
     if (!m_sound_enabled || !m_initialised || sound_channel < 0) {
         return MIX_NO_FADING;
@@ -759,7 +759,7 @@ Mix_Fading cAudio :: Is_Sound_Fading(int sound_channel) const
     return Mix_FadingChannel(sound_channel);
 }
 
-bool cAudio :: Is_Music_Paused(void) const
+bool cAudio::Is_Music_Paused(void) const
 {
     if (!m_music_enabled || !m_initialised) {
         return 0;
@@ -772,7 +772,7 @@ bool cAudio :: Is_Music_Paused(void) const
     return 0;
 }
 
-bool cAudio :: Is_Music_Playing(void) const
+bool cAudio::Is_Music_Playing(void) const
 {
     if (!m_music_enabled || !m_initialised) {
         return 0;
@@ -785,7 +785,7 @@ bool cAudio :: Is_Music_Playing(void) const
     return 0;
 }
 
-void cAudio :: Halt_Sounds(int channel /* = -1 */) const
+void cAudio::Halt_Sounds(int channel /* = -1 */) const
 {
     if (!m_sound_enabled || !m_initialised) {
         return;
@@ -797,7 +797,7 @@ void cAudio :: Halt_Sounds(int channel /* = -1 */) const
     }
 }
 
-void cAudio :: Halt_Music(void) const
+void cAudio::Halt_Music(void) const
 {
     if (!m_initialised) {
         return;
@@ -809,7 +809,7 @@ void cAudio :: Halt_Music(void) const
     }
 }
 
-void cAudio :: Stop_Sounds(void) const
+void cAudio::Stop_Sounds(void) const
 {
     if (!m_initialised) {
         return;
@@ -821,7 +821,7 @@ void cAudio :: Stop_Sounds(void) const
     }
 }
 
-void cAudio :: Set_Sound_Volume(Uint8 volume, int channel /* = -1 */) const
+void cAudio::Set_Sound_Volume(Uint8 volume, int channel /* = -1 */) const
 {
     // not active
     if (!m_initialised) {
@@ -836,7 +836,7 @@ void cAudio :: Set_Sound_Volume(Uint8 volume, int channel /* = -1 */) const
     Mix_Volume(channel, volume);
 }
 
-void cAudio :: Set_Music_Volume(Uint8 volume) const
+void cAudio::Set_Music_Volume(Uint8 volume) const
 {
     // not active
     if (!m_initialised) {
@@ -851,7 +851,7 @@ void cAudio :: Set_Music_Volume(Uint8 volume) const
     Mix_VolumeMusic(volume);
 }
 
-void cAudio :: Update(void)
+void cAudio::Update(void)
 {
     if (!m_initialised) {
         return;

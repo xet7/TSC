@@ -29,7 +29,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** cEditor_World *** *** *** *** *** *** *** *** *** *** */
 
-cEditor_World :: cEditor_World(cSprite_Manager* sprite_manager, cOverworld* overworld)
+cEditor_World::cEditor_World(cSprite_Manager* sprite_manager, cOverworld* overworld)
     : cEditor(sprite_manager)
 {
     m_overworld = overworld;
@@ -40,12 +40,12 @@ cEditor_World :: cEditor_World(cSprite_Manager* sprite_manager, cOverworld* over
     m_camera_speed = 20;
 }
 
-cEditor_World :: ~cEditor_World(void)
+cEditor_World::~cEditor_World(void)
 {
     //
 }
 
-void cEditor_World :: Init(void)
+void cEditor_World::Init(void)
 {
     // already loaded
     if (m_editor_window) {
@@ -57,7 +57,7 @@ void cEditor_World :: Init(void)
     cEditor::Init();
 }
 
-void cEditor_World :: Enable(void)
+void cEditor_World::Enable(void)
 {
     // already enabled
     if (m_enabled) {
@@ -74,7 +74,7 @@ void cEditor_World :: Enable(void)
     cEditor::Enable();
 }
 
-void cEditor_World :: Disable(bool native_mode /* = 0 */)
+void cEditor_World::Disable(bool native_mode /* = 0 */)
 {
     // already disabled
     if (!m_enabled) {
@@ -95,7 +95,7 @@ void cEditor_World :: Disable(bool native_mode /* = 0 */)
     cEditor::Disable(native_mode);
 }
 
-bool cEditor_World :: Key_Down(SDLKey key)
+bool cEditor_World::Key_Down(SDLKey key)
 {
     if (!m_enabled) {
         return 0;
@@ -115,12 +115,12 @@ bool cEditor_World :: Key_Down(SDLKey key)
     return 1;
 }
 
-void cEditor_World :: Set_Overworld(cOverworld* overworld)
+void cEditor_World::Set_Overworld(cOverworld* overworld)
 {
     m_overworld = overworld;
 }
 
-void cEditor_World :: Activate_Menu_Item(cEditor_Menu_Object* entry)
+void cEditor_World::Activate_Menu_Item(cEditor_Menu_Object* entry)
 {
     // If Function
     if (entry->bfunction) {
@@ -155,7 +155,7 @@ void cEditor_World :: Activate_Menu_Item(cEditor_Menu_Object* entry)
     }
 }
 
-bool cEditor_World :: Function_New(void)
+bool cEditor_World::Function_New(void)
 {
     std::string world_name = Box_Text_Input(_("Create a new World"), C_("world", "Name"));
 
@@ -182,7 +182,7 @@ bool cEditor_World :: Function_New(void)
     return 0;
 }
 
-void cEditor_World :: Function_Load(void)
+void cEditor_World::Function_Load(void)
 {
     std::string world_name = C_("world", "Name");
 
@@ -214,7 +214,7 @@ void cEditor_World :: Function_Load(void)
     }
 }
 
-void cEditor_World :: Function_Save(bool with_dialog /* = 0 */)
+void cEditor_World::Function_Save(bool with_dialog /* = 0 */)
 {
     // if denied
     if (with_dialog && !Box_Question(_("Save ") + m_overworld->m_description->m_name + " ?")) {
@@ -224,7 +224,7 @@ void cEditor_World :: Function_Save(bool with_dialog /* = 0 */)
     m_overworld->Save();
 }
 
-void cEditor_World :: Function_Reload(void)
+void cEditor_World::Function_Reload(void)
 {
     // if denied
     if (!Box_Question(_("Reload World ?"))) {
@@ -244,7 +244,7 @@ void cEditor_World :: Function_Reload(void)
  * creating a one-element std::vector<cSprite*>.
  */
 // static
-std::vector<cSprite*> cEditor_World :: items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
+std::vector<cSprite*> cEditor_World::items_loader_callback(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager, void* p_data)
 {
     cSprite* p_sprite = cOverworldLoader::Create_World_Object_From_XML(name, attributes, engine_version, p_sprite_manager, static_cast<cOverworld*>(p_data));
     std::vector<cSprite*> result;
@@ -254,7 +254,7 @@ std::vector<cSprite*> cEditor_World :: items_loader_callback(const std::string& 
 }
 
 // virtual
-void cEditor_World :: Parse_Items_File(boost::filesystem::path filename)
+void cEditor_World::Parse_Items_File(boost::filesystem::path filename)
 {
     cEditorItemsLoader parser;
     parser.parse_file(filename, m_sprite_manager, m_overworld, items_loader_callback);

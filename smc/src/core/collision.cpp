@@ -25,18 +25,18 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** cObjectCollisionType *** *** *** *** *** *** *** *** *** *** */
 
-cObjectCollisionType :: cObjectCollisionType(void)
+cObjectCollisionType::cObjectCollisionType(void)
     : cObject_Manager<cObjectCollision>()
 {
 
 }
 
-cObjectCollisionType :: ~cObjectCollisionType(void)
+cObjectCollisionType::~cObjectCollisionType(void)
 {
     Delete_All();
 }
 
-void cObjectCollisionType :: Add(cObjectCollision* obj)
+void cObjectCollisionType::Add(cObjectCollision* obj)
 {
     if (!obj) {
         return;
@@ -52,7 +52,7 @@ struct check_if_sprite : public std::binary_function<cObjectCollision*, const cS
         return col->m_obj == sprite;
     }
 };
-bool cObjectCollisionType :: Is_Included(const cSprite* obj)
+bool cObjectCollisionType::Is_Included(const cSprite* obj)
 {
     return std::find_if(objects.begin(), objects.end(), std::bind2nd(check_if_sprite(), obj)) != objects.end();
 }
@@ -64,7 +64,7 @@ struct check_if_sprite_array : public std::binary_function<cObjectCollision*, Ar
         return col->m_obj->m_sprite_array == type;
     }
 };
-bool cObjectCollisionType :: Is_Included(const ArrayType type)
+bool cObjectCollisionType::Is_Included(const ArrayType type)
 {
     return std::find_if(objects.begin(), objects.end(), std::bind2nd(check_if_sprite_array(), type)) != objects.end();
 }
@@ -76,7 +76,7 @@ struct check_if_sprite_type : public std::binary_function<cObjectCollision*, Spr
         return col->m_obj->m_type == type;
     }
 };
-bool cObjectCollisionType :: Is_Included(const SpriteType type)
+bool cObjectCollisionType::Is_Included(const SpriteType type)
 {
     return std::find_if(objects.begin(), objects.end(), std::bind2nd(check_if_sprite_type(), type)) != objects.end();
 }
@@ -88,24 +88,24 @@ struct check_if_valid_type : public std::binary_function<cObjectCollision*, Col_
         return col->m_valid_type == type;
     }
 };
-bool cObjectCollisionType :: Is_Included(const Col_Valid_Type type)
+bool cObjectCollisionType::Is_Included(const Col_Valid_Type type)
 {
     return std::find_if(objects.begin(), objects.end(), std::bind2nd(check_if_valid_type(), type)) != objects.end();
 }
 
-cObjectCollision* cObjectCollisionType :: Find_First(const ArrayType type)
+cObjectCollision* cObjectCollisionType::Find_First(const ArrayType type)
 {
     return *std::find_if(objects.begin(), objects.end(), std::bind2nd(check_if_sprite_array(), type));
 }
 
-cObjectCollision* cObjectCollisionType :: Find_First(const SpriteType type)
+cObjectCollision* cObjectCollisionType::Find_First(const SpriteType type)
 {
     return *std::find_if(objects.begin(), objects.end(), std::bind2nd(check_if_sprite_type(), type));
 }
 
 /* *** *** *** *** *** *** *** cObjectCollision *** *** *** *** *** *** *** *** *** *** */
 
-cObjectCollision :: cObjectCollision(void)
+cObjectCollision::cObjectCollision(void)
 {
     m_valid_type = COL_VTYPE_NOT_VALID;
     m_received = 0;
@@ -115,12 +115,12 @@ cObjectCollision :: cObjectCollision(void)
     m_array = ARRAY_UNDEFINED;
 }
 
-cObjectCollision :: ~cObjectCollision(void)
+cObjectCollision::~cObjectCollision(void)
 {
     //
 }
 
-void cObjectCollision :: Set_Direction(const cSprite* base, const cSprite* col)
+void cObjectCollision::Set_Direction(const cSprite* base, const cSprite* col)
 {
     m_direction = Get_Collision_Direction(base, col);
 }

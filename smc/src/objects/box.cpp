@@ -35,7 +35,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cBaseBox *** *** *** *** *** *** *** *** *** */
 
-cBaseBox :: cBaseBox(cSprite_Manager* sprite_manager)
+cBaseBox::cBaseBox(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "box")
 {
     m_type = TYPE_ACTIVE_SPRITE;
@@ -61,12 +61,12 @@ cBaseBox :: cBaseBox(cSprite_Manager* sprite_manager)
     m_particle_counter_active = 0.0f;
 }
 
-cBaseBox :: ~cBaseBox(void)
+cBaseBox::~cBaseBox(void)
 {
     //
 }
 
-void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
+void cBaseBox::Load_From_XML(XmlAttributes& attributes)
 {
     // Position
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
@@ -83,7 +83,7 @@ void cBaseBox :: Load_From_XML(XmlAttributes& attributes)
     Set_Useable_Count(attributes.fetch<int>("useable_count", m_start_useable_count), true);
 }
 
-std::string cBaseBox :: Get_XML_Type_Name()
+std::string cBaseBox::Get_XML_Type_Name()
 {
     // return is just as good as break here
     switch (box_type) {
@@ -96,7 +96,7 @@ std::string cBaseBox :: Get_XML_Type_Name()
     }
 }
 
-xmlpp::Element* cBaseBox :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cBaseBox::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
 
@@ -115,14 +115,14 @@ xmlpp::Element* cBaseBox :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cBaseBox :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cBaseBox::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     // useable count
     int save_useable_count = string_to_int(save_object->Get_Value("useable_count"));
     Set_Useable_Count(save_useable_count);
 }
 
-cSave_Level_Object* cBaseBox :: Save_To_Savegame(void)
+cSave_Level_Object* cBaseBox::Save_To_Savegame(void)
 {
     // only save if needed
     if (m_useable_count == m_start_useable_count) {
@@ -142,7 +142,7 @@ cSave_Level_Object* cBaseBox :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cBaseBox :: Set_Animation_Type(const std::string& new_anim_type)
+void cBaseBox::Set_Animation_Type(const std::string& new_anim_type)
 {
     // already set
     if (m_anim_type.compare(new_anim_type) == 0) {
@@ -214,7 +214,7 @@ void cBaseBox :: Set_Animation_Type(const std::string& new_anim_type)
     Set_Image_Num(m_anim_img_start, 1, 0);
 }
 
-void cBaseBox :: Set_Useable_Count(int count, bool new_startcount /* = 0 */)
+void cBaseBox::Set_Useable_Count(int count, bool new_startcount /* = 0 */)
 {
     m_useable_count = count;
 
@@ -228,7 +228,7 @@ void cBaseBox :: Set_Useable_Count(int count, bool new_startcount /* = 0 */)
     }
 }
 
-void cBaseBox :: Set_Invisible(Box_Invisible_Type type)
+void cBaseBox::Set_Invisible(Box_Invisible_Type type)
 {
     // already set
     if (m_box_invisible == type) {
@@ -267,7 +267,7 @@ void cBaseBox :: Set_Invisible(Box_Invisible_Type type)
     }
 }
 
-void cBaseBox :: Activate_Collision(ObjectDirection col_direction)
+void cBaseBox::Activate_Collision(ObjectDirection col_direction)
 {
     // if already active ignore event
     if (m_move_col_dir != DIR_UNDEFINED) {
@@ -309,7 +309,7 @@ void cBaseBox :: Activate_Collision(ObjectDirection col_direction)
     Activate();
 }
 
-void cBaseBox :: Update_Collision(void)
+void cBaseBox::Update_Collision(void)
 {
     // not moving
     if (m_move_col_dir == DIR_UNDEFINED) {
@@ -366,7 +366,7 @@ void cBaseBox :: Update_Collision(void)
     }
 }
 
-void cBaseBox :: Check_Collision(ObjectDirection col_direction)
+void cBaseBox::Check_Collision(ObjectDirection col_direction)
 {
     // additional direction based check position
     float check_x = 0.0f;
@@ -400,7 +400,7 @@ void cBaseBox :: Check_Collision(ObjectDirection col_direction)
     delete col_list;
 }
 
-void cBaseBox :: Activate(void)
+void cBaseBox::Activate(void)
 {
     if (m_useable_count > 0 || m_useable_count == -1) {
         Scripting::cActivate_Event evt;
@@ -413,7 +413,7 @@ void cBaseBox :: Activate(void)
     }
 }
 
-void cBaseBox :: Update(void)
+void cBaseBox::Update(void)
 {
     // animate only a visible box or an activated invisible box
     if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_maryo_type == MARYO_GHOST) || m_useable_count != m_start_useable_count) {
@@ -432,7 +432,7 @@ void cBaseBox :: Update(void)
     Update_Collision();
 }
 
-void cBaseBox :: Draw(cSurface_Request* request /* = NULL */)
+void cBaseBox::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -479,7 +479,7 @@ void cBaseBox :: Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cBaseBox :: Generate_Activation_Particles(void)
+void cBaseBox::Generate_Activation_Particles(void)
 {
     // no default/unimportant boxes
     if (m_type == TYPE_SPIN_BOX || m_type == TYPE_TEXT_BOX || box_type == TYPE_GOLDPIECE) {
@@ -562,7 +562,7 @@ void cBaseBox :: Generate_Activation_Particles(void)
     }
 }
 
-bool cBaseBox :: Is_Update_Valid()
+bool cBaseBox::Is_Update_Valid()
 {
     // if not activateable and not animating
     if (!m_useable_count && m_move_col_dir == DIR_UNDEFINED) {
@@ -577,7 +577,7 @@ bool cBaseBox :: Is_Update_Valid()
     return 1;
 }
 
-bool cBaseBox :: Is_Draw_Valid(void)
+bool cBaseBox::Is_Draw_Valid(void)
 {
     // if editor not enabled
     if (!editor_enabled) {
@@ -615,7 +615,7 @@ bool cBaseBox :: Is_Draw_Valid(void)
     return 1;
 }
 
-Col_Valid_Type cBaseBox :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cBaseBox::Validate_Collision(cSprite* obj)
 {
     switch (obj->m_type) {
     case TYPE_MUSHROOM_LIVE_1:
@@ -644,7 +644,7 @@ Col_Valid_Type cBaseBox :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cBaseBox :: Handle_Collision_Player(cObjectCollision* collision)
+void cBaseBox::Handle_Collision_Player(cObjectCollision* collision)
 {
     // if player jumps from below or flies against it
     if (collision->m_direction == DIR_BOTTOM && pLevel_Player->m_state != STA_FLY) {
@@ -659,7 +659,7 @@ void cBaseBox :: Handle_Collision_Player(cObjectCollision* collision)
     }
 }
 
-void cBaseBox :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cBaseBox::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     cEnemy* enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(collision->m_number));
 
@@ -699,7 +699,7 @@ void cBaseBox :: Handle_Collision_Enemy(cObjectCollision* collision)
 }
 
 
-void cBaseBox :: Editor_Activate(void)
+void cBaseBox::Editor_Activate(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -742,7 +742,7 @@ void cBaseBox :: Editor_Activate(void)
     }
 }
 
-bool cBaseBox :: Editor_Useable_Count_Text_Changed(const CEGUI::EventArgs& event)
+bool cBaseBox::Editor_Useable_Count_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -752,7 +752,7 @@ bool cBaseBox :: Editor_Useable_Count_Text_Changed(const CEGUI::EventArgs& event
     return 1;
 }
 
-bool cBaseBox :: Editor_Invisible_Select(const CEGUI::EventArgs& event)
+bool cBaseBox::Editor_Invisible_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -773,7 +773,7 @@ bool cBaseBox :: Editor_Invisible_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-std::string cBaseBox :: Create_Name(void) const
+std::string cBaseBox::Create_Name(void) const
 {
     std::string name = m_name; // dup
 

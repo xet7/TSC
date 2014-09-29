@@ -27,37 +27,37 @@ static GLuint last_bind_texture = 0;
 
 /* *** *** *** *** *** *** cRender_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cRender_Request :: cRender_Request(void)
+cRender_Request::cRender_Request(void)
 {
     m_type = REND_NOTHING;
     m_pos_z = 0.0f;
     m_render_count = 1;
 }
 
-cRender_Request :: ~cRender_Request(void)
+cRender_Request::~cRender_Request(void)
 {
 
 }
 
-void cRender_Request :: Draw(void)
+void cRender_Request::Draw(void)
 {
     // virtual
 }
 
 /* *** *** *** *** *** *** cClear_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cClear_Request :: cClear_Request(void)
+cClear_Request::cClear_Request(void)
     : cRender_Request()
 {
     m_type = REND_CLEAR;
 }
 
-cClear_Request :: ~cClear_Request(void)
+cClear_Request::~cClear_Request(void)
 {
 
 }
 
-void cClear_Request :: Draw(void)
+void cClear_Request::Draw(void)
 {
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -67,7 +67,7 @@ void cClear_Request :: Draw(void)
 
 /* *** *** *** *** *** *** cRender_Request_Advanced *** *** *** *** *** *** *** *** *** *** *** */
 
-cRender_Request_Advanced :: cRender_Request_Advanced(void)
+cRender_Request_Advanced::cRender_Request_Advanced(void)
     : cRender_Request()
 {
     m_global_scale = 1;
@@ -89,12 +89,12 @@ cRender_Request_Advanced :: cRender_Request_Advanced(void)
     m_combine_color[2] = 0.0f;
 }
 
-cRender_Request_Advanced :: ~cRender_Request_Advanced(void)
+cRender_Request_Advanced::~cRender_Request_Advanced(void)
 {
 
 }
 
-void cRender_Request_Advanced :: Render_Basic(void)
+void cRender_Request_Advanced::Render_Basic(void)
 {
     // tried to replace this with gl push and pop but that was a lot slower on a Radeon X850 Pro
     // clear the matrix (default position and orientation)
@@ -111,7 +111,7 @@ void cRender_Request_Advanced :: Render_Basic(void)
     }
 }
 
-void cRender_Request_Advanced :: Render_Basic_Clear(void) const
+void cRender_Request_Advanced::Render_Basic_Clear(void) const
 {
     // clear blend factor
     if (m_blend_sfactor != GL_SRC_ALPHA || m_blend_dfactor != GL_ONE_MINUS_SRC_ALPHA) {
@@ -129,7 +129,7 @@ void cRender_Request_Advanced :: Render_Basic_Clear(void) const
 #endif
 }
 
-void cRender_Request_Advanced :: Render_Advanced(void)
+void cRender_Request_Advanced::Render_Advanced(void)
 {
     // rotation
     if (m_rot_x != 0.0f) {
@@ -152,7 +152,7 @@ void cRender_Request_Advanced :: Render_Advanced(void)
     }
 }
 
-void cRender_Request_Advanced :: Render_Advanced_Clear(void) const
+void cRender_Request_Advanced::Render_Advanced_Clear(void) const
 {
     // clear color modifications
     if (m_combine_type != 0) {
@@ -165,7 +165,7 @@ void cRender_Request_Advanced :: Render_Advanced_Clear(void) const
 
 /* *** *** *** *** *** *** cLine_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cLine_Request :: cLine_Request(void)
+cLine_Request::cLine_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_LINE;
@@ -175,12 +175,12 @@ cLine_Request :: cLine_Request(void)
     m_stipple_pattern = 0;
 }
 
-cLine_Request :: ~cLine_Request(void)
+cLine_Request::~cLine_Request(void)
 {
 
 }
 
-void cLine_Request :: Draw(void)
+void cLine_Request::Draw(void)
 {
     Render_Basic();
 
@@ -239,7 +239,7 @@ void cLine_Request :: Draw(void)
 
 /* *** *** *** *** *** *** cRect_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cRect_Request :: cRect_Request(void)
+cRect_Request::cRect_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_RECT;
@@ -255,12 +255,12 @@ cRect_Request :: cRect_Request(void)
     m_stipple_pattern = 0;
 }
 
-cRect_Request :: ~cRect_Request(void)
+cRect_Request::~cRect_Request(void)
 {
 
 }
 
-void cRect_Request :: Draw(void)
+void cRect_Request::Draw(void)
 {
     Render_Basic();
 
@@ -341,7 +341,7 @@ void cRect_Request :: Draw(void)
 
 /* *** *** *** *** *** *** cGradient_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cGradient_Request :: cGradient_Request(void)
+cGradient_Request::cGradient_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_GRADIENT;
@@ -351,12 +351,12 @@ cGradient_Request :: cGradient_Request(void)
     m_color_2 = static_cast<Uint8>(0);
 }
 
-cGradient_Request :: ~cGradient_Request(void)
+cGradient_Request::~cGradient_Request(void)
 {
 
 }
 
-void cGradient_Request :: Draw(void)
+void cGradient_Request::Draw(void)
 {
     Render_Basic();
 
@@ -406,7 +406,7 @@ void cGradient_Request :: Draw(void)
 
 /* *** *** *** *** *** *** cCircle_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cCircle_Request :: cCircle_Request(void)
+cCircle_Request::cCircle_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_CIRCLE;
@@ -417,12 +417,12 @@ cCircle_Request :: cCircle_Request(void)
     m_line_width = 0;
 }
 
-cCircle_Request :: ~cCircle_Request(void)
+cCircle_Request::~cCircle_Request(void)
 {
 
 }
 
-void cCircle_Request :: Draw(void)
+void cCircle_Request::Draw(void)
 {
     Render_Basic();
 
@@ -498,7 +498,7 @@ void cCircle_Request :: Draw(void)
 
 /* *** *** *** *** *** *** cSurface_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cSurface_Request :: cSurface_Request(void)
+cSurface_Request::cSurface_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_SURFACE;
@@ -519,14 +519,14 @@ cSurface_Request :: cSurface_Request(void)
     m_delete_texture = 0;
 }
 
-cSurface_Request :: ~cSurface_Request(void)
+cSurface_Request::~cSurface_Request(void)
 {
     if (m_delete_texture && glIsTexture(m_texture_id)) {
         glDeleteTextures(1, &m_texture_id);
     }
 }
 
-void cSurface_Request :: Draw(void)
+void cSurface_Request::Draw(void)
 {
     // draw shadow
     if (m_shadow_pos) {
@@ -642,17 +642,17 @@ void cSurface_Request :: Draw(void)
 
 /* *** *** *** *** *** *** cRenderQueue *** *** *** *** *** *** *** *** *** *** *** */
 
-cRenderQueue :: cRenderQueue(unsigned int reserve_items)
+cRenderQueue::cRenderQueue(unsigned int reserve_items)
 {
     m_render_data.reserve(reserve_items);
 }
 
-cRenderQueue :: ~cRenderQueue(void)
+cRenderQueue::~cRenderQueue(void)
 {
     Clear();
 }
 
-void cRenderQueue :: Add(cRender_Request* obj)
+void cRenderQueue::Add(cRender_Request* obj)
 {
     if (!obj) {
         return;
@@ -667,7 +667,7 @@ void cRenderQueue :: Add(cRender_Request* obj)
     m_render_data.push_back(obj);
 }
 
-void cRenderQueue :: Render(bool clear /* = 1 */)
+void cRenderQueue::Render(bool clear /* = 1 */)
 {
     // z position sort
     std::sort(m_render_data.begin(), m_render_data.end(), zpos_sort());
@@ -686,7 +686,7 @@ void cRenderQueue :: Render(bool clear /* = 1 */)
     }
 }
 
-void cRenderQueue :: Fake_Render(unsigned int amount /* = 1 */, bool clear /* = 1 */)
+void cRenderQueue::Fake_Render(unsigned int amount /* = 1 */, bool clear /* = 1 */)
 {
     for (RenderList::iterator itr = m_render_data.begin(); itr != m_render_data.end(); ++itr) {
         cRender_Request* obj = (*itr);
@@ -698,7 +698,7 @@ void cRenderQueue :: Fake_Render(unsigned int amount /* = 1 */, bool clear /* = 
     }
 }
 
-void cRenderQueue :: Clear(bool force /* = 1 */)
+void cRenderQueue::Clear(bool force /* = 1 */)
 {
     for (RenderList::iterator itr = m_render_data.begin(); itr != m_render_data.end();) {
         cRender_Request* obj = (*itr);

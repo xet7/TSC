@@ -32,23 +32,23 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cKeyboard *** *** *** *** *** *** *** *** *** */
 
-cKeyboard :: cKeyboard(void)
+cKeyboard::cKeyboard(void)
 {
     Reset_Keys();
 }
 
-cKeyboard :: ~cKeyboard(void)
+cKeyboard::~cKeyboard(void)
 {
 
 }
 
-void cKeyboard :: Reset_Keys(void)
+void cKeyboard::Reset_Keys(void)
 {
     // set all keys to 0
     memset(m_keys, 0, sizeof(m_keys));
 }
 
-bool cKeyboard :: CEGUI_Handle_Key_Up(SDLKey key) const
+bool cKeyboard::CEGUI_Handle_Key_Up(SDLKey key) const
 {
     // inject the scancode directly
     if (pGuiSystem->injectKeyUp(SDLKey_to_CEGUIKey(key))) {
@@ -59,7 +59,7 @@ bool cKeyboard :: CEGUI_Handle_Key_Up(SDLKey key) const
     return 0;
 }
 
-bool cKeyboard :: Key_Up(SDLKey key)
+bool cKeyboard::Key_Up(SDLKey key)
 {
     // set key to 0
     m_keys[key] = 0;
@@ -86,7 +86,7 @@ bool cKeyboard :: Key_Up(SDLKey key)
     return 0;
 }
 
-bool cKeyboard :: CEGUI_Handle_Key_Down(SDLKey key) const
+bool cKeyboard::CEGUI_Handle_Key_Down(SDLKey key) const
 {
     // inject the scancode
     if (pGuiSystem->injectKeyDown(SDLKey_to_CEGUIKey(key)) == 1) {
@@ -105,7 +105,7 @@ bool cKeyboard :: CEGUI_Handle_Key_Down(SDLKey key) const
     return 0;
 }
 
-bool cKeyboard :: Key_Down(SDLKey key)
+bool cKeyboard::Key_Down(SDLKey key)
 {
     // input was processed by the gui system
     if (CEGUI_Handle_Key_Down(key)) {
@@ -259,7 +259,7 @@ bool cKeyboard :: Key_Down(SDLKey key)
     return 0;
 }
 
-unsigned int cKeyboard :: SDLKey_to_CEGUIKey(const SDLKey key) const
+unsigned int cKeyboard::SDLKey_to_CEGUIKey(const SDLKey key) const
 {
     switch (key) {
     case SDLK_BACKSPACE:

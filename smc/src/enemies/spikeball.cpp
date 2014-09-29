@@ -26,13 +26,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cSpikeball *** *** *** *** *** *** *** *** *** *** *** */
 
-cSpikeball :: cSpikeball(cSprite_Manager* sprite_manager)
+cSpikeball::cSpikeball(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cSpikeball::Init();
 }
 
-cSpikeball :: cSpikeball(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cSpikeball::cSpikeball(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cSpikeball::Init();
@@ -47,12 +47,12 @@ cSpikeball :: cSpikeball(XmlAttributes& attributes, cSprite_Manager* sprite_mana
     Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
 }
 
-cSpikeball :: ~cSpikeball(void)
+cSpikeball::~cSpikeball(void)
 {
     //
 }
 
-void cSpikeball :: Init(void)
+void cSpikeball::Init(void)
 {
     m_type = TYPE_SPIKEBALL;
     m_name = "Spikeball";
@@ -71,7 +71,7 @@ void cSpikeball :: Init(void)
     Set_Direction(DIR_RIGHT);
 }
 
-cSpikeball* cSpikeball :: Copy(void) const
+cSpikeball* cSpikeball::Copy(void) const
 {
     cSpikeball* spikeball = new cSpikeball(m_sprite_manager);
     spikeball->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -80,12 +80,12 @@ cSpikeball* cSpikeball :: Copy(void) const
     return spikeball;
 }
 
-std::string cSpikeball :: Get_XML_Type_Name()
+std::string cSpikeball::Get_XML_Type_Name()
 {
     return "spikeball";
 }
 
-xmlpp::Element* cSpikeball :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cSpikeball::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -95,14 +95,14 @@ xmlpp::Element* cSpikeball :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cSpikeball :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cSpikeball::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
 
     Update_Rotation_Hor();
 }
 
-void cSpikeball :: Set_Direction(const ObjectDirection dir, bool initial /* = true */)
+void cSpikeball::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 {
     // already set
     if (m_start_direction == dir) {
@@ -114,7 +114,7 @@ void cSpikeball :: Set_Direction(const ObjectDirection dir, bool initial /* = tr
     Update_Rotation_Hor(1);
 }
 
-void cSpikeball :: Set_Color(const DefaultColor& col)
+void cSpikeball::Set_Color(const DefaultColor& col)
 {
     // already set
     if (m_color_type == col) {
@@ -156,7 +156,7 @@ void cSpikeball :: Set_Color(const DefaultColor& col)
     Set_Image_Num(0, 1);
 }
 
-void cSpikeball :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
+void cSpikeball::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
     cEnemy::Turn_Around(col_dir);
 
@@ -176,7 +176,7 @@ void cSpikeball :: Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     }
 }
 
-void cSpikeball :: DownGrade(bool force /* = 0 */)
+void cSpikeball::DownGrade(bool force /* = 0 */)
 {
     Set_Dead(1);
     m_massive_type = MASS_PASSIVE;
@@ -199,7 +199,7 @@ void cSpikeball :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cSpikeball :: Set_Moving_State(Moving_state new_state)
+void cSpikeball::Set_Moving_State(Moving_state new_state)
 {
     if (new_state == m_state) {
         return;
@@ -234,7 +234,7 @@ void cSpikeball :: Set_Moving_State(Moving_state new_state)
     Update_Rotation_Hor();
 }
 
-void cSpikeball :: Update(void)
+void cSpikeball::Update(void)
 {
     cEnemy::Update();
 
@@ -354,7 +354,7 @@ void cSpikeball :: Update(void)
     }
 }
 
-void cSpikeball :: Update_Velocity_Max(void)
+void cSpikeball::Update_Velocity_Max(void)
 {
     if (m_state == STA_WALK) {
         m_velx_max = 1.5f;
@@ -366,7 +366,7 @@ void cSpikeball :: Update_Velocity_Max(void)
     }
 }
 
-Col_Valid_Type cSpikeball :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cSpikeball::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -426,7 +426,7 @@ Col_Valid_Type cSpikeball :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cSpikeball :: Handle_Collision_Player(cObjectCollision* collision)
+void cSpikeball::Handle_Collision_Player(cObjectCollision* collision)
 {
     // invalid
     if (collision->m_direction == DIR_UNDEFINED) {
@@ -440,7 +440,7 @@ void cSpikeball :: Handle_Collision_Player(cObjectCollision* collision)
     }
 }
 
-void cSpikeball :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cSpikeball::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     if (collision->m_direction == DIR_RIGHT || collision->m_direction == DIR_LEFT) {
         Turn_Around(collision->m_direction);
@@ -449,7 +449,7 @@ void cSpikeball :: Handle_Collision_Enemy(cObjectCollision* collision)
     Send_Collision(collision);
 }
 
-void cSpikeball :: Handle_Collision_Massive(cObjectCollision* collision)
+void cSpikeball::Handle_Collision_Massive(cObjectCollision* collision)
 {
     if (m_state == STA_OBJ_LINKED) {
         return;
@@ -479,7 +479,7 @@ void cSpikeball :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cSpikeball :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
+void cSpikeball::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     if (cdirection == DIR_DOWN) {
         m_vely = -10.0f;
@@ -497,7 +497,7 @@ void cSpikeball :: Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
     }
 }
 
-void cSpikeball :: Editor_Activate(void)
+void cSpikeball::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -516,7 +516,7 @@ void cSpikeball :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cSpikeball :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cSpikeball::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();

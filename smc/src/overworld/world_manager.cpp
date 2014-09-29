@@ -28,7 +28,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cOverworld_Manager *** *** *** *** *** *** *** *** *** */
 
-cOverworld_Manager :: cOverworld_Manager(cSprite_Manager* sprite_manager)
+cOverworld_Manager::cOverworld_Manager(cSprite_Manager* sprite_manager)
     : cObject_Manager<cOverworld>()
 {
     m_debug_mode = 0;
@@ -40,14 +40,14 @@ cOverworld_Manager :: cOverworld_Manager(cSprite_Manager* sprite_manager)
     Init();
 }
 
-cOverworld_Manager :: ~cOverworld_Manager(void)
+cOverworld_Manager::~cOverworld_Manager(void)
 {
     Delete_All();
 
     delete m_camera;
 }
 
-bool cOverworld_Manager :: New(std::string name)
+bool cOverworld_Manager::New(std::string name)
 {
     string_trim(name, ' ');
 
@@ -68,7 +68,7 @@ bool cOverworld_Manager :: New(std::string name)
     return 1;
 }
 
-void cOverworld_Manager :: Init(void)
+void cOverworld_Manager::Init(void)
 {
     // if already loaded
     if (!objects.empty()) {
@@ -80,7 +80,7 @@ void cOverworld_Manager :: Init(void)
     Load_Dir(pResource_Manager->Get_Game_Overworld_Directory());
 }
 
-void cOverworld_Manager :: Load_Dir(const fs::path& dir, bool user_dir /* = false */)
+void cOverworld_Manager::Load_Dir(const fs::path& dir, bool user_dir /* = false */)
 {
     // set world directory
     vector<fs::path> subdirs = Get_Directory_Files(dir, "", true, false);
@@ -110,12 +110,12 @@ void cOverworld_Manager :: Load_Dir(const fs::path& dir, bool user_dir /* = fals
     }
 }
 
-bool cOverworld_Manager :: Set_Active(const std::string& str)
+bool cOverworld_Manager::Set_Active(const std::string& str)
 {
     return Set_Active(Get(str));
 }
 
-bool cOverworld_Manager :: Set_Active(cOverworld* world)
+bool cOverworld_Manager::Set_Active(cOverworld* world)
 {
     if (!world) {
         return 0;
@@ -143,7 +143,7 @@ bool cOverworld_Manager :: Set_Active(cOverworld* world)
     return 1;
 }
 
-void cOverworld_Manager :: Reset(void)
+void cOverworld_Manager::Reset(void)
 {
     // FIXME: Do not assume any specific overworld!
     // default Overworld
@@ -158,7 +158,7 @@ void cOverworld_Manager :: Reset(void)
     }
 }
 
-cOverworld* cOverworld_Manager :: Get(const std::string& str)
+cOverworld* cOverworld_Manager::Get(const std::string& str)
 {
     cOverworld* world = Get_from_Name(str);
 
@@ -169,7 +169,7 @@ cOverworld* cOverworld_Manager :: Get(const std::string& str)
     return Get_from_Path(utf8_to_path(str));
 }
 
-cOverworld* cOverworld_Manager :: Get_from_Path(const fs::path& path)
+cOverworld* cOverworld_Manager::Get_from_Path(const fs::path& path)
 {
     for (vector<cOverworld*>::const_iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cOverworld* obj = (*itr);
@@ -182,7 +182,7 @@ cOverworld* cOverworld_Manager :: Get_from_Path(const fs::path& path)
     return NULL;
 }
 
-cOverworld* cOverworld_Manager :: Get_from_Name(const std::string& name)
+cOverworld* cOverworld_Manager::Get_from_Name(const std::string& name)
 {
     for (vector<cOverworld*>::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cOverworld* obj = (*itr);
@@ -195,7 +195,7 @@ cOverworld* cOverworld_Manager :: Get_from_Name(const std::string& name)
     return NULL;
 }
 
-int cOverworld_Manager :: Get_Array_Num(const std::string& path) const
+int cOverworld_Manager::Get_Array_Num(const std::string& path) const
 {
     for (unsigned int i = 0; i < objects.size(); i++) {
         if (objects[i]->m_description->m_path.compare(path) == 0) {

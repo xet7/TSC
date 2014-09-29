@@ -31,7 +31,7 @@ namespace SMC {
 
 /* *** *** *** *** *** cLevel_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cLevel_Manager :: cLevel_Manager(void)
+cLevel_Manager::cLevel_Manager(void)
     : cObject_Manager<cLevel>()
 {
     m_camera = new cCamera(NULL);
@@ -48,18 +48,18 @@ cLevel_Manager :: cLevel_Manager(void)
     m_camera->Set_Sprite_Manager(pActive_Level->m_sprite_manager);
 }
 
-cLevel_Manager :: ~cLevel_Manager(void)
+cLevel_Manager::~cLevel_Manager(void)
 {
     Delete_All();
     delete m_camera;
 }
 
-void cLevel_Manager :: Init(void)
+void cLevel_Manager::Init(void)
 {
 
 }
 
-void cLevel_Manager :: Unload(void)
+void cLevel_Manager::Unload(void)
 {
     // disable fixed camera velocity
     pLevel_Manager->m_camera->m_fixed_hor_vel = 0.0f;
@@ -88,7 +88,7 @@ void cLevel_Manager :: Unload(void)
     pActive_Level->Unload();
 }
 
-cLevel* cLevel_Manager :: New(std::string levelname)
+cLevel* cLevel_Manager::New(std::string levelname)
 {
     // clear player return stack when creating a new level
     pLevel_Player->Clear_Return();
@@ -109,7 +109,7 @@ cLevel* cLevel_Manager :: New(std::string levelname)
     return level;
 }
 
-cLevel* cLevel_Manager :: Load(std::string levelname , bool loading_sublevel /* = false */)
+cLevel* cLevel_Manager::Load(std::string levelname , bool loading_sublevel /* = false */)
 {
     // clear player return stack when loading a level if not going to a sublevel
     if (!loading_sublevel)
@@ -129,7 +129,7 @@ cLevel* cLevel_Manager :: Load(std::string levelname , bool loading_sublevel /* 
     return level;
 }
 
-bool cLevel_Manager :: Set_Active(cLevel* level)
+bool cLevel_Manager::Set_Active(cLevel* level)
 {
     if (!level) {
         return 0;
@@ -140,7 +140,7 @@ bool cLevel_Manager :: Set_Active(cLevel* level)
     return 1;
 }
 
-cLevel* cLevel_Manager :: Get(const std::string& levelname)
+cLevel* cLevel_Manager::Get(const std::string& levelname)
 {
     for (vector<cLevel*>::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
         cLevel* obj = (*itr);
@@ -153,7 +153,7 @@ cLevel* cLevel_Manager :: Get(const std::string& levelname)
     return NULL;
 }
 
-fs::path cLevel_Manager :: Get_Path(const std::string& levelname, bool check_only_user_dir /* = false */)
+fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_user_dir /* = false */)
 {
     // Strip off directories and file extension (although we should
     // only receive the plain level name here).
@@ -201,7 +201,7 @@ fs::path cLevel_Manager :: Get_Path(const std::string& levelname, bool check_onl
     return fs::path();
 }
 
-void cLevel_Manager :: Update(void)
+void cLevel_Manager::Update(void)
 {
     // input
     pActive_Level->Process_Input();
@@ -264,7 +264,7 @@ void cLevel_Manager :: Update(void)
     pFramerate->m_perf_timer[PERF_UPDATE_CAMERA]->Update();
 }
 
-void cLevel_Manager :: Draw(void)
+void cLevel_Manager::Draw(void)
 {
     // clear
     pVideo->Clear_Screen();
@@ -300,7 +300,7 @@ void cLevel_Manager :: Draw(void)
     pFramerate->m_perf_timer[PERF_DRAW_LEVEL_EDITOR]->Update();
 }
 
-void cLevel_Manager :: Finish_Level(bool win_music /* = 0 */)
+void cLevel_Manager::Finish_Level(bool win_music /* = 0 */)
 {
     pHud_Time->Reset();
 
@@ -334,7 +334,7 @@ void cLevel_Manager :: Finish_Level(bool win_music /* = 0 */)
     Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_RANDOM));
 }
 
-void cLevel_Manager :: Goto_Sub_Level(std::string str_level, const std::string& str_entry, Camera_movement move_camera /* = CAMERA_MOVE_FLY */, const std::string& path_identifier /* = "" */)
+void cLevel_Manager::Goto_Sub_Level(std::string str_level, const std::string& str_entry, Camera_movement move_camera /* = CAMERA_MOVE_FLY */, const std::string& path_identifier /* = "" */)
 {
     // if empty use same level
     if (str_level.empty()) {

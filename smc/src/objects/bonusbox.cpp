@@ -30,20 +30,20 @@ namespace SMC {
 
 /* *** *** *** *** *** *** *** *** cBonusBox *** *** *** *** *** *** *** *** *** */
 
-cBonusBox :: cBonusBox(cSprite_Manager* sprite_manager)
+cBonusBox::cBonusBox(cSprite_Manager* sprite_manager)
     : cBaseBox(sprite_manager)
 {
     cBonusBox::Init();
 }
 
-cBonusBox :: cBonusBox(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cBonusBox::cBonusBox(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cBaseBox(sprite_manager)
 {
     cBonusBox::Init();
     cBonusBox::Load_From_XML(attributes);
 }
 
-cBonusBox :: ~cBonusBox(void)
+cBonusBox::~cBonusBox(void)
 {
     for (MovingSpriteList::iterator itr = m_active_items.begin(); itr != m_active_items.end(); ++itr) {
         delete *itr;
@@ -52,7 +52,7 @@ cBonusBox :: ~cBonusBox(void)
     m_active_items.clear();
 }
 
-void cBonusBox :: Init(void)
+void cBonusBox::Init(void)
 {
     m_type = TYPE_BONUS_BOX;
     m_name = "Bonus Box";
@@ -65,7 +65,7 @@ void cBonusBox :: Init(void)
     Set_Goldcolor(COL_YELLOW);
 }
 
-cBonusBox* cBonusBox :: Copy(void) const
+cBonusBox* cBonusBox::Copy(void) const
 {
     cBonusBox* bonusbox = new cBonusBox(m_sprite_manager);
     bonusbox->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -78,7 +78,7 @@ cBonusBox* cBonusBox :: Copy(void) const
     return bonusbox;
 }
 
-void cBonusBox :: Load_From_XML(XmlAttributes& attributes)
+void cBonusBox::Load_From_XML(XmlAttributes& attributes)
 {
     cBaseBox::Load_From_XML(attributes);
 
@@ -91,7 +91,7 @@ void cBonusBox :: Load_From_XML(XmlAttributes& attributes)
         Set_Goldcolor(Get_Color_Id(attributes.fetch("gold_color", Get_Color_Name(m_gold_color))));
 }
 
-xmlpp::Element* cBonusBox :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cBonusBox::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cBaseBox::Save_To_XML_Node(p_element);
 
@@ -104,7 +104,7 @@ xmlpp::Element* cBonusBox :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cBonusBox :: Set_Useable_Count(int count, bool new_startcount /* = 0 */)
+void cBonusBox::Set_Useable_Count(int count, bool new_startcount /* = 0 */)
 {
     cBaseBox::Set_Useable_Count(count, new_startcount);
 
@@ -122,7 +122,7 @@ void cBonusBox :: Set_Useable_Count(int count, bool new_startcount /* = 0 */)
     Update_Valid_Update();
 }
 
-void cBonusBox :: Set_Bonus_Type(SpriteType bonus_type)
+void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
 {
     // already set
     if (box_type == bonus_type) {
@@ -175,7 +175,7 @@ void cBonusBox :: Set_Bonus_Type(SpriteType bonus_type)
     }
 }
 
-void cBonusBox :: Set_Force_Best_Item(bool enable)
+void cBonusBox::Set_Force_Best_Item(bool enable)
 {
     // can't be set if random
     if (box_type == TYPE_POWERUP) {
@@ -185,7 +185,7 @@ void cBonusBox :: Set_Force_Best_Item(bool enable)
     m_force_best_item = enable;
 }
 
-void cBonusBox :: Set_Goldcolor(DefaultColor new_color)
+void cBonusBox::Set_Goldcolor(DefaultColor new_color)
 {
     // already set
     if (m_gold_color == new_color) {
@@ -215,7 +215,7 @@ void cBonusBox :: Set_Goldcolor(DefaultColor new_color)
     }
 }
 
-void cBonusBox :: Activate(void)
+void cBonusBox::Activate(void)
 {
     cBaseBox::Activate();
 
@@ -324,7 +324,7 @@ void cBonusBox :: Activate(void)
     }
 }
 
-void cBonusBox :: Update(void)
+void cBonusBox::Update(void)
 {
     if (!m_valid_update || !Is_In_Range()) {
         return;
@@ -370,7 +370,7 @@ void cBonusBox :: Update(void)
     cBaseBox::Update();
 }
 
-void cBonusBox :: Draw(cSurface_Request* request /* = NULL */)
+void cBonusBox::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -389,7 +389,7 @@ void cBonusBox :: Draw(cSurface_Request* request /* = NULL */)
     cBaseBox::Draw(request);
 }
 
-bool cBonusBox :: Is_Update_Valid()
+bool cBonusBox::Is_Update_Valid()
 {
     // if item is in animation
     if (!m_active_items.empty()) {
@@ -399,7 +399,7 @@ bool cBonusBox :: Is_Update_Valid()
     return cBaseBox::Is_Update_Valid();
 }
 
-void cBonusBox :: Editor_Activate(void)
+void cBonusBox::Editor_Activate(void)
 {
     // BaseBox Settings first
     cBaseBox::Editor_Activate();
@@ -497,7 +497,7 @@ void cBonusBox :: Editor_Activate(void)
     Editor_Init();
 }
 
-void cBonusBox :: Editor_State_Update(void)
+void cBonusBox::Editor_State_Update(void)
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -523,7 +523,7 @@ void cBonusBox :: Editor_State_Update(void)
     }
 }
 
-bool cBonusBox :: Editor_Animation_Select(const CEGUI::EventArgs& event)
+bool cBonusBox::Editor_Animation_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -533,7 +533,7 @@ bool cBonusBox :: Editor_Animation_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cBonusBox :: Editor_Item_Select(const CEGUI::EventArgs& event)
+bool cBonusBox::Editor_Item_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -574,7 +574,7 @@ bool cBonusBox :: Editor_Item_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cBonusBox :: Editor_Force_best_item_Select(const CEGUI::EventArgs& event)
+bool cBonusBox::Editor_Force_best_item_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -589,7 +589,7 @@ bool cBonusBox :: Editor_Force_best_item_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cBonusBox :: Editor_Gold_Color_Select(const CEGUI::EventArgs& event)
+bool cBonusBox::Editor_Gold_Color_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();

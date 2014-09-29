@@ -95,17 +95,17 @@ const bool cPreferences::m_editor_mouse_auto_hide_default = 0;
 const bool cPreferences::m_editor_show_item_images_default = 1;
 const unsigned int cPreferences::m_editor_item_image_size_default = 50;
 
-cPreferences :: cPreferences(void)
+cPreferences::cPreferences(void)
 {
     Reset_All();
 }
 
-cPreferences :: ~cPreferences(void)
+cPreferences::~cPreferences(void)
 {
     //
 }
 
-cPreferences* cPreferences :: Load_From_File(fs::path filename)
+cPreferences* cPreferences::Load_From_File(fs::path filename)
 {
     // If the preferences file doesn’t exist, use default values.
     if (!File_Exists(filename)) {
@@ -131,7 +131,7 @@ cPreferences* cPreferences :: Load_From_File(fs::path filename)
     return loader.Get_Preferences();
 }
 
-void cPreferences :: Save(void)
+void cPreferences::Save(void)
 {
     Update();
 
@@ -203,7 +203,7 @@ void cPreferences :: Save(void)
     debug_print("Wrote preferences file '%s'.\n", path_to_utf8(m_config_filename).c_str());
 }
 
-void cPreferences :: Reset_All(void)
+void cPreferences::Reset_All(void)
 {
     // Game
     m_game_version = smc_version;
@@ -220,7 +220,7 @@ void cPreferences :: Reset_All(void)
     m_image_cache_enabled = 1;
 }
 
-void cPreferences :: Reset_Game(void)
+void cPreferences::Reset_Game(void)
 {
     m_language = "";
     m_always_run = m_always_run_default;
@@ -229,7 +229,7 @@ void cPreferences :: Reset_Game(void)
     m_camera_ver_speed = m_camera_ver_speed_default;
 }
 
-void cPreferences :: Reset_Video(void)
+void cPreferences::Reset_Video(void)
 {
     // Video
     m_video_screen_w = m_video_screen_w_default;
@@ -242,7 +242,7 @@ void cPreferences :: Reset_Video(void)
     pVideo->m_texture_quality = m_texture_quality_default;
 }
 
-void cPreferences :: Reset_Audio(void)
+void cPreferences::Reset_Audio(void)
 {
     // Audio
     m_audio_music = m_audio_music_default;
@@ -252,7 +252,7 @@ void cPreferences :: Reset_Audio(void)
     pAudio->m_music_volume = m_music_volume_default;
 }
 
-void cPreferences :: Reset_Keyboard(void)
+void cPreferences::Reset_Keyboard(void)
 {
     m_key_up = m_key_up_default;
     m_key_down = m_key_down_default;
@@ -274,7 +274,7 @@ void cPreferences :: Reset_Keyboard(void)
     m_key_editor_pixel_move_right = m_key_editor_pixel_move_right_default;
 }
 
-void cPreferences :: Reset_Joystick(void)
+void cPreferences::Reset_Joystick(void)
 {
     m_joy_enabled = m_joy_enabled_default;
     m_joy_name.clear();
@@ -292,14 +292,14 @@ void cPreferences :: Reset_Joystick(void)
     m_joy_button_exit = m_joy_button_exit_default;
 }
 
-void cPreferences :: Reset_Editor(void)
+void cPreferences::Reset_Editor(void)
 {
     m_editor_mouse_auto_hide = m_editor_mouse_auto_hide_default;
     m_editor_show_item_images = m_editor_show_item_images_default;
     m_editor_item_image_size = m_editor_item_image_size_default;
 }
 
-void cPreferences :: Update(void)
+void cPreferences::Update(void)
 {
     m_camera_hor_speed = pLevel_Manager->m_camera->m_hor_offset_speed;
     m_camera_ver_speed = pLevel_Manager->m_camera->m_ver_offset_speed;
@@ -317,7 +317,7 @@ void cPreferences :: Update(void)
     }
 }
 
-void cPreferences :: Apply(void)
+void cPreferences::Apply(void)
 {
     pLevel_Manager->m_camera->m_hor_offset_speed = m_camera_hor_speed;
     pLevel_Manager->m_camera->m_ver_offset_speed = m_camera_ver_speed;
@@ -328,7 +328,7 @@ void cPreferences :: Apply(void)
     }
 }
 
-void cPreferences :: Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail)
+void cPreferences::Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail)
 {
     /* if resolution, bpp, vsync or texture detail changed
      * a texture reload is necessary
@@ -362,7 +362,7 @@ void cPreferences :: Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_
     }
 }
 
-void cPreferences :: Apply_Audio(bool sound, bool music)
+void cPreferences::Apply_Audio(bool sound, bool music)
 {
     // disable sound and music if the audio initialization failed
     if (pVideo->m_audio_init_failed) {

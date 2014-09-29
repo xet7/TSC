@@ -29,14 +29,14 @@ void Font_Delete_Ref(cGL_Surface* surface)
 
 /* *** *** *** *** *** *** *** Font Manager class *** *** *** *** *** *** *** *** *** *** */
 
-cFont_Manager :: cFont_Manager(void)
+cFont_Manager::cFont_Manager(void)
 {
     m_font_normal = NULL;
     m_font_small = NULL;
     m_font_very_small = NULL;
 }
 
-cFont_Manager :: ~cFont_Manager(void)
+cFont_Manager::~cFont_Manager(void)
 {
     // if not initialized
     if (!TTF_WasInit()) {
@@ -61,7 +61,7 @@ cFont_Manager :: ~cFont_Manager(void)
     TTF_Quit();
 }
 
-void cFont_Manager :: Init(void)
+void cFont_Manager::Init(void)
 {
     // if already initialised
     if (TTF_WasInit()) {
@@ -86,7 +86,7 @@ void cFont_Manager :: Init(void)
     }
 }
 
-void cFont_Manager :: Add_Ref(cGL_Surface* surface)
+void cFont_Manager::Add_Ref(cGL_Surface* surface)
 {
     if (!surface) {
         return;
@@ -95,7 +95,7 @@ void cFont_Manager :: Add_Ref(cGL_Surface* surface)
     m_active_fonts.push_back(surface);
 }
 
-void cFont_Manager :: Delete_Ref(cGL_Surface* surface)
+void cFont_Manager::Delete_Ref(cGL_Surface* surface)
 {
     for (ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr) {
         cGL_Surface* obj = (*itr);
@@ -108,7 +108,7 @@ void cFont_Manager :: Delete_Ref(cGL_Surface* surface)
     }
 }
 
-cGL_Surface* cFont_Manager :: Render_Text(TTF_Font* font, const std::string& text, const Color color)
+cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
 {
     // get SDL Color
     SDL_Color sdlcolor = color.Get_SDL_Color();
@@ -129,7 +129,7 @@ cGL_Surface* cFont_Manager :: Render_Text(TTF_Font* font, const std::string& tex
     return surface;
 }
 
-void cFont_Manager :: Grab_Textures(void)
+void cFont_Manager::Grab_Textures(void)
 {
     // save to software memory
     for (ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr) {
@@ -145,7 +145,7 @@ void cFont_Manager :: Grab_Textures(void)
     }
 }
 
-void cFont_Manager :: Restore_Textures(void)
+void cFont_Manager::Restore_Textures(void)
 {
     // load back into hardware textures
     for (Saved_Texture_List::iterator itr = m_software_textures.begin(); itr != m_software_textures.end(); ++itr) {

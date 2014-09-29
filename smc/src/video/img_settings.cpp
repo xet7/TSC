@@ -25,7 +25,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cImage_Settings_Data *** *** *** *** *** *** *** *** *** *** *** */
 
-cImage_Settings_Data :: cImage_Settings_Data(void)
+cImage_Settings_Data::cImage_Settings_Data(void)
 {
     m_base_settings = 0;
 
@@ -44,12 +44,12 @@ cImage_Settings_Data :: cImage_Settings_Data(void)
     m_obsolete = 0;
 }
 
-cImage_Settings_Data :: ~cImage_Settings_Data(void)
+cImage_Settings_Data::~cImage_Settings_Data(void)
 {
 
 }
 
-cSize_Int cImage_Settings_Data :: Get_Surface_Size(const SDL_Surface* sdl_surface) const
+cSize_Int cImage_Settings_Data::Get_Surface_Size(const SDL_Surface* sdl_surface) const
 {
     if (!sdl_surface) {
         return cSize_Int();
@@ -82,7 +82,7 @@ cSize_Int cImage_Settings_Data :: Get_Surface_Size(const SDL_Surface* sdl_surfac
     return cSize_Int(new_w, new_h);
 }
 
-void cImage_Settings_Data :: Apply(cGL_Surface* image) const
+void cImage_Settings_Data::Apply(cGL_Surface* image) const
 {
     // empty image
     if (!image) {
@@ -204,7 +204,7 @@ void cImage_Settings_Data :: Apply(cGL_Surface* image) const
     image->m_obsolete = m_obsolete;
 }
 
-void cImage_Settings_Data :: Apply_Base(const cImage_Settings_Data* base_settings_data)
+void cImage_Settings_Data::Apply_Base(const cImage_Settings_Data* base_settings_data)
 {
     if (!base_settings_data->m_base.empty()) {
         m_base = base_settings_data->m_base;
@@ -234,19 +234,19 @@ void cImage_Settings_Data :: Apply_Base(const cImage_Settings_Data* base_setting
 
 /* *** *** *** *** *** *** cImage_Settings_Parser *** *** *** *** *** *** *** *** *** *** *** */
 
-cImage_Settings_Parser :: cImage_Settings_Parser(void)
+cImage_Settings_Parser::cImage_Settings_Parser(void)
     : cFile_parser()
 {
     m_settings_temp = NULL;
     m_load_base = 1;
 }
 
-cImage_Settings_Parser :: ~cImage_Settings_Parser(void)
+cImage_Settings_Parser::~cImage_Settings_Parser(void)
 {
     //
 }
 
-cImage_Settings_Data* cImage_Settings_Parser :: Get(const boost::filesystem::path& filename, bool load_base_settings /* = 1 */)
+cImage_Settings_Data* cImage_Settings_Parser::Get(const boost::filesystem::path& filename, bool load_base_settings /* = 1 */)
 {
     m_load_base = load_base_settings;
     m_settings_temp = new cImage_Settings_Data();
@@ -257,7 +257,7 @@ cImage_Settings_Data* cImage_Settings_Parser :: Get(const boost::filesystem::pat
     return settings;
 }
 
-bool cImage_Settings_Parser :: HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
+bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
 {
     if (parts[0].compare("base") == 0) {
         if (count < 2 || count > 3) {

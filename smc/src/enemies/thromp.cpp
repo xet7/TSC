@@ -34,13 +34,13 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cThromp *** *** *** *** *** *** *** *** *** *** *** */
 
-cThromp :: cThromp(cSprite_Manager* sprite_manager)
+cThromp::cThromp(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cThromp::Init();
 }
 
-cThromp :: cThromp(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
+cThromp::cThromp(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
     cThromp::Init();
@@ -62,12 +62,12 @@ cThromp :: cThromp(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
 }
 
 
-cThromp :: ~cThromp(void)
+cThromp::~cThromp(void)
 {
     //
 }
 
-void cThromp :: Init(void)
+void cThromp::Init(void)
 {
     m_type = TYPE_THROMP;
     m_name = "Thromp";
@@ -89,7 +89,7 @@ void cThromp :: Init(void)
     m_kill_points = 200;
 }
 
-cThromp* cThromp :: Copy(void) const
+cThromp* cThromp::Copy(void) const
 {
     cThromp* thromp = new cThromp(m_sprite_manager);
     thromp->Set_Pos(m_start_pos_x, m_start_pos_y);
@@ -100,12 +100,12 @@ cThromp* cThromp :: Copy(void) const
     return thromp;
 }
 
-std::string cThromp :: Get_XML_Type_Name()
+std::string cThromp::Get_XML_Type_Name()
 {
     return "thromp";
 }
 
-xmlpp::Element* cThromp :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cThromp::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
@@ -117,7 +117,7 @@ xmlpp::Element* cThromp :: Save_To_XML_Node(xmlpp::Element* p_element)
     return p_node;
 }
 
-void cThromp :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cThromp::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cEnemy::Load_From_Savegame(save_object);
 
@@ -132,7 +132,7 @@ void cThromp :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cThromp :: Save_To_Savegame(void)
+cSave_Level_Object* cThromp::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
 
@@ -144,7 +144,7 @@ cSave_Level_Object* cThromp :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cThromp :: Set_Image_Dir(fs::path dir)
+void cThromp::Set_Image_Dir(fs::path dir)
 {
     if (dir.empty()) {
         return;
@@ -162,7 +162,7 @@ void cThromp :: Set_Image_Dir(fs::path dir)
     Update_Images();
 }
 
-void cThromp :: Set_Direction(const ObjectDirection dir, bool initial /* = true */)
+void cThromp::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 {
     // already set
     if (m_start_direction == dir) {
@@ -176,7 +176,7 @@ void cThromp :: Set_Direction(const ObjectDirection dir, bool initial /* = true 
     Update_Images();
 }
 
-void cThromp :: Set_Max_Distance(float nmax_distance)
+void cThromp::Set_Max_Distance(float nmax_distance)
 {
     m_max_distance = nmax_distance;
 
@@ -187,7 +187,7 @@ void cThromp :: Set_Max_Distance(float nmax_distance)
     Update_Distance_Rect();
 }
 
-void cThromp :: Set_Speed(float val)
+void cThromp::Set_Speed(float val)
 {
     if (val < 0.1f) {
         val = 0.1f;
@@ -198,7 +198,7 @@ void cThromp :: Set_Speed(float val)
     Update_Dest_Vel();
 }
 
-void cThromp :: Activate(void)
+void cThromp::Activate(void)
 {
     if (m_state == STA_FLY) {
         return;
@@ -214,7 +214,7 @@ void cThromp :: Activate(void)
     Set_Image_Num(1);
 }
 
-bool cThromp :: Move_Back(void)
+bool cThromp::Move_Back(void)
 {
     if (m_state == STA_STAY || m_move_back) {
         return 0;
@@ -231,7 +231,7 @@ bool cThromp :: Move_Back(void)
     return 1;
 }
 
-void cThromp :: DownGrade(bool force /* = 0 */)
+void cThromp::DownGrade(bool force /* = 0 */)
 {
     Set_Dead(1);
     m_massive_type = MASS_PASSIVE;
@@ -254,12 +254,12 @@ void cThromp :: DownGrade(bool force /* = 0 */)
     }
 }
 
-void cThromp :: Update_Normal_Dying()
+void cThromp::Update_Normal_Dying()
 {
     Set_Active(false);
 }
 
-void cThromp :: Update(void)
+void cThromp::Update(void)
 {
     cEnemy::Update();
 
@@ -349,7 +349,7 @@ void cThromp :: Update(void)
     }
 }
 
-void cThromp :: Draw(cSurface_Request* request /* = NULL */)
+void cThromp::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
         return;
@@ -367,7 +367,7 @@ void cThromp :: Draw(cSurface_Request* request /* = NULL */)
     cEnemy::Draw(request);
 }
 
-void cThromp :: Update_Images(void)
+void cThromp::Update_Images(void)
 {
     // clear images
     Clear_Images();
@@ -383,7 +383,7 @@ void cThromp :: Update_Images(void)
     }
 }
 
-void cThromp :: Update_Dest_Vel(void)
+void cThromp::Update_Dest_Vel(void)
 {
     if (m_start_direction == DIR_UP) {
         m_dest_velx = 0;
@@ -407,7 +407,7 @@ void cThromp :: Update_Dest_Vel(void)
     }
 }
 
-void cThromp :: Update_Distance_Rect(void)
+void cThromp::Update_Distance_Rect(void)
 {
     if (m_start_direction == DIR_UP) {
         m_distance_rect.m_x = m_col_pos.m_x;
@@ -435,7 +435,7 @@ void cThromp :: Update_Distance_Rect(void)
     }
 }
 
-GL_rect cThromp :: Get_Final_Distance_Rect(void) const
+GL_rect cThromp::Get_Final_Distance_Rect(void) const
 {
     GL_rect final_distance = m_distance_rect;
 
@@ -454,7 +454,7 @@ GL_rect cThromp :: Get_Final_Distance_Rect(void) const
     return final_distance;
 }
 
-bool cThromp :: Is_Draw_Valid(void)
+bool cThromp::Is_Draw_Valid(void)
 {
     bool valid = cEnemy::Is_Draw_Valid();
 
@@ -469,7 +469,7 @@ bool cThromp :: Is_Draw_Valid(void)
     return valid;
 }
 
-void cThromp :: Generate_Smoke(unsigned int amount /* = 20 */) const
+void cThromp::Generate_Smoke(unsigned int amount /* = 20 */) const
 {
     // smoke on the destination direction
     float smoke_x;
@@ -520,7 +520,7 @@ void cThromp :: Generate_Smoke(unsigned int amount /* = 20 */) const
     pActive_Animation_Manager->Add(anim);
 }
 
-Col_Valid_Type cThromp :: Validate_Collision(cSprite* obj)
+Col_Valid_Type cThromp::Validate_Collision(cSprite* obj)
 {
     // basic validation checking
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(obj);
@@ -573,7 +573,7 @@ Col_Valid_Type cThromp :: Validate_Collision(cSprite* obj)
     return COL_VTYPE_NOT_VALID;
 }
 
-void cThromp :: Handle_Collision_Player(cObjectCollision* collision)
+void cThromp::Handle_Collision_Player(cObjectCollision* collision)
 {
     // front
     if (collision->m_direction == m_direction) {
@@ -590,7 +590,7 @@ void cThromp :: Handle_Collision_Player(cObjectCollision* collision)
     // left/right of front direction doesn't harm
 }
 
-void cThromp :: Handle_Collision_Enemy(cObjectCollision* collision)
+void cThromp::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     // destination direction collision
     if (collision->m_direction == m_direction) {
@@ -621,7 +621,7 @@ void cThromp :: Handle_Collision_Enemy(cObjectCollision* collision)
     }
 }
 
-void cThromp :: Handle_Collision_Massive(cObjectCollision* collision)
+void cThromp::Handle_Collision_Massive(cObjectCollision* collision)
 {
     Send_Collision(collision);
 
@@ -638,7 +638,7 @@ void cThromp :: Handle_Collision_Massive(cObjectCollision* collision)
     }
 }
 
-void cThromp :: Handle_out_of_Level(ObjectDirection dir)
+void cThromp::Handle_out_of_Level(ObjectDirection dir)
 {
     if (Move_Back()) {
         pAudio->Play_Sound("enemy/thromp/hit.ogg");
@@ -646,7 +646,7 @@ void cThromp :: Handle_out_of_Level(ObjectDirection dir)
     }
 }
 
-void cThromp :: Editor_Activate(void)
+void cThromp::Editor_Activate(void)
 {
     // get window manager
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -690,7 +690,7 @@ void cThromp :: Editor_Activate(void)
     Editor_Init();
 }
 
-bool cThromp :: Editor_Direction_Select(const CEGUI::EventArgs& event)
+bool cThromp::Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
@@ -700,7 +700,7 @@ bool cThromp :: Editor_Direction_Select(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cThromp :: Editor_Image_Dir_Text_Changed(const CEGUI::EventArgs& event)
+bool cThromp::Editor_Image_Dir_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -710,7 +710,7 @@ bool cThromp :: Editor_Image_Dir_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cThromp :: Editor_Max_Distance_Text_Changed(const CEGUI::EventArgs& event)
+bool cThromp::Editor_Max_Distance_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -720,7 +720,7 @@ bool cThromp :: Editor_Max_Distance_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-bool cThromp :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
+bool cThromp::Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     std::string str_text = static_cast<CEGUI::Editbox*>(windowEventArgs.window)->getText().c_str();
@@ -730,7 +730,7 @@ bool cThromp :: Editor_Speed_Text_Changed(const CEGUI::EventArgs& event)
     return 1;
 }
 
-std::string cThromp :: Create_Name(void) const
+std::string cThromp::Create_Name(void) const
 {
     std::string name = m_name; // dup
     name += _(Get_Direction_Name(m_start_direction).c_str());

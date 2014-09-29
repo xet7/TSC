@@ -30,7 +30,7 @@ namespace SMC {
 
 /* *** *** *** *** *** *** cEnemy *** *** *** *** *** *** *** *** *** *** *** */
 
-cEnemy :: cEnemy(cSprite_Manager* sprite_manager)
+cEnemy::cEnemy(cSprite_Manager* sprite_manager)
     : cAnimated_Sprite(sprite_manager, "enemy")
 {
     m_sprite_array = ARRAY_ENEMY;
@@ -56,12 +56,12 @@ cEnemy :: cEnemy(cSprite_Manager* sprite_manager)
     m_can_be_hit_from_shell = 1;
 }
 
-cEnemy :: ~cEnemy(void)
+cEnemy::~cEnemy(void)
 {
 
 }
 
-void cEnemy :: Load_From_Savegame(cSave_Level_Object* save_object)
+void cEnemy::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     // state
     if (save_object->exists("state")) {
@@ -104,7 +104,7 @@ void cEnemy :: Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cEnemy :: Save_To_Savegame(void)
+cSave_Level_Object* cEnemy::Save_To_Savegame(void)
 {
     cSave_Level_Object* save_object = new cSave_Level_Object();
 
@@ -144,7 +144,7 @@ cSave_Level_Object* cEnemy :: Save_To_Savegame(void)
     return save_object;
 }
 
-void cEnemy :: Set_Dead(bool enable /* = 1 */)
+void cEnemy::Set_Dead(bool enable /* = 1 */)
 {
     m_dead = enable;
 
@@ -157,7 +157,7 @@ void cEnemy :: Set_Dead(bool enable /* = 1 */)
     Update_Valid_Update();
 }
 
-void cEnemy :: Update(void)
+void cEnemy::Update(void)
 {
     cAnimated_Sprite::Update();
 
@@ -167,7 +167,7 @@ void cEnemy :: Update(void)
     }
 }
 
-void cEnemy :: Update_Dying()
+void cEnemy::Update_Dying()
 {
     // Increase dying animation counter
     m_dying_counter += pFramerate->m_speed_factor;
@@ -181,7 +181,7 @@ void cEnemy :: Update_Dying()
         Update_Normal_Dying();
 }
 
-void cEnemy :: Update_Normal_Dying()
+void cEnemy::Update_Normal_Dying()
 {
     float speed = pFramerate->m_speed_factor * 0.05f;
 
@@ -194,7 +194,7 @@ void cEnemy :: Update_Normal_Dying()
     }
 }
 
-void cEnemy :: Update_Instant_Dying()
+void cEnemy::Update_Instant_Dying()
 {
     // a little bit upwards first
     if (m_dying_counter < 5.0f)
@@ -209,7 +209,7 @@ void cEnemy :: Update_Instant_Dying()
     }
 }
 
-void cEnemy :: Update_Late(void)
+void cEnemy::Update_Late(void)
 {
     // another object controls me
     if (m_state == STA_OBJ_LINKED) {
@@ -226,7 +226,7 @@ void cEnemy :: Update_Late(void)
     }
 }
 
-void cEnemy :: Update_Velocity(void)
+void cEnemy::Update_Velocity(void)
 {
     // note: this is currently only useful for walker enemy types
     if (m_direction == DIR_RIGHT) {
@@ -251,7 +251,7 @@ void cEnemy :: Update_Velocity(void)
     }
 }
 
-void cEnemy :: Generate_Hit_Animation(cParticle_Emitter* anim /* = NULL */) const
+void cEnemy::Generate_Hit_Animation(cParticle_Emitter* anim /* = NULL */) const
 {
     bool create_anim = 0;
 
@@ -304,7 +304,7 @@ void cEnemy :: Generate_Hit_Animation(cParticle_Emitter* anim /* = NULL */) cons
     }
 }
 
-void cEnemy :: Handle_Collision(cObjectCollision* collision)
+void cEnemy::Handle_Collision(cObjectCollision* collision)
 {
     if (m_dead) {
         return;
@@ -313,7 +313,7 @@ void cEnemy :: Handle_Collision(cObjectCollision* collision)
     cAnimated_Sprite::Handle_Collision(collision);
 }
 
-void cEnemy :: Handle_Collision_Lava(cObjectCollision* p_collision)
+void cEnemy::Handle_Collision_Lava(cObjectCollision* p_collision)
 {
     if (p_collision->m_direction == DIR_UNDEFINED)
         return;
@@ -322,7 +322,7 @@ void cEnemy :: Handle_Collision_Lava(cObjectCollision* p_collision)
     Send_Collision(p_collision);
 }
 
-void cEnemy :: Handle_Collision_Massive(cObjectCollision* p_collision)
+void cEnemy::Handle_Collision_Massive(cObjectCollision* p_collision)
 {
     if (p_collision->m_obj->m_type == TYPE_CRATE)
         Send_Collision(p_collision);
@@ -330,7 +330,7 @@ void cEnemy :: Handle_Collision_Massive(cObjectCollision* p_collision)
         cAnimated_Sprite::Handle_Collision_Massive(p_collision);
 }
 
-void cEnemy :: Handle_out_of_Level(ObjectDirection dir)
+void cEnemy::Handle_out_of_Level(ObjectDirection dir)
 {
     // abyss
     if (dir == DIR_BOTTOM) {
@@ -352,7 +352,7 @@ void cEnemy :: Handle_out_of_Level(ObjectDirection dir)
 // Note that, depending on the ball type, this hook is only called
 // if the enemy is vulnerable to the given type of ball (m_fire_reistant
 // and m_ice_resistance).
-void cEnemy :: Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision)
+void cEnemy::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision)
 {
     Ball_Destroy_Animation(ball);
 
@@ -375,12 +375,12 @@ void cEnemy :: Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_coll
     }
 }
 
-xmlpp::Element* cEnemy :: Save_To_XML_Node(xmlpp::Element* p_element)
+xmlpp::Element* cEnemy::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     return cAnimated_Sprite::Save_To_XML_Node(p_element);
 }
 
-std::string cEnemy :: Create_Name() const
+std::string cEnemy::Create_Name() const
 {
     std::stringstream ss;
     ss << m_name
@@ -389,7 +389,7 @@ std::string cEnemy :: Create_Name() const
     return ss.str();
 }
 
-bool cEnemy :: Is_Update_Valid()
+bool cEnemy::Is_Update_Valid()
 {
     if (m_dead || m_freeze_counter)
         return false;
@@ -397,7 +397,7 @@ bool cEnemy :: Is_Update_Valid()
     return true;
 }
 
-void cEnemy :: Ball_Destroy_Animation(const cBall& ball)
+void cEnemy::Ball_Destroy_Animation(const cBall& ball)
 {
     // animation
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
@@ -430,7 +430,7 @@ void cEnemy :: Ball_Destroy_Animation(const cBall& ball)
     pActive_Animation_Manager->Add(anim);
 }
 
-void cEnemy :: Ball_Generate_Goldpiece(const cObjectCollision* p_collision)
+void cEnemy::Ball_Generate_Goldpiece(const cObjectCollision* p_collision)
 {
     // create goldpiece
     cMovingSprite* goldpiece = new cFGoldpiece(m_sprite_manager, p_collision->m_direction);
@@ -441,7 +441,7 @@ void cEnemy :: Ball_Generate_Goldpiece(const cObjectCollision* p_collision)
     m_sprite_manager->Add(goldpiece);
 }
 
-void cEnemy :: Set_Massive_Type(MassiveType type)
+void cEnemy::Set_Massive_Type(MassiveType type)
 {
     // Ignore to prevent "m" toggling in editor
 }
