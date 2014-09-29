@@ -475,6 +475,7 @@ void cLevel::Enter(const GameMode old_mode /* = MODE_NOTHING */)
     pWorld_Editor->Disable();
 
     // set editor enabled state
+    // FIXME: Duplicates the information in pLevel_Editor->m_enabled (set in cLevel::Enter())
     editor_enabled = pLevel_Editor->m_enabled;
 
     if (pLevel_Editor->m_enabled) {
