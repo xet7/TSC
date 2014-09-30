@@ -62,7 +62,7 @@ cLevel_Player::cLevel_Player(cSprite_Manager* sprite_manager)
     m_maryo_type_temp_power = MARYO_DEAD;
     m_name = "Maryo";
 
-    m_pos_z = 0.0999f;
+    m_pos_z = cSprite::m_pos_z_player;
     m_gravity_max = 25.0f;
     m_images.reserve(20);
     m_ducked_counter = 0;

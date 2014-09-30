@@ -299,6 +299,7 @@ const float cSprite::m_pos_z_passive_start = 0.01f;
 const float cSprite::m_pos_z_massive_start = 0.08f;
 const float cSprite::m_pos_z_front_passive_start = 0.1f;
 const float cSprite::m_pos_z_halfmassive_start = 0.04f;
+const float cSprite::m_pos_z_player = 0.0999f;
 
 cSprite::cSprite(cSprite_Manager* sprite_manager, const std::string type_name /* = "sprite" */)
     : cCollidingSprite(sprite_manager), m_type_name(type_name)
