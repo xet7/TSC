@@ -123,12 +123,12 @@ void cSprite_Manager::Ensure_Different_Z(cSprite* sprite)
     // set new Z position if not higher than a prior Z of
     // the same massivity.
     if (sprite->m_pos_z <= m_z_pos_data[sprite->m_massive_type]) {
-        sprite->m_pos_z = m_z_pos_data[sprite->m_massive_type] + 0.000001f;
+        sprite->m_pos_z = m_z_pos_data[sprite->m_massive_type] + cSprite::m_pos_z_delta;
     }
     // Same for editor
     if (sprite->m_editor_pos_z > 0.0f) {
         if (sprite->m_editor_pos_z <= m_z_pos_data_editor[sprite->m_massive_type]) {
-            sprite->m_editor_pos_z = m_z_pos_data_editor[sprite->m_massive_type] + 0.000001f;
+            sprite->m_editor_pos_z = m_z_pos_data_editor[sprite->m_massive_type] + cSprite::m_pos_z_delta;
         }
     }
 
@@ -175,7 +175,7 @@ void cSprite_Manager::Move_To_Front(cSprite* sprite)
     objects.insert(objects.begin() + 1, first);
 
     // make it the first z position
-    sprite->m_pos_z = Get_First(sprite->m_type)->m_pos_z - 0.000001f;
+    sprite->m_pos_z = Get_First(sprite->m_type)->m_pos_z - cSprite::m_pos_z_delta;
 }
 
 void cSprite_Manager::Move_To_Back(cSprite* sprite)
