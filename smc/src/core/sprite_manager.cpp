@@ -206,7 +206,7 @@ void cSprite_Manager::Move_To_Back(cSprite* sprite)
     objects.insert(objects.end() - 1, last);
 
     // make it the last z position
-    sprite->m_pos_z = Get_Last(sprite->m_type)->m_pos_z + 0.000001f;
+    Ensure_Different_Z(sprite);
 }
 
 void cSprite_Manager::Delete_All(bool delayed /* = 0 */)
