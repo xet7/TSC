@@ -116,7 +116,7 @@ void cSprite_Manager::Ensure_Different_Z(cSprite* sprite)
      * massive tiles, causing for example flyons to appear over their
      * containing pipe (given that the flyon sprite was added after
      * the pipe sprite). */
-    if (dynamic_cast<cEnemy*>(sprite) || sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER)
+    if (dynamic_cast<cEnemy*>(sprite) || sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER || sprite->m_type == TYPE_OW_WAYPOINT)
         return;
     // TODO: Replace that with dynamic_cast<> alltogether? See issue #44.
 
