@@ -551,6 +551,8 @@ namespace SMC {
         static const float m_pos_z_massive_start; ///< Start Z position for massive elements
         static const float m_pos_z_front_passive_start; ///< Start Z position for front passive elements
         static const float m_pos_z_halfmassive_start; ///< Start Z position for half-massive elements
+        static const float m_pos_z_player; // Z position for the level player
+        static const float m_pos_z_delta; // Minimum possible Z difference (i.e. one Z step).
 
         /// Name as shown in the editor.
         virtual std::string Create_Name() const;

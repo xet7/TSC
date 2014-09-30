@@ -67,11 +67,11 @@ void cSprite_Manager::Add(cSprite* sprite)
             Allocate_UIDs(sprite->m_uid + 1);
         }
 
-#ifdef _DEBUG
-        // This slows down performance, so only check this in debug mode
-        if (Is_UID_In_Use(sprite->m_uid))
-            cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << endl;
-#endif
+//#ifdef _DEBUG
+//        // This slows down performance, so only check this in debug mode
+//        if (Is_UID_In_Use(sprite->m_uid))
+//            std::cerr << "Warning : UID collision : UID " << sprite->m_uid << " is already in use." << std::endl;
+//#endif
 
         // Mark the sprite’s UID as taken
         m_uid_pool.erase(sprite->m_uid);
@@ -119,19 +119,19 @@ void cSprite_Manager::Ensure_Different_Z(cSprite* sprite)
      * massive tiles, causing for example flyons to appear over their
      * containing pipe (given that the flyon sprite was added after
      * the pipe sprite). */
-    if (dynamic_cast<cEnemy*>(sprite) || sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER)
+    if (dynamic_cast<cEnemy*>(sprite) || sprite->m_type == TYPE_ANIMATION || sprite->m_type == TYPE_PARTICLE_EMITTER || sprite->m_type == TYPE_OW_WAYPOINT)
         return;
     // TODO: Replace that with dynamic_cast<> alltogether? See issue #44.
 
     // set new Z position if not higher than a prior Z of
     // the same massivity.
     if (sprite->m_pos_z <= m_z_pos_data[sprite->m_massive_type]) {
-        sprite->m_pos_z = m_z_pos_data[sprite->m_massive_type] + 0.000001f;
+        sprite->m_pos_z = m_z_pos_data[sprite->m_massive_type] + cSprite::m_pos_z_delta;
     }
     // Same for editor
     if (sprite->m_editor_pos_z > 0.0f) {
         if (sprite->m_editor_pos_z <= m_z_pos_data_editor[sprite->m_massive_type]) {
-            sprite->m_editor_pos_z = m_z_pos_data_editor[sprite->m_massive_type] + 0.000001f;
+            sprite->m_editor_pos_z = m_z_pos_data_editor[sprite->m_massive_type] + cSprite::m_pos_z_delta;
         }
     }
 
@@ -178,7 +178,7 @@ void cSprite_Manager::Move_To_Front(cSprite* sprite)
     objects.insert(objects.begin() + 1, first);
 
     // make it the first z position
-    sprite->m_pos_z = Get_First(sprite->m_type)->m_pos_z - 0.000001f;
+    sprite->m_pos_z = Get_First(sprite->m_type)->m_pos_z - cSprite::m_pos_z_delta;
 }
 
 void cSprite_Manager::Move_To_Back(cSprite* sprite)
@@ -209,7 +209,7 @@ void cSprite_Manager::Move_To_Back(cSprite* sprite)
     objects.insert(objects.end() - 1, last);
 
     // make it the last z position
-    sprite->m_pos_z = Get_Last(sprite->m_type)->m_pos_z + 0.000001f;
+    Ensure_Different_Z(sprite);
 }
 
 void cSprite_Manager::Delete_All(bool delayed /* = 0 */)
