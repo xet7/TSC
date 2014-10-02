@@ -1,49 +1,41 @@
-Secret Maryo Chronicles
-=======================
+The Secret Chronicles of Dr. M.
+===============================
 
-NOTE
-----
+“The Secret Chronicles of Dr. M.” is a 2D sidecrolling platform game,
+with a rich set of graphics, music, and an advanced level editor that
+allows you to create your own levels. The level editor allows for
+in-game scripting so there are no borders apart from your imagination.
 
-We are in the process of renaming. See issue [#92](https://github.com/Secretchronicles/SMC/issues/92).
-
-What is it?
------------
-
-From the official website at http://www.secretmaryo.org:
-
-> Secret Maryo Chronicles is an Open Source two-dimensional platform
-> game with a design similar to classic computer games. SMC has
-> computer support to a great degree by using an accelerated [Open
-> Graphics Library](http://opengl.org) for the best possible graphic
-> design and stock performance.
-
-It features a wealth of levels, powerups, great music and much more —
-see http://www.secretmaryo.org/index.php?page=about for a more
-comprehensive list. And for those still not getting enough, it
-provides a great in-game level editor.
+The project is a fork of [SMC](http://www.secretmaryo.org), which is
+not developed actively anymore. Note this is not merely a continuation
+of SMC, but we have our own goals and design principles we are slowly
+integrating into both the codebase and the artwork.
 
 How to install?
 ---------------
 
 Releases are published precompiled for Windows at the website. If you
-want to compile SMC yourself, please see the INSTALL.md file.
+want to compile TSC yourself, please see the INSTALL.md file.
 
 Links
 -----
 
 * The TSC website: http://www.secretchronicles.de
 * The forums: http://smc.quintilianus.eu
-* The old, and largely unmaintained SMC forums:
-  http://secretmaryo.org/phpBB3
 * The bugtracker: https://github.com/Secretchronicles/SMC/issues
 * The documentation: http://docs.secretchronicles.de
+* The old, and largely unmaintained SMC forums:
+  http://secretmaryo.org/phpBB3
+* The old SMC website: http://secretmaryo.org
 
 License
 -------
 
-SMC is a two-dimensional jump’n’run platform game.
+TSC is a two-dimensional jump’n’run platform game.
 
-Copyright © 2003-2011, 2013-2014 The SMC Contributors
+Copyright © 2003-2011 Florian Richter
+
+Copyright © 2013-2014 The SMC Contributors
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
