@@ -107,6 +107,7 @@ end
 task :clean_mruby do
   cd "../mruby/mruby" do
     sh "rake clean"
+    rm_rf "build"
   end
 end
 task :clobber => :clean_mruby
