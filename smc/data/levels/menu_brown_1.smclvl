@@ -3,7 +3,7 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1407097526"/>
+    <property name="save_time" value="1412151838"/>
   </information>
   <settings>
     <property name="lvl_author" value="FluXy"/>
@@ -282,8 +282,8 @@
     <property name="type" value="front_passive"/>
   </sprite>
   <item>
-    <property name="posx" value="720"/>
-    <property name="posy" value="-520"/>
+    <property name="posx" value="729"/>
+    <property name="posy" value="-521"/>
     <property name="uid" value="28"/>
     <property name="image" value="game/items/moon_1.png"/>
     <property name="type" value="moon"/>
@@ -403,8 +403,8 @@
     <property name="direction" value="down"/>
   </levelexit>
   <box>
-    <property name="posx" value="699"/>
-    <property name="posy" value="-543"/>
+    <property name="posx" value="708"/>
+    <property name="posy" value="-544"/>
     <property name="uid" value="43"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
     <property name="type" value="bonus"/>
@@ -415,8 +415,8 @@
     <property name="force_best_item" value="0"/>
   </box>
   <box>
-    <property name="posx" value="742"/>
-    <property name="posy" value="-543"/>
+    <property name="posx" value="751"/>
+    <property name="posy" value="-544"/>
     <property name="uid" value="42"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
     <property name="type" value="bonus"/>
@@ -427,8 +427,8 @@
     <property name="force_best_item" value="0"/>
   </box>
   <box>
-    <property name="posx" value="742"/>
-    <property name="posy" value="-500"/>
+    <property name="posx" value="751"/>
+    <property name="posy" value="-501"/>
     <property name="uid" value="44"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
     <property name="type" value="bonus"/>
@@ -439,8 +439,8 @@
     <property name="force_best_item" value="0"/>
   </box>
   <box>
-    <property name="posx" value="699"/>
-    <property name="posy" value="-500"/>
+    <property name="posx" value="708"/>
+    <property name="posy" value="-501"/>
     <property name="uid" value="45"/>
     <property name="image" value="game/box/yellow/bonus/1.png"/>
     <property name="type" value="bonus"/>

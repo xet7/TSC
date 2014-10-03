@@ -123,12 +123,12 @@ cMenuHandler::cMenuHandler(void)
     Reset();
 
     // SMC logo image
-    cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
-    sprite->Set_Image(pVideo->Get_Package_Surface("game/logo/smc_big_1.png"));
-    sprite->Set_Pos(180.0f, 20.0f);
-    sprite->Set_Scale(0.8f);
-    sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
-    m_level->m_sprite_manager->Add(sprite);
+    //cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
+    //sprite->Set_Image(pVideo->Get_Package_Surface("game/logo/smc_big_1.png"));
+    //sprite->Set_Pos(180.0f, 20.0f);
+    //sprite->Set_Scale(0.8f);
+    //sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
+    //m_level->m_sprite_manager->Add(sprite);
 }
 
 cMenuHandler::~cMenuHandler(void)

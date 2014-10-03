@@ -1,1 +1,8 @@
-from LoXodonte
+from Vegastrike.
+Original name : battle3electro.ogg
+author : Ken Seguro
+license : GPL
+
+This is a temporary solution for our title music; the file is
+identical to the music in land/hyper_1.ogg. We are only using at until
+somone can come up with a new great title music.
