@@ -17,6 +17,8 @@
 #include "../video/gl_surface.hpp"
 #include "../level/level_player.hpp"
 #include "../core/errors.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/i18n.hpp"
 
 using namespace SMC;
 
@@ -123,4 +125,9 @@ void cShell::Set_Color(DefaultColor col)
 
     // Make it show up in the editor properly
     Set_Image_Num(10, true);
+}
+
+std::string cShell::Create_Name() const
+{
+    return m_name + " " + _(Get_Color_Name(m_color_type).c_str()) + " " + _(Get_Direction_Name(m_start_direction).c_str());
 }
