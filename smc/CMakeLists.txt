@@ -14,6 +14,9 @@ include(ExternalProject)
 set(SMC_VERSION_MAJOR 2)
 set(SMC_VERSION_MINOR 1)
 set(SMC_VERSION_PATCH 0)
+# If you get a merge conflict below, always keep "dev" on the
+# "devel" branch. The postfix is only to be altered on release
+# branches.
 set(SMC_VERSION_POSTFIX "dev")
 
 ###############################################
