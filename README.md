@@ -21,8 +21,9 @@ Links
 -----
 
 * The TSC website: http://www.secretchronicles.de
-* The forums: http://smc.quintilianus.eu
-* The bugtracker: https://github.com/Secretchronicles/SMC/issues
+* The forums: http://forum.secretchronicles.de
+* The wiki: http://wiki.secretchronicles.de
+* The bugtracker: https://github.com/Secretchronicles/TSC/issues
 * The documentation: http://docs.secretchronicles.de
 * The old, and largely unmaintained SMC forums:
   http://secretmaryo.org/phpBB3
