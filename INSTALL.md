@@ -123,8 +123,8 @@ repository, and initialize the Git submodules before you can continue
 with the real build process. These preprations can be done as follows:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ git clone git://github.com/Secretchronicles/SMC.git
-$ cd SMC
+$ git clone git://github.com/Secretchronicles/TSC.git
+$ cd TSC
 $ git submodule init
 $ git submodule update
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -263,8 +263,8 @@ Clone the Git repository and execute the preparation steps. They are
 the same as for a normal non-cross build.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ git clone git://github.com/Secretchronicles/SMC.git
-$ cd SMC
+$ git clone git://github.com/Secretchronicles/TSC.git
+$ cd TSC
 $ git submodule init
 $ git submodule update
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
