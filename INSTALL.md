@@ -194,12 +194,13 @@ $ tar -xvJf SMC-*.tar.xz
 $ cd SMC-*/smc
 $ mkdir crossbuild
 $ cd crossbuild
+$ cp ../cmake/toolchains/linux2mingw32.cmake .
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now, edit the toolchain file `smc/cmake/toolchains/linux2mingw32.cmake`
-to point to your MXE installation, which should be
-`~/smc-building/mxe` if you followed the above steps. For this, ensure
-the `CMAKE_FIND_ROOT_PATH` line is correct:
+The last step copied the toolchain file `smc/cmake/toolchains/linux2mingw32.cmake`
+to your crossbuild directory.  Edit that file to point to your MXE installation,
+which should be `~/smc-building/mxe` if you followed the above steps. For this,
+ensure the `CMAKE_FIND_ROOT_PATH` line is correct:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/smc-building/mxe")
@@ -213,7 +214,6 @@ you want debugging symbols or not.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ export PATH=$HOME/smc-building/mxe/usr/bin:$PATH
-$ cp ../cmake/toolchains/linux2mingw32.cmake .
 $ cmake -DCMAKE_TOOLCHAIN_FILE=./linux2mingw32.cmake \
   -DCMAKE_INSTALL_PREFIX=$PWD/testinstall ..
 $ make
