@@ -471,11 +471,10 @@ int cSavegame::Load_Game(unsigned int save_slot)
 
                 // time
                 pHud_Time->Set_Time(savegame->m_level_time);
+                
                 // position
-                pLevel_Player->Set_Pos(save_level->m_level_pos_x, save_level->m_level_pos_y);
+                pLevel_Player->Set_Pos(save_level->m_level_pos_x, save_level->m_level_pos_y);           
 
-                // invincible for a second
-                pLevel_Player->m_invincible = speedfactor_fps;
                 // level savegame
                 save_type = 1;
             }
@@ -563,18 +562,24 @@ int cSavegame::Load_Game(unsigned int save_slot)
     pLevel_Player -> m_invincible = savegame->m_invincible;
     pLevel_Player -> m_invincible_star = savegame->m_invincible_star;
 
+    //If the player had less than a second of invincibility or was not invincible (value of 0), give them a
+    //second of invincibility.  This is only applicable if a level save state was loaded (not a world map save state).
+    if (save_type == 1 && pLevel_Player->m_invincible < speedfactor_fps) {
+        pLevel_Player->m_invincible = speedfactor_fps;
+    }
+
     pLevel_Player -> m_ghost_time = savegame->m_ghost_time;
     pLevel_Player -> m_ghost_time_mod = savegame->m_ghost_time_mod;
 
     //Play the appropriate music
-    if (!Is_Float_Equal(pLevel_Player -> m_invincible_star, 0.0f)) {
+    if (!Is_Float_Equal(pLevel_Player -> m_invincible_star, 0.0f)) { //Player Invincible - Invincibility music
         pAudio->Play_Music("game/star.ogg", 0, 1, 500);
         pAudio->Play_Music(pActive_Level->m_musicfile, -1, 0);
     }
-    else if (save_type == 1) {
+    else if (save_type == 1) { //Level loaded - level music
         pAudio->Play_Music(pActive_Level->m_musicfile, -1, 1, 1000);
     }
-    else {
+    else { //World map loaded -- world map music
         pAudio->Play_Music(pActive_Overworld->m_musicfile, -1, 1, 1000);
     }
 
