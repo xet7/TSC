@@ -19,6 +19,7 @@
 #include "../core/errors.hpp"
 #include "../core/property_helper.hpp"
 #include "../core/i18n.hpp"
+#include "../core/xml_attributes.hpp"
 
 using namespace SMC;
 
@@ -35,6 +36,17 @@ cShell::cShell(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
     // (and behind cTurtle::Init() there), but C++ limitations make this
     // impossible. Seems to work fine this way, though.
     cShell::Init();
+
+    // Redo turtle init due to c++ limitations outlined above
+    // position
+    Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+    // direction
+    Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))), true);
+
+    // color
+    Set_Color(static_cast<DefaultColor>(Get_Color_Id(attributes.fetch("color", Get_Color_Name(m_color_type)))));
+
 }
 
 cShell::~cShell()
