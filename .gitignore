@@ -59,6 +59,9 @@ Thumbs.db
 # QT Creator
 CMakeLists.txt.user*
 
+# Vim
+*.swp
+
 # Installer
 /smc/extras/Setup/*.exe
 
