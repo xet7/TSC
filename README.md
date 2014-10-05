@@ -29,6 +29,27 @@ Links
   http://secretmaryo.org/phpBB3
 * The old SMC website: http://secretmaryo.org
 
+Contributing
+------------
+
+Any contributions to the code, the graphics, the music, etc. are
+greatly appreciated. However, before starting your work on the game,
+please consider the following:
+
+* You have to be familiar with at least the basics of using the Git
+  version control system. This can be achieved by reading the first
+  two chapters of [this great online Git
+  book](http://git-scm.com/book). Also reading chapter 3 is highly
+  recommended as we use branches all the time.
+* If you want to contribute code, please read [the coding
+  conventions document](http://docs.secretchronicles.de/api/devel/md_conventions.html)
+* If you want to contribute artistic work, please read [the styleguide](http://wiki.secretchronicles.de/StyleGuide)
+* If you specifically target issues from the issue tracker, please
+  use “fixes #43” for bug tickets you fix and “closes #43” for other
+  tickets you resolve as part of the message in your commits. This
+  causes GitHub to automatically close the corresponding ticket if
+  we merge your changes.
+
 License
 -------
 
