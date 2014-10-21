@@ -468,10 +468,17 @@ namespace SMC {
         float m_start_rot_x;
         float m_start_rot_y;
         float m_start_rot_z;
-        /// rotation
+        /// X rotation. Can only be "0" (no rotation) or "180" (mirror on X axis).
         float m_rot_x;
+        /// Y rotation. Can only be "0" (no rotation) or "180" (mirror on Y axis).
         float m_rot_y;
+        /// Z rotation. The real rotation on the Z axis, which is what one would
+        /// expect to be the "rotation". Can be anything 0 <= r <= 360.
         float m_rot_z;
+        // FIXME: m_rot_x and m_rot_y should probably be renamed
+        // to m_mirror_x and m_mirror_y, m_rot_z should be renamed
+        // to m_rot(ation).
+
         /// if set scale not only affects the image but also the rectangle
         bool m_scale_affects_rect;
         /** which parts of the image get scaled
