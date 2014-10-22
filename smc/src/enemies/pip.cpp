@@ -300,6 +300,12 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
         if (m_state == STA_WALK) {
             DownGrade();
             pLevel_Player->Action_Jump(true);
+            pLevel_Player->m_pos_x += 15; // Ensure the player does not get stuck on one of the small pips
+
+            // It is very hard to not get hit by the two resulting small pips. Thus,
+            // grant the player a short period of invincibility.
+            pLevel_Player->m_invincible = speedfactor_fps;
+            pLevel_Player->m_invincible_mod = 0.0f;
         }
         else if (m_state == STA_RUN) { // small walking
             DownGrade();
