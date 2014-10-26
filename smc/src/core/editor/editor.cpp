@@ -583,7 +583,7 @@ bool cEditor::Key_Down(SDLKey key)
             text_help->setProperty("BackgroundEnabled", "False");
             text_help->setProperty("VertFormatting", "TopAligned");
 
-            text_help->setText(" \n"
+            text_help->setText(_(" \n"
                                "----- [colour='FFFFCF5F']General[colour='FFFFFFFF'] -----\n"
                                " \n"
                                "F1 - Toggle this Help Window\n"
@@ -628,7 +628,7 @@ bool cEditor::Key_Down(SDLKey key)
                                " Ctrl + Shift + Left (Click) - Select objects with the same type\n"
                                "Arrow keys:\n"
                                " Use arrow keys to move around. Press shift for faster movement\n"
-                               " \n"
+                               " \n")
                               );
 
             CEGUI::Window* guisheet = pGuiSystem->getGUISheet();

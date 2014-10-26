@@ -30,6 +30,7 @@ namespace SMC {
         virtual void Stand_Up();
         virtual void Set_Color(DefaultColor col);
 
+        virtual std::string Create_Name() const;
     protected:
         void Init();
         virtual std::string Get_XML_Type_Name();

@@ -159,9 +159,17 @@ if (WIN32)
   find_package(CEGUI COMPONENTS OPENGL REQUIRED) # Old CEGUI 0.7.x is provided by MXE
   find_package(LibIntl REQUIRED)
   find_package(FreeImage REQUIRED)
-  find_package(Boost 1.50.0
-    COMPONENTS filesystem chrono thread_win32 system
-    REQUIRED)
+
+  # Boost thread lib is named thread_win32 only under crosscompilation
+  if (TOOLCHAIN_PREFIX)
+    find_package(Boost 1.50.0
+      COMPONENTS filesystem chrono thread_win32 system
+      REQUIRED)
+  else()
+    find_package(Boost 1.50.0
+      COMPONENTS filesystem chrono thread system
+      REQUIRED)
+  endif()
 
   # Boost-thread and CEGUI need to be explicitely told that they’re
   # linked in statically on Windows.

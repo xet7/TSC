@@ -29,7 +29,7 @@ Florian Richter (FluXy)
 
 -- Coders --
 
-datahead8888
+Chris Jacobsen (datahead8888)
  - Coder
 
 Brian Allen Vanderburg II (brianvanderburg2)
@@ -51,6 +51,12 @@ Anthony Smith (mrvertigo27)
 
 Yoshis_Fan
  - Graphic Designer
+
+-- Level Contributors --
+
+Sauer2
+ - Level Building
+ - Features Integration for Levels
 
 -- Translators --
 
@@ -134,12 +140,6 @@ Mark Richards (dteck)
 
 Robert (Consonance)
  - Sound and Music Artist
-
-Sauer2
- - Level Contributor
-
-Simpletoon
- - Developer
 
 Norbu Tsering (Naerbu)
  - Music Artist
