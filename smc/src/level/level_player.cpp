@@ -2524,7 +2524,7 @@ void cLevel_Player::Load_Images(void)
         Add_Image(pVideo->Get_Surface("maryo/fire/fall_right" + special_state + ".png"));
         // jumping
         Add_Image(pVideo->Get_Surface("maryo/fire/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Surface("maryo/fire/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Surface("maryo/fire/jump_right" + special_state + ".png"));
         // dead
         Add_Image(pVideo->Get_Surface("maryo/small/dead_left.png"));
         Add_Image(pVideo->Get_Surface("maryo/small/dead_right.png"));
@@ -2563,7 +2563,7 @@ void cLevel_Player::Load_Images(void)
         Add_Image(pVideo->Get_Surface("maryo/ice/fall_right" + special_state + ".png"));
         // jumping
         Add_Image(pVideo->Get_Surface("maryo/ice/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Surface("maryo/ice/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Surface("maryo/ice/jump_right" + special_state + ".png"));
         // dead
         Add_Image(pVideo->Get_Surface("maryo/small/dead_left.png"));
         Add_Image(pVideo->Get_Surface("maryo/small/dead_right.png"));
@@ -2602,7 +2602,7 @@ void cLevel_Player::Load_Images(void)
         Add_Image(pVideo->Get_Surface("maryo/flying/fall_right" + special_state + ".png"));
         // jumping
         Add_Image(pVideo->Get_Surface("maryo/flying/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Surface("maryo/flying/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Surface("maryo/flying/jump_right" + special_state + ".png"));
         // dead
         Add_Image(pVideo->Get_Surface("maryo/small/dead_left.png"));
         Add_Image(pVideo->Get_Surface("maryo/small/dead_right.png"));
@@ -2653,7 +2653,7 @@ void cLevel_Player::Load_Images(void)
         Add_Image(pVideo->Get_Surface("maryo/ghost/fall_right" + special_state + ".png"));
         // jumping
         Add_Image(pVideo->Get_Surface("maryo/ghost/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Surface("maryo/ghost/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Surface("maryo/ghost/jump_right" + special_state + ".png"));
         // dead
         Add_Image(pVideo->Get_Surface("maryo/small/dead_left.png"));
         Add_Image(pVideo->Get_Surface("maryo/small/dead_right.png"));
