@@ -495,13 +495,13 @@ void cFirePlant::Init(void)
     m_can_be_on_ground = 0;
     m_pos_z = 0.051f;
 
-    Add_Image(pVideo->Get_Surface("game/items/fireplant.png"));
-    Add_Image(pVideo->Get_Surface("game/items/fireplant_left.png"));
-    Add_Image(pVideo->Get_Surface("game/items/fireplant_right.png"));
+    Add_Image(pVideo->Get_Surface("game/items/fireberry_1.png"));
+    Add_Image(pVideo->Get_Surface("game/items/fireberry_2.png"));
+    Add_Image(pVideo->Get_Surface("game/items/fireberry_3.png"));
 
     Set_Image_Num(0, 1, 0);
 
-    m_name = _("Fireplant");
+    m_name = _("Fireberry");
 
     m_particle_counter = 0.0f;
 }
@@ -552,15 +552,8 @@ void cFirePlant::Update(void)
 
     m_counter += pFramerate->m_speed_factor;
 
-    if (m_counter > speedfactor_fps * 2.5f) {
-        // if no direction image set
-        if (m_curr_img == 0) {
-            Set_Image_Num(1 + (rand() % 2), 0, 0);
-        }
-        // direction image is set
-        else {
-            Set_Image_Num(0, 0, 0);
-        }
+    if (m_counter > speedfactor_fps * 0.1f) {
+        Set_Image_Num((m_curr_img + 1) % m_images.size());
 
         m_counter = 0.0f;
     }
@@ -571,7 +564,7 @@ void cFirePlant::Update(void)
     if (m_particle_counter > 1.0f) {
         cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
         anim->Set_Image(pVideo->Get_Surface("animation/particles/light.png"));
-        anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y, m_col_rect.m_w, m_col_rect.m_h * 0.5f);
+        anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + 10, m_col_rect.m_w, m_col_rect.m_h * 0.5f);
         anim->Set_Quota(static_cast<int>(m_particle_counter));
         anim->Set_Pos_Z(m_pos_z + 0.000001f);
         anim->Set_Direction_Range(180.0f, 180.0f);
