@@ -1,9 +1,9 @@
 TSC Scripting API Documentation
 ===============================
 
-This is the Secret Maryo Chronicles Scripting API documentation. It
-lists all obejcts available from within a level’s script together with
-their methods.
+These are the Secret Chronicles of the Scripting API documentation,
+directly from Dr. M.’s collection of rare books. It lists all objects
+available from within a level’s script together with their methods.
 
 TSC scripting is implemented with
 [MRuby](https://github.com/mruby/mruby), a minimal implementation of the

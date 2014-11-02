@@ -1,9 +1,9 @@
 List of TSC contributors & copyright holders
 ============================================
 
-This file lists all people who have contributed to Secret Maryo
-Chronicles and hence hold copyright on it. All names are shown in
-categorized alphabetical order.
+This file lists all people who have contributed to the Secret
+Chronicles of Dr. M. or its former codebase, and hence hold copyright
+on it. All names are shown in categorized alphabetical order.
 
 Apart from this, code taken from other projects under specific
 licenses is marked as such in the code. To find these, issue

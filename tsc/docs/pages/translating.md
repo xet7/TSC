@@ -33,7 +33,7 @@ the Portugese locale as practised in Brazil).
 
 The `.po` files are those you usually do your edits in when you
 translate the game. All `.po` files are derived from a master template
-file, the `.pot` file (`Secret Maryo Chronicles.pot`) that should
+file, the `.pot` file (`Secretchronicles.pot`) that should
 always match the current state of TSC’s sourcecode with regard to new
 strings, removed strings, updated strings, etc. Naturally, as TSC
 evolves, your `.po` file falls behind the state of TSC’s sourcecode
@@ -104,17 +104,17 @@ your language’s pluralisation rules very good.
 Once done, your PO header should look something like this:
 
 ~~~~~~~~~~~~~~~~~~~~
-Project-Id-Version: Secret Maryo Chronicles
-Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2014-08-30 21:36+0200
-PO-Revision-Date: 2014-08-30 19:40+0200
-Last-Translator: You <you@example.com>
-Language-Team: TSC Spanish localization team <tsc-es@example.com>
-Language: es
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=n != 1;
+"Project-Id-Version: The Secret Chronicles of Dr. M.\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-30 21:36+0200\n"
+"PO-Revision-Date: 2014-08-30 19:40+0200\n"
+"Last-Translator: You <you@example.com>\n"
+"Language-Team: TSC Spanish localization team <tsc-es@example.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 ~~~~~~~~~~~~~~~~~~~~
 
 Now you can start translating the rest of the `.po` file.
