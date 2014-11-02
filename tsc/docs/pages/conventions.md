@@ -1,16 +1,16 @@
 Coding conventions
 ==================
 
-This file documents the coding conventions used in SMC. If you plan on
+This file documents the coding conventions used in TSC. If you plan on
 contributing to the game, please read this.
 
-The general style used for SMC’s codebase is the [Stroustrup
+The general style used for TSC’s codebase is the [Stroustrup
 style][1]. For any formatting questions, you should therefore read
 that document prior to consulting this one, which outlines the
 additions and differences to the standard Stroustrup style.
 
 Note that for Emacs an appropriate style file is already provided in
-the source tree, `smc/.dir_locals.el`. That file will automatically be
+the source tree, `tsc/.dir_locals.el`. That file will automatically be
 picked up by Emacs when you edit the sourcecode, so you don’t have to
 worry about changing the indentation and other style settings
 manually. Stil, a style file doesn’t lift the burden of properly
@@ -20,13 +20,13 @@ File names
 ----------
 
 Sourcecode files end in `.cpp`, header files end in `.hpp` in case of
-C++ code (which should be everything in SMC). Use `.c` and `.h` if for
+C++ code (which should be everything in TSC). Use `.c` and `.h` if for
 some unknown reason pure C code is required.
 
 Indentation
 -----------
 
-Code in SMC is indented with 4 spaces, no tabs. Most code editors can
+Code in TSC is indented with 4 spaces, no tabs. Most code editors can
 be configured to automatically insert the required number of spaces
 when you hit the TAB key.
 
@@ -40,14 +40,14 @@ void foo()
 License header
 --------------
 
-Each file in SMC is required to start with the following license
+Each file in TSC is required to start with the following license
 header:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
 /***************************************************************************
 * <FILENAME>.<cpp/hpp> - <SHORT DESCRIPTION OF THE FILE>
 *
-* Copyright © <YEAR> The SMC Contributors
+* Copyright © <YEAR> The TSC Contributors
 ***************************************************************************
 *
 * This program is free software; you can redistribute it and/or modify
@@ -59,7 +59,7 @@ header:
 */
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you contribute to SMC the first time, don’t forget to include
+If you contribute to TSC the first time, don’t forget to include
 yourself into `docs/authors.txt` so you show up in the credits!
 
 Class names
@@ -186,12 +186,12 @@ must use a macro, make it use a name IN_ALL_CAPS so it stands out of
 the code and warns everyone it is a macro.
 
 The header guards that prevent `#include` from including a header file
-multiple times are of course an exception. Header guard macros in SMC
+multiple times are of course an exception. Header guard macros in TSC
 should always look like this:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-#ifndef SMC_NAMESPACE_CLASS_HPP
-#define SMC_NAMESPACE_CLASS_HPP
+#ifndef TSC_NAMESPACE_CLASS_HPP
+#define TSC_NAMESPACE_CLASS_HPP
 // Code...
 #endif
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -270,30 +270,30 @@ All external `#include` statements should be in
 `core/global_basic.hpp`. Do not include external headers in other
 files. Background for this is that in some cases the order of includes
 is important, which cannot easily be guaranteed when headers include
-other headers of SMC, which include yet another SMC header, which then
+other headers of TSC, which include yet another TSC header, which then
 finally includes some library header, etc. `#include` statements for
-SMC-own headers can be done anywhere you need them.
+TSC-own headers can be done anywhere you need them.
 
-SMC namespace
+TSC namespace
 -------------
 
-All SMC code is required to be defined under the `SMC` namespace. In
-the header files, always write out `namespace SMC {` in full and
+All TSC code is required to be defined under the `TSC` namespace. In
+the header files, always write out `namespace TSC {` in full and
 indent accordingly. In your sourcecode files, add a line
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
-using namespace SMC;
+using namespace TSC;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 near the top so you don’t have to indent all your implementation
-code. Please do **not** follow the old SMC style of using `namespace
-SMC {` and not indenting the rest of the file, this is highly
+code. Please do **not** follow the old TSC style of using `namespace
+TSC {` and not indenting the rest of the file, this is highly
 discouraged.
 
 Version policy
 --------------
 
-SMC uses [semantic versioning](http://semver.org/). In short this
+TSC uses [semantic versioning](http://semver.org/). In short this
 means:
 
 * Version numbers are triplets of form `MAJOR.MINOR.TINY`.
@@ -303,24 +303,24 @@ means:
   file formats).
 * `MAJOR` is increased when backward compatibility is broken.
 
-Additionally, each compiled executable of SMC knows about the exact
-commit’s hash it was compiled from. Execute SMC like this to receive
+Additionally, each compiled executable of TSC knows about the exact
+commit’s hash it was compiled from. Execute TSC like this to receive
 the full version information:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ smc --version
+$ tsc --version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Branching
 ---------
 
-The version control system (VCS) in use for SMC is
+The version control system (VCS) in use for TSC is
 [Git](http://www.git-scm.com/), and the repository currently resides
-at [GitHub](https://github.com/Secretchronicles/SMC). For managing
+at [GitHub](https://github.com/Secretchronicles/TSC). For managing
 these sources, we generally follow the so-called [“Git
 Flow”](http://nvie.com/posts/a-successful-git-branching-model/) model,
 which heavily relies on Git’s lightweight branches and in a nutshell
-means the following for SMC:
+means the following for TSC:
 
 * Each commit on `master` is a final release and is tagged
   accordingly.
@@ -343,7 +343,7 @@ automatically become the codebase for the next release. Semantic
 versioning however requires us to handle features or other changes
 that break backward compatibility specifically, they are not allowed
 to just go into the next release, i.e. into `devel`, so that the user
-is able to derive compatibility information from SMC’s version
+is able to derive compatibility information from TSC’s version
 number. To prevent feature branches from getting silently out-of-date
 when they are completed and not merged into devel, we maintain
 specific `devel-X.0.0` branches that serve the purpose of the `devel`
@@ -379,7 +379,7 @@ Work In Progress) mark to the title.
 Documentation
 -------------
 
-SMC uses [Doxygen][2] for documentation. Inside the header files,
+TSC uses [Doxygen][2] for documentation. Inside the header files,
 please only provide Doxygen "brief" descriptions of the elements (if
 any) in order to not clutter the header files, which this way can be
 used as a short quick-reference (Doxygen uses the "brief" comment for
@@ -453,8 +453,8 @@ Miscellanea
 State of transition
 -------------------
 
-SMC’s codebase has seen different coding styles in the past. You will
-find that most of SMC does not correspond to this styleguide, but we
+TSC’s codebase has seen different coding styles in the past. You will
+find that most of TSC does not correspond to this styleguide, but we
 are working on it. Some day we will have it done...
 
 [1]: http://www.stroustrup.com/Programming/PPP-style-rev3.pdf
