@@ -143,7 +143,7 @@ void cLarry::Update()
             else if (m_state == STA_RUN)
                 m_velx_max = 3.0f;
             else
-                throw (SMCError("Invalid larry walking state!"));
+                throw (TSCError("Invalid larry walking state!"));
 
             Update_Rotation_Hor();
         }

@@ -284,14 +284,14 @@ void cResource_Manager::init_directories()
     if (count < 0)
         throw(ConfigurationError("Failed to retrieve the executable's path from /proc/self/exe!"));
 
-    m_paths.game_data_dir = utf8_to_path(std::string(path_data, count)).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("smc");
+    m_paths.game_data_dir = utf8_to_path(std::string(path_data, count)).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("tsc");
 #elif _WIN32
     wchar_t path_data[MAX_PATH];
     if (GetModuleFileNameW(NULL, path_data, MAX_PATH) == 0)
         throw(ConfigurationError("Failed to retrieve the executable's path from the Win32API!"));
     std::string utf8_path = ucs2_to_utf8(path_data);
 
-    m_paths.game_data_dir = utf8_to_path(utf8_path).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("smc");
+    m_paths.game_data_dir = utf8_to_path(utf8_path).parent_path().parent_path() / utf8_to_path("share") / utf8_to_path("tsc");
 #else
 #error Dont know how to retrieve the path to the running executable on this system!
 #endif
@@ -299,9 +299,9 @@ void cResource_Manager::init_directories()
 
     ////////// The (writeable) user directories //////////
 #ifdef __unix__
-    m_paths.user_data_dir = xdg_get_directory("XDG_DATA_HOME", ".local/share") / utf8_to_path("smc");
-    m_paths.user_cache_dir = xdg_get_directory("XDG_CACHE_HOME", ".cache") / utf8_to_path("smc");
-    m_paths.user_config_dir = xdg_get_directory("XDG_CONFIG_HOME", ".config") / utf8_to_path("smc");
+    m_paths.user_data_dir = xdg_get_directory("XDG_DATA_HOME", ".local/share") / utf8_to_path("tsc");
+    m_paths.user_cache_dir = xdg_get_directory("XDG_CACHE_HOME", ".cache") / utf8_to_path("tsc");
+    m_paths.user_config_dir = xdg_get_directory("XDG_CONFIG_HOME", ".config") / utf8_to_path("tsc");
 #elif _WIN32
     wchar_t path_appdata[MAX_PATH + 1];
 
@@ -319,7 +319,7 @@ void cResource_Manager::init_directories()
 
     std::string str_path = ucs2_to_utf8(path_appdata);
     Convert_Path_Separators(str_path);
-    fs::path app_path = utf8_to_path(str_path) / utf8_to_path("smc");
+    fs::path app_path = utf8_to_path(str_path) / utf8_to_path("tsc");
 
     m_paths.user_data_dir = app_path;
     m_paths.user_cache_dir = app_path / utf8_to_path("cache");

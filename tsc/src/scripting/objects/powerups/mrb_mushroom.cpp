@@ -28,12 +28,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cMushroom* p_mushroom = new cMushroom(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_mushroom;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_mushroom->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_mushroom);
 
     return self;
@@ -174,7 +174,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Mushroom(mrb_state* p_state)
+void TSC::Scripting::Init_Mushroom(mrb_state* p_state)
 {
     struct RClass* p_rcMushroom = mrb_define_class(p_state, "Mushroom", mrb_class_get(p_state, "Powerup"));
     MRB_SET_INSTANCE_TT(p_rcMushroom, MRB_TT_DATA);

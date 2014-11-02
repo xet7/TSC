@@ -139,7 +139,7 @@ void cPreferences::Save(void)
     xmlpp::Element* p_root = doc.create_root_node("config");
 
     // Game
-    Add_Property(p_root, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+    Add_Property(p_root, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_root, "game_language", m_language);
     Add_Property(p_root, "game_always_run", m_always_run);
     Add_Property(p_root, "game_menu_level", m_menu_level);
@@ -206,7 +206,7 @@ void cPreferences::Save(void)
 void cPreferences::Reset_All(void)
 {
     // Game
-    m_game_version = smc_version;
+    m_game_version = tsc_version;
 
     Reset_Game();
     Reset_Video();
@@ -380,7 +380,7 @@ void cPreferences::Apply_Audio(bool sound, bool music)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-/// User preferences, i.e. the content from the SMC configuration file.
+/// User preferences, i.e. the content from the TSC configuration file.
 cPreferences* pPreferences = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

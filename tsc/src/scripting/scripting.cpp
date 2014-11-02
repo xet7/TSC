@@ -5,7 +5,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 
-#include "objects/mrb_smc.hpp"
+#include "objects/mrb_tsc.hpp"
 #include "objects/mrb_eventable.hpp"
 #include "objects/mrb_uids.hpp"
 #include "objects/sprites/mrb_sprite.hpp"
@@ -60,7 +60,7 @@
 ////////////////////////////////////////
 
 // Extern
-mrb_data_type SMC::Scripting::rtSMC_Scriptable = {"SmcScriptable", NULL};
+mrb_data_type TSC::Scripting::rtTSC_Scriptable = {"TscScriptable", NULL};
 
 namespace TSC {
 
@@ -72,7 +72,7 @@ cMRuby_Interpreter::cMRuby_Interpreter(cLevel* p_level)
     mp_level = p_level;
     mp_mruby = mrb_open();
 
-    // Load SMC classes into mruby
+    // Load TSC classes into mruby
     Load_Wrappers();
     // Load scripting library
     Load_Scripts();
@@ -216,8 +216,8 @@ void cMRuby_Interpreter::Load_Wrappers()
 {
     using namespace TSC::Scripting;
 
-    // Create the main SMC modules
-    Init_SMC(mp_mruby);
+    // Create the main TSC modules
+    Init_TSC(mp_mruby);
     Init_Eventable(mp_mruby);
 
     // When changing the order, ensure parent mruby classes get defined

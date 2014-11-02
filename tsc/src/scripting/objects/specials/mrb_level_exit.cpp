@@ -61,12 +61,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cLevel_Exit* p_exit = new cLevel_Exit(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_exit;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_exit->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_exit);
 
     return self;
@@ -416,7 +416,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_LevelExit(mrb_state* p_state)
+void TSC::Scripting::Init_LevelExit(mrb_state* p_state)
 {
     struct RClass* p_rcLevel_Exit = mrb_define_class(p_state, "LevelExit", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcLevel_Exit, MRB_TT_DATA);

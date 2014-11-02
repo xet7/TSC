@@ -9,7 +9,7 @@
  * Parent: [Sprite](sprite.html)
  * {: .superclass}
  *
- * Everything that is moving on the screen is considered by SMC to be a
+ * Everything that is moving on the screen is considered by TSC to be a
  * _MovingSprite_. It is the superclass of most on-screen objects and as
  * such the methods defined here are available to most other objects,
  * e.g. the [Player](player.html) or [enemies](enemy.html).
@@ -39,7 +39,7 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
  * The next thing to know is that you don’t have constant acceleration in
- * SMC. Calling methods like #accelerate! give them a one-time acceleration,
+ * TSC. Calling methods like #accelerate! give them a one-time acceleration,
  * just as if you throw something up into the air. While it continues to move
  * upwards after it left your hand,  you don’t further accelerate it while it
  * flies. But the gravity does — and does so constantly, always, first eating
@@ -49,7 +49,7 @@
  *
  * Keep this in mind when you call the methods on this class. Accelerating
  * something doens’t mean to put it at a specific velocity, but rather to
- * add a delta value to its _current_ velocity. SMC however allows you to
+ * add a delta value to its _current_ velocity. TSC however allows you to
  * cheat physics — rather than having to compute the acceleration you need
  * to get an object to a desired velocity you can do magic and call one of
  * the `velocity=` methods, which skip the acceleration step and directly
@@ -58,7 +58,7 @@
  * now moving object, deaccelerating and finally stopping it.
  *
  * I’m too lazy at the moment, but it should be possible to look up the
- * value for `g` SMC uses and provide a formula that takes the constant
+ * value for `g` TSC uses and provide a formula that takes the constant
  * negative acceleration it causes into account. The same could be done
  * for the horizontal resistances, finally emitting a formula that allows
  * you to exactly calculate how a once-accelerated object behaves. If you
@@ -671,7 +671,7 @@ static mrb_value Down_Grade(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
+void TSC::Scripting::Init_Moving_Sprite(mrb_state* p_state)
 {
     struct RClass* p_rcMoving_Sprite = mrb_define_class(p_state, "MovingSprite", mrb_class_get(p_state, "Sprite"));
 

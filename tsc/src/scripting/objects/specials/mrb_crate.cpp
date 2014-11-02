@@ -39,7 +39,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cCrate* p_crate = new cCrate(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_crate;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     p_crate->Set_Spawned(true);
     pActive_Level->m_sprite_manager->Add(p_crate);
@@ -47,7 +47,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     return self;
 }
 
-void SMC::Scripting::Init_Crate(mrb_state* p_state)
+void TSC::Scripting::Init_Crate(mrb_state* p_state)
 {
     struct RClass* p_rcCrate = mrb_define_class(p_state, "Crate", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcCrate, MRB_TT_DATA);

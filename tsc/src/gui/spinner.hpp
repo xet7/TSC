@@ -20,12 +20,12 @@
 
 namespace CEGUI {
 
-    /* *** *** *** *** *** *** *** *** SMC_Spinner *** *** *** *** *** *** *** *** *** */
+    /* *** *** *** *** *** *** *** *** TSC_Spinner *** *** *** *** *** *** *** *** *** */
 
-    class SMC_Spinner : public Spinner {
+    class TSC_Spinner : public Spinner {
     public:
-        SMC_Spinner(const String& type, const String& name);
-        virtual ~SMC_Spinner(void);
+        TSC_Spinner(const String& type, const String& name);
+        virtual ~TSC_Spinner(void);
 
         /*!
         \brief
@@ -42,7 +42,7 @@ namespace CEGUI {
         static const String WidgetTypeName;
     };
 
-    CEGUI_DECLARE_WINDOW_FACTORY(SMC_Spinner)
+    CEGUI_DECLARE_WINDOW_FACTORY(TSC_Spinner)
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

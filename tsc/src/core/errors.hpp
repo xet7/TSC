@@ -6,20 +6,20 @@
 namespace TSC {
 
     /**
-     * Base class of all SMC-related exceptions.
+     * Base class of all TSC-related exceptions.
      */
-    class SMCError: public std::exception {
+    class TSCError: public std::exception {
     public:
-        SMCError();
-        SMCError(std::string message);
-        virtual ~SMCError() throw();
+        TSCError();
+        TSCError(std::string message);
+        virtual ~TSCError() throw();
 
         virtual const char* what() const throw();
     protected:
-        std::string m_smc_errmsg;
+        std::string m_tsc_errmsg;
     };
 
-    class ConfigurationError: public SMCError {
+    class ConfigurationError: public TSCError {
     public:
         ConfigurationError(std::string message);
         virtual ~ConfigurationError() throw();
@@ -29,7 +29,7 @@ namespace TSC {
      * This exception is thrown when an expected XML
      * key is not found.
      */
-    class XmlKeyDoesNotExist: public SMCError {
+    class XmlKeyDoesNotExist: public TSCError {
     public:
         XmlKeyDoesNotExist(std::string key);
         virtual ~XmlKeyDoesNotExist() throw();
@@ -42,26 +42,26 @@ namespace TSC {
 
     // Thrown if specific things are not implemented for
     // some reason.
-    class NotImplementedError: public SMCError {
+    class NotImplementedError: public TSCError {
     public:
         NotImplementedError(std::string message);
         virtual ~NotImplementedError() throw();
     };
 
-    class InvalidLevelError: public SMCError {
+    class InvalidLevelError: public TSCError {
     public:
         InvalidLevelError(std::string message);
         virtual ~InvalidLevelError() throw();
     };
 
-    class RestartedXmlParserError: public SMCError {
+    class RestartedXmlParserError: public TSCError {
     public:
         RestartedXmlParserError();
         virtual ~RestartedXmlParserError() throw();
         virtual const char* what() const throw();
     };
 
-    class InvalidMovingStateError: public SMCError {
+    class InvalidMovingStateError: public TSCError {
     public:
         InvalidMovingStateError(Moving_state state);
         virtual ~InvalidMovingStateError() throw();
@@ -70,7 +70,7 @@ namespace TSC {
         Moving_state m_state;
     };
 
-    class EditorError: public SMCError {
+    class EditorError: public TSCError {
     public:
         EditorError(std::string msg);
         virtual ~EditorError() throw();

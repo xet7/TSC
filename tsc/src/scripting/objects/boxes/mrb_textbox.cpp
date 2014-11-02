@@ -34,12 +34,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cText_Box* p_box = new cText_Box(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_box;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_box->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_box);
 
     return self;
@@ -80,7 +80,7 @@ static mrb_value Get_Text(mrb_state* p_state, mrb_value self)
     return mrb_str_new_cstr(p_state, p_box->m_text.c_str());
 }
 
-void SMC::Scripting::Init_TextBox(mrb_state* p_state)
+void TSC::Scripting::Init_TextBox(mrb_state* p_state)
 {
     struct RClass* p_rcText_Box = mrb_define_class(p_state, "TextBox", mrb_class_get(p_state, "Box"));
     MRB_SET_INSTANCE_TT(p_rcText_Box, MRB_TT_DATA);

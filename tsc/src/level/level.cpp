@@ -283,7 +283,7 @@ fs::path cLevel::Save_To_File(fs::path filename /* = fs::path() */)
 
     // <information>
     p_node = p_root->add_child("information");
-    Add_Property(p_node, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+    Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", level_engine_version);
     Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
     // </information>

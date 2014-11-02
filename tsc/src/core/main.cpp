@@ -38,7 +38,7 @@
 #include "../core/i18n.hpp"
 #include "../gui/generic.hpp"
 
-// SMC namespace is set later to exclude main() from it
+// TSC namespace is set later to exclude main() from it
 using namespace TSC;
 
 // SDLmain defines this for Win32 applications but under debug we use the console
@@ -74,7 +74,7 @@ int main(int argc, char** argv)
     }
     else if (contents.find("/bin") != std::string::npos) {
         // executable is installed Unix-way
-        datapath = contents.substr(0, contents.find("/bin")) + "/share/smc";
+        datapath = contents.substr(0, contents.find("/bin")) + "/share/tsc";
     }
     else {
         std::cerr << "Warning: Could not determine installation type\n";
@@ -106,15 +106,15 @@ int main(int argc, char** argv)
             }
             // version
             else if (arguments[i] == "--version" || arguments[i] == "-v") {
-                std::cout << "This is " << CAPTION << " version " << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH;
-#ifdef SMC_VERSION_POSTFIX
-                std::cout << "-" << SMC_VERSION_POSTFIX << "." << std::endl;
+                std::cout << "This is " << CAPTION << " version " << TSC_VERSION_MAJOR << "." << TSC_VERSION_MINOR << "." << TSC_VERSION_PATCH;
+#ifdef TSC_VERSION_POSTFIX
+                std::cout << "-" << TSC_VERSION_POSTFIX << "." << std::endl;
                 std::cout << " --- This is a DEVELOPMENT built! It may eat your hamster! ---" << std::endl;
 #else
                 std::cout << "." << std::endl;
 #endif
 
-                std::cout << "It was compiled from commit " << SMC_VERSION_GIT << "." << std::endl;
+                std::cout << "It was compiled from commit " << TSC_VERSION_GIT << "." << std::endl;
                 return EXIT_SUCCESS;
             }
             // debug
@@ -191,7 +191,7 @@ int main(int argc, char** argv)
         Draw_Game();
 
         // render
-#ifdef SMC_RENDER_THREAD_TEST
+#ifdef TSC_RENDER_THREAD_TEST
         pVideo->Render(1);
 #else
         pVideo->Render();

@@ -85,7 +85,7 @@ static mrb_value _Index(mrb_state* p_state, mrb_value cache, mrb_value ruid)
  * #### Parameters
  * uid
  * : The unique identifier of the sprite you want to retrieve. You can
- *   look this up in the SMC editor. May also be a range.
+ *   look this up in the TSC editor. May also be a range.
  *
  * range
  * : Instead of requesting a single sprite, request a list of sprites
@@ -200,13 +200,13 @@ static mrb_value Cached_UIDs(mrb_state* p_state, mrb_value self)
 
 // FIXME: Call Scripting::Delete_UID_From_Cache for sprites
 // being removed from a level’s cSprite_Manager!
-void SMC::Scripting::Delete_UID_From_Cache(mrb_state* p_state, int uid)
+void TSC::Scripting::Delete_UID_From_Cache(mrb_state* p_state, int uid)
 {
     mrb_value cache = mrb_iv_get(p_state, mrb_obj_value(mrb_class_get(p_state, "UIDS")), mrb_intern_cstr(p_state, "cache"));
     mrb_hash_delete_key(p_state, cache, mrb_fixnum_value(uid));
 }
 
-void SMC::Scripting::Init_UIDS(mrb_state* p_state)
+void TSC::Scripting::Init_UIDS(mrb_state* p_state)
 {
     struct RClass* p_rmUIDS = mrb_define_module(p_state, "UIDS");
 

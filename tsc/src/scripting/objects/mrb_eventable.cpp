@@ -5,7 +5,7 @@
 /**
  * Module: Eventable
  *
- * Mixin module that allows objects to receive events from SMC.
+ * Mixin module that allows objects to receive events from TSC.
  * Mixing in this module on the MRuby side of things is quite
  * useless as you may then receive events, but nobody actually
  * _fires_ those for you.
@@ -63,7 +63,7 @@ mrb_value Bind(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Eventable(mrb_state* p_state)
+void TSC::Scripting::Init_Eventable(mrb_state* p_state)
 {
     struct RClass* p_rmEventable = mrb_define_module(p_state, "Eventable");
     mrb_define_method(p_state, p_rmEventable, "bind", Bind, MRB_ARGS_REQ(1) | MRB_ARGS_BLOCK());

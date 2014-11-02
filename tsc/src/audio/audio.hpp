@@ -97,7 +97,7 @@ namespace TSC {
         {
             // See docs in mrb_level.cpp for why we associate ourself
             // with the Level class here instead of a savegame class.
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AudioClass"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AudioClass"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set the maximum number of sounds playable at once

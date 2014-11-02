@@ -269,7 +269,7 @@ void cOverworld::Save_To_File(fs::path path)
 
     // General information
     p_node = p_root->add_child("information");
-    Add_Property(p_node, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+    Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", world_engine_version);
     Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL))); // seconds since 1970
 

@@ -254,7 +254,7 @@ void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
          * (and assignes it to the object) that is later set as a
          * static UID for another sprite — causing this sprite to have
          * the same UID as the one with the generated UID (this will
-         * print a warning to the console if SMC is compiled in debug
+         * print a warning to the console if TSC is compiled in debug
          * mode). We cannot know this in advance, but as said you have
          * to edit the XML by hand and therefore we can ignore this
          * case safely. */

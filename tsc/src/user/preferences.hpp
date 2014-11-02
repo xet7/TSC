@@ -57,7 +57,7 @@ namespace TSC {
         /* *** *** *** Settings *** *** *** *** */
 
         // Game
-        // last version of smc which saved the preferences file
+        // last version of tsc which saved the preferences file
         unsigned int m_game_version;
         // default language
         std::string m_language;

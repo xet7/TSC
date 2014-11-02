@@ -1,10 +1,10 @@
-#ifndef TSC_SCRIPTING_SMC_HPP
-#define TSC_SCRIPTING_SMC_HPP
+#ifndef TSC_SCRIPTING_TSC_HPP
+#define TSC_SCRIPTING_TSC_HPP
 #include "../scripting.hpp"
 
 namespace TSC {
     namespace Scripting {
-        void Init_SMC(mrb_state* p_state);
+        void Init_TSC(mrb_state* p_state);
     }
 }
 

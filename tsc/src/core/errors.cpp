@@ -2,29 +2,29 @@
 
 using namespace TSC;
 
-SMCError::SMCError()
+TSCError::TSCError()
 {
-    m_smc_errmsg = "Unknown SMC exception.";
+    m_tsc_errmsg = "Unknown TSC exception.";
 }
 
 
-SMCError::SMCError(std::string message)
+TSCError::TSCError(std::string message)
 {
-    m_smc_errmsg = message;
+    m_tsc_errmsg = message;
 }
 
-SMCError::~SMCError() throw()
+TSCError::~TSCError() throw()
 {
     //
 }
 
-const char* SMCError::what() const throw()
+const char* TSCError::what() const throw()
 {
-    return m_smc_errmsg.c_str();
+    return m_tsc_errmsg.c_str();
 }
 
 ConfigurationError::ConfigurationError(std::string msg)
-    : SMCError(msg)
+    : TSCError(msg)
 {
     //
 }
@@ -56,7 +56,7 @@ const char* XmlKeyDoesNotExist::what() const throw()
 }
 
 NotImplementedError::NotImplementedError(std::string message)
-    : SMCError(message)
+    : TSCError(message)
 {
 }
 
@@ -66,7 +66,7 @@ NotImplementedError::~NotImplementedError() throw()
 }
 
 InvalidLevelError::InvalidLevelError(std::string message)
-    : SMCError(message)
+    : TSCError(message)
 {
     //
 }
@@ -109,7 +109,7 @@ const char* InvalidMovingStateError::what() const throw()
 }
 
 EditorError::EditorError(std::string msg)
-    : SMCError(msg)
+    : TSCError(msg)
 {
     //
 }

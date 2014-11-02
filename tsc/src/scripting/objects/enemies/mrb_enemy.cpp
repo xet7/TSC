@@ -11,7 +11,7 @@
  * {: .superclass}
  *
  * _Enemies_ are the little guys that hang around all over the world of
- * SMC and try to hinder you in many different ways. This is the base
+ * TSC and try to hinder you in many different ways. This is the base
  * class for all enemies and defines the methods that are available for
  * every enemy, regardless of its type.
  *
@@ -195,7 +195,7 @@ static mrb_value Is_Fire_Resistant(mrb_state* p_state,  mrb_value self)
 }
 
 
-void SMC::Scripting::Init_Enemy(mrb_state* p_state)
+void TSC::Scripting::Init_Enemy(mrb_state* p_state)
 {
     struct RClass* p_rcEnemy = mrb_define_class(p_state, "Enemy", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcEnemy, MRB_TT_DATA);

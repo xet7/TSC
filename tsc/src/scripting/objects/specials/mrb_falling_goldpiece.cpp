@@ -31,7 +31,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cJGoldpiece* p_fgp = new cJGoldpiece(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_fgp;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     p_fgp->Set_Spawned(true);
     pActive_Level->m_sprite_manager->Add(p_fgp);
@@ -39,7 +39,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     return self;
 }
 
-void SMC::Scripting::Init_FallingGoldpiece(mrb_state* p_state)
+void TSC::Scripting::Init_FallingGoldpiece(mrb_state* p_state)
 {
     struct RClass* p_rcFalling_Goldpiece = mrb_define_class(p_state, "FallingGoldpiece", mrb_class_get(p_state, "Goldpiece"));
     MRB_SET_INSTANCE_TT(p_rcFalling_Goldpiece, MRB_TT_DATA);

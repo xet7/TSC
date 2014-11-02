@@ -64,7 +64,7 @@
 #include <stdexcept>
 #include <map>
 
-// SMC build configuration header
+// TSC build configuration header
 #include "config.hpp"
 
 // Boost

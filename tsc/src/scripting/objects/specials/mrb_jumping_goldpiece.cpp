@@ -29,7 +29,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cJGoldpiece* p_jgp = new cJGoldpiece(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_jgp;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     p_jgp->Set_Spawned(true);
     pActive_Level->m_sprite_manager->Add(p_jgp);
@@ -37,7 +37,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     return self;
 }
 
-void SMC::Scripting::Init_JumpingGoldpiece(mrb_state* p_state)
+void TSC::Scripting::Init_JumpingGoldpiece(mrb_state* p_state)
 {
     struct RClass* p_rcJumping_Goldpiece = mrb_define_class(p_state, "JumpingGoldpiece", mrb_class_get(p_state, "Goldpiece"));
     MRB_SET_INSTANCE_TT(p_rcJumping_Goldpiece, MRB_TT_DATA);

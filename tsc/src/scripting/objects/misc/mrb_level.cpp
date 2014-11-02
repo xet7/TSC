@@ -23,7 +23,7 @@
  * fired during regular gameplay, but instead when the player creates a
  * new savegame (**save**) or restores an existing one (**load**). By
  * returning an MRuby hash from the **save** event handler, you can
- * advertise SMC to store it in the savegame; later, when the user loads
+ * advertise TSC to store it in the savegame; later, when the user loads
  * this savegame again, the hash is deserialised from the savegame and
  * passed back as an argument to the even thandler of the **load**
  * event. This way you can store information on your level from within
@@ -97,7 +97,7 @@
  * -------------
  *
  * You will most likely neither notice nor need it, but the Lua `Level`
- * singleton actually doesn’t wrap SMC’s notion of the currently running
+ * singleton actually doesn’t wrap TSC’s notion of the currently running
  * level, `pActive_Level`, but rather the pointer to the savegame
  * mechanism, `pSavegame`. This facilitates the handling of the event
  * table for levels. Also, it is more intuitively to have the `Save`
@@ -116,7 +116,7 @@
  *   the player may be in a sublevel (however, usually
  *   this has no impact on what you want to restore, but don’t try to
  *   warp the player or things like that, it will result in undefined
- *   behaviour probably leading SMC to crash).
+ *   behaviour probably leading TSC to crash).
  *
  * Save
  * : Called when the users saves a game. The event handler should store
@@ -191,7 +191,7 @@ static mrb_value Get_Difficulty(mrb_state* p_state, mrb_value self)
  *
  *   engine_version() → an_integer
  *
- * Returns the SMC engine version used to create the level.
+ * Returns the TSC engine version used to create the level.
  */
 static mrb_value Get_Engine_Version(mrb_state* p_state, mrb_value self)
 {
@@ -484,7 +484,7 @@ static mrb_value SE_Get_Entry(mrb_state* p_state, mrb_value self)
     return mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "@entry"));
 }
 
-void SMC::Scripting::Init_Level(mrb_state* p_state)
+void TSC::Scripting::Init_Level(mrb_state* p_state)
 {
     struct RClass* p_rcLevel = mrb_define_class(p_state, "LevelClass", p_state->object_class);
     mrb_include_module(p_state, p_rcLevel, mrb_class_get(p_state, "Eventable"));

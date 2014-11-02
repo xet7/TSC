@@ -30,12 +30,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cSpinBox* p_box = new cSpinBox(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_box;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_box->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_box);
 
     return self;
@@ -69,7 +69,7 @@ static mrb_value Is_Spinning(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_box->m_spin);
 }
 
-void SMC::Scripting::Init_SpinBox(mrb_state* p_state)
+void TSC::Scripting::Init_SpinBox(mrb_state* p_state)
 {
     struct RClass* p_rcSpin_Box = mrb_define_class(p_state, "SpinBox", mrb_class_get(p_state, "Box"));
     MRB_SET_INSTANCE_TT(p_rcSpin_Box, MRB_TT_DATA);

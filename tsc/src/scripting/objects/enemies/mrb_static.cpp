@@ -34,12 +34,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cStaticEnemy* p_static = new cStaticEnemy(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_static;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_static->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_static);
 
     return self;
@@ -91,8 +91,8 @@ static mrb_value Get_Rotation_Speed(mrb_state* p_state, mrb_value self)
  *
  *   speed=( val ) → val
  *
- * Specify the speed the static enemy uses to move along the SMC
- * path assigned to it. This requires you to assign an SMC path
+ * Specify the speed the static enemy uses to move along the TSC
+ * path assigned to it. This requires you to assign an TSC path
  * by means of the #path= method.
  *
  * #### Parameters
@@ -140,7 +140,7 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  *
  * #### Parameters
  * path
- * : The identifier of the SMC path you want to assign to
+ * : The identifier of the TSC path you want to assign to
  *   this static enemy, as a string.
  */
 static mrb_value Set_Path(mrb_state* p_state, mrb_value self)
@@ -176,7 +176,7 @@ static mrb_value Get_Path(mrb_state* p_state, mrb_value self)
         return mrb_str_new_cstr(p_state, ident.c_str());
 }
 
-void SMC::Scripting::Init_StaticEnemy(mrb_state* p_state)
+void TSC::Scripting::Init_StaticEnemy(mrb_state* p_state)
 {
     struct RClass* p_rcStaticEnemy = mrb_define_class(p_state, "StaticEnemy", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcStaticEnemy, MRB_TT_DATA);

@@ -30,18 +30,18 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cKrush* p_krush = new cKrush(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_krush;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_krush->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_krush);
 
     return self;
 }
 
-void SMC::Scripting::Init_Krush(mrb_state* p_state)
+void TSC::Scripting::Init_Krush(mrb_state* p_state)
 {
     struct RClass* p_rcKrush = mrb_define_class(p_state, "Krush", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcKrush, MRB_TT_DATA);

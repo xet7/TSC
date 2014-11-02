@@ -14,7 +14,7 @@
  * ability to jump higher, gets resistant against all kinds of enemies,
  * etc. Stars wildly jump around and are hard to catch. Even if catched,
  * its effect only lasts a fixed period of time (which is hardcoded into
- * SMC, thus not configurable via the scripting API).
+ * TSC, thus not configurable via the scripting API).
  */
 
 using namespace TSC;
@@ -33,12 +33,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     cjStar* p_star = new cjStar(pActive_Level->m_sprite_manager);
 
     DATA_PTR(self) = p_star;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_star->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_star);
 
     return self;
@@ -91,7 +91,7 @@ static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_star->m_glim_mod);
 }
 
-void SMC::Scripting::Init_Star(mrb_state* p_state)
+void TSC::Scripting::Init_Star(mrb_state* p_state)
 {
     struct RClass* p_rcStar = mrb_define_class(p_state, "Star", mrb_class_get(p_state, "Powerup"));
     MRB_SET_INSTANCE_TT(p_rcStar, MRB_TT_DATA);

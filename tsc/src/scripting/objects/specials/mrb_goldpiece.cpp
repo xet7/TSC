@@ -11,7 +11,7 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * _Goldpieces_ (or rather waffles in new versions of SMC).
+ * _Goldpieces_ (or rather waffles in new versions of TSC).
  *
  * Note that this class describes the goldpieces you can also
  * directly place via the level editor’s "special" category, i.e.
@@ -39,13 +39,13 @@ MRUBY_IMPLEMENT_EVENT(activate);
  *   new() → a_goldpiece
  *
  * Creates a new instance of this class with the default
- * values as per SMC’s internal code.
+ * values as per TSC’s internal code.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cGoldpiece* p_gp = new cGoldpiece(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_gp;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     p_gp->Set_Spawned(true);
     pActive_Level->m_sprite_manager->Add(p_gp);
@@ -123,7 +123,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Goldpiece(mrb_state* p_state)
+void TSC::Scripting::Init_Goldpiece(mrb_state* p_state)
 {
     struct RClass* p_rcGoldpiece = mrb_define_class(p_state, "Goldpiece", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcGoldpiece, MRB_TT_DATA);

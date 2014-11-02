@@ -120,7 +120,7 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
  *
  * The _ParticleEmitter_ is one of the most complex classes in the
  * API. If you’re not familiar with using regular particle emitters from
- * the normal SMC editor, you probably want to go there first and
+ * the normal TSC editor, you probably want to go there first and
  * experiment with them, because everything you need to adjust there
  * needs to be adjusted for dynamically created particle emitters as
  * well--with the difference that in the editor you have a nice UI
@@ -149,7 +149,7 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
  * and at maximum 2.0, so that the particles emitted all are a little
  * different.
  *
- * Note that, in contrast to all other objects in SMC, it is possible to
+ * Note that, in contrast to all other objects in TSC, it is possible to
  * set a particle emitter’s [Z coordinate](#z), making it possible to
  * appear in front of Maryo or other sprites.
  *
@@ -185,12 +185,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
     // This is a generated object
     p_emitter->Set_Spawned(true);
 
-    /* Let SMC manage the memory, as with all SMC level objects
+    /* Let TSC manage the memory, as with all TSC level objects
      * This has some side effects: Although we create the object
      * as per the code above, we don’t have to clean it up, this
-     * is done automatically by SMC when the particle emitter has
+     * is done automatically by TSC when the particle emitter has
      * finished. It also means that the DATA pointer inside the
-     * MRuby object gets invalid in the instant SMC cleans the
+     * MRuby object gets invalid in the instant TSC cleans the
      * pointer. Not sure if we really need to cater for this, although
      * it of course leads to segfaults if such an MRuby object is
      * used...
@@ -198,7 +198,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
     pActive_Animation_Manager->Add(p_emitter);
 
     DATA_PTR(self) = p_emitter;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     return self;
 }
@@ -599,7 +599,7 @@ static mrb_value Emit(mrb_state* p_state, mrb_value self)
  * Binding
  ***************************************/
 
-void SMC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
+void TSC::Scripting::Init_ParticleEmitter(mrb_state* p_state)
 {
     struct RClass* p_rcAnimation = mrb_define_class(p_state, "Animation", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcAnimation, MRB_TT_DATA);

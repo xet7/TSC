@@ -28,7 +28,7 @@ namespace TSC {
 // Caption
 #define CAPTION "The Secret Chronicles of Dr. M."
 
-    static const unsigned int smc_version = SMC_VERSION_NUM(SMC_VERSION_MAJOR, SMC_VERSION_MINOR, SMC_VERSION_PATCH);
+    static const unsigned int tsc_version = TSC_VERSION_NUM(TSC_VERSION_MAJOR, TSC_VERSION_MINOR, TSC_VERSION_PATCH);
 
     /* *** *** *** *** *** *** *** Object Direction *** *** *** *** *** *** *** *** *** *** */
 
