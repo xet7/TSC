@@ -1,13 +1,13 @@
 # _std.rb -- standard extension manifest & loading file.
 # This file reads in all files from the standard scripting
-# extension for SMC.
+# extension for TSC.
 
-# Namespace for non-core (read non-C++) stuff for SMC
+# Namespace for non-core (read non-C++) stuff for TSC
 # scripting.
 module Std
 end
 
-SMC.require "std/enable"
-SMC.require "std/exit_door"
-SMC.require "std/immediate_sprite"
-SMC.require "std/switch"
+TSC.require "std/enable"
+TSC.require "std/exit_door"
+TSC.require "std/immediate_sprite"
+TSC.require "std/switch"

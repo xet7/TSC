@@ -1,6 +1,6 @@
-# main.rb -- SMC MRuby manifest & toplevel file
+# main.rb -- TSC MRuby manifest & toplevel file
 #
-# This file gets loaded by SMC everytime a new MRuby interpreter
+# This file gets loaded by TSC everytime a new MRuby interpreter
 # needs to be initialized. Anything placed here is automatically
 # globally available in *all* levels (except local variables,
 # of course). If you want, you can add your own code here,
