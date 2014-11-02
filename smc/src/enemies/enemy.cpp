@@ -40,7 +40,7 @@ cEnemy::cEnemy(cSprite_Manager* sprite_manager)
 
     m_massive_type = MASS_MASSIVE;
     m_state = STA_FALL;
-    m_can_be_ground = 1;
+    m_can_be_ground = true;
     m_dead = 0;
     m_counter = 0.0f;
     m_dying_counter = 0.0f;
@@ -147,6 +147,7 @@ cSave_Level_Object* cEnemy::Save_To_Savegame(void)
 void cEnemy::Set_Dead(bool enable /* = 1 */)
 {
     m_dead = enable;
+    m_can_be_ground = false; // Once dead can’t stand on it anymore
 
     if (m_dead) {
         // Issue the die event

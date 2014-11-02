@@ -338,10 +338,10 @@ void Preload_Images(bool draw_gui /* = 0 */)
     image_files.push_back(utf8_to_path("game/items/mushroom_green.png"));
     image_files.push_back(utf8_to_path("game/items/mushroom_blue.png"));
     image_files.push_back(utf8_to_path("game/items/mushroom_ghost.png"));
-    // Fireplant
-    image_files.push_back(utf8_to_path("game/items/fireplant.png"));
-    image_files.push_back(utf8_to_path("game/items/fireplant_left.png"));
-    image_files.push_back(utf8_to_path("game/items/fireplant_right.png"));
+    // Fireberry
+    image_files.push_back(utf8_to_path("game/items/fireberry_1.png"));
+    image_files.push_back(utf8_to_path("game/items/fireberry_2.png"));
+    image_files.push_back(utf8_to_path("game/items/fireberry_3.png"));
     // Star
     image_files.push_back(utf8_to_path("game/items/star.png"));
     // Feather

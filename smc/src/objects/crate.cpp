@@ -178,9 +178,10 @@ void cCrate::Handle_Collision_Player(cObjectCollision* p_collision)
 void cCrate::Handle_Collision_Enemy(cObjectCollision* p_collision)
 {
     // When a crate falls onto an enemy, it gets killed.
-    if (p_collision->m_direction == DIR_BOTTOM && m_vely > 0.5f) {
+    if (m_vely > 0.05f) {
         cEnemy* p_enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(p_collision->m_number));
         p_enemy->DownGrade(true);
+        Reset_On_Ground(); // The enemy cannot be ground for us, it was just killed
     }
 }
 
