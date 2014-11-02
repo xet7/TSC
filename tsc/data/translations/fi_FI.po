@@ -1,6 +1,6 @@
-# Copyright (C) 2014 The TSC Contributors
 # This file is distributed under the same license as The Secret Chronicles of Dr. M. package.
-# Lauri Ojansivu <x@xet7.org>, 2014
+#
+# Copyright © 2014 Lauri Ojansivu <x@xet7.org>
 #
 # Tämä on suomenkielinen käännös TSC:stä. Ilmoita virheestä
 # sähköpostilla:
@@ -8,9 +8,9 @@
 #   x@xet7.org
 msgid ""
 msgstr ""
-"Project-Id-Version: The Secret Chronicles of Dr. M.\n"
+"Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-02 13:19+0100\n"
+"POT-Creation-Date: 2014-11-02 18:22+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lauri Ojansivu <x@xet7.org>\n"
 "Language-Team: TSC Finnish translation team\n"
@@ -84,7 +84,7 @@ msgstr ""
 "eteenpäin."
 
 #. TRANS: displayed to the user when opening the editor
-#: ../../src/core/editor/editor.cpp:302 ../../src/video/video.cpp:2145
+#: ../../src/core/editor/editor.cpp:302 ../../src/video/video.cpp:2152
 msgid "Loading"
 msgstr "Ladataan"
 
@@ -2019,6 +2019,13 @@ msgstr ""
 #: ../../src/video/video.cpp:652
 msgid "Caching Images"
 msgstr "Tallennetaan kuvia välimuistiin"
+
+#. TRANS: Be careful with the length of this line, if
+#. TRANS: it is much longer than the English version,
+#. TRANS: it will be cut off.
+#: ../../src/video/video.cpp:2148
+msgid "This program is distributed under the terms of the GPLv3"
+msgstr "Tätä ohjelmaa levitetään GPLv3 ehtojen mukaisesti"
 
 #~ msgid "Couldn't save campaign "
 #~ msgstr "Ei pystytty tallentamaan kampanjaa "
