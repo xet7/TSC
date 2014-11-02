@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BEETLE_HPP
-#define SMC_BEETLE_HPP
+#ifndef TSC_BEETLE_HPP
+#define TSC_BEETLE_HPP
 #include "enemy.hpp"
 
 namespace TSC {

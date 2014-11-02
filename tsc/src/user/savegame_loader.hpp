@@ -1,5 +1,5 @@
-#ifndef SMC_SAVEGAME_LOADER_HPP
-#define SMC_SAVEGAME_LOADER_HPP
+#ifndef TSC_SAVEGAME_LOADER_HPP
+#define TSC_SAVEGAME_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "savegame.hpp"

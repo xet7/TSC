@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_PROPERTY_HELPER_HPP
-#define SMC_PROPERTY_HELPER_HPP
+#ifndef TSC_PROPERTY_HELPER_HPP
+#define TSC_PROPERTY_HELPER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"

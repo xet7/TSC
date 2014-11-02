@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GAME_CORE_HPP
-#define SMC_GAME_CORE_HPP
+#ifndef TSC_GAME_CORE_HPP
+#define TSC_GAME_CORE_HPP
 
 #include "../core/property_helper.hpp"
 #include "../objects/sprite.hpp"

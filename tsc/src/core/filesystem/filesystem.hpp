@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FILESYSTEM_HPP
-#define SMC_FILESYSTEM_HPP
+#ifndef TSC_FILESYSTEM_HPP
+#define TSC_FILESYSTEM_HPP
 
 #include "../../core/global_basic.hpp"
 

@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_CRATE_HPP
-#define SMC_CRATE_HPP
+#ifndef TSC_CRATE_HPP
+#define TSC_CRATE_HPP
 #include "animated_sprite.hpp"
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"

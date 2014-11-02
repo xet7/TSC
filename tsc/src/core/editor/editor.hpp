@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_EDITOR_HPP
-#define SMC_EDITOR_HPP
+#ifndef TSC_EDITOR_HPP
+#define TSC_EDITOR_HPP
 
 #include "../../core/global_basic.hpp"
 #include "../../objects/sprite.hpp"

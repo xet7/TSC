@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BEETLE_BARRAGE_HPP
-#define SMC_BEETLE_BARRAGE_HPP
+#ifndef TSC_BEETLE_BARRAGE_HPP
+#define TSC_BEETLE_BARRAGE_HPP
 #include "enemy.hpp"
 #include "beetle.hpp"
 #include "../scripting/objects/enemies/mrb_beetle_barrage.hpp"

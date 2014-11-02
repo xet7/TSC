@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ROKKO_HPP
-#define SMC_ROKKO_HPP
+#ifndef TSC_ROKKO_HPP
+#define TSC_ROKKO_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_rokko.hpp"

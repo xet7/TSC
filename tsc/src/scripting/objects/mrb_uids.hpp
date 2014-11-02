@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_UIDS_HPP
-#define SMC_SCRIPTING_UIDS_HPP
+#ifndef TSC_SCRIPTING_UIDS_HPP
+#define TSC_SCRIPTING_UIDS_HPP
 #include "../scripting.hpp"
 
 namespace TSC {

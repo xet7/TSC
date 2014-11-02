@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_AUDIO_HPP
-#define SMC_SCRIPTING_AUDIO_HPP
+#ifndef TSC_SCRIPTING_AUDIO_HPP
+#define TSC_SCRIPTING_AUDIO_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

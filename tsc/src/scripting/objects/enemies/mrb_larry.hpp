@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_LARRY_HPP
-#define SMC_SCRIPTING_LARRY_HPP
+#ifndef TSC_SCRIPTING_LARRY_HPP
+#define TSC_SCRIPTING_LARRY_HPP
 #include "../../scripting.hpp"
 namespace TSC {
     namespace Scripting {

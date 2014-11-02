@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_OVERWORLD_HPP
-#define SMC_OVERWORLD_HPP
+#ifndef TSC_OVERWORLD_HPP
+#define TSC_OVERWORLD_HPP
 
 #include "../overworld/world_manager.hpp"
 #include "../overworld/world_waypoint.hpp"

@@ -10,8 +10,8 @@
  * common parts of both paths are missing in the returned path object.
  */
 
-#ifndef SMC_BOOST_RELATIVE_HPP
-#define SMC_BOOST_RELATIVE_HPP
+#ifndef TSC_BOOST_RELATIVE_HPP
+#define TSC_BOOST_RELATIVE_HPP
 #include <boost/filesystem.hpp>
 
 namespace boost {

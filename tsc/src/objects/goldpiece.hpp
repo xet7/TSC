@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GOLDPIECE_HPP
-#define SMC_GOLDPIECE_HPP
+#ifndef TSC_GOLDPIECE_HPP
+#define TSC_GOLDPIECE_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"

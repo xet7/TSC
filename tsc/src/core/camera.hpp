@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_CAMERA_HPP
-#define SMC_CAMERA_HPP
+#ifndef TSC_CAMERA_HPP
+#define TSC_CAMERA_HPP
 
 #include "../core/global_game.hpp"
 #include "../core/math/rect.hpp"

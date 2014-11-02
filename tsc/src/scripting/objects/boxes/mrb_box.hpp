@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_BOX_HPP
-#define SMC_SCRIPTING_BOX_HPP
+#ifndef TSC_SCRIPTING_BOX_HPP
+#define TSC_SCRIPTING_BOX_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

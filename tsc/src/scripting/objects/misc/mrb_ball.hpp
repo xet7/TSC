@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_BALL_HPP
-#define SMC_SCRIPTING_BALL_HPP
+#ifndef TSC_SCRIPTING_BALL_HPP
+#define TSC_SCRIPTING_BALL_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

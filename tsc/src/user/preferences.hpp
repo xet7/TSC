@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_PREFERENCES_HPP
-#define SMC_PREFERENCES_HPP
+#ifndef TSC_PREFERENCES_HPP
+#define TSC_PREFERENCES_HPP
 
 #include "../core/global_basic.hpp"
 

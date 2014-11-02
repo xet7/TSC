@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_EVENTABLE_HPP
-#define SMC_SCRIPTING_EVENTABLE_HPP
+#ifndef TSC_SCRIPTING_EVENTABLE_HPP
+#define TSC_SCRIPTING_EVENTABLE_HPP
 #include "../scripting.hpp"
 
 namespace TSC {

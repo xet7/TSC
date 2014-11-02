@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_TIMER_HPP
-#define SMC_SCRIPTING_TIMER_HPP
+#ifndef TSC_SCRIPTING_TIMER_HPP
+#define TSC_SCRIPTING_TIMER_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

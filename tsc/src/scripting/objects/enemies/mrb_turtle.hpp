@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_TURTLE_HPP
-#define SMC_SCRIPTING_TURTLE_HPP
+#ifndef TSC_SCRIPTING_TURTLE_HPP
+#define TSC_SCRIPTING_TURTLE_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

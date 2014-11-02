@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RECT_HPP
-#define SMC_RECT_HPP
+#ifndef TSC_RECT_HPP
+#define TSC_RECT_HPP
 
 #include "../../core/global_game.hpp"
 #include "../../core/math/point.hpp"

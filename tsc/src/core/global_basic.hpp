@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GLOBAL_BASIC_HPP
-#define SMC_GLOBAL_BASIC_HPP
+#ifndef TSC_GLOBAL_BASIC_HPP
+#define TSC_GLOBAL_BASIC_HPP
 
 #ifdef _WIN32
 // We use some features from IE 5, sadly.
@@ -24,7 +24,7 @@
 /* uncomment to enable experimental rendering in a thread
 * still randomly crashes because gl functions are called while the render thread is active
 */
-//#define SMC_RENDER_THREAD_TEST
+//#define TSC_RENDER_THREAD_TEST
 
 /* *** *** *** *** *** *** *** Debugging *** *** *** *** *** *** *** *** *** *** */
 

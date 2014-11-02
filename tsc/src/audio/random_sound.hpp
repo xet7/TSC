@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RANDOM_SOUND_HPP
-#define SMC_RANDOM_SOUND_HPP
+#ifndef TSC_RANDOM_SOUND_HPP
+#define TSC_RANDOM_SOUND_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/sprite.hpp"

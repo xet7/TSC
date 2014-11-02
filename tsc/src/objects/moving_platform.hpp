@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MOVING_PLATFORM_HPP
-#define SMC_MOVING_PLATFORM_HPP
+#ifndef TSC_MOVING_PLATFORM_HPP
+#define TSC_MOVING_PLATFORM_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"

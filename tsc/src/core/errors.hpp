@@ -1,5 +1,5 @@
-#ifndef SMC_ERRORS_HPP
-#define SMC_ERRORS_HPP
+#ifndef TSC_ERRORS_HPP
+#define TSC_ERRORS_HPP
 #include "global_game.hpp"
 #include "../objects/movingsprite.hpp"
 

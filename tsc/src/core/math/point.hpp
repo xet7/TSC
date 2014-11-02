@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_POINT_HPP
-#define SMC_POINT_HPP
+#ifndef TSC_POINT_HPP
+#define TSC_POINT_HPP
 
 #include "../../core/math/utilities.hpp"
 

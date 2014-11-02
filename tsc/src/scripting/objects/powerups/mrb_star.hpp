@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_STAR_HPP
-#define SMC_SCRIPTING_STAR_HPP
+#ifndef TSC_SCRIPTING_STAR_HPP
+#define TSC_SCRIPTING_STAR_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

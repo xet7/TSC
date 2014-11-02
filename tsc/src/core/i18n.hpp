@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_I18N_HPP
-#define SMC_I18N_HPP
+#ifndef TSC_I18N_HPP
+#define TSC_I18N_HPP
 
 #include "../core/global_game.hpp"
 

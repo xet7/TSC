@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_FLYON_HPP
-#define SMC_SCRIPTING_FLYON_HPP
+#ifndef TSC_SCRIPTING_FLYON_HPP
+#define TSC_SCRIPTING_FLYON_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

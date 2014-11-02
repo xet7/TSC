@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FILE_PARSER_HPP
-#define SMC_FILE_PARSER_HPP
+#ifndef TSC_FILE_PARSER_HPP
+#define TSC_FILE_PARSER_HPP
 
 #include "../core/global_game.hpp"
 

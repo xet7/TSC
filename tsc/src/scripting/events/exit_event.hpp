@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_EXIT_EVENT_HPP
-#define SMC_SCRIPTING_EXIT_EVENT_HPP
+#ifndef TSC_SCRIPTING_EXIT_EVENT_HPP
+#define TSC_SCRIPTING_EXIT_EVENT_HPP
 #include "../scripting.hpp"
 #include "event.hpp"
 namespace TSC {

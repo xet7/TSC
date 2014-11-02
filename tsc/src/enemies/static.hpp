@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_STATIC_ENEMY_HPP
-#define SMC_STATIC_ENEMY_HPP
+#ifndef TSC_STATIC_ENEMY_HPP
+#define TSC_STATIC_ENEMY_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../objects/path.hpp"

@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LARRY_HPP
-#define SMC_LARRY_HPP
+#ifndef TSC_LARRY_HPP
+#define TSC_LARRY_HPP
 #include "enemy.hpp"
 #include "../scripting/objects/enemies/mrb_larry.hpp"
 

@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_PIP_HPP
-#define SMC_PIP_HPP
+#ifndef TSC_PIP_HPP
+#define TSC_PIP_HPP
 #include "enemy.hpp"
 
 namespace TSC {

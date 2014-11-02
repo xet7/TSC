@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_COLOR_HPP
-#define SMC_COLOR_HPP
+#ifndef TSC_COLOR_HPP
+#define TSC_COLOR_HPP
 
 namespace TSC {
 

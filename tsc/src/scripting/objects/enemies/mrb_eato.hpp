@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_EATO_HPP
-#define SMC_SCRIPTING_EATO_HPP
+#ifndef TSC_SCRIPTING_EATO_HPP
+#define TSC_SCRIPTING_EATO_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

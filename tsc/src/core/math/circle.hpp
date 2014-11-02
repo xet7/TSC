@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_CIRCLE_HPP
-#define SMC_CIRCLE_HPP
+#ifndef TSC_CIRCLE_HPP
+#define TSC_CIRCLE_HPP
 #include "../../core/global_game.hpp"
 #include "point.hpp"
 #include "utilities.hpp"

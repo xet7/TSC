@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GL_SURFACE_HPP
-#define SMC_GL_SURFACE_HPP
+#ifndef TSC_GL_SURFACE_HPP
+#define TSC_GL_SURFACE_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/math/point.hpp"

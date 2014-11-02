@@ -1,5 +1,5 @@
-#ifndef SMC_LEVEL_LOADER_HPP
-#define SMC_LEVEL_LOADER_HPP
+#ifndef TSC_LEVEL_LOADER_HPP
+#define TSC_LEVEL_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "level.hpp"

@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_HPP
-#define SMC_SCRIPTING_HPP
+#ifndef TSC_SCRIPTING_HPP
+#define TSC_SCRIPTING_HPP
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 #include "objects/mrb_smc.hpp"

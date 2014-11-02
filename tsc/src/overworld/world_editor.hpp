@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_WORLD_EDITOR_HPP
-#define SMC_WORLD_EDITOR_HPP
+#ifndef TSC_WORLD_EDITOR_HPP
+#define TSC_WORLD_EDITOR_HPP
 
 #include "../core/editor/editor.hpp"
 

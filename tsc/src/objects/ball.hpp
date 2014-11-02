@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BALL_HPP
-#define SMC_BALL_HPP
+#ifndef TSC_BALL_HPP
+#define TSC_BALL_HPP
 
 #include "../video/video.hpp"
 #include "../objects/animated_sprite.hpp"

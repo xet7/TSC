@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LEVEL_SETTINGS_HPP
-#define SMC_LEVEL_SETTINGS_HPP
+#ifndef TSC_LEVEL_SETTINGS_HPP
+#define TSC_LEVEL_SETTINGS_HPP
 
 #include "../core/global_basic.hpp"
 #include "../gui/hud.hpp"

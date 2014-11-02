@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_IMG_MANAGER_HPP
-#define SMC_IMG_MANAGER_HPP
+#ifndef TSC_IMG_MANAGER_HPP
+#define TSC_IMG_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/video.hpp"

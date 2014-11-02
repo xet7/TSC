@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_TURTLEBOSS_HPP
-#define SMC_TURTLEBOSS_HPP
+#ifndef TSC_TURTLEBOSS_HPP
+#define TSC_TURTLEBOSS_HPP
 
 #include "../../enemies/enemy.hpp"
 #include "../../scripting/objects/enemies/mrb_turtle_boss.hpp"

@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_SPINBOX_HPP
-#define SMC_SCRIPTING_SPINBOX_HPP
+#ifndef TSC_SCRIPTING_SPINBOX_HPP
+#define TSC_SCRIPTING_SPINBOX_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GENERIC_HPP
-#define SMC_GENERIC_HPP
+#ifndef TSC_GENERIC_HPP
+#define TSC_GENERIC_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/video.hpp"

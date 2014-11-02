@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SHELL_HPP
-#define SMC_SHELL_HPP
+#ifndef TSC_SHELL_HPP
+#define TSC_SHELL_HPP
 #include "turtle.hpp"
 
 namespace TSC {

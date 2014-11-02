@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPINBOX_HPP
-#define SMC_SPINBOX_HPP
+#ifndef TSC_SPINBOX_HPP
+#define TSC_SPINBOX_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/box.hpp"

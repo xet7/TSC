@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_MUSHROOM_HPP
-#define SMC_SCRIPTING_MUSHROOM_HPP
+#ifndef TSC_SCRIPTING_MUSHROOM_HPP
+#define TSC_SCRIPTING_MUSHROOM_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

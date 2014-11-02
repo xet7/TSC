@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ANIMATION_HPP
-#define SMC_ANIMATION_HPP
+#ifndef TSC_ANIMATION_HPP
+#define TSC_ANIMATION_HPP
 
 #include "../objects/animated_sprite.hpp"
 #include "../core/obj_manager.hpp"

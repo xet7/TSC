@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_BEETLE_HPP
-#define SMC_SCRIPTING_BEETLE_HPP
+#ifndef TSC_SCRIPTING_BEETLE_HPP
+#define TSC_SCRIPTING_BEETLE_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {

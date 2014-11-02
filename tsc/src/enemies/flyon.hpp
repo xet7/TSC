@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FLYON_HPP
-#define SMC_FLYON_HPP
+#ifndef TSC_FLYON_HPP
+#define TSC_FLYON_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_flyon.hpp"

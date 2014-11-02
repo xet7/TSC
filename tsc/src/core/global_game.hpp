@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GLOBAL_GAME_HPP
-#define SMC_GLOBAL_GAME_HPP
+#ifndef TSC_GLOBAL_GAME_HPP
+#define TSC_GLOBAL_GAME_HPP
 #include "global_basic.hpp"
 
 namespace TSC {
@@ -23,7 +23,7 @@ namespace TSC {
      * (1,2,3) -> (10203)
      * Assumes that there will never be more than 100 minor or patch versions
      */
-#define SMC_VERSION_NUM(X, Y, Z) ((X)*10000 + (Y)*100 + (Z))
+#define TSC_VERSION_NUM(X, Y, Z) ((X)*10000 + (Y)*100 + (Z))
 
     /* *** *** *** *** *** *** *** Secret Maryo ! *** *** *** *** *** *** *** *** *** *** */
 

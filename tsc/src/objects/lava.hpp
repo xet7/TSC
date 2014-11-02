@@ -1,5 +1,5 @@
-#ifndef SMC_LAVA_HPP
-#define SMC_LAVA_HPP
+#ifndef TSC_LAVA_HPP
+#define TSC_LAVA_HPP
 #include "animated_sprite.hpp"
 
 namespace TSC {
