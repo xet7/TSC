@@ -1,7 +1,7 @@
 /***************************************************************************
  * package_manager.hpp
  *
- * Copyright © 2009 - 2014 The SMC Contributors
+ * Copyright © 2009 - 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_PACKAGE_MANAGER_HPP
-#define SMC_PACKAGE_MANAGER_HPP
+#ifndef TSC_PACKAGE_MANAGER_HPP
+#define TSC_PACKAGE_MANAGER_HPP
 
 #include "../../core/global_basic.hpp"
 #include "../../core/global_game.hpp"
 #include "../../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
     struct PackageInfo {
         PackageInfo();
@@ -138,7 +138,7 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif
 

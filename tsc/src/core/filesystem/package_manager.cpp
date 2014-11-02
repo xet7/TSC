@@ -1,7 +1,7 @@
 /***************************************************************************
  * package_manager.cpp  -  Package Manager
  *
- * Copyright © 2009 - 2011 The SMC Contributors
+ * Copyright © 2009 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 namespace fs = boost::filesystem;
 namespace errc = boost::system::errc;
 
-namespace SMC {
+namespace TSC {
 /* *** *** *** *** *** *** PackageInfo *** *** *** *** *** *** *** *** *** *** *** */
 PackageInfo :: PackageInfo()
     : found_user(false), found_game(false), hidden(false)
@@ -576,4 +576,4 @@ cPackage_Manager* pPackage_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
