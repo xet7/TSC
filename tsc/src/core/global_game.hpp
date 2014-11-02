@@ -25,10 +25,8 @@ namespace TSC {
      */
 #define TSC_VERSION_NUM(X, Y, Z) ((X)*10000 + (Y)*100 + (Z))
 
-    /* *** *** *** *** *** *** *** Secret Maryo ! *** *** *** *** *** *** *** *** *** *** */
-
 // Caption
-#define CAPTION "Secret Maryo Chronicles"
+#define CAPTION "The Secret Chronicles of Dr. M."
 
     static const unsigned int smc_version = SMC_VERSION_NUM(SMC_VERSION_MAJOR, SMC_VERSION_MINOR, SMC_VERSION_PATCH);
 
