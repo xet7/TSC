@@ -1,7 +1,7 @@
 /***************************************************************************
  * keyboard.cpp  -  keyboard handling class
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

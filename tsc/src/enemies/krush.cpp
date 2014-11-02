@@ -1,7 +1,7 @@
 /***************************************************************************
  * krush.cpp  -  The little dinosaur
  *
- * Copyright © 2004 - 2011 The SMC Contributors
+ * Copyright © 2004 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

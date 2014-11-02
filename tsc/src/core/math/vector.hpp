@@ -1,7 +1,7 @@
 /***************************************************************************
  * vector.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  * Copyright (C) 2007 Clanlib Team ( original Vector class )
  ***************************************************************************/
 /*

@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_exit.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

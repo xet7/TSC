@@ -1,7 +1,7 @@
 /***************************************************************************
  * random_sound.h
  *
- * Copyright © 2008 - 2011 The SMC Contributors
+ * Copyright © 2008 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

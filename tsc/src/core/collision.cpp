@@ -1,7 +1,7 @@
 /***************************************************************************
  * collison.cpp  -  internal collision functions
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  * Copyright (C) 2005        Amir Taaki
  ***************************************************************************/
 /*

@@ -1,7 +1,7 @@
 /***************************************************************************
  * spikeball.cpp
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

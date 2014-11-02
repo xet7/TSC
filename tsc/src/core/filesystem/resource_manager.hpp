@@ -1,7 +1,7 @@
 /***************************************************************************
  * resource_manager.hpp
  *
- * Copyright © 2009 - 2014 The SMC Contributors
+ * Copyright © 2009 - 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

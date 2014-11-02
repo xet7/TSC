@@ -1,7 +1,7 @@
 /***************************************************************************
  * file_parser.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify

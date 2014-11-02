@@ -1,7 +1,7 @@
 /***************************************************************************
  * campaign_manager.cpp  -  class for handling campaigns
  *
- * Copyright © 2010 - 2011 The SMC Contributors
+ * Copyright © 2010 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
