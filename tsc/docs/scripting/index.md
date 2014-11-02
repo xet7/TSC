@@ -1,18 +1,18 @@
-SMC Scripting API Documentation
+TSC Scripting API Documentation
 ===============================
 
 This is the Secret Maryo Chronicles Scripting API documentation. It
 lists all obejcts available from within a level’s script together with
 their methods.
 
-SMC scripting is implemented with
+TSC scripting is implemented with
 [MRuby](https://github.com/mruby/mruby), a minimal implementation of the
 [Ruby programming language](http://www.ruby-lang.org). Although it’s
 not a hard-to-grasp language and intends to be as human-readable as
 possible, it tries to not sacrifice principles of powerful
 object-oriented programming. So, while you may understand and even
 write scripts without a thorough knowledge of the Ruby language, the
-key to mastering SMC’s scripting mechanism is an at least rudimental
+key to mastering TSC’s scripting mechanism is an at least rudimental
 understand of Ruby.
 
 For those that are already familiar with the canonical Ruby
@@ -26,9 +26,9 @@ mostly be the way you expect it.
 Interaction with C++
 --------------------
 
-SMC is written in C++. As such, all method calls that actually _do_
+TSC is written in C++. As such, all method calls that actually _do_
 anything in the gameplay must be translated to C++ function calls. For
-this to happen, each SMC-related mruby object is wrapped around a C++
+this to happen, each TSC-related mruby object is wrapped around a C++
 pointer that points to the actual underlying C++ object. Whenever you
 call a method on the mruby object, that method unwraps the C++
 pointer, translates the mruby arguments you hand to the method to
@@ -42,7 +42,7 @@ independent from the underlying C++ pointers.
 Object types
 ------------
 
-There are two ways to interact with SMC objects. The first way is to
+There are two ways to interact with TSC objects. The first way is to
 get hold of an object already existing in the level, for example an
 enemy or a block. The other way is to actively _create_ an object
 yourself, by calling the corresponding object’s `::new` method.
@@ -53,16 +53,16 @@ ones and mruby objects that were created together with a C++ object.
 
 ### Retrieval of existing objects ###
 
-Each sprite created via the regular SMC editor (a so-called _internal_
+Each sprite created via the regular TSC editor (a so-called _internal_
 sprite) is assigned an identifier that is unique for the whole of the
 current level, hence it is called _unique identifier_, or short
 _UID_. You can determine an internal sprite’s UID by loading your
-level into the SMC editor and hover the cursor over the object whose
+level into the TSC editor and hover the cursor over the object whose
 UID you want to know; there the UID is displayed next to the
 coordinates of the object. These UIDs are guaranteed to stay the same
 between multiple level loads and even level editing (however, deleting
 an object in the editor will release its UID and make it available to
-other sprites). SMC maintains a global MRuby object called `UIDS` that
+other sprites). TSC maintains a global MRuby object called `UIDS` that
 references a table which maps all known UIDs to specific instances of
 class [Sprite](sprite.html) or one of its subclasses.
 
@@ -91,7 +91,7 @@ level. Instead of passively retrieving existing objects and
 interacting with them, you can actually _create_ new things and place
 them in the level. To achieve this, call the corresponding class’
 `::new` method, which will generate a new C++ pointer and a new mruby
-object for that pointer, with all its attributes set to SMC’s default
+object for that pointer, with all its attributes set to TSC’s default
 values for that type.
 
 As an example, here’s how you would proceed for spawning a furball:
@@ -157,10 +157,10 @@ Organisation of the documentation
 ---------------------------------
 
 The documentation is created by a helper (Ruby) program called
-`gen_docs.rb` in the SMC source tree. This program parses the C++
+`gen_docs.rb` in the TSC source tree. This program parses the C++
 files implementing the scripting interface and extract specifcally
 marked documentation comments, transforms them into HTML and writes
-them out to the `smc/docs/html` directory. Most likely you’re looking
+them out to the `tsc/docs/html` directory. Most likely you’re looking
 at the `index.html` file in this directory now (if not, you’re reading
 the Markdown sources directly).
 
@@ -215,7 +215,7 @@ The Standard Scripting Library
 ------------------------------
 
 At the bottom of this file, you find a list of all built-in core
-objects of the SMC scripting environments. These are usually simply
+objects of the TSC scripting environments. These are usually simply
 referred to as "the core" and are available always without you having
 to to anything. On top of this, there exist some "helper" classes
 called the "standard scripting library", or SSL for short. The SSL
@@ -224,7 +224,7 @@ core and extend them in such a way a specific task is easier to
 achieve than by utilizing the core stuff "rawly". As a major
 difference to the core classes, which are implemented in C++, the SSL
 is solely written in Ruby code. You can find it in the scripting/std
-folder of your SMC data path.
+folder of your TSC data path.
 
 In order to use these standard extensions, you have to _require_
 them. You can choose between loading the entire standard library at
@@ -238,7 +238,7 @@ To load the entire SSL, simply place this at the top of your scripting
 code:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
-SMC.require "std/all"
+TSC.require "std/all"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to load specific helpers like the `ImmediateSprite` class
@@ -246,7 +246,7 @@ that allows you to create static sprites quickly, do it like this
 instead:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ruby
-SMC.require "std/immediate_sprite"
+TSC.require "std/immediate_sprite"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In either case, you could then use `ImmediateSprite` like this:
@@ -285,17 +285,17 @@ Each class should have its own file, and all files related to the
 folder should also contain a file "all.rb" that pulls in all classes
 under the `Freaky` namespace so a user can require them all at once
 the same way as the SSL shown above. When you’re done, place the
-"freaky/" folder next to the "std/" folder in your SMC’s "scripting/"
-directory. You will then be able to `SMC.require` files from below
+"freaky/" folder next to the "std/" folder in your TSC’s "scripting/"
+directory. You will then be able to `TSC.require` files from below
 that folder. To get an impression of how all that works, you can
 always look on the SSL’s code itself.
 
 You can also create a ZIP file or Tarball from your "freaky/" folder
 and upload it to the Internet, so everybody can download it an add it
-to their own SMC installation. These ZIP or Tarball files are then
+to their own TSC installation. These ZIP or Tarball files are then
 called a _scripting expansion pack_. If you publish one, please
 accompany it with some kind of license, so others can build upon it. Ask
-on the SMC forums if you’re unsure what that means.
+on the TSC forums if you’re unsure what that means.
 
 List of core classes, modules, and singletons
 ---------------------------------------------
@@ -305,7 +305,7 @@ the MRuby scripting API, grouped by topic:
 
 | Name & link                           | Notes                                       |
 |---------------------------------------|---------------------------------------------|
-| [SMC](smc.html)                       | Game-related stuff.                         |
+| [TSC](tsc.html)                       | Game-related stuff.                         |
 | [UIDS](uids.html)                     | Global UID table                            |
 |---------------------------------------|---------------------------------------------|
 | ***Sprites***                         | ***Sprites***                               |
@@ -382,5 +382,5 @@ the MRuby scripting API, grouped by topic:
 License
 -------
 
-The API documentation is licensed under the same terms as SMC, unless
+The API documentation is licensed under the same terms as TSC, unless
 noted otherwise.
