@@ -110,4 +110,9 @@ task :clean_mruby do
     rm_rf "build"
   end
 end
-task :clobber => :clean_mruby
+
+task :clean_ssl do
+  rm_rf "docs/ssl"
+end
+
+task :clobber => [:clean_mruby, :clean_ssl]
