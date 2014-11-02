@@ -17932,7 +17932,7 @@
     <property name="image" value="ground/jungle_1/ground/plain/middle/left.png"/>
     <property name="type" value="massive"/>
   </sprite>
-  <script>SMC.require "std/enable"
+  <script>TSC.require "std/enable"
 
 UIDS[107].disable
 UIDS[52].on_die{UIDS[107].enable}

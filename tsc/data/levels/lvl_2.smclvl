@@ -6,7 +6,7 @@
 		<Property name="save_time" value="1273493780" />
 	</information>
 	<settings>
-		<Property name="lvl_author" value="SMC_Team" />
+		<Property name="lvl_author" value="TSC_Team" />
 		<Property name="lvl_version" value="2.3" />
 		<Property name="lvl_music" value="land/jungle_1.ogg" />
 		<Property name="cam_limit_x" value="0" />

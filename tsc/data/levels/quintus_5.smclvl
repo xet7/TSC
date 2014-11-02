@@ -24921,8 +24921,8 @@
     <property name="image" value="ground/snow_1/ground/middle/1.png"/>
     <property name="type" value="passive"/>
   </sprite>
-  <script>SMC.require "std/climbing_box"
-SMC.require "std/switch"
+  <script>TSC.require "std/climbing_box"
+TSC.require "std/switch"
 
 Std::ClimbingBox.new(UIDS[1064], count: 12).attach
 

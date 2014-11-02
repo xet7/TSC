@@ -5147,7 +5147,7 @@
     <property name="level_name" value="quintus_5_sub2"/>
     <property name="entry" value="E2"/>
   </levelexit>
-  <script>SMC.require "std/switch"
+  <script>TSC.require "std/switch"
 
 # Particle emitters will still emit if out of sight
 # so we can't use std/enable to hide them.
