@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-02 13:19+0100\n"
+"POT-Creation-Date: 2014-11-02 18:22+0100\n"
 "PO-Revision-Date: 2014-08-31 18:32+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: SMC German translation team\n"
@@ -86,7 +86,7 @@ msgstr ""
 "hinaus nicht mehr abgespielt."
 
 #. TRANS: displayed to the user when opening the editor
-#: ../../src/core/editor/editor.cpp:302 ../../src/video/video.cpp:2145
+#: ../../src/core/editor/editor.cpp:302 ../../src/video/video.cpp:2152
 msgid "Loading"
 msgstr "Ladevorgang"
 
@@ -2003,6 +2003,13 @@ msgstr "Speichern fehlgeschlagen : Konnte alte Grafiken nicht entfernen"
 #: ../../src/video/video.cpp:652
 msgid "Caching Images"
 msgstr "Speichere Grafiken im Cache"
+
+#. TRANS: Be careful with the length of this line, if
+#. TRANS: it is much longer than the English version,
+#. TRANS: it will be cut off.
+#: ../../src/video/video.cpp:2148
+msgid "This program is distributed under the terms of the GPLv3"
+msgstr "Dieses Programm unterliegt den Lizenzbestimmungen der GPLv3"
 
 #~ msgid "Turtle Boss"
 #~ msgstr "Turtle Boss"

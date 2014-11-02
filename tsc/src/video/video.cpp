@@ -2140,6 +2140,13 @@ void Loading_Screen_Init(void)
     CEGUI::Window* loading_window = CEGUI::WindowManager::getSingleton().loadWindowLayout("loading.layout");
     guisheet->addChildWindow(loading_window);
 
+    // Set license info as translatable string
+    CEGUI::Window* license_text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_gpl"));
+    // TRANS: Be careful with the length of this line, if
+    // TRANS: it is much longer than the English version,
+    // TRANS: it will be cut off.
+    license_text->setText(_("This program is distributed under the terms of the GPLv3"));
+
     // set info text
     CEGUI::Window* text_default = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_loading"));
     text_default->setText(_("Loading"));
