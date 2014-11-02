@@ -1,13 +1,13 @@
 Coding conventions
 ==================
 
-This file documents the coding conventions used in SMC. If you plan on
+This file documents the coding conventions used in TSC. If you plan on
 contirbuting to the game, please read this.
 
 Indentation
 -----------
 
-Code in SMC is indented with tabs. One tab spans 4 spaces.
+Code in TSC is indented with tabs. One tab spans 4 spaces.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
 void foo()
@@ -152,14 +152,14 @@ All external `#include` statements should be in
 `core/global_basic.hpp`. Do not include external headers in other
 files. Background for this is that in some cases the order of includes
 is important, which cannot easily be guaranteed when headers include
-other headers of SMC, which include yet another SMC header, which then
+other headers of TSC, which include yet another TSC header, which then
 finally includes some library header, etc. `#include` statements for
-SMC-own headers can be done anywhere you need them.
+TSC-own headers can be done anywhere you need them.
 
 Version policy
 --------------
 
-SMC uses [semantic versioning](http://semver.org/). In short this
+TSC uses [semantic versioning](http://semver.org/). In short this
 means:
 
 * Version numbers are triplets of form `MAJOR.MINOR.TINY`.
@@ -169,24 +169,24 @@ means:
   file formats).
 * `MAJOR` is increased when backward compatibility is broken.
 
-Additionally, each compiled executable of SMC knows about the exact
-commit’s hash it was compiled from. Execute SMC like this to receive
+Additionally, each compiled executable of TSC knows about the exact
+commit’s hash it was compiled from. Execute TSC like this to receive
 the full version information:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ smc --version
+$ tsc --version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Branching
 ---------
 
-The version control system (VCS) in use for SMC is
+The version control system (VCS) in use for TSC is
 [Git](http://www.git-scm.com/), and the repository currently resides
-at [GitHub](https://github.com/Secretchronicles/SMC). For managing
+at [GitHub](https://github.com/Secretchronicles/TSC). For managing
 these sources, we generally follow the so-called [“Git
 Flow”](http://nvie.com/posts/a-successful-git-branching-model/) model,
 which heavily relies on Git’s lightweight branches and in a nutshell
-means the following for SMC:
+means the following for TSC:
 
 * Each commit on `master` is a final release and is tagged
   accordingly.
@@ -209,7 +209,7 @@ automatically become the codebase for the next release. Semantic
 versioning however requires us to handle features or other changes
 that break backward compatibility specifically, they are not allowed
 to just go into the next release, i.e. into `devel`, so that the user
-is able to derive compatibility information from SMC’s version
+is able to derive compatibility information from TSC’s version
 number. To prevent feature branches from getting silently out-of-date
 when they are completed and not merged into devel, we maintain
 specific `devel-X.0.0` branches that serve the purpose of the `devel`
@@ -245,7 +245,7 @@ Work In Progress) mark to the title.
 Documentation
 -------------
 
-SMC uses [Doxygen](http://www.stack.nl/~dimitri/doxygen) for
+TSC uses [Doxygen](http://www.stack.nl/~dimitri/doxygen) for
 documentation. Inside the header files, please only provide brief
 descriptions of the elements (if any) in order to not clutter the
 header files, which this way can be used as a short
@@ -280,6 +280,6 @@ void cFoo::Bar()
 State of transition
 -------------------
 
-SMC’s codebase has seen different coding styles in the past. You will
-find that most of SMC does not correspond to this styleguide, but we
+TSC’s codebase has seen different coding styles in the past. You will
+find that most of TSC does not correspond to this styleguide, but we
 are working on it. Some day we will have it done...

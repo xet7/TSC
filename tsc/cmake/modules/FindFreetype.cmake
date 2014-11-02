@@ -39,7 +39,7 @@
 # This file has been renamed to "FindFreetype.cmake" instead of the correct
 # "FindFreeType.cmake" in order to be compatible with the one from KDE4, Alex.
 #
-# Moficiations by SMC team so it finds MXE’s freetype.
+# Moficiations by TSC team so it finds MXE’s freetype.
 
 # Ugh, FreeType seems to use some #include trickery which
 # makes this harder than it should be. It looks like they

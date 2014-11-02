@@ -1,5 +1,5 @@
 # CMake toolchain definition file for cross-compiling
-# SMC from a Linux host to the win32 target, using the
+# TSC from a Linux host to the win32 target, using the
 # Minimalist GNU for Windows (MinGW) system.
 set(CMAKE_SYSTEM_NAME Windows)
 

@@ -6,11 +6,11 @@ require "pathname"
 CLOBBER.include("build", "crossbuild", "docs/scripting/html", "docs/scripting/rdoc", "docs/api")
 
 str = File.read("CMakeLists.txt")
-SMC_VERSION_MAJOR = str.match(/^set\(SMC_VERSION_MAJOR (\d+)\)/)[1]
-SMC_VERSION_MINOR = str.match(/^set\(SMC_VERSION_MINOR (\d+)\)/)[1]
-SMC_VERSION_PATCH = str.match(/^set\(SMC_VERSION_PATCH (\d+)\)/)[1]
+TSC_VERSION_MAJOR = str.match(/^set\(TSC_VERSION_MAJOR (\d+)\)/)[1]
+TSC_VERSION_MINOR = str.match(/^set\(TSC_VERSION_MINOR (\d+)\)/)[1]
+TSC_VERSION_PATCH = str.match(/^set\(TSC_VERSION_PATCH (\d+)\)/)[1]
 
-SMC_SOURCE_FILES = FileList["src/**/*.cpp"] + FileList["src/**/*.hpp"]
+TSC_SOURCE_FILES = FileList["src/**/*.cpp"] + FileList["src/**/*.hpp"]
 
 # This is called from CMake for generating the credits file.
 rule %r{credits.cpp} => "docs/authors.txt" do |t|
@@ -56,9 +56,9 @@ desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
 task :potfile do
   # UTF8_() should go away.
 
-  sourcefiles = SMC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
+  sourcefiles = TSC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
   cd "data/translations" do
-    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The SMC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The TSC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
   end
 end
 
@@ -86,20 +86,20 @@ task :docs do
     sh "ruby gen_docs.rb"
   end
   puts "Generating SSL documentation"
-  sh "rdoc -o docs/ssl -m docs/scripting/ssl.rdoc -t 'SMC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
+  sh "rdoc -o docs/ssl -m docs/scripting/ssl.rdoc -t 'TSC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
 end
 
 desc "Create source tarball."
 task :tarball => :clobber do
-  version = ENV["VERSION"] || "#{SMC_VERSION_MAJOR}.#{SMC_VERSION_MINOR}.#{SMC_VERSION_PATCH}"
-  puts "Packaging SMC version #{version}"
+  version = ENV["VERSION"] || "#{TSC_VERSION_MAJOR}.#{TSC_VERSION_MINOR}.#{TSC_VERSION_PATCH}"
+  puts "Packaging TSC version #{version}"
 
   sh "git submodule init"
   sh "git submodule update"
 
   cd "../.." do
-    ln_s "SMC", "SMC-#{version}" unless File.exist?("SMC-#{version}")
-    sh "tar --exclude .git --exclude drafts -cvJhf SMC-#{version}.tar.xz SMC-#{version}"
+    ln_s "TSC", "TSC-#{version}" unless File.exist?("TSC-#{version}")
+    sh "tar --exclude .git --exclude drafts -cvJhf TSC-#{version}.tar.xz TSC-#{version}"
   end
 end
 
