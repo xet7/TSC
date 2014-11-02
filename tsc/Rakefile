@@ -58,7 +58,7 @@ task :potfile do
 
   sourcefiles = TSC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
   cd "data/translations" do
-    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The TSC Contributors' --package-name='Secret Maryo Chronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secret Maryo Chronicles.pot">
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The TSC Contributors' --package-name='The Secret Chronicles of Dr. M.' #{sourcefiles.map(&:to_s).join(' ')} -o "Secretchronicles.pot">
   end
 end
 
@@ -73,7 +73,7 @@ end
 
 # This task is intended to be called by translators that want to bring
 # their .po file up to date with the .pot file.
-rule %r{.po$} => "data/translations/Secret Maryo Chronicles.pot" do |t|
+rule %r{.po$} => "data/translations/Secretchronicles.pot" do |t|
   sh "msgmerge -U #{Rake.original_dir}/#{t.name} '#{t.source}'"
 end
 
