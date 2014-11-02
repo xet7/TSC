@@ -3,7 +3,7 @@
 #include "../scripting.hpp"
 #include "event.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
 
         class cGold_100_Event: public cEvent {

@@ -18,7 +18,7 @@
 
 #include "../../core/global_game.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cSize_Int *** *** *** *** *** *** *** *** *** *** */
 
@@ -76,6 +76,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

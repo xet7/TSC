@@ -19,7 +19,7 @@
 #include "../../enemies/enemy.hpp"
 #include "../../scripting/objects/enemies/mrb_turtle_boss.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Turtle Boss state *** *** *** *** *** *** *** *** *** */
 
@@ -174,6 +174,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

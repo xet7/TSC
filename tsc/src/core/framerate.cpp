@@ -17,7 +17,7 @@
 #include "../core/framerate.hpp"
 #include "../core/math/utilities.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cPerformance_Timer *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -212,4 +212,4 @@ cFramerate* pFramerate = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

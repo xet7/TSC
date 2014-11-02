@@ -28,7 +28,7 @@
 #include "../input/keyboard.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -651,4 +651,4 @@ cMenuCore* pMenuCore = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -21,7 +21,7 @@ rule %r{credits.cpp} => "docs/authors.txt" do |t|
     f.puts(%Q!#include "#{Dir.pwd}/src/core/global_game.hpp"
 #include "#{Dir.pwd}/src/core/main.hpp"
 
-namespace SMC {
+namespace TSC {
 
 	const std::string g_credits = "\\\n!)
 

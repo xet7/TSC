@@ -20,7 +20,7 @@
 #include "../objects/path.hpp"
 #include "../scripting/objects/enemies/mrb_static.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cStaticEnemy *** *** *** *** *** *** *** *** *** *** *** */
     /* It doesn't move but will hit you if you touch it.
@@ -120,6 +120,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

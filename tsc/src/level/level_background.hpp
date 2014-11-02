@@ -20,7 +20,7 @@
 #include "../video/video.hpp"
 #include "../core/obj_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Background Image Type *** *** *** *** *** *** *** *** *** *** */
 
@@ -128,6 +128,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -17,7 +17,7 @@
 #include "../core/game_core.hpp"
 #include "../core/framerate.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cAnimation_Surface *** *** *** *** *** *** *** *** *** *** */
 
@@ -144,4 +144,4 @@ void cAnimated_Sprite::Set_Time_All(const Uint32 time, const bool default_time /
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -23,7 +23,7 @@
 #include "../scripting/objects/specials/mrb_jumping_goldpiece.hpp"
 #include "../scripting/objects/specials/mrb_falling_goldpiece.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cGoldpiece *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -142,6 +142,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

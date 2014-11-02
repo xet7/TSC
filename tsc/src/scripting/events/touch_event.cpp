@@ -2,8 +2,8 @@
 #include "../objects/mrb_uids.hpp"
 #include "../../objects/sprite.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 cTouch_Event::cTouch_Event(cSprite* p_collided)
 {

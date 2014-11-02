@@ -27,7 +27,7 @@ public:
     }
 };
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** Math utility functions *** *** *** *** *** *** *** *** *** */
 
@@ -56,4 +56,4 @@ bool Is_Valid_Number(std::string num, bool accept_floating_point /* = 1 */)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

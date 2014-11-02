@@ -16,8 +16,8 @@
  * you can do with them whatever you want.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

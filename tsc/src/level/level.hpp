@@ -25,7 +25,7 @@
 #include "../video/animation.hpp"
 #include "../scripting/scripting.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cLevel *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -218,6 +218,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

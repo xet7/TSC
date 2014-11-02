@@ -23,7 +23,7 @@
 #include "../level/level_player.hpp"
 #include "../gui/hud.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cBeetle::cBeetle(cSprite_Manager* p_sprite_manager)
     : cEnemy(p_sprite_manager)

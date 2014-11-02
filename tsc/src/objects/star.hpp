@@ -20,7 +20,7 @@
 #include "../objects/powerup.hpp"
 #include "../scripting/objects/powerups/mrb_star.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** Star *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -78,6 +78,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

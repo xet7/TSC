@@ -20,7 +20,7 @@
 #include "../overworld/world_player.hpp"
 #include "../enemies/enemy.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cSprite_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -499,4 +499,4 @@ bool cSprite_Manager::Is_UID_In_Use(int uid)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

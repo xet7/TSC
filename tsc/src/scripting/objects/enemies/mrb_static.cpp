@@ -19,8 +19,8 @@
  * show the same one, just potentially rotated.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

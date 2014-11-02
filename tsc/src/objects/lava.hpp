@@ -2,7 +2,7 @@
 #define SMC_LAVA_HPP
 #include "animated_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cLava: public cAnimated_Sprite {
     public:

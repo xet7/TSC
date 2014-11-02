@@ -18,7 +18,7 @@
 #include "../core/game_core.hpp"
 #include "../user/savegame.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cSpinBox *** *** *** *** *** *** *** *** *** */
 
@@ -232,4 +232,4 @@ bool cSpinBox::Is_Update_Valid(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

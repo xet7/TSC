@@ -21,7 +21,7 @@
 #include "../core/obj_manager.hpp"
 #include "../video/gl_surface.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cSaved_Texture *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -120,6 +120,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -20,7 +20,7 @@
 #include "../objects/animated_sprite.hpp"
 #include "../scripting/objects/specials/mrb_enemy_stopper.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cEnemyStopper *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -63,6 +63,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

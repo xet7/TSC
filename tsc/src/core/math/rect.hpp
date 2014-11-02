@@ -20,7 +20,7 @@
 #include "../../core/math/point.hpp"
 #include "../../core/math/utilities.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** GL_rect *** *** *** *** *** *** *** *** *** *** */
 
@@ -179,6 +179,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

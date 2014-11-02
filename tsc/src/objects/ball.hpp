@@ -19,7 +19,7 @@
 #include "../video/video.hpp"
 #include "../objects/animated_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Ball class *** *** *** *** *** *** *** *** *** *** */
 
@@ -109,6 +109,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

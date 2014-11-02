@@ -1,7 +1,7 @@
 #include "preferences_loader.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
+using namespace TSC;
 
 cPreferencesLoader::cPreferencesLoader()
     : xmlpp::SaxParser()

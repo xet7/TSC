@@ -15,8 +15,8 @@
  * name says. It even requires _two_ hits to be defeated!
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

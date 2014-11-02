@@ -20,7 +20,7 @@
 #include "../video/video.hpp"
 #include "../objects/movingsprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** Waypoint types *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -113,6 +113,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -22,8 +22,8 @@
  * _Note: This class is also accessible via the `Armadillo` constant._
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

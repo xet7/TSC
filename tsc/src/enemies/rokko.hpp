@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_rokko.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cRokko *** *** *** *** *** *** *** *** *** *** *** */
     /*  A giant, slow-moving bullet
@@ -133,6 +133,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

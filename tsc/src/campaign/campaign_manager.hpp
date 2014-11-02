@@ -20,7 +20,7 @@
 #include "../core/global_game.hpp"
 #include "../core/obj_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cCampaign *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -72,6 +72,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

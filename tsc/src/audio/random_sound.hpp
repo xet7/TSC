@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../objects/sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cRandom_Sound *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -145,7 +145,7 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif
 

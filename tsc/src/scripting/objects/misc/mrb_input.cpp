@@ -24,8 +24,8 @@
  *   The event is also fired for joystick input.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /***************************************

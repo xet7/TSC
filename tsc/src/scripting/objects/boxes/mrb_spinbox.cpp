@@ -15,8 +15,8 @@
  * (or if a shell is thrown against it from the side).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

@@ -24,7 +24,7 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cRokko *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -618,4 +618,4 @@ bool cRokko::Get_Manual()
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -4,8 +4,8 @@
 #include "../../../core/property_helper.hpp"
 #include "mrb_particle_emitter.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 /***************************************
  * Helpers

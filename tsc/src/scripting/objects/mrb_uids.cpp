@@ -31,7 +31,7 @@
  * and therefore is quite fast.
  */
 
-using namespace SMC;
+using namespace TSC;
 
 
 // Try to retrieve the given index UID from the cache, and if

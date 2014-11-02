@@ -150,8 +150,8 @@
  * holding the C++ pointers don’t get GC’ed and the C++ pointers
  * are freed in the MRuby objects’ respective deallocation functions). */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /***************************************

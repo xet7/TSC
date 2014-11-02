@@ -25,7 +25,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/i18n.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cTurtle *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -944,4 +944,4 @@ bool cTurtle::Editor_Direction_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

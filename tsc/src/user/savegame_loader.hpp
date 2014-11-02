@@ -4,7 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "savegame.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * XML parser for the savegame files. You should not use this class

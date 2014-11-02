@@ -18,7 +18,7 @@
 #include "../video/color.hpp"
 #include "../objects/sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
 void string_replace_all(std::string& str, const std::string& search, const std::string& format)
 {
@@ -947,4 +947,4 @@ std::string readfile(boost::filesystem::ifstream& file)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -127,8 +127,8 @@
  *   sublevel (however, usually this has no impact on what you want to save).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /***************************************

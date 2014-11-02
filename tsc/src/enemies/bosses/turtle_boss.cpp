@@ -25,7 +25,7 @@
 #include "../../core/i18n.hpp"
 #include "../../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cTurtleBoss *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -1135,4 +1135,4 @@ bool cTurtleBoss::Get_Level_Ends_If_Killed()
     return m_level_ends_if_killed;
 }
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 #include "editor_items_loader.hpp"
 #include "../../objects/sprite.hpp"
 
-using namespace SMC;
+using namespace TSC;
 namespace fs = boost::filesystem;
 
 cEditorItemsLoader::cEditorItemsLoader()

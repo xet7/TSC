@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_spikeball.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cSpikeball *** *** *** *** *** *** *** *** *** *** *** */
     /* Paranoid hard metal ball.
@@ -118,6 +118,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

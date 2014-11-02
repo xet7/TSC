@@ -20,7 +20,7 @@
 #include "../objects/sprite.hpp"
 #include "../scripting/objects/specials/mrb_path.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Path state class *** *** *** *** *** *** *** *** *** *** */
 
@@ -250,6 +250,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

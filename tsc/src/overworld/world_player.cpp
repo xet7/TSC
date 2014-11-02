@@ -23,7 +23,7 @@
 #include "../gui/menu.hpp"
 #include "../video/renderer.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cOverworld_Player *** *** *** *** *** *** *** *** *** */
 
@@ -756,4 +756,4 @@ cOverworld_Player* pOverworld_Player = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

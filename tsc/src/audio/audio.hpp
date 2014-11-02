@@ -21,7 +21,7 @@
 #include "../scripting/scriptable_object.hpp"
 #include "../scripting/objects/misc/mrb_audio.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Sound Resource ID's  *** *** *** *** *** *** *** *** *** *** */
 
@@ -228,6 +228,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

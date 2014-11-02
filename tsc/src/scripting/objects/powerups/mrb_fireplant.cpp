@@ -14,8 +14,8 @@
  * fireballs agains enemies. Fireplants don’t move by default.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

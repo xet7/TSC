@@ -62,7 +62,7 @@
 // Extern
 mrb_data_type SMC::Scripting::rtSMC_Scriptable = {"SmcScriptable", NULL};
 
-namespace SMC {
+namespace TSC {
 
 namespace Scripting {
 
@@ -214,7 +214,7 @@ void cMRuby_Interpreter::Evaluate_Timer_Callbacks()
 
 void cMRuby_Interpreter::Load_Wrappers()
 {
-    using namespace SMC::Scripting;
+    using namespace TSC::Scripting;
 
     // Create the main SMC modules
     Init_SMC(mp_mruby);

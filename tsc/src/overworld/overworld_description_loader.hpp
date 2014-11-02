@@ -4,7 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "overworld.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cOverworldDescriptionLoader: public xmlpp::SaxParser {
     public:

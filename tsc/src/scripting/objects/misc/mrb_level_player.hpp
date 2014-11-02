@@ -2,7 +2,7 @@
 #define SMC_SCRIPTING_LEVEL_PLAYER_HPP
 #include "../../scripting.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         void Init_Level_Player(mrb_state* p_state);
     };

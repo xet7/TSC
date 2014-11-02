@@ -25,7 +25,7 @@
 #include "../enemies/static.hpp"
 #include "../objects/moving_platform.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** Path state class *** *** *** *** *** *** *** *** *** *** */
 
@@ -1002,4 +1002,4 @@ void cPath::Add_Segment(cPath_Segment segment)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

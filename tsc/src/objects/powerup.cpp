@@ -26,7 +26,7 @@
 #include "../level/level.hpp"
 #include "../scripting/events/activate_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cPowerUp *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -681,4 +681,4 @@ void cMoon::Update(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

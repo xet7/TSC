@@ -1,7 +1,7 @@
 #include "shoot_event.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 cShoot_Event::cShoot_Event(std::string ball_type)
 {

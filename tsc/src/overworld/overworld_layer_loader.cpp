@@ -3,7 +3,7 @@
 #include "overworld.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
+using namespace TSC;
 
 cOverworldLayerLoader::cOverworldLayerLoader(cOverworld* p_overworld)
     : xmlpp::SaxParser()

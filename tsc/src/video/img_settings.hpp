@@ -21,7 +21,7 @@
 #include "../video/gl_surface.hpp"
 #include "../core/math/rect.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cImage_Settings_Data *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -99,6 +99,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

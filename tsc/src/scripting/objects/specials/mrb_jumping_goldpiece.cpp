@@ -4,8 +4,8 @@
 #include "mrb_jumping_goldpiece.hpp"
 #include "mrb_goldpiece.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 /**
  * Class: JumpingGoldpiece

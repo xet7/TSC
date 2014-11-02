@@ -22,7 +22,7 @@
 #include "../level/level_player.hpp"
 #include "../overworld/world_waypoint.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cOverworld_Player *** *** *** *** *** *** *** *** *** *** */
 
@@ -140,6 +140,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

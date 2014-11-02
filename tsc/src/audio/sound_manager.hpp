@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../core/obj_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Sound object *** *** *** *** *** *** *** *** *** *** */
 
@@ -87,6 +87,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

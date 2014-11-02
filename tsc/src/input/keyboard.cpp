@@ -28,7 +28,7 @@
 #include "../level/level_editor.hpp"
 #include "../overworld/world_editor.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cKeyboard *** *** *** *** *** *** *** *** *** */
 
@@ -487,4 +487,4 @@ cKeyboard* pKeyboard = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

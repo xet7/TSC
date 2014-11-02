@@ -18,7 +18,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -169,4 +169,4 @@ cFont_Manager* pFont = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

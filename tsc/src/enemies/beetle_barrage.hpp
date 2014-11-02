@@ -19,7 +19,7 @@
 #include "beetle.hpp"
 #include "../scripting/objects/enemies/mrb_beetle_barrage.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cBeetleBarrage: public cEnemy {
     public:

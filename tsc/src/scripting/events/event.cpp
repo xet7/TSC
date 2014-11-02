@@ -1,8 +1,8 @@
 #include "event.hpp"
 #include "../../core/property_helper.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 /**
  * Cycles through all registered event handlers for the event

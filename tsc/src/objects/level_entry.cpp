@@ -28,7 +28,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../scripting/events/enter_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -428,4 +428,4 @@ void cLevel_Entry::Set_Massive_Type(MassiveType type)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

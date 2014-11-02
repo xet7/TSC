@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_flyon.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cFlyon *** *** *** *** *** *** *** *** *** *** *** *** */
     /*  Eats your butt in the sky.
@@ -130,6 +130,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

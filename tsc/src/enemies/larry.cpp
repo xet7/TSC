@@ -23,7 +23,7 @@
 #include "../video/animation.hpp"
 #include "../objects/box.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cLarry::cLarry(cSprite_Manager* p_sprite_manager)
     : cEnemy(p_sprite_manager)

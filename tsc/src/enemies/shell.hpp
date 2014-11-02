@@ -17,7 +17,7 @@
 #define SMC_SHELL_HPP
 #include "turtle.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cShell: public cTurtle {
     public:

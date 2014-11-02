@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_furball.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cFurball *** *** *** *** *** *** *** *** *** *** *** */
     /* Secret attacks: Lulls you into a false sense of security so that you will
@@ -152,6 +152,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

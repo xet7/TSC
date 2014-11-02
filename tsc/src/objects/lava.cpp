@@ -20,7 +20,7 @@
 #include "../core/game_core.hpp"
 #include "../core/i18n.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cLava::cLava(cSprite_Manager* p_sprite_manager)
     : cAnimated_Sprite(p_sprite_manager, "lava")

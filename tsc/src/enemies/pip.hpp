@@ -17,7 +17,7 @@
 #define SMC_PIP_HPP
 #include "enemy.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cPip: public cEnemy {
     public:

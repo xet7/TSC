@@ -21,7 +21,7 @@
 #include "../core/camera.hpp"
 #include "../level/level.hpp"
 
-namespace SMC {
+namespace TSC {
 
 // default files for levels
 #define LEVEL_DEFAULT_MUSIC "land/land_5.ogg"
@@ -86,6 +86,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

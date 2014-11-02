@@ -23,7 +23,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cCampaign *** *** *** *** *** *** *** *** *** *** */
 
@@ -148,4 +148,4 @@ cCampaign_Manager* pCampaign_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

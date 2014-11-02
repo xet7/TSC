@@ -21,7 +21,7 @@
 #include "../core/camera.hpp"
 #include "../scripting/objects/specials/mrb_level_exit.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Level Exit types *** *** *** *** *** *** *** *** *** *** */
 
@@ -144,6 +144,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

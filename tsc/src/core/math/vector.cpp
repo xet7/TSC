@@ -17,7 +17,7 @@
 #include "../../core/global_basic.hpp"
 #include "../../core/math/vector.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** GL_Vector *** *** *** *** *** *** *** *** *** *** */
 
@@ -94,4 +94,4 @@ void GL_Vector::round(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

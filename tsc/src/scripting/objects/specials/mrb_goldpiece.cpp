@@ -27,8 +27,8 @@
  *   for this event, this will cause undefined behaviour.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 MRUBY_IMPLEMENT_EVENT(activate);

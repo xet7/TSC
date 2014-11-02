@@ -18,7 +18,7 @@
 
 #include "../core/global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cJoystick *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -101,6 +101,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

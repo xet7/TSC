@@ -4,7 +4,7 @@
 #include "errors.hpp"
 #include "property_helper.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class XmlAttributes: public std::map<std::string, std::string> {
     public:

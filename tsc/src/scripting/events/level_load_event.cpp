@@ -1,8 +1,8 @@
 #include "level_load_event.hpp"
 #include "../../core/property_helper.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 cLevel_Load_Event::cLevel_Load_Event(std::string save_data)
 {

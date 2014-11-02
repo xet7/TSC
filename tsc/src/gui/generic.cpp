@@ -22,7 +22,7 @@
 #include "../video/renderer.hpp"
 #include "../user/preferences.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cDialogBox *** *** *** *** *** *** *** *** *** *** */
 
@@ -675,4 +675,4 @@ bool GUI_Paste_From_Clipboard(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

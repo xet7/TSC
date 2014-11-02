@@ -28,7 +28,7 @@
 // by MRUBY_IMPLEMENT_EVENT.
 #define MRUBY_EVENT_HANDLER(evtname) Scripting_Event_On_##evtname
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         class cEvent {
         public:

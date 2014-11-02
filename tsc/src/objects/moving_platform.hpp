@@ -21,7 +21,7 @@
 #include "../objects/path.hpp"
 #include "../scripting/objects/specials/mrb_moving_platform.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Moving Platform type *** *** *** *** *** *** *** *** *** */
 
@@ -206,6 +206,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

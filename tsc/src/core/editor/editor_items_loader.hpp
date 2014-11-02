@@ -3,7 +3,7 @@
 #include "../global_game.hpp"
 #include "../xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cEditorItemsLoader: public xmlpp::SaxParser {
     public:

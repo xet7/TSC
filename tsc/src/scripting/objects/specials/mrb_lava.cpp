@@ -12,8 +12,8 @@
  * _Lava_ makes any enemy and Maryo immediately and instantly die.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

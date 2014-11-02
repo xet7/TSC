@@ -22,7 +22,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cGL_Surface *** *** *** *** *** *** *** *** *** */
 
@@ -298,4 +298,4 @@ void cGL_Surface::Set_Destruction_Function(void (*nfunction)(cGL_Surface*))
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,6 +1,6 @@
 #include "errors.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 SMCError::SMCError()
 {

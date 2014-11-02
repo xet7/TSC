@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_thromp.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cThromp *** *** *** *** *** *** *** *** *** *** *** *** */
     /* The Falling Stones
@@ -142,6 +142,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

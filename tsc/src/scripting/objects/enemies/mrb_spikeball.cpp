@@ -22,8 +22,8 @@
  * their ice weakness using scripting).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

@@ -15,8 +15,8 @@
  * you could even override the default behaviour.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 /**
  * Method: Ball::new

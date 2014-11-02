@@ -30,7 +30,7 @@
 #include "../core/editor/editor_items_loader.hpp"
 #include "level_loader.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cEditor_Level *** *** *** *** *** *** *** *** *** *** */
 
@@ -437,4 +437,4 @@ cEditor_Level* pLevel_Editor = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

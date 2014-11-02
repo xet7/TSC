@@ -20,7 +20,7 @@
 #include "../core/obj_manager.hpp"
 #include "../objects/movingsprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cSprite_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -197,6 +197,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../objects/goldpiece.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cEnemy *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -449,4 +449,4 @@ void cEnemy::Set_Massive_Type(MassiveType type)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

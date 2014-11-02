@@ -3,7 +3,7 @@
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * Parser for a world file. This class is used

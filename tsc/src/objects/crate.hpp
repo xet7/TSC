@@ -20,7 +20,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../scripting/objects/specials/mrb_crate.hpp"
 
-namespace SMC {
+namespace TSC {
 
     enum CrateState {
         CRATE_DEAD = 0,

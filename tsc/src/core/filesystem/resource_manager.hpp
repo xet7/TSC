@@ -19,7 +19,7 @@
 #include "../../core/global_basic.hpp"
 #include "../../core/global_game.hpp"
 
-namespace SMC {
+namespace TSC {
 
     struct PathInfo {
         boost::filesystem::path game_data_dir;
@@ -128,6 +128,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

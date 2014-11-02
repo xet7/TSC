@@ -21,7 +21,7 @@
 #include "../core/obj_manager.hpp"
 #include "../overworld/world_waypoint.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** Layer_Line *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -154,6 +154,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

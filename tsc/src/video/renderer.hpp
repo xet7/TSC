@@ -20,7 +20,7 @@
 #include "../core/math/line.hpp"
 #include "../core/math/rect.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** RenderType *** *** *** *** *** *** *** *** *** *** */
 
@@ -266,6 +266,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

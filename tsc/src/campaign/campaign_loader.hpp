@@ -4,7 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "campaign_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cCampaignLoader: public xmlpp::SaxParser {
     public:

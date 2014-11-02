@@ -24,7 +24,7 @@
 #include "../scripting/objects/powerups/mrb_fireplant.hpp"
 #include "../scripting/objects/powerups/mrb_moon.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cPowerUp *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -202,6 +202,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

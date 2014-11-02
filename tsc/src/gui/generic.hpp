@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../video/video.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** DialogBox *** *** *** *** *** *** *** *** *** */
 
@@ -136,7 +136,7 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif
 

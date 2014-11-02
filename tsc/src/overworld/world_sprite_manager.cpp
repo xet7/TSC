@@ -16,7 +16,7 @@
 #include "../overworld/world_sprite_manager.hpp"
 #include "../core/game_core.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cWorld_Sprite_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -53,4 +53,4 @@ void cWorld_Sprite_Manager::Add(cSprite* sprite)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

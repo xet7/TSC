@@ -27,7 +27,7 @@
 #include "../video/gl_surface.hpp"
 #include "../core/sprite_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cMovingSprite *** *** *** *** *** *** *** *** *** *** */
 
@@ -1223,4 +1223,4 @@ void cMovingSprite::Handle_Collision(cObjectCollision* collision)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

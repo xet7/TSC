@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../objects/box.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cText_Box *** *** *** *** *** *** *** *** *** */
 
@@ -66,6 +66,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

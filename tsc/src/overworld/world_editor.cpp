@@ -25,7 +25,7 @@
 #include "overworld_loader.hpp"
 #include "../core/editor/editor_items_loader.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cEditor_World *** *** *** *** *** *** *** *** *** *** */
 
@@ -267,4 +267,4 @@ cEditor_World* pWorld_Editor = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -16,7 +16,7 @@
 #ifndef SMC_COLOR_HPP
 #define SMC_COLOR_HPP
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Color class *** *** *** *** *** *** *** *** *** */
 
@@ -168,6 +168,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

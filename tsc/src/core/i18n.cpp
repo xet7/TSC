@@ -18,7 +18,7 @@
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/i18n.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -130,4 +130,4 @@ void I18N_Set_Language(const std::string& language)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

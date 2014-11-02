@@ -21,7 +21,7 @@
 #include "../objects/animated_sprite.hpp"
 #include "../scripting/objects/boxes/mrb_box.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Box invisible types *** *** *** *** *** *** *** *** *** */
 
@@ -149,6 +149,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

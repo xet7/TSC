@@ -18,8 +18,8 @@
  * crazy things to be done.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 // forward declare
 static void PS_Free(mrb_state* p_state, void* ptr);

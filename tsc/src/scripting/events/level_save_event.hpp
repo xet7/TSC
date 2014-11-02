@@ -3,7 +3,7 @@
 #include "../scripting.hpp"
 #include "event.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         class cLevel_Save_Event: public cEvent {
         public:

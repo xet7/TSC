@@ -17,7 +17,7 @@
 #define SMC_BEETLE_HPP
 #include "enemy.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cBeetle: public cEnemy {
     public:

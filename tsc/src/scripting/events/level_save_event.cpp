@@ -1,7 +1,7 @@
 #include "level_save_event.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 std::string cLevel_Save_Event::Event_Name()
 {

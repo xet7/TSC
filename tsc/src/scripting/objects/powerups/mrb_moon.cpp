@@ -20,8 +20,8 @@
  * it looks like a part of the level background.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

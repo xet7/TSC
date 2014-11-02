@@ -24,7 +24,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cSpika *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -418,4 +418,4 @@ void cSpika::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

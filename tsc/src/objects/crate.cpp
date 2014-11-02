@@ -23,7 +23,7 @@
 #include "../user/savegame.hpp"
 #include "../enemies/enemy.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cCrate::cCrate(cSprite_Manager* p_sprite_manager)
     : cAnimated_Sprite(p_sprite_manager, "crate")

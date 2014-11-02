@@ -25,8 +25,8 @@
  *   doesn’t get passed any argument.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 MRUBY_IMPLEMENT_EVENT(die);
 

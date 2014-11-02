@@ -22,7 +22,7 @@
 #include "../scripting/scripting.hpp"
 #include "../scripting/objects/misc/mrb_level_player.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Maryo states *** *** *** *** *** *** *** *** *** */
 
@@ -357,6 +357,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -20,7 +20,7 @@
 #include "../core/global_game.hpp"
 #include "../video/color.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Effect types *** *** *** *** *** *** *** *** *** *** */
 
@@ -272,6 +272,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

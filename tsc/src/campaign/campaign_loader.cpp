@@ -1,7 +1,7 @@
 #include "campaign_loader.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
+using namespace TSC;
 
 cCampaignLoader::cCampaignLoader()
     : xmlpp::SaxParser()

@@ -2,7 +2,7 @@
 #include "overworld.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
+using namespace TSC;
 
 cOverworldDescriptionLoader::cOverworldDescriptionLoader()
     : xmlpp::SaxParser()

@@ -84,7 +84,7 @@ namespace fs = boost::filesystem;
  * to hook into Init(), otherwise choose the apropriate methods.
  */
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cLevel *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -1068,4 +1068,4 @@ cLevel* pActive_Level = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

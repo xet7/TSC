@@ -18,7 +18,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cResource_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -143,4 +143,4 @@ boost::filesystem::path Get_Temp_Directory(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

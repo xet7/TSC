@@ -20,7 +20,7 @@
 #include "../gui/menu.hpp"
 #include "../gui/hud.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cMenu_Base *** *** *** *** *** *** *** *** *** *** */
 
@@ -349,6 +349,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

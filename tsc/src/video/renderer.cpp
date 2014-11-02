@@ -16,7 +16,7 @@
 #include "../video/renderer.hpp"
 #include "../core/game_core.hpp"
 
-namespace SMC {
+namespace TSC {
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -722,4 +722,4 @@ cRenderQueue* pRenderer_current = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

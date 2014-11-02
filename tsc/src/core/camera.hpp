@@ -19,7 +19,7 @@
 #include "../core/global_game.hpp"
 #include "../core/math/rect.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** How to move the camera *** *** *** *** *** *** *** *** */
     enum Camera_movement {
@@ -123,6 +123,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

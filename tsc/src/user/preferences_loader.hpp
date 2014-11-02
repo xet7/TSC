@@ -4,7 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "preferences.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * XML parser for the preferences file. You should not use

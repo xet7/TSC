@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../gui/hud.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Level Settings *** *** *** *** *** *** *** *** *** *** */
     class cLevel_Settings {
@@ -93,6 +93,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -24,7 +24,7 @@
 #include "../level/level.hpp"
 #include "../overworld/overworld.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cJoystick *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -564,4 +564,4 @@ cJoystick* pJoystick = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

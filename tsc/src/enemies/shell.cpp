@@ -21,7 +21,7 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cShell::cShell(cSprite_Manager* p_sprite_manager)
     : cTurtle(p_sprite_manager)

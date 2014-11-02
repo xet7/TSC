@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_eato.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cEato *** *** *** *** *** *** *** *** *** *** *** *** */
     /* Eats your Butt !
@@ -91,6 +91,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

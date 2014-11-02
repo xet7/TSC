@@ -25,7 +25,7 @@
 #include "../audio/audio.hpp"
 #include "../gui/menu.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cCamera *** *** *** *** *** *** *** *** *** *** */
 
@@ -410,4 +410,4 @@ void cCamera::Update_Position(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

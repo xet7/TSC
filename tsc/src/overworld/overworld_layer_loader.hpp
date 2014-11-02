@@ -4,7 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "world_layer.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cOverworldLayerLoader: public xmlpp::SaxParser {
     public:

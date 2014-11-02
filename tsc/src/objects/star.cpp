@@ -20,7 +20,7 @@
 #include "../core/i18n.hpp"
 #include "../core/game_core.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cjStar *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -219,4 +219,4 @@ void cjStar::Handle_Collision_Massive(cObjectCollision* collision)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

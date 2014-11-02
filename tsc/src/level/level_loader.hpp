@@ -4,7 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "level.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * This class is used to construct a level from a given XML file.

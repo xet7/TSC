@@ -24,7 +24,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cLayer_Line_Point *** *** *** *** *** *** *** *** *** */
 
@@ -481,4 +481,4 @@ cLine_collision cLayer::Get_Nearest_Line(cLayer_Line_Point_Start* map_layer_line
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

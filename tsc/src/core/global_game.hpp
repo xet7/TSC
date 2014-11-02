@@ -17,7 +17,7 @@
 #define SMC_GLOBAL_GAME_HPP
 #include "global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* Turns the version numbers into a numeric value:
      * (1,2,3) -> (10203)
@@ -439,6 +439,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

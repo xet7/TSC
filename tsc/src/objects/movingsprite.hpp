@@ -19,7 +19,7 @@
 #include "../objects/sprite.hpp"
 #include "../scripting/objects/sprites/mrb_moving_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -307,6 +307,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

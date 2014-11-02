@@ -3,7 +3,7 @@
 #include "global_game.hpp"
 #include "../objects/movingsprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * Base class of all SMC-related exceptions.

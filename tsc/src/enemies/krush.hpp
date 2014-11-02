@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_krush.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cKrush *** *** *** *** *** *** *** *** *** *** *** *** */
     /* Walking all Day and doesn't stop even if you hit him the first time :O
@@ -100,6 +100,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -18,7 +18,7 @@
 
 #include "../../core/math/point.hpp"
 
-namespace SMC {
+namespace TSC {
 
     template<typename T> inline T pow2(T value)
     {
@@ -117,6 +117,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -18,7 +18,7 @@
 #include "enemy.hpp"
 #include "../scripting/objects/enemies/mrb_larry.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cLarry: public cEnemy {
     public:

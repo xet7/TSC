@@ -18,8 +18,8 @@
  * that using the apropriate methods from the `Enemy` class.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

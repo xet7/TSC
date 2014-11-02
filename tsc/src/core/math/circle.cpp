@@ -2,7 +2,7 @@
 #include "rect.hpp"
 #include "circle.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 bool GL_Circle::Intersects(const GL_Circle& c) const
 {

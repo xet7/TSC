@@ -17,8 +17,8 @@
  * fling you away upwards when killed.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

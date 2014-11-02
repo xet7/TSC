@@ -24,7 +24,7 @@
 #include "../audio/audio.hpp"
 #include "../level/level.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cText_Box *** *** *** *** *** *** *** *** *** */
 
@@ -265,4 +265,4 @@ bool cText_Box::Editor_Text_Text_Changed(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

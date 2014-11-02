@@ -32,7 +32,7 @@
 #include "../video/renderer.hpp"
 #include "../core/i18n.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cSelectedObject *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -1598,4 +1598,4 @@ cMouseCursor* pMouseCursor = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

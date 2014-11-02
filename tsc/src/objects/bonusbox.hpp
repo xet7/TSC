@@ -22,7 +22,7 @@
 #include "../objects/powerup.hpp"
 #include "../scripting/objects/boxes/mrb_bonusbox.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cBonusBox *** *** *** *** *** *** *** *** *** */
 
@@ -116,6 +116,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

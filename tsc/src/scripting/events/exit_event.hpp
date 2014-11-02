@@ -2,7 +2,7 @@
 #define SMC_SCRIPTING_EXIT_EVENT_HPP
 #include "../scripting.hpp"
 #include "event.hpp"
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         class cExit_Event: public cEvent {
         public:

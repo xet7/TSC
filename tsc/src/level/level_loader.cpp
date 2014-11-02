@@ -38,7 +38,7 @@
 #include "../objects/crate.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
+using namespace TSC;
 
 cLevelLoader::cLevelLoader()
     : xmlpp::SaxParser()

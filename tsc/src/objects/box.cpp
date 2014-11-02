@@ -31,7 +31,7 @@
 #include "../scripting/events/activate_event.hpp"
 #include "../level/level.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cBaseBox *** *** *** *** *** *** *** *** *** */
 
@@ -837,4 +837,4 @@ void cBaseBox::Set_Massive_Type(MassiveType type)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

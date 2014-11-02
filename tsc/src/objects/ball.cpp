@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../user/savegame.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cBall *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -505,4 +505,4 @@ void cBall::Handle_out_of_Level(ObjectDirection dir)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

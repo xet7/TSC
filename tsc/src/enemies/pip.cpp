@@ -27,7 +27,7 @@
 #include "../user/savegame.hpp"
 #include "pip.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 /* *** *** *** *** *** cPip *** *** *** *** *** *** *** *** *** *** *** *** */
 

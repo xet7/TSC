@@ -20,7 +20,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../overworld/overworld.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cWorld_Sprite_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -38,6 +38,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

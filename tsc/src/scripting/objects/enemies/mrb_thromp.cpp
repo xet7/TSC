@@ -16,8 +16,8 @@
  * the bottom. The thromp itself is immune to gravity.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

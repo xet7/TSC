@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/i18n.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cBonusBox *** *** *** *** *** *** *** *** *** */
 
@@ -601,4 +601,4 @@ bool cBonusBox::Editor_Gold_Color_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

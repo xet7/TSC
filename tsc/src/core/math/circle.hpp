@@ -19,7 +19,7 @@
 #include "point.hpp"
 #include "utilities.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class GL_Circle {
     public:

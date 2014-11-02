@@ -22,7 +22,7 @@
 #include "../gui/hud.hpp"
 #include "../core/camera.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cMenu_Item *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -177,6 +177,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* Replace all occurrences of the search with the format string
      * todo : use boost::algorithm::replace_all ?
@@ -214,6 +214,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

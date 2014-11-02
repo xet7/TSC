@@ -19,7 +19,7 @@
 #include "../core/global_basic.hpp"
 #include "../core/math/point.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** OpenGL Surface *** *** *** *** *** *** *** *** *** */
 
@@ -107,6 +107,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

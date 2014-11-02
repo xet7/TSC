@@ -15,8 +15,8 @@
  * a fixed path. Red gees are immunate to fire attacks.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

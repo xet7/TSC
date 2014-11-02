@@ -39,7 +39,7 @@
 #include "../gui/generic.hpp"
 
 // SMC namespace is set later to exclude main() from it
-using namespace SMC;
+using namespace TSC;
 
 // SDLmain defines this for Win32 applications but under debug we use the console
 #if defined( __WIN32__ ) && defined( _DEBUG )
@@ -206,7 +206,7 @@ int main(int argc, char** argv)
 }
 
 // namespace is set here to exclude main() from it
-namespace SMC {
+namespace TSC {
 
 void Init_Game(void)
 {
@@ -641,4 +641,4 @@ void Draw_Game(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

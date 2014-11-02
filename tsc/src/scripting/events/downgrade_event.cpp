@@ -1,7 +1,7 @@
 #include "downgrade_event.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 cDowngrade_Event::cDowngrade_Event(int downgrades, int max_downgrades)
 {

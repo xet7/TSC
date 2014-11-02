@@ -21,7 +21,7 @@
 #include "../core/math/rect.hpp"
 #include "../core/math/vector.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cSelectedObject *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -269,6 +269,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

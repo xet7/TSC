@@ -25,7 +25,7 @@
 #include "../level/level.hpp"
 //#include "../script/events/downgrade_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cFurball *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -817,4 +817,4 @@ bool cFurball::Editor_Max_Downgrade_Count_Text_Changed(const CEGUI::EventArgs& e
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -20,7 +20,7 @@
 #include "../objects/animated_sprite.hpp"
 #include "../scripting/objects/specials/mrb_level_entry.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Level Entry types *** *** *** *** *** *** *** *** *** *** */
 
@@ -105,6 +105,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

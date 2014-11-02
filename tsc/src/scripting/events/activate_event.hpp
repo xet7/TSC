@@ -3,7 +3,7 @@
 #include "../scripting.hpp"
 #include "event.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         class cActivate_Event: public cEvent {
         public:

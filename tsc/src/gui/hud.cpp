@@ -27,7 +27,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../scripting/events/gold_100_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cHudSprite *** *** *** *** *** *** *** *** *** *** */
 
@@ -1373,4 +1373,4 @@ cItemBox* pHud_Itembox = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

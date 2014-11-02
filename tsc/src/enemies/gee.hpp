@@ -19,7 +19,7 @@
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_gee.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cGee *** *** *** *** *** *** *** *** *** *** *** *** */
     /* Shocks you with Electro, Lava or Venom
@@ -145,6 +145,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

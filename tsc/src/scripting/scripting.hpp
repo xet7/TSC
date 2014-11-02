@@ -11,7 +11,7 @@
 #define MRB_NOTIMP_ERROR(mrb) (mrb_class_get(mrb, "NotImplementedError"))
 #define MRB_RANGE_ERROR(mrb) (mrb_class_get(mrb, "RangeError"))
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
 
         // We don’t use mruby’s C typechecks, but mruby wants

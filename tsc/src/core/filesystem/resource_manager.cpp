@@ -27,7 +27,7 @@
 namespace fs = boost::filesystem;
 namespace errc = boost::system::errc;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cResource_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -451,4 +451,4 @@ cResource_Manager* pResource_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

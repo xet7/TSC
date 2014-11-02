@@ -4,8 +4,8 @@
 #include "../../../gui/hud.hpp"
 #include "../../events/event.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**

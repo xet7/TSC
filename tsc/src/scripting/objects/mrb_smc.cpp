@@ -10,7 +10,7 @@
  * Module encapsulating stuff related to the game itself.
  */
 
-using namespace SMC;
+using namespace TSC;
 namespace fs = boost::filesystem;
 
 
@@ -28,7 +28,7 @@ namespace fs = boost::filesystem;
  */
 static mrb_value Require(mrb_state* p_state, mrb_value self)
 {
-    using namespace SMC;
+    using namespace TSC;
 
     // Get the path argument
     char* cpath = NULL;

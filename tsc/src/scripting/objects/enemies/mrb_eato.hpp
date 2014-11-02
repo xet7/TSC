@@ -2,7 +2,7 @@
 #define SMC_SCRIPTING_EATO_HPP
 #include "../../scripting.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         void Init_Eato(mrb_state* p_state);
     }

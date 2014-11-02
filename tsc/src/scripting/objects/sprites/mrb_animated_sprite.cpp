@@ -13,8 +13,8 @@
  * of [MovingSprite](movingsprite.html).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
