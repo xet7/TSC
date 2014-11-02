@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="TaharezLook">
-	<Imageset Name="TaharezLook" Filename="SMCLook256.imageset" />
+	<Imageset Name="TaharezLook" Filename="TSCLook256.imageset" />
 	<Font Name="bluebold_medium" Filename="bluebold1024_medium.font" />
 	<Font Name="dejavu_sans_mono" Filename="DejaVuSansMono.font" />
 
@@ -42,7 +42,7 @@
 	<FalagardMapping WindowType="TaharezLook/SliderThumb" TargetType="CEGUI/Thumb" Renderer="Falagard/Button"  LookNFeel="TaharezLook/SliderThumb" />
 	<FalagardMapping WindowType="TaharezLook/ScrollablePane" TargetType="CEGUI/ScrollablePane" Renderer="Falagard/ScrollablePane" LookNFeel="TaharezLook/ScrollablePane" />
 	<FalagardMapping WindowType="TaharezLook/Spinner" TargetType="CEGUI/Spinner" Renderer="Falagard/Default" LookNFeel="TaharezLook/Spinner" />
-	<FalagardMapping WindowType="TaharezLook/SMC_Spinner" TargetType="CEGUI/SMC_Spinner" Renderer="Falagard/Default" LookNFeel="TaharezLook/Spinner" />
+	<FalagardMapping WindowType="TaharezLook/TSC_Spinner" TargetType="CEGUI/TSC_Spinner" Renderer="Falagard/Default" LookNFeel="TaharezLook/Spinner" />
 	<FalagardMapping WindowType="TaharezLook/Tooltip" TargetType="CEGUI/Tooltip" Renderer="Falagard/Tooltip" LookNFeel="TaharezLook/Tooltip" />
 	<FalagardMapping WindowType="TaharezLook/StaticImage" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="TaharezLook/StaticImage" />
 	<FalagardMapping WindowType="TaharezLook/StaticText"  TargetType="DefaultWindow" Renderer="Falagard/StaticText"  LookNFeel="TaharezLook/StaticText" />
