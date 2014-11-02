@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_manager.cpp  -  class for handling levels
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cLevel_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -483,4 +483,4 @@ cLevel_Manager* pLevel_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

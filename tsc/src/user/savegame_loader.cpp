@@ -7,8 +7,8 @@
 #include "../level/level_player.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
 using namespace std;
+using namespace TSC;
 
 cSavegameLoader::cSavegameLoader()
     : xmlpp::SaxParser()

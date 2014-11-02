@@ -1,7 +1,7 @@
 /***************************************************************************
  * movingsprite.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MOVINGSPRITE_HPP
-#define SMC_MOVINGSPRITE_HPP
+#ifndef TSC_MOVINGSPRITE_HPP
+#define TSC_MOVINGSPRITE_HPP
 
 #include "../objects/sprite.hpp"
 #include "../scripting/objects/sprites/mrb_moving_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -72,7 +72,7 @@ namespace SMC {
         // Create the MRuby instance for this object.
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "MovingSprite"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "MovingSprite"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Sets the image for drawing
@@ -307,6 +307,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

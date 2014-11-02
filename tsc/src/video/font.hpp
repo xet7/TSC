@@ -1,7 +1,7 @@
 /***************************************************************************
  * font.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FONT_HPP
-#define SMC_FONT_HPP
+#ifndef TSC_FONT_HPP
+#define TSC_FONT_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/img_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Font Manager class *** *** *** *** *** *** *** *** *** *** */
 
@@ -70,6 +70,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,8 +1,8 @@
-#ifndef SMC_SCRIPTING_SCRIPTABLE_OBJECT_HPP
-#define SMC_SCRIPTING_SCRIPTABLE_OBJECT_HPP
+#ifndef TSC_SCRIPTING_SCRIPTABLE_OBJECT_HPP
+#define TSC_SCRIPTING_SCRIPTABLE_OBJECT_HPP
 #include "../core/global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
 
         /**

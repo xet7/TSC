@@ -1,7 +1,7 @@
 /***************************************************************************
  * animation.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ANIMATION_HPP
-#define SMC_ANIMATION_HPP
+#ifndef TSC_ANIMATION_HPP
+#define TSC_ANIMATION_HPP
 
 #include "../objects/animated_sprite.hpp"
 #include "../core/obj_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Particle blending definitions *** *** *** *** *** *** *** *** *** *** */
 
@@ -47,7 +47,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Animation"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Animation"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set time to live for Objects in seconds
@@ -177,7 +177,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "ParticleEmitter"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "ParticleEmitter"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // pre-update animation
@@ -402,6 +402,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

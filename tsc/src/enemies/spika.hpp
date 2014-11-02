@@ -1,7 +1,7 @@
 /***************************************************************************
  * spika.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPIKA_HPP
-#define SMC_SPIKA_HPP
+#ifndef TSC_SPIKA_HPP
+#define TSC_SPIKA_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_spika.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cSpika *** *** *** *** *** *** *** *** *** *** *** */
     /* Waits for you and wheel you if you can't run fast enough :D
@@ -43,7 +43,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Spika"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Spika"), &Scripting::rtTSC_Scriptable, this));
         }
 
 
@@ -93,6 +93,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

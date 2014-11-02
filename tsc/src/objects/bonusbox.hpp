@@ -1,7 +1,7 @@
 /***************************************************************************
  * bonusbox.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BONUSBOX_HPP
-#define SMC_BONUSBOX_HPP
+#ifndef TSC_BONUSBOX_HPP
+#define TSC_BONUSBOX_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"
@@ -22,7 +22,7 @@
 #include "../objects/powerup.hpp"
 #include "../scripting/objects/boxes/mrb_bonusbox.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cBonusBox *** *** *** *** *** *** *** *** *** */
 
@@ -47,7 +47,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "BonusBox"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "BonusBox"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // sets the count this object can be activated
@@ -116,6 +116,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

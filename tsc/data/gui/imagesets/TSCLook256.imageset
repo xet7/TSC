@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="TaharezLook" Imagefile="SMCLook512.png" NativeHorzRes="1600" NativeVertRes="1200" AutoScaled="true" >
+<Imageset Name="TaharezLook" Imagefile="TSCLook512.png" NativeHorzRes="1600" NativeVertRes="1200" AutoScaled="true" >
     <Image Name="MenuTop" XPos="342" YPos="408" Width="2" Height="4" />
     <Image Name="MenuLeft" XPos="332" YPos="418" Width="4" Height="2" />
     <Image Name="MenuRight" XPos="350" YPos="418" Width="6" Height="2" />

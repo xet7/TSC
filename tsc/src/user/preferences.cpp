@@ -1,7 +1,7 @@
 /***************************************************************************
  * preferences.cpp  -  Game settings handler
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@ namespace fs = boost::filesystem;
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** */
 
@@ -148,7 +148,7 @@ void cPreferences::Save(void)
     Add_Property(p_root, "package_name", m_package);
     Add_Property(p_root, "skin_name", m_skin);
     // Game
-    Add_Property(p_root, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+    Add_Property(p_root, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_root, "game_language", m_language);
     Add_Property(p_root, "game_always_run", m_always_run);
     Add_Property(p_root, "game_menu_level", m_menu_level);
@@ -215,7 +215,7 @@ void cPreferences::Save(void)
 void cPreferences::Reset_All(void)
 {
     // Game
-    m_game_version = smc_version;
+    m_game_version = tsc_version;
     m_package = m_package_default;
 
     Reset_Game();
@@ -390,9 +390,9 @@ void cPreferences::Apply_Audio(bool sound, bool music)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-/// User preferences, i.e. the content from the SMC configuration file.
+/// User preferences, i.e. the content from the TSC configuration file.
 cPreferences* pPreferences = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

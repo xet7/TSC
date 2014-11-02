@@ -6,7 +6,7 @@
 #include "../core/global_basic.hpp"
 
 namespace fs = boost::filesystem;
-using namespace SMC;
+using namespace TSC;
 
 using namespace std;
 

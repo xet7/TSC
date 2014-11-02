@@ -1,7 +1,7 @@
 /***************************************************************************
  * bonusbox.cpp  -  class for bonusbox
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cBonusBox *** *** *** *** *** *** *** *** *** */
 
@@ -604,4 +604,4 @@ bool cBonusBox::Editor_Gold_Color_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * hud.cpp  -  heads-up display
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cHudSprite *** *** *** *** *** *** *** *** *** *** */
 
@@ -1376,4 +1376,4 @@ cItemBox* pHud_Itembox = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

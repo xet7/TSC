@@ -1,7 +1,7 @@
 /***************************************************************************
  * sound_manager.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SOUND_MANAGER_HPP
-#define SMC_SOUND_MANAGER_HPP
+#ifndef TSC_SOUND_MANAGER_HPP
+#define TSC_SOUND_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/obj_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Sound object *** *** *** *** *** *** *** *** *** *** */
 
@@ -87,6 +87,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,8 +1,8 @@
-#ifndef SMC_SCRIPTING_HPP
-#define SMC_SCRIPTING_HPP
+#ifndef TSC_SCRIPTING_HPP
+#define TSC_SCRIPTING_HPP
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
-#include "objects/mrb_smc.hpp"
+#include "objects/mrb_tsc.hpp"
 
 // Some defines to ease use of mruby
 #define MRB_ARGUMENT_ERROR(mrb) (mrb_class_get(mrb, "ArgumentError"))
@@ -11,13 +11,13 @@
 #define MRB_NOTIMP_ERROR(mrb) (mrb_class_get(mrb, "NotImplementedError"))
 #define MRB_RANGE_ERROR(mrb) (mrb_class_get(mrb, "RangeError"))
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
 
         // We don’t use mruby’s C typechecks, but mruby wants
         // an mrb_data_type nevertheless from us. So we set
         // it for all our objects to this one.
-        extern struct mrb_data_type rtSMC_Scriptable;
+        extern struct mrb_data_type rtTSC_Scriptable;
 
         // Takes a C(++) string and directly returns an MRuby
         // symbol object (not an mrb_sym!) for it.
@@ -28,15 +28,15 @@ namespace SMC {
 
         /**
          * Shorthand for doing
-         *   DATA_GET_PTR(p_state, obj, &rtSMC_Scriptable)
+         *   DATA_GET_PTR(p_state, obj, &rtTSC_Scriptable)
          * over and over with a security NULL check.
          */
         template<typename T>
         T* Get_Data_Ptr(mrb_state* p_state, mrb_value obj)
         {
-            T* p_result = static_cast<T*>(mrb_data_get_ptr(p_state, obj, &rtSMC_Scriptable));
+            T* p_result = static_cast<T*>(mrb_data_get_ptr(p_state, obj, &rtTSC_Scriptable));
             if (!p_result) {
-                mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Unexpected NULL pointer. This is most likely an SMC bug.");
+                mrb_raise(p_state, MRB_TYPE_ERROR(p_state), "Unexpected NULL pointer. This is most likely an TSC bug.");
                 return NULL; // Not reached
             }
 

@@ -1,7 +1,7 @@
 /***************************************************************************
  * color.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,10 +13,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_COLOR_HPP
-#define SMC_COLOR_HPP
+#ifndef TSC_COLOR_HPP
+#define TSC_COLOR_HPP
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Color class *** *** *** *** *** *** *** *** *** */
 
@@ -168,6 +168,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

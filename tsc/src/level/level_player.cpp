@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_player.cpp  -  level player class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -41,7 +41,7 @@
 #include "../scripting/events/shoot_event.hpp"
 #include "../scripting/events/downgrade_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 // Milliseconds to enable power jump when ducking
 const int power_jump_delta = 1000;
@@ -4008,4 +4008,4 @@ cLevel_Player* pLevel_Player = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * turtle.cpp  -  turtle enemy class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cTurtle *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -947,4 +947,4 @@ bool cTurtle::Editor_Direction_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

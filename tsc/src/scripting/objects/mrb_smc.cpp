@@ -1,4 +1,4 @@
-#include "mrb_smc.hpp"
+#include "mrb_tsc.hpp"
 #include "../../core/game_core.hpp"
 #include "../../core/property_helper.hpp"
 #include "../../core/filesystem/resource_manager.hpp"
@@ -6,22 +6,22 @@
 #include "../../core/framerate.hpp"
 
 /**
- * Module: SMC
+ * Module: TSC
  *
  * Module encapsulating stuff related to the game itself.
  */
 
-using namespace SMC;
+using namespace TSC;
 namespace fs = boost::filesystem;
 
 
 /**
- * Method: SMC::require
+ * Method: TSC::require
  *
  *   require( path [, package ] )
  *
  * Minimalistic file loading capability. Loads a file
- * relative to SMC’s scripting/ directory into the running
+ * relative to TSC’s scripting/ directory into the running
  * MRuby instance.  If a package is provided, it will search
  * the user and game package scripting directory for the script.
  *
@@ -30,7 +30,7 @@ namespace fs = boost::filesystem;
  */
 static mrb_value Require(mrb_state* p_state, mrb_value self)
 {
-    using namespace SMC;
+    using namespace TSC;
 
     // Get the path argument
     char* cpath = NULL;
@@ -77,11 +77,11 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::platform
+ * Method: TSC::platform
  *
  *   platform() → a_string
  *
- * Information about the platform SMC was compiled for.
+ * Information about the platform TSC was compiled for.
  *
  * #### Return value
  * One of `:win32`, `:linux`, `:apple`, or `:other`. Please
@@ -90,22 +90,22 @@ static mrb_value Require(mrb_state* p_state, mrb_value self)
 static mrb_value Platform(mrb_state* p_state, mrb_value self)
 {
 #ifdef _WIN32
-    return SMC::Scripting::str2sym(p_state, "win32");
+    return TSC::Scripting::str2sym(p_state, "win32");
 #elif __linux
-    return SMC::Scripting::str2sym(p_state, "linux");
+    return TSC::Scripting::str2sym(p_state, "linux");
 #elif __APPLE__
-    return SMC::Scripting::str2sym(p_state, "apple");
+    return TSC::Scripting::str2sym(p_state, "apple");
 #else
-    return SMC::Scripting::str2sym(p_state, "other");
+    return TSC::Scripting::str2sym(p_state, "other");
 #endif
 }
 
 /**
- * Method: SMC::quit
+ * Method: TSC::quit
  *
  *   quit()
  *
- * Instructs SMC to terminate the main loop, exiting the
+ * Instructs TSC to terminate the main loop, exiting the
  * game as if regularily closed.
  */
 static mrb_value Quit(mrb_state* p_state, mrb_value self)
@@ -115,11 +115,11 @@ static mrb_value Quit(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::exit
+ * Method: TSC::exit
  *
  *   exit( exitcode )
  *
- * Immediately and forcibly terminates SMC without any
+ * Immediately and forcibly terminates TSC without any
  * cleanup.
  *
  * `0 <= exitcode < 255` is the range for `exitcode`.
@@ -134,7 +134,7 @@ static mrb_value Exit(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::current_framerate
+ * Method: TSC::current_framerate
  *
  *   current_framerate() → integer
  *
@@ -146,7 +146,7 @@ static mrb_value Current_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::average_framerate
+ * Method: TSC::average_framerate
  *
  *   average_framerate() → integer
  *
@@ -158,7 +158,7 @@ static mrb_value Average_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::best_framerate
+ * Method: TSC::best_framerate
  *
  *   best_framerate() → integer
  *
@@ -170,7 +170,7 @@ static mrb_value Best_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::worst_framerate
+ * Method: TSC::worst_framerate
  *
  *   worst_framerate() → integer
  *
@@ -182,27 +182,27 @@ static mrb_value Worst_Framerate(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: SMC::version
+ * Method: TSC::version
  *
  *   version() → a_string
  *
- * SMC’s version number in the form `major.minor.patch`.
+ * TSC’s version number in the form `major.minor.patch`.
  */
 static mrb_value Version(mrb_state* p_state, mrb_value self)
 {
     std::stringstream ss;
 
-    ss << SMC_VERSION_MAJOR << "." << SMC_VERSION_MINOR << "." << SMC_VERSION_PATCH;
+    ss << TSC_VERSION_MAJOR << "." << TSC_VERSION_MINOR << "." << TSC_VERSION_PATCH;
 
     return mrb_str_new_cstr(p_state, ss.str().c_str());
 }
 
 /**
- * Method: SMC::debug_mode?
+ * Method: TSC::debug_mode?
  *
  *   debug_mode?() → true or false
  *
- * Checks if this SMC has been compiled in debug mode, and if so,
+ * Checks if this TSC has been compiled in debug mode, and if so,
  * returns `true`, `false` otherwise.
  */
 static mrb_value Is_Debug_Mode(mrb_state* p_state, mrb_value self)
@@ -214,18 +214,18 @@ static mrb_value Is_Debug_Mode(mrb_state* p_state, mrb_value self)
 #endif
 }
 
-void SMC::Scripting::Init_SMC(mrb_state* p_state)
+void TSC::Scripting::Init_TSC(mrb_state* p_state)
 {
-    struct RClass* p_rmSMC = mrb_define_module(p_state, "SMC");
+    struct RClass* p_rmTSC = mrb_define_module(p_state, "TSC");
 
-    mrb_define_module_function(p_state, p_rmSMC, "require", Require, MRB_ARGS_ARG(1,1));
-    mrb_define_module_function(p_state, p_rmSMC, "platform", Platform, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "quit", Quit, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "exit", Exit, MRB_ARGS_REQ(1));
-    mrb_define_module_function(p_state, p_rmSMC, "current_framerate", Current_Framerate, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "average_framerate", Average_Framerate, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "best_framerate", Best_Framerate, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "worst_framerate", Worst_Framerate, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "version", Version, MRB_ARGS_NONE());
-    mrb_define_module_function(p_state, p_rmSMC, "debug_mode?", Is_Debug_Mode, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "require", Require, MRB_ARGS_ARG(1,1));
+    mrb_define_module_function(p_state, p_rmTSC, "platform", Platform, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "quit", Quit, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "exit", Exit, MRB_ARGS_REQ(1));
+    mrb_define_module_function(p_state, p_rmTSC, "current_framerate", Current_Framerate, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "average_framerate", Average_Framerate, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "best_framerate", Best_Framerate, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "worst_framerate", Worst_Framerate, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "version", Version, MRB_ARGS_NONE());
+    mrb_define_module_function(p_state, p_rmTSC, "debug_mode?", Is_Debug_Mode, MRB_ARGS_NONE());
 }

@@ -1,7 +1,7 @@
 /***************************************************************************
  * star.cpp  -  jumping star class
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 #include "../core/i18n.hpp"
 #include "../core/game_core.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cjStar *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -219,4 +219,4 @@ void cjStar::Handle_Collision_Massive(cObjectCollision* collision)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

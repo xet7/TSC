@@ -1,7 +1,7 @@
 /***************************************************************************
  * furball.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FURBALL_HPP
-#define SMC_FURBALL_HPP
+#ifndef TSC_FURBALL_HPP
+#define TSC_FURBALL_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_furball.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cFurball *** *** *** *** *** *** *** *** *** *** *** */
     /* Secret attacks: Lulls you into a false sense of security so that you will
@@ -46,7 +46,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Furball"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Furball"), &Scripting::rtTSC_Scriptable, this));
         }
 
 
@@ -152,6 +152,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

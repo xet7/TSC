@@ -1,7 +1,7 @@
 /***************************************************************************
  * global_basic.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GLOBAL_BASIC_HPP
-#define SMC_GLOBAL_BASIC_HPP
+#ifndef TSC_GLOBAL_BASIC_HPP
+#define TSC_GLOBAL_BASIC_HPP
 
 #ifdef _WIN32
 // We use some features from IE 5, sadly.
@@ -24,7 +24,7 @@
 /* uncomment to enable experimental rendering in a thread
 * still randomly crashes because gl functions are called while the render thread is active
 */
-//#define SMC_RENDER_THREAD_TEST
+//#define TSC_RENDER_THREAD_TEST
 
 /* *** *** *** *** *** *** *** Debugging *** *** *** *** *** *** *** *** *** *** */
 
@@ -66,7 +66,7 @@
 #include <map>
 #include <iomanip>
 
-// SMC build configuration header
+// TSC build configuration header
 #include "config.hpp"
 
 // Boost

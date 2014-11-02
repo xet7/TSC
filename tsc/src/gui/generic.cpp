@@ -1,7 +1,7 @@
 /***************************************************************************
  * generic.cpp  -  generic gui stuff
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 #include "../video/renderer.hpp"
 #include "../user/preferences.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cDialogBox *** *** *** *** *** *** *** *** *** *** */
 
@@ -675,4 +675,4 @@ bool GUI_Paste_From_Clipboard(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

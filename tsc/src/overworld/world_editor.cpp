@@ -1,7 +1,7 @@
 /***************************************************************************
  * world_editor.cpp  -  class for the World Editor
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 #include "overworld_loader.hpp"
 #include "../core/editor/editor_items_loader.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cEditor_World *** *** *** *** *** *** *** *** *** *** */
 
@@ -267,4 +267,4 @@ cEditor_World* pWorld_Editor = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

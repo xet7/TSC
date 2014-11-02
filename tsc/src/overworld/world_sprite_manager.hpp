@@ -1,7 +1,7 @@
 /***************************************************************************
  * world_sprite_manager.h
  *
- * Copyright © 2008 - 2011 The SMC Contributors
+ * Copyright © 2008 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_WORLD_SPRITE_MANAGER_HPP
-#define SMC_WORLD_SPRITE_MANAGER_HPP
+#ifndef TSC_WORLD_SPRITE_MANAGER_HPP
+#define TSC_WORLD_SPRITE_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../overworld/overworld.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cWorld_Sprite_Manager *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -38,6 +38,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
  * gl_surface.cpp  -  OpenGL Surface class
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cGL_Surface *** *** *** *** *** *** *** *** *** */
 
@@ -301,4 +301,4 @@ void cGL_Surface::Set_Destruction_Function(void (*nfunction)(cGL_Surface*))
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

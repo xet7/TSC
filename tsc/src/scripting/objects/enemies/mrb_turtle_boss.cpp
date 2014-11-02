@@ -16,8 +16,8 @@
  * shell.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -31,12 +31,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cTurtleBoss* p_turtle = new cTurtleBoss(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_turtle;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_turtle->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_turtle);
 
     return self;
@@ -327,7 +327,7 @@ static mrb_value Get_Downgrade_Count(mrb_state* p_state, mrb_value self)
     return mrb_fixnum_value(p_turtle->Get_Downgrade_Count());
 }
 
-void SMC::Scripting::Init_TurtleBoss(mrb_state* p_state)
+void TSC::Scripting::Init_TurtleBoss(mrb_state* p_state)
 {
     struct RClass* p_rcTurtleBoss = mrb_define_class(p_state, "TurtleBoss", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcTurtleBoss, MRB_TT_DATA);

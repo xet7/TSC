@@ -1,9 +1,9 @@
-#ifndef SMC_EDITOR_ITEMS_LOADER_HPP
-#define SMC_EDITOR_ITEMS_LOADER_HPP
+#ifndef TSC_EDITOR_ITEMS_LOADER_HPP
+#define TSC_EDITOR_ITEMS_LOADER_HPP
 #include "../global_game.hpp"
 #include "../xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cEditorItemsLoader: public xmlpp::SaxParser {
     public:

@@ -1,7 +1,7 @@
 /***************************************************************************
  * utilities.cpp  -  General math functions
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ public:
     }
 };
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** Math utility functions *** *** *** *** *** *** *** *** *** */
 
@@ -56,4 +56,4 @@ bool Is_Valid_Number(std::string num, bool accept_floating_point /* = 1 */)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

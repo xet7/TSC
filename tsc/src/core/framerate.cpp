@@ -1,7 +1,7 @@
 /***************************************************************************
  * framerate.cpp  -  Framerate independant motion control
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 #include "../core/framerate.hpp"
 #include "../core/math/utilities.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cPerformance_Timer *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -212,4 +212,4 @@ cFramerate* pFramerate = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

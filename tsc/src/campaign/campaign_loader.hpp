@@ -1,10 +1,10 @@
-#ifndef SMC_CAMPAIGN_LOADER_HPP
-#define SMC_CAMPAIGN_LOADER_HPP
+#ifndef TSC_CAMPAIGN_LOADER_HPP
+#define TSC_CAMPAIGN_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "campaign_manager.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cCampaignLoader: public xmlpp::SaxParser {
     public:

@@ -1,7 +1,7 @@
 /***************************************************************************
  * goldpiece.cpp  -  goldpiece class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 #include "../level/level.hpp"
 #include "../scripting/events/activate_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cGoldpiece *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -498,4 +498,4 @@ void cFGoldpiece::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -27,8 +27,8 @@
  *   is not triggered for each single beetle.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 MRUBY_IMPLEMENT_EVENT(spit);
@@ -48,12 +48,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cBeetleBarrage* p_bb = new cBeetleBarrage(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_bb;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_bb->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_bb);
 
     return self;
@@ -172,7 +172,7 @@ static mrb_value Get_Fly_Distance(mrb_state* p_state, mrb_value self)
     return mrb_float_value(p_state, p_bb->Get_Beetle_Fly_Distance());
 }
 
-void SMC::Scripting::Init_BeetleBarrage(mrb_state* p_state)
+void TSC::Scripting::Init_BeetleBarrage(mrb_state* p_state)
 {
     struct RClass* p_rcBeetleBarrage = mrb_define_class(p_state, "BeetleBarrage", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcBeetleBarrage, MRB_TT_DATA);

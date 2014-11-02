@@ -1,7 +1,7 @@
 /***************************************************************************
  * waypoint.cpp  -  waypoint class for the Overworld
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cWaypoint *** *** *** *** *** *** *** *** *** */
 
@@ -491,4 +491,4 @@ bool cWaypoint::Editor_Access_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

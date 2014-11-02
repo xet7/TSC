@@ -1,7 +1,7 @@
 /***************************************************************************
  * spikeball.cpp  -  spiky enemy
  *
- * Copyright © 2009 - 2011 The SMC Contributors
+ * Copyright © 2009 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cSpikeball *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -531,4 +531,4 @@ bool cSpikeball::Editor_Direction_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * sprite_manager.cpp  -  Sprite Manager
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cSprite_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -502,4 +502,4 @@ bool cSprite_Manager::Is_UID_In_Use(int uid)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * sprite.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPRITE_HPP
-#define SMC_SPRITE_HPP
+#ifndef TSC_SPRITE_HPP
+#define TSC_SPRITE_HPP
 
 #include "../core/global_game.hpp"
 #include "../core/math/rect.hpp"
@@ -24,7 +24,7 @@
 #include "../scripting/scripting.hpp"
 #include "../scripting/objects/sprites/mrb_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cCollidingSprite *** *** *** *** *** *** *** *** *** *** */
 
@@ -332,7 +332,7 @@ namespace SMC {
          */
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Sprite"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Sprite"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Move this object
@@ -577,6 +577,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

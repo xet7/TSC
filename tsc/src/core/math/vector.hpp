@@ -1,7 +1,7 @@
 /***************************************************************************
  * vector.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  * Copyright (C) 2007 Clanlib Team ( original Vector class )
  ***************************************************************************/
 /*
@@ -14,13 +14,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_VECTOR_HPP
-#define SMC_VECTOR_HPP
+#ifndef TSC_VECTOR_HPP
+#define TSC_VECTOR_HPP
 
 #include "../../core/global_game.hpp"
 #include "../../core/math/utilities.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** GL_Vector *** *** *** *** *** *** *** *** *** *** */
 
@@ -150,6 +150,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

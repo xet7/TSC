@@ -1,7 +1,7 @@
 #include "scriptable_object.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 cScriptable_Object::cScriptable_Object()
 {

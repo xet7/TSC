@@ -1,7 +1,7 @@
 /***************************************************************************
  * moving_platform.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MOVING_PLATFORM_HPP
-#define SMC_MOVING_PLATFORM_HPP
+#ifndef TSC_MOVING_PLATFORM_HPP
+#define TSC_MOVING_PLATFORM_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/animated_sprite.hpp"
 #include "../objects/path.hpp"
 #include "../scripting/objects/specials/mrb_moving_platform.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Moving Platform type *** *** *** *** *** *** *** *** *** */
 
@@ -68,7 +68,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "MovingPlatform"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "MovingPlatform"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set the parent sprite manager
@@ -206,6 +206,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

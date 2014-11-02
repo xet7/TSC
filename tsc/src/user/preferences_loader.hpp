@@ -1,10 +1,10 @@
-#ifndef SMC_PREFERENCES_LOADER_HPP
-#define SMC_PREFERENCES_LOADER_HPP
+#ifndef TSC_PREFERENCES_LOADER_HPP
+#define TSC_PREFERENCES_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "preferences.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * XML parser for the preferences file. You should not use

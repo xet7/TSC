@@ -1,7 +1,7 @@
 /***************************************************************************
  * path.h  -  movement along a defined path
  *
- * Copyright © 2008 - 2011 The SMC Contributors
+ * Copyright © 2008 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 #include "../enemies/static.hpp"
 #include "../objects/moving_platform.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** Path state class *** *** *** *** *** *** *** *** *** *** */
 
@@ -1002,4 +1002,4 @@ void cPath::Add_Segment(cPath_Segment segment)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * renderer.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RENDERER_HPP
-#define SMC_RENDERER_HPP
+#ifndef TSC_RENDERER_HPP
+#define TSC_RENDERER_HPP
 
 #include "../video/video.hpp"
 #include "../core/math/line.hpp"
 #include "../core/math/rect.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** RenderType *** *** *** *** *** *** *** *** *** *** */
 
@@ -266,6 +266,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

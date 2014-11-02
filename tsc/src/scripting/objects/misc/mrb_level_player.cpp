@@ -5,10 +5,9 @@
 #include "../../events/event.hpp"
 #include "../../../core/global_basic.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 using namespace std;
-
 
 /**
  * Class: LevelPlayer
@@ -16,7 +15,7 @@ using namespace std;
  * {: .superclass}
  *
  * The sole instance of this class, the singleton `Player`, represents
- * Maryo himself. Naturally you can’t instanciate this class (SMC isn’t a
+ * Maryo himself. Naturally you can’t instanciate this class (TSC isn’t a
  * multiplayer game), but otherwise this class is your interface to doing
  * all kinds of evil things with Maryo. You should, however, be careful,
  * because the powerful methods exposed by this class allow you to
@@ -143,7 +142,7 @@ static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
     case MARYO_ICE:
         return str2sym(p_state, "ice");
     //case MARYO_CAPE:
-    //  return str2sym(p_state, "cape"); // Not implemented officially in SMC
+    //  return str2sym(p_state, "cape"); // Not implemented officially in TSC
     case MARYO_GHOST:
         return str2sym(p_state, "ghost");
     default:
@@ -209,7 +208,7 @@ static mrb_value Set_Type(mrb_state* p_state,  mrb_value self)
         type = MARYO_FIRE;
     else if (strcmp(typestr, "ice") == 0)
         type = MARYO_ICE;
-    //else if (strcmp(typestr, "cape") == 0) // Not implemented officially by SMC
+    //else if (strcmp(typestr, "cape") == 0) // Not implemented officially by TSC
     //  type = MARYO_CAPE;
     else if (strcmp(typestr, "ghost") == 0)
         type = MARYO_GHOST;
@@ -499,7 +498,7 @@ static mrb_value Release_Item(mrb_state* p_state, mrb_value self)
  * Entry point
  ***************************************/
 
-void SMC::Scripting::Init_Level_Player(mrb_state* p_state)
+void TSC::Scripting::Init_Level_Player(mrb_state* p_state)
 {
     struct RClass* p_rcLevel_Player = mrb_define_class(p_state, "LevelPlayer", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcLevel_Player, MRB_TT_DATA);

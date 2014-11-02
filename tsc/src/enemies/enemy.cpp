@@ -1,7 +1,7 @@
 /***************************************************************************
  * enemy.cpp  -  base class for all enemies
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../objects/goldpiece.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cEnemy *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -449,4 +449,4 @@ void cEnemy::Set_Massive_Type(MassiveType type)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

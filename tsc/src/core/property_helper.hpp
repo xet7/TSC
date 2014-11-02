@@ -1,7 +1,7 @@
 /***************************************************************************
  * property_helper.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_PROPERTY_HELPER_HPP
-#define SMC_PROPERTY_HELPER_HPP
+#ifndef TSC_PROPERTY_HELPER_HPP
+#define TSC_PROPERTY_HELPER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
     /* Replace all occurrences of the search with the format string
      * todo : use boost::algorithm::replace_all ?
@@ -216,6 +216,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

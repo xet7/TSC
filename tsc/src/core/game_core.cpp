@@ -1,7 +1,7 @@
 /***************************************************************************
  * game_core.cpp  -  globally used variables and functions
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -38,7 +38,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** Variables *** *** *** *** *** *** *** *** *** */
 
@@ -578,4 +578,4 @@ void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Gl
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

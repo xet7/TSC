@@ -1,7 +1,7 @@
 /***************************************************************************
  * spika.cpp  -  spika, spiked waiting enemy
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cSpika *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -421,4 +421,4 @@ void cSpika::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

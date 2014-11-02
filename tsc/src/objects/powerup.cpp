@@ -1,7 +1,7 @@
 /***************************************************************************
  * powerup.cpp  -  powerup classes
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cPowerUp *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -684,4 +684,4 @@ void cMoon::Update(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

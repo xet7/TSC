@@ -1,7 +1,7 @@
 /***************************************************************************
  * img_settings.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_IMG_SETTINGS_HPP
-#define SMC_IMG_SETTINGS_HPP
+#ifndef TSC_IMG_SETTINGS_HPP
+#define TSC_IMG_SETTINGS_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/file_parser.hpp"
 #include "../video/gl_surface.hpp"
 #include "../core/math/rect.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cImage_Settings_Data *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -99,6 +99,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

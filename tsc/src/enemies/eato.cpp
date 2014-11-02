@@ -1,7 +1,7 @@
 /***************************************************************************
  * eato.cpp  -  eating static plant :P
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ namespace fs = boost::filesystem;
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cEato *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -317,4 +317,4 @@ std::string cEato::Create_Name(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

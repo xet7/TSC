@@ -1,7 +1,7 @@
 /***************************************************************************
  * camera.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_CAMERA_HPP
-#define SMC_CAMERA_HPP
+#ifndef TSC_CAMERA_HPP
+#define TSC_CAMERA_HPP
 
 #include "../core/global_game.hpp"
 #include "../core/math/rect.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** How to move the camera *** *** *** *** *** *** *** *** */
     enum Camera_movement {
@@ -123,6 +123,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

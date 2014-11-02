@@ -1,7 +1,7 @@
 /***************************************************************************
  * menu_data.h
  *
- * Copyright © 2004 - 2011 The SMC Contributors
+ * Copyright © 2004 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MENU_DATA_HPP
-#define SMC_MENU_DATA_HPP
+#ifndef TSC_MENU_DATA_HPP
+#define TSC_MENU_DATA_HPP
 
 #include "../core/global_basic.hpp"
 #include "../gui/menu.hpp"
 #include "../gui/hud.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cMenu_Base *** *** *** *** *** *** *** *** *** *** */
 
@@ -361,6 +361,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
  * flyon.cpp  -  flying plant
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cFlyon *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -647,4 +647,4 @@ std::string cFlyon::Create_Name(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

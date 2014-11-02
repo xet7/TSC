@@ -1,7 +1,7 @@
 /***************************************************************************
  * static.cpp  -  static enemy
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cStaticEnemy *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -430,4 +430,4 @@ std::string cStaticEnemy::Create_Name(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 enable_language(CXX)
-project(SMC)
+project(TSC)
 
 # Ensure our custom CMake modules get found
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -11,20 +11,20 @@ include(ExternalProject)
 ########################################
 # Version number
 
-set(SMC_VERSION_MAJOR 2)
-set(SMC_VERSION_MINOR 1)
-set(SMC_VERSION_PATCH 0)
 # If you get a merge conflict below, always keep "dev" on the
 # "devel" branch. The postfix is only to be altered on release
 # branches.
-set(SMC_VERSION_POSTFIX "dev")
+set(TSC_VERSION_MAJOR 2)
+set(TSC_VERSION_MINOR 1)
+set(TSC_VERSION_PATCH 0)
+set(TSC_VERSION_POSTFIX "dev")
 
 ###############################################
 # Flags & Options
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
 option(ENABLE_NLS "Enable translations and localisations" ON)
-set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having SMC determine it dynamically.")
+set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having TSC determine it dynamically.")
 
 #FIXME: Actually use ENABLE_MRUBY
 
@@ -33,7 +33,7 @@ if(CMAKE_COMPILER_IS_GNUCC)
   add_definitions("-Wall")
 endif()
 
-# Extra flags for debugging SMC, additional to those
+# Extra flags for debugging TSC, additional to those
 # already added by CMake itself when doing a debug
 # build (e.g. -g is added for GCC by CMake).
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
@@ -41,8 +41,8 @@ if(${CMAKE_BUILD_TYPE} MATCHES Debug)
 endif()
 
 execute_process(COMMAND git rev-parse --short HEAD
-  WORKING_DIRECTORY ${SMC_SOURCE_DIR}
-  OUTPUT_VARIABLE SMC_VERSION_GIT
+  WORKING_DIRECTORY ${TSC_SOURCE_DIR}
+  OUTPUT_VARIABLE TSC_VERSION_GIT
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 execute_process(COMMAND nproc
@@ -73,19 +73,19 @@ if (ENABLE_MRUBY)
   find_program(RAKE_EXECUTABLE rake)
 
   # Tell CMake how to compile mruby
-  set(MRUBY_TOPDIR ${SMC_SOURCE_DIR}/../mruby)
+  set(MRUBY_TOPDIR ${TSC_SOURCE_DIR}/../mruby)
   set(MRUBY_ROOT_DIR ${MRUBY_TOPDIR}/mruby)
   set(MRUBY_MGEMS_DIR ${MRUBY_TOPDIR}/mgems)
 
   ExternalProject_Add(
     mruby
-    PREFIX "${SMC_BINARY_DIR}/mruby"
+    PREFIX "${TSC_BINARY_DIR}/mruby"
     DOWNLOAD_COMMAND ""
     UPDATE_COMMAND ""
     SOURCE_DIR "${MRUBY_ROOT_DIR}"
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${SMC_SOURCE_DIR}/mruby_smc_build_config.rb CROSSCOMPILE_TARGET=${TOOLCHAIN_PREFIX}
+    BUILD_COMMAND ${RAKE_EXECUTABLE} MRUBY_CONFIG=${TSC_SOURCE_DIR}/mruby_tsc_build_config.rb CROSSCOMPILE_TARGET=${TOOLCHAIN_PREFIX}
     INSTALL_COMMAND "")
 
   set(MRuby_INCLUDE_DIR ${MRUBY_ROOT_DIR}/include)
@@ -111,7 +111,7 @@ if (NOT(WIN32))
   if (NOT(CEGUI_FOUND))
     message("CEGUI 0.7.x was not found. It will be downloaded and compiled during the build process.")
 
-    set(CEGUI_ROOT_DIR "${SMC_BINARY_DIR}/cegui")
+    set(CEGUI_ROOT_DIR "${TSC_BINARY_DIR}/cegui")
     set(CEGUI_SOURCE_DIR "${CEGUI_ROOT_DIR}/src/cegui07")
 
     ExternalProject_Add(cegui07
@@ -233,19 +233,19 @@ gettext_process_po_files(languages ALL PO_FILES ${po_files})
 ###############################################
 # Configuration header
 
-configure_file(${SMC_SOURCE_DIR}/config.hpp.in
-  ${SMC_BINARY_DIR}/config.hpp)
-include_directories(${SMC_BINARY_DIR})
+configure_file(${TSC_SOURCE_DIR}/config.hpp.in
+  ${TSC_BINARY_DIR}/config.hpp)
+include_directories(${TSC_BINARY_DIR})
 
 ########################################
 # Credits file
 
-set_source_files_properties(${SMC_BINARY_DIR}/credits.cpp
+set_source_files_properties(${TSC_BINARY_DIR}/credits.cpp
   PROPERTIES GENERATED true)
-add_custom_command(OUTPUT ${SMC_BINARY_DIR}/credits.cpp
-  COMMAND rake ${SMC_BINARY_DIR}/credits.cpp
-  DEPENDS ${SMC_SOURCE_DIR}/docs/authors.txt
-  WORKING_DIRECTORY ${SMC_SOURCE_DIR})
+add_custom_command(OUTPUT ${TSC_BINARY_DIR}/credits.cpp
+  COMMAND rake ${TSC_BINARY_DIR}/credits.cpp
+  DEPENDS ${TSC_SOURCE_DIR}/docs/authors.txt
+  WORKING_DIRECTORY ${TSC_SOURCE_DIR})
 
 ########################################
 # Windows icon resource
@@ -260,19 +260,19 @@ if(WIN32)
   endif()
 
   # Generate the RC file, then compile it.
-  configure_file(${SMC_SOURCE_DIR}/icon.rc.in
-    ${SMC_BINARY_DIR}/icon.rc)
-  add_custom_command(OUTPUT ${SMC_BINARY_DIR}/icon.res
-    COMMAND ${WINDRES_COMMAND} ${SMC_BINARY_DIR}/icon.rc -O coff -o ${SMC_BINARY_DIR}/icon.res
-    DEPENDS ${SMC_BINARY_DIR}/icon.rc)
+  configure_file(${TSC_SOURCE_DIR}/icon.rc.in
+    ${TSC_BINARY_DIR}/icon.rc)
+  add_custom_command(OUTPUT ${TSC_BINARY_DIR}/icon.res
+    COMMAND ${WINDRES_COMMAND} ${TSC_BINARY_DIR}/icon.rc -O coff -o ${TSC_BINARY_DIR}/icon.res
+    DEPENDS ${TSC_BINARY_DIR}/icon.rc)
 endif()
 
 ###############################################
 # Source files
 
 # For now, just assume ALL cpp files to be requisites
-# of SMC.
-file(GLOB_RECURSE smc_sources
+# of TSC.
+file(GLOB_RECURSE tsc_sources
   "src/*.cpp"
   "src/*.hpp"
   )
@@ -282,18 +282,18 @@ file(GLOB_RECURSE smc_sources
 
 # Now add our build targets and their dependencies.
 if (WIN32)
-  add_executable(smc ${smc_sources} ${SMC_BINARY_DIR}/credits.cpp icon.res)
+  add_executable(tsc ${tsc_sources} ${TSC_BINARY_DIR}/credits.cpp icon.res)
 else()
-  add_executable(smc ${smc_sources} ${SMC_BINARY_DIR}/credits.cpp)
+  add_executable(tsc ${tsc_sources} ${TSC_BINARY_DIR}/credits.cpp)
 endif()
 
 if (ENABLE_MRUBY)
-  add_dependencies(smc mruby)
+  add_dependencies(tsc mruby)
 endif()
 
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
 if (WIN32)
-  target_link_libraries(smc
+  target_link_libraries(tsc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
@@ -310,14 +310,14 @@ if (WIN32)
     ${FREETYPE_LIBRARIES}
     intl
     ws2_32
-    ${SMC_BINARY_DIR}/icon.res
+    ${TSC_BINARY_DIR}/icon.res
     )
   # For some unknown reason, nobody knows how to properly detect libintl?
   # However, as we already require Gettext anyway, linking libintl in directly
   # should be safe.
 else()
-  add_dependencies(smc cegui07)
-  target_link_libraries(smc
+  add_dependencies(tsc cegui07)
+  target_link_libraries(tsc
     ${CEGUI_LIBRARY}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
@@ -338,48 +338,48 @@ else()
 endif()
 
 # Installation instructions
-install(TARGETS smc
+install(TARGETS tsc
   DESTINATION bin
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/campaigns/" # Note trailing slash for content copy
-  DESTINATION share/smc/campaigns
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/campaigns/" # Note trailing slash for content copy
+  DESTINATION share/tsc/campaigns
   COMPONENT campaigns)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/editor/"
-  DESTINATION share/smc/editor
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/editor/"
+  DESTINATION share/tsc/editor
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/gui/"
-  DESTINATION share/smc/gui
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/gui/"
+  DESTINATION share/tsc/gui
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/icon/"
-  DESTINATION share/smc/icon
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/icon/"
+  DESTINATION share/tsc/icon
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/levels/"
-  DESTINATION share/smc/levels
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/levels/"
+  DESTINATION share/tsc/levels
   COMPONENT levels)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/music/"
-  DESTINATION share/smc/music
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/music/"
+  DESTINATION share/tsc/music
   COMPONENT music)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/pixmaps/"
-  DESTINATION share/smc/pixmaps
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/pixmaps/"
+  DESTINATION share/tsc/pixmaps
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/schema/"
-  DESTINATION share/smc/schema
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/schema/"
+  DESTINATION share/tsc/schema
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/scripting/"
-  DESTINATION share/smc/scripting
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/scripting/"
+  DESTINATION share/tsc/scripting
   COMPONENT base)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/sounds/"
-  DESTINATION share/smc/sounds
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/sounds/"
+  DESTINATION share/tsc/sounds
   COMPONENT sounds)
-install(DIRECTORY "${SMC_SOURCE_DIR}/data/worlds/"
-  DESTINATION share/smc/worlds
+install(DIRECTORY "${TSC_SOURCE_DIR}/data/worlds/"
+  DESTINATION share/tsc/worlds
   COMPONENT worlds)
 
 foreach(pofile ${po_files})
   get_filename_component(lang ${pofile} NAME_WE)
 
-  install(FILES "${SMC_BINARY_DIR}/${lang}.gmo" # .gmo is generated by gettext_process_po_files() further above
-    DESTINATION share/smc/translations/${lang}/LC_MESSAGES
+  install(FILES "${TSC_BINARY_DIR}/${lang}.gmo" # .gmo is generated by gettext_process_po_files() further above
+    DESTINATION share/tsc/translations/${lang}/LC_MESSAGES
     RENAME "Secret Maryo Chronicles.mo"
     COMPONENT base)
 endforeach()
@@ -388,14 +388,14 @@ endforeach()
 # Packager
 
 # Main info
-set(CPACK_PACKAGE_NAME "SMC")
-set(CPACK_PACKAGE_VENDOR "SMC Team")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SMC - 2-dimensional platform game")
-set(CPACK_PACKAGE_VERSION_MAJOR ${SMC_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${SMC_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${SMC_VERSION_PATCH})
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "SMC")
-set(CPACK_PACKAGE_EXECUTABLES smc "SMC")
+set(CPACK_PACKAGE_NAME "TSC")
+set(CPACK_PACKAGE_VENDOR "TSC Team")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "TSC - 2-dimensional platform game")
+set(CPACK_PACKAGE_VERSION_MAJOR ${TSC_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${TSC_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${TSC_VERSION_PATCH})
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "TSC")
+set(CPACK_PACKAGE_EXECUTABLES tsc "TSC")
 
 # Nicer names
 set(CPACK_COMPONENT_BASE_DISPLAY_NAME "Basic application components (required)")
@@ -406,12 +406,12 @@ set(CPACK_COMPONENT_SOUNDS_DISPLAY_NAME "Sound files")
 set(CPACK_COMPONENT_WORLDS_DISPLAY_NAME "Core worlds")
 
 # Descriptions
-set(CPACK_COMPONENT_BASE_DESCRIPTION "The smc program itself and its core requirements.")
-set(CPACK_COMPONENT_CAMPAIGNS_DESCRIPTION "Standard campaigns included with SMC.")
-set(CPACK_COMPONENT_LEVELS_DESCRIPTION "Standard levels included with SMC.")
+set(CPACK_COMPONENT_BASE_DESCRIPTION "The tsc program itself and its core requirements.")
+set(CPACK_COMPONENT_CAMPAIGNS_DESCRIPTION "Standard campaigns included with TSC.")
+set(CPACK_COMPONENT_LEVELS_DESCRIPTION "Standard levels included with TSC.")
 set(CPACK_COMPONENT_MUSIC_DESCRIPTION "Background music files. No background music without this.")
 set(CPACK_COMPONENT_SOUNDS_DESCRIPTION "Sound files. No sounds without this.")
-set(CPACK_COMPONENT_WORLDS_DESCRIPTION "Standard worlds included with SMC.")
+set(CPACK_COMPONENT_WORLDS_DESCRIPTION "Standard worlds included with TSC.")
 
 # Interdependencies
 set(CPACK_COMPONENT_CAMPAIGNS_DEPENDS worlds)
@@ -421,12 +421,12 @@ set(CPACK_COMPONENT_WORLDS_DEPENDS levels)
 set(CPACK_COMPONENT_BASE_REQUIRED ON)
 
 # Misc
-set(CPACK_RESOURCE_FILE_LICENSE "${SMC_SOURCE_DIR}/docs/license.txt")
-set(CPACK_CREATE_DESKTOP_LINKS smc)
+set(CPACK_RESOURCE_FILE_LICENSE "${TSC_SOURCE_DIR}/docs/license.txt")
+set(CPACK_CREATE_DESKTOP_LINKS tsc)
 set(CPACK_NSIS_MODIFY_PATH "ON") # Required for desktop shortcuts
-set(CPACK_NSIS_MUI_ICON "${SMC_SOURCE_DIR}/extras/icons/idr_main.ico") # Installer icon
-set(CPACK_NSIS_MUI_UNIICON "${SMC_SOURCE_DIR}/extras/icons/idr_main.ico") # Uninstaller icon
-set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\smc.exe") # Icon for system control panel
-set(CPACK_PACKAGE_ICON "${SMC_SOURCE_DIR}/extras/icons/idr_main.ico") # Installer window bar icon
+set(CPACK_NSIS_MUI_ICON "${TSC_SOURCE_DIR}/extras/icons/idr_main.ico") # Installer icon
+set(CPACK_NSIS_MUI_UNIICON "${TSC_SOURCE_DIR}/extras/icons/idr_main.ico") # Uninstaller icon
+set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\tsc.exe") # Icon for system control panel
+set(CPACK_PACKAGE_ICON "${TSC_SOURCE_DIR}/extras/icons/idr_main.ico") # Installer window bar icon
 
 include(CPack)

@@ -1,8 +1,8 @@
-#ifndef SMC_SCRIPTING_STAR_HPP
-#define SMC_SCRIPTING_STAR_HPP
+#ifndef TSC_SCRIPTING_STAR_HPP
+#define TSC_SCRIPTING_STAR_HPP
 #include "../../scripting.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         void Init_Star(mrb_state* p_state);
     }

@@ -1,7 +1,7 @@
 /***************************************************************************
  * video.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_VIDEO_HPP
-#define SMC_VIDEO_HPP
+#ifndef TSC_VIDEO_HPP
+#define TSC_VIDEO_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 #include "../video/color.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Effect types *** *** *** *** *** *** *** *** *** *** */
 
@@ -278,6 +278,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

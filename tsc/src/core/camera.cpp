@@ -1,7 +1,7 @@
 /***************************************************************************
  * camera.cpp  -  class for handling screen camera movement
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 #include "../audio/audio.hpp"
 #include "../gui/menu.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cCamera *** *** *** *** *** *** *** *** *** *** */
 
@@ -410,4 +410,4 @@ void cCamera::Update_Position(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

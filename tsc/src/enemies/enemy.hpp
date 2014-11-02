@@ -1,7 +1,7 @@
 /***************************************************************************
  * enemy.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ENEMY_HPP
-#define SMC_ENEMY_HPP
+#ifndef TSC_ENEMY_HPP
+#define TSC_ENEMY_HPP
 
 #include "../objects/animated_sprite.hpp"
 #include "../core/framerate.hpp"
@@ -22,7 +22,7 @@
 #include "../scripting/objects/enemies/mrb_enemy.hpp"
 #include "../objects/ball.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -41,7 +41,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Enemy"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Enemy"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set Dead
@@ -126,6 +126,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

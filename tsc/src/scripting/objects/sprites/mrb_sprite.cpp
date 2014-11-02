@@ -16,7 +16,7 @@
  * defined in this class are therefore available to nearly all objects
  * exposed to the MRuby API.
  *
- * All sprites created by the regular SMC editor can be references by
+ * All sprites created by the regular TSC editor can be references by
  * indexing the global `UIDS` table, see
  * [Unique Identifiers](index.html#unique-identifiers-uids) for more
  * information on this topic.
@@ -68,8 +68,8 @@
  * : Lowest valid Z coordinate for half-massive sprites.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 MRUBY_IMPLEMENT_EVENT(touch);
@@ -101,7 +101,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     // Insert a new sprite instance into the MRuby object
     cSprite* p_sprite = new cSprite(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_sprite;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // Arguments
     if (path)
@@ -123,7 +123,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     // nor should it be editable in the editor.
     p_sprite->Set_Spawned(true);
 
-    // Add to the sprite manager for automatic memory management by SMC
+    // Add to the sprite manager for automatic memory management by TSC
     pActive_Level->m_sprite_manager->Add(p_sprite);
 
     return self;
@@ -181,7 +181,7 @@ mrb_value Get_UID(mrb_state* p_state, mrb_value self)
  * #### Parameters
  * type
  * : One of the following symbols. Their meaning is identical to the one
- *   in the SMC editor.
+ *   in the TSC editor.
  *
  *   * `:passive`
  *   * `:front_passive` or `:frontpassive`
@@ -479,7 +479,7 @@ static mrb_value Collision_Rect(mrb_state* p_state, mrb_value self)
  * (i.e. doesn’t check coordinate validness).
  *
  * You can easily get the coordinates by moving around the cursor in
- * the SMC level editor and hovering over objects placed near the
+ * the TSC level editor and hovering over objects placed near the
  * location where you want to warp to.
  *
  * #### Parameters
@@ -620,7 +620,7 @@ static mrb_value Is_Active(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_sprite->m_active);
 }
 
-void SMC::Scripting::Init_Sprite(mrb_state* p_state)
+void TSC::Scripting::Init_Sprite(mrb_state* p_state)
 {
     struct RClass* p_rcSprite = mrb_define_class(p_state, "Sprite", p_state->object_class);
     mrb_include_module(p_state, p_rcSprite, mrb_class_get(p_state, "Eventable"));

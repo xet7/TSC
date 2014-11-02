@@ -1,7 +1,7 @@
 /***************************************************************************
  * audio.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_AUDIO_HPP
-#define SMC_AUDIO_HPP
+#ifndef TSC_AUDIO_HPP
+#define TSC_AUDIO_HPP
 
 #include "../core/global_basic.hpp"
 #include "../audio/sound_manager.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../scripting/objects/misc/mrb_audio.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Sound Resource ID's  *** *** *** *** *** *** *** *** *** *** */
 
@@ -97,7 +97,7 @@ namespace SMC {
         {
             // See docs in mrb_level.cpp for why we associate ourself
             // with the Level class here instead of a savegame class.
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AudioClass"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AudioClass"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set the maximum number of sounds playable at once
@@ -228,6 +228,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

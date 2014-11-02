@@ -1,7 +1,7 @@
 /***************************************************************************
  * line.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LINE_HPP
-#define SMC_LINE_HPP
+#ifndef TSC_LINE_HPP
+#define TSC_LINE_HPP
 
 #include "../../core/math/point.hpp"
 
-namespace SMC {
+namespace TSC {
 
     template<typename T> inline T pow2(T value)
     {
@@ -117,6 +117,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

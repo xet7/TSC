@@ -4,7 +4,7 @@
 
 using namespace std;
 
-using namespace SMC;
+using namespace TSC;
 namespace fs = boost::filesystem;
 
 cEditorItemsLoader::cEditorItemsLoader()

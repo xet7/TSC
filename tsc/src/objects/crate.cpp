@@ -1,7 +1,7 @@
 /***************************************************************************
  * crate.cpp
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #include "../user/savegame.hpp"
 #include "../enemies/enemy.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cCrate::cCrate(cSprite_Manager* p_sprite_manager)
     : cAnimated_Sprite(p_sprite_manager, "crate")

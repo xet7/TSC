@@ -1,10 +1,10 @@
 Scripting implementation
 ========================
 
-Yeah, scripting! SMC embeds mruby (https://github.com/mruby/mruby), a
+Yeah, scripting! TSC embeds mruby (https://github.com/mruby/mruby), a
 minimal Ruby implementation for boosting your level design. The
 cMRubyInterpreter class wraps the `mruby_state` struct in a more
-convenient way and also initialises it for use with SMC. Each time a
+convenient way and also initialises it for use with TSC. Each time a
 level is loaded, a new clean instance of this class is created (and of
 course destroyed on level ending).
 
@@ -12,7 +12,7 @@ The central point of scripting is the cMRuby_Interpreter class, which
 wraps mruby’s `mrb_state` pointer. After the setup is done, the
 constructor calls the cMRuby_Interpreter::Load_Scripts() private
 member which in turn feeds the `main.rb` file in the `scripting/`
-directory of your SMC installation into the mruby interpreter. This
+directory of your TSC installation into the mruby interpreter. This
 script, which may be added by users if they want to provide additional
 functionality globally, has access to a very minimalistic version of
 `#require`, which just allows for loading scripts relative to the
@@ -37,14 +37,14 @@ to correctly initialise the scripting functionality and users are
 advised to not remove this code. Removing e.g. the `Eventable` module
 will have very bad effects, but on the other hand this gives you the
 full power of Ruby to hook in everything you want to. Finally, the
-`main.rb` script is *required* to call the `SMC::setup` method, which
+`main.rb` script is *required* to call the `TSC::setup` method, which
 loads all the C++ wrapper classes (i.e.  Sprite, LevelPlayer, etc.)
 into the interpreter.
 
 mruby type
 ----------
 
-All objects that are scriptable in SMC inherit from `cScriptable_Object`
+All objects that are scriptable in TSC inherit from `cScriptable_Object`
 on the C++ side of things. This class is responsible for holding the
 event tables, and is the most basic class you can cast to when you
 don’t know what to retrieve out of an mruby object.
@@ -56,9 +56,9 @@ information in form of a special object (`mrb_data_type`) it uses to
 check when getting out the underlying pointer of the object with
 mruby’s own retrieval method (`Data_Get_Struct`), but as mruby was
 mainly written for C and not for C++, this badly fails for inheritance
-and hence can’t be used in SMC. Therefore, we tell mruby whenever
+and hence can’t be used in TSC. Therefore, we tell mruby whenever
 creating a new mruby class that its "C" pointer type is
-`SMC::Scripting::rtSMC_Scriptable`, so we effectively ommit this
+`TSC::Scripting::rtTSC_Scriptable`, so we effectively ommit this
 checking layer of mruby. You have to be careful therefore to specify
 the correct type for `Get_Data_Ptr()`.
 
@@ -71,7 +71,7 @@ taken from eato.hpp):
 ~~~~~~~~~~~~~~~~~~~~ c++
 virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
 {
-	return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcEato, &Scripting::rtSMC_Scriptable, this));
+	return mrb_obj_value(Data_Wrap_Struct(p_state, Scripting::p_rcEato, &Scripting::rtTSC_Scriptable, this));
 }
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -92,16 +92,16 @@ a pointer of type `RClass*`, which as a convention we always name
 `p_rcClass_Name`. Along with this you need to provide an
 `Init_ClassName` function that you need to call inside the scripting
 initializing sequence by adding it to
-`SMC::Scripting::Load_Wrappers()` in scripting.cpp. Your header for a
+`TSC::Scripting::Load_Wrappers()` in scripting.cpp. Your header for a
 new mruby class will therefore look like this (example taken from
 eato):
 
 ~~~~~~~~~~~~~~~~~~~~ c++
-#ifndef SMC_SCRIPTING_EATO_HPP
-#define SMC_SCRIPTING_EATO_HPP
+#ifndef TSC_SCRIPTING_EATO_HPP
+#define TSC_SCRIPTING_EATO_HPP
 #include "../../scripting.hpp"
 
-namespace SMC {
+namespace TSC {
 	namespace Scripting {
 		extern struct RClass* p_rcEato;
 		void Init_Eato(mrb_state* p_state);
@@ -159,7 +159,7 @@ first have to create the C++ object as usual, and then employ mruby’s
 
 ~~~~~~~~~~~~~~~~~~~~ c++
 DATA_PTR(self) = p_eato;
-DATA_TYPE(self) = &rtSMC_Scriptable; // See above for explanation
+DATA_TYPE(self) = &rtTSC_Scriptable; // See above for explanation
 ~~~~~~~~~~~~~~~~~~~~
 
 Also, you usually want to call `Set_Spawned(true)` on the C++ object,
@@ -171,13 +171,13 @@ str2sym
 
 Often you need to directly convert a C++ string into an mruby symbol
 object. mruby has no method to directly do this (or even for C
-strings), so SMC provides its own: SMC::Scripting::str2sym(). Feel
+strings), so TSC provides its own: TSC::Scripting::str2sym(). Feel
 free to use it.
 
 Events
 ------
 
-Several objects in SMC allow you to spawn events that invoke callbacks
+Several objects in TSC allow you to spawn events that invoke callbacks
 in mruby land. The event table is managed as a C++ `std::map`, which
 maps the name of the event to a `std::vector` of all registered mruby
 callbacks (which are just normal mruby objects, i.e. of type
@@ -186,7 +186,7 @@ internal member variable you can interact with by means of the public
 methods defined in cScriptable_Object.
 
 Each event is required to have a C++ class that inherits from
-SMC::Scripting::cEvent and at least overwrites the `Event_Name()`
+TSC::Scripting::cEvent and at least overwrites the `Event_Name()`
 method in such a way that it returns a *unique* name for this event
 that will be used as the key for the event table. If you want to pass
 custom arguments to the mruby callback, you can also overwrite the
@@ -198,7 +198,7 @@ you want to fire it, instanciate the event class you just defined, and
 call the `cEvent::Fire()` method.
 
 This is basically everything you need, your event will now be availble
-via the SMC::Eventable module’s `#bind` method. To ease things for
+via the TSC::Eventable module’s `#bind` method. To ease things for
 users, you can use the `MRUBY_IMPLEMENT_EVENT` and
 `MRUBY_EVENT_HANDLER` macros declared in scripting/events/event.hpp
 that wrap the call to `#bind` for you in an own method named

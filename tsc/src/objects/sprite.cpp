@@ -1,7 +1,7 @@
 /***************************************************************************
  * sprite.cpp  -  basic sprite class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cCollidingSprite *** *** *** *** *** *** *** *** *** */
 
@@ -1528,4 +1528,4 @@ std::string cSprite::Create_Name() const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

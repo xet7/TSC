@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_editor.cpp  -  Level Editor class
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 #include "../core/editor/editor_items_loader.hpp"
 #include "level_loader.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cEditor_Level *** *** *** *** *** *** *** *** *** *** */
 
@@ -437,4 +437,4 @@ cEditor_Level* pLevel_Editor = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

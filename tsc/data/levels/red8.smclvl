@@ -6,7 +6,7 @@
 		<Property name="save_time" value="1233404337" />
 	</information>
 	<settings>
-		<Property name="lvl_author" value="Frostbringer and SMC Team" />
+		<Property name="lvl_author" value="Frostbringer and TSC Team" />
 		<Property name="lvl_version" value="0.6" />
 		<Property name="lvl_music" value="land/land_1.ogg" />
 		<Property name="cam_limit_x" value="0" />

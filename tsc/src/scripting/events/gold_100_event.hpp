@@ -1,9 +1,9 @@
-#ifndef SMC_SCRIPTING_GOLD_100_EVENT_HPP
-#define SMC_SCRIPTING_GOLD_100_EVENT_HPP
+#ifndef TSC_SCRIPTING_GOLD_100_EVENT_HPP
+#define TSC_SCRIPTING_GOLD_100_EVENT_HPP
 #include "../scripting.hpp"
 #include "event.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
 
         class cGold_100_Event: public cEvent {

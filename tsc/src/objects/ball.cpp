@@ -1,7 +1,7 @@
 /***************************************************************************
  * ball.cpp  -  ball class
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cBall *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -508,4 +508,4 @@ void cBall::Handle_out_of_Level(ObjectDirection dir)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

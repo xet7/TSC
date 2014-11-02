@@ -1,7 +1,7 @@
 /***************************************************************************
  * global_game.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,24 +13,22 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GLOBAL_GAME_HPP
-#define SMC_GLOBAL_GAME_HPP
+#ifndef TSC_GLOBAL_GAME_HPP
+#define TSC_GLOBAL_GAME_HPP
 #include "global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* Turns the version numbers into a numeric value:
      * (1,2,3) -> (10203)
      * Assumes that there will never be more than 100 minor or patch versions
      */
-#define SMC_VERSION_NUM(X, Y, Z) ((X)*10000 + (Y)*100 + (Z))
-
-    /* *** *** *** *** *** *** *** Secret Maryo ! *** *** *** *** *** *** *** *** *** *** */
+#define TSC_VERSION_NUM(X, Y, Z) ((X)*10000 + (Y)*100 + (Z))
 
 // Caption
-#define CAPTION "Secret Maryo Chronicles"
+#define CAPTION "The Secret Chronicles of Dr. M."
 
-    static const unsigned int smc_version = SMC_VERSION_NUM(SMC_VERSION_MAJOR, SMC_VERSION_MINOR, SMC_VERSION_PATCH);
+    static const unsigned int tsc_version = TSC_VERSION_NUM(TSC_VERSION_MAJOR, TSC_VERSION_MINOR, TSC_VERSION_PATCH);
 
     /* *** *** *** *** *** *** *** Object Direction *** *** *** *** *** *** *** *** *** *** */
 
@@ -439,6 +437,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

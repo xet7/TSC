@@ -1,7 +1,7 @@
 /***************************************************************************
  * random_sound.cpp  -  random sounds support
  *
- * Copyright © 2008 - 2011 The SMC Contributors
+ * Copyright © 2008 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cRandom_Sound *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -590,4 +590,4 @@ bool cRandom_Sound::Editor_Volume_Reduction_End_Text_Changed(const CEGUI::EventA
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

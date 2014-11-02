@@ -2,7 +2,7 @@
 #include "filesystem/resource_manager.hpp"
 #include "property_helper.hpp"
 
-namespace SMC {
+namespace TSC {
 
 void XmlAttributes::relocate_image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name /* = "image" */)
 {

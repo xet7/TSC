@@ -634,7 +634,7 @@ Version History and Changelog {#changelog}
 * fixed active fire/ice ball counter is not updated if leaving level
 * fixed level settings didn't set direction range
 * fixed image copying from settings based file didn't base settings
-* make sure the display resolution is restored if smc exits abnormally (nyhm)
+* make sure the display resolution is restored if tsc exits abnormally (nyhm)
 * fixed world editor save box text was "Save Level ?"
 * optimized some jungle_1 ground graphics
 * fixed some invalid music getting played bugs
@@ -854,7 +854,7 @@ Version History and Changelog {#changelog}
 0.99.3 (2006-11-11)
 -------------------
 
-* New XML Level format with the file ending .smclvl
+* New XML Level format with the file ending .tsclvl
 * New Enemy : Green Turtle and Spika 
 * New Sprites : Desert Background ( thanks CDvd )
 * New Box : Mushroom only
@@ -1647,4 +1647,4 @@ Version History and Changelog {#changelog}
 0.00 (2003-01-01)
 -----------------
 
-* SMC was registered on the 2003.1.1 on Sourceforge :)
+* TSC was registered on the 2003.1.1 on Sourceforge :)

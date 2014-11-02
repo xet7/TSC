@@ -1,7 +1,7 @@
 /***************************************************************************
  * property_helper.cpp  -  property helper
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 #include "../video/color.hpp"
 #include "../objects/sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
 void string_replace_all(std::string& str, const std::string& search, const std::string& format)
 {
@@ -947,4 +947,4 @@ std::string readfile(boost::filesystem::ifstream& file)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * collision.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  * Copyright (C) 2005 Amir Taaki ( Circle Collision tests ) - MIT License
  * Copyright (C) 2005 Magnus Norddahl ( Line Collision tests ) - BSD License
  ***************************************************************************/
@@ -15,8 +15,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_COLLISION_HPP
-#define SMC_COLLISION_HPP
+#ifndef TSC_COLLISION_HPP
+#define TSC_COLLISION_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
@@ -24,7 +24,7 @@
 #include "../core/math/rect.hpp"
 #include "math/circle.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cObjectCollision *** *** *** *** *** *** *** *** *** *** */
 
@@ -200,6 +200,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

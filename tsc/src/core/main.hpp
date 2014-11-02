@@ -1,7 +1,7 @@
 /***************************************************************************
  * main.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,10 +13,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MAIN_HPP
-#define SMC_MAIN_HPP
+#ifndef TSC_MAIN_HPP
+#define TSC_MAIN_HPP
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -47,6 +47,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

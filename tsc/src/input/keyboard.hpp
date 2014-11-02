@@ -1,7 +1,7 @@
 /***************************************************************************
  * keyboard.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_KEYBOARD_HPP
-#define SMC_KEYBOARD_HPP
+#ifndef TSC_KEYBOARD_HPP
+#define TSC_KEYBOARD_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../scripting/objects/misc/mrb_input.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cKeyboard *** *** *** *** *** *** *** *** *** */
 
@@ -35,7 +35,7 @@ namespace SMC {
         {
             // Someone needs to hold the event table, hence I decided
             // pKeyboard should do this.
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "InputClass"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "InputClass"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Reset all keys
@@ -91,6 +91,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

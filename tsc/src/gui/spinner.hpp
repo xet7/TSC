@@ -1,7 +1,7 @@
 /***************************************************************************
  * spinner.h
  *
- * Copyright © 2010 - 2011 The SMC Contributors
+ * Copyright © 2010 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,19 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPINNER_HPP
-#define SMC_SPINNER_HPP
+#ifndef TSC_SPINNER_HPP
+#define TSC_SPINNER_HPP
 
 #include "../core/global_basic.hpp"
 
 namespace CEGUI {
 
-    /* *** *** *** *** *** *** *** *** SMC_Spinner *** *** *** *** *** *** *** *** *** */
+    /* *** *** *** *** *** *** *** *** TSC_Spinner *** *** *** *** *** *** *** *** *** */
 
-    class SMC_Spinner : public Spinner {
+    class TSC_Spinner : public Spinner {
     public:
-        SMC_Spinner(const String& type, const String& name);
-        virtual ~SMC_Spinner(void);
+        TSC_Spinner(const String& type, const String& name);
+        virtual ~TSC_Spinner(void);
 
         /*!
         \brief
@@ -42,7 +42,7 @@ namespace CEGUI {
         static const String WidgetTypeName;
     };
 
-    CEGUI_DECLARE_WINDOW_FACTORY(SMC_Spinner)
+    CEGUI_DECLARE_WINDOW_FACTORY(TSC_Spinner)
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

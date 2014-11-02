@@ -1,5 +1,5 @@
-#ifndef SMC_SCRIPTING_EVENT_HPP
-#define SMC_SCRIPTING_EVENT_HPP
+#ifndef TSC_SCRIPTING_EVENT_HPP
+#define TSC_SCRIPTING_EVENT_HPP
 #include "../scripting.hpp"
 #include "../../scripting/scriptable_object.hpp"
 
@@ -28,7 +28,7 @@
 // by MRUBY_IMPLEMENT_EVENT.
 #define MRUBY_EVENT_HANDLER(evtname) Scripting_Event_On_##evtname
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         class cEvent {
         public:

@@ -1,7 +1,7 @@
 /***************************************************************************
  * overworld.cpp  -  Overworld class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ namespace fs = boost::filesystem;
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cOverworld_description *** *** *** *** *** *** *** *** *** */
 
@@ -272,7 +272,7 @@ void cOverworld::Save_To_File(fs::path path)
 
     // General information
     p_node = p_root->add_child("information");
-    Add_Property(p_node, "game_version", int_to_string(SMC_VERSION_MAJOR) + "." + int_to_string(SMC_VERSION_MINOR) + "." + int_to_string(SMC_VERSION_PATCH));
+    Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", world_engine_version);
     Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL))); // seconds since 1970
 
@@ -904,4 +904,4 @@ cOverworld* pActive_Overworld = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

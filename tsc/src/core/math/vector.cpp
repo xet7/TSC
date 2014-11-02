@@ -1,7 +1,7 @@
 /***************************************************************************
  * vector.cpp  -  vector class
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  * Copyright (C) 2007 Clanlib Team ( original Vector class )
  ***************************************************************************/
 /*
@@ -17,7 +17,7 @@
 #include "../../core/global_basic.hpp"
 #include "../../core/math/vector.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** GL_Vector *** *** *** *** *** *** *** *** *** *** */
 
@@ -94,4 +94,4 @@ void GL_Vector::round(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,7 +1,7 @@
 /***************************************************************************
  * turtle_boss.cpp  -  turtle boss enemy class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cTurtleBoss *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -1138,4 +1138,4 @@ bool cTurtleBoss::Get_Level_Ends_If_Killed()
     return m_level_ends_if_killed;
 }
 
-} // namespace SMC
+} // namespace TSC

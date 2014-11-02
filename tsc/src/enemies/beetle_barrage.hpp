@@ -1,7 +1,7 @@
 /***************************************************************************
  * pip.hpp
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BEETLE_BARRAGE_HPP
-#define SMC_BEETLE_BARRAGE_HPP
+#ifndef TSC_BEETLE_BARRAGE_HPP
+#define TSC_BEETLE_BARRAGE_HPP
 #include "enemy.hpp"
 #include "beetle.hpp"
 #include "../scripting/objects/enemies/mrb_beetle_barrage.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cBeetleBarrage: public cEnemy {
     public:
@@ -52,7 +52,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "BeetleBarrage"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "BeetleBarrage"), &Scripting::rtTSC_Scriptable, this));
         }
 
         virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);

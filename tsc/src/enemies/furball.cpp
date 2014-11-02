@@ -1,7 +1,7 @@
 /***************************************************************************
  * furball.cpp  -  little moving around enemy
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cFurball *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -820,4 +820,4 @@ bool cFurball::Editor_Max_Downgrade_Count_Text_Changed(const CEGUI::EventArgs& e
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

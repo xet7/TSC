@@ -14,8 +14,8 @@
  * fireballs agains enemies. Fireplants don’t move by default.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -30,12 +30,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
     cFirePlant* p_fireplant = new cFirePlant(pActive_Level->m_sprite_manager);
 
     DATA_PTR(self) = p_fireplant;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_fireplant->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_fireplant);
 
     return self;
@@ -59,7 +59,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Fireplant(mrb_state* p_state)
+void TSC::Scripting::Init_Fireplant(mrb_state* p_state)
 {
     struct RClass* p_rcFireplant = mrb_define_class(p_state, "Fireplant", mrb_class_get(p_state, "Powerup"));
     MRB_SET_INSTANCE_TT(p_rcFireplant, MRB_TT_DATA);

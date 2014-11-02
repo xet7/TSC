@@ -1,7 +1,7 @@
 /***************************************************************************
  * gee.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GEE_HPP
-#define SMC_GEE_HPP
+#ifndef TSC_GEE_HPP
+#define TSC_GEE_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_gee.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cGee *** *** *** *** *** *** *** *** *** *** *** *** */
     /* Shocks you with Electro, Lava or Venom
@@ -44,7 +44,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Gee"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Gee"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set Direction
@@ -145,6 +145,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

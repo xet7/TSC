@@ -1,7 +1,7 @@
 /***************************************************************************
  * video.cpp  -  General video functions
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** Video class *** *** *** *** *** *** *** *** *** *** */
 
@@ -115,7 +115,7 @@ void cVideo::Init_CEGUI(void) const
     SDL_GetMouseState(&mouse_x, &mouse_y);
     CEGUI::MouseCursor::setInitialMousePosition(CEGUI::Point(mouse_x, mouse_y));
     // add custom widgets
-    CEGUI::WindowFactoryManager::addFactory<CEGUI::SMC_SpinnerFactory>();
+    CEGUI::WindowFactoryManager::addFactory<CEGUI::TSC_SpinnerFactory>();
 
     // create system
     try {
@@ -618,7 +618,7 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
     }
 
     // if not the same game version
-    if (recreate || pPreferences->m_game_version != smc_version) {
+    if (recreate || pPreferences->m_game_version != tsc_version) {
         // delete all caches
         if (Dir_Exists(m_imgcache_dir)) {
             try {
@@ -941,7 +941,7 @@ void cVideo::Render(bool threaded /* = 0 */)
 
 void cVideo::Render_Finish(void)
 {
-#ifndef SMC_RENDER_THREAD_TEST
+#ifndef TSC_RENDER_THREAD_TEST
     return;
 #endif
     if (m_render_thread.joinable()) {
@@ -2290,4 +2290,4 @@ SDL_Surface* screen = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

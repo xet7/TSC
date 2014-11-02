@@ -22,8 +22,8 @@
  *   undefined behaviour.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 MRUBY_IMPLEMENT_EVENT(activate);
 
@@ -51,7 +51,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Powerup(mrb_state* p_state)
+void TSC::Scripting::Init_Powerup(mrb_state* p_state)
 {
     struct RClass* p_rcPowerup = mrb_define_class(p_state, "Powerup", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcPowerup, MRB_TT_DATA);

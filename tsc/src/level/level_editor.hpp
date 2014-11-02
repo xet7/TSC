@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_editor.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LEVEL_EDITOR_HPP
-#define SMC_LEVEL_EDITOR_HPP
+#ifndef TSC_LEVEL_EDITOR_HPP
+#define TSC_LEVEL_EDITOR_HPP
 
 #include "../core/editor/editor.hpp"
 #include "../level/level_settings.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cEditor_Level *** *** *** *** *** *** *** *** *** *** */
 
@@ -83,6 +83,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

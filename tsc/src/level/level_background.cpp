@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_background.cpp  -  level background image and color handling class
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cBackground *** *** *** *** *** *** *** *** *** *** */
 
@@ -389,4 +389,4 @@ cBackground_Manager::~cBackground_Manager(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

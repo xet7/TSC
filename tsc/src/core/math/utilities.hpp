@@ -1,7 +1,7 @@
 /***************************************************************************
  * utilities.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_UTILITIES_HPP
-#define SMC_UTILITIES_HPP
+#ifndef TSC_UTILITIES_HPP
+#define TSC_UTILITIES_HPP
 
 #include "../../core/global_basic.hpp"
 #include "../../core/global_game.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Math utility functions *** *** *** *** *** *** *** *** *** */
 
@@ -70,6 +70,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

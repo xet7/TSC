@@ -1,7 +1,7 @@
 /***************************************************************************
  * goldpiece.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GOLDPIECE_HPP
-#define SMC_GOLDPIECE_HPP
+#ifndef TSC_GOLDPIECE_HPP
+#define TSC_GOLDPIECE_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"
@@ -23,7 +23,7 @@
 #include "../scripting/objects/specials/mrb_jumping_goldpiece.hpp"
 #include "../scripting/objects/specials/mrb_falling_goldpiece.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cGoldpiece *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -45,7 +45,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Goldpiece"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Goldpiece"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // load from savegame
@@ -99,7 +99,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "JumpingGoldpiece"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "JumpingGoldpiece"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Validate the given collision object
@@ -125,7 +125,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "FallingGoldpiece"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "FallingGoldpiece"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Validate the given collision object
@@ -142,6 +142,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

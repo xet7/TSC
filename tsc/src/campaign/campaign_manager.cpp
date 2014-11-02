@@ -1,7 +1,7 @@
 /***************************************************************************
  * campaign_manager.cpp  -  class for handling campaigns
  *
- * Copyright © 2010 - 2011 The SMC Contributors
+ * Copyright © 2010 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace fs = boost::filesystem;
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cCampaign *** *** *** *** *** *** *** *** *** *** */
 
@@ -157,4 +157,4 @@ cCampaign_Manager* pCampaign_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

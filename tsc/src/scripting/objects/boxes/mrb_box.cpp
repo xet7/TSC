@@ -21,8 +21,8 @@
  * : The box was activated by Maryo jumping against it or otherwise.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 MRUBY_IMPLEMENT_EVENT(activate);
@@ -241,7 +241,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Box(mrb_state* p_state)
+void TSC::Scripting::Init_Box(mrb_state* p_state)
 {
     struct RClass* p_rcBox = mrb_define_class(p_state, "Box", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcBox, MRB_TT_DATA);

@@ -1,7 +1,7 @@
 /***************************************************************************
  * spinner.cpp  -  custom cegui spinner
  *
- * Copyright © 2010 - 2011 The SMC Contributors
+ * Copyright © 2010 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -18,32 +18,32 @@
 
 namespace CEGUI {
 
-/* *** *** *** *** *** *** *** *** SMC_Spinner *** *** *** *** *** *** *** *** *** */
+/* *** *** *** *** *** *** *** *** TSC_Spinner *** *** *** *** *** *** *** *** *** */
 
-const String SMC_Spinner::WidgetTypeName("CEGUI/SMC_Spinner");
+const String TSC_Spinner::WidgetTypeName("CEGUI/TSC_Spinner");
 
-SMC_Spinner::SMC_Spinner(const String& type, const String& name)
+TSC_Spinner::TSC_Spinner(const String& type, const String& name)
     : Spinner(type, name)
 {
     // todo : when cegui has a virtual Spinner::initialiseComponents
-    //getEditbox()->subscribeEvent( Window::EventMouseWheel, Event::Subscriber( &SMC_Spinner::Mouse_Wheel, this ) );
+    //getEditbox()->subscribeEvent( Window::EventMouseWheel, Event::Subscriber( &TSC_Spinner::Mouse_Wheel, this ) );
 }
 
-SMC_Spinner::~SMC_Spinner(void)
+TSC_Spinner::~TSC_Spinner(void)
 {
 
 }
 
-String SMC_Spinner::getTextFromValue(void) const
+String TSC_Spinner::getTextFromValue(void) const
 {
     if (d_inputMode == FloatingPoint) {
-        return SMC::float_to_string(d_currentValue, 6, 0);
+        return TSC::float_to_string(d_currentValue, 6, 0);
     }
 
     return Spinner::getTextFromValue();
 }
 
-/*bool SMC_Spinner::Mouse_Wheel( const EventArgs &event )
+/*bool TSC_Spinner::Mouse_Wheel( const EventArgs &event )
 {
     const MouseEventArgs &mouse_event = static_cast<const MouseEventArgs&>( event );
 

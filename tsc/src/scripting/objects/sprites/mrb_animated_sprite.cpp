@@ -13,8 +13,8 @@
  * of [MovingSprite](movingsprite.html).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
@@ -23,7 +23,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
     return self; // Not reached
 }
 
-void SMC::Scripting::Init_Animated_Sprite(mrb_state* p_state)
+void TSC::Scripting::Init_Animated_Sprite(mrb_state* p_state)
 {
     struct RClass* p_rcAnimated_Sprite = mrb_define_class(p_state, "AnimatedSprite", mrb_class_get(p_state, "MovingSprite"));
 

@@ -6,28 +6,28 @@
  * Class: AudioClass
  *
  * The `Audio` singleton, which is the sole instance of `AudioClass`,
- * allows you to interact with SMC’s sound system. You can play any sound
- * from SMC’s sound collection and any music that could also be used as a
+ * allows you to interact with TSC’s sound system. You can play any sound
+ * from TSC’s sound collection and any music that could also be used as a
  * background music in a level. Namely, paths to sound files are relative
- * to the SMC `sounds/` directory and music paths relative to the SMC
+ * to the TSC `sounds/` directory and music paths relative to the TSC
  * `music/` directory. The following table lists some examples (of
  * course you have to adapt the paths to your local setup):
  *
  * |-----------------------+---------------------------------------+--------------------------------------|
- * | SMC installation path | Sound path                            | Music path                           |
+ * | TSC installation path | Sound path                            | Music path                           |
  * |-----------------------+---------------------------------------+--------------------------------------|
- * |/usr/local             | /usr/local/share/smc/sounds           | /usr/local/share/smc/music           |
+ * |/usr/local             | /usr/local/share/tsc/sounds           | /usr/local/share/tsc/music           |
  * |-----------------------+---------------------------------------+--------------------------------------|
- * |C:\Program files\SMC   | C:\Program files\SMC\share\smc\sounds | C:\Program files\SMC\share\smc\music |
+ * |C:\Program files\TSC   | C:\Program files\TSC\share\tsc\sounds | C:\Program files\TSC\share\tsc\music |
  * |-----------------------+---------------------------------------+--------------------------------------|
  *
  * TODO: Check the Windows path.
  *
  * So, if you want to play the star music, you first have to find where
- * the music file is located. So, assuming your SMC is installed at
+ * the music file is located. So, assuming your TSC is installed at
  * `/usr/local`, you’d find the star music at
- * `/usr/local/share/smc/music/game/star.ogg`. To play it, you’d take
- * the path relative to `/usr/local/share/smc/music/`,
+ * `/usr/local/share/tsc/music/game/star.ogg`. To play it, you’d take
+ * the path relative to `/usr/local/share/tsc/music/`,
  * i.e. `game/star.ogg`. This is what you pass on to a method such as
  * [play_music](#playmusic):
  *
@@ -40,8 +40,8 @@
  * as \ on Windows).
 */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
@@ -73,11 +73,11 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  * resid (-1)
  * : Special identifier to prevent a sound from being
  *   played while another instance of this sound is already being
- *   played. SMC ensures that no two sounds with the same resource
+ *   played. TSC ensures that no two sounds with the same resource
  *   ID are played at the same time, i.e. the running sound will
  *   be stopped and discarded before your sound is played. You can
  *   define your own IDs, but there is a number of IDs predefined
- *   by SMC:
+ *   by TSC:
  *
  *   1. Maryo jump sound.
  *   2. Maryo wall hit sound
@@ -97,7 +97,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  *
  * True on success, false otherwise. Possible failure reasons include
  * incorrect filenames or the sound may simply have been muted by
- * the user in SMC’s preferences, so you probably shouldn’t give
+ * the user in TSC’s preferences, so you probably shouldn’t give
  * too much on this.
  */
 static mrb_value Play_Sound(mrb_state* p_state,  mrb_value self)
@@ -144,7 +144,7 @@ static mrb_value Play_Sound(mrb_state* p_state,  mrb_value self)
  *
  * True on success, false otherwise. Possible failure reasons include
  * incorrect filenames or the music may simply have been muted by
- * the user in SMC’s preferences, so you probably shouldn’t give
+ * the user in TSC’s preferences, so you probably shouldn’t give
  * too much on this.
  */
 static mrb_value Play_Music(mrb_state* p_state,  mrb_value self)
@@ -164,7 +164,7 @@ static mrb_value Play_Music(mrb_state* p_state,  mrb_value self)
 
 
 
-void SMC::Scripting::Init_Audio(mrb_state* p_state)
+void TSC::Scripting::Init_Audio(mrb_state* p_state)
 {
     struct RClass* p_rcAudio = mrb_define_class(p_state, "AudioClass", p_state->object_class);
     mrb_include_module(p_state, p_rcAudio, mrb_class_get(p_state, "Eventable"));

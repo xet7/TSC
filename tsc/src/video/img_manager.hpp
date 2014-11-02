@@ -1,7 +1,7 @@
 /***************************************************************************
  * img_manager.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_IMG_MANAGER_HPP
-#define SMC_IMG_MANAGER_HPP
+#ifndef TSC_IMG_MANAGER_HPP
+#define TSC_IMG_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/video.hpp"
 #include "../core/obj_manager.hpp"
 #include "../video/gl_surface.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cSaved_Texture *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -120,6 +120,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

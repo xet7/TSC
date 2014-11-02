@@ -1,9 +1,9 @@
-#ifndef SMC_SCRIPTING_ACTIVATE_EVENT_HPP
-#define SMC_SCRIPTING_ACTIVATE_EVENT_HPP
+#ifndef TSC_SCRIPTING_ACTIVATE_EVENT_HPP
+#define TSC_SCRIPTING_ACTIVATE_EVENT_HPP
 #include "../scripting.hpp"
 #include "event.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         class cActivate_Event: public cEvent {
         public:

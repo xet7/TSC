@@ -22,8 +22,8 @@
  * their ice weakness using scripting).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -37,12 +37,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cSpikeball* p_spikeball = new cSpikeball(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_spikeball;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_spikeball->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_spikeball);
 
     return self;
@@ -52,7 +52,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 // cSpikeball::Set_Color() to the mruby scripting interface is not
 // useful yet.
 
-void SMC::Scripting::Init_Spikeball(mrb_state* p_state)
+void TSC::Scripting::Init_Spikeball(mrb_state* p_state)
 {
     struct RClass* p_rcSpikeball = mrb_define_class(p_state, "Spikeball", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcSpikeball, MRB_TT_DATA);

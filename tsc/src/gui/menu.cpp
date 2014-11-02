@@ -1,7 +1,7 @@
 /***************************************************************************
  * menu.cpp  -  menu handler
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -33,7 +33,7 @@
 using namespace std;
 
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -122,9 +122,9 @@ cMenuHandler::cMenuHandler(void)
     m_player->Set_Massive_Type(MASS_PASSIVE);
     Reset();
 
-    // SMC logo image
+    // TSC logo image
     //cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
-    //sprite->Set_Image(pVideo->Get_Package_Surface("game/logo/smc_big_1.png"));
+    //sprite->Set_Image(pVideo->Get_Surface("game/logo/tsc_big_1.png"));
     //sprite->Set_Pos(180.0f, 20.0f);
     //sprite->Set_Scale(0.8f);
     //sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
@@ -664,4 +664,4 @@ cMenuCore* pMenuCore = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

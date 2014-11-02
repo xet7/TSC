@@ -1,7 +1,7 @@
 /***************************************************************************
  * overworld.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_OVERWORLD_HPP
-#define SMC_OVERWORLD_HPP
+#ifndef TSC_OVERWORLD_HPP
+#define TSC_OVERWORLD_HPP
 
 #include "../overworld/world_manager.hpp"
 #include "../overworld/world_waypoint.hpp"
@@ -24,7 +24,7 @@
 #include "../gui/hud.hpp"
 #include "../audio/random_sound.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cOverworld_description *** *** *** *** *** *** *** *** *** */
 
@@ -227,6 +227,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

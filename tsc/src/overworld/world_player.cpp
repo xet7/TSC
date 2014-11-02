@@ -1,7 +1,7 @@
 /***************************************************************************
  * world_player.cpp  - Overworld Player class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cOverworld_Player *** *** *** *** *** *** *** *** *** */
 
@@ -759,4 +759,4 @@ cOverworld_Player* pOverworld_Player = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

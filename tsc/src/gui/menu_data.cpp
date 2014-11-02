@@ -1,7 +1,7 @@
 /***************************************************************************
  * menu_data.cpp  -  menu data and handling classes
  *
- * Copyright © 2004 - 2011 The SMC Contributors
+ * Copyright © 2004 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -42,7 +42,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cMenu_Base *** *** *** *** *** *** *** *** *** */
 
@@ -234,11 +234,11 @@ void cMenu_Main::Init_GUI(void)
 
     CEGUI::Window* text_version = CEGUI::WindowManager::getSingleton().getWindow("text_version");
 
-#ifdef SMC_VERSION_POSTFIX
-    text_version->setProperty("Text", CEGUI::PropertyHelper::intToString(SMC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_PATCH) + "-" + SMC_VERSION_POSTFIX);
+#ifdef TSC_VERSION_POSTFIX
+    text_version->setProperty("Text", CEGUI::PropertyHelper::intToString(TSC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(TSC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(TSC_VERSION_PATCH) + "-" + TSC_VERSION_POSTFIX);
     text_version->setProperty("TextColours", "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
 #else
-    text_version->setProperty( "Text", UTF8_("Version ") + CEGUI::PropertyHelper::intToString(SMC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(SMC_VERSION_PATCH) );
+    text_version->setProperty("Text", UTF8_("Version ") + CEGUI::PropertyHelper::intToString(TSC_VERSION_MAJOR) + "." + CEGUI::PropertyHelper::intToString(TSC_VERSION_MINOR) + "." + CEGUI::PropertyHelper::intToString(TSC_VERSION_PATCH));
 #endif
 
     // if in a level/world
@@ -3457,4 +3457,4 @@ void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

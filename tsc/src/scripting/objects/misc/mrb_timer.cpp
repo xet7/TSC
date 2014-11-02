@@ -113,7 +113,7 @@
  * around the m_callbacks variable access. After all pending
  * callbacks have been executed, the list is cleared and normal
  * gameplay resumes. This way the callbacks are executed synchronous
- * to the rest of the SMC and MRuby stuff, while still allowing
+ * to the rest of the TSC and MRuby stuff, while still allowing
  * the callback "injection" to remain asynchronous and
  * therefore high-precision. The payoff is that although the
  * actual "injection" is (nearly) asynchronous (there is this
@@ -150,8 +150,8 @@
  * holding the C++ pointers don’t get GC’ed and the C++ pointers
  * are freed in the MRuby objects’ respective deallocation functions). */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /***************************************
@@ -335,7 +335,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
     // same MRuby instance as `p_state'.
     cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, mrb_test(is_periodic));
     DATA_PTR(self) = p_timer;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // Prevent the GC from collecting the objects by a) adding ourselves
     // to the class-instance variable instances and b) adding the callback
@@ -372,7 +372,7 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
 
     cTimer* p_timer = new cTimer(pActive_Level->m_mruby, interval, block, true);
 
-    mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
+    mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtTSC_Scriptable, p_timer));
 
     // Prevent mruby timer from getting out of scope
     mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
@@ -406,7 +406,7 @@ static mrb_value After(mrb_state* p_state,  mrb_value self)
     mrb_get_args(p_state, "i&", &secs, &block);
 
     cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
-    mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtSMC_Scriptable, p_timer));
+    mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtTSC_Scriptable, p_timer));
 
     // Prevent mruby timer from getting out of scope
     mrb_ary_push(p_state, mrb_iv_get(p_state, self, mrb_intern_cstr(p_state, "instances")), instance);
@@ -474,7 +474,7 @@ static mrb_value Stop(mrb_state* p_state,  mrb_value self)
  * Forcibly interrupt the timer _now_. In contrast to #stop, this method
  * does not block; it tells the timer thread to terminate as soon as possible
  * and immediately returns. The timer thread will immediately terminate, unless
- * it is currently registering your callback into SMC’s main loop, in which case
+ * it is currently registering your callback into TSC’s main loop, in which case
  * it will terminate after that.
  */
 static mrb_value Interrupt(mrb_state* p_state, mrb_value self)
@@ -567,7 +567,7 @@ static mrb_value Get_Interval(mrb_state* p_state,  mrb_value self)
 }
 
 
-void SMC::Scripting::Init_Timer(mrb_state* p_state)
+void TSC::Scripting::Init_Timer(mrb_state* p_state)
 {
     struct RClass* p_rcTimer = mrb_define_class(p_state, "Timer", p_state->object_class);
     MRB_SET_INSTANCE_TT(p_rcTimer, MRB_TT_DATA);

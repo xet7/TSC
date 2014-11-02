@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_entry.cpp  -  entry point to enter a level
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../scripting/events/enter_event.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -428,4 +428,4 @@ void cLevel_Entry::Set_Massive_Type(MassiveType type)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

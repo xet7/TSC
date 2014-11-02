@@ -1,7 +1,7 @@
 /***************************************************************************
  * larry.hpp - The walking bomb.
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LARRY_HPP
-#define SMC_LARRY_HPP
+#ifndef TSC_LARRY_HPP
+#define TSC_LARRY_HPP
 #include "enemy.hpp"
 #include "../scripting/objects/enemies/mrb_larry.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cLarry: public cEnemy {
     public:
@@ -47,7 +47,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Larry"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Larry"), &Scripting::rtTSC_Scriptable, this));
         }
 
     protected:

@@ -1,7 +1,7 @@
 #include "key_down_event.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 cKeyDown_Event::cKeyDown_Event(std::string keyname)
 {

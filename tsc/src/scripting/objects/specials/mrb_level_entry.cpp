@@ -27,8 +27,8 @@
  *   move (but before eventual gravity is applied).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 MRUBY_IMPLEMENT_EVENT(enter);
@@ -44,12 +44,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cLevel_Entry* p_entry = new cLevel_Entry(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_entry;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_entry->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_entry);
 
     return self;
@@ -152,7 +152,7 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
     return mrb_symbol_value(type);
 }
 
-void SMC::Scripting::Init_LevelEntry(mrb_state* p_state)
+void TSC::Scripting::Init_LevelEntry(mrb_state* p_state)
 {
     struct RClass* p_rcLevel_Entry = mrb_define_class(p_state, "LevelEntry", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcLevel_Entry, MRB_TT_DATA);

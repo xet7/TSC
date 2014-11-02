@@ -1,7 +1,7 @@
 /***************************************************************************
  * turtle_boss.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_TURTLEBOSS_HPP
-#define SMC_TURTLEBOSS_HPP
+#ifndef TSC_TURTLEBOSS_HPP
+#define TSC_TURTLEBOSS_HPP
 
 #include "../../enemies/enemy.hpp"
 #include "../../scripting/objects/enemies/mrb_turtle_boss.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Turtle Boss state *** *** *** *** *** *** *** *** *** */
 
@@ -53,7 +53,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "TurtleBoss"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "TurtleBoss"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // maximum hits until downgrade
@@ -174,6 +174,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

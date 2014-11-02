@@ -21,8 +21,8 @@
  * merely determine where it is _currently_.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -37,12 +37,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
     cFlyon* p_flyon = new cFlyon(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_flyon;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_flyon->Set_Spawned(true);
 
-    // Let SMC manager the memory
+    // Let TSC manager the memory
     pActive_Level->m_sprite_manager->Add(p_flyon);
 
     return self;
@@ -220,7 +220,7 @@ static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_flyon->m_move_back);
 }
 
-void SMC::Scripting::Init_Flyon(mrb_state* p_state)
+void TSC::Scripting::Init_Flyon(mrb_state* p_state)
 {
     struct RClass* p_rcFlyon = mrb_define_class(p_state, "Flyon", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcFlyon, MRB_TT_DATA);

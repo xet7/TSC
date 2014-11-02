@@ -1,7 +1,7 @@
 /***************************************************************************
  * menu.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MENU_HPP
-#define SMC_MENU_HPP
+#ifndef TSC_MENU_HPP
+#define TSC_MENU_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/animation.hpp"
@@ -22,7 +22,7 @@
 #include "../gui/hud.hpp"
 #include "../core/camera.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cMenu_Item *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -177,6 +177,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -15,8 +15,8 @@
  * a fixed path. Red gees are immunate to fire attacks.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -30,12 +30,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cGee* p_gee = new cGee(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_gee;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_gee->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_gee);
 
     return self;
@@ -261,7 +261,7 @@ static mrb_value Get_Wait_Time(mrb_state* p_state, mrb_value self)
     return mrb_float_value(p_state, p_gee->m_wait_time);
 }
 
-void SMC::Scripting::Init_Gee(mrb_state* p_state)
+void TSC::Scripting::Init_Gee(mrb_state* p_state)
 {
     struct RClass* p_rcGee = mrb_define_class(p_state, "Gee", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcGee, MRB_TT_DATA);

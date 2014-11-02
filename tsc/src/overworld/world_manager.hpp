@@ -1,7 +1,7 @@
 /***************************************************************************
  * overworld.h
  *
- * Copyright © 2004 - 2011 The SMC Contributors
+ * Copyright © 2004 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_WORLD_MANAGER_HPP
-#define SMC_WORLD_MANAGER_HPP
+#ifndef TSC_WORLD_MANAGER_HPP
+#define TSC_WORLD_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/obj_manager.hpp"
 #include "../core/camera.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cOverworld_Manager *** *** *** *** *** *** *** *** *** */
 
@@ -83,6 +83,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
  * savegame.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SAVEGAME_HPP
-#define SMC_SAVEGAME_HPP
+#ifndef TSC_SAVEGAME_HPP
+#define TSC_SAVEGAME_HPP
 
 #include "../objects/sprite.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../scripting/objects/misc/mrb_level.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -221,7 +221,7 @@ namespace SMC {
         {
             // See docs in mrb_level.cpp for why we associate ourself
             // with the Level class here instead of a savegame class.
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "LevelClass"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "LevelClass"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Returns only the Savegame description
@@ -241,6 +241,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

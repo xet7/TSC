@@ -1,7 +1,7 @@
 /***************************************************************************
  * joystick.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_JOYSTICK_HPP
-#define SMC_JOYSTICK_HPP
+#ifndef TSC_JOYSTICK_HPP
+#define TSC_JOYSTICK_HPP
 
 #include "../core/global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cJoystick *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -101,6 +101,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

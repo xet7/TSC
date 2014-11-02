@@ -12,8 +12,8 @@
  * _Lava_ makes any enemy and Maryo immediately and instantly die.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -30,18 +30,18 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cLava* p_lava = new cLava(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_lava;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_lava->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_lava);
 
     return self;
 }
 
-void SMC::Scripting::Init_Lava(mrb_state* p_state)
+void TSC::Scripting::Init_Lava(mrb_state* p_state)
 {
     struct RClass* p_rcLava = mrb_define_class(p_state, "Lava", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcLava, MRB_TT_DATA);

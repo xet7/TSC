@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_manager.h
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LEVEL_MANAGER_HPP
-#define SMC_LEVEL_MANAGER_HPP
+#ifndef TSC_LEVEL_MANAGER_HPP
+#define TSC_LEVEL_MANAGER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/obj_manager.hpp"
 #include "../core/camera.hpp"
 #include "../level/level.hpp"
 
-namespace SMC {
+namespace TSC {
 
 // default files for levels
 #define LEVEL_DEFAULT_MUSIC "land/land_5.ogg"
@@ -86,6 +86,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

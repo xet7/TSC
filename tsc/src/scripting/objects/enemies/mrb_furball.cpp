@@ -30,8 +30,8 @@
  * a furball boss.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -45,12 +45,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cFurball* p_furball = new cFurball(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_furball;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_furball->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_furball);
 
     return self;
@@ -224,7 +224,7 @@ static mrb_value Does_Level_End_If_Killed(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_furball->Level_Ends_If_Killed());
 }
 
-void SMC::Scripting::Init_Furball(mrb_state* p_state)
+void TSC::Scripting::Init_Furball(mrb_state* p_state)
 {
     struct RClass* p_rcFurball = mrb_define_class(p_state, "Furball", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcFurball, MRB_TT_DATA);

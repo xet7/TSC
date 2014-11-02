@@ -1,7 +1,7 @@
 /***************************************************************************
  * mouse.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_MOUSE_HPP
-#define SMC_MOUSE_HPP
+#ifndef TSC_MOUSE_HPP
+#define TSC_MOUSE_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/movingsprite.hpp"
 #include "../core/math/rect.hpp"
 #include "../core/math/vector.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cSelectedObject *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -269,6 +269,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

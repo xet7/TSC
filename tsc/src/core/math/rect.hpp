@@ -1,7 +1,7 @@
 /***************************************************************************
  * rect.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RECT_HPP
-#define SMC_RECT_HPP
+#ifndef TSC_RECT_HPP
+#define TSC_RECT_HPP
 
 #include "../../core/global_game.hpp"
 #include "../../core/math/point.hpp"
 #include "../../core/math/utilities.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** GL_rect *** *** *** *** *** *** *** *** *** *** */
 
@@ -179,6 +179,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -14,7 +14,7 @@
  * ------
  *
  * Key_Down
- * : Triggered when the player presses one of the SMC-relevant keys,
+ * : Triggered when the player presses one of the TSC-relevant keys,
  *   e.g. the action or jump key. The event handler gets passed the name
  *   of the key in question as a string, i.e. "action", "jump",
  *   etc. Instead of listing all possible keys here I encourage you to
@@ -24,8 +24,8 @@
  *   The event is also fired for joystick input.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /***************************************
@@ -48,7 +48,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  * Binding
  ***************************************/
 
-void SMC::Scripting::Init_Input(mrb_state* p_state)
+void TSC::Scripting::Init_Input(mrb_state* p_state)
 {
     struct RClass* p_rcInput = mrb_define_class(p_state, "InputClass", p_state->object_class);
     mrb_include_module(p_state, p_rcInput, mrb_class_get(p_state, "Eventable"));

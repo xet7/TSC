@@ -14,8 +14,8 @@
  * that).
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -29,12 +29,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cBonusBox* p_box = new cBonusBox(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_box;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_box->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_box);
 
     return self;
@@ -255,7 +255,7 @@ static mrb_value Get_Goldcolor(mrb_state* p_state, mrb_value self)
     }
 }
 
-void SMC::Scripting::Init_BonusBox(mrb_state* p_state)
+void TSC::Scripting::Init_BonusBox(mrb_state* p_state)
 {
     struct RClass* p_rcBonus_Box = mrb_define_class(p_state, "BonusBox", mrb_class_get(p_state, "Box"));
     MRB_SET_INSTANCE_TT(p_rcBonus_Box, MRB_TT_DATA);

@@ -1,7 +1,7 @@
 /***************************************************************************
  * text_box.h
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_TEXT_BOX_HPP
-#define SMC_TEXT_BOX_HPP
+#ifndef TSC_TEXT_BOX_HPP
+#define TSC_TEXT_BOX_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/box.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cText_Box *** *** *** *** *** *** *** *** *** */
 
@@ -66,6 +66,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

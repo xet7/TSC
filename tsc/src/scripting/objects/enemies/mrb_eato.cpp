@@ -16,8 +16,8 @@
  * it will bite.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -31,12 +31,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cEato* p_eato = new cEato(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_eato;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_eato->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_eato);
 
     return self;
@@ -73,7 +73,7 @@ static mrb_value Get_Image_Dir(mrb_state* p_state,  mrb_value self)
     return mrb_str_new_cstr(p_state, path_to_utf8(p_eato->m_img_dir).c_str());
 }
 
-void SMC::Scripting::Init_Eato(mrb_state* p_state)
+void TSC::Scripting::Init_Eato(mrb_state* p_state)
 {
     struct RClass* p_rcEato = mrb_define_class(p_state, "Eato", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcEato, MRB_TT_DATA);

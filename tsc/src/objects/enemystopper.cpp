@@ -1,7 +1,7 @@
 /***************************************************************************
  * enemystopper.cpp  -  enemystopper class
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 #include "../core/i18n.hpp"
 #include "../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cEnemyStopper *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -94,4 +94,4 @@ bool cEnemyStopper::Is_Draw_Valid(void)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

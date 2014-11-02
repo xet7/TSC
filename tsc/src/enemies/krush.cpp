@@ -1,7 +1,7 @@
 /***************************************************************************
  * krush.cpp  -  The little dinosaur
  *
- * Copyright © 2004 - 2011 The SMC Contributors
+ * Copyright © 2004 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cKrush *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -390,4 +390,4 @@ bool cKrush::Editor_Direction_Select(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

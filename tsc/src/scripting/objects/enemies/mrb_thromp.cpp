@@ -16,8 +16,8 @@
  * the bottom. The thromp itself is immune to gravity.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -31,12 +31,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cThromp* p_thromp = new cThromp(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_thromp;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_thromp->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_thromp);
 
     return self;
@@ -174,7 +174,7 @@ static mrb_value Is_Moving_Backwards(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_thromp->m_move_back);
 }
 
-void SMC::Scripting::Init_Thromp(mrb_state* p_state)
+void TSC::Scripting::Init_Thromp(mrb_state* p_state)
 {
     struct RClass* p_rcThromp = mrb_define_class(p_state, "Thromp", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcThromp, MRB_TT_DATA);

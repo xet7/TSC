@@ -1,7 +1,7 @@
 /***************************************************************************
  * ball.h
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_BALL_HPP
-#define SMC_BALL_HPP
+#ifndef TSC_BALL_HPP
+#define TSC_BALL_HPP
 
 #include "../video/video.hpp"
 #include "../objects/animated_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** Ball class *** *** *** *** *** *** *** *** *** *** */
 
@@ -45,7 +45,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Ball"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Ball"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // set type
@@ -109,6 +109,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

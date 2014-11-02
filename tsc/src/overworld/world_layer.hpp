@@ -1,7 +1,7 @@
 /***************************************************************************
  * layer.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,15 +13,15 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_WORLD_LAYER_HPP
-#define SMC_WORLD_LAYER_HPP
+#ifndef TSC_WORLD_LAYER_HPP
+#define TSC_WORLD_LAYER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/movingsprite.hpp"
 #include "../core/obj_manager.hpp"
 #include "../overworld/world_waypoint.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** Layer_Line *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -154,6 +154,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

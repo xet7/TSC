@@ -1,7 +1,7 @@
 /***************************************************************************
  * moving_platform.cpp  -  default moving platforms handler
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -33,7 +33,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cMoving_Platform *** *** *** *** *** *** *** *** *** *** */
 
@@ -1271,4 +1271,4 @@ std::string cMoving_Platform::Create_Name(void) const
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

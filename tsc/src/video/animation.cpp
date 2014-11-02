@@ -1,7 +1,7 @@
 /***************************************************************************
  * animation.cpp  -  Animation and Particle classes
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** Base Animation class *** *** *** *** *** *** *** *** *** *** */
 
@@ -2151,4 +2151,4 @@ cAnimation_Manager* pActive_Animation_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

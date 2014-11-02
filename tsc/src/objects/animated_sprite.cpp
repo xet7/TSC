@@ -1,7 +1,7 @@
 /***************************************************************************
  * animated_sprite.cpp  - multi image object sprite class
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** cAnimation_Surface *** *** *** *** *** *** *** *** *** *** */
 
@@ -147,4 +147,4 @@ void cAnimated_Sprite::Set_Time_All(const Uint32 time, const bool default_time /
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

@@ -1,21 +1,20 @@
 # Maintainer: Quintus <quintus@quintilianus.eu>
-pkgname=smc-quintus-git
+pkgname=tsc-git
 pkgver=r1032
 pkgrel=1
-pkgdesc="Quintus' fork of the jump'n'run game."
+pkgdesc="Jump'n'run game, fork of SMC"
 arch=("i686" "x86_64")
-url="https://github.com/Secretchronicles/SMC"
+url="https://github.com/Secretchronicles/TSC"
 license=('GPL')
 depends=("sdl_image" "sdl_ttf" "glew" "sdl_mixer" "devil" "boost-libs" "libxml++" "gettext" "mesa" "freeglut")
 makedepends=("cmake" "ruby" "gperf" "pkg-config" "bison" "boost")
 optdepends=()
-provides=("smc" "smc-git")
-conflicts=("smc" "smc-git")
+conflicts=("smc")
 options=()
-source=("git+https://github.com/Secretchronicles/SMC.git" "smc.desktop")
+source=("git+https://github.com/Secretchronicles/TSC.git" "tsc.desktop")
 noextract=()
 md5sums=("SKIP"
-         "eed8e75ad75ae05cbd1e16ddfbb54ef1")
+         "b96731e4a6eeee41aa97d6f84c67cabb")
 
 pkgver() {
     cd "$srcdir/SMC"

@@ -1,7 +1,7 @@
 /***************************************************************************
  * crate.hpp - boxes you can move around
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_CRATE_HPP
-#define SMC_CRATE_HPP
+#ifndef TSC_CRATE_HPP
+#define TSC_CRATE_HPP
 #include "animated_sprite.hpp"
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../scripting/objects/specials/mrb_crate.hpp"
 
-namespace SMC {
+namespace TSC {
 
     enum CrateState {
         CRATE_DEAD = 0,
@@ -44,7 +44,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Crate"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Crate"), &Scripting::rtTSC_Scriptable, this));
         }
 
         virtual void Update();

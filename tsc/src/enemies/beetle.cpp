@@ -1,7 +1,7 @@
 /***************************************************************************
  * pip.hpp
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #include "../level/level_player.hpp"
 #include "../gui/hud.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cBeetle::cBeetle(cSprite_Manager* p_sprite_manager)
     : cEnemy(p_sprite_manager)

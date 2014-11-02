@@ -1,8 +1,8 @@
-#ifndef SMC_SCRIPTING_TIMER_HPP
-#define SMC_SCRIPTING_TIMER_HPP
+#ifndef TSC_SCRIPTING_TIMER_HPP
+#define TSC_SCRIPTING_TIMER_HPP
 #include "../../scripting.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
 
         // C++ side of the MRuby Timer class.

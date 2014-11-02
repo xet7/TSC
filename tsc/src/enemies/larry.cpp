@@ -1,7 +1,7 @@
 /***************************************************************************
  * spikeball.cpp
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #include "../video/animation.hpp"
 #include "../objects/box.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cLarry::cLarry(cSprite_Manager* p_sprite_manager)
     : cEnemy(p_sprite_manager)
@@ -143,7 +143,7 @@ void cLarry::Update()
             else if (m_state == STA_RUN)
                 m_velx_max = 3.0f;
             else
-                throw (SMCError("Invalid larry walking state!"));
+                throw (TSCError("Invalid larry walking state!"));
 
             Update_Rotation_Hor();
         }

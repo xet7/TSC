@@ -1,7 +1,7 @@
 /***************************************************************************
  * shell.hpp - loose shells lying around.
  *
- * Copyright © 2014 The SMC Contributors
+ * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,11 +13,11 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SHELL_HPP
-#define SMC_SHELL_HPP
+#ifndef TSC_SHELL_HPP
+#define TSC_SHELL_HPP
 #include "turtle.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cShell: public cTurtle {
     public:

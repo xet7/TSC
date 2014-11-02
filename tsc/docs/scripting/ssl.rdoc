@@ -1,12 +1,12 @@
-= SMC Standard Scripting Library
+= TSC Standard Scripting Library
 
-This documentation covers SMC’s standard scripting library (SSL), a
-set of ruby files that comes together with SMC. These library files
-built upon the core functionalities provided by the SMC {scripting core
-API}[http://smcsdocs.quintilianus.eu] and extend it to be more easy to
+This documentation covers TSC’s standard scripting library (SSL), a
+set of ruby files that comes together with TSC. These library files
+built upon the core functionalities provided by the TSC {scripting core
+API}[http://tscsdocs.quintilianus.eu] and extend it to be more easy to
 use. As explained, the SSL is written entirely in Ruby. Its
 implementation can be found inside the <tt>data/scripting</tt> folder
-of an SMC installation.
+of an TSC installation.
 
 == Usage
 
@@ -14,7 +14,7 @@ The libraries from the SSL are not loaded by default, you first have
 to explicitely load them into your level script by issueing a line
 such as the following:
 
-  SMC.require "std/switch"
+  TSC.require "std/switch"
 
 This will load the +switch+ library, a wrapper class that makes the
 use of Pow switches easier.
@@ -22,20 +22,20 @@ use of Pow switches easier.
 If you want to load all of the SSL at once (which might be slow), you
 can use:
 
-  SMC.require "std/all"
+  TSC.require "std/all"
 
 For the usage of each component of the SSL, refer to its respective
 documentation.
 
 == Contributing
 
-The SSL is quite small right now. The SMC team encourages every level
+The SSL is quite small right now. The TSC team encourages every level
 scripter to submit code snippets he uses frequently in his levels to
-the {issue tracker}[https://github.com/Secretchronicles/SMC/issues],
+the {issue tracker}[https://github.com/Secretchronicles/TSC/issues],
 so that they can be considered for addition to the SSL in a future
-version of SMC.
+version of TSC.
 
 == License
 
 The SSL and this documentation are licensed under the same conditions
-as SMC, unless noted otherwise.
+as TSC, unless noted otherwise.

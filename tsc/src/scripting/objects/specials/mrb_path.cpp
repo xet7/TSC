@@ -18,13 +18,13 @@
  * crazy things to be done.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 // forward declare
 static void PS_Free(mrb_state* p_state, void* ptr);
 
-struct mrb_data_type SMC::Scripting::rtSMC_Path_Segment = {"SmcPathSegment", PS_Free};
+struct mrb_data_type TSC::Scripting::rtTSC_Path_Segment = {"TscPathSegment", PS_Free};
 
 /***************************************
  * Class Path
@@ -41,12 +41,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cPath* p_path = new cPath(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_path;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_path->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_path);
 
     return self;
@@ -227,7 +227,7 @@ static mrb_value Each_Segment(mrb_state* p_state, mrb_value self)
         // because `segment' goes out of scope at the end of the for loop!
         // The mruby Path::Segment class properly `delete's that pointer.
         p_segment->Set_Pos(segment.m_x1, segment.m_y1, segment.m_x2, segment.m_y2);
-        mrb_value rsegment = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcPath_Segment, &rtSMC_Path_Segment, p_segment));
+        mrb_value rsegment = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcPath_Segment, &rtTSC_Path_Segment, p_segment));
 
         mrb_yield(p_state, block, rsegment);
     }
@@ -261,7 +261,7 @@ static mrb_value Segments(mrb_state* p_state, mrb_value self)
         // because `segment' goes out of scope at the end of the for loop!
         // The mruby Path::Segment class properly `delete's that pointer.
         p_segment->Set_Pos(segment.m_x1, segment.m_y1, segment.m_x2, segment.m_y2);
-        mrb_value rsegment = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcPath_Segment, &rtSMC_Path_Segment, p_segment));
+        mrb_value rsegment = mrb_obj_value(Data_Wrap_Struct(p_state, p_rcPath_Segment, &rtTSC_Path_Segment, p_segment));
 
         mrb_ary_push(p_state, ary, rsegment);
     }
@@ -311,7 +311,7 @@ static mrb_value PS_Initialize(mrb_state* p_state, mrb_value self)
 
     cPath_Segment* p_segment = new cPath_Segment();
     DATA_PTR(self) = p_segment;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     p_segment->Set_Pos(startx, starty, targetx, targety);
 
@@ -335,7 +335,7 @@ static void PS_Free(mrb_state* p_state, void* ptr)
  */
 static mrb_value PS_Get_Start_X(mrb_state* p_state, mrb_value self)
 {
-    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtTSC_Path_Segment));
 
     return mrb_float_value(p_state, p_segment->m_x1);
 }
@@ -349,7 +349,7 @@ static mrb_value PS_Get_Start_X(mrb_state* p_state, mrb_value self)
  */
 static mrb_value PS_Get_Start_Y(mrb_state* p_state, mrb_value self)
 {
-    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtTSC_Path_Segment));
 
     return mrb_float_value(p_state, p_segment->m_y1);
 }
@@ -363,7 +363,7 @@ static mrb_value PS_Get_Start_Y(mrb_state* p_state, mrb_value self)
  */
 static mrb_value PS_Get_Target_X(mrb_state* p_state, mrb_value self)
 {
-    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtTSC_Path_Segment));
 
     return mrb_float_value(p_state, p_segment->m_x2);
 }
@@ -377,7 +377,7 @@ static mrb_value PS_Get_Target_X(mrb_state* p_state, mrb_value self)
  */
 static mrb_value PS_Get_Target_Y(mrb_state* p_state, mrb_value self)
 {
-    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtSMC_Path_Segment));
+    cPath_Segment* p_segment = static_cast<cPath_Segment*>(mrb_data_get_ptr(p_state, self, &rtTSC_Path_Segment));
 
     return mrb_float_value(p_state, p_segment->m_y2);
 }
@@ -386,7 +386,7 @@ static mrb_value PS_Get_Target_Y(mrb_state* p_state, mrb_value self)
  * Binding
  ***************************************/
 
-void SMC::Scripting::Init_Path(mrb_state* p_state)
+void TSC::Scripting::Init_Path(mrb_state* p_state)
 {
     struct RClass* p_rcPath = mrb_define_class(p_state, "Path", mrb_class_get(p_state, "Sprite"));
     struct RClass* p_rcPath_Segment = mrb_define_class_under(p_state, p_rcPath, "Segment", p_state->object_class);

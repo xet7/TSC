@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_player.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_LEVEL_PLAYER_HPP
-#define SMC_LEVEL_PLAYER_HPP
+#ifndef TSC_LEVEL_PLAYER_HPP
+#define TSC_LEVEL_PLAYER_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/ball.hpp"
@@ -22,7 +22,7 @@
 #include "../scripting/scripting.hpp"
 #include "../scripting/objects/misc/mrb_level_player.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Maryo states *** *** *** *** *** *** *** *** *** */
 
@@ -80,7 +80,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "LevelPlayer"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "LevelPlayer"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Set the direction
@@ -356,6 +356,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

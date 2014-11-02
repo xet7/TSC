@@ -1,7 +1,7 @@
 /***************************************************************************
  * random_sound.h
  *
- * Copyright © 2008 - 2011 The SMC Contributors
+ * Copyright © 2008 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_RANDOM_SOUND_HPP
-#define SMC_RANDOM_SOUND_HPP
+#ifndef TSC_RANDOM_SOUND_HPP
+#define TSC_RANDOM_SOUND_HPP
 
 #include "../core/global_basic.hpp"
 #include "../objects/sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cRandom_Sound *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -145,7 +145,7 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif
 

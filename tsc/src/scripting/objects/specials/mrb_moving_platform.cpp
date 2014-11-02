@@ -13,8 +13,8 @@
  * TODO: Docs.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 using namespace std;
 
 /**
@@ -28,7 +28,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
     cMoving_Platform* p_plat = new cMoving_Platform(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_plat;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     p_plat->Set_Spawned(true);
     pActive_Level->m_sprite_manager->Add(p_plat);
@@ -189,7 +189,7 @@ static mrb_value Get_Middle_Count(mrb_state* p_state, mrb_value self)
     return mrb_fixnum_value(p_plat->m_middle_count);
 }
 
-void SMC::Scripting::Init_Moving_Platform(mrb_state* p_state)
+void TSC::Scripting::Init_Moving_Platform(mrb_state* p_state)
 {
     struct RClass* p_rcMovingPlatform = mrb_define_class(p_state, "MovingPlatform", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcMovingPlatform, MRB_TT_DATA);

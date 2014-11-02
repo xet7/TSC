@@ -16,8 +16,8 @@
  * you can do with them whatever you want.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -35,12 +35,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cBeetle* p_beetle = new cBeetle(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_beetle;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_beetle->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_beetle);
 
     return self;
@@ -146,7 +146,7 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
     }
 }
 
-void SMC::Scripting::Init_Beetle(mrb_state* p_state)
+void TSC::Scripting::Init_Beetle(mrb_state* p_state)
 {
     struct RClass* p_rcBeetle = mrb_define_class(p_state, "Beetle", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcBeetle, MRB_TT_DATA);

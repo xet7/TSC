@@ -1,10 +1,10 @@
-#ifndef SMC_XML_ATTRIBUTES_HPP
-#define SMC_XML_ATTRIBUTES_HPP
+#ifndef TSC_XML_ATTRIBUTES_HPP
+#define TSC_XML_ATTRIBUTES_HPP
 #include "global_game.hpp"
 #include "errors.hpp"
 #include "property_helper.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class XmlAttributes: public std::map<std::string, std::string> {
     public:

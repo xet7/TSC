@@ -1,7 +1,7 @@
 /***************************************************************************
  * box.cpp  -  class for the basic box handler
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cBaseBox *** *** *** *** *** *** *** *** *** */
 
@@ -841,4 +841,4 @@ void cBaseBox::Set_Massive_Type(MassiveType type)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

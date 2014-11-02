@@ -2,8 +2,8 @@
 #include "../../core/property_helper.hpp"
 #include "../../core/global_basic.hpp"
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 using namespace std;
 
 cLevel_Load_Event::cLevel_Load_Event(std::string save_data)

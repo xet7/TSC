@@ -1,7 +1,7 @@
 /***************************************************************************
  * filesystem.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_FILESYSTEM_HPP
-#define SMC_FILESYSTEM_HPP
+#ifndef TSC_FILESYSTEM_HPP
+#define TSC_FILESYSTEM_HPP
 
 #include "../../core/global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** filesystem functions *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -58,6 +58,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

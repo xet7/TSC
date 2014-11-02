@@ -12,7 +12,7 @@
  * {: .superclass}
  *
  * Actually, the _Turtles_ do not look like turtles. The name is a
- * relict from previous versions of SMC (<2.0.0) where the turtles
+ * relict from previous versions of TSC (<2.0.0) where the turtles
  * were real turtles. Nowadays, the graphic in use is the _Armadillo_,
  * but this means nothing on its semantics. Hit once, it hides in its
  * shell until it thinks danger is over. If you hit the shell, it will
@@ -22,8 +22,8 @@
  * _Note: This class is also accessible via the `Armadillo` constant._
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 
 
 /**
@@ -37,12 +37,12 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
     cTurtle* p_turtle = new cTurtle(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_turtle;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
     p_turtle->Set_Spawned(true);
 
-    // Let SMC manage the memory
+    // Let TSC manage the memory
     pActive_Level->m_sprite_manager->Add(p_turtle);
 
     return self;
@@ -171,7 +171,7 @@ static mrb_value Stand_Up(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Turtle(mrb_state* p_state)
+void TSC::Scripting::Init_Turtle(mrb_state* p_state)
 {
     struct RClass* p_rcTurtle = mrb_define_class(p_state, "Turtle", mrb_class_get(p_state, "Enemy"));
     MRB_SET_INSTANCE_TT(p_rcTurtle, MRB_TT_DATA);

@@ -1,7 +1,7 @@
 /***************************************************************************
  * animated_sprite.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_ANIMATED_SPRITE_HPP
-#define SMC_ANIMATED_SPRITE_HPP
+#ifndef TSC_ANIMATED_SPRITE_HPP
+#define TSC_ANIMATED_SPRITE_HPP
 
 #include "../objects/movingsprite.hpp"
 #include "../scripting/objects/sprites/mrb_animated_sprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cAnimation_Surface *** *** *** *** *** *** *** *** *** *** */
 
@@ -102,7 +102,7 @@ namespace SMC {
         // Create the MRuby instance for this object.
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AnimatedSprite"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "AnimatedSprite"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // currently set image array number
@@ -127,7 +127,7 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif
 

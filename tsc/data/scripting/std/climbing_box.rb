@@ -1,4 +1,4 @@
-SMC.require "std/enable"
+TSC.require "std/enable"
 
 module Std
 

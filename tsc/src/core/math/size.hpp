@@ -1,7 +1,7 @@
 /***************************************************************************
  * size.h
  *
- * Copyright © 2008 - 2011 The SMC Contributors
+ * Copyright © 2008 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SIZE_HPP
-#define SMC_SIZE_HPP
+#ifndef TSC_SIZE_HPP
+#define TSC_SIZE_HPP
 
 #include "../../core/global_game.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** cSize_Int *** *** *** *** *** *** *** *** *** *** */
 
@@ -76,6 +76,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
  * renderer.cpp  -  Render Queueing
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -725,4 +725,4 @@ cRenderQueue* pRenderer_current = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

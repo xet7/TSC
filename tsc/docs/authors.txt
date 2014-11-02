@@ -1,15 +1,15 @@
-List of SMC contributors & copyright holders
+List of TSC contributors & copyright holders
 ============================================
 
-This file lists all people who have contributed to Secret Maryo
-Chronicles and hence hold copyright on it. All names are shown in
-categorized alphabetical order.
+This file lists all people who have contributed to the Secret
+Chronicles of Dr. M. or its former codebase, and hence hold copyright
+on it. All names are shown in categorized alphabetical order.
 
 Apart from this, code taken from other projects under specific
 licenses is marked as such in the code. To find these, issue
-this command from the "smc" directory:
+this command from the "tsc" directory:
 
-  $ grep -nr Copyright src | grep -v "SMC Contributors"
+  $ grep -nr Copyright src | grep -v "TSC Contributors"
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -20,11 +20,11 @@ Marvin Gülker (Quintus)
  - Main Developer
 
 Luiji
- - Project Vice
+ - Project Assistant Lead
  - Forum moderator
 
 Florian Richter (FluXy)
- - Former Project Leader
+ - Former SMC Project Leader
  - German Translator
 
 -- Coders --

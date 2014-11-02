@@ -1,7 +1,7 @@
 /***************************************************************************
  * waypoint.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_WORLD_WAYPOINT_HPP
-#define SMC_WORLD_WAYPOINT_HPP
+#ifndef TSC_WORLD_WAYPOINT_HPP
+#define TSC_WORLD_WAYPOINT_HPP
 
 #include "../core/global_basic.hpp"
 #include "../video/video.hpp"
 #include "../objects/movingsprite.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** Waypoint types *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -113,6 +113,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

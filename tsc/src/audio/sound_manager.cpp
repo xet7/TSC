@@ -1,7 +1,7 @@
 /***************************************************************************
  * sound_manager.cpp  -  Sound Handler/Manager
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** Sound *** *** *** *** *** *** *** *** *** */
 
@@ -107,4 +107,4 @@ cSound_Manager* pSound_Manager = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

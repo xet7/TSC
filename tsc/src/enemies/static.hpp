@@ -1,7 +1,7 @@
 /***************************************************************************
  * static.h
  *
- * Copyright © 2007 - 2011 The SMC Contributors
+ * Copyright © 2007 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,14 +13,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_STATIC_ENEMY_HPP
-#define SMC_STATIC_ENEMY_HPP
+#ifndef TSC_STATIC_ENEMY_HPP
+#define TSC_STATIC_ENEMY_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../objects/path.hpp"
 #include "../scripting/objects/enemies/mrb_static.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cStaticEnemy *** *** *** *** *** *** *** *** *** *** *** */
     /* It doesn't move but will hit you if you touch it.
@@ -46,7 +46,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "StaticEnemy"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "StaticEnemy"), &Scripting::rtTSC_Scriptable, this));
         }
 
 
@@ -120,6 +120,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

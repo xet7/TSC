@@ -1,10 +1,10 @@
-#ifndef SMC_WORLD_DESCRIPTION_LOADER_HPP
-#define SMC_WORLD_DESCRIPTION_LOADER_HPP
+#ifndef TSC_WORLD_DESCRIPTION_LOADER_HPP
+#define TSC_WORLD_DESCRIPTION_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "overworld.hpp"
 
-namespace SMC {
+namespace TSC {
 
     class cOverworldDescriptionLoader: public xmlpp::SaxParser {
     public:

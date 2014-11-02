@@ -1,7 +1,7 @@
 /***************************************************************************
  * gl_surface.h
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_GL_SURFACE_HPP
-#define SMC_GL_SURFACE_HPP
+#ifndef TSC_GL_SURFACE_HPP
+#define TSC_GL_SURFACE_HPP
 
 #include "../core/global_basic.hpp"
 #include "../core/math/point.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** *** *** OpenGL Surface *** *** *** *** *** *** *** *** *** */
 
@@ -107,6 +107,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

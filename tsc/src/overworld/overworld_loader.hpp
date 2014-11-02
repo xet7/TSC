@@ -1,9 +1,9 @@
-#ifndef SMC_WORLD_LOADER_HPP
-#define SMC_WORLD_LOADER_HPP
+#ifndef TSC_WORLD_LOADER_HPP
+#define TSC_WORLD_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * Parser for a world file. This class is used

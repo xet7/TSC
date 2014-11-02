@@ -10,7 +10,7 @@
 #include "beetle.hpp"
 #include "../scripting/events/spit_event.hpp"
 
-using namespace SMC;
+using namespace TSC;
 
 cBeetleBarrage::cBeetleBarrage(cSprite_Manager* p_sprite_manager)
     : cEnemy(p_sprite_manager)

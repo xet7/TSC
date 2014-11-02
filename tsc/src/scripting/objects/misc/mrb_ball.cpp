@@ -16,8 +16,8 @@
  * you could even override the default behaviour.
  */
 
-using namespace SMC;
-using namespace SMC::Scripting;
+using namespace TSC;
+using namespace TSC::Scripting;
 using namespace std;
 
 /**
@@ -39,7 +39,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 
     cBall* p_ball = new cBall(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_ball;
-    DATA_TYPE(self) = &rtSMC_Scriptable;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
 
     ball_effect effect;
     if (typestr == "fire")
@@ -105,7 +105,7 @@ static mrb_value Destroy_With_Sound(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void SMC::Scripting::Init_Ball(mrb_state* p_state)
+void TSC::Scripting::Init_Ball(mrb_state* p_state)
 {
     struct RClass* p_rcBall = mrb_define_class(p_state, "Ball", mrb_class_get(p_state, "AnimatedSprite"));
     MRB_SET_INSTANCE_TT(p_rcBall, MRB_TT_DATA);

@@ -1,7 +1,7 @@
 /***************************************************************************
  * krush.h
  *
- * Copyright © 2004 - 2011 The SMC Contributors
+ * Copyright © 2004 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_KRUSH_HPP
-#define SMC_KRUSH_HPP
+#ifndef TSC_KRUSH_HPP
+#define TSC_KRUSH_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_krush.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cKrush *** *** *** *** *** *** *** *** *** *** *** *** */
     /* Walking all Day and doesn't stop even if you hit him the first time :O
@@ -46,7 +46,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Krush"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Krush"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Set Direction
@@ -100,6 +100,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

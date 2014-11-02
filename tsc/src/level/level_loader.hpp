@@ -1,10 +1,10 @@
-#ifndef SMC_LEVEL_LOADER_HPP
-#define SMC_LEVEL_LOADER_HPP
+#ifndef TSC_LEVEL_LOADER_HPP
+#define TSC_LEVEL_LOADER_HPP
 #include "../core/global_game.hpp"
 #include "../core/xml_attributes.hpp"
 #include "level.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /**
      * This class is used to construct a level from a given XML file.

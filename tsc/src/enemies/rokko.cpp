@@ -1,7 +1,7 @@
 /***************************************************************************
  * rokko.cpp  -  giant, slow-moving bullet
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
 using namespace std;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** cRokko *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -621,4 +621,4 @@ bool cRokko::Get_Manual()
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

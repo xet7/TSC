@@ -1,7 +1,7 @@
 Sprite management in the scripting API {#mrubysprites}
 ======================================
 
-Each active sprite in SMC is assigned a unique number, the UID, available
+Each active sprite in TSC is assigned a unique number, the UID, available
 via the `m_uid` member of cSprite instances (sprites are considered active
 if they belong to the cSprite_Manager instance of a cLevel). By default,
 these sprites have no associated MRuby objects, allowing a fast level start.
@@ -14,7 +14,7 @@ that further calls to `UIDS::[]` with the same UID will actually return
 the same object (this is very important for event handling). The MRuby
 object will continue to exist until the sprite goes inactive, i.e. is
 removed from the cSprite_Manager instance, which requests the cache to
-delete that specific UID via `SMC::Scripting::Delete_UID_From_cache()`.
+delete that specific UID via `TSC::Scripting::Delete_UID_From_cache()`.
 
 There is no static mapping between the C++ cSprite subclasses and the
 MRuby Sprite subclasses. Instead, each cSprite subclass (and cSprite

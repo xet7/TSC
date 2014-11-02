@@ -1,7 +1,7 @@
 /***************************************************************************
  * level_settings.cpp  - level editor settings class
  *
- * Copyright © 2006 - 2011 The SMC Contributors
+ * Copyright © 2006 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** cLevel_Settings *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -616,4 +616,4 @@ bool cLevel_Settings::Slider_Difficulty_Changed(const CEGUI::EventArgs& event)
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC

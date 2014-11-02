@@ -1,7 +1,7 @@
 /***************************************************************************
  * preferences.h
  *
- * Copyright © 2003 - 2011 The SMC Contributors
+ * Copyright © 2003 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,12 +13,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_PREFERENCES_HPP
-#define SMC_PREFERENCES_HPP
+#ifndef TSC_PREFERENCES_HPP
+#define TSC_PREFERENCES_HPP
 
 #include "../core/global_basic.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** cPreferences *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -60,7 +60,7 @@ namespace SMC {
         std::string m_package;
         std::string m_skin;
         // Game
-        // last version of smc which saved the preferences file
+        // last version of tsc which saved the preferences file
         unsigned int m_game_version;
         // default language
         std::string m_language;
@@ -215,6 +215,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
  * spikeball.h
  *
- * Copyright © 2009 - 2011 The SMC Contributors
+ * Copyright © 2009 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMC_SPIKEBALL_HPP
-#define SMC_SPIKEBALL_HPP
+#ifndef TSC_SPIKEBALL_HPP
+#define TSC_SPIKEBALL_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_spikeball.hpp"
 
-namespace SMC {
+namespace TSC {
 
     /* *** *** *** *** *** *** cSpikeball *** *** *** *** *** *** *** *** *** *** *** */
     /* Paranoid hard metal ball.
@@ -44,7 +44,7 @@ namespace SMC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Spikeball"), &Scripting::rtSMC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Spikeball"), &Scripting::rtTSC_Scriptable, this));
         }
 
 
@@ -118,6 +118,6 @@ namespace SMC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
 
 #endif

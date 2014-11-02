@@ -1,8 +1,8 @@
-#ifndef SMC_SCRIPTING_BONUSBOX_HPP
-#define SMC_SCRIPTING_BONUSBOX_HPP
+#ifndef TSC_SCRIPTING_BONUSBOX_HPP
+#define TSC_SCRIPTING_BONUSBOX_HPP
 #include "../../scripting.hpp"
 
-namespace SMC {
+namespace TSC {
     namespace Scripting {
         void Init_BonusBox(mrb_state* p_state);
     }

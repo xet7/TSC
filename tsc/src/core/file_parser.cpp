@@ -1,7 +1,7 @@
 /***************************************************************************
  * file_parser.cpp  -  text file parser
  *
- * Copyright © 2005 - 2011 The SMC Contributors
+ * Copyright © 2005 - 2011 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ using namespace std;
 
 namespace fs = boost::filesystem;
 
-namespace SMC {
+namespace TSC {
 
 /* *** *** *** *** *** *** *** *** cFile_parser *** *** *** *** *** *** *** *** *** */
 
@@ -127,4 +127,4 @@ bool cFile_parser::HandleMessage(const std::string* parts, unsigned int count, u
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-} // namespace SMC
+} // namespace TSC
