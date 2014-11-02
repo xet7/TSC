@@ -9,7 +9,7 @@
 #   quintus@quintilianus.eu
 msgid ""
 msgstr ""
-"Project-Id-Version: The Secret Chronicles of Dr. M.\n"
+"Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-02 13:19+0100\n"
 "PO-Revision-Date: 2014-08-31 18:32+0200\n"

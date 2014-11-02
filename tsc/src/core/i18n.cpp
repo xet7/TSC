@@ -33,14 +33,14 @@ void I18N_Init(void)
         debug_print("Translation locale is %s\n", sys_locale);
     }
 
-    const char* textdomain_directory = bindtextdomain(CAPTION, path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()).c_str());
+    const char* textdomain_directory = bindtextdomain(TSC_GETTEXT_DOMAIN, path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()).c_str());
 
     if (!textdomain_directory) {
         std::cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << std::endl;
     }
 
-    const char* textdomain_codeset = bind_textdomain_codeset(CAPTION, "UTF-8");
-    const char* textdomain_default = textdomain(CAPTION);
+    const char* textdomain_codeset = bind_textdomain_codeset(TSC_GETTEXT_DOMAIN, "UTF-8");
+    const char* textdomain_default = textdomain(TSC_GETTEXT_DOMAIN);
 
     debug_print("Translation support with gettext set to:\n\tDirectory %s\n\tCodeset: %s\n\tText domain: %s\n",
                 textdomain_directory, textdomain_codeset, textdomain_default);
