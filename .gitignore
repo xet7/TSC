@@ -18,37 +18,37 @@
 #
 
 # The normal build directories
-/smc/build
-/smc/crossbuild
+/tsc/build
+/tsc/crossbuild
 
 # Generated
-/smc/*.log
-/smc/*.exe
-/smc/*.dll
-/smc/*.manifest
-/smc/stdout.txt
-/smc/stderr.txt
-/smc/docs/scripting/html/
-/smc/docs/scripting/rdoc/
-/smc/docs/api/
-/smc/docs/ssl/
+/tsc/*.log
+/tsc/*.exe
+/tsc/*.dll
+/tsc/*.manifest
+/tsc/stdout.txt
+/tsc/stderr.txt
+/tsc/docs/scripting/html/
+/tsc/docs/scripting/rdoc/
+/tsc/docs/api/
+/tsc/docs/ssl/
 Thumbs.db
 *.mo
 
 # Arch package
-/smc/extras/archlinux/SMC
-/smc/extras/archlinux/pkg
-/smc/extras/archlinux/*.tar.xz
-/smc/extras/archlinux/src
+/tsc/extras/archlinux/TSC
+/tsc/extras/archlinux/pkg
+/tsc/extras/archlinux/*.tar.xz
+/tsc/extras/archlinux/src
 
 # Visual Studio
-/smc/makefiles/MSVC9.0/Debug
-/smc/makefiles/MSVC9.0/Mixed
-/smc/makefiles/MSVC9.0/Release
-/smc/makefiles/MSVC9.0/*.user
-/smc/makefiles/MSVC9.0/*.aps
-/smc/makefiles/AQtime
-/smc/extras/binaries
+/tsc/makefiles/MSVC9.0/Debug
+/tsc/makefiles/MSVC9.0/Mixed
+/tsc/makefiles/MSVC9.0/Release
+/tsc/makefiles/MSVC9.0/*.user
+/tsc/makefiles/MSVC9.0/*.aps
+/tsc/makefiles/AQtime
+/tsc/extras/binaries
 *.ncb
 *.suo
 *.bsc
@@ -63,7 +63,7 @@ CMakeLists.txt.user*
 *.swp
 
 # Installer
-/smc/extras/Setup/*.exe
+/tsc/extras/Setup/*.exe
 
 # Extra
 /usable
