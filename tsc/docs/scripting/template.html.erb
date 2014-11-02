@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<!-- Template based on kramdowns own `document.html' -->
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<%
+extend ::Kramdown::Utils::Html
+title = ''
+h = @converter.root.children.find {|c| c.type == :header}
+if h
+  collector = lambda {|c| c.children.collect {|cc| cc.type == :text ? escape_html(cc.value, :text) : collector.call(cc)}.join('')}
+  title = collector.call(h)
+end
+%>
+    <title><%= title %></title>
+    <meta name="generator" content="kramdown <%= ::Kramdown::VERSION %>" />
+    <link rel="stylesheet" href="coderay.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+  <div id="header">
+    <p style="float: left">↑ <a href="index.html">Top</a></p>
+    <p style="float: right">Secret Chronicles of the Scripting API documentation</p>
+    <div style="clear: both"></div>
+  </div>
+  <div id="main">
+    <%= @body %>
+  </div>
+  <div id="footer">
+    <p style="float: right">
+      Generated from
+      commit <a href="https://github.com/Quintus/SMC/commit/<%= `git rev-parse HEAD`.strip %>"><%= `git rev-parse --short HEAD`.strip %></a>
+      at <%= Time.now.strftime("%Y-%m-%d %H:%M (UTC%:::z)") %>
+    </p>
+    <p style="float: left"><img src="graphics/window_32.png" alt="SMC moon" title="A clear night, isn’t it?"/></p>
+    <div style="clear: both"></div>
+  </div>
+  </body>
+</html>

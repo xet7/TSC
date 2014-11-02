@@ -1,0 +1,167 @@
+#include "../../../objects/level_entry.hpp"
+#include "../../../core/sprite_manager.hpp"
+#include "../../../level/level.hpp"
+#include "mrb_level_entry.hpp"
+#include "../sprites/mrb_animated_sprite.hpp"
+#include "../../events/event.hpp"
+
+/**
+ * Class: LevelEntry
+ *
+ * Parent: [AnimatedSprite](animatedsprite.html)
+ * {: .superclass}
+ *
+ * A _level entry_ can be used as a warp target for Maryo even
+ * without scripting. It has a name under which it can be
+ * referenced from a [LevelExit](levelexit.html) to make Maryo
+ * change places.
+ *
+ * Events
+ * ------
+ *
+ * Enter
+ * : This event gets triggered when the level entry is activated,
+ *   but after Maryo has moved out of the warp area. That is,
+ *   when this is an up-direction level entry, the event will
+ *   not be triggered before Maryo has completed his upwards
+ *   move (but before eventual gravity is applied).
+ */
+
+using namespace TSC;
+using namespace TSC::Scripting;
+
+
+MRUBY_IMPLEMENT_EVENT(enter);
+
+/**
+ * Method: LevelEntry::new
+ *
+ *   new()
+ *
+ * Creates a new instance of this class.
+ */
+static mrb_value Initialize(mrb_state* p_state, mrb_value self)
+{
+    cLevel_Entry* p_entry = new cLevel_Entry(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_entry;
+    DATA_TYPE(self) = &rtTSC_Scriptable;
+
+    // This is a generated object
+    p_entry->Set_Spawned(true);
+
+    // Let TSC manage the memory
+    pActive_Level->m_sprite_manager->Add(p_entry);
+
+    return self;
+}
+
+/**
+ * Method: LevelEntry#name
+ *
+ *   name() → a_string
+ *
+ * Returns the name of the level entry.
+ */
+static mrb_value Get_Name(mrb_state* p_state, mrb_value self)
+{
+    cLevel_Entry* p_entry = Get_Data_Ptr<cLevel_Entry>(p_state, self);
+
+    return mrb_str_new_cstr(p_state, p_entry->m_entry_name.c_str());
+}
+
+/**
+ * Method: LevelEntry#name=
+ *
+ *   name=( str )
+ *
+ * Set the name of the level entry.
+ *
+ * #### Parameters
+ *
+ * str
+ * : The new name of the level entry.
+ */
+static mrb_value Set_Name(mrb_state* p_state, mrb_value self)
+{
+    char* name = NULL;
+    mrb_get_args(p_state, "z", &name);
+
+    cLevel_Entry* p_entry = Get_Data_Ptr<cLevel_Entry>(p_state, self);
+    p_entry->Set_Name(name);
+
+    return mrb_str_new_cstr(p_state, name);
+}
+
+/**
+ * Method: LevelEntry#type
+ *
+ *   type() → a_symbol
+ *
+ * Retrieve the entry’s type. See #type= for a list of possible types.
+ */
+static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
+{
+    cLevel_Entry* p_entry = Get_Data_Ptr<cLevel_Entry>(p_state, self);
+
+    switch (p_entry->m_entry_type) {
+    case LEVEL_ENTRY_BEAM:
+        return str2sym(p_state, "beam");
+    case LEVEL_ENTRY_WARP:
+        return str2sym(p_state, "warp");
+    default:
+        return mrb_nil_value();
+    }
+}
+
+/**
+ * Method: LevelEntry#type=
+ *
+ *   type=( sym )
+ *
+ * Change the level entry’s type.
+ *
+ * #### Parameters
+ *
+ * sym
+ * : The new type of the entry. One of the following symbols:
+ *   `:beam`
+ *   : Make Maryo immediately stand at the entry’s position.
+ *   `:warp`
+ *   : Make Maryo slowly move into the direction specified
+ *     by AnimatedSprite#direction. This is useful for pipes.
+ */
+static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
+{
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
+
+    Level_Entry_type typid;
+    if (typestr == "beam")
+        typid = LEVEL_ENTRY_BEAM;
+    else if (typestr == "warp")
+        typid = LEVEL_ENTRY_WARP;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid level entry type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
+
+    cLevel_Entry* p_entry = Get_Data_Ptr<cLevel_Entry>(p_state, self);
+    p_entry->Set_Type(typid);
+
+    return mrb_symbol_value(type);
+}
+
+void TSC::Scripting::Init_LevelEntry(mrb_state* p_state)
+{
+    struct RClass* p_rcLevel_Entry = mrb_define_class(p_state, "LevelEntry", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcLevel_Entry, MRB_TT_DATA);
+
+    mrb_define_method(p_state, p_rcLevel_Entry, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Entry, "name", Get_Name, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Entry, "name=", Set_Name, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Entry, "type", Get_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Entry, "type=", Set_Type, MRB_ARGS_REQ(1));
+
+    mrb_define_method(p_state, p_rcLevel_Entry, "on_enter", MRUBY_EVENT_HANDLER(enter), MRB_ARGS_NONE());
+}

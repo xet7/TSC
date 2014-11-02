@@ -1,0 +1,157 @@
+List of TSC contributors & copyright holders
+============================================
+
+This file lists all people who have contributed to the Secret
+Chronicles of Dr. M. or its former codebase, and hence hold copyright
+on it. All names are shown in categorized alphabetical order.
+
+Apart from this, code taken from other projects under specific
+licenses is marked as such in the code. To find these, issue
+this command from the "tsc" directory:
+
+  $ grep -nr Copyright src | grep -v "TSC Contributors"
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+-- Project Leaders --
+
+Marvin Gülker (Quintus)
+ - Project Leader
+ - Main Developer
+
+Luiji
+ - Project Assistant Lead
+ - Forum moderator
+
+Florian Richter (FluXy)
+ - Former SMC Project Leader
+ - German Translator
+
+-- Coders --
+
+Chris Jacobsen (datahead8888)
+ - Coder
+
+Brian Allen Vanderburg II (brianvanderburg2)
+ - Coder
+
+-- Artists --
+
+Johan Brodd (jobromedia)
+ - Music Artist
+
+Crabmaster
+ - Graphic Designer
+
+Fabian (Fabianius)
+ - Graphic Designer
+
+Anthony Smith (mrvertigo27)
+ - Graphic Designer
+
+Yoshis_Fan
+ - Graphic Designer
+
+-- Level Contributors --
+
+Sauer2
+ - Level Building
+ - Features Integration for Levels
+
+-- Translators --
+
+josephgbr
+ - Portugese Translator
+
+Lauri Ojansivu (xet7)
+ - Finnish Translator
+
+-- Most Valued Persons (MVP) --
+
+DarkAceZ
+ - Game Tester
+
+Tristan Heaven (nyhm)
+ - Gentoo eBuild Maintainer
+ - IRC Channel Operator
+
+Muammar El Khatib (muammar)
+ - Debian Package Maintainer
+
+Robert W. (BowserJr)
+ - Forum/Wiki Moderator
+ - Game Tester
+
+-- Retired --
+
+Bodhi Crandall-Rus (Boder)
+ - All Hands Person
+ - Game Tester
+ - Assistant Graphic Designer
+
+John Daly (Johnlein)
+ - Graphic Designer
+
+Holger Fey (Nemo)
+ - Game Tester
+ - German Publicity
+ - Torrent Packager
+
+Mario Fink (maYO)
+ - Graphic Designer
+ - Website Graphic Designer
+ - Other Support
+
+Gustavo Gutierrez (Enzakun)
+ - Maryo Graphic Designer
+
+Grant (youngheart80)
+ - Graphic Designer
+
+Helios
+ - Graphic Designer
+
+Thomas Huth (Thothy)
+ - Linux Maintainer
+
+Matt J. (mattwj)
+ - eDonkey Packager
+ - Quality Assurance
+
+Justin (LoXodonte)
+ - Music Artist
+
+David Hernandez (vencabot_teppoo)
+ - Music Artist
+
+Markus Hiebl (Frostbringer)
+ - Graphic Designer
+ - Level Contributor
+
+Tobias Maasland (Weirdnose)
+ - Level and World Contributor
+ - Assistant Developer
+
+Polilla86
+ - Graphic Designer
+
+Mark Richards (dteck)
+ - Graphic Designer
+
+Robert (Consonance)
+ - Sound and Music Artist
+
+Norbu Tsering (Naerbu)
+ - Music Artist
+
+Ursula (Pipgirl)
+ - Graphic Designer
+
+-- Special Thanks --
+
+Jason Cox (XOC)
+Ricardo Cruz
+Devendra (Yuki)
+Hans de Goede (Hans)
+Rolando Gonzalez (rolosworld)
+xPatrickx

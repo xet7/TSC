@@ -1,0 +1,260 @@
+#include "mrb_box.hpp"
+#include "../../../objects/box.hpp"
+#include "../../events/event.hpp"
+#include "../sprites/mrb_animated_sprite.hpp"
+
+/**
+ * Class: Box
+ *
+ * Parent [AnimatedSprite](animatedsprite.html)
+ * {: .superclass}
+ *
+ * _Box_ is the superclass for all boxes accessible
+ * from the scripting interface. Boxes are the little
+ * blocks that contain coins, powerups, or just spin
+ * around if jump against them.
+ *
+ * Events
+ * ------
+ *
+ * Activate
+ * : The box was activated by Maryo jumping against it or otherwise.
+ */
+
+using namespace TSC;
+using namespace TSC::Scripting;
+
+
+MRUBY_IMPLEMENT_EVENT(activate);
+
+static mrb_value Initialize(mrb_state* p_state, mrb_value self)
+{
+    mrb_raise(p_state, MRB_NOTIMP_ERROR(p_state), "Cannot create instances of Box.");
+    return self;
+}
+
+/**
+ * Method: Box#animation_type=
+ *
+ *   animation_type=( ani ) → ani
+ *
+ * Specify the box’ appeareance.
+ *
+ * #### Parameters
+ * ani
+ * : The box’ new animation type. One of the following symbols:
+ *   bonus
+ *   : The "?" box. Usually used for powerups.
+ *
+ *   default
+ *   : The blank box. Usually used for coins.
+ *
+ *   power
+ *   : The "!" box. Usually used for 1-ups.
+ *
+ *   spin
+ *   : The spinbox. This box just spins if jumped against it.
+ */
+static mrb_value Set_Animation_Type(mrb_state* p_state, mrb_value self)
+{
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
+
+    std::string anitype;
+    if (typestr == "bonus")
+        anitype = "Bonus";
+    else if (typestr == "default")
+        anitype = "Default";
+    else if (typestr == "power")
+        anitype = "Power";
+    else if (typestr == "spin")
+        anitype = "Spain";
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid box animation type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
+
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Set_Animation_Type(anitype);
+
+    return mrb_symbol_value(type);
+}
+
+/**
+ * Method: Box#animation_type
+ *
+ *   animation_type() → a_symbol
+ *
+ * Returns the box’ current animation type. See #animation_type=
+ * for a list of possible return values.
+ */
+static mrb_value Get_Animation_Type(mrb_state* p_state, mrb_value self)
+{
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    return str2sym(p_state, p_box->m_anim_type);
+}
+
+/**
+ * Method: Box#max_uses=
+ *
+ *   max_uses=( count ) → count
+ *
+ * Specify how many times this max be used at maximum before
+ * it stops to work.
+ *
+ * #### Parameters
+ * count
+ * : The maximum number of times this box may be used. Specify
+ *   a value of -1 to indicate it may be used infinitely.
+ */
+static mrb_value Set_Usable_Count(mrb_state* p_state, mrb_value self)
+{
+    mrb_int count;
+    mrb_get_args(p_state, "i", &count);
+
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Set_Useable_Count(count, true);
+
+    return mrb_fixnum_value(count);
+}
+
+/**
+ * Method: Box#max_uses
+ *
+ *   max_uses() → an_integer
+ *
+ * Returns the maximum number of times this box can
+ * be used.
+ */
+static mrb_value Get_Usable_Count(mrb_state* p_state, mrb_value self)
+{
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    return mrb_fixnum_value(p_box->m_start_useable_count);
+}
+
+/**
+ * Method: Box#remaining_uses
+ *
+ *   remaining_uses() → an_integer
+ *
+ * Returns the remaining number of times this box
+ * may be used. Returns -1 for boxes that may be
+ * used infinitely.
+ */
+static mrb_value Get_Remaining_Usable_Count(mrb_state* p_state, mrb_value self)
+{
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    return mrb_fixnum_value(p_box->m_useable_count);
+}
+
+/**
+ * Method: Box#invisible=
+ *
+ *   invisible=( invis ) → invis
+ *
+ * Specify the box’ invisibility type.
+ *
+ * #### Parameters
+ * invis
+ * : The box’ new invisibility type. One of the following symbols:
+ *   visible
+ *   : The box isn’t invisible.
+ *
+ *   massive
+ *   : The box gets visible if jumped against it. It however
+ *     acts as an invisible massive block even if not activated
+ *     (i.e. you can stand on it).
+ *
+ *  ghost
+ *  : The box is only visible for Ghost Maryo. Only Ghost Maryo
+ *    can stand on it.
+ *
+ *  semi_massive
+ *  : The box is visible after jumping against it from
+ *    its activation direction (usually from below). While
+ *    not activated, Maryo can’t stand on it.
+ */
+static mrb_value Set_Invisible(mrb_state* p_state, mrb_value self)
+{
+    mrb_sym type;
+    mrb_get_args(p_state, "n", &type);
+    std::string typestr(mrb_sym2name(p_state, type));
+
+    Box_Invisible_Type invis;
+    if (typestr == "visible")
+        invis = BOX_VISIBLE;
+    else if (typestr == "massive")
+        invis = BOX_INVISIBLE_MASSIVE;
+    else if (typestr == "ghost")
+        invis = BOX_GHOST;
+    else if (typestr == "semi_massive")
+        invis = BOX_INVISIBLE_SEMI_MASSIVE;
+    else {
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid box invisible type %s", typestr.c_str());
+        return mrb_nil_value(); // Not reached
+    }
+
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Set_Invisible(invis);
+
+    return mrb_symbol_value(type);
+}
+
+/**
+ * Method: Box#invisible
+ *
+ *   invisible() → a_symbol
+ *
+ * Returns the box’ invisibility state. See #invisible= for
+ * possible return values.
+ */
+static mrb_value Get_Invisible(mrb_state* p_state, mrb_value self)
+{
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    switch (p_box->m_box_invisible) {
+    case BOX_VISIBLE:
+        return str2sym(p_state, "visible");
+    case BOX_INVISIBLE_MASSIVE:
+        return str2sym(p_state, "massive");
+    case BOX_GHOST:
+        return str2sym(p_state, "ghost");
+    case BOX_INVISIBLE_SEMI_MASSIVE:
+        return str2sym(p_state, "semi_massive");
+    default:
+        return mrb_nil_value();
+    }
+}
+
+/**
+ * Method: Box#activate
+ *
+ *   activate()
+ *
+ * Activate the box, revealing what it’s inside and
+ * decrementing the usage count by one.
+ */
+static mrb_value Activate(mrb_state* p_state, mrb_value self)
+{
+    cBaseBox* p_box = Get_Data_Ptr<cBaseBox>(p_state, self);
+    p_box->Activate();
+    return mrb_nil_value();
+}
+
+void TSC::Scripting::Init_Box(mrb_state* p_state)
+{
+    struct RClass* p_rcBox = mrb_define_class(p_state, "Box", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcBox, MRB_TT_DATA);
+
+    mrb_define_method(p_state, p_rcBox, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "animation_type=", Set_Animation_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBox, "animation_type", Get_Animation_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "max_uses=", Set_Usable_Count, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBox, "max_uses", Get_Usable_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "remaining_uses", Get_Remaining_Usable_Count, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "invisible=", Set_Invisible, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBox, "invisible", Get_Invisible, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBox, "activate", Activate, MRB_ARGS_NONE());
+
+    mrb_define_method(p_state, p_rcBox, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
+}

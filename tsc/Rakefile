@@ -1,0 +1,118 @@
+# -*- ruby -*-
+require "rake"
+require "rake/clean"
+require "pathname"
+
+CLOBBER.include("build", "crossbuild", "docs/scripting/html", "docs/scripting/rdoc", "docs/api")
+
+str = File.read("CMakeLists.txt")
+TSC_VERSION_MAJOR = str.match(/^set\(TSC_VERSION_MAJOR (\d+)\)/)[1]
+TSC_VERSION_MINOR = str.match(/^set\(TSC_VERSION_MINOR (\d+)\)/)[1]
+TSC_VERSION_PATCH = str.match(/^set\(TSC_VERSION_PATCH (\d+)\)/)[1]
+
+TSC_SOURCE_FILES = FileList["src/**/*.cpp"] + FileList["src/**/*.hpp"]
+
+# This is called from CMake for generating the credits file.
+rule %r{credits.cpp} => "docs/authors.txt" do |t|
+  puts "Converting docs/authors.txt to C++ source file"
+
+  File.open(t.name, "w") do |f|
+    # Write first part
+    f.puts(%Q!#include "#{Dir.pwd}/src/core/global_game.hpp"
+#include "#{Dir.pwd}/src/core/main.hpp"
+
+namespace TSC {
+
+	const std::string g_credits = "\\\n!)
+
+    File.open("docs/authors.txt") do |f2|
+      # Skip to real content
+      loop do
+        line = f2.gets
+        break if line.start_with?("=-=-=-")
+      end
+      f2.gets
+
+      # Write out the remaining part to the cpp file
+      while (line = f2.gets)
+        f.write(line.chomp)
+        f.puts("\\n\\")
+      end
+
+      # Write final part
+      f.write("\";\n}\n")
+    end
+  end
+end
+
+# Note that strictly the .po files depend on the .pot file, but
+# the .pot file should only ever be updated on purpose and not
+# as part of updating the .po files, as it is the reference file
+# for all translators and thus must stay the same. Changes in it
+# require all translators to review their translation. Therefore
+# this task is not a file task on the .pot file; the .po files
+# depend on the .pot file, and it would be autocalled that way.
+desc "Generate the 'Secret Maryo Chronicles.pot' base PO template file."
+task :potfile do
+  # UTF8_() should go away.
+
+  sourcefiles = TSC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
+  cd "data/translations" do
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The TSC Contributors' --package-name='The Secret Chronicles of Dr. M.' #{sourcefiles.map(&:to_s).join(' ')} -o "Secretchronicles.pot">
+  end
+end
+
+desc "Check the PO files for errors."
+task :checkpo do
+  cd "data/translations" do
+    Dir["*.po"].sort.each do |pofile|
+      sh "msgfmt -o /dev/null -c --statistics #{pofile}"
+    end
+  end
+end
+
+# This task is intended to be called by translators that want to bring
+# their .po file up to date with the .pot file.
+rule %r{.po$} => "data/translations/Secretchronicles.pot" do |t|
+  sh "msgmerge -U #{Rake.original_dir}/#{t.name} '#{t.source}'"
+end
+
+desc "Generate the documentation."
+task :docs do
+  puts "Generating main API documentation"
+  sh "doxygen"
+  puts "Generating scripting API documentation"
+  cd "docs/scripting" do
+    sh "ruby gen_docs.rb"
+  end
+  puts "Generating SSL documentation"
+  sh "rdoc -o docs/ssl -m docs/scripting/ssl.rdoc -t 'TSC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
+end
+
+desc "Create source tarball."
+task :tarball => :clobber do
+  version = ENV["VERSION"] || "#{TSC_VERSION_MAJOR}.#{TSC_VERSION_MINOR}.#{TSC_VERSION_PATCH}"
+  puts "Packaging TSC version #{version}"
+
+  sh "git submodule init"
+  sh "git submodule update"
+
+  cd "../.." do
+    ln_s "TSC", "TSC-#{version}" unless File.exist?("TSC-#{version}")
+    sh "tar --exclude .git --exclude drafts -cvJhf TSC-#{version}.tar.xz TSC-#{version}"
+  end
+end
+
+# Ensure :clobber also wipes out mruby build content
+task :clean_mruby do
+  cd "../mruby/mruby" do
+    sh "rake clean"
+    rm_rf "build"
+  end
+end
+
+task :clean_ssl do
+  rm_rf "docs/ssl"
+end
+
+task :clobber => [:clean_mruby, :clean_ssl]
