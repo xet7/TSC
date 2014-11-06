@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-02 18:22+0100\n"
+"POT-Creation-Date: 2014-11-06 10:37+0100\n"
 "PO-Revision-Date: 2014-08-31 18:32+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: SMC German translation team\n"
@@ -94,7 +94,9 @@ msgstr "Ladevorgang"
 msgid "Editor enabled"
 msgstr "Editor aktiviert"
 
-#: ../../src/core/editor/editor.cpp:583
+#. TRANS: This is the help window in the editor. Do not translate
+#. TRANS: the color codes in the string.
+#: ../../src/core/editor/editor.cpp:585
 msgid ""
 " \n"
 "----- [colour='FFFFCF5F']General[colour='FFFFFFFF'] -----\n"
@@ -148,7 +150,7 @@ msgid ""
 " \n"
 msgstr ""
 
-#: ../../src/core/editor/editor.cpp:1399
+#: ../../src/core/editor/editor.cpp:1401
 #, c-format
 msgid "Change selected sprite's image"
 msgid_plural "Change selected %d sprites' images"

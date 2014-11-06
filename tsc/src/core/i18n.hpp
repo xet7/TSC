@@ -24,7 +24,7 @@ namespace TSC {
 
 // translates the string with gettext
 #define _(String) gettext(String)
-// translates the utf8 string with gettext
+// Like _(), but also tells CEGUI this is UTF-8.
 #define UTF8_(String) reinterpret_cast<const CEGUI::utf8*>(gettext(String))
 // not translated and only for gettext detection
 #define N_(String) String

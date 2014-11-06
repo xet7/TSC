@@ -2145,7 +2145,7 @@ void Loading_Screen_Init(void)
     // TRANS: Be careful with the length of this line, if
     // TRANS: it is much longer than the English version,
     // TRANS: it will be cut off.
-    license_text->setText(_("This program is distributed under the terms of the GPLv3"));
+    license_text->setText(UTF8_("This program is distributed under the terms of the GPLv3"));
 
     // set info text
     CEGUI::Window* text_default = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_loading"));
