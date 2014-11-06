@@ -3105,14 +3105,22 @@ void cMenu_Credits::Exit(void)
 
 void cMenu_Credits::Update(void)
 {
+    static int s_credits_done = 0;
     cMenu_Base::Update();
 
     for (HudSpriteList::iterator itr = m_draw_list.begin(); itr != m_draw_list.end(); ++itr) {
         cHudSprite* obj = (*itr);
 
-        // long inactive reset
-        if (obj->m_pos_y < -2700) {
-            obj->Set_Pos_Y(static_cast<float>(game_res_h) * 1.1f);
+        // When the respective line is long out of sight, remove it from the
+        // list of lines to draw.
+        if (obj->m_pos_y < -300) {
+            if (obj->m_active) {
+                obj->Set_Active(false); // FIXME: Does nothing it appears?
+                s_credits_done++;
+            }
+            // FIXME: Lines just scroll into negative infinity? Overflow
+            // shouldn’t happen, though, as the credits are automatically
+            // ended anyway.
         }
         // fading out
         else if (obj->m_pos_y < game_res_h * 0.3f) {
@@ -3187,11 +3195,15 @@ void cMenu_Credits::Update(void)
         obj->Move(0, -1.1f);
     }
 
+    if (s_credits_done >= m_draw_list.size()) {
+        Exit();
+    }
+
     if (!m_action) {
         return;
     }
 
-    m_action = 0;
+    m_action = false;
 
     // back
     if (pMenuCore->m_handler->m_active == 0) {
