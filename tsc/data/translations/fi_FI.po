@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-02 18:22+0100\n"
+"POT-Creation-Date: 2014-11-06 10:37+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lauri Ojansivu <x@xet7.org>\n"
 "Language-Team: TSC Finnish translation team\n"
@@ -92,7 +92,9 @@ msgstr "Ladataan"
 msgid "Editor enabled"
 msgstr "Muokkain käytössä"
 
-#: ../../src/core/editor/editor.cpp:583
+#. TRANS: This is the help window in the editor. Do not translate
+#. TRANS: the color codes in the string.
+#: ../../src/core/editor/editor.cpp:585
 msgid ""
 " \n"
 "----- [colour='FFFFCF5F']General[colour='FFFFFFFF'] -----\n"
@@ -188,17 +190,17 @@ msgstr ""
 " 2/4/6/8 - Siirrä valittu esine 1 pikseli suuntaan\n"
 "Hiiri:\n"
 " Vasen (Pidä) - Vedä esineitä\n"
-" Vasen (Klikkaa) - Shift näppäin pohjassa valitse / poista valinta yhdestä "
-"esineestä\n"
+" Vasen (Klikkaa) - Shift näppäin pohjassa valitse / poista valinta\n"
+"                              yhdestä esineestä\n"
 " Oikea - Poista risteävä/leikkaava esine\n"
 " Keski - Vaihda liikkumistila\n"
 " Ctrl + Shift + Vasen (Klikkaa) - Valitse samantyyppiset esineet\n"
 "Nuolinäppäimet:\n"
-" Käytä nuolinäppäimiä liikkuaksesi ympäriinsä. Paina Shift samalla "
-"liikkuaksesi nopeammin\n"
+" Käytä nuolinäppäimiä liikkuaksesi ympäriinsä. Paina Shift samalla\n"
+" liikkuaksesi nopeammin\n"
 " \n"
 
-#: ../../src/core/editor/editor.cpp:1399
+#: ../../src/core/editor/editor.cpp:1401
 #, c-format
 msgid "Change selected sprite's image"
 msgid_plural "Change selected %d sprites' images"
