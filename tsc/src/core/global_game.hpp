@@ -27,6 +27,7 @@ namespace TSC {
 
 // Caption
 #define CAPTION "The Secret Chronicles of Dr. M."
+#define TSC_GETTEXT_DOMAIN "Secretchronicles"
 
     static const unsigned int tsc_version = TSC_VERSION_NUM(TSC_VERSION_MAJOR, TSC_VERSION_MINOR, TSC_VERSION_PATCH);
 

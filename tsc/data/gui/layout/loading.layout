@@ -16,7 +16,7 @@
             <Property Name="BackgroundEnabled" Value="False" />
         </Window>
         <Window Type="TaharezLook/StaticText" Name="text_gpl" >
-            <Property Name="Text" Value="This program is distributed under the terms of the GPL 3" />
+            <Property Name="Text" Value="Lisence notice replaced by code with localised version" />
             <Property Name="TextColours" Value="tl:FF3252FA tr:FF3252FA bl:FF2222DD br:FF2222DD" />
             <Property Name="FrameEnabled" Value="False" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />

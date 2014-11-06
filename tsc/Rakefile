@@ -58,7 +58,7 @@ task :potfile do
 
   sourcefiles = TSC_SOURCE_FILES.map{|path| Pathname.new(path).expand_path.relative_path_from(Pathname.new("data/translations").expand_path)}
   cd "data/translations" do
-    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The TSC Contributors' --package-name='The Secret Chronicles of Dr. M.' #{sourcefiles.map(&:to_s).join(' ')} -o "Secretchronicles.pot">
+    sh %Q<xgettext --add-comments="TRANS:" --language=C++ --escape --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=UTF8_ --keyword=PL_:1,2 --keyword=C_:1c,2 --copyright-holder='The TSC Contributors' --package-name='Secretchronicles' #{sourcefiles.map(&:to_s).join(' ')} -o "Secretchronicles.pot">
   end
 end
 

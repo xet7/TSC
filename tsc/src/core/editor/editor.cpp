@@ -583,7 +583,9 @@ bool cEditor::Key_Down(SDLKey key)
             text_help->setProperty("BackgroundEnabled", "False");
             text_help->setProperty("VertFormatting", "TopAligned");
 
-            text_help->setText(_(" \n"
+            // TRANS: This is the help window in the editor. Do not translate
+            // TRANS: the color codes in the string.
+            text_help->setText(UTF8_(" \n"
                                "----- [colour='FFFFCF5F']General[colour='FFFFFFFF'] -----\n"
                                " \n"
                                "F1 - Toggle this Help Window\n"
