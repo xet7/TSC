@@ -144,7 +144,7 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
         m_item_image = pVideo->Get_Surface("game/items/mushroom_red.png");
     }
     else if (box_type == TYPE_FIREPLANT) {
-        m_item_image = pVideo->Get_Surface("game/items/fireplant.png");
+        m_item_image = pVideo->Get_Surface("game/items/fireberry_1.png");
     }
     else if (box_type == TYPE_MUSHROOM_BLUE) {
         m_item_image = pVideo->Get_Surface("game/items/mushroom_blue.png");
@@ -426,7 +426,7 @@ void cBonusBox::Editor_Activate(void)
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Empty")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Random")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Fireplant")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Fireberry")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom Blue")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom Ghost")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom 1-UP")));
@@ -438,7 +438,7 @@ void cBonusBox::Editor_Activate(void)
         combobox->setText(UTF8_("Mushroom"));
     }
     else if (box_type == TYPE_FIREPLANT) {
-        combobox->setText(UTF8_("Fireplant"));
+        combobox->setText(UTF8_("Fireberry"));
     }
     else if (box_type == TYPE_MUSHROOM_BLUE) {
         combobox->setText(UTF8_("Mushroom Blue"));
@@ -541,7 +541,7 @@ bool cBonusBox::Editor_Item_Select(const CEGUI::EventArgs& event)
     if (item->getText().compare(UTF8_("Mushroom")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_DEFAULT);
     }
-    else if (item->getText().compare(UTF8_("Fireplant")) == 0) {
+    else if (item->getText().compare(UTF8_("Fireberry")) == 0) {
         Set_Bonus_Type(TYPE_FIREPLANT);
     }
     else if (item->getText().compare(UTF8_("Mushroom Blue")) == 0) {
