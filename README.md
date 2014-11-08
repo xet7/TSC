@@ -50,6 +50,14 @@ please consider the following:
   causes GitHub to automatically close the corresponding ticket if
   we merge your changes.
 
+Custom local configurations are provided for Emacs and ViM. In order for local
+ViM configurations to work, you will need the localvimrc plugin, which can be
+installed with the following command on most Bourne-compatible shells:
+
+~~~sh
+mkdir -p ~/.vim/plugin && cd ~/.vim/plugin && https://raw.githubusercontent.com/embear/vim-localvimrc/master/plugin/localvimrc.vim
+~~~
+
 License
 -------
 
