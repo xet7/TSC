@@ -471,12 +471,40 @@ void cMenu_Start::Init_GUI(void)
     button_enter->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&cMenu_Start::Button_Enter_Clicked, this));
     button_back->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&cMenu_Start::Button_Back_Clicked, this));
 
-    // I18n
+    // ### I18n ###
+    // buttons
     button_new->setText(UTF8_("New"));
     button_edit->setText(UTF8_("Edit"));
     button_delete->setText(UTF8_("Delete"));
     button_enter->setText(UTF8_("Enter"));
     button_back->setText(UTF8_("Back"));
+
+    // several texts
+    CEGUI::Window* text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_level_select"));
+    text->setText(UTF8_("Select Level"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_campaign_select"));
+    text->setText(UTF8_("Select Campaign"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_world_select"));
+    text->setText(UTF8_("Select Overworld"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_campaign_description"));
+    text->setText(UTF8_("Description"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_world_description"));
+    text->setText(UTF8_("Description"));
+
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_level_info"));
+    // TRANS: The colour names refer to the colours the level names can
+    // TRANS: be in. "Game" means the level is shipped by the game,
+    // TRANS: "user" means the level has been created by the user.
+    // TRANS: If the user edited a system level, it gets copied to his
+    // TRANS: personal level directory and is coloured mixedly to indicate
+    // TRANS: that. "Deprecated" are levels from very old versions
+    // TRANS: of the game.
+    text->setText(UTF8_("- Level Colors -\n"
+                      "\n"
+                      "Orange: Game\n"
+                      "Green: User\n"
+                      "Grey: Deprecated\n"
+                      "Mixed: See the colors"));
 
     // Set focus
     listbox_worlds->activate();
