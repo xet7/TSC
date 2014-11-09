@@ -1,14 +1,14 @@
-Installation instructions for SMC
+Installation instructions for TSC
 =================================
 
-SMC uses [CMake][1] as the build system, so the first thing you have to
+TSC uses [CMake][1] as the build system, so the first thing you have to
 ensure is that you have CMake installed.
 
-SMC currently supports the Linux and Windows platforms officially. To
+TSC currently supports the Linux and Windows platforms officially. To
 be more exact, it is tested against Arch Linux and Windows 7. The
 current Ubuntu LTS should also work. **Windows XP is unsupported**.
 
-SMC can be installed either from Git, meaning that you clone the
+TSC can be installed either from Git, meaning that you clone the
 repository, or from a release tarball, where for the purpose of this
 document a beta release is considered a release. Finally, you have the
 possibility to cross-compile to Windows from Linux either from Git or
@@ -21,7 +21,7 @@ Dependencies
 ------------
 
 In any case, you will have to install a number of dependencies before
-you can try installing SMC itself. The following sections list the
+you can try installing TSC itself. The following sections list the
 dependencies for each supported system.
 
 ### Common dependencies ###
@@ -54,16 +54,16 @@ install to.
 
 * The DevIL library.
 
-Additionally, SMC needs CEGUI version 0.7.x. However, as this old
+Additionally, TSC needs CEGUI version 0.7.x. However, as this old
 version is not provided by any modern Linux distribution anymore, the
 build system has been set up to download and compile it on its own and
 then link it in statically. **For Windows** (see below) this does not
 hold true, you have to provide CEGUI 0.7.x libraries yourself (or just
 use MXE as described below). We are working on the issue and hope to
-get it resolved with the next feature release of SMC.
+get it resolved with the next feature release of TSC.
 
 The following commandline installs all dependencies required to built
-SMC on Ubuntu Linux 14.04:
+TSC on Ubuntu Linux 14.04:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # apt-get install ruby-full rake gperf pkg-config bison libglew-dev \
@@ -86,18 +86,18 @@ Extract the tarball, create a directory for the build and switch into
 it:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ tar -xvJf SMC-*.tar.xz
-$ cd SMC-*/smc
+$ tar -xvJf TSC-*.tar.xz
+$ cd TSC-*/tsc
 $ mkdir build
 $ cd build
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Execute `cmake` to configure and `make` to build and install SMC. Be
-sure to replace `/opt/smc` with the directory you want SMC to install
+Execute `cmake` to configure and `make` to build and install TSC. Be
+sure to replace `/opt/tsc` with the directory you want TSC to install
 into.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/smc ..
+$ cmake -DCMAKE_INSTALL_PREFIX=/opt/tsc ..
 $ make
 # make install
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -107,12 +107,12 @@ parameter to `cmake` in order to build a version with debugging
 symbols. These are needed by the developers to track down bugs more
 easily.
 
-After the last command finishes, you will find a `bin/smc` executable
+After the last command finishes, you will find a `bin/tsc` executable
 file below your chosen install directory. Execute it in order to start
-SMC.
+TSC.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ /opt/smc/bin/smc
+$ /opt/tsc/bin/tsc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Installing from Git
@@ -136,25 +136,25 @@ the above section.
 Crosscompiling from Linux to Windows
 ------------------------------------
 
-SMC can be crosscompiled from Linux to Windows, such that you don’t
+TSC can be crosscompiled from Linux to Windows, such that you don’t
 have to even touch a Windows system in order to generate the
 executable that will run on Windows, and indeed this is how we produce
 the Windows releases. Regardless whether you compile
 from Git or from a release tarball, you will need a crosscompilation
 toolchain for that. We recommend you to use [MXE][2] for that, which
-includes all dependencies necessary for building SMC. Even more, I
+includes all dependencies necessary for building TSC. Even more, I
 (Quintus) have set up an MXE fork that contains versions that I know
-to work with SMC.
+to work with TSC.
 
 The following commands download and built the MXE environment I have
-prepared, including all dependencies needed for SMC.
+prepared, including all dependencies needed for TSC.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% mkdir ~/smc-building
-% cd ~/smc-building
+% mkdir ~/tsc-building
+% cd ~/tsc-building
 % git clone git://github.com/Quintus/mxe.git
 % cd mxe
-% git checkout smc-building
+% git checkout tsc-building
 % make boost libxml++ glew cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf nsis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -191,50 +191,50 @@ toolchain resides. First, extract the tarball and prepare a build
 directory as usual:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ tar -xvJf SMC-*.tar.xz
-$ cd SMC-*/smc
+$ tar -xvJf TSC-*.tar.xz
+$ cd TSC-*/tsc
 $ mkdir crossbuild
 $ cd crossbuild
 $ cp ../cmake/toolchains/linux2mingw32.cmake .
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The last step copied the toolchain file `smc/cmake/toolchains/linux2mingw32.cmake`
+The last step copied the toolchain file `tsc/cmake/toolchains/linux2mingw32.cmake`
 to your crossbuild directory.  Edit that file to point to your MXE installation,
-which should be `~/smc-building/mxe` if you followed the above steps. For this,
+which should be `~/tsc-building/mxe` if you followed the above steps. For this,
 ensure the `CMAKE_FIND_ROOT_PATH` line is correct:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/smc-building/mxe")
+set(CMAKE_FIND_ROOT_PATH "$ENV{HOME}/tsc-building/mxe")
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Then build SMC. Be sure to include the new parameter
+Then build TSC. Be sure to include the new parameter
 `-DCMAKE_TOOLCHAIN_FILE` as shown below to make CMake aware you want a
 crosscompilation with the toolchain file you just edited. Again, you
 may or may not include `-DCMAKE_BUILD_TYPE=Debug` depending on whether
 you want debugging symbols or not.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$ export PATH=$HOME/smc-building/mxe/usr/bin:$PATH
+$ export PATH=$HOME/tsc-building/mxe/usr/bin:$PATH
 $ cmake -DCMAKE_TOOLCHAIN_FILE=./linux2mingw32.cmake \
   -DCMAKE_INSTALL_PREFIX=$PWD/testinstall ..
 $ make
 $ make install
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This will give you a Windows SMC installation in the
+This will give you a Windows TSC installation in the
 crossbuild/testinstall directory. Copy it to Windows or run it with
 Wine:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% wine testinstall/bin/smc.exe
+% wine testinstall/bin/tsc.exe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #### Generating a windows setup installer ####
 
 The above method will yield a directory `testinstall/` that is
 standalone e.g. for distribution in form of a ZIP file. Creating a
-setup installer that registers SMC with the registry requires a
-slightly different approach. If you built SMC already with the above
+setup installer that registers TSC with the registry requires a
+slightly different approach. If you built TSC already with the above
 method, clear your `crossbuild` directory to prevent artifacts.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -251,11 +251,11 @@ $ make
 $ cpack -G NSIS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This will create a `SMC-x.y.z-win32.exe` file. This file is the
+This will create a `TSC-x.y.z-win32.exe` file. This file is the
 ready-to-distribute setup installer.
 
-Note that you shouldn’t install multiple versions of SMC at once using
-the setup installer. Uninstall any previous version of SMC before
+Note that you shouldn’t install multiple versions of TSC at once using
+the setup installer. Uninstall any previous version of TSC before
 installing with another setup installer; the standalone approach does
 not suffer from this problem.
 
