@@ -471,6 +471,13 @@ void cMenu_Start::Init_GUI(void)
     button_enter->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&cMenu_Start::Button_Enter_Clicked, this));
     button_back->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&cMenu_Start::Button_Back_Clicked, this));
 
+    // I18n
+    button_new->setText(UTF8_("New"));
+    button_edit->setText(UTF8_("Edit"));
+    button_delete->setText(UTF8_("Delete"));
+    button_enter->setText(UTF8_("Enter"));
+    button_back->setText(UTF8_("Back"));
+
     // Set focus
     listbox_worlds->activate();
 }
