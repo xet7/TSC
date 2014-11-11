@@ -893,7 +893,7 @@ msgstr ""
 "\n"
 "Oranssi: Peli\n"
 "Vihreä: Käyttäjä\n"
-"Harmaa: Ei käytössä\n"
+"Harmaa: Vanhentunut\n"
 "Miksattu: Katso värit"
 
 #: ../../src/gui/menu_data.cpp:652 ../../src/gui/menu_data.cpp:687
