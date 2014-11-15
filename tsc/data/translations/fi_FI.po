@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-09 10:27+0100\n"
+"POT-Creation-Date: 2014-11-15 11:04+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lauri Ojansivu <x@xet7.org>\n"
 "Language-Team: TSC Finnish translation team\n"
@@ -92,9 +92,14 @@ msgstr "Ladataan"
 msgid "Editor enabled"
 msgstr "Muokkain käytössä"
 
+#. TRANS: Title of the help window
+#: ../../src/core/editor/editor.cpp:574
+msgid "Editor Help"
+msgstr "Muokkain ohje"
+
 #. TRANS: This is the help window in the editor. Do not translate
 #. TRANS: the color codes in the string.
-#: ../../src/core/editor/editor.cpp:585
+#: ../../src/core/editor/editor.cpp:586
 msgid ""
 " \n"
 "----- [colour='FFFFCF5F']General[colour='FFFFFFFF'] -----\n"
@@ -200,7 +205,7 @@ msgstr ""
 " liikkuaksesi nopeammin\n"
 " \n"
 
-#: ../../src/core/editor/editor.cpp:1401
+#: ../../src/core/editor/editor.cpp:1402
 #, c-format
 msgid "Change selected sprite's image"
 msgid_plural "Change selected %d sprites' images"
@@ -353,8 +358,8 @@ msgstr "taivas"
 msgid "plastic"
 msgstr "muovinen"
 
-#: ../../src/core/property_helper.cpp:832 ../../src/gui/menu_data.cpp:1232
-#: ../../src/gui/menu_data.cpp:1255 ../../src/gui/menu_data.cpp:2206
+#: ../../src/core/property_helper.cpp:832 ../../src/gui/menu_data.cpp:1233
+#: ../../src/gui/menu_data.cpp:1256 ../../src/gui/menu_data.cpp:2207
 msgid "default"
 msgstr "oletus"
 
@@ -828,48 +833,48 @@ msgstr "Graafinen käyttöliittymä : "
 msgid "Buffer : "
 msgstr "Puskuri : "
 
-#: ../../src/gui/menu_data.cpp:208
+#: ../../src/gui/menu_data.cpp:209
 msgid "Credits"
 msgstr "Tekijät"
 
-#: ../../src/gui/menu_data.cpp:238
+#: ../../src/gui/menu_data.cpp:239
 msgid "Version "
 msgstr "Versio "
 
-#: ../../src/gui/menu_data.cpp:476
+#: ../../src/gui/menu_data.cpp:477
 msgid "New"
 msgstr "Uusi"
 
-#: ../../src/gui/menu_data.cpp:477
+#: ../../src/gui/menu_data.cpp:478
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ../../src/gui/menu_data.cpp:478 ../../src/objects/path.cpp:767
+#: ../../src/gui/menu_data.cpp:479 ../../src/objects/path.cpp:767
 msgid "Delete"
 msgstr "Poista"
 
-#: ../../src/gui/menu_data.cpp:479
+#: ../../src/gui/menu_data.cpp:480
 msgid "Enter"
 msgstr "Mene"
 
-#: ../../src/gui/menu_data.cpp:480 ../../src/gui/menu_data.cpp:1149
-#: ../../src/gui/menu_data.cpp:2804 ../../src/gui/menu_data.cpp:3085
+#: ../../src/gui/menu_data.cpp:481 ../../src/gui/menu_data.cpp:1150
+#: ../../src/gui/menu_data.cpp:2805 ../../src/gui/menu_data.cpp:3116
 msgid "Back"
 msgstr "Takaisin"
 
-#: ../../src/gui/menu_data.cpp:484
+#: ../../src/gui/menu_data.cpp:485
 msgid "Select Level"
 msgstr "Valitse taso"
 
-#: ../../src/gui/menu_data.cpp:486
+#: ../../src/gui/menu_data.cpp:487
 msgid "Select Campaign"
 msgstr "Valitse kampanja"
 
-#: ../../src/gui/menu_data.cpp:488
+#: ../../src/gui/menu_data.cpp:489
 msgid "Select Overworld"
 msgstr "Valitse ylimaailma"
 
-#: ../../src/gui/menu_data.cpp:490 ../../src/gui/menu_data.cpp:492
+#: ../../src/gui/menu_data.cpp:491 ../../src/gui/menu_data.cpp:493
 msgid "Description"
 msgstr "Kuvaus"
 
@@ -880,7 +885,7 @@ msgstr "Kuvaus"
 #. TRANS: personal level directory and is coloured mixedly to indicate
 #. TRANS: that. "Deprecated" are levels from very old versions
 #. TRANS: of the game.
-#: ../../src/gui/menu_data.cpp:502
+#: ../../src/gui/menu_data.cpp:503
 msgid ""
 "- Level Colors -\n"
 "\n"
@@ -896,8 +901,8 @@ msgstr ""
 "Harmaa: Vanhentunut\n"
 "Miksattu: Katso värit"
 
-#: ../../src/gui/menu_data.cpp:652 ../../src/gui/menu_data.cpp:687
-#: ../../src/gui/menu_data.cpp:713
+#: ../../src/gui/menu_data.cpp:653 ../../src/gui/menu_data.cpp:688
+#: ../../src/gui/menu_data.cpp:714
 msgid ""
 "This will reset your current progress.\n"
 "Continue ?"
@@ -905,310 +910,310 @@ msgstr ""
 "Tämä nollaa nykyisen edistymisesi.\n"
 "Jatka ?"
 
-#: ../../src/gui/menu_data.cpp:660
+#: ../../src/gui/menu_data.cpp:661
 msgid "Couldn't load campaign "
 msgstr "Ei saatu ladattua kampanjaa "
 
-#: ../../src/gui/menu_data.cpp:695
+#: ../../src/gui/menu_data.cpp:696
 msgid "Couldn't load overworld "
 msgstr "Ei saatu ladattua ylimaailmaa "
 
-#: ../../src/gui/menu_data.cpp:721
+#: ../../src/gui/menu_data.cpp:722
 msgid "Couldn't load level "
 msgstr "Ei saatu ladattua tasoa "
 
-#: ../../src/gui/menu_data.cpp:1075
+#: ../../src/gui/menu_data.cpp:1076
 msgid "Delete "
 msgstr "Poista "
 
-#: ../../src/gui/menu_data.cpp:1188
+#: ../../src/gui/menu_data.cpp:1189
 msgid "Always Run"
 msgstr "Juokse aina"
 
-#: ../../src/gui/menu_data.cpp:1192 ../../src/gui/menu_data.cpp:1200
-#: ../../src/gui/menu_data.cpp:1364 ../../src/gui/menu_data.cpp:1372
-#: ../../src/gui/menu_data.cpp:1386 ../../src/gui/menu_data.cpp:1394
-#: ../../src/gui/menu_data.cpp:1478 ../../src/gui/menu_data.cpp:1486
-#: ../../src/gui/menu_data.cpp:1509 ../../src/gui/menu_data.cpp:1517
-#: ../../src/gui/menu_data.cpp:1630 ../../src/gui/menu_data.cpp:1638
-#: ../../src/gui/menu_data.cpp:1691 ../../src/gui/menu_data.cpp:1699
-#: ../../src/gui/menu_data.cpp:1722 ../../src/gui/menu_data.cpp:1730
-#: ../../src/gui/menu_data.cpp:1785 ../../src/gui/menu_data.cpp:1877
-#: ../../src/gui/menu_data.cpp:1888 ../../src/gui/menu_data.cpp:1926
-#: ../../src/gui/menu_data.cpp:1937 ../../src/gui/menu_data.cpp:1962
-#: ../../src/gui/menu_data.cpp:1977 ../../src/gui/menu_data.cpp:2169
-#: ../../src/gui/menu_data.cpp:2302 ../../src/gui/menu_data.cpp:2318
-#: ../../src/gui/menu_data.cpp:2372 ../../src/gui/menu_data.cpp:2380
-#: ../../src/gui/menu_data.cpp:2465 ../../src/gui/menu_data.cpp:2500
-#: ../../src/gui/menu_data.cpp:2655 ../../src/gui/menu_data.cpp:2716
-#: ../../src/gui/menu_data.cpp:2742
+#: ../../src/gui/menu_data.cpp:1193 ../../src/gui/menu_data.cpp:1201
+#: ../../src/gui/menu_data.cpp:1365 ../../src/gui/menu_data.cpp:1373
+#: ../../src/gui/menu_data.cpp:1387 ../../src/gui/menu_data.cpp:1395
+#: ../../src/gui/menu_data.cpp:1479 ../../src/gui/menu_data.cpp:1487
+#: ../../src/gui/menu_data.cpp:1510 ../../src/gui/menu_data.cpp:1518
+#: ../../src/gui/menu_data.cpp:1631 ../../src/gui/menu_data.cpp:1639
+#: ../../src/gui/menu_data.cpp:1692 ../../src/gui/menu_data.cpp:1700
+#: ../../src/gui/menu_data.cpp:1723 ../../src/gui/menu_data.cpp:1731
+#: ../../src/gui/menu_data.cpp:1786 ../../src/gui/menu_data.cpp:1878
+#: ../../src/gui/menu_data.cpp:1889 ../../src/gui/menu_data.cpp:1927
+#: ../../src/gui/menu_data.cpp:1938 ../../src/gui/menu_data.cpp:1963
+#: ../../src/gui/menu_data.cpp:1978 ../../src/gui/menu_data.cpp:2170
+#: ../../src/gui/menu_data.cpp:2303 ../../src/gui/menu_data.cpp:2319
+#: ../../src/gui/menu_data.cpp:2373 ../../src/gui/menu_data.cpp:2381
+#: ../../src/gui/menu_data.cpp:2466 ../../src/gui/menu_data.cpp:2501
+#: ../../src/gui/menu_data.cpp:2656 ../../src/gui/menu_data.cpp:2717
+#: ../../src/gui/menu_data.cpp:2743
 msgid "On"
 msgstr "Kyllä"
 
-#: ../../src/gui/menu_data.cpp:1195 ../../src/gui/menu_data.cpp:1203
-#: ../../src/gui/menu_data.cpp:1367 ../../src/gui/menu_data.cpp:1375
-#: ../../src/gui/menu_data.cpp:1389 ../../src/gui/menu_data.cpp:1397
-#: ../../src/gui/menu_data.cpp:1481 ../../src/gui/menu_data.cpp:1489
-#: ../../src/gui/menu_data.cpp:1512 ../../src/gui/menu_data.cpp:1520
-#: ../../src/gui/menu_data.cpp:1633 ../../src/gui/menu_data.cpp:1641
-#: ../../src/gui/menu_data.cpp:1694 ../../src/gui/menu_data.cpp:1702
-#: ../../src/gui/menu_data.cpp:1725 ../../src/gui/menu_data.cpp:1733
-#: ../../src/gui/menu_data.cpp:1788 ../../src/gui/menu_data.cpp:1880
-#: ../../src/gui/menu_data.cpp:1891 ../../src/gui/menu_data.cpp:1929
-#: ../../src/gui/menu_data.cpp:1940 ../../src/gui/menu_data.cpp:1965
-#: ../../src/gui/menu_data.cpp:1980 ../../src/gui/menu_data.cpp:2375
-#: ../../src/gui/menu_data.cpp:2383
+#: ../../src/gui/menu_data.cpp:1196 ../../src/gui/menu_data.cpp:1204
+#: ../../src/gui/menu_data.cpp:1368 ../../src/gui/menu_data.cpp:1376
+#: ../../src/gui/menu_data.cpp:1390 ../../src/gui/menu_data.cpp:1398
+#: ../../src/gui/menu_data.cpp:1482 ../../src/gui/menu_data.cpp:1490
+#: ../../src/gui/menu_data.cpp:1513 ../../src/gui/menu_data.cpp:1521
+#: ../../src/gui/menu_data.cpp:1634 ../../src/gui/menu_data.cpp:1642
+#: ../../src/gui/menu_data.cpp:1695 ../../src/gui/menu_data.cpp:1703
+#: ../../src/gui/menu_data.cpp:1726 ../../src/gui/menu_data.cpp:1734
+#: ../../src/gui/menu_data.cpp:1789 ../../src/gui/menu_data.cpp:1881
+#: ../../src/gui/menu_data.cpp:1892 ../../src/gui/menu_data.cpp:1930
+#: ../../src/gui/menu_data.cpp:1941 ../../src/gui/menu_data.cpp:1966
+#: ../../src/gui/menu_data.cpp:1981 ../../src/gui/menu_data.cpp:2376
+#: ../../src/gui/menu_data.cpp:2384
 msgid "Off"
 msgstr "Ei"
 
-#: ../../src/gui/menu_data.cpp:1210
+#: ../../src/gui/menu_data.cpp:1211
 msgid "Camera Hor Speed"
 msgstr "Kamera pystynopeus"
 
-#: ../../src/gui/menu_data.cpp:1219
+#: ../../src/gui/menu_data.cpp:1220
 msgid "Camera Ver Speed"
 msgstr "Kamera vaakanopeus"
 
-#: ../../src/gui/menu_data.cpp:1228
+#: ../../src/gui/menu_data.cpp:1229
 msgid "Language"
 msgstr "Kieli"
 
-#: ../../src/gui/menu_data.cpp:1265
+#: ../../src/gui/menu_data.cpp:1266
 msgid "Menu Level"
 msgstr "Valikko taso"
 
-#: ../../src/gui/menu_data.cpp:1281 ../../src/gui/menu_data.cpp:1430
-#: ../../src/gui/menu_data.cpp:1535 ../../src/gui/menu_data.cpp:1568
-#: ../../src/gui/menu_data.cpp:1677 ../../src/gui/menu_data.cpp:1741
+#: ../../src/gui/menu_data.cpp:1282 ../../src/gui/menu_data.cpp:1431
+#: ../../src/gui/menu_data.cpp:1536 ../../src/gui/menu_data.cpp:1569
+#: ../../src/gui/menu_data.cpp:1678 ../../src/gui/menu_data.cpp:1742
 msgid "Reset"
 msgstr "Resetoi"
 
-#: ../../src/gui/menu_data.cpp:1291
+#: ../../src/gui/menu_data.cpp:1292
 msgid "Resolution"
 msgstr "Resoluutio"
 
-#: ../../src/gui/menu_data.cpp:1343
+#: ../../src/gui/menu_data.cpp:1344
 msgid "Bpp"
 msgstr "Värisyvyys"
 
-#: ../../src/gui/menu_data.cpp:1360
+#: ../../src/gui/menu_data.cpp:1361
 msgid "Fullscreen"
 msgstr "Kokoruutu"
 
-#: ../../src/gui/menu_data.cpp:1382
+#: ../../src/gui/menu_data.cpp:1383
 msgid "VSync"
 msgstr "VSync"
 
-#: ../../src/gui/menu_data.cpp:1404
+#: ../../src/gui/menu_data.cpp:1405
 msgid "FPS Limit"
 msgstr "Kuvia sekunnissa raja"
 
-#: ../../src/gui/menu_data.cpp:1413
+#: ../../src/gui/menu_data.cpp:1414
 msgid "Geometry Quality"
 msgstr "Geometrian laatu"
 
-#: ../../src/gui/menu_data.cpp:1421
+#: ../../src/gui/menu_data.cpp:1422
 msgid "Texture Quality"
 msgstr "Tekstuurin laatu"
 
-#: ../../src/gui/menu_data.cpp:1435
+#: ../../src/gui/menu_data.cpp:1436
 msgid "Apply"
 msgstr "Ota käyttöön"
 
-#: ../../src/gui/menu_data.cpp:1440
+#: ../../src/gui/menu_data.cpp:1441
 msgid "Recreate Cache"
 msgstr "Uudelleentee välimuisti"
 
-#: ../../src/gui/menu_data.cpp:1450
+#: ../../src/gui/menu_data.cpp:1451
 msgid "Hertz (Hz)"
 msgstr "Hertsiä (Hz)"
 
-#: ../../src/gui/menu_data.cpp:1451
+#: ../../src/gui/menu_data.cpp:1452
 msgid "You should only change the value if the audio is scratchy."
 msgstr "Sinun tulisi vaihtaa arvoa vain jos ääni on naarmuinen."
 
-#: ../../src/gui/menu_data.cpp:1473
+#: ../../src/gui/menu_data.cpp:1474
 msgid "Music"
 msgstr "Musiikki"
 
-#: ../../src/gui/menu_data.cpp:1474
+#: ../../src/gui/menu_data.cpp:1475
 msgid "Enable to play music. You need to have the Music Addon installed."
 msgstr ""
 "Ota käyttöön musiikki. Sinulla tulee olla musiikki lisäosa asennettuna."
 
-#: ../../src/gui/menu_data.cpp:1496
+#: ../../src/gui/menu_data.cpp:1497
 msgid "Set the Music Volume."
 msgstr "Aseta musiikin äänenvoimakkuus."
 
-#: ../../src/gui/menu_data.cpp:1504
+#: ../../src/gui/menu_data.cpp:1505
 msgid "Sound"
 msgstr "Ääni"
 
-#: ../../src/gui/menu_data.cpp:1505
+#: ../../src/gui/menu_data.cpp:1506
 msgid "Enable to play Sounds."
 msgstr "Ota käyttöön peliäänet."
 
-#: ../../src/gui/menu_data.cpp:1527
+#: ../../src/gui/menu_data.cpp:1528
 msgid "Set the Sound Volume."
 msgstr "Aseta äänenvoimakkuus."
 
-#: ../../src/gui/menu_data.cpp:1545 ../../src/gui/menu_data.cpp:1664
+#: ../../src/gui/menu_data.cpp:1546 ../../src/gui/menu_data.cpp:1665
 msgid "Shortcuts"
 msgstr "Pikanäppäimet"
 
 #. TRANS: Name of an action that can be bound to a key
-#: ../../src/gui/menu_data.cpp:1550 ../../src/gui/menu_data.cpp:1668
+#: ../../src/gui/menu_data.cpp:1551 ../../src/gui/menu_data.cpp:1669
 msgctxt "action"
 msgid "Name"
 msgstr "Nimi"
 
 #. TRANS: Key on a keyboard
-#: ../../src/gui/menu_data.cpp:1552
+#: ../../src/gui/menu_data.cpp:1553
 msgid "Key"
 msgstr "Näppäin"
 
-#: ../../src/gui/menu_data.cpp:1559
+#: ../../src/gui/menu_data.cpp:1560
 msgid "Scroll Speed"
 msgstr "Vieritysnopeus"
 
-#: ../../src/gui/menu_data.cpp:1578
+#: ../../src/gui/menu_data.cpp:1579
 msgid "Sensitivity"
 msgstr "Herkkyys"
 
-#: ../../src/gui/menu_data.cpp:1582
+#: ../../src/gui/menu_data.cpp:1583
 msgid "Analog Jump"
 msgstr "Analoginen hyppy"
 
-#: ../../src/gui/menu_data.cpp:1586
+#: ../../src/gui/menu_data.cpp:1587
 msgid "Joystick"
 msgstr "Joystick"
 
-#: ../../src/gui/menu_data.cpp:1593 ../../src/gui/menu_data.cpp:2629
+#: ../../src/gui/menu_data.cpp:1594 ../../src/gui/menu_data.cpp:2630
 msgid "None"
 msgstr "Ei mikään"
 
-#: ../../src/gui/menu_data.cpp:1648
+#: ../../src/gui/menu_data.cpp:1649
 msgid "Axis Hor"
 msgstr "Akseli vaaka"
 
-#: ../../src/gui/menu_data.cpp:1656
+#: ../../src/gui/menu_data.cpp:1657
 msgid "Ver"
 msgstr "Pysty"
 
-#: ../../src/gui/menu_data.cpp:1669
+#: ../../src/gui/menu_data.cpp:1670
 msgid "Button"
 msgstr "Painike"
 
-#: ../../src/gui/menu_data.cpp:1687
+#: ../../src/gui/menu_data.cpp:1688
 msgid "Show images"
 msgstr "Näytä kuvat"
 
-#: ../../src/gui/menu_data.cpp:1709
+#: ../../src/gui/menu_data.cpp:1710
 msgid "Item image size"
 msgstr "Esine kuvakoko"
 
-#: ../../src/gui/menu_data.cpp:1718
+#: ../../src/gui/menu_data.cpp:1719
 msgid "Auto-Hide Mouse"
 msgstr "Piilota hiiri autom."
 
-#: ../../src/gui/menu_data.cpp:2012
+#: ../../src/gui/menu_data.cpp:2013
 msgid "Up"
 msgstr "Ylös"
 
-#: ../../src/gui/menu_data.cpp:2013
+#: ../../src/gui/menu_data.cpp:2014
 msgid "Down"
 msgstr "Alas"
 
-#: ../../src/gui/menu_data.cpp:2014
+#: ../../src/gui/menu_data.cpp:2015
 msgid "Left"
 msgstr "Vasen"
 
-#: ../../src/gui/menu_data.cpp:2015
+#: ../../src/gui/menu_data.cpp:2016
 msgid "Right"
 msgstr "Oikea"
 
-#: ../../src/gui/menu_data.cpp:2016 ../../src/gui/menu_data.cpp:2032
+#: ../../src/gui/menu_data.cpp:2017 ../../src/gui/menu_data.cpp:2033
 msgid "Jump"
 msgstr "Hyppää"
 
-#: ../../src/gui/menu_data.cpp:2017 ../../src/gui/menu_data.cpp:2033
+#: ../../src/gui/menu_data.cpp:2018 ../../src/gui/menu_data.cpp:2034
 msgid "Shoot"
 msgstr "Ammu"
 
-#: ../../src/gui/menu_data.cpp:2018 ../../src/gui/menu_data.cpp:2035
+#: ../../src/gui/menu_data.cpp:2019 ../../src/gui/menu_data.cpp:2036
 #: ../../src/objects/bonusbox.cpp:424
 msgid "Item"
 msgstr "Esine"
 
-#: ../../src/gui/menu_data.cpp:2019 ../../src/gui/menu_data.cpp:2034
+#: ../../src/gui/menu_data.cpp:2020 ../../src/gui/menu_data.cpp:2035
 msgid "Action"
 msgstr "Toiminta"
 
-#: ../../src/gui/menu_data.cpp:2020
+#: ../../src/gui/menu_data.cpp:2021
 msgid "Screenshot"
 msgstr "Kuvakaappaus"
 
-#: ../../src/gui/menu_data.cpp:2021
+#: ../../src/gui/menu_data.cpp:2022
 msgid "Editor fast copy up"
 msgstr "Muokkain nopea kopio ylös"
 
-#: ../../src/gui/menu_data.cpp:2022
+#: ../../src/gui/menu_data.cpp:2023
 msgid "Editor fast copy down"
 msgstr "Muokkain nopea kopio alas"
 
-#: ../../src/gui/menu_data.cpp:2023
+#: ../../src/gui/menu_data.cpp:2024
 msgid "Editor fast copy left"
 msgstr "Muokkain nopea kopio vas."
 
-#: ../../src/gui/menu_data.cpp:2024
+#: ../../src/gui/menu_data.cpp:2025
 msgid "Editor fast copy right"
 msgstr "Muokkain nopea kopio oik."
 
-#: ../../src/gui/menu_data.cpp:2025
+#: ../../src/gui/menu_data.cpp:2026
 msgid "Editor pixel move up"
 msgstr "Muokkain pikseli siirrä ylös"
 
-#: ../../src/gui/menu_data.cpp:2026
+#: ../../src/gui/menu_data.cpp:2027
 msgid "Editor pixel move down"
 msgstr "Muokkain pikseli siirrä alas"
 
-#: ../../src/gui/menu_data.cpp:2027
+#: ../../src/gui/menu_data.cpp:2028
 msgid "Editor pixel move left"
 msgstr "Muokkain pikseli siirrä vas."
 
-#: ../../src/gui/menu_data.cpp:2028
+#: ../../src/gui/menu_data.cpp:2029
 msgid "Editor pixel move right"
 msgstr "Muokkain pikseli siirrä oik."
 
-#: ../../src/gui/menu_data.cpp:2036
+#: ../../src/gui/menu_data.cpp:2037
 msgid "Exit"
 msgstr "Poistu"
 
-#: ../../src/gui/menu_data.cpp:2093
+#: ../../src/gui/menu_data.cpp:2094
 msgid "Press a key"
 msgstr "Paina näppäintä"
 
-#: ../../src/gui/menu_data.cpp:2096
+#: ../../src/gui/menu_data.cpp:2097
 msgid "Press a button"
 msgstr "Paina painiketta"
 
-#: ../../src/gui/menu_data.cpp:2099
+#: ../../src/gui/menu_data.cpp:2100
 msgid " for "
 msgstr " tehdäksesi "
 
-#: ../../src/gui/menu_data.cpp:2099
+#: ../../src/gui/menu_data.cpp:2100
 msgid ". Press ESC to cancel."
 msgstr ". Paina ESC peruuttaaksesi."
 
-#: ../../src/gui/menu_data.cpp:2402
+#: ../../src/gui/menu_data.cpp:2403
 msgid "Reinitialization"
 msgstr "Uudelleenkäyttöönotto"
 
-#: ../../src/gui/menu_data.cpp:2447
+#: ../../src/gui/menu_data.cpp:2448
 msgid "Reloading"
 msgstr "Uudelleenladataan"
 
-#: ../../src/gui/menu_data.cpp:2474
+#: ../../src/gui/menu_data.cpp:2475
 msgid ""
 "Music addon not detected.\n"
 "You can download it from the Website."
@@ -1216,11 +1221,11 @@ msgstr ""
 "Musiikki lisäosaa ei tunnistettu.\n"
 "Voit imuroida sen nettisivultamme."
 
-#: ../../src/gui/menu_data.cpp:2610
+#: ../../src/gui/menu_data.cpp:2611
 msgid "Enabled : "
 msgstr "Käytössä : "
 
-#: ../../src/gui/menu_data.cpp:2973
+#: ../../src/gui/menu_data.cpp:2988
 msgid ""
 "3000 Points needed for saving in a level.\n"
 "Saving on the Overworld is free."
@@ -1228,13 +1233,17 @@ msgstr ""
 "3000 Pistettä tarvitaan tason tallentamiseen.\n"
 "Tallentaminen Ylimaailmassa on ilmaista."
 
-#: ../../src/gui/menu_data.cpp:2990
+#: ../../src/gui/menu_data.cpp:3005
 msgid "No Description"
 msgstr "Ei kuvausta"
 
-#: ../../src/gui/menu_data.cpp:2994
+#: ../../src/gui/menu_data.cpp:3009
 msgid "Enter Description"
 msgstr "Kirjoita kuvaus"
+
+#: ../../src/gui/menu_data.cpp:3025 ../../src/gui/menu_data.cpp:3030
+msgid "Savegame loading failed"
+msgstr "Tallennetun pelin lataus epäonnistui"
 
 #: ../../src/input/mouse.cpp:1094
 msgid "Snap to object mode enabled"
@@ -1844,21 +1853,27 @@ msgstr "Oletus pääsy"
 msgid "Enable if the Waypoint should be always accessible."
 msgstr "Ota käyttöön jos reittipiste pitäisi olla aina saatavilla."
 
-#: ../../src/user/savegame.cpp:585
+#: ../../src/user/savegame.cpp:586
 msgid "Savegame "
 msgstr "Pelitallennus "
 
-#: ../../src/user/savegame.cpp:585
+#: ../../src/user/savegame.cpp:586
 msgid " loaded"
 msgstr " ladattu"
 
-#: ../../src/user/savegame.cpp:755
+#: ../../src/user/savegame.cpp:756
 msgid "Couldn't save savegame "
 msgstr "Pelin tallennus epäonnistui "
 
-#: ../../src/user/savegame.cpp:759
+#: ../../src/user/savegame.cpp:760
 msgid "Saved to Slot "
-msgstr "Tallennettu korttipaikkaan "
+msgstr "Tallennettu tallennuspaikkaan "
+
+#. TRANS: %u is replaced by the number of the save slot, starting with 1.
+#: ../../src/user/savegame.cpp:795
+#, c-format
+msgid "%u. Free Save"
+msgstr "%u. Vapaa tallennuspaikka"
 
 #: ../../src/user/savegame.cpp:817
 msgid " -  Level "
@@ -2144,6 +2159,3 @@ msgstr "Tätä ohjelmaa levitetään GPLv3 ehtojen mukaisesti"
 
 #~ msgid "Preferences Loading failed : "
 #~ msgstr "Asetusten lataaminen epäonnistui : "
-
-#~ msgid "Savegame Loading failed : "
-#~ msgstr "Tallennetun pelin lataus epäonnistui :"
