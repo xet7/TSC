@@ -789,8 +789,11 @@ std::string cSavegame::Get_Description(unsigned int save_slot, bool only_descrip
     std::string str_description;
 
     if (!Is_Valid(save_slot)) {
-        str_description = int_to_string(save_slot) + ". Free Save";
-        return str_description;
+        char str[255];
+
+        // TRANS: %u is replaced by the number of the save slot, starting with 1.
+        int count = sprintf(str, _("%u. Free Save"), save_slot);
+        return std::string(str, count);
     }
 
     // Raises exceptions if fails; caller must take care of them.

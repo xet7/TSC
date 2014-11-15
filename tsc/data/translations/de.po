@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-15 10:42+0100\n"
-"PO-Revision-Date: 2014-11-15 10:55+0100\n"
+"POT-Creation-Date: 2014-11-15 11:04+0100\n"
+"PO-Revision-Date: 2014-11-15 11:05+0100\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: SMC German translation team\n"
 "Language: de\n"
@@ -94,9 +94,14 @@ msgstr "Ladevorgang"
 msgid "Editor enabled"
 msgstr "Editor aktiviert"
 
+#. TRANS: Title of the help window
+#: ../../src/core/editor/editor.cpp:574
+msgid "Editor Help"
+msgstr "Hilfe zum Editor"
+
 #. TRANS: This is the help window in the editor. Do not translate
 #. TRANS: the color codes in the string.
-#: ../../src/core/editor/editor.cpp:585
+#: ../../src/core/editor/editor.cpp:586
 msgid ""
 " \n"
 "----- [colour='FFFFCF5F']General[colour='FFFFFFFF'] -----\n"
@@ -176,7 +181,8 @@ msgstr ""
 "   [colour='FFFF2F0F']Massiv[colour='FFFFFFFF']-\n"
 ">[colour='FFFFAF2F']Halbmassiv[colour='FFFFFFFF']-\n"
 ">[colour='FFDF00FF']Bekletterbar[colour='FFFFFFFF']-\n"
-">[colour='FF1FFF1F']Passiv[colour='FFFFFFFF']->[colour='FF1FFF1F']Frontpassiv[colour='FFFFFFFF']\n"
+">[colour='FF1FFF1F']Passiv[colour='FFFFFFFF']-"
+">[colour='FF1FFF1F']Frontpassiv[colour='FFFFFFFF']\n"
 "O - Einrastmodus umschalten\n"
 "Strg + A - Alle objekte auswählen\n"
 "Strg + X - Ausgewählte Objekte ausschneiden\n"
@@ -199,7 +205,7 @@ msgstr ""
 " Pfeiltasten zum Bewegen der Kamera. Umschalt für schnellere Bewegung.\n"
 " \n"
 
-#: ../../src/core/editor/editor.cpp:1401
+#: ../../src/core/editor/editor.cpp:1402
 #, c-format
 msgid "Change selected sprite's image"
 msgid_plural "Change selected %d sprites' images"
@@ -1870,15 +1876,21 @@ msgstr "Konnte Spielstand nicht speichern "
 msgid "Saved to Slot "
 msgstr "Gespeichert in Slot "
 
-#: ../../src/user/savegame.cpp:814
+#. TRANS: %u is replaced by the number of the save slot, starting with 1.
+#: ../../src/user/savegame.cpp:795
+#, c-format
+msgid "%u. Free Save"
+msgstr "%u. Freier Speicherplatz"
+
+#: ../../src/user/savegame.cpp:817
 msgid " -  Level "
 msgstr " -  Level "
 
-#: ../../src/user/savegame.cpp:821
+#: ../../src/user/savegame.cpp:824
 msgid " -  Unknown"
 msgstr " - Unbekannt"
 
-#: ../../src/user/savegame.cpp:825
+#: ../../src/user/savegame.cpp:828
 msgid " - Date "
 msgstr " - Datum "
 
