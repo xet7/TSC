@@ -1871,7 +1871,7 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
             image = pVideo->Get_Package_Surface("game/items/mushroom_red.png");
         }
         else if (pActive_Camera->m_x < 5000) {
-            image = pVideo->Get_Package_Surface("game/items/fireplant.png");
+            image = pVideo->Get_Package_Surface("game/items/fireberry_1.png");
         }
         else if (pActive_Camera->m_x < 10000) {
             image = pVideo->Get_Package_Surface("game/items/mushroom_green.png");

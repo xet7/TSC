@@ -25,6 +25,7 @@
 #include "../input/joystick.hpp"
 #include "../input/mouse.hpp"
 #include "../core/framerate.hpp"
+#include "../core/errors.hpp"
 #include "../user/savegame.hpp"
 #include "../video/renderer.hpp"
 #include "../level/level.hpp"
@@ -446,6 +447,41 @@ void cMenu_Start::Init_GUI(void)
     button_back->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&cMenu_Start::Button_Back_Clicked, this));
 
     Update_Lists();
+
+    // ### I18n ###
+    // buttons
+    button_new->setText(UTF8_("New"));
+    button_edit->setText(UTF8_("Edit"));
+    button_delete->setText(UTF8_("Delete"));
+    button_enter->setText(UTF8_("Enter"));
+    button_back->setText(UTF8_("Back"));
+
+    // several texts
+    CEGUI::Window* text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_level_select"));
+    text->setText(UTF8_("Select Level"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_campaign_select"));
+    text->setText(UTF8_("Select Campaign"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_world_select"));
+    text->setText(UTF8_("Select Overworld"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_campaign_description"));
+    text->setText(UTF8_("Description"));
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_world_description"));
+    text->setText(UTF8_("Description"));
+
+    text = static_cast<CEGUI::Window*>(CEGUI::WindowManager::getSingleton().getWindow("text_level_info"));
+    // TRANS: The colour names refer to the colours the level names can
+    // TRANS: be in. "Game" means the level is shipped by the game,
+    // TRANS: "user" means the level has been created by the user.
+    // TRANS: If the user edited a system level, it gets copied to his
+    // TRANS: personal level directory and is coloured mixedly to indicate
+    // TRANS: that. "Deprecated" are levels from very old versions
+    // TRANS: of the game.
+    text->setText(UTF8_("- Level Colors -\n"
+                      "\n"
+                      "Orange: Game\n"
+                      "Green: User\n"
+                      "Grey: Deprecated\n"
+                      "Mixed: See the colors"));
 
     // Set focus
     listbox_worlds->activate();
@@ -2981,11 +3017,25 @@ void cMenu_Savegames::Update_Load(void)
         return;
     }
 
-    pAudio->Play_Sound("savegame_load.ogg");
     // reset before loading the level to keep the level in the manager
     pLevel_Player->Reset_Save();
 
-    cSave* savegame = pSavegame->Load(save_num);
+    cSave* savegame = NULL;
+    try {
+        savegame = pSavegame->Load(save_num);
+    }
+    catch(xmlpp::parse_error& err) {
+        pAudio->Play_Sound("error.ogg");
+        std::cerr << "Error: Failed to load savegame '" << save_num << "' (parsing error). xmlpp parsing exception: " << err.what() << std::endl;
+        return;
+    }
+    catch(InvalidSavegameError& err) {
+        pAudio->Play_Sound("error.ogg");
+        std::cerr << "Error: Failed to load savegame '" << save_num << "' (invalid savegame). TSC exception: " << err.what() << std::endl;
+        return;
+    }
+
+    pAudio->Play_Sound("savegame_load.ogg");
     std::string level_name = savegame->Get_Active_Level();
     delete savegame;
 
@@ -3091,7 +3141,23 @@ void cMenu_Savegames::Update_Saved_Games_Text(void)
 
     for (HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr) {
         save_slot++;
-        (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal, pSavegame->Get_Description(save_slot), m_text_color_value), 1, 1);
+
+        std::string text;
+        try {
+            text = pSavegame->Get_Description(save_slot);
+        }
+        catch(xmlpp::parse_error& err) {
+            std::cerr << "Error: Failed to load savegame '" << save_slot << "' (parsing error). xmlpp parsing exception: " << err.what() << std::endl;
+            (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
+            continue;
+        }
+        catch(InvalidSavegameError& err) {
+            std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid savegame). TSC exception: " << err.what() << std::endl;
+            (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
+            continue;
+        }
+
+        (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, m_text_color_value), true, true);
     }
 }
 
@@ -3231,14 +3297,22 @@ void cMenu_Credits::Exit(void)
 
 void cMenu_Credits::Update(void)
 {
+    static int s_credits_done = 0;
     cMenu_Base::Update();
 
     for (HudSpriteList::iterator itr = m_draw_list.begin(); itr != m_draw_list.end(); ++itr) {
         cHudSprite* obj = (*itr);
 
-        // long inactive reset
-        if (obj->m_pos_y < -2700) {
-            obj->Set_Pos_Y(static_cast<float>(game_res_h) * 1.1f);
+        // When the respective line is long out of sight, remove it from the
+        // list of lines to draw.
+        if (obj->m_pos_y < -300) {
+            if (obj->m_active) {
+                obj->Set_Active(false); // FIXME: Does nothing it appears?
+                s_credits_done++;
+            }
+            // FIXME: Lines just scroll into negative infinity? Overflow
+            // shouldn’t happen, though, as the credits are automatically
+            // ended anyway.
         }
         // fading out
         else if (obj->m_pos_y < game_res_h * 0.3f) {
@@ -3313,11 +3387,15 @@ void cMenu_Credits::Update(void)
         obj->Move(0, -1.1f);
     }
 
+    if (s_credits_done >= m_draw_list.size()) {
+        Exit();
+    }
+
     if (!m_action) {
         return;
     }
 
-    m_action = 0;
+    m_action = false;
 
     // back
     if (pMenuCore->m_handler->m_active == 0) {

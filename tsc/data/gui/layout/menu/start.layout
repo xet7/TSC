@@ -62,7 +62,6 @@
                     <Property Name="UnifiedAreaRect" Value="{{0.53,0},{0.21,0},{0.98,0},{0.6,0}}" />
                 </Window>
                 <Window Type="TaharezLook/StaticText" Name="text_campaign_description" >
-                    <Property Name="Text" Value="Description" />
                     <Property Name="Tooltip" Value="Campaign Description" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
@@ -96,7 +95,6 @@
                     <Property Name="UnifiedAreaRect" Value="{{0.53,0},{0.21,0},{0.98,0},{0.6,0}}" />
                 </Window>
                 <Window Type="TaharezLook/StaticText" Name="text_world_description" >
-                    <Property Name="Text" Value="Description" />
                     <Property Name="Tooltip" Value="World Description" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
@@ -132,12 +130,6 @@
                     <Property Name="BackgroundEnabled" Value="False" />
                 </Window>
                 <Window Type="TaharezLook/StaticText" Name="text_level_info" >
-                    <Property Name="Text" >- Level Colors -
-
-Orange : Game
-Green   : User
-Grey     : Deprecated
-Mixed   : See the colors</Property>
                     <Property Name="TextColours" Value="tl:FFF8BF26 tr:FFF8BF26 bl:FFF8BF26 br:FFF8BF26" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                     <Property Name="VertFormatting" Value="TopAligned" />

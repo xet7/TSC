@@ -23,6 +23,6 @@
 // etc. If this is unset, TSC determines the data directory
 // dynamically by looking for a directory ../share/tsc,
 // relative to the `tsc' executable.
-#cmakedefine FIXED_DATA_DIR @FIXED_DATA_DIR@
+#cmakedefine FIXED_DATA_DIR "@FIXED_DATA_DIR@"
 
 #endif

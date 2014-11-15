@@ -827,7 +827,7 @@ void cItemBox::Set_Item(SpriteType item_type, bool sound /* = 1 */)
     }
     else if (item_type == TYPE_FIREPLANT) {
         m_box_color = Color(static_cast<Uint8>(250), 200, 150);
-        m_item->Set_Image(pVideo->Get_Package_Surface("game/items/fireplant.png"));
+        m_item->Set_Image(pVideo->Get_Package_Surface("game/items/fireberry_1.png"));
     }
     else if (item_type == TYPE_MUSHROOM_BLUE) {
         m_box_color = Color(static_cast<Uint8>(100), 100, 250);
