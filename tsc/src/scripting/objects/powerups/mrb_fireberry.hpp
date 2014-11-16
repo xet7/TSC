@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_fireplant.hpp
+ * mrb_fireberry.hpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,13 +12,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TSC_SCRIPTING_FIREPLANT_HPP
-#define TSC_SCRIPTING_FIREPLANT_HPP
+#ifndef TSC_SCRIPTING_FIREBERRY_HPP
+#define TSC_SCRIPTING_FIREBERRY_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {
     namespace Scripting {
-        void Init_Fireplant(mrb_state* p_state);
+        void Init_Fireberry(mrb_state* p_state);
     }
 }
 #endif

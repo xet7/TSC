@@ -51,7 +51,7 @@
 #include "objects/enemies/mrb_larry.hpp"
 #include "objects/powerups/mrb_powerup.hpp"
 #include "objects/powerups/mrb_mushroom.hpp"
-#include "objects/powerups/mrb_fireplant.hpp"
+#include "objects/powerups/mrb_fireberry.hpp"
 #include "objects/powerups/mrb_moon.hpp"
 #include "objects/powerups/mrb_star.hpp"
 #include "objects/boxes/mrb_box.hpp"
@@ -264,7 +264,7 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Larry(mp_mruby);
     Init_Powerup(mp_mruby);
     Init_Mushroom(mp_mruby);
-    Init_Fireplant(mp_mruby);
+    Init_Fireberry(mp_mruby);
     Init_Moon(mp_mruby);
     Init_Star(mp_mruby);
     Init_Box(mp_mruby);
