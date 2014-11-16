@@ -59,6 +59,37 @@ header:
 */
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**Never change existing copyright notices**, except it is assigned to
+“The TSC Contributors” and you only want to update the date to the
+current one. For example if you have a line
+
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Copyright © 2014 The TSC Contributors
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+and you have changed the file in 2015, you can change it like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+Copyright © 2014-2015 The TSC Contributors
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If later in 2016 you work again on the file, you can change it like
+this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+Copyright © 2014-2016 The TSC Contributors
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If nobody worked on the file in 2015, but only in 2014 and 2016, the
+notice has to look like this (note the comma!):
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+Copyright © 2014,2016 The TSC Contributors
+~~~~~~~~~~~~~~~~~~~~~~~
+
+In any case, do never-ever change notices that are not assigned to
+“The TSC Contributors”.
+
 If you contribute to TSC the first time, don’t forget to include
 yourself into `docs/authors.txt` so you show up in the credits!
 
