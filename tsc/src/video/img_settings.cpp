@@ -495,6 +495,9 @@ bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned in
 
         m_settings_temp->m_author = parts[1];
     }
+    else if (parts[0].compare("license") == 0) {
+        // Ignore, this is only for human information
+    }
     else if (parts[0].compare("obsolete") == 0) {
         if (count != 2) {
             printf("%s : line %d Error :\n", path_to_utf8(Trim_Filename(data_file, 0, 0)).c_str(), line);
