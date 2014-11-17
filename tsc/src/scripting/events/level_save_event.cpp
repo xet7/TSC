@@ -35,8 +35,8 @@ std::string cLevel_Save_Event::Event_Name()
 }
 
 // TODO: Would be better if m_storage_hash and p_mruby weren’t separated.
-// See event.hpp for the suggestion to move the passingo f cMRuby_Interpreter
-// to the event constructor instead to guarantee only oa single mruby interpreter is
+// See event.hpp for the suggestion to move the passing of cMRuby_Interpreter
+// to the event constructor instead to guarantee only one single mruby interpreter is
 // involved.
 void cLevel_Save_Event::Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback)
 {
