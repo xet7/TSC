@@ -92,7 +92,7 @@ namespace TSC {
             // Returns the cLevel* we’re associated with.
             cLevel* Get_Level();
             // Ensure an object doesn't get GC'ed.
-            unsigned int Protect_From_GC(mrb_value obj);
+            mrb_int Protect_From_GC(mrb_value obj);
             // Release the protection for an object created with Protect_From_GC().
             void Unprotect_From_GC(mrb_int index);
 

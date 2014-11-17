@@ -253,12 +253,12 @@ mrb_int cMRuby_Interpreter::Protect_From_GC(mrb_value obj)
  * to release the object so that the Garbage Collector can
  * free the object.
  */
-cMRuby_Interpreter::Unprotect_From_GC(mrb_int index)
+void cMRuby_Interpreter::Unprotect_From_GC(mrb_int index)
 {
     mrb_value mod_tsc = mrb_const_get(mp_mruby, mrb_obj_value(mp_mruby->object_class), mrb_intern_cstr(mp_mruby, "TSC"));
     mrb_value hsh     = mrb_iv_get(mp_mruby, mod_tsc, mrb_intern_cstr(mp_mruby, "gc_protector"));
 
-    mrb_hash_delete_key(hsh, hsh, mrb_fixnum_value(index));
+    mrb_hash_delete_key(mp_mruby, hsh, mrb_fixnum_value(index));
 }
 
 void cMRuby_Interpreter::Load_Wrappers()

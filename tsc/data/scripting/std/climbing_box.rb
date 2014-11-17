@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 TSC.require "std/enable"
 
 module Std
@@ -11,6 +12,10 @@ module Std
   # This will create a climbing plant with 4 middle sprites (and a top
   # sprite) and attaches it to the box with UID 14. When that one gets
   # activated, the climbing plant will come out of it.
+  #
+  # Once you called #attach, Climbing boxes automatically save its
+  # state to a savegame, so you don’t have to do that manually by
+  # hooking into the level save and load events.
   class ClimbingBox
 
     # All the plant sprites.
@@ -67,15 +72,15 @@ module Std
 
     # Attach the climbing plant to its box.
     def attach
-      @spritelist = @sprites.dup # We will empty this array on showing the plant
+      spritelist = @sprites.dup # We will empty this array on showing the plant
       @timer = nil
       @box.on_activate do
         Audio.play_sound("stomp_4.ogg")
 
         @timer = Timer.every(250) do
-          @spritelist.shift.enable
+          spritelist.shift.enable
 
-          @timer.stop! if @spritelist.empty?
+          @timer.stop! if spritelist.empty?
         end
       end
 
