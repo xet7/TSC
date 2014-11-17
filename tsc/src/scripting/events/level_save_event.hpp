@@ -21,12 +21,12 @@ namespace TSC {
     namespace Scripting {
         class cLevel_Save_Event: public cEvent {
         public:
+            cLevel_Save_Event(mrb_value storage_hash);
             virtual std::string Event_Name();
-            std::string Get_Save_Data();
         protected:
             virtual void Run_MRuby_Callback(cMRuby_Interpreter* p_mruby, mrb_value callback);
         private:
-            std::string m_save_data;
+            mrb_value m_storage_hash;
         };
     }
 }

@@ -36,6 +36,7 @@ module Std
       opts[:middle_graphic] ||= "ground/green_1/kplant.png"
       opts[:top_graphic]    ||= "ground/green_1/kplant_head.png"
 
+      @activated = false
       @box = box.kind_of?(Integer) ? UIDS[box] : box
       @sprites = []
 
@@ -77,16 +78,35 @@ module Std
           @timer.stop! if @spritelist.empty?
         end
       end
+
+      # Automatic saving and loading.
+      Level.on_save do |store|
+        store["_ssl"] ||= {}
+        store["_ssl"]["climbingboxes"] ||= {}
+        store["_ssl"]["climbingboxes"][@box.uid] = @activated
+      end
+
+      Level.on_load do |store|
+        if store["_ssl"] && store["_ssl"]["climbingboxes"] && store["_ssl"]["climbingboxes"][@box.uid]
+          @sprites.each{|sprite| sprite.enable}
+        end
+      end
+    end
+
+    def activated?
+      @activated
     end
 
     # Immediately show the entire climbing plant.
     def show_plant
       @sprites.each{|sprite| sprite.enable}
+      @activated = true
     end
 
     # Immediately hide the entire climbing plant.
     def hide_plant
       @sprites.each{|sprite| sprite.disable}
+      @activated = false
     end
 
   end

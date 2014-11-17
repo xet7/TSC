@@ -44,6 +44,9 @@
 
 namespace TSC {
     namespace Scripting {
+        // TODO: Pass the cMruby_Interpreter instance to the constructor!
+        // There are cases where the event itself needs the interpreter,
+        // see for example level_save_event!
         class cEvent {
         public:
             void Fire(cMRuby_Interpreter* p_mruby, Scripting::cScriptable_Object* p_obj);
