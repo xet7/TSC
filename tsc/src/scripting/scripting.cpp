@@ -226,6 +226,41 @@ void cMRuby_Interpreter::Evaluate_Timer_Callbacks()
     m_callbacks.clear();
 }
 
+/**
+ * Adds `obj' to an internal array that is referenced from
+ * the existing TSC mruby module so that the object is
+ * considered referenced by the mruby intepreter and does
+ * not get garbage-collected. Always protect an object that
+ * has been created internally and has no references to it
+ * with this method before you use it in function calls.
+ *
+ * Returns the index at which the object was stored.
+ */
+mrb_int cMRuby_Interpreter::Protect_From_GC(mrb_value obj)
+{
+    mrb_value mod_tsc = mrb_const_get(mp_mruby, mrb_obj_value(mp_mruby->object_class), mrb_intern_cstr(mp_mruby, "TSC"));
+    mrb_value hsh     = mrb_iv_get(mp_mruby, mod_tsc, mrb_intern_cstr(mp_mruby, "gc_protector"));
+    mrb_int   oid     = mrb_obj_id(obj);
+
+    // TODO: Is the object ID request really secure from GC?
+    mrb_hash_set(mp_mruby, hsh, mrb_fixnum_value(oid), obj);
+    return oid;
+}
+
+/**
+ * Counterpart to Protect_From_GC(). Pass the return value
+ * you received from that method to this method in order
+ * to release the object so that the Garbage Collector can
+ * free the object.
+ */
+cMRuby_Interpreter::Unprotect_From_GC(mrb_int index)
+{
+    mrb_value mod_tsc = mrb_const_get(mp_mruby, mrb_obj_value(mp_mruby->object_class), mrb_intern_cstr(mp_mruby, "TSC"));
+    mrb_value hsh     = mrb_iv_get(mp_mruby, mod_tsc, mrb_intern_cstr(mp_mruby, "gc_protector"));
+
+    mrb_hash_delete_key(hsh, hsh, mrb_fixnum_value(index));
+}
+
 void cMRuby_Interpreter::Load_Wrappers()
 {
     using namespace TSC::Scripting;
@@ -233,6 +268,12 @@ void cMRuby_Interpreter::Load_Wrappers()
     // Create the main TSC modules
     Init_TSC(mp_mruby);
     Init_Eventable(mp_mruby);
+
+    // Create a variable that can be used specifically for
+    // referencing internal mruby objects so they don’t
+    // get collected by mruby’s Garbage Collector (GC)
+    mrb_value mod_tsc = mrb_const_get(mp_mruby, mrb_obj_value(mp_mruby->object_class), mrb_intern_cstr(mp_mruby, "TSC"));
+    mrb_iv_set(mp_mruby, mod_tsc, mrb_intern_cstr(mp_mruby, "gc_protector"), mrb_hash_new(mp_mruby));
 
     // When changing the order, ensure parent mruby classes get defined
     // prior to their mruby subclasses!

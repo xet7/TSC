@@ -642,10 +642,9 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
                 // Custom data a script writer wants to store in the
                 // savegame (pSavegame holds the event table for the
                 // level saving events).
-                // FIXME: storage_hash is endangered by mruby GC, because not
-                // referenced from another object. It may disappear any time
-                // causing segfaults. Resolve this by using a global mruby table for that.
                 mrb_value storage_hash = mrb_hash_new(pActive_Level->m_mruby);
+                mrb_int key = pActive_Level->m_mruby->Protect_From_GC(storage_hash);
+
                 Scripting::cLevel_Save_Event evt(storage_hash);
                 evt.Fire(pActive_Level->m_mruby, pSavegame);
 
@@ -653,6 +652,8 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
                 mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern_cstr(p_state, "JSON"));
                 mrb_value result = mrb_funcall(pActive_Level->m_mruby, mod_json, "stringify", 1, storage_hash);
                 save_level->m_mruby_data = std::string(mrb_string_value_ptr(pActive_Level->result));
+
+                pActive_Level->m_mruby->Unprotect_From_GC(key); // GC can collect it now
             }
 
             // spawned objects
