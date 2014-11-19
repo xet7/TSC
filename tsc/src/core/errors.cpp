@@ -91,6 +91,12 @@ InvalidLevelError::~InvalidLevelError() throw()
     //
 }
 
+const char* InvalidLevelError::what() const throw()
+{
+    return m_tsc_errmsg.c_str();
+}
+
+
 InvalidSavegameError::InvalidSavegameError(unsigned int slot, std::string message)
     : TSCError(message)
 {

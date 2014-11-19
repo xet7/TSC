@@ -67,6 +67,7 @@ namespace TSC {
     public:
         InvalidLevelError(std::string message);
         virtual ~InvalidLevelError() throw();
+        virtual const char* what() const throw();
     };
 
     class InvalidSavegameError: public TSCError {
