@@ -28,7 +28,7 @@ include(ExternalProject)
 set(TSC_VERSION_MAJOR 2)
 set(TSC_VERSION_MINOR 0)
 set(TSC_VERSION_PATCH 0)
-set(TSC_VERSION_POSTFIX "beta5+")
+set(TSC_VERSION_POSTFIX "beta6")
 
 ###############################################
 # Flags & Options
