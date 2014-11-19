@@ -13,12 +13,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/***************************************************************************
- * boost_relative.h
- *
- * Taken from http://stackoverflow.com/questions/10167382/boostfilesystem-get-relative-path
- ***************************************************************************/
-
 /*
  * This file adds a function make_relative() to boost::filesystem that
  * allows us to create a relative path from a given “root”, i.e. the
@@ -32,12 +26,8 @@
 namespace boost {
 
     namespace filesystem {
-
-        template < >
-        path& path::append< typename path::iterator >(typename path::iterator begin, typename path::iterator end, const codecvt_type& cvt);
-
-        // Return path when appended to a_From will resolve to same as a_To
-        boost::filesystem::path relative(boost::filesystem::path a_From, boost::filesystem::path a_To);
+        /// Find the relative path from start_path to target_path.
+        boost::filesystem::path relative(boost::filesystem::path start_path, boost::filesystem::path target_path);
     }
 }
 #endif
