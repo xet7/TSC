@@ -43,7 +43,7 @@ using namespace TSC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-    cJGoldpiece* p_fgp = new cJGoldpiece(pActive_Level->m_sprite_manager);
+    cFGoldpiece* p_fgp = new cFGoldpiece(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_fgp;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
