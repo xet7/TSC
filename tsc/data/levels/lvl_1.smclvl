@@ -3,7 +3,7 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1416219984"/>
+    <property name="save_time" value="1416847946"/>
   </information>
   <settings>
     <property name="lvl_author" value=""/>
@@ -9910,7 +9910,7 @@
   </box>
   <box>
     <property name="posx" value="9452"/>
-    <property name="posy" value="-253"/>
+    <property name="posy" value="-254"/>
     <property name="uid" value="1431"/>
     <property name="image" value="game/box/yellow/default.png"/>
     <property name="type" value="bonus"/>
@@ -10132,8 +10132,8 @@
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="9331"/>
-    <property name="posy" value="-565"/>
+    <property name="posx" value="9315"/>
+    <property name="posy" value="-561"/>
     <property name="uid" value="1463"/>
     <property name="image" value="ground/jungle_1/tree/1_front.png"/>
     <property name="type" value="front_passive"/>
@@ -15042,7 +15042,7 @@
     <property name="posx" value="3455"/>
     <property name="posy" value="-384"/>
     <property name="uid" value="2132"/>
-    <property name="image" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -15061,7 +15061,7 @@
     <property name="posx" value="4440"/>
     <property name="posy" value="-507"/>
     <property name="uid" value="2138"/>
-    <property name="image" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
