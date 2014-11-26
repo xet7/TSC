@@ -111,12 +111,13 @@ cMenuHandler::cMenuHandler(void)
     Reset();
 
     // TSC logo image
-    //cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
-    //sprite->Set_Image(pVideo->Get_Surface("game/logo/tsc_big_1.png"));
+    cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
+    sprite->Set_Image(pVideo->Get_Surface("game/logo/logo.png"));
     //sprite->Set_Pos(180.0f, 20.0f);
-    //sprite->Set_Scale(0.8f);
-    //sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
-    //m_level->m_sprite_manager->Add(sprite);
+    sprite->Set_Pos(295.0f, 20.0f);
+    sprite->Set_Scale(0.8f);
+    sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
+    m_level->m_sprite_manager->Add(sprite);
 }
 
 cMenuHandler::~cMenuHandler(void)
