@@ -344,7 +344,7 @@ else()
     ${LibXmlPP_LIBRARIES}
     ${PNG_LIBRARIES}
     ${FREETYPE_LIBRARIES}
-    dl
+    ${CMAKE_DL_LIBS}
     )
 endif()
 
