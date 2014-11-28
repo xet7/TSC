@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <level>
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1408951457"/>
+    <property name="save_time" value="1416986862"/>
   </information>
   <settings>
     <property name="lvl_author" value="datahead"/>
@@ -6342,7 +6342,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_1"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -7573,7 +7572,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_1_return"/>
     <property name="direction" value="right"/>
   </levelexit>
@@ -8155,7 +8153,7 @@
     <property name="posx" value="6205"/>
     <property name="posy" value="-176"/>
     <property name="uid" value="1110"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8166,15 +8164,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6425"/>
     <property name="posy" value="-232"/>
     <property name="uid" value="1111"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8185,15 +8183,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6685"/>
     <property name="posy" value="-58"/>
     <property name="uid" value="1112"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8204,15 +8202,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6206"/>
     <property name="posy" value="-592"/>
     <property name="uid" value="1113"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8223,15 +8221,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6429"/>
     <property name="posy" value="-497"/>
     <property name="uid" value="1114"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8242,15 +8240,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6215"/>
     <property name="posy" value="-898"/>
     <property name="uid" value="1115"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8261,15 +8259,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6482"/>
     <property name="posy" value="-1020"/>
     <property name="uid" value="1116"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8280,15 +8278,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="4"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6309"/>
     <property name="posy" value="-1193"/>
     <property name="uid" value="1117"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8299,15 +8297,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6177"/>
     <property name="posy" value="-1380"/>
     <property name="uid" value="1118"/>
-    <property name="image" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8318,15 +8316,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="2"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="6052"/>
     <property name="posy" value="-1512"/>
     <property name="uid" value="1119"/>
-    <property name="image" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -8337,9 +8335,9 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="1"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <box>
     <property name="posx" value="5927"/>
@@ -9973,7 +9971,7 @@
     <property name="posx" value="9689"/>
     <property name="posy" value="-302"/>
     <property name="uid" value="1339"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
@@ -9984,15 +9982,15 @@
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="10108"/>
     <property name="posy" value="-303"/>
     <property name="uid" value="1340"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
@@ -10003,15 +10001,15 @@
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="10313"/>
     <property name="posy" value="-401"/>
     <property name="uid" value="1341"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -10022,9 +10020,9 @@
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <sprite>
     <property name="posx" value="10489"/>
@@ -10911,7 +10909,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="Back_1"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -11247,7 +11244,7 @@
     <property name="posx" value="11184"/>
     <property name="posy" value="-1036"/>
     <property name="uid" value="1512"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -11258,9 +11255,9 @@
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <sprite>
     <property name="posx" value="11866"/>
@@ -15199,7 +15196,7 @@
     <property name="posx" value="11665"/>
     <property name="posy" value="-1423"/>
     <property name="uid" value="2067"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -15210,15 +15207,15 @@
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="11665"/>
     <property name="posy" value="-1192"/>
     <property name="uid" value="2068"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
@@ -15229,9 +15226,9 @@
     <property name="shake_time" value="16.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <sprite>
     <property name="posx" value="11087"/>
@@ -17283,7 +17280,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_1"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -23209,7 +23205,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_2"/>
     <property name="direction" value="right"/>
   </levelexit>
@@ -24405,7 +24400,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_2_return"/>
     <property name="direction" value="right"/>
   </levelexit>
@@ -25646,7 +25640,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_3"/>
     <property name="direction" value="up"/>
   </levelexit>
@@ -25864,7 +25857,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_3_return"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -26176,7 +26168,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="bonus_3_return"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -26307,7 +26298,7 @@
     <property name="posx" value="14807"/>
     <property name="posy" value="-68"/>
     <property name="uid" value="3586"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -26318,15 +26309,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="15008"/>
     <property name="posy" value="-40"/>
     <property name="uid" value="3587"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -26337,15 +26328,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="15201"/>
     <property name="posy" value="-68"/>
     <property name="uid" value="3588"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -26356,9 +26347,9 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <sprite>
     <property name="posx" value="15427"/>
@@ -26392,7 +26383,7 @@
     <property name="posx" value="15605"/>
     <property name="posy" value="-40"/>
     <property name="uid" value="3593"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -26403,15 +26394,15 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <moving_platform>
     <property name="posx" value="15788"/>
     <property name="posy" value="-68"/>
     <property name="uid" value="3594"/>
-    <property name="image" value="ground/green_1/slider/1/brown/right.png"/>
+    <property name="image" value="ground/green_1/slider/1/brown/middle.png"/>
     <property name="type" value="0"/>
     <property name="massive_type" value="halfmassive"/>
     <property name="move_type" value="0"/>
@@ -26422,9 +26413,9 @@
     <property name="shake_time" value="12.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="3"/>
-    <property name="image_top_left" value="ground\green_1\slider\1\brown\left.png"/>
-    <property name="image_top_middle" value="ground\green_1\slider\1\brown\middle.png"/>
-    <property name="image_top_right" value="ground\green_1\slider\1\brown\right.png"/>
+    <property name="image_top_left" value="ground/green_1/slider/1/brown/left.png"/>
+    <property name="image_top_middle" value="ground/green_1/slider/1/brown/middle.png"/>
+    <property name="image_top_right" value="ground/green_1/slider/1/brown/right.png"/>
   </moving_platform>
   <sprite>
     <property name="posx" value="16002"/>
@@ -30843,7 +30834,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_2"/>
     <property name="direction" value="up"/>
   </levelexit>
@@ -30863,7 +30853,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_3"/>
     <property name="direction" value="up"/>
   </levelexit>
@@ -30883,7 +30872,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_4"/>
     <property name="direction" value="up"/>
   </levelexit>
@@ -31236,7 +31224,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_2b"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -31256,7 +31243,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_3b"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -31285,7 +31271,6 @@
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
-    <property name="level_name" value=""/>
     <property name="entry" value="connect_4b"/>
     <property name="direction" value="down"/>
   </levelexit>
@@ -31409,6 +31394,27 @@
     <property name="image" value="blocks/extra/box.png"/>
     <property name="type" value="crate"/>
   </crate>
+  <sprite>
+    <property name="posx" value="15441"/>
+    <property name="posy" value="-1334"/>
+    <property name="uid" value="2132"/>
+    <property name="image" value="ground/sand_1/ground/middle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="15441"/>
+    <property name="posy" value="-1389"/>
+    <property name="uid" value="4300"/>
+    <property name="image" value="ground/sand_1/ground/middle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="13137"/>
+    <property name="posy" value="-343"/>
+    <property name="uid" value="2131"/>
+    <property name="image" value="ground/green_1/plant_m.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
   <sprite>
     <property name="posx" value="13058"/>
     <property name="posy" value="-71"/>
@@ -31535,21 +31541,8 @@
     <property name="image" value="game/box/brown1_1.png"/>
     <property name="type" value="passive"/>
   </sprite>
-  <sprite>
-    <property name="posx" value="15441"/>
-    <property name="posy" value="-1334"/>
-    <property name="uid" value="2132"/>
-    <property name="image" value="ground/sand_1/ground/middle.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
-    <property name="posx" value="15441"/>
-    <property name="posy" value="-1389"/>
-    <property name="uid" value="4300"/>
-    <property name="image" value="ground/sand_1/ground/middle.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
   <script>bridgeSwitch = false #Boolean for whether drawBridge switch is drawn
+doingTimer = false  #Boolean for whether timer is running (can then be saved)
 
 #Objects for all draw bridge blocks
 blocks = [3090, 3089, 3068, 3069, 3091, 3092, 3093, 3094, 3096, 3095, 3097, 3098, 3099, 3100, 4292, 4293, 4294, 4295].map{|uid| UIDS[uid]};
@@ -31559,6 +31552,8 @@ blockIds = [3090, 3089, 3068, 3069, 3091, 3092, 3093, 3094, 3096, 3095, 3097, 30
 
 #Default draw bridge to not being drawn
 blocks.each{|block| block.hide; block.massive_type = :passive}
+
+blockId = 0
 
 #Draw Bridge Switch Activation Logic
 UIDS[4291].on_touch do |other|
@@ -31572,6 +31567,8 @@ UIDS[4291].on_touch do |other|
         block.show
         block.massive_type = :massive        
         
+        #Fire timer to create one block every 500 milliseconds
+        doingTimer = true  #Boolean for whether timer is running
         blockId = 1        
         bridgeTimer = Timer.every(500) do 
              block = UIDS[blockIds[blockId]]
@@ -31580,12 +31577,57 @@ UIDS[4291].on_touch do |other|
              blockId = blockId + 1
              if blockId &gt;= blockIds.length
                  bridgeTimer.stop!()
+                 doingTimer = false
              end
         end
     end
 end
 
+#Logic to save script related data
+Level.on_save do |store|
+    store["bridgeSwitched"] = bridgeSwitch
+    store["doingTimer"] = doingTimer
+    store["blockId"] = blockId
+    blockIds.each do |id|
+        store[id.to_s] = UIDS[id].massive_type
+    end
+end
 
+#Logic to load script related data
+Level.on_load do |store|
+
+    #Load switch state and general data
+    bridgeSwitch = store["bridgeSwitched"]
+    doingTimer = store["doingTimer"]
+    blockId = store["blockId"]
+    if bridgeSwitch
+        UIDS[4291].image = "ground/underground/pow/blue_active.png"
+    end
+
+    #Load block data for draw bridge
+    blockIds.each do |id|
+        massData = store[id.to_s]        
+        if massData == "massive"
+            UIDS[id].massive_type = :massive
+            UIDS[id].show
+        end
+    end
+
+    #If draw bridge timer was under way when last saved, reissue timer
+    if doingTimer
+        #To do: this is redundant code - try to externalize it in some sort of Ruby function
+        bridgeTimer = Timer.every(500) do
+            block = UIDS[blockIds[blockId]]
+            block.show
+            block.massive_type = :massive
+            blockId = blockId + 1
+            if blockId &gt;= blockIds.length
+                bridgeTimer.stop!()
+                doingTimer = false
+            end
+        end
+    end
+end
 
 
 </script>
