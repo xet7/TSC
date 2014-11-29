@@ -33,7 +33,7 @@
     <property name="posx" value="0.000000"/>
     <property name="posy" value="0.000000"/>
     <property name="posz" value="0.000110"/>
-    <property name="image" value="game\background\stars_1.png"/>
+    <property name="image" value="game/background/stars_1.png"/>
     <property name="speedx" value="1.000000"/>
     <property name="speedy" value="1.000000"/>
     <property name="const_velx" value="0.000000"/>
@@ -44,7 +44,7 @@
     <property name="posx" value="0.000000"/>
     <property name="posy" value="0.000000"/>
     <property name="posz" value="0.000110"/>
-    <property name="image" value="game\background\desert_hills_1.png"/>
+    <property name="image" value="game/background/desert_hills_1.png"/>
     <property name="speedx" value="0.500000"/>
     <property name="speedy" value="0.500000"/>
     <property name="const_velx" value="0.000000"/>
