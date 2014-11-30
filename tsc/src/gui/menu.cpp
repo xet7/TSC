@@ -124,12 +124,13 @@ cMenuHandler::cMenuHandler(void)
     Reset();
 
     // TSC logo image
-    //cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
-    //sprite->Set_Image(pVideo->Get_Surface("game/logo/tsc_big_1.png"));
+    cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
+    sprite->Set_Image(pVideo->Get_Surface("game/logo/logo.png"));
     //sprite->Set_Pos(180.0f, 20.0f);
-    //sprite->Set_Scale(0.8f);
-    //sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
-    //m_level->m_sprite_manager->Add(sprite);
+    sprite->Set_Pos(295.0f, 20.0f);
+    sprite->Set_Scale(0.8f);
+    sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
+    m_level->m_sprite_manager->Add(sprite);
 }
 
 cMenuHandler::~cMenuHandler(void)
@@ -597,7 +598,7 @@ void cMenuCore::Enter(const GameMode old_mode /* = MODE_NOTHING */)
     // an overworld.
     if (!pActive_Level->Is_Loaded()) {
         if (m_menu_id == MENU_CREDITS)
-            pAudio->Play_Music("land/hyper_1.ogg", -1, 0, 1500);
+            pAudio->Play_Music("game/credits.ogg", -1, 0, 1500);
         else
             pAudio->Play_Music("game/menu.ogg", -1, 0, 1500);
     }
