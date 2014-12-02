@@ -21,6 +21,7 @@ Luiji <luiji@users.sourceforge.net>
 Tobias Maasland (Weirdnose) <tobias@tobiasmaasland.de>
 Florian Richter (FluXy) <fluxey@gmail.com>
 Brian Allen Vanderburg II (brianvanderburg2) <brianvanderburg@users.sourceforge.net>
+Chris Jacobsen (datahead) <datahead8888@gmail.com>
 
 -- Graphic Artists --
 
