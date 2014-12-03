@@ -17,11 +17,11 @@ this command from the "tsc" directory:
 
 Marvin Gülker (Quintus) <quintus@quintilianus.eu>
 Tristan Heaven (nyhm) <tristanheaven@gmail.com>
+Chris Jacobsen (datahead) <datahead8888@gmail.com>
 Luiji <luiji@users.sourceforge.net>
 Tobias Maasland (Weirdnose) <tobias@tobiasmaasland.de>
 Florian Richter (FluXy) <fluxey@gmail.com>
 Brian Allen Vanderburg II (brianvanderburg2) <brianvanderburg@users.sourceforge.net>
-Chris Jacobsen (datahead) <datahead8888@gmail.com>
 
 -- Graphic Artists --
 
