@@ -407,6 +407,132 @@ to the repository; GitHub allows pull requests in the same
 repository. If your code is not ready yet, prepend a prominent “[WIP]” (=
 Work In Progress) mark to the title.
 
+Merging
+-------
+
+From time to time, the project receives _pull requests_ (PRs) or other
+forms of contributions. This sections outlines how to proceed with
+them.
+
+In general, the commit log should contain valid metadata, i.e. each
+commit should be attributed to the person who really authored the
+content. While this seems obvious, it isn’t that easy when you cope
+with someone who doesn’t know how to use git, e.g. artists. In this
+case, you have to ensure the commit is really attributed correctly to
+the artist, and not to you; see the below section on non-git
+contributions for further information on this.
+
+Additionally, hackers are used to not use their real name in the
+author information of commits. This is culture, so don’t try to do
+something against this. On the other hand, even most hackers are eager
+to see their real name in the credit information of a program, mostly
+as larger programs serve as a great reference for hiring. In TSC, we
+resolve this little conflict by the special file `docs/authors.txt`,
+which contains a list of all people who have any kind of contribution
+currently in the game. That file maps a real name to a nickname, and
+this file is parsed and compiled into a C++ object file during the
+build process, serving the crediting information for the credits menu
+in the compiled game later on. Additionally, this file allows the team
+to track who holds legal rights on the game in some way. In case of a
+lawsuit (hope we won’t get there), the email addresses in that file
+(hopefully) allow us to contact all the persons who hold rights on the
+game and ask them for whatever actions may be needed in the course of
+the proceedings. The format of the file should be easy to follow; just
+ensure you keep the alphabetical order so nobody complains about being
+listed first or last.
+
+For people, who have done much for the game, but have no direct
+contributions to the code or the assets (e.g. packaging for Linux
+distributions), and hence do not hold copyright on the game, there’s a
+separate file, `docs/specialthanks.txt`, which is also read in and
+shown on the credits screen.
+
+When you merge anything other than code into the game, please try to
+get hold of some kind of proof of the license. For example, if someone
+sends you some great peace of music by email and states it is
+"CC-BY-SA 3.0" or so, save the email as a separate file, and commit
+that email file to the private licensing repository on the Alexandria
+server (`/var/local/repos/TSC-Licensing.git`). For forum
+contributions, a screenshot of the post suffices as [the forum
+rules](http://forum.secretchronicles.de/rules) already state everyone
+who posts on the forums grants an appropriate license, and the forum
+rules page has already been commited to the private licensing
+repository. This is some precaution against the possibility some
+malicious man tries to sue us for using his music or other asset,
+although he allowed us to use it. According to murphy’s law, the forum
+will be suffering from some grave data loss at that very time, so
+having something at hand then would be really useful.
+
+### Pull Requests ###
+
+PRs can either be filed on GitHub, where they appear at [a special
+repository page](https://github.com/Secretchronicles/TSC/pulls), or
+are emailed to you. As a team member with write access, you should
+review the PRs on that GitHub page every now and then to ensure that
+the people who have filed a PR receive a timely response, even if it
+is just a “thank you, but I currently can’t review for time
+constraints” or something like that. For email PRs, this goes as well.
+
+When you find the time, review the PR. That is, check it against the
+coding guidelines in this document and your common sense; point out
+obvious mistakes and ask people to fix problems with the coding
+style. If the PR is made against the wrong branch (see above), guide
+them carefully to re-file the PR so it applies to the correct
+branch; this is necessary, because different branches may contain
+entirely different code. It is the requestor’s responsibility to fix
+conflicts that appear when his request needs to be merged into another
+branch.
+
+Don’t reject a PR for only one or two simple errors. Instead, ask the
+requestor to fix them, and if he doesn’t, just merge the request
+anyway and fix the errors yourself. As an exception from this rule,
+**never** merge a PR that uses tabs for indentation. This destroys the
+entire overview of the commit diff(s).
+
+There’s no hard requirement how many people from the core team need to
+agree with a PR. Just merge it if you find it to be good, but please
+make sure you understand the implications. If for example there’s a
+pull request that changes the entire powerup handling to something
+totally different, it is obvious that such a grave change needs some
+discussion among all team members.
+
+Ask the requestor to describe his changes; it is hard to just judge
+from the code what really happens. Pull requests without descriptions
+that are more than some trivial addition/fix should not be merged
+unless explained.
+
+### Git patches ###
+
+Sometimes people don’t want to go through the hazzle of creating a
+publically available Git repository, uploading their changes there,
+and filing a PR. Git has a mechanism that allows to create a special
+form of patch that can be attached to an email or other means of
+communication. These patch files, which are created by the `$ git
+format-patch` command, contain both a regular `diff` and the metadata
+needed for a commit. You can use `$ git am` to apply these patches if
+you receive them.
+
+### Other contributions ###
+
+It happens that people would like to have content included into the
+game, but they don’t know how to use Git. This shouldn’t stop you from
+including valuable content, instead, use the `--author` option of the
+`$ git commit` command. This results in the commit’s metadata being
+adjusted so that the contribution is properly assigned to the real
+contributor rather than you. Especially for legal reasons, correct
+metadata in the commit log is invaluable information. As an example,
+if you receive a graphic contribution by "John Doe", whose nickname is
+"jonny" and whose email is "john.doe@example.com", you’d do the
+following:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ git add file1 file2
+$ git commit --author="jonny <john.doe@example.com>"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ensure that you add the full real name with nickname mapping to
+`docs/authors.txt` as outlined already.
+
 Documentation
 -------------
 
