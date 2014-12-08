@@ -228,7 +228,7 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_prefe
         // Set Caption
         SDL_WM_SetCaption(CAPTION, NULL);
         // Set Icon
-        boost::filesystem::path filename_icon = pResource_Manager->Get_Game_Icon("window_32.png");
+        boost::filesystem::path filename_icon = pResource_Manager->Get_Game_Icon("window_icon.png");
         if (File_Exists(filename_icon)) {
             SDL_Surface* icon = IMG_Load(path_to_utf8(filename_icon).c_str());
             SDL_WM_SetIcon(icon, NULL);
