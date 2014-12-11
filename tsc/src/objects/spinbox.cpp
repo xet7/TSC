@@ -17,6 +17,7 @@
 #include "../objects/spinbox.hpp"
 #include "../core/framerate.hpp"
 #include "../core/game_core.hpp"
+#include "../core/i18n.hpp"
 #include "../user/savegame.hpp"
 
 namespace TSC {
@@ -45,7 +46,7 @@ void cSpinBox::Init(void)
 {
     m_type = TYPE_SPIN_BOX;
     box_type = m_type;
-    m_name = "Spinbox";
+    m_name = _("Spinbox");
     m_camera_range = 5000;
     m_can_be_on_ground = 0;
 

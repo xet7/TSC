@@ -276,26 +276,26 @@ void cMushroom::Set_Type(SpriteType new_type)
 
     if (new_type == TYPE_MUSHROOM_DEFAULT) {
         Add_Image(pVideo->Get_Surface("game/items/mushroom_red.png"));
-        m_name = _("Mushroom Red");
+        m_name = _("Berry");
     }
     else if (new_type == TYPE_MUSHROOM_LIVE_1) {
         Add_Image(pVideo->Get_Surface("game/items/mushroom_green.png"));
-        m_name = _("Mushroom 1-UP");
+        m_name = _("1-UP berry");
     }
     else if (new_type == TYPE_MUSHROOM_POISON) {
         Add_Image(pVideo->Get_Surface("game/items/mushroom_poison.png"));
-        m_name = _("Mushroom Poison");
+        m_name = _("Poisonous berry");
     }
     else if (new_type == TYPE_MUSHROOM_BLUE) {
         Add_Image(pVideo->Get_Surface("game/items/mushroom_blue.png"));
-        m_name = _("Mushroom Blue");
+        m_name = _("Ice berry");
     }
     else if (new_type == TYPE_MUSHROOM_GHOST) {
         Add_Image(pVideo->Get_Surface("game/items/mushroom_ghost.png"));
-        m_name = _("Mushroom Ghost");
+        m_name = _("Ghost berry");
     }
     else {
-        printf("Warning Unknown Mushroom type : %d\n", new_type);
+        std::cerr << "Warning: Unknown berry type: " << new_type << std::endl;
         return;
     }
 

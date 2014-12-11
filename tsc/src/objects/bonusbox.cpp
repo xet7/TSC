@@ -56,7 +56,6 @@ cBonusBox::~cBonusBox(void)
 void cBonusBox::Init(void)
 {
     m_type = TYPE_BONUS_BOX;
-    m_name = "Bonus Box";
     m_force_best_item = 0;
     m_camera_range = 5000;
     m_can_be_on_ground = 0;
@@ -64,6 +63,9 @@ void cBonusBox::Init(void)
     Set_Animation_Type("Bonus");
     m_gold_color = COL_DEFAULT;
     Set_Goldcolor(COL_YELLOW);
+
+    box_type = TYPE_UNDEFINED;
+    m_name = _("Bonusbox Empty");
 }
 
 cBonusBox* cBonusBox::Copy(void) const
@@ -135,6 +137,7 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
     // set item image
     if (box_type == TYPE_UNDEFINED) {
         m_item_image = NULL;
+        m_name = _("Bonusbox Empty");
     }
     else if (box_type == TYPE_POWERUP) {
         // force always best item
@@ -143,21 +146,27 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
     }
     else if (box_type == TYPE_MUSHROOM_DEFAULT) {
         m_item_image = pVideo->Get_Surface("game/items/mushroom_red.png");
+        m_name = _("Bonusbox Berry");
     }
     else if (box_type == TYPE_FIREPLANT) {
         m_item_image = pVideo->Get_Surface("game/items/fireberry_1.png");
+        m_name = _("Bonusbox Fire berry");
     }
     else if (box_type == TYPE_MUSHROOM_BLUE) {
         m_item_image = pVideo->Get_Surface("game/items/mushroom_blue.png");
+        m_name = _("Bonusbox Ice berry");
     }
     else if (box_type == TYPE_MUSHROOM_GHOST) {
         m_item_image = pVideo->Get_Surface("game/items/mushroom_ghost.png");
+        m_name = _("Bonusbox Ghost berry");
     }
     else if (box_type == TYPE_MUSHROOM_LIVE_1) {
         m_item_image = pVideo->Get_Surface("game/items/mushroom_green.png");
+        m_name = _("Bonusbox 1-Up berry");
     }
     else if (box_type == TYPE_STAR) {
         m_item_image = pVideo->Get_Surface("game/items/star.png");
+        m_name = _("Bonusbox Star");
     }
     else if (box_type == TYPE_GOLDPIECE) {
         if (m_gold_color == COL_RED) {
@@ -169,6 +178,7 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
     }
     else if (box_type == TYPE_MUSHROOM_POISON) {
         m_item_image = pVideo->Get_Surface("game/items/mushroom_poison.png");
+        m_name = _("Bonusbox Poisonous berry");
     }
     else {
         m_item_image = NULL;
@@ -188,10 +198,21 @@ void cBonusBox::Set_Force_Best_Item(bool enable)
 
 void cBonusBox::Set_Goldcolor(DefaultColor new_color)
 {
+    /* FIXME: Due to bad code design, we have to re-set this even
+     * if the colour is already set. Background: The box is created
+     * with goldcolor set to YELLOW, but the box type itself is set
+     * to UNDEFINED (= empty box). When you set the box type to GOLDPIECE,
+     * this results in a call to Set_Goldcolor() (this method), but as the
+     * goldcolor is already set, it would immediately return. Problem with
+     * this is that m_name doesn’t get adjusted, it will show whatever
+     * the box was previously (usually UNDEFINED => "Bonusbox Empty").
+     * The proper solution to this is to divide gold boxes and powerup boxes;
+     * it doesn’t make sense to set the gold color on a fireberry box for
+     * example anyway. */
     // already set
-    if (m_gold_color == new_color) {
-        return;
-    }
+    //if (m_gold_color == new_color) {
+    //    return;
+    //}
 
     if (new_color == COL_DEFAULT) {
         m_gold_color = COL_YELLOW;
@@ -205,11 +226,11 @@ void cBonusBox::Set_Goldcolor(DefaultColor new_color)
 
     if (m_gold_color == COL_YELLOW) {
         m_item_image = pVideo->Get_Surface("game/items/goldpiece/yellow/1.png");
-        m_name = _("Box Goldpiece Yellow");
+        m_name = _("Bonusbox Yellow Goldpiece");
     }
     else if (m_gold_color == COL_RED) {
         m_item_image = pVideo->Get_Surface("game/items/goldpiece/red/1.png");
-        m_name = _("Box Goldpiece Red");
+        m_name = _("Bonusbox Red Goldpiece");
     }
     else {
         printf("Warning : Unknown Bonusbox Gold Color %d\n", m_gold_color);
@@ -426,29 +447,29 @@ void cBonusBox::Editor_Activate(void)
 
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Empty")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Random")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Fireberry")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom Blue")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom Ghost")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom 1-UP")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Berry")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Fire berry")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Ice berry")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Ghost berry")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("1-UP berry")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Star")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Goldpiece")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Mushroom Poison")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Poisonous berry")));
 
     if (box_type == TYPE_MUSHROOM_DEFAULT) {
-        combobox->setText(UTF8_("Mushroom"));
+        combobox->setText(UTF8_("Berry"));
     }
     else if (box_type == TYPE_FIREPLANT) {
-        combobox->setText(UTF8_("Fireberry"));
+        combobox->setText(UTF8_("Fire berry"));
     }
     else if (box_type == TYPE_MUSHROOM_BLUE) {
-        combobox->setText(UTF8_("Mushroom Blue"));
+        combobox->setText(UTF8_("Ice berry"));
     }
     else if (box_type == TYPE_MUSHROOM_GHOST) {
-        combobox->setText(UTF8_("Mushroom Ghost"));
+        combobox->setText(UTF8_("Ghost berry"));
     }
     else if (box_type == TYPE_MUSHROOM_LIVE_1) {
-        combobox->setText(UTF8_("Mushroom 1-UP"));
+        combobox->setText(UTF8_("1-UP berry"));
     }
     else if (box_type == TYPE_STAR) {
         combobox->setText(UTF8_("Star"));
@@ -457,7 +478,7 @@ void cBonusBox::Editor_Activate(void)
         combobox->setText(UTF8_("Goldpiece"));
     }
     else if (box_type == TYPE_MUSHROOM_POISON) {
-        combobox->setText(UTF8_("Mushroom Poison"));
+        combobox->setText(UTF8_("Poisonous berry"));
     }
     else if (box_type == TYPE_POWERUP) {
         combobox->setText(UTF8_("Random"));
@@ -539,19 +560,19 @@ bool cBonusBox::Editor_Item_Select(const CEGUI::EventArgs& event)
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     CEGUI::ListboxItem* item = static_cast<CEGUI::Combobox*>(windowEventArgs.window)->getSelectedItem();
 
-    if (item->getText().compare(UTF8_("Mushroom")) == 0) {
+    if (item->getText().compare(UTF8_("Berry")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_DEFAULT);
     }
-    else if (item->getText().compare(UTF8_("Fireberry")) == 0) {
+    else if (item->getText().compare(UTF8_("Fire berry")) == 0) {
         Set_Bonus_Type(TYPE_FIREPLANT);
     }
-    else if (item->getText().compare(UTF8_("Mushroom Blue")) == 0) {
+    else if (item->getText().compare(UTF8_("Ice berry")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_BLUE);
     }
-    else if (item->getText().compare(UTF8_("Mushroom Ghost")) == 0) {
+    else if (item->getText().compare(UTF8_("Ghost berry")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_GHOST);
     }
-    else if (item->getText().compare(UTF8_("Mushroom 1-UP")) == 0) {
+    else if (item->getText().compare(UTF8_("1-UP berry")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_LIVE_1);
     }
     else if (item->getText().compare(UTF8_("Star")) == 0) {
@@ -560,7 +581,7 @@ bool cBonusBox::Editor_Item_Select(const CEGUI::EventArgs& event)
     else if (item->getText().compare(UTF8_("Goldpiece")) == 0) {
         Set_Bonus_Type(TYPE_GOLDPIECE);
     }
-    else if (item->getText().compare(UTF8_("Mushroom Poison")) == 0) {
+    else if (item->getText().compare(UTF8_("Poisonous berry")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_POISON);
     }
     else if (item->getText().compare(UTF8_("Random")) == 0) {

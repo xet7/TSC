@@ -17,6 +17,7 @@
 #include "../objects/text_box.hpp"
 #include "../core/framerate.hpp"
 #include "../core/game_core.hpp"
+#include "../core/i18n.hpp"
 #include "../user/preferences.hpp"
 #include "../input/joystick.hpp"
 #include "../core/main.hpp"
@@ -55,7 +56,7 @@ void cText_Box::Init(void)
     m_type = TYPE_TEXT_BOX;
     box_type = m_type;
     m_can_be_on_ground = 0;
-    m_name = "Text Box";
+    m_name = _("Text Box");
 
     // default is infinite times activate-able
     Set_Useable_Count(-1, 1);

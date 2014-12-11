@@ -42,7 +42,7 @@ cBaseBox::cBaseBox(cSprite_Manager* sprite_manager)
     m_type = TYPE_ACTIVE_SPRITE;
     m_sprite_array = ARRAY_ACTIVE;
     m_massive_type = MASS_MASSIVE;
-    m_name = "Box";
+    m_name = _("Box");
     m_can_be_ground = 1;
     Set_Scale_Directions(1, 1, 1, 1);
 
@@ -778,54 +778,14 @@ std::string cBaseBox::Create_Name(void) const
 {
     std::string name = m_name; // dup
 
-    if (box_type == TYPE_UNDEFINED) {
-        name += " Empty";
-    }
-    else if (box_type == TYPE_POWERUP) {
-        name += " Random";
-    }
-    else if (box_type == TYPE_SPIN_BOX) {
-        name += " Spinning";
-    }
-    else if (box_type == TYPE_TEXT_BOX) {
-        name += " Text";
-    }
-    else if (box_type == TYPE_MUSHROOM_DEFAULT) {
-        name += " Mushroom";
-    }
-    else if (box_type == TYPE_FIREPLANT) {
-        name += " Mushroom - Fireplant";
-    }
-    else if (box_type == TYPE_MUSHROOM_BLUE) {
-        name += " Mushroom - Blue Mushroom";
-    }
-    else if (box_type == TYPE_MUSHROOM_GHOST) {
-        name = " Mushroom - Ghost Mushroom";
-    }
-    else if (box_type == TYPE_MUSHROOM_LIVE_1) {
-        name += " 1-UP";
-    }
-    else if (box_type == TYPE_STAR) {
-        name += " Star";
-    }
-    else if (box_type == TYPE_GOLDPIECE) {
-        name += " Goldpiece";
-    }
-    else if (box_type == TYPE_MUSHROOM_POISON) {
-        name += " Mushroom Poison";
-    }
-    else { // Shouldn't happen
-        name += " Unknown Item Type";
-    }
-
     if (m_box_invisible == BOX_INVISIBLE_MASSIVE) {
-        name.insert(0, _("Invisible "));
+        name += " " + std::string(_("(Invisible)"));
     }
     else if (m_box_invisible == BOX_GHOST) {
-        name.insert(0, _("Ghost "));
+        name += " " + std::string(_("(Ghost block)"));
     }
     else if (m_box_invisible == BOX_INVISIBLE_SEMI_MASSIVE) {
-        name.insert(0, _("Invisible Semi Massive "));
+        name += " " + std::string(_("(Invisible Semi Massive)"));
     }
 
     return name;
