@@ -62,6 +62,9 @@ CMakeLists.txt.user*
 # Vim
 *.swp
 
+# Gedit and Emacs
+*~
+
 # Installer
 /tsc/extras/Setup/*.exe
 
