@@ -1980,9 +1980,9 @@
     <property name="shake_time" value="0.000000"/>
     <property name="touch_move_time" value="0.000000"/>
     <property name="middle_img_count" value="1"/>
-    <property name="image_top_left" value="blocks\cloud\1.png"/>
-    <property name="image_top_middle" value="blocks\cloud\1.png"/>
-    <property name="image_top_right" value="blocks\cloud\1.png"/>
+    <property name="image_top_left" value="blocks/cloud/1.png"/>
+    <property name="image_top_middle" value="blocks/cloud/1.png"/>
+    <property name="image_top_right" value="blocks/cloud/1.png"/>
   </moving_platform>
   <item>
     <property name="posx" value="3501"/>
