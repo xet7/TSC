@@ -3,7 +3,7 @@
 <campaign >
     <information >
         <property name="save_time" value="1284366984" />
-		<property name="name" value="Secret Maryo Chronicles" />
+	<property name="name" value="The Secret Chronicles of Dr. M." />
         <property name="description" value="Bizarre Monsters are suddenly everywhere and everyone you know is missing. Find out what happened." />
     </information>
     <target >

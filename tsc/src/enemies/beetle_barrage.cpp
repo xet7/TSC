@@ -360,7 +360,7 @@ void cBeetleBarrage::Editor_Activate()
 
     // action area
     p_editbox = static_cast<CEGUI::Editbox*>(wmgr.createWindow("TaharezLook/Editbox", "editor_beetlebarrage_range"));
-    Editor_Add(UTF8_("Action range"), _("Radius in which it reacts on Maryo"), p_editbox, 90);
+    Editor_Add(UTF8_("Action range"), _("Radius in which it reacts on Alex"), p_editbox, 90);
     p_editbox->setValidationString("^\\d+$");
     p_editbox->setText(int_to_string(static_cast<int>(m_active_range)));
     p_editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&cBeetleBarrage::Editor_Range_Text_Changed, this));

@@ -3248,7 +3248,7 @@
 		<Property name="type" value="text" />
 		<Property name="invisible" value="0" />
 		<Property name="useable_count" value="-1" />
-		<Property name="text" value="To reach this high box you need a power-jump. Climb me and make one! To make one of them, duck by pressing the down key and wait until there are stas around Maryo then press &quot;Ctrl&quot; + &quot;Alt&quot;!&lt;br/&gt;" />
+		<Property name="text" value="To reach this high box you need a power-jump. Climb me and make one! To make one of them, duck by pressing the down key and wait until there are stas around Alex then press &quot;Ctrl&quot; + &quot;Alt&quot;!&lt;br/&gt;" />
 	</box>
 	<sprite>
 		<Property name="posx" value="4133" />

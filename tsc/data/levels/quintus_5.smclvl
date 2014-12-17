@@ -24949,7 +24949,7 @@ end
 ice.each do |block|
   block.on_touch do |other|
     # Because this doesn't work (C++ delete?): other.ball_type == :fire
-    # we fall back to checking if Maryo is fire Maryo currently.
+    # we fall back to checking if Alex is fire Alex currently.
     if other.kind_of?(Ball) &amp;&amp; Player.type == :fire
       block.disable
     end
