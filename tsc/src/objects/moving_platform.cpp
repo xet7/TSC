@@ -22,6 +22,7 @@
 #include "../video/renderer.hpp"
 #include "../user/savegame.hpp"
 #include "../core/i18n.hpp"
+#include "../core/filesystem/filesystem.hpp"
 #include "../level/level_player.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../level/level.hpp"
@@ -210,12 +211,15 @@ xmlpp::Element* cMoving_Platform::Save_To_XML_Node(xmlpp::Element* p_element)
     fs::path rel;
     // image top left
     rel = pPackage_Manager->Get_Relative_Pixmap_Path(m_images[0].m_image->Get_Path());
+    Convert_Path_Separators(rel);
     Add_Property(p_node, "image_top_left", path_to_utf8(rel));
     // image top middle
     rel = pPackage_Manager->Get_Relative_Pixmap_Path(m_images[1].m_image->Get_Path());
+    Convert_Path_Separators(rel);
     Add_Property(p_node, "image_top_middle", path_to_utf8(rel));
     // image top right
     rel = pPackage_Manager->Get_Relative_Pixmap_Path(m_images[2].m_image->Get_Path());
+    Convert_Path_Separators(rel);
     Add_Property(p_node, "image_top_right", path_to_utf8(rel));
 
     return p_node;

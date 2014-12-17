@@ -17,6 +17,7 @@ this command from the "tsc" directory:
 
 Marvin Gülker (Quintus) <quintus@quintilianus.eu>
 Tristan Heaven (nyhm) <tristanheaven@gmail.com>
+Chris Jacobsen (datahead) <datahead8888@gmail.com>
 Luiji <luiji@users.sourceforge.net>
 Tobias Maasland (Weirdnose) <tobias@tobiasmaasland.de>
 Florian Richter (FluXy) <fluxey@gmail.com>
@@ -30,6 +31,7 @@ Johan Brodd (jobromedia) <info@m4um.net>
 Bodhi Crandall-Rus (Bodhi) <bodhi.biz@gmail.com>
 Crabmaster <crabmaster84@hotmail.com>
 John Daly (Johnlein)
+Sydney Dykstra (sydneyjd) <sydneyjd@openmailbox.org>
 Mario Fink (maYO) <losfinkos@web.de>
 Grant (youngheart80) <youngheart80@gmail.com>
 Gustavo Gutierrez (Enzakun)

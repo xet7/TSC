@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-19 11:18+0100\n"
+"POT-Creation-Date: 2014-12-11 17:53+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lauri Ojansivu <x@xet7.org>\n"
 "Language-Team: TSC Finnish translation team\n"
@@ -497,8 +497,8 @@ msgstr "Lopeta taso jos se kuolee."
 #: ../../src/enemies/furball.cpp:789 ../../src/enemies/gee.cpp:594
 #: ../../src/enemies/gee.cpp:598 ../../src/enemies/gee.cpp:651
 #: ../../src/enemies/static.cpp:325 ../../src/enemies/static.cpp:329
-#: ../../src/enemies/static.cpp:396 ../../src/objects/bonusbox.cpp:475
-#: ../../src/objects/bonusbox.cpp:479 ../../src/objects/bonusbox.cpp:583
+#: ../../src/enemies/static.cpp:396 ../../src/objects/bonusbox.cpp:496
+#: ../../src/objects/bonusbox.cpp:500 ../../src/objects/bonusbox.cpp:604
 #: ../../src/overworld/world_waypoint.cpp:407
 #: ../../src/overworld/world_waypoint.cpp:411
 #: ../../src/overworld/world_waypoint.cpp:473
@@ -510,7 +510,7 @@ msgstr "Käytössä"
 #: ../../src/enemies/furball.cpp:769 ../../src/enemies/furball.cpp:775
 #: ../../src/enemies/gee.cpp:595 ../../src/enemies/gee.cpp:601
 #: ../../src/enemies/static.cpp:326 ../../src/enemies/static.cpp:332
-#: ../../src/objects/bonusbox.cpp:476 ../../src/objects/bonusbox.cpp:482
+#: ../../src/objects/bonusbox.cpp:497 ../../src/objects/bonusbox.cpp:503
 #: ../../src/objects/box.cpp:720 ../../src/objects/box.cpp:735
 #: ../../src/overworld/world_waypoint.cpp:408
 #: ../../src/overworld/world_waypoint.cpp:414
@@ -1141,7 +1141,7 @@ msgid "Shoot"
 msgstr "Ammu"
 
 #: ../../src/gui/menu_data.cpp:2020 ../../src/gui/menu_data.cpp:2037
-#: ../../src/objects/bonusbox.cpp:425
+#: ../../src/objects/bonusbox.cpp:446
 msgid "Item"
 msgstr "Esine"
 
@@ -1360,35 +1360,67 @@ msgstr "Virheellinen tavoitetaso."
 msgid "Initial direction"
 msgstr "Suunta aluksi"
 
-#: ../../src/objects/bonusbox.cpp:208
-msgid "Box Goldpiece Yellow"
-msgstr "Laatikko kultapala keltainen"
+#: ../../src/objects/bonusbox.cpp:68 ../../src/objects/bonusbox.cpp:140
+msgid "Bonusbox Empty"
+msgstr "Bonuslaatikko Tyhjä"
 
-#: ../../src/objects/bonusbox.cpp:212
-msgid "Box Goldpiece Red"
-msgstr "Laatikko kultapala punainen"
+#: ../../src/objects/bonusbox.cpp:149
+msgid "Bonusbox Berry"
+msgstr "Bonuslaatikko Marja"
 
-#: ../../src/objects/bonusbox.cpp:413
+#: ../../src/objects/bonusbox.cpp:153
+msgid "Bonusbox Fire berry"
+msgstr "Bonuslaatikko Tulimarja"
+
+#: ../../src/objects/bonusbox.cpp:157
+msgid "Bonusbox Ice berry"
+msgstr "Bonuslaatikko Jäämarja"
+
+#: ../../src/objects/bonusbox.cpp:161
+msgid "Bonusbox Ghost berry"
+msgstr "Bonuslaatikko Aavemarja"
+
+#: ../../src/objects/bonusbox.cpp:165
+msgid "Bonusbox 1-Up berry"
+msgstr "Bonuslaatikko 1-Ylös marja"
+
+#: ../../src/objects/bonusbox.cpp:169
+msgid "Bonusbox Star"
+msgstr "Bonuslaatikko Tähti"
+
+#: ../../src/objects/bonusbox.cpp:181
+msgid "Bonusbox Poisonous berry"
+msgstr "Bonuslaatikko Myrkyllinen marja"
+
+#: ../../src/objects/bonusbox.cpp:229
+msgid "Bonusbox Yellow Goldpiece"
+msgstr "Bonuslaatikko Keltainen kultapala"
+
+#: ../../src/objects/bonusbox.cpp:233
+msgid "Bonusbox Red Goldpiece"
+msgstr "Bonuslaatikko Punainen kultapala"
+
+#: ../../src/objects/bonusbox.cpp:434
 msgid "Animation"
 msgstr "Animaatio"
 
-#: ../../src/objects/bonusbox.cpp:413
+#: ../../src/objects/bonusbox.cpp:434
 msgid ""
 "Use the Power animation if the box has a good or needed item for this level"
 msgstr ""
 "Käytä Voima animaatio jos laatikossa on hyvä tai tarvittu esine tälle tasolle"
 
-#: ../../src/objects/bonusbox.cpp:425
+#: ../../src/objects/bonusbox.cpp:446
 msgid "The item that gets spawned"
 msgstr "Esine joka syntyy"
 
-#: ../../src/objects/bonusbox.cpp:427 ../../src/objects/bonusbox.cpp:466
+#: ../../src/objects/bonusbox.cpp:448 ../../src/objects/bonusbox.cpp:487
 #: ../../src/overworld/overworld.cpp:51
 msgid "Empty"
 msgstr "Tyhjä"
 
-#: ../../src/objects/bonusbox.cpp:428 ../../src/objects/bonusbox.cpp:463
-#: ../../src/objects/bonusbox.cpp:566 ../../src/video/animation.cpp:1375
+#: ../../src/objects/bonusbox.cpp:449 ../../src/objects/bonusbox.cpp:484
+#: ../../src/objects/bonusbox.cpp:587 ../../src/video/animation.cpp:1375
 #: ../../src/video/animation.cpp:1453 ../../src/video/animation.cpp:1469
 #: ../../src/video/animation.cpp:1549 ../../src/video/animation.cpp:1565
 #: ../../src/video/animation.cpp:1581 ../../src/video/animation.cpp:1597
@@ -1396,61 +1428,65 @@ msgstr "Tyhjä"
 msgid "Random"
 msgstr "Satunnainen"
 
-#: ../../src/objects/bonusbox.cpp:429 ../../src/objects/bonusbox.cpp:439
-#: ../../src/objects/bonusbox.cpp:542
-msgid "Mushroom"
-msgstr "Sieni"
+#: ../../src/objects/bonusbox.cpp:450 ../../src/objects/bonusbox.cpp:460
+#: ../../src/objects/bonusbox.cpp:563 ../../src/objects/powerup.cpp:279
+msgid "Berry"
+msgstr "Marja"
 
-#: ../../src/objects/bonusbox.cpp:430 ../../src/objects/bonusbox.cpp:442
-#: ../../src/objects/bonusbox.cpp:545 ../../src/objects/powerup.cpp:505
-msgid "Fireberry"
+#: ../../src/objects/bonusbox.cpp:451 ../../src/objects/bonusbox.cpp:463
+#: ../../src/objects/bonusbox.cpp:566
+msgid "Fire berry"
 msgstr "Tulimarja"
 
-#: ../../src/objects/bonusbox.cpp:431 ../../src/objects/bonusbox.cpp:445
-#: ../../src/objects/bonusbox.cpp:548 ../../src/objects/powerup.cpp:291
-msgid "Mushroom Blue"
-msgstr "Sininen sieni"
+#: ../../src/objects/bonusbox.cpp:452 ../../src/objects/bonusbox.cpp:466
+#: ../../src/objects/bonusbox.cpp:569 ../../src/objects/powerup.cpp:291
+msgid "Ice berry"
+msgstr "Jäämarja"
 
-#: ../../src/objects/bonusbox.cpp:432 ../../src/objects/bonusbox.cpp:448
-#: ../../src/objects/bonusbox.cpp:551 ../../src/objects/powerup.cpp:295
-msgid "Mushroom Ghost"
-msgstr "Aavesieni"
+#: ../../src/objects/bonusbox.cpp:453 ../../src/objects/bonusbox.cpp:469
+#: ../../src/objects/bonusbox.cpp:572 ../../src/objects/powerup.cpp:295
+msgid "Ghost berry"
+msgstr "Aavemarja"
 
-#: ../../src/objects/bonusbox.cpp:433 ../../src/objects/bonusbox.cpp:451
-#: ../../src/objects/bonusbox.cpp:554 ../../src/objects/powerup.cpp:283
-msgid "Mushroom 1-UP"
-msgstr "Sieni 1-YLÖS"
+#: ../../src/objects/bonusbox.cpp:454 ../../src/objects/bonusbox.cpp:472
+#: ../../src/objects/bonusbox.cpp:575 ../../src/objects/powerup.cpp:283
+msgid "1-UP berry"
+msgstr "1-YLÖS marja"
 
-#: ../../src/objects/bonusbox.cpp:434 ../../src/objects/bonusbox.cpp:454
-#: ../../src/objects/bonusbox.cpp:557 ../../src/objects/star.cpp:63
+#: ../../src/objects/bonusbox.cpp:455 ../../src/objects/bonusbox.cpp:475
+#: ../../src/objects/bonusbox.cpp:578 ../../src/objects/star.cpp:63
 msgid "Star"
 msgstr "Tähti"
 
-#: ../../src/objects/bonusbox.cpp:435 ../../src/objects/bonusbox.cpp:457
-#: ../../src/objects/bonusbox.cpp:560 ../../src/objects/goldpiece.cpp:197
+#: ../../src/objects/bonusbox.cpp:456 ../../src/objects/bonusbox.cpp:478
+#: ../../src/objects/bonusbox.cpp:581 ../../src/objects/goldpiece.cpp:197
 msgid "Goldpiece"
 msgstr "Kultapala"
 
-#: ../../src/objects/bonusbox.cpp:436 ../../src/objects/bonusbox.cpp:460
-#: ../../src/objects/bonusbox.cpp:563 ../../src/objects/powerup.cpp:287
-msgid "Mushroom Poison"
-msgstr "Myrkkysieni"
+#: ../../src/objects/bonusbox.cpp:457 ../../src/objects/bonusbox.cpp:481
+#: ../../src/objects/bonusbox.cpp:584 ../../src/objects/powerup.cpp:287
+msgid "Poisonous berry"
+msgstr "Myrkyllinen marja"
 
-#: ../../src/objects/bonusbox.cpp:473
+#: ../../src/objects/bonusbox.cpp:494
 msgid "Force item"
 msgstr "Pakota esine"
 
-#: ../../src/objects/bonusbox.cpp:473
+#: ../../src/objects/bonusbox.cpp:494
 msgid "Force best available item when activated"
 msgstr "Pakota paras saatavilla oleva esine kun aktivoitu"
 
-#: ../../src/objects/bonusbox.cpp:489
+#: ../../src/objects/bonusbox.cpp:510
 msgid "Gold color"
 msgstr "Kullan väri"
 
-#: ../../src/objects/bonusbox.cpp:489
+#: ../../src/objects/bonusbox.cpp:510
 msgid "Gold color if the item is a goldpiece"
 msgstr "Kullan väri jos esine on kultapala"
+
+#: ../../src/objects/box.cpp:45
+msgid "Box"
+msgstr "Laatikko"
 
 #: ../../src/objects/box.cpp:710
 msgid "Useable Count"
@@ -1486,17 +1522,17 @@ msgstr "Aave"
 msgid "Semi Massive"
 msgstr "Puolimassiivinen"
 
-#: ../../src/objects/box.cpp:822
-msgid "Invisible "
-msgstr "Näkymätön"
+#: ../../src/objects/box.cpp:782
+msgid "(Invisible)"
+msgstr "(Näkymätön)"
 
-#: ../../src/objects/box.cpp:825
-msgid "Ghost "
-msgstr "Aave"
+#: ../../src/objects/box.cpp:785
+msgid "(Ghost block)"
+msgstr "(Aavelohko)"
 
-#: ../../src/objects/box.cpp:828
-msgid "Invisible Semi Massive "
-msgstr "Näkymätön puolimassiivinen"
+#: ../../src/objects/box.cpp:788
+msgid "(Invisible Semi Massive)"
+msgstr "(Näkymätön Puolimassiivinen)"
 
 #: ../../src/objects/crate.cpp:58
 msgid "Crate"
@@ -1748,19 +1784,27 @@ msgstr "Y2"
 msgid "Line position Y2"
 msgstr "Viiva sijainti Y2"
 
-#: ../../src/objects/powerup.cpp:279
-msgid "Mushroom Red"
-msgstr "Punainen sieni"
+#: ../../src/objects/powerup.cpp:505
+msgid "Fireberry"
+msgstr "Tulimarja"
 
 #: ../../src/objects/powerup.cpp:620
 msgid "Moon (3-UP)"
 msgstr "Kuu (3-YLÖS)"
 
-#: ../../src/objects/text_box.cpp:248
+#: ../../src/objects/spinbox.cpp:49
+msgid "Spinbox"
+msgstr "Pyörivälaatikko"
+
+#: ../../src/objects/text_box.cpp:59
+msgid "Text Box"
+msgstr "Tekstilaatikko"
+
+#: ../../src/objects/text_box.cpp:249
 msgid "Text"
 msgstr "Teksti"
 
-#: ../../src/objects/text_box.cpp:248
+#: ../../src/objects/text_box.cpp:249
 msgid "Text to display when activated"
 msgstr "Aktivoitaessa näytettävä teksti"
 
@@ -2095,6 +2139,33 @@ msgstr "Tallennetaan kuvia välimuistiin"
 msgid "This program is distributed under the terms of the GPLv3"
 msgstr "Tätä ohjelmaa levitetään GPLv3 ehtojen mukaisesti"
 
+#~ msgid "Box Goldpiece Yellow"
+#~ msgstr "Laatikko kultapala keltainen"
+
+#~ msgid "Box Goldpiece Red"
+#~ msgstr "Laatikko kultapala punainen"
+
+#~ msgid "Mushroom"
+#~ msgstr "Sieni"
+
+#~ msgid "Mushroom Blue"
+#~ msgstr "Sininen sieni"
+
+#~ msgid "Mushroom Ghost"
+#~ msgstr "Aavesieni"
+
+#~ msgid "Mushroom 1-UP"
+#~ msgstr "Sieni 1-YLÖS"
+
+#~ msgid "Mushroom Poison"
+#~ msgstr "Myrkkysieni"
+
+#~ msgid "Invisible "
+#~ msgstr "Näkymätön"
+
+#~ msgid "Mushroom Red"
+#~ msgstr "Punainen sieni"
+
 #~ msgid "Fireplant"
 #~ msgstr "Tulikasvi"
 
@@ -2107,17 +2178,8 @@ msgstr "Tätä ohjelmaa levitetään GPLv3 ehtojen mukaisesti"
 #~ msgid "Turtle Boss"
 #~ msgstr "Kilpikonna pomo"
 
-#~ msgid "Box Empty"
-#~ msgstr "Laatikko tyhjä"
-
 #~ msgid "Box Random"
 #~ msgstr "Laatikko satunnainen"
-
-#~ msgid "Spinbox"
-#~ msgstr "Pyörivälaatikko"
-
-#~ msgid "Textbox"
-#~ msgstr "Tekstilaatikko"
 
 #~ msgid "Box Mushroom"
 #~ msgstr "Laatikko sieni"
@@ -2133,12 +2195,6 @@ msgstr "Tätä ohjelmaa levitetään GPLv3 ehtojen mukaisesti"
 
 #~ msgid "Box 1-UP"
 #~ msgstr "Laatikko 1-YLÖS"
-
-#~ msgid "Box Star"
-#~ msgstr "Laatikko tähti"
-
-#~ msgid "Box Goldpiece"
-#~ msgstr "Laatikko kultapala"
 
 #~ msgid "Box Mushroom Poison"
 #~ msgstr "Laatikko sienimyrkky"
