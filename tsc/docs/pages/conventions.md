@@ -452,16 +452,21 @@ get hold of some kind of proof of the license. For example, if someone
 sends you some great peace of music by email and states it is
 "CC-BY-SA 3.0" or so, save the email as a separate file, and commit
 that email file to the private licensing repository on the Alexandria
-server (`/var/local/repos/TSC-Licensing.git`). For forum
-contributions, a screenshot of the post suffices as [the forum
-rules](http://forum.secretchronicles.de/rules) already state everyone
-who posts on the forums grants an appropriate license, and the forum
-rules page has already been commited to the private licensing
-repository. This is some precaution against the possibility some
-malicious man tries to sue us for using his music or other asset,
-although he allowed us to use it. According to murphy’s law, the forum
-will be suffering from some grave data loss at that very time, so
-having something at hand then would be really useful.
+server (`/var/local/repos/TSC-Licensing.git`). For any kind of
+contribution via public channels it is sufficient if the author of the
+contribution mentions the license publically. Specifically for
+contributions via the forum, [the forum
+rules](http://forum.secretchronicles.de/rules) already guarantee a
+proper license so that further proof is not required.
+
+This is some precaution against the possibility some malicious man
+tries to sue us for using his music or other asset, although he
+allowed us to use it.
+
+The license for any code contributed is the GPLv3 or later. This is
+obvious from our code license, the GPLv3: When the contributor takes
+the sourcecode and changes it, his changes are automatically licensed
+under GPLv3 due to its viral effect. This is how the GPLv3 works.
 
 ### Pull Requests ###
 
