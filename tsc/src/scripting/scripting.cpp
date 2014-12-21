@@ -63,9 +63,9 @@
 #include "objects/specials/mrb_path.hpp"
 #include "objects/specials/mrb_lava.hpp"
 #include "objects/specials/mrb_enemy_stopper.hpp"
-#include "objects/specials/mrb_goldpiece.hpp"
-#include "objects/specials/mrb_jumping_goldpiece.hpp"
-#include "objects/specials/mrb_falling_goldpiece.hpp"
+#include "objects/specials/mrb_jewel.hpp"
+#include "objects/specials/mrb_jumping_jewel.hpp"
+#include "objects/specials/mrb_falling_jewel.hpp"
 #include "objects/specials/mrb_crate.hpp"
 #include "objects/specials/mrb_moving_platform.hpp"
 
@@ -318,9 +318,9 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Path(mp_mruby);
     Init_Lava(mp_mruby);
     Init_EnemyStopper(mp_mruby);
-    Init_Goldpiece(mp_mruby);
-    Init_JumpingGoldpiece(mp_mruby);
-    Init_FallingGoldpiece(mp_mruby);
+    Init_Jewel(mp_mruby);
+    Init_JumpingJewel(mp_mruby);
+    Init_FallingJewel(mp_mruby);
     Init_Crate(mp_mruby);
     Init_Moving_Platform(mp_mruby);
     Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined

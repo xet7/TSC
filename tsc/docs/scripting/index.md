@@ -348,11 +348,11 @@ the MRuby scripting API, grouped by topic:
 | [Berry](berry.html)                   |                                             |
 | [Star](star.html)                     |                                             |
 |---------------------------------------|---------------------------------------------|
-| ***Gold/Waffles***                    | ***Gold/Waffles***                          |
+| ***Jewels***                          | ***Jewels***                                |
 |---------------------------------------|---------------------------------------------|
-| [Goldpiece](goldpiece.html)           | Base class for all goldpieces/waffles       |
-| [FallingGoldpiece](fallinggoldpiece.html) |                                         |
-| [JumpingGoldpiece](jumpinggoldpiece.html) |                                         |
+| [Jewel](jewel.html)                   | Base class for all jewels                   |
+| [FallingJewel](fallingjewel.html)     |                                             |
+| [JumpingJewel](jumpingjewel.html)     |                                             |
 |---------------------------------------|---------------------------------------------|
 | ***Level stuff***                     | ***Level stuff***                           |
 |---------------------------------------|---------------------------------------------|

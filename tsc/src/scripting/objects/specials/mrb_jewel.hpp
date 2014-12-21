@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_goldpiece.hpp
+ * mrb_jewel.hpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,11 +12,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TSC_SCRIPTING_GOLDPIECE_HPP
-#define TSC_SCRIPTING_GOLDPIECE_HPP
+#ifndef TSC_SCRIPTING_JEWEL_HPP
+#define TSC_SCRIPTING_JEWEL_HPP
 namespace TSC {
     namespace Scripting {
-        void Init_Goldpiece(mrb_state* p_state);
+        void Init_Jewel(mrb_state* p_state);
     }
 }
 #endif

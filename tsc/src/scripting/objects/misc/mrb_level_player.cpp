@@ -64,14 +64,14 @@ using namespace TSC::Scripting;
  *   useful and are just there for symmetry with some enemies’
  *   _Downgrade_ event handlers.
  *
- * Gold_100
- * : After Maryo has collected 100 gold pieces/waffles, this event
+ * Jewel_100
+ * : After Maryo has collected 100 jewels, this event
  *   is triggered. The event handler isn’t passed anything, but note
- *   that it is highly discouraged to alter Maryo’s amount of gold from
+ *   that it is highly discouraged to alter Maryo’s amount of jewels from
  *   within the event handler; this may lead to unexpected behaviour
- *   such as Maryo having more than 100 gold pieces after all operations
- *   regarding the amount of gold/waffles have finished or even endless
- *   loops as altering the gold/waffle amount may cause subsequent events
+ *   such as Maryo having more than 100 jewels after all operations
+ *   regarding the amount of jewels have finished or even endless
+ *   loops as altering the jewel amount may cause subsequent events
  *   of this type to be triggered.
  *
  * Jump
@@ -88,16 +88,13 @@ using namespace TSC::Scripting;
  *   prior to the actual shot. The event handler gets passed either the
  *   string `"ice"` when the player fired an iceball, or `"fire"` when it
  *   was a fireball.
- *
- * Waffles_100
- * : Synonym for the `Gold_100` event.
  */
 
 /***************************************
  * Events
  ***************************************/
 
-MRUBY_IMPLEMENT_EVENT(gold_100);
+MRUBY_IMPLEMENT_EVENT(jewel_100);
 MRUBY_IMPLEMENT_EVENT(downgrade);
 MRUBY_IMPLEMENT_EVENT(jump);
 MRUBY_IMPLEMENT_EVENT(shoot);
@@ -322,94 +319,67 @@ static mrb_value Forced_Kill(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: LevelPlayer#gold
+ * Method: LevelPlayer#jewels
  *
- *   gold() → an_integer
- *   waffles() an_integer
+ *   jewels() → an_integer
  *
- * The current amount of gold pieces/waffles Maryo has collected so
+ * The current amount of jewels Maryo has collected so
  * far. This is always smaller than 100.
  */
-/**
- * Method: LevelPlayer#waffles
- *
- *   gold() → an_integer
- *   waffles() an_integer
- *
- * Alias for [#gold](#gold).
- */
-static mrb_value Get_Gold(mrb_state* p_state,  mrb_value self)
+static mrb_value Get_Jewels(mrb_state* p_state,  mrb_value self)
 {
     return mrb_fixnum_value(pLevel_Player->m_goldpieces);
 }
 
 /**
- * Method: LevelPlayer#gold=
+ * Method: LevelPlayer#jewels=
  *
- *   gold=(num)
- *   waffles=(num)
+ *   jewels=(num)
  *
- * Reset the number of collected gold pieces/waffles to the given
- * value. If you set a value greater than 100, a `Gold_100` event is
+ * Reset the number of collected jewels to the given
+ * value. If you set a value greater than 100, a `Jewel_100` event is
  * triggered.
  *
  * #### Parameter
  * num
- * : The new number of gold pieces/waffles. This value obeys the same
- *   100-rule as the parameter to [add_gold()](#addgold).
+ * : The new number of jewels. This value obeys the same
+ *   100-rule as the parameter to [add_jewels()](#addjewels).
  */
-/**
- * Method: LevelPlayer#waffles=
- *
- *   gold=(num)
- *   waffles=(num)
- *
- * Alias for [#gold=](#gold-1).
- */
-static mrb_value Set_Gold(mrb_state* p_state,  mrb_value self)
+static mrb_value Set_Jewels(mrb_state* p_state,  mrb_value self)
 {
-    mrb_int gold;
-    mrb_get_args(p_state, "i", &gold);
+    mrb_int jewels;
+    mrb_get_args(p_state, "i", &jewels);
 
-    pHud_Goldpieces->Set_Gold(gold);
-    return mrb_fixnum_value(gold);
+    pHud_Goldpieces->Set_Gold(jewels);
+    return mrb_fixnum_value(jewels);
 }
 
 /**
- * Method: LevelPlayer#add_gold
+ * Method: LevelPlayer#add_jewels
  *
- *   add_gold(num)    → an_integer
- *   add_waffles(num) → an_integer
+ *   add_jewels(num)    → an_integer
  *
- * Add to the player’s current amount of gold/waffles. If the number of
- * gold passes 100, a `Gold_100` event is triggered.
+ * Add to the player’s current amount of jewels. If the number of
+ * jewels passes 100, a `Jewel_100` event is triggered.
  *
  * #### Parameter
  * num
- * : The number of gold pieces/waffles to add. If Maryo’s resulting
- *   amount of gold pieces/waffles (i.e. the current amount plus `num`)
+ * : The number of jewels to add. If Maryo’s resulting
+ *   amount of jewels (i.e. the current amount plus `num`)
  *   is greater than 99, Maryo gains a life and 100 is subtracted
  *   from the resulting amount. This process is repeated until the total
- *   resulting amount of gold pieces/waffles is not greater than 99.
+ *   resulting amount of jewels is not greater than 99.
  *
  * #### Return value
- * The new amount of gold pieces/waffles (after the 100-rule described
+ * The new amount of jewels (after the 100-rule described
  * above has been applied as often as necessary).
  */
-/**
- * Method:  LevelPlayer#add_waffles
- *
- *   add_gold(num)    → an_integer
- *   add_waffles(num) → an_integer
- *
- * Alias for [#add_gold](#addgold)
- */
-static mrb_value Add_Gold(mrb_state* p_state,  mrb_value self)
+static mrb_value Add_Jewels(mrb_state* p_state,  mrb_value self)
 {
-    mrb_int gold;
-    mrb_get_args(p_state, "i", &gold);
+    mrb_int jewels;
+    mrb_get_args(p_state, "i", &jewels);
 
-    pHud_Goldpieces->Add_Gold(gold);
+    pHud_Goldpieces->Add_Gold(jewels);
     return mrb_fixnum_value(pLevel_Player->m_goldpieces);
 }
 
@@ -531,9 +501,9 @@ void TSC::Scripting::Init_Level_Player(mrb_state* p_state)
     mrb_define_method(p_state, p_rcLevel_Player, "add_points", Add_Points, MRB_ARGS_REQ(1));
     mrb_define_method(p_state, p_rcLevel_Player, "kill", Kill, MRB_ARGS_NONE());
     mrb_define_method(p_state, p_rcLevel_Player, "kill!", Forced_Kill, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcLevel_Player, "gold", Get_Gold, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcLevel_Player, "gold=", Set_Gold, MRB_ARGS_REQ(1));
-    mrb_define_method(p_state, p_rcLevel_Player, "add_gold", Add_Gold, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "jewels", Get_Jewels, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLevel_Player, "jewels=", Set_Jewels, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLevel_Player, "add_jewels", Add_Jewels, MRB_ARGS_REQ(1));
     mrb_define_method(p_state, p_rcLevel_Player, "lives", Get_Lives, MRB_ARGS_NONE());
     mrb_define_method(p_state, p_rcLevel_Player, "lives=", Set_Lives, MRB_ARGS_REQ(1));
     mrb_define_method(p_state, p_rcLevel_Player, "add_lives", Add_Lives, MRB_ARGS_REQ(1));
@@ -541,14 +511,8 @@ void TSC::Scripting::Init_Level_Player(mrb_state* p_state)
     mrb_define_method(p_state, p_rcLevel_Player, "release_item", Release_Item, MRB_ARGS_NONE());
 
     // Event handlers
-    mrb_define_method(p_state, p_rcLevel_Player, "on_gold_100", MRUBY_EVENT_HANDLER(gold_100), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcLevel_Player, "on_jewel_100", MRUBY_EVENT_HANDLER(jewel_100), MRB_ARGS_BLOCK());
     mrb_define_method(p_state, p_rcLevel_Player, "on_downgrade", MRUBY_EVENT_HANDLER(downgrade), MRB_ARGS_BLOCK());
     mrb_define_method(p_state, p_rcLevel_Player, "on_jump", MRUBY_EVENT_HANDLER(jump), MRB_ARGS_BLOCK());
     mrb_define_method(p_state, p_rcLevel_Player, "on_shoot", MRUBY_EVENT_HANDLER(shoot), MRB_ARGS_BLOCK());
-
-    // Aliases
-    mrb_define_alias(p_state, p_rcLevel_Player, "waffles", "gold");
-    mrb_define_alias(p_state, p_rcLevel_Player, "waffles=", "gold=");
-    mrb_define_alias(p_state, p_rcLevel_Player, "add_waffles", "add_gold");
-    mrb_define_alias(p_state, p_rcLevel_Player, "on_waffles_100", "on_gold_100");
 }
