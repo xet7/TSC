@@ -20,9 +20,9 @@
 #include "../core/global_basic.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../objects/animated_sprite.hpp"
-#include "../scripting/objects/specials/mrb_goldpiece.hpp"
-#include "../scripting/objects/specials/mrb_jumping_goldpiece.hpp"
-#include "../scripting/objects/specials/mrb_falling_goldpiece.hpp"
+#include "../scripting/objects/specials/mrb_jewel.hpp"
+#include "../scripting/objects/specials/mrb_jumping_jewel.hpp"
+#include "../scripting/objects/specials/mrb_falling_jewel.hpp"
 
 namespace TSC {
 
@@ -46,7 +46,7 @@ namespace TSC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Goldpiece"), &Scripting::rtTSC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Jewel"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // load from savegame
@@ -100,7 +100,7 @@ namespace TSC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "JumpingGoldpiece"), &Scripting::rtTSC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "JumpingJewel"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Validate the given collision object
@@ -126,7 +126,7 @@ namespace TSC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "FallingGoldpiece"), &Scripting::rtTSC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "FallingJewel"), &Scripting::rtTSC_Scriptable, this));
         }
 
         /* Validate the given collision object

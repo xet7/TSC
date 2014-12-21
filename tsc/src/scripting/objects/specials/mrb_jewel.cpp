@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_goldpiece.cpp
+ * mrb_jewel.cpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -15,29 +15,29 @@
 #include "../../../objects/goldpiece.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../level/level.hpp"
-#include "mrb_goldpiece.hpp"
+#include "mrb_jewel.hpp"
 #include "../sprites/mrb_animated_sprite.hpp"
 #include "../../events/event.hpp"
 
 /**
- * Class: Goldpiece
+ * Class: Jewel
  *
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * _Goldpieces_ (or rather waffles in new versions of TSC).
+ * _Jewels_.
  *
- * Note that this class describes the goldpieces you can also
+ * Note that this class describes the jewels you can also
  * directly place via the level editor’s "special" category, i.e.
- * the goldpieces don’t move. You can employ
+ * the jewels don’t move. You can employ
  * one of the subclasses to get a different behaviour.
  *
  * Events
  * ------
  *
  * Activate
- * : This event is fired when the player collects the coin. Do
- *   not change the player’s gold amount inside an event handler
+ * : This event is fired when the player collects the jewel. Do
+ *   not change the player’s jewel amount inside an event handler
  *   for this event, this will cause undefined behaviour.
  */
 
@@ -48,36 +48,36 @@ using namespace TSC::Scripting;
 MRUBY_IMPLEMENT_EVENT(activate);
 
 /**
- * Method: Goldpiece::new
+ * Method: Jewel::new
  *
- *   new() → a_goldpiece
+ *   new() → a_jewel
  *
  * Creates a new instance of this class with the default
  * values as per TSC’s internal code.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-    cGoldpiece* p_gp = new cGoldpiece(pActive_Level->m_sprite_manager);
-    DATA_PTR(self) = p_gp;
+    cGoldpiece* p_jewel = new cGoldpiece(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_jewel;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
-    p_gp->Set_Spawned(true);
-    pActive_Level->m_sprite_manager->Add(p_gp);
+    p_jewel->Set_Spawned(true);
+    pActive_Level->m_sprite_manager->Add(p_jewel);
 
     return self;
 }
 
 /**
- * Method: Goldpiece#gold_color=
+ * Method: Jewel#gold_color=
  *
  *   gold_color=( sym ) → sym
  *
- * Set the goldpiece’s color.
+ * Set the jewel’s color.
  *
  * #### Parameters
  *
  * sym
- * : The new goldpiece color. One of the symbols `:red` or `:yellow`.
+ * : The new jewel color. One of the symbols `:red` or `:yellow`.
  */
 static mrb_value Set_Gold_Color(mrb_state* p_state, mrb_value self)
 {
@@ -91,29 +91,29 @@ static mrb_value Set_Gold_Color(mrb_state* p_state, mrb_value self)
     else if (colorstr == "red")
         col = COL_RED;
     else {
-        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid goldpiece color %s", colorstr.c_str());
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid jewel color %s", colorstr.c_str());
         return mrb_nil_value(); // Not reached
     }
 
-    cGoldpiece* p_gp = Get_Data_Ptr<cGoldpiece>(p_state, self);
-    p_gp->Set_Gold_Color(col);
+    cGoldpiece* p_jewel = Get_Data_Ptr<cGoldpiece>(p_state, self);
+    p_jewel->Set_Gold_Color(col);
 
     return mrb_symbol_value(colsym);
 }
 
 /**
- * Method: Goldpiece#gold_color
+ * Method: Jewel#gold_color
  *
  *   gold_color() → a_symbol
  *
- * Returns the goldpiece’s current color. See #gold_color= for a
+ * Returns the jewel’s current color. See #gold_color= for a
  * list of possible return values.
  */
 static mrb_value Get_Gold_Color(mrb_state* p_state, mrb_value self)
 {
-    cGoldpiece* p_gp = Get_Data_Ptr<cGoldpiece>(p_state, self);
+    cGoldpiece* p_jewel = Get_Data_Ptr<cGoldpiece>(p_state, self);
 
-    switch (p_gp->m_color_type) {
+    switch (p_jewel->m_color_type) {
     case COL_YELLOW:
         return str2sym(p_state, "yellow");
     case COL_RED:
@@ -124,28 +124,28 @@ static mrb_value Get_Gold_Color(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Goldpiece#activate
+ * Method: Jewel#activate
  *
  *   activate()
  *
- * Apply the goldpiece to the player.
+ * Apply the jewel to the player.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-    cGoldpiece* p_gp = Get_Data_Ptr<cGoldpiece>(p_state, self);
-    p_gp->Activate();
+    cGoldpiece* p_jewel = Get_Data_Ptr<cGoldpiece>(p_state, self);
+    p_jewel->Activate();
     return mrb_nil_value();
 }
 
-void TSC::Scripting::Init_Goldpiece(mrb_state* p_state)
+void TSC::Scripting::Init_Jewel(mrb_state* p_state)
 {
-    struct RClass* p_rcGoldpiece = mrb_define_class(p_state, "Goldpiece", mrb_class_get(p_state, "AnimatedSprite"));
-    MRB_SET_INSTANCE_TT(p_rcGoldpiece, MRB_TT_DATA);
+    struct RClass* p_rcJewel = mrb_define_class(p_state, "Jewel", mrb_class_get(p_state, "AnimatedSprite"));
+    MRB_SET_INSTANCE_TT(p_rcJewel, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcGoldpiece, "initialize", Initialize, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcGoldpiece, "gold_color=", Set_Gold_Color, MRB_ARGS_REQ(1));
-    mrb_define_method(p_state, p_rcGoldpiece, "gold_color", Get_Gold_Color, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcGoldpiece, "activate", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcJewel, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcJewel, "gold_color=", Set_Gold_Color, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcJewel, "gold_color", Get_Gold_Color, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcJewel, "activate", Activate, MRB_ARGS_NONE());
 
-    mrb_define_method(p_state, p_rcGoldpiece, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
+    mrb_define_method(p_state, p_rcJewel, "on_activate", MRUBY_EVENT_HANDLER(activate), MRB_ARGS_BLOCK());
 }

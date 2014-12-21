@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 17:53+0100\n"
+"POT-Creation-Date: 2014-12-17 18:23+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lauri Ojansivu <x@xet7.org>\n"
 "Language-Team: TSC Finnish translation team\n"
@@ -408,7 +408,7 @@ msgstr "violetti"
 #: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/thromp.cpp:657
 #: ../../src/enemies/turtle.cpp:924 ../../src/level/level_player.cpp:3952
 #: ../../src/objects/level_entry.cpp:383 ../../src/objects/level_exit.cpp:465
-#: ../../src/objects/moving_platform.cpp:978
+#: ../../src/objects/moving_platform.cpp:982
 #: ../../src/video/animation.cpp:1557
 msgid "Direction"
 msgstr "Suunta"
@@ -418,7 +418,7 @@ msgstr "Suunta"
 #: ../../src/enemies/furball.cpp:747 ../../src/enemies/gee.cpp:574
 #: ../../src/enemies/krush.cpp:369 ../../src/enemies/larry.cpp:400
 #: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/turtle.cpp:924
-#: ../../src/objects/moving_platform.cpp:978
+#: ../../src/objects/moving_platform.cpp:982
 msgid "Starting direction."
 msgstr "Aloitus suunta."
 
@@ -443,8 +443,8 @@ msgid "Action range"
 msgstr "Toiminta-alue"
 
 #: ../../src/enemies/beetle_barrage.cpp:363
-msgid "Radius in which it reacts on Maryo"
-msgstr "Kantama jolla se reagoi Maryoon"
+msgid "Radius in which it reacts on Alex"
+msgstr "Kantama jolla se reagoi Alexiin"
 
 #: ../../src/enemies/beetle_barrage.cpp:369
 msgid "Count"
@@ -533,7 +533,7 @@ msgid "Direction it moves into."
 msgstr "Suunta johon se liikkuu."
 
 #: ../../src/enemies/flyon.cpp:575 ../../src/enemies/gee.cpp:584
-#: ../../src/enemies/thromp.cpp:676 ../../src/objects/moving_platform.cpp:990
+#: ../../src/enemies/thromp.cpp:676 ../../src/objects/moving_platform.cpp:994
 msgid "Distance"
 msgstr "Etäisyys"
 
@@ -543,7 +543,7 @@ msgstr "Liikkumisetäisyys suuntaansa"
 
 #: ../../src/enemies/flyon.cpp:583 ../../src/enemies/rokko.cpp:580
 #: ../../src/enemies/static.cpp:315 ../../src/enemies/thromp.cpp:684
-#: ../../src/objects/moving_platform.cpp:998
+#: ../../src/objects/moving_platform.cpp:1002
 msgid "Speed"
 msgstr "Nopeus"
 
@@ -597,15 +597,15 @@ msgid "Rotation Speed"
 msgstr "Pyörimisnopeus"
 
 #: ../../src/enemies/static.cpp:308 ../../src/objects/level_exit.cpp:530
-#: ../../src/objects/moving_platform.cpp:971
+#: ../../src/objects/moving_platform.cpp:975
 msgid "Path Identifier"
 msgstr "Polku tunniste"
 
-#: ../../src/enemies/static.cpp:308 ../../src/objects/moving_platform.cpp:971
+#: ../../src/enemies/static.cpp:308 ../../src/objects/moving_platform.cpp:975
 msgid "Name of the Path to move along."
 msgstr "Nimi polulle jota myöten liikutaan."
 
-#: ../../src/enemies/static.cpp:315 ../../src/objects/moving_platform.cpp:998
+#: ../../src/enemies/static.cpp:315 ../../src/objects/moving_platform.cpp:1002
 msgid "Maximum speed"
 msgstr "Suurin nopeus"
 
@@ -1627,77 +1627,77 @@ msgstr "Nimi sisääntulolle paluutasolla."
 msgid "Name of the Path to use for the camera movement."
 msgstr "Nimi polulle käytettäväksi kameran liikkeeseen."
 
-#: ../../src/objects/moving_platform.cpp:947 ../../src/objects/path.cpp:730
+#: ../../src/objects/moving_platform.cpp:951 ../../src/objects/path.cpp:730
 msgid "Move Type"
 msgstr "Liike tyyppi"
 
-#: ../../src/objects/moving_platform.cpp:947
+#: ../../src/objects/moving_platform.cpp:951
 msgid "Movement type."
 msgstr "Liikkeen tyyppi."
 
-#: ../../src/objects/moving_platform.cpp:990
+#: ../../src/objects/moving_platform.cpp:994
 msgid ""
 "Movable distance into its direction if type is line or radius if circle."
 msgstr ""
 "Liikkumis etäisyys sen suuntaan jos tyyppi on viiva tai säde jos ympyrä."
 
-#: ../../src/objects/moving_platform.cpp:1006
+#: ../../src/objects/moving_platform.cpp:1010
 msgid "Touch time"
 msgstr "Kosketusaika"
 
-#: ../../src/objects/moving_platform.cpp:1006
+#: ../../src/objects/moving_platform.cpp:1010
 msgid "Time when touched until shaking starts"
 msgstr "Aika kun kosketetaan kunnes ravistaminen alkaa"
 
-#: ../../src/objects/moving_platform.cpp:1014
+#: ../../src/objects/moving_platform.cpp:1018
 msgid "Shake time"
 msgstr "Ravistamisaika"
 
-#: ../../src/objects/moving_platform.cpp:1014
+#: ../../src/objects/moving_platform.cpp:1018
 msgid "Time it's shaking until falling"
 msgstr "Aika joka ravistetaan ennenkuin putoaa"
 
-#: ../../src/objects/moving_platform.cpp:1022
+#: ../../src/objects/moving_platform.cpp:1026
 msgid "Touch move time"
 msgstr "Kosketus liikkumisaika"
 
-#: ../../src/objects/moving_platform.cpp:1022
+#: ../../src/objects/moving_platform.cpp:1026
 msgid "If set does not move until this time has elapsed after touched"
 msgstr "Jos asetettu ei liiku kunnes tämä aika on kulunut kosketuksen jälkeen"
 
-#: ../../src/objects/moving_platform.cpp:1030
+#: ../../src/objects/moving_platform.cpp:1034
 msgid "Hor image count"
 msgstr "Vaaka kuvamäärä"
 
-#: ../../src/objects/moving_platform.cpp:1030
+#: ../../src/objects/moving_platform.cpp:1034
 msgid "Horizontal middle image count"
 msgstr "Vaakasuora keski kuvamäärä"
 
-#: ../../src/objects/moving_platform.cpp:1040
+#: ../../src/objects/moving_platform.cpp:1044
 msgid "Image top left"
 msgstr "Kuva ylävasemmalla"
 
-#: ../../src/objects/moving_platform.cpp:1048
+#: ../../src/objects/moving_platform.cpp:1052
 msgid "Image top middle"
 msgstr "Kuva yläkeskellä"
 
-#: ../../src/objects/moving_platform.cpp:1056
+#: ../../src/objects/moving_platform.cpp:1060
 msgid "Image top right"
 msgstr "Kuva yläoikealla"
 
-#: ../../src/objects/moving_platform.cpp:1259
+#: ../../src/objects/moving_platform.cpp:1263
 msgid "Falling "
 msgstr "Putoaa "
 
-#: ../../src/objects/moving_platform.cpp:1262
+#: ../../src/objects/moving_platform.cpp:1266
 msgid "Delayed "
 msgstr "Viivästynyt "
 
-#: ../../src/objects/moving_platform.cpp:1265
+#: ../../src/objects/moving_platform.cpp:1269
 msgid "Moving "
 msgstr "Liikkuu "
 
-#: ../../src/objects/moving_platform.cpp:1268
+#: ../../src/objects/moving_platform.cpp:1272
 msgid "Platform - "
 msgstr "Alusta - "
 

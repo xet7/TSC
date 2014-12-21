@@ -98,7 +98,7 @@ static mrb_value Get_Image_Dir(mrb_state* p_state,  mrb_value self)
  *
  *   max_distance=( distance ) → distance
  *
- * Specify the maximum distance the thromp may fall towarads Maryo.
+ * Specify the maximum distance the thromp may fall towarads Alex.
  *
  * #### Parameters
  * distance
@@ -126,7 +126,7 @@ static mrb_value Set_Max_Distance(mrb_state* p_state, mrb_value self)
  *   max_distance() → a_float
  *
  * Returns the current maximum distance the thromp may fall towards
- * Maryo, in pixels.
+ * Alex, in pixels.
  */
 static mrb_value Get_Max_Distance(mrb_state* p_state, mrb_value self)
 {

@@ -317,6 +317,7 @@ the MRuby scripting API, grouped by topic:
 | ***Enemies***                         | ***Enemies***                               |
 |---------------------------------------|---------------------------------------------|
 | [Enemy](enemy.html)                   | Base class for all enemies                  |
+| [Armadillo](armadillo.html)           |                                             |
 | [Beetle](beetle.html)                 |                                             |
 | [BeetleBarrage](beetlebarrage.html)   |                                             |
 | [Eato](eato.html)                     |                                             |
@@ -329,7 +330,6 @@ the MRuby scripting API, grouped by topic:
 | [Spika](spika.html)                   |                                             |
 | [Spikeball](spikeball.html)           |                                             |
 | [Thromp](thromp.html)                 |                                             |
-| [Turtle](turtle.html)                 |                                             |
 | [TurtleBoss](turtleboss.html)         |                                             |
 | [StaticEnemy](staticenemy.html)       |                                             |
 |---------------------------------------|---------------------------------------------|
@@ -343,16 +343,16 @@ the MRuby scripting API, grouped by topic:
 | ***Powerups***                        | ***Powerups***                              |
 |---------------------------------------|---------------------------------------------|
 | [Powerup](powerup.html)               | Base class for all powerups                 |
-| [Fireplant](fireplant.html)           |                                             |
+| [Fireberry](fireberry.html)           |                                             |
 | [Moon](moon.html)                     |                                             |
-| [Mushroom](mushroom.html)             |                                             |
+| [Berry](berry.html)                   |                                             |
 | [Star](star.html)                     |                                             |
 |---------------------------------------|---------------------------------------------|
-| ***Gold/Waffles***                    | ***Gold/Waffles***                          |
+| ***Jewels***                          | ***Jewels***                                |
 |---------------------------------------|---------------------------------------------|
-| [Goldpiece](goldpiece.html)           | Base class for all goldpieces/waffles       |
-| [FallingGoldpiece](fallinggoldpiece.html) |                                         |
-| [JumpingGoldpiece](jumpinggoldpiece.html) |                                         |
+| [Jewel](jewel.html)                   | Base class for all jewels                   |
+| [FallingJewel](fallingjewel.html)     |                                             |
+| [JumpingJewel](jumpingjewel.html)     |                                             |
 |---------------------------------------|---------------------------------------------|
 | ***Level stuff***                     | ***Level stuff***                           |
 |---------------------------------------|---------------------------------------------|

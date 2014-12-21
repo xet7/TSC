@@ -23,7 +23,7 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * _Powerups_ are goodies (well, or badies) that affect Maryo’s
+ * _Powerups_ are goodies (well, or badies) that affect Alex’s
  * state somehow. This class is the baseclass for all powerups.
  *
  * Events

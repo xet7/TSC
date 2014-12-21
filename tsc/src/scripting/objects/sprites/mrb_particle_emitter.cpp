@@ -142,7 +142,7 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
  * you have to _know_ what to set and what not to set. Particle emitters
  * can be quite hairy beasts, so I recommend you to often load your level
  * and test what your particle emitter will look like, e.g. by
- * registering for Maryo’s _Jump_ event.
+ * registering for Alex’s _Jump_ event.
  *
  * Particle emitters can be used in two ways: The usual way, which means
  * periodically issueing a defined number of particles at a time. Such a
@@ -165,7 +165,7 @@ static mrb_value Set_Time_to_Live(mrb_state* p_state,  mrb_value self)
  *
  * Note that, in contrast to all other objects in TSC, it is possible to
  * set a particle emitter’s [Z coordinate](#z), making it possible to
- * appear in front of Maryo or other sprites.
+ * appear in front of Alex or other sprites.
  *
  * Also note that `ParticleEmitter` is not a subclass of `Sprite` (the
  * particle emitter doesn’t show up on the screen itself, just its

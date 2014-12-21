@@ -25,9 +25,9 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * A level exit is usually a location where Maryo can regularily
+ * A level exit is usually a location where Alex can regularily
  * win the level, without any scripting intervention. Level exits
- * however can also be used to warp Maryo to other points in the
+ * however can also be used to warp Alex to other points in the
  * same level or even into a sublevel of the current one.
  *
  * Return level stack
@@ -36,13 +36,13 @@
  * Level exits can make use of a return level stack that allows
  * to return to a specific level when a sublevel’s finish is
  * reached. To activate this feature, you first have to specify
- * a sublevel a level exit will warp Maryo into as usual (see
+ * a sublevel a level exit will warp Alex into as usual (see
  * `#level=`). Utilizing the methods `#return_level=` and
- * `#return_entry=` you can now dynamically specify where Maryo
+ * `#return_entry=` you can now dynamically specify where Alex
  * should return when **the sublevel’s** default finish is reached
  * (without setting one of these, the sublevel’s finish will be
  * taken for the overall finish and end all current levels, advancing
- * Maryo to the next waypoint on the overworld).
+ * Alex to the next waypoint on the overworld).
  *
  * This feature can be useful for bonus levels or labyrinths, probably
  * for other complex level setups. Note it works fine recursively, i.e.
@@ -53,7 +53,7 @@
  *
  * Exit
  * : Called when this level exit is activated. If this is a warping
- *   level exit, the event handler is executed after Maryo’s movements
+ *   level exit, the event handler is executed after Alex’s movements
  *   are completed (but before the camera move and before the target
  *   level entry is read from this object).
  */
@@ -306,7 +306,7 @@ static mrb_value Get_Entry(mrb_state* p_state, mrb_value self)
  *   return_level=( str ) → str
  *
  * Specifies the name of the level that is placed on the stack when
- * Maryo enters this level exit. An empty string means to push the
+ * Alex enters this level exit. An empty string means to push the
  * current level onto the stack.
  *
  * Note you have to set a destination sublevel via `#level=` in
@@ -329,7 +329,7 @@ static mrb_value Set_Return_Level(mrb_state* p_state, mrb_value self)
  *   return_level() → a_string
  *
  * Returns the name of the level that is placed on the stack when
- * Maryo enters this level exit. If the returned string is empty, the
+ * Alex enters this level exit. If the returned string is empty, the
  * current level will be pushed onto the stack.
  *
  * Note that this setting only takes effect if a destination
@@ -419,7 +419,7 @@ static mrb_value Get_Path(mrb_state* p_state, mrb_value self)
  *
  *   activate()
  *
- * Activates this level exit, warping Maryo to the target or
+ * Activates this level exit, warping Alex to the target or
  * ending the level.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)

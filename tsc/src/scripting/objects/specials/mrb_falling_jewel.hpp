@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_turtle.hpp
+ * mrb_falling_jewel.hpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,13 +12,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TSC_SCRIPTING_TURTLE_HPP
-#define TSC_SCRIPTING_TURTLE_HPP
-#include "../../scripting.hpp"
-
+#ifndef TSC_SCRIPTING_FALLING_JEWEL_HPP
+#define TSC_SCRIPTING_FALLING_JEWEL_HPP
 namespace TSC {
     namespace Scripting {
-        void Init_Turtle(mrb_state* p_state);
+        void Init_FallingJewel(mrb_state* p_state);
     }
 }
 #endif

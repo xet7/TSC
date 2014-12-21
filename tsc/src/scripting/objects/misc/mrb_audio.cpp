@@ -93,16 +93,16 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  *   define your own IDs, but there is a number of IDs predefined
  *   by TSC:
  *
- *   1. Maryo jump sound.
- *   2. Maryo wall hit sound
- *   3. Maryo powerdown sound
- *   4. Maryo ball sound
- *   5. Maryo death sound
+ *   1. Alex jump sound.
+ *   2. Alex wall hit sound
+ *   3. Alex powerdown sound
+ *   4. Alex ball sound
+ *   5. Alex death sound
  *   6. Fireplant, blue mushroom, ghost mushroom and feather
  *      sound
  *   7. 1-Up mushroom and moon sound
- *   8. Maryo Au! (not used currently)
- *   9. Maryo stop sound
+ *   8. Alex Au! (not used currently)
+ *   9. Alex stop sound
  *
  *   Specifying -1 for this parameter allows the given sound to be played
  *   multiple times.

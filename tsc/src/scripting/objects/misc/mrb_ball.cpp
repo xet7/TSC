@@ -24,7 +24,7 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * This class represents the fire and ice _balls_ Maryo is able
+ * This class represents the fire and ice _balls_ Alex is able
  * to throw. With this class, you can generate these yourself
  * on whatever conditions you want. Overriding the touch event
  * you could even override the default behaviour.

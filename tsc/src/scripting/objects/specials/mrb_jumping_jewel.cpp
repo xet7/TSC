@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_jumping_goldpiece.cpp
+ * mrb_jumping_jewel.cpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -15,46 +15,46 @@
 #include "../../../objects/goldpiece.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../level/level.hpp"
-#include "mrb_jumping_goldpiece.hpp"
-#include "mrb_goldpiece.hpp"
+#include "mrb_jumping_jewel.hpp"
+#include "mrb_jewel.hpp"
 
 using namespace TSC;
 using namespace TSC::Scripting;
 
 /**
- * Class: JumpingGoldpiece
+ * Class: JumpingJewel
  *
- * Parent: [Goldpiece](goldpiece.html)
+ * Parent: [Jewel](jewel.html)
  * {: .superclass}
  *
- * These goldpieces are used by coin boxes. You will barely
+ * These jewels are used by coin boxes. You will barely
  * ever need them.
  */
 
 
 /**
- * Method: JumpingGoldpiece::new
+ * Method: JumpingJewel::new
  *
- *   new() → a_jumping_goldpiece
+ *   new() → a_jumping_jewel
  *
  * Creates a new instance of this class.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-    cJGoldpiece* p_jgp = new cJGoldpiece(pActive_Level->m_sprite_manager);
-    DATA_PTR(self) = p_jgp;
+    cJGoldpiece* p_jj = new cJGoldpiece(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_jj;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
-    p_jgp->Set_Spawned(true);
-    pActive_Level->m_sprite_manager->Add(p_jgp);
+    p_jj->Set_Spawned(true);
+    pActive_Level->m_sprite_manager->Add(p_jj);
 
     return self;
 }
 
-void TSC::Scripting::Init_JumpingGoldpiece(mrb_state* p_state)
+void TSC::Scripting::Init_JumpingJewel(mrb_state* p_state)
 {
-    struct RClass* p_rcJumping_Goldpiece = mrb_define_class(p_state, "JumpingGoldpiece", mrb_class_get(p_state, "Goldpiece"));
-    MRB_SET_INSTANCE_TT(p_rcJumping_Goldpiece, MRB_TT_DATA);
+    struct RClass* p_rcJumping_Jewel = mrb_define_class(p_state, "JumpingJewel", mrb_class_get(p_state, "Jewel"));
+    MRB_SET_INSTANCE_TT(p_rcJumping_Jewel, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcJumping_Goldpiece, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcJumping_Jewel, "initialize", Initialize, MRB_ARGS_NONE());
 }

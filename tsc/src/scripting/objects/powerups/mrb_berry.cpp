@@ -12,19 +12,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mrb_mushroom.hpp"
+#include "mrb_berry.hpp"
 #include "mrb_powerup.hpp"
 #include "../../../level/level.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../objects/powerup.hpp"
 
 /**
- * Class: Mushroom
+ * Class: Berry
  *
  * Parent: [Powerup](powerup.html)
  * {: .superclass}
  *
- * The _Mushroom_.
+ * The _Berry_.
  */
 
 using namespace TSC;
@@ -32,52 +32,52 @@ using namespace TSC::Scripting;
 
 
 /**
- * Method: Mushroom::new
+ * Method: Berry::new
  *
- *   new() → a_mushroom
+ *   new() → a_berry
  *
- * Creates a new mushroom powerup with the default values.
+ * Creates a new berry powerup with the default values.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-    cMushroom* p_mushroom = new cMushroom(pActive_Level->m_sprite_manager);
-    DATA_PTR(self) = p_mushroom;
+    cMushroom* p_berry = new cMushroom(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_berry;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
-    p_mushroom->Set_Spawned(true);
+    p_berry->Set_Spawned(true);
 
     // Let TSC manage the memory
-    pActive_Level->m_sprite_manager->Add(p_mushroom);
+    pActive_Level->m_sprite_manager->Add(p_berry);
 
     return self;
 }
 
 /**
- * Method: Mushroom#type=
+ * Method: Berry#type=
  *
  *   type=( type ) → type
  *
- * Specify the mushroom’s type.
+ * Specify the berry’s type.
  *
  * #### Parameters
  * type
- * : The mushroom’s new type. One of the following symbols:
+ * : The berry’s new type. One of the following symbols:
  *
  *   red
- *   : The normal red mushroom
+ *   : The normal red berry
  *
  *   life
- *   : The green +1 life mushroom
+ *   : The green +1 life berry
  *
  *   poison
- *   : The green -1 life mushroom
+ *   : The green -1 life berry
  *
  *   blue
- *   : The blue ice-maryo mushroom
+ *   : The blue ice-alex berry
  *
  *   ghost
- *   : The transparent ghost-maryo mushroom
+ *   : The transparent ghost-alex berry
  */
 static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
@@ -97,28 +97,28 @@ static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
     else if (typestr == "ghost")
         spritetype = TYPE_MUSHROOM_GHOST;
     else {
-        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid mushroom type %s", typestr.c_str());
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid berry type %s", typestr.c_str());
         return mrb_nil_value(); // Not reached
     }
 
-    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-    p_mushroom->Set_Type(spritetype);
+    cMushroom* p_berry = Get_Data_Ptr<cMushroom>(p_state, self);
+    p_berry->Set_Type(spritetype);
 
     return mrb_symbol_value(type);
 }
 
 /**
- * Method: Mushroom#type
+ * Method: Berry#type
  *
  *   type() → a_symbol
  *
- * Returns the mushroom’s current type as a symbol See `type=`
+ * Returns the berry’s current type as a symbol See `type=`
  * for a list of possible symbols returned by this method.
  */
 static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
 {
-    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-    switch (p_mushroom->m_type) {
+    cMushroom* p_berry = Get_Data_Ptr<cMushroom>(p_state, self);
+    switch (p_berry->m_type) {
     case TYPE_MUSHROOM_DEFAULT:
         return str2sym(p_state, "red");
     case TYPE_MUSHROOM_LIVE_1:
@@ -135,12 +135,12 @@ static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Mushroom#glimming=
+ * Method: Berry#glimming=
  *
  *   glimming=( bool ) → bool
  *
- * Make this mushroom look mysterious by making it glimming.
- * Note glimming is the default for newly created mushrooms.
+ * Make this berry look mysterious by making it glimming.
+ * Note glimming is the default for newly created berrys.
  *
  * #### Parameters
  * bool
@@ -151,52 +151,52 @@ static mrb_value Set_Glim_Mode(mrb_state* p_state, mrb_value self)
     mrb_bool glim;
     mrb_get_args(p_state, "b", &glim);
 
-    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-    p_mushroom->m_glim_mod = glim;
+    cMushroom* p_berry = Get_Data_Ptr<cMushroom>(p_state, self);
+    p_berry->m_glim_mod = glim;
 
     return mrb_bool_value(glim);
 }
 
 /**
- * Method: Mushroom#glimming?
+ * Method: Berry#glimming?
  *
  *   glimming?() → true or false
  *
- * Is this mushroom glimming mysteriously?
+ * Is this berry glimming mysteriously?
  */
 static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
 {
-    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-    return mrb_bool_value(p_mushroom->m_glim_mod);
+    cMushroom* p_berry = Get_Data_Ptr<cMushroom>(p_state, self);
+    return mrb_bool_value(p_berry->m_glim_mod);
 }
 
 /**
- * Method: Mushroom#activate!
+ * Method: Berry#activate!
  *
  *   activate!()
  *
- * Apply the item to Maryo. Doing so will destroy the mushroom in
+ * Apply the item to Alex. Doing so will destroy the berry in
  * any case, but note that applying it does not necessarily cause
- * it to have an effect on Maryo (use `LevelPlayer#type=` for
+ * it to have an effect on Alex (use `LevelPlayer#type=` for
  * that). Instead, it may be stored in the item box, or even
  * just have no effect if that is already full.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
 {
-    cMushroom* p_mushroom = Get_Data_Ptr<cMushroom>(p_state, self);
-    p_mushroom->Activate();
+    cMushroom* p_berry = Get_Data_Ptr<cMushroom>(p_state, self);
+    p_berry->Activate();
     return mrb_nil_value();
 }
 
-void TSC::Scripting::Init_Mushroom(mrb_state* p_state)
+void TSC::Scripting::Init_Berry(mrb_state* p_state)
 {
-    struct RClass* p_rcMushroom = mrb_define_class(p_state, "Mushroom", mrb_class_get(p_state, "Powerup"));
-    MRB_SET_INSTANCE_TT(p_rcMushroom, MRB_TT_DATA);
+    struct RClass* p_rcBerry = mrb_define_class(p_state, "Berry", mrb_class_get(p_state, "Powerup"));
+    MRB_SET_INSTANCE_TT(p_rcBerry, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcMushroom, "initialize", Initialize, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcMushroom, "type=", Set_Type, MRB_ARGS_REQ(1));
-    mrb_define_method(p_state, p_rcMushroom, "type", Get_Type, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcMushroom, "glimming=", Set_Glim_Mode, MRB_ARGS_REQ(1));
-    mrb_define_method(p_state, p_rcMushroom, "glimming?", Get_Glim_Mode, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcMushroom, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBerry, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBerry, "type=", Set_Type, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBerry, "type", Get_Type, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBerry, "glimming=", Set_Glim_Mode, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcBerry, "glimming?", Get_Glim_Mode, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcBerry, "activate!", Activate, MRB_ARGS_NONE());
 }

@@ -26,7 +26,7 @@
  * {: .superclass}
  *
  * The small _Eato_ is a plant glued to a wall, ceiling or even the bottom
- * and just sits there. It doesn’t move, but if Maryo gets in its reach,
+ * and just sits there. It doesn’t move, but if Alex gets in its reach,
  * it will bite.
  */
 

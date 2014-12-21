@@ -27,7 +27,7 @@
  * {: .superclass}
  *
  * The _Beetle Barrage_ is a giant plant that spits out a number
- * of small bugs at a time to defend itself when Maryo comes in
+ * of small bugs at a time to defend itself when Alex comes in
  * range. They generally don’t move (unless you script them
  * to), but the bugs are very vivid (see [Beetle](beetle.html) if
  * you want to generate some of them standalone).
@@ -78,7 +78,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  *
  *   active_range=( range ) → range
  *
- * Sets the radius in which the plant reacts on Maryo, i.e. in which
+ * Sets the radius in which the plant reacts on Alex, i.e. in which
  * it will spit out beetles.
  *
  * #### Parameters
@@ -103,7 +103,7 @@ static mrb_value Set_Active_Range(mrb_state* p_state, mrb_value self)
  *
  *   active_range() → a_float
  *
- * Returns the radius in which the plant reacts on Maryo.
+ * Returns the radius in which the plant reacts on Alex.
  */
 static mrb_value Get_Active_Range(mrb_state* p_state, mrb_value self)
 {
