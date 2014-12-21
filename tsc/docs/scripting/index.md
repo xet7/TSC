@@ -345,7 +345,7 @@ the MRuby scripting API, grouped by topic:
 | [Powerup](powerup.html)               | Base class for all powerups                 |
 | [Fireplant](fireplant.html)           |                                             |
 | [Moon](moon.html)                     |                                             |
-| [Mushroom](mushroom.html)             |                                             |
+| [Berry](berry.html)                   |                                             |
 | [Star](star.html)                     |                                             |
 |---------------------------------------|---------------------------------------------|
 | ***Gold/Waffles***                    | ***Gold/Waffles***                          |

@@ -50,7 +50,7 @@
 #include "objects/enemies/mrb_pip.hpp"
 #include "objects/enemies/mrb_larry.hpp"
 #include "objects/powerups/mrb_powerup.hpp"
-#include "objects/powerups/mrb_mushroom.hpp"
+#include "objects/powerups/mrb_berry.hpp"
 #include "objects/powerups/mrb_fireberry.hpp"
 #include "objects/powerups/mrb_moon.hpp"
 #include "objects/powerups/mrb_star.hpp"
@@ -304,7 +304,7 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_TurtleBoss(mp_mruby);
     Init_Larry(mp_mruby);
     Init_Powerup(mp_mruby);
-    Init_Mushroom(mp_mruby);
+    Init_Berry(mp_mruby);
     Init_Fireberry(mp_mruby);
     Init_Moon(mp_mruby);
     Init_Star(mp_mruby);

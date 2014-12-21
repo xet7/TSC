@@ -18,7 +18,7 @@
 
 namespace TSC {
     namespace Scripting {
-        void Init_Mushroom(mrb_state* p_state);
+        void Init_Berry(mrb_state* p_state);
     }
 }
 #endif

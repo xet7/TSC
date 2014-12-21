@@ -21,7 +21,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../objects/animated_sprite.hpp"
 #include "../scripting/objects/powerups/mrb_powerup.hpp"
-#include "../scripting/objects/powerups/mrb_mushroom.hpp"
+#include "../scripting/objects/powerups/mrb_berry.hpp"
 #include "../scripting/objects/powerups/mrb_fireberry.hpp"
 #include "../scripting/objects/powerups/mrb_moon.hpp"
 
