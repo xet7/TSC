@@ -343,7 +343,7 @@ the MRuby scripting API, grouped by topic:
 | ***Powerups***                        | ***Powerups***                              |
 |---------------------------------------|---------------------------------------------|
 | [Powerup](powerup.html)               | Base class for all powerups                 |
-| [Fireplant](fireplant.html)           |                                             |
+| [Fireberry](fireberry.html)           |                                             |
 | [Moon](moon.html)                     |                                             |
 | [Berry](berry.html)                   |                                             |
 | [Star](star.html)                     |                                             |
