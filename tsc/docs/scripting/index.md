@@ -317,6 +317,7 @@ the MRuby scripting API, grouped by topic:
 | ***Enemies***                         | ***Enemies***                               |
 |---------------------------------------|---------------------------------------------|
 | [Enemy](enemy.html)                   | Base class for all enemies                  |
+| [Armadillo](armadillo.html)           |                                             |
 | [Beetle](beetle.html)                 |                                             |
 | [BeetleBarrage](beetlebarrage.html)   |                                             |
 | [Eato](eato.html)                     |                                             |
@@ -329,7 +330,6 @@ the MRuby scripting API, grouped by topic:
 | [Spika](spika.html)                   |                                             |
 | [Spikeball](spikeball.html)           |                                             |
 | [Thromp](thromp.html)                 |                                             |
-| [Turtle](turtle.html)                 |                                             |
 | [TurtleBoss](turtleboss.html)         |                                             |
 | [StaticEnemy](staticenemy.html)       |                                             |
 |---------------------------------------|---------------------------------------------|

@@ -45,7 +45,7 @@
 #include "objects/enemies/mrb_spikeball.hpp"
 #include "objects/enemies/mrb_static.hpp"
 #include "objects/enemies/mrb_thromp.hpp"
-#include "objects/enemies/mrb_turtle.hpp"
+#include "objects/enemies/mrb_armadillo.hpp"
 #include "objects/enemies/mrb_turtle_boss.hpp"
 #include "objects/enemies/mrb_pip.hpp"
 #include "objects/enemies/mrb_larry.hpp"
@@ -300,7 +300,7 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Spikeball(mp_mruby);
     Init_StaticEnemy(mp_mruby);
     Init_Thromp(mp_mruby);
-    Init_Turtle(mp_mruby);
+    Init_Armadillo(mp_mruby);
     Init_TurtleBoss(mp_mruby);
     Init_Larry(mp_mruby);
     Init_Powerup(mp_mruby);

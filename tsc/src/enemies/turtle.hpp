@@ -18,7 +18,7 @@
 #define TSC_TURTLE_HPP
 
 #include "../enemies/enemy.hpp"
-#include "../scripting/objects/enemies/mrb_turtle.hpp"
+#include "../scripting/objects/enemies/mrb_armadillo.hpp"
 
 namespace TSC {
 
