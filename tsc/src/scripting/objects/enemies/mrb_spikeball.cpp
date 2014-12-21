@@ -32,7 +32,7 @@
  * using the star powerup, this should really be the exception. They gain
  * their character by their invicibility, and combining them with stars too
  * often makes them lose their point. Instead, if you want to block a passage
- * in a way Maryo can’t get through without a star, use eatos (and probably remove
+ * in a way Alex can’t get through without a star, use eatos (and probably remove
  * their ice weakness using scripting).
  */
 

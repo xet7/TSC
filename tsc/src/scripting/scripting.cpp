@@ -45,12 +45,12 @@
 #include "objects/enemies/mrb_spikeball.hpp"
 #include "objects/enemies/mrb_static.hpp"
 #include "objects/enemies/mrb_thromp.hpp"
-#include "objects/enemies/mrb_turtle.hpp"
+#include "objects/enemies/mrb_armadillo.hpp"
 #include "objects/enemies/mrb_turtle_boss.hpp"
 #include "objects/enemies/mrb_pip.hpp"
 #include "objects/enemies/mrb_larry.hpp"
 #include "objects/powerups/mrb_powerup.hpp"
-#include "objects/powerups/mrb_mushroom.hpp"
+#include "objects/powerups/mrb_berry.hpp"
 #include "objects/powerups/mrb_fireberry.hpp"
 #include "objects/powerups/mrb_moon.hpp"
 #include "objects/powerups/mrb_star.hpp"
@@ -63,9 +63,9 @@
 #include "objects/specials/mrb_path.hpp"
 #include "objects/specials/mrb_lava.hpp"
 #include "objects/specials/mrb_enemy_stopper.hpp"
-#include "objects/specials/mrb_goldpiece.hpp"
-#include "objects/specials/mrb_jumping_goldpiece.hpp"
-#include "objects/specials/mrb_falling_goldpiece.hpp"
+#include "objects/specials/mrb_jewel.hpp"
+#include "objects/specials/mrb_jumping_jewel.hpp"
+#include "objects/specials/mrb_falling_jewel.hpp"
 #include "objects/specials/mrb_crate.hpp"
 #include "objects/specials/mrb_moving_platform.hpp"
 
@@ -300,11 +300,11 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Spikeball(mp_mruby);
     Init_StaticEnemy(mp_mruby);
     Init_Thromp(mp_mruby);
-    Init_Turtle(mp_mruby);
+    Init_Armadillo(mp_mruby);
     Init_TurtleBoss(mp_mruby);
     Init_Larry(mp_mruby);
     Init_Powerup(mp_mruby);
-    Init_Mushroom(mp_mruby);
+    Init_Berry(mp_mruby);
     Init_Fireberry(mp_mruby);
     Init_Moon(mp_mruby);
     Init_Star(mp_mruby);
@@ -318,9 +318,9 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Path(mp_mruby);
     Init_Lava(mp_mruby);
     Init_EnemyStopper(mp_mruby);
-    Init_Goldpiece(mp_mruby);
-    Init_JumpingGoldpiece(mp_mruby);
-    Init_FallingGoldpiece(mp_mruby);
+    Init_Jewel(mp_mruby);
+    Init_JumpingJewel(mp_mruby);
+    Init_FallingJewel(mp_mruby);
     Init_Crate(mp_mruby);
     Init_Moving_Platform(mp_mruby);
     Init_UIDS(mp_mruby); // Call this last so it can rely on the other MRuby classes to be defined

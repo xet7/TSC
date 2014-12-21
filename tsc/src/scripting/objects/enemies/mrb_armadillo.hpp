@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_falling_goldpiece.hpp
+ * mrb_armadillo.hpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,11 +12,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TSC_SCRIPTING_FALLING_GOLDPIECE_HPP
-#define TSC_SCRIPTING_FALLING_GOLDPIECE_HPP
+#ifndef TSC_SCRIPTING_ARMADILLO_HPP
+#define TSC_SCRIPTING_ARMADILLO_HPP
+#include "../../scripting.hpp"
+
 namespace TSC {
     namespace Scripting {
-        void Init_FallingGoldpiece(mrb_state* p_state);
+        void Init_Armadillo(mrb_state* p_state);
     }
 }
 #endif

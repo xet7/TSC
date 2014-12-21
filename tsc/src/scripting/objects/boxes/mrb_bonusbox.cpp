@@ -68,7 +68,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *   : See _undefined_.
  *
  *   fireplant
- *   : Box containing a fireplant if Maryo is big,
+ *   : Box containing a fireplant if Alex is big,
  *     a red mushroom otherwise.
  *
  *   goldpiece
@@ -79,7 +79,7 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *   : Box containing the normal red mushroom.
  *
  *   mushroom_blue
- *   : Box containing the blue ice mushroom if Maryo is big,
+ *   : Box containing the blue ice mushroom if Alex is big,
  *     a red mushroom otherwise.
  *
  *   mushroom_ghost
@@ -176,9 +176,9 @@ static mrb_value Get_Bonus_Type(mrb_state* p_state, mrb_value self)
  *   force_best_item=( bool ) → bool
  *
  * With regard to #bonus_type=, force always the best possible
- * item to come out of the box, regardless of Maryo’s state.
+ * item to come out of the box, regardless of Alex’s state.
  * That is, if you set #bonus_type= to :mushroom_blue, and
- * Maryo is small, AND you set this option, the box will
+ * Alex is small, AND you set this option, the box will
  * spit out a blue mushroom nevertheless.
  *
  * #### Parameters

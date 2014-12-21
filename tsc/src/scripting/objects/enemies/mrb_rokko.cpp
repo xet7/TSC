@@ -35,7 +35,7 @@
  *
  * Rokko may either work in self-activating or manual triggering mode,
  * the former being the default. When self-triggering, Rokko will go off
- * as soon as Maryo enters the area Rokko observers towards the front
+ * as soon as Alex enters the area Rokko observers towards the front
  * (see `max_front_distance=`) and towards the sides (see `max_sides_distance=`).
  * While for "ordinary" levels created without scripting this behaviour is
  * just fine, but for scripting you might want to activate Rokko depending
@@ -49,7 +49,7 @@
  * ~~~~~~~~~~
  *
  * In manual triggering mode, Rokko doesn’t observe anything and hence
- * does not self-trigger, regardless of Maryo’s position. To fire off,
+ * does not self-trigger, regardless of Alex’s position. To fire off,
  * check your condition and call `activate!`:
  *
  * ~~~~~~~~ ruby
@@ -126,7 +126,7 @@ static mrb_value Get_Speed(mrb_state* p_state, mrb_value self)
  *
  *   max_front_distance=( val ) → val
  *
- * Sets the maximum number of pixels Rokko will go off in if Maryo
+ * Sets the maximum number of pixels Rokko will go off in if Alex
  * enters that room before Rokko’s head.
  *
  * #### Parameters
@@ -154,7 +154,7 @@ static mrb_value Set_Max_Distance_Front(mrb_state* p_state, mrb_value self)
  *
  *   max_front_distance() → a_float
  *
- * Returns the maximum number of pixels Rokko will use as the Maryo
+ * Returns the maximum number of pixels Rokko will use as the Alex
  * detection area to the front.
  */
 static mrb_value Get_Max_Distance_Front(mrb_state* p_state, mrb_value self)
@@ -168,7 +168,7 @@ static mrb_value Get_Max_Distance_Front(mrb_state* p_state, mrb_value self)
  *
  *   max_sides_distance=( val ) → val
  *
- * Sets the maximum number of pixels Rokko will go off in if Maryo
+ * Sets the maximum number of pixels Rokko will go off in if Alex
  * enters that room next to Rokko (but not behind).
  *
  * #### Parameters
@@ -196,7 +196,7 @@ static mrb_value Set_Max_Distance_Sides(mrb_state* p_state, mrb_value self)
  *
  *   max_sides_distance() → a_float
  *
- * Returns the maximum number of pixels Rokko will use as the Maryo
+ * Returns the maximum number of pixels Rokko will use as the Alex
  * detection area to the sides.
  */
 static mrb_value Get_Max_Distance_Sides(mrb_state* p_state, mrb_value self)
@@ -256,7 +256,7 @@ static mrb_value Is_Flying(mrb_state* p_state, mrb_value self)
  *
  *   activate()
  *
- * Triggers Rokko. He will fly and downgrade Maryo if he is in
+ * Triggers Rokko. He will fly and downgrade Alex if he is in
  * his way.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)

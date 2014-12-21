@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_falling_goldpiece.cpp
+ * mrb_falling_jewel.cpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -15,48 +15,48 @@
 #include "../../../objects/goldpiece.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../level/level.hpp"
-#include "mrb_jumping_goldpiece.hpp"
-#include "mrb_goldpiece.hpp"
+#include "mrb_jumping_jewel.hpp"
+#include "mrb_jewel.hpp"
 
 using namespace TSC;
 using namespace TSC::Scripting;
 
 /**
- * Class: FallingGoldpiece
+ * Class: FallingJewel
  *
- * Parent: [Goldpiece](goldpiece.html)
+ * Parent: [Jewel](jewel.html)
  * {: .superclass}
  *
- * This kind of goldpiece jumps around when it falls down
+ * This kind of jewel jumps around when it falls down
  * something, i.e. it is subject to gravity and moves around.
- * This is goldpiece type used when you eliminate an enemy
+ * This is jewel type used when you eliminate an enemy
  * by means of a fireball.
  */
 
 
 /**
- * Method: FallingGoldpiece::new
+ * Method: FallingJewel::new
  *
- *   new() → a_falling_goldpiece
+ *   new() → a_falling_jewel
  *
  * Creates a new instance of this class.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-    cFGoldpiece* p_fgp = new cFGoldpiece(pActive_Level->m_sprite_manager);
-    DATA_PTR(self) = p_fgp;
+    cFGoldpiece* p_fj = new cFGoldpiece(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_fj;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
-    p_fgp->Set_Spawned(true);
-    pActive_Level->m_sprite_manager->Add(p_fgp);
+    p_fj->Set_Spawned(true);
+    pActive_Level->m_sprite_manager->Add(p_fj);
 
     return self;
 }
 
-void TSC::Scripting::Init_FallingGoldpiece(mrb_state* p_state)
+void TSC::Scripting::Init_FallingJewel(mrb_state* p_state)
 {
-    struct RClass* p_rcFalling_Goldpiece = mrb_define_class(p_state, "FallingGoldpiece", mrb_class_get(p_state, "Goldpiece"));
-    MRB_SET_INSTANCE_TT(p_rcFalling_Goldpiece, MRB_TT_DATA);
+    struct RClass* p_rcFalling_Jewel = mrb_define_class(p_state, "FallingJewel", mrb_class_get(p_state, "Jewel"));
+    MRB_SET_INSTANCE_TT(p_rcFalling_Jewel, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcFalling_Goldpiece, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcFalling_Jewel, "initialize", Initialize, MRB_ARGS_NONE());
 }

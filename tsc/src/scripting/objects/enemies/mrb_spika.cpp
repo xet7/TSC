@@ -26,7 +26,7 @@
  * {: .superclass}
  *
  * _Spikas_ are big, rolling balls armed with spikes. They follow
- * Maryo and try to overroll him. Big spikas tend to block paths,
+ * Alex and try to overroll him. Big spikas tend to block paths,
  * so you somehow need to make them move away. The default spika
  * is not resistant to fire or ice, so you may want to change
  * that using the apropriate methods from the `Enemy` class.

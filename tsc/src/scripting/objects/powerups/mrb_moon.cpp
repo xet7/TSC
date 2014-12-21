@@ -66,9 +66,9 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *
  *   activate!()
  *
- * Apply the item to Maryo. Doing so will destroy the moon in
+ * Apply the item to Alex. Doing so will destroy the moon in
  * any case, but note that applying it does not necessarily cause
- * it to have an effect on Maryo. If Maryo already has 99 lifes,
+ * it to have an effect on Alex. If Alex already has 99 lifes,
  * it will just cause points.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
