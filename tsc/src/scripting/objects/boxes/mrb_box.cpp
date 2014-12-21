@@ -32,7 +32,7 @@
  * ------
  *
  * Activate
- * : The box was activated by Maryo jumping against it or otherwise.
+ * : The box was activated by Alex jumping against it or otherwise.
  */
 
 using namespace TSC;
@@ -181,13 +181,13 @@ static mrb_value Get_Remaining_Usable_Count(mrb_state* p_state, mrb_value self)
  *     (i.e. you can stand on it).
  *
  *  ghost
- *  : The box is only visible for Ghost Maryo. Only Ghost Maryo
+ *  : The box is only visible for Ghost Alex. Only Ghost Alex
  *    can stand on it.
  *
  *  semi_massive
  *  : The box is visible after jumping against it from
  *    its activation direction (usually from below). While
- *    not activated, Maryo can’t stand on it.
+ *    not activated, Alex can’t stand on it.
  */
 static mrb_value Set_Invisible(mrb_state* p_state, mrb_value self)
 {

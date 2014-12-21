@@ -24,7 +24,7 @@
  * Parent: [Powerup](powerup.html)
  * {: .superclass}
  *
- * _Stars_ are the most powerful powerups in the game. Maryo gains the
+ * _Stars_ are the most powerful powerups in the game. Alex gains the
  * ability to jump higher, gets resistant against all kinds of enemies,
  * etc. Stars wildly jump around and are hard to catch. Even if catched,
  * its effect only lasts a fixed period of time (which is hardcoded into
@@ -63,8 +63,8 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *
  *   activate!()
  *
- * Apply the item to Maryo. Doing so will destroy the star. If
- * Maryo already has star effect, the star effect time is reset
+ * Apply the item to Alex. Doing so will destroy the star. If
+ * Alex already has star effect, the star effect time is reset
  * to 0.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)

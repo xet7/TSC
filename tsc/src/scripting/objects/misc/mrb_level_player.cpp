@@ -28,25 +28,25 @@ using namespace TSC::Scripting;
  * {: .superclass}
  *
  * The sole instance of this class, the singleton `Player`, represents
- * Maryo himself. Naturally you can’t instanciate this class (TSC isn’t a
+ * Alex himself. Naturally you can’t instanciate this class (TSC isn’t a
  * multiplayer game), but otherwise this class is your interface to doing
- * all kinds of evil things with Maryo. You should, however, be careful,
+ * all kinds of evil things with Alex. You should, however, be careful,
  * because the powerful methods exposed by this class allow you to
- * control nearly every aspect of Maryo--if you exaggerate, the player
+ * control nearly every aspect of Alex--if you exaggerate, the player
  * will get annoyed, probably stopping to play your level.
  *
  * This class’ documentation uses two words that you’re better off not
  * mixing up:
  *
- * Maryo (or just "the level player")
- * : The sprite of Maryo walking around and jumping on enemies.
+ * Alex (or just "the level player")
+ * : The sprite of Alex walking around and jumping on enemies.
  *
  * Player
  * : The actual user sitting in front of some kind of monitor. Don’t
- *   confuse him with Maryo, because a) he will probably get angry, and b)
+ *   confuse him with Alex, because a) he will probably get angry, and b)
  *   you’ll get funny meanings on sentences like "the player presses the
  *   _jump_ key". The only exception to this rule is the `Player`
- *   constant in Mruby, which obviously represents Maryo, not the guy
+ *   constant in Mruby, which obviously represents Alex, not the guy
  *   playing the game.
  *
  * Note that the level player is just a normal sprite all its way up
@@ -57,33 +57,33 @@ using namespace TSC::Scripting;
  * ------
  *
  * Downgrade
- * : Whenever Maryo gets hit (but not killed), this event is triggered.
- *   The event handler gets passed Maryo’s current downgrade count
- *   (which is always 1) and Maryo’s maximum downgrade count (which
+ * : Whenever Alex gets hit (but not killed), this event is triggered.
+ *   The event handler gets passed Alex’s current downgrade count
+ *   (which is always 1) and Alex’s maximum downgrade count (which
  *   is always 2). As you can see, the arguments passed are not really
  *   useful and are just there for symmetry with some enemies’
  *   _Downgrade_ event handlers.
  *
  * Jewel_100
- * : After Maryo has collected 100 jewels, this event
+ * : After Alex has collected 100 jewels, this event
  *   is triggered. The event handler isn’t passed anything, but note
- *   that it is highly discouraged to alter Maryo’s amount of jewels from
+ *   that it is highly discouraged to alter Alex’s amount of jewels from
  *   within the event handler; this may lead to unexpected behaviour
- *   such as Maryo having more than 100 jewels after all operations
+ *   such as Alex having more than 100 jewels after all operations
  *   regarding the amount of jewels have finished or even endless
  *   loops as altering the jewel amount may cause subsequent events
  *   of this type to be triggered.
  *
  * Jump
- * : This event is issued when the Maryo does a valid jump, i.e. the
- *   player presses the _Jump_ key and Maryo is currently in a state that
+ * : This event is issued when the Alex does a valid jump, i.e. the
+ *   player presses the _Jump_ key and Alex is currently in a state that
  *   actually allows him to jump. The event is triggered immediately
  *   before starting the jump.
  *
  * Shoot
- * : Fired when Maryo executes a valid shoot, either fireball or
+ * : Fired when Alex executes a valid shoot, either fireball or
  *   iceball. As with the _Jump_ event, this is only triggered when the
- *   player presses the _Shoot_ key and Maryo is currently in a state
+ *   player presses the _Shoot_ key and Alex is currently in a state
  *   that allows him to shoot. Likewise, the event is triggered just
  *   prior to the actual shot. The event handler gets passed either the
  *   string `"ice"` when the player fired an iceball, or `"fire"` when it
@@ -108,11 +108,11 @@ MRUBY_IMPLEMENT_EVENT(shoot);
  *
  *   jump( [ deaccel ] )
  *
- * Makes Maryo jump.
+ * Makes Alex jump.
  *
  * #### Parameter
  * deaccel
- * : Negative acceleration to apply, i.e. defines how high Maryo will
+ * : Negative acceleration to apply, i.e. defines how high Alex will
  *   jump. Note that this isn’t necessarily the height in pixels as the
  *   force of gravity will be applied to the value while jumping.
  */
@@ -134,29 +134,29 @@ static mrb_value Jump(mrb_state* p_state,  mrb_value self)
  *
  *   type() → a_symbol or nil
  *
- * Returns Maryo’s current type. See [#type=](#type-1) for a list of
- * possible symbols to be returned. Returns nil if Maryo’s state can’t
+ * Returns Alex’s current type. See [#type=](#type-1) for a list of
+ * possible symbols to be returned. Returns nil if Alex’s state can’t
  * be detected for some reason (and prints a warning on stderr).
  */
 static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
 {
-    switch (pLevel_Player->m_maryo_type) {
-    case MARYO_DEAD:
+    switch (pLevel_Player->m_alex_type) {
+    case ALEX_DEAD:
         return str2sym(p_state, "dead");
-    case MARYO_SMALL:
+    case ALEX_SMALL:
         return str2sym(p_state, "small");
-    case MARYO_BIG:
+    case ALEX_BIG:
         return str2sym(p_state, "big");
-    case MARYO_FIRE:
+    case ALEX_FIRE:
         return str2sym(p_state, "fire");
-    case MARYO_ICE:
+    case ALEX_ICE:
         return str2sym(p_state, "ice");
-    //case MARYO_CAPE:
+    //case ALEX_CAPE:
     //  return str2sym(p_state, "cape"); // Not implemented officially in TSC
-    case MARYO_GHOST:
+    case ALEX_GHOST:
         return str2sym(p_state, "ghost");
     default:
-        std::cerr << "Warning: Invalid Maryo state: " << pLevel_Player->m_maryo_type << std::endl;
+        std::cerr << "Warning: Invalid Alex state: " << pLevel_Player->m_alex_type << std::endl;
         return mrb_nil_value();
     }
 }
@@ -167,8 +167,8 @@ static mrb_value Get_Type(mrb_state* p_state,  mrb_value self)
  *   type=(type)
  *
  * Forcibly applies a powerup/powerdown to the level player. Note this method
- * bypasses any Maryo state checks, i.e. you can directly apply `:ice` to
- * small Maryo or force Fire Maryo back to Normal Big Maryo by applying
+ * bypasses any Alex state checks, i.e. you can directly apply `:ice` to
+ * small Alex or force Fire Alex back to Normal Big Alex by applying
  * `:big`. This check bypassing is the reason why you shouldn’t use this
  * method for downgrading or killing the player; there might however be
  * situations in which calling this method is more appropriate.
@@ -206,24 +206,24 @@ static mrb_value Set_Type(mrb_state* p_state,  mrb_value self)
     mrb_sym sym;
     mrb_get_args(p_state, "n", &sym);
     const char* typestr = mrb_sym2name(p_state, sym);
-    Maryo_type type;
+    Alex_type type;
 
     if (strcmp(typestr, "dead") == 0)
-        type = MARYO_DEAD;
+        type = ALEX_DEAD;
     else if (strcmp(typestr, "small") == 0)
-        type = MARYO_SMALL;
+        type = ALEX_SMALL;
     else if (strcmp(typestr, "big") == 0)
-        type = MARYO_BIG;
+        type = ALEX_BIG;
     else if (strcmp(typestr, "fire") == 0)
-        type = MARYO_FIRE;
+        type = ALEX_FIRE;
     else if (strcmp(typestr, "ice") == 0)
-        type = MARYO_ICE;
+        type = ALEX_ICE;
     //else if (strcmp(typestr, "cape") == 0) // Not implemented officially by TSC
-    //  type = MARYO_CAPE;
+    //  type = ALEX_CAPE;
     else if (strcmp(typestr, "ghost") == 0)
-        type = MARYO_GHOST;
+        type = ALEX_GHOST;
     else {
-        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Maryo type '%s'.", typestr);
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid Alex type '%s'.", typestr);
         return mrb_nil_value();
     }
 
@@ -292,10 +292,10 @@ static mrb_value Add_Points(mrb_state* p_state,  mrb_value self)
  *
  *   kill()
  *
- * Forcibly kill the level player. This method kills Maryo
+ * Forcibly kill the level player. This method kills Alex
  * regardless of being big, fire, etc, but still honours
  * star and other invincibility effects. If you urgently
- * want to kill Maryo despite of those, use `#kill!`.
+ * want to kill Alex despite of those, use `#kill!`.
  */
 static mrb_value Kill(mrb_state* p_state, mrb_value self)
 {
@@ -309,7 +309,7 @@ static mrb_value Kill(mrb_state* p_state, mrb_value self)
  *   kill!()
  *
  * Like `#kill`, but also ignore any invincibility status that
- * Maryo may be in. That is, even kill Maryo if he has just been
+ * Alex may be in. That is, even kill Alex if he has just been
  * hurt and is thus invincible or despite star being in effect.
  */
 static mrb_value Forced_Kill(mrb_state* p_state, mrb_value self)
@@ -323,7 +323,7 @@ static mrb_value Forced_Kill(mrb_state* p_state, mrb_value self)
  *
  *   jewels() → an_integer
  *
- * The current amount of jewels Maryo has collected so
+ * The current amount of jewels Alex has collected so
  * far. This is always smaller than 100.
  */
 static mrb_value Get_Jewels(mrb_state* p_state,  mrb_value self)
@@ -364,9 +364,9 @@ static mrb_value Set_Jewels(mrb_state* p_state,  mrb_value self)
  *
  * #### Parameter
  * num
- * : The number of jewels to add. If Maryo’s resulting
+ * : The number of jewels to add. If Alex’s resulting
  *   amount of jewels (i.e. the current amount plus `num`)
- *   is greater than 99, Maryo gains a life and 100 is subtracted
+ *   is greater than 99, Alex gains a life and 100 is subtracted
  *   from the resulting amount. This process is repeated until the total
  *   resulting amount of jewels is not greater than 99.
  *
@@ -401,7 +401,7 @@ static mrb_value Get_Lives(mrb_state* p_state,  mrb_value self)
  *
  *   lives=(lives)
  *
- * Reset Maryo’s number of lives to the given value.
+ * Reset Alex’s number of lives to the given value.
  *
  * #### Parameter
  * lives
@@ -436,7 +436,7 @@ static mrb_value Set_Lives(mrb_state* p_state,  mrb_value self)
  *   force.
  *
  * #### Return value
- * The number of lives Maryo now has.
+ * The number of lives Alex now has.
  */
 static mrb_value Add_Lives(mrb_state* p_state, mrb_value self)
 {
@@ -452,7 +452,7 @@ static mrb_value Add_Lives(mrb_state* p_state, mrb_value self)
  *
  *   invincible?() → true or false
  *
- * Checks whether Maryo currently cannot be defeated. This
+ * Checks whether Alex currently cannot be defeated. This
  * usually means star is in effect.
  */
 static mrb_value Is_Invincible(mrb_state* p_state, mrb_value self)
@@ -468,7 +468,7 @@ static mrb_value Is_Invincible(mrb_state* p_state, mrb_value self)
  *
  *   release_item()
  *
- * If Maryo currently carries something (shell), he will drop it.
+ * If Alex currently carries something (shell), he will drop it.
  * Otherwise does nothing.
  */
 static mrb_value Release_Item(mrb_state* p_state, mrb_value self)

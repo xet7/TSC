@@ -74,10 +74,10 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *   : The green -1 life berry
  *
  *   blue
- *   : The blue ice-maryo berry
+ *   : The blue ice-alex berry
  *
  *   ghost
- *   : The transparent ghost-maryo berry
+ *   : The transparent ghost-alex berry
  */
 static mrb_value Set_Type(mrb_state* p_state, mrb_value self)
 {
@@ -175,9 +175,9 @@ static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
  *
  *   activate!()
  *
- * Apply the item to Maryo. Doing so will destroy the berry in
+ * Apply the item to Alex. Doing so will destroy the berry in
  * any case, but note that applying it does not necessarily cause
- * it to have an effect on Maryo (use `LevelPlayer#type=` for
+ * it to have an effect on Alex (use `LevelPlayer#type=` for
  * that). Instead, it may be stored in the item box, or even
  * just have no effect if that is already full.
  */

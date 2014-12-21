@@ -24,7 +24,7 @@
  * {: .superclass}
  *
  * If you just here some loud "BOOOM!", then you have met _Larry_.
- * On exploding, he kills all enemies (and Maryo) nearby. Really
+ * On exploding, he kills all enemies (and Alex) nearby. Really
  * dangerous is a situation with multiple larrys, which can result
  * in a giant chain explosion.
  */

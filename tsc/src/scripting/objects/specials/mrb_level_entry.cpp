@@ -25,9 +25,9 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * A _level entry_ can be used as a warp target for Maryo even
+ * A _level entry_ can be used as a warp target for Alex even
  * without scripting. It has a name under which it can be
- * referenced from a [LevelExit](levelexit.html) to make Maryo
+ * referenced from a [LevelExit](levelexit.html) to make Alex
  * change places.
  *
  * Events
@@ -35,9 +35,9 @@
  *
  * Enter
  * : This event gets triggered when the level entry is activated,
- *   but after Maryo has moved out of the warp area. That is,
+ *   but after Alex has moved out of the warp area. That is,
  *   when this is an up-direction level entry, the event will
- *   not be triggered before Maryo has completed his upwards
+ *   not be triggered before Alex has completed his upwards
  *   move (but before eventual gravity is applied).
  */
 
@@ -139,9 +139,9 @@ static mrb_value Get_Type(mrb_state* p_state, mrb_value self)
  * sym
  * : The new type of the entry. One of the following symbols:
  *   `:beam`
- *   : Make Maryo immediately stand at the entry’s position.
+ *   : Make Alex immediately stand at the entry’s position.
  *   `:warp`
- *   : Make Maryo slowly move into the direction specified
+ *   : Make Alex slowly move into the direction specified
  *     by AnimatedSprite#direction. This is useful for pipes.
  */
 static mrb_value Set_Type(mrb_state* p_state, mrb_value self)

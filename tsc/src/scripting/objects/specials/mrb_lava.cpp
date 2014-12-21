@@ -23,7 +23,7 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * _Lava_ makes any enemy and Maryo immediately and instantly die.
+ * _Lava_ makes any enemy and Alex immediately and instantly die.
  */
 
 using namespace TSC;

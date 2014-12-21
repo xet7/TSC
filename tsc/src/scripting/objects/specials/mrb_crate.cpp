@@ -24,7 +24,7 @@
  * Parent: [AnimatedSprite](animatedsprite.html)
  * {: .superclass}
  *
- * _Crates_ are heavy boxes Maryo can move around. They can be
+ * _Crates_ are heavy boxes Alex can move around. They can be
  * used to unblock paths, kill enemies or just for fun.
  *
  * It is generally a bad idea to use a large number of stacked
@@ -32,9 +32,9 @@
  * hit multiple of them at once. As long as you ensure only
  * one crate is hit at a time, everything should be fine.
  *
- * Maryo can’t move stacks of crates. Instead, the whole stack
+ * Alex can’t move stacks of crates. Instead, the whole stack
  * will come down when you move a crate out of it; when crates
- * stand next to each other, Maryo is not able to move two
+ * stand next to each other, Alex is not able to move two
  * crates in a row.
  */
 
