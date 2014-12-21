@@ -91,7 +91,7 @@
  * As with "bare" sprites and coordinates, moving sprites have two attributes
  * for directions: The normal, current direction; and the "initial direction",
  * which specifys the looking direction at object creation time. Again, most
- * sprites to not care about the initial directions, but those who do are
+ * sprites do not care about the initial directions, but those who do are
  * really picky about it. If you try to only specify the current direction for
  * Rokko, but not the initial one, he will just continue looking into the
  * default direction (which is left). If you even activate him in this
@@ -363,6 +363,7 @@ static mrb_value Set_Start_Direction(mrb_state* p_state, mrb_value self)
     // A world for a consecutive enum!
 
     p_sprite->Set_Direction(dir, true);
+    p_sprite->Update_Rotation_Hor(true);
     return mrb_symbol_value(rdir);
 }
 
