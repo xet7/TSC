@@ -3,4 +3,4 @@ rotation 0 180 90
 # Rect rotation is broken currently, override the rectangle
 # manually.
 col_rect 10 0 80 31
-name Blue_Left
+name Red_Left
