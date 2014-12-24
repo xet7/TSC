@@ -45,7 +45,6 @@
 Thumbs.db
 *.mo
 *.gmo
-*.cmake
 
 # Arch package
 /tsc/extras/archlinux/TSC
