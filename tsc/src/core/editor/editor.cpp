@@ -116,6 +116,8 @@ cEditor_Item_Object::~cEditor_Item_Object(void)
 
 void cEditor_Item_Object::Init(cSprite* sprite)
 {
+
+
     if (m_image) {
         printf("cEditor_Item_Object::Init: Warning: Image is already set\n");
         return;
@@ -137,6 +139,7 @@ void cEditor_Item_Object::Init(cSprite* sprite)
     preview_scale = pVideo->Get_Scale(sprite_obj->m_start_image, static_cast<float>(pPreferences->m_editor_item_image_size) * 2.0f, static_cast<float>(pPreferences->m_editor_item_image_size));
 
     // create CEGUI link
+
     cEditor_CEGUI_Texture* texture = new cEditor_CEGUI_Texture(*pGuiRenderer, sprite_obj->m_start_image->m_image, CEGUI::Size(sprite_obj->m_start_image->m_tex_w, sprite_obj->m_start_image->m_tex_h));
     CEGUI::String imageset_name = "editor_item " + list_text->getText() + " " + CEGUI::PropertyHelper::uintToString(m_parent->getItemCount());
     m_image = &CEGUI::ImagesetManager::getSingleton().create(imageset_name, *texture);
@@ -156,12 +159,27 @@ CEGUI::Size cEditor_Item_Object::getPixelSize(void) const
 
 void cEditor_Item_Object::draw(CEGUI::GeometryBuffer& buffer, const CEGUI::Rect& targetRect, float alpha, const CEGUI::Rect* clipper) const
 {
+
+    CEGUI::Window* theWindow = m_parent ->getCaptureWindow();
+    CEGUI::Vector3 rotation = theWindow->getRotation();
+
+    CEGUI::Vector3 newRotation;
+    newRotation.d_x = 0.0f;
+    newRotation.d_y = sprite_obj ->m_rot_y;
+    newRotation.d_z = 0.0f;
+
+    theWindow->setRotation(newRotation);
+
     // image
     if (m_image && pPreferences->m_editor_show_item_images) {
+        //m_image->
+        //m_image ->
         m_image->draw(buffer, CEGUI::Rect(CEGUI::Point(0, 0), m_image->getTexture()->getSize()), CEGUI::Rect(targetRect.d_left + 15, targetRect.d_top + 22, targetRect.d_left + 15 + (sprite_obj->m_start_image->m_start_w * preview_scale * global_upscalex), targetRect.d_top + 22 + (sprite_obj->m_start_image->m_start_h * preview_scale * global_upscaley)), clipper, CEGUI::ColourRect(CEGUI::colour(1.0f, 1.0f, 1.0f, alpha)), CEGUI::TopLeftToBottomRight);
+        //m_image->draw
     }
     // name text
     list_text->draw(buffer, targetRect, alpha, clipper);
+    theWindow -> setRotation(rotation);
 }
 
 /* *** *** *** *** *** *** *** *** cEditor_Menu_Object *** *** *** *** *** *** *** *** *** */
@@ -214,6 +232,7 @@ void cEditor::Init(void)
     // Create Editor CEGUI Window
     m_editor_window = CEGUI::WindowManager::getSingleton().loadWindowLayout("editor.layout");
     pGuiSystem->getGUISheet()->addChildWindow(m_editor_window);
+    //printf("Window Name: %s", m_editor_window->getName());
 
     // Get TabControl
     m_tabcontrol_menu = static_cast<CEGUI::TabControl*>(CEGUI::WindowManager::getSingleton().getWindow("tabcontrol_editor"));
