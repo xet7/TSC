@@ -392,7 +392,11 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
     // V2.0.0-beta6 and lower: green pipes have been removed, change to grey pipes.
     if (engine_version < 41) {
         attributes.relocate_image("pipes/green/ver.png", "pipes/grey/ver.png");
+        attributes.relocate_image("pipes/green/hor.png", "pipes/grey/hor.png");
         attributes.relocate_image("pipes/green/up.png", "pipes/grey/up.png");
+        attributes.relocate_image("pipes/green/left.png", "pipes/grey/left.png");
+        attributes.relocate_image("pipes/green/right.png", "pipes/grey/right.png");
+        attributes.relocate_image("pipes/green/down.png", "pipes/grey/down.png");
     }
     // V2.0.0-beta6 and lower: ver.png was renamed to ver_1.png. Note this
     // builds upon the previous line for green pipes. hor.png was renamed to hor_1.png.
