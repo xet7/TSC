@@ -166,6 +166,11 @@ void cEditor_Item_Object :: Draw_Image( void )
   //request->shadow_pos = 2;
   // add request
 
+  request ->m_texture_id = sprite_obj->m_start_image->m_image;
+  request ->m_pos_x = sprite_obj->m_pos_x;
+  request ->m_pos_y = sprite_obj->m_pos_y;
+  request ->m_pos_z = sprite_obj->m_pos_z;
+
   //pGuiRenderer ->
   pRenderer->Add( request );
 }
