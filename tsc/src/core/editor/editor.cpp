@@ -157,9 +157,14 @@ CEGUI::Size cEditor_Item_Object::getPixelSize(void) const
 void cEditor_Item_Object::draw(CEGUI::GeometryBuffer& buffer, const CEGUI::Rect& targetRect, float alpha, const CEGUI::Rect* clipper) const
 {
     // image
+
     if (m_image && pPreferences->m_editor_show_item_images) {
+        glPushMatrix();
+        glRotatef(30.0f, 0.0f, 0.0f, 1.0f);
         m_image->draw(buffer, CEGUI::Rect(CEGUI::Point(0, 0), m_image->getTexture()->getSize()), CEGUI::Rect(targetRect.d_left + 15, targetRect.d_top + 22, targetRect.d_left + 15 + (sprite_obj->m_start_image->m_start_w * preview_scale * global_upscalex), targetRect.d_top + 22 + (sprite_obj->m_start_image->m_start_h * preview_scale * global_upscaley)), clipper, CEGUI::ColourRect(CEGUI::colour(1.0f, 1.0f, 1.0f, alpha)), CEGUI::TopLeftToBottomRight);
+        glPopMatrix();
     }
+
     // name text
     list_text->draw(buffer, targetRect, alpha, clipper);
 }
