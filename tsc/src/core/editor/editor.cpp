@@ -93,11 +93,11 @@ void cEditor_Item_Object::Init(void)
     preview_scale = pVideo->Get_Scale( sprite_obj->m_start_image, static_cast<float>(pPreferences->m_editor_item_image_size) * 2.0f, static_cast<float>(pPreferences->m_editor_item_image_size) );
 
     // check if name is fitting
-    if( sprite_obj->m_name.length() > 25 )
-    {
-        sprite_obj->m_name.erase( 25 );
-        sprite_obj->m_name += "|";
-    }
+    //if( sprite_obj->m_name.length() > 25 )
+    //{
+     //   sprite_obj->m_name.erase( 25 );
+     //   sprite_obj->m_name += "|";
+    //}
 
     // set position
     sprite_obj->Set_Pos_X( 20.0f, 1 );
@@ -158,14 +158,16 @@ void cEditor_Item_Object :: Draw_Image( void )
   // set original scale directions
   sprite_obj->Set_Scale_Directions( scale_up_orig, scale_down_orig, scale_left_orig, scale_right_orig );
   // ignore camera
-  request->no_camera = 1;
+  //request->no_camera = 1;
   // position z
-  request->pos_z = 0.9f;
+  //request->pos_z = 0.9f;
   // set shadow
-  request->shadow_color = blackalpha128;
-  request->shadow_pos = 2;
+  //request->shadow_color = blackalpha128;
+  //request->shadow_pos = 2;
   // add request
-  pRenderer_GUI->Add( request );
+
+  //pGuiRenderer ->
+  pRenderer->Add( request );
 }
 
 /* *** *** *** *** *** *** *** *** cEditor_Menu_Object *** *** *** *** *** *** *** *** *** */
