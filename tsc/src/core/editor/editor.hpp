@@ -39,38 +39,27 @@ namespace TSC {
         bool advance_row;
     };
 
-    /* *** *** *** *** *** *** *** *** cEditor_CEGUI_Texture *** *** *** *** *** *** *** *** *** */
-
-// Todo : Needed for CEGUI 0.7.5 to not delete our opengl texture. Remove this if CEGUI 0.8 has an option for it.
-    class cEditor_CEGUI_Texture : public CEGUI::OpenGLTexture {
-    public:
-        cEditor_CEGUI_Texture(CEGUI::OpenGLRenderer& owner, GLuint tex, const CEGUI::Size& size);
-        ~cEditor_CEGUI_Texture(void);
-
-        void cleanupOpenGLTexture(void);
-    };
-
     /* *** *** *** *** *** *** *** *** cEditor_Item_Object *** *** *** *** *** *** *** *** *** */
 
     class cEditor_Item_Object : public CEGUI::ListboxItem {
     public:
-        cEditor_Item_Object(const std::string& text, const CEGUI::Listbox* parent);
+        cEditor_Item_Object( const std::string &text );
         virtual ~cEditor_Item_Object(void);
 
         // Initialize
-        void Init(cSprite* sprite);
+        void Init(void);
 
         // overridden from base class
         virtual CEGUI::Size getPixelSize(void) const;
         // overridden from base class
+        // draw
         void draw(CEGUI::GeometryBuffer& buffer, const CEGUI::Rect& targetRect, float alpha, const CEGUI::Rect* clipper) const;
+        // draw image
+        void Draw_Image( void );
 
-        // parent
-        const CEGUI::Listbox* m_parent;
         // text
         CEGUI::ListboxTextItem* list_text;
-        // cegui image
-        CEGUI::Imageset* m_image;
+
         // sprite
         cSprite* sprite_obj;
         // preview image scale
