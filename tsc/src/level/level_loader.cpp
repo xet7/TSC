@@ -193,7 +193,7 @@ void cLevelLoader::Parse_Tag_Settings()
     // If V1.9 and lower: Move Y coordinate bottom to 0
     if (mp_level->m_engine_version < 35 && m_current_properties.count("cam_limit_h") > 0) {
         float y = string_to_float(m_current_properties["cam_limit_h"]);
-        m_current_properties["cam_lmit_h"] = float_to_string(y - 600.0f);
+        m_current_properties["cam_limit_h"] = float_to_string(y - 600.0f);
     }
 
     mp_level->Set_Author(m_current_properties["lvl_author"]);
