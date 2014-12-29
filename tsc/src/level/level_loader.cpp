@@ -358,6 +358,12 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("ground/yoshi_1/hill_up_2.png", "ground/jungle_1/slider/2_blue_left.png");
         attributes.relocate_image("ground/yoshi_1/hill_up_3.png", "ground/jungle_1/slider/2_brown_left.png");
     }
+    // V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
+    if (engine_version < 32) {
+        attributes.relocate_image("slider/grey_1/slider_left.png", "ground/green_1/slider/1/brown/left.png");
+        attributes.relocate_image("slider/grey_1/slider_middle.png", "ground/green_1/slider/1/brown/middle.png");
+        attributes.relocate_image("slider/grey_1/slider_right.png", "ground/green_1/slider/1/brown/right.png");
+    }
     // V1.7.x and lower: change green_1 ground to green_3 ground image paths
     if (engine_version < 34) {
         // normal
