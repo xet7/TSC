@@ -871,6 +871,16 @@ std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const 
 
     // Note : If you relocate images don't forget the global effect
 
+    //Fix old emitter definitions
+    if (attributes.exists("pos_x"))
+        attributes["posx"] =  attributes["pos_x"];
+    if (attributes.exists("pos_y"))
+        attributes["posy"] =  attributes["pos_y"];
+    if (attributes.exists("size_x"))
+        attributes["sizex"] =  attributes["size_x"];
+    if (attributes.exists("size_y"))
+        attributes["sizey"] =  attributes["size_y"];
+
     // if V.1.9 and lower : move y coordinate bottom to 0
     if (engine_version < 35 && attributes.exists("posy"))
         attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
@@ -887,6 +897,11 @@ std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const 
     if (engine_version < 38 && attributes.exists("file")) {
         attributes["image"] = attributes["file"];
         attributes.erase("file");
+    }
+
+    if (attributes.exists("image") && !attributes.exists("particle_image")) {
+        attributes["particle_image"] = attributes["image"] ;
+        attributes.erase("image");
     }
 
     cParticle_Emitter* p_emitter = new cParticle_Emitter(attributes, p_sprite_manager);
@@ -915,12 +930,17 @@ std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std
         attributes.erase("creation_speed");
     }
 
+    if (attributes.exists("image") && !attributes.exists("particle_image")) {
+        attributes["particle_image"] = attributes["image"] ;
+        attributes.erase("image");
+    }
+
     // if V.1.9 and lower : change fire_1 animation to particles
     if (engine_version < 37) {
-        attributes.relocate_image("animation/fire_1/1.png", "animation/particles/fire_1.png", "image");
-        attributes.relocate_image("animation/fire_1/2.png", "animation/particles/fire_2.png", "image");
-        attributes.relocate_image("animation/fire_1/3.png", "animation/particles/fire_3.png", "image");
-        attributes.relocate_image("animation/fire_1/4.png", "animation/particles/fire_4.png", "image");
+        attributes.relocate_image("animation/fire_1/1.png", "animation/particles/fire_1.png", "particle_image");
+        attributes.relocate_image("animation/fire_1/2.png", "animation/particles/fire_2.png", "particle_image");
+        attributes.relocate_image("animation/fire_1/3.png", "animation/particles/fire_3.png", "particle_image");
+        attributes.relocate_image("animation/fire_1/4.png", "animation/particles/fire_4.png", "particle_image");
     }
 
     // change disabled type to quota 0
@@ -930,17 +950,17 @@ std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std
     }
 
     // rename attributes
-    attributes["pos_x"]         = int_to_string(attributes.fetch<int>("rect_x", 0));
-    attributes["pos_y"]         = int_to_string(attributes.fetch<int>("rect_y", 0) - 600);
-    attributes["size_x"]        = int_to_string(attributes.fetch<int>("rect_w", game_res_w));
-    attributes["size_y"]        = int_to_string(attributes.fetch<int>("rect_h", 0));
+    attributes["posx"]         = int_to_string(attributes.fetch<int>("rect_x", 0));
+    attributes["posy"]         = int_to_string(attributes.fetch<int>("rect_y", 0) - 600);
+    attributes["sizex"]        = int_to_string(attributes.fetch<int>("rect_w", game_res_w));
+    attributes["sizey"]        = int_to_string(attributes.fetch<int>("rect_h", 0));
     attributes["pos_z"]         = float_to_string(attributes.fetch<float>("z", 0.12f));
     attributes["pos_z_rand"]    = float_to_string(attributes.fetch<float>("z_rand", 0.0f));
     attributes["emitter_time_to_live"] = "-1.0";
     if (!attributes.exists("time_to_live"))
         attributes["time_to_live"] = "0.7";
     attributes["emitter_interval"]  = float_to_string(attributes.fetch<float>("emitter_iteration_interval", 0.3f));
-    attributes["size_scale"]        = float_to_string(attributes.fetch<float>("speed", 0.2f));
+    attributes["size_scale"]        = float_to_string(attributes.fetch<float>("scale", 0.2f));
     attributes["size_scale_rand"]   = float_to_string(attributes.fetch<float>("scale_rand", 0.2f));
     attributes["vel"]               = float_to_string(attributes.fetch<float>("speed", 0.2f));
     attributes["vel_rand"]          = float_to_string(attributes.fetch<float>("speed_rand", 8.0f));
