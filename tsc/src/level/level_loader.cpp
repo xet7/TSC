@@ -193,7 +193,7 @@ void cLevelLoader::Parse_Tag_Settings()
     // If V1.9 and lower: Move Y coordinate bottom to 0
     if (mp_level->m_engine_version < 35 && m_current_properties.count("cam_limit_h") > 0) {
         float y = string_to_float(m_current_properties["cam_limit_h"]);
-        m_current_properties["cam_lmit_h"] = float_to_string(y - 600.0f);
+        m_current_properties["cam_limit_h"] = float_to_string(y - 600.0f);
     }
 
     mp_level->Set_Author(m_current_properties["lvl_author"]);
@@ -357,6 +357,12 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("ground/yoshi_1/hill_up_1.png", "ground/jungle_1/slider/2_green_left.png");
         attributes.relocate_image("ground/yoshi_1/hill_up_2.png", "ground/jungle_1/slider/2_blue_left.png");
         attributes.relocate_image("ground/yoshi_1/hill_up_3.png", "ground/jungle_1/slider/2_brown_left.png");
+    }
+    // V.1.7 and lower : change slider grey_1 to green_1 brown slider image paths
+    if (engine_version < 32) {
+        attributes.relocate_image("slider/grey_1/slider_left.png", "ground/green_1/slider/1/brown/left.png");
+        attributes.relocate_image("slider/grey_1/slider_middle.png", "ground/green_1/slider/1/brown/middle.png");
+        attributes.relocate_image("slider/grey_1/slider_right.png", "ground/green_1/slider/1/brown/right.png");
     }
     // V1.7.x and lower: change green_1 ground to green_3 ground image paths
     if (engine_version < 34) {
