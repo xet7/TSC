@@ -1,6 +1,6 @@
 # Brazilian Portuguese translations for Secretchronicles
 # This file is distributed under the same license as the Secretchronicles package.
-# Copyright © 2003-2014 Rafael Ferreira <rafael.f.f1@gmail.com>
+# Copyright © 2003-2011,2014 Rafael Ferreira <rafael.f.f1@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
