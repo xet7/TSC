@@ -2168,7 +2168,7 @@ msgstr "Esse programa é distribuído sob os termos da GPLv3"
 
 #~ msgid "Ghost "
 #~ msgstr "Fantasma "
-q
+
 #~ msgid "Invisible Semi Massive "
 #~ msgstr "Invisível Semi Maciço "
 
