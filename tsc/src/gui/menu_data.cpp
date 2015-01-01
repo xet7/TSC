@@ -3018,9 +3018,6 @@ void cMenu_Savegames::Update_Load(void)
         return;
     }
 
-    // reset before loading the level to keep the level in the manager
-    pLevel_Player->Reset_Save();
-
     cSave* savegame = NULL;
     try {
         savegame = pSavegame->Load(save_num);
@@ -3035,6 +3032,14 @@ void cMenu_Savegames::Update_Load(void)
         std::cerr << "Error: Failed to load savegame '" << save_num << "' (invalid savegame). TSC exception: " << err.what() << std::endl;
         return;
     }
+    catch(InvalidLevelError& err) {
+        pAudio->Play_Sound("error.ogg");
+        std::cerr << "Error: Failed to load savegame '" << save_num << "' (invalid level). TSC exception: " << err.what() << std::endl;
+        return;
+    }
+
+    // reset before actually loading the level to keep the level in the manager
+    pLevel_Player->Reset_Save();
 
     pAudio->Play_Sound("savegame_load.ogg");
     std::string level_name = savegame->Get_Active_Level();
@@ -3124,8 +3129,19 @@ std::string cMenu_Savegames::Set_Save_Description(unsigned int save_slot)
     // if Savegame exists use old description
     if (pSavegame->Is_Valid(save_slot)) {
         save_description.clear();
-        // get only the description
-        save_description = pSavegame->Get_Description(save_slot, 1);
+
+        try {
+            // get only the description
+            save_description = pSavegame->Get_Description(save_slot, 1);
+        }
+        catch (InvalidSavegameError& err) {
+            std::cerr << "Error: Failed to get description for save game '" << save_slot << "' (Invalid Savegame Error). TSC Exception: " << err.what() << std::endl;
+            save_description = _("No Description");
+        }
+        catch (InvalidLevelError& err) {
+            std::cerr << "Error: Failed to get description for save game '" << save_slot << "' (Invalid Level Error). TSC Exception: " << err.what() << std::endl;
+            save_description = _("No Description");
+        }
     }
     else {
         // use default description
@@ -3154,6 +3170,11 @@ void cMenu_Savegames::Update_Saved_Games_Text(void)
         }
         catch(InvalidSavegameError& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid savegame). TSC exception: " << err.what() << std::endl;
+            (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
+            continue;
+        }
+        catch(InvalidLevelError& err) {
+            std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid level error). TSC exception: " << err.what() << std::endl;
             (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
             continue;
         }
