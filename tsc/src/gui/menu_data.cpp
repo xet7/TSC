@@ -3011,12 +3011,10 @@ std::string cMenu_Savegames::Set_Save_Description(unsigned int save_slot)
         catch (InvalidSavegameError& err) {
             std::cerr << "Error: Failed to get description for save game '" << save_slot << "' (Invalid Savegame Error). TSC Exception: " << err.what() << std::endl;
             save_description = _("No Description");
-            auto_erase_description = 1;
         }
         catch (InvalidLevelError& err) {
             std::cerr << "Error: Failed to get description for save game '" << save_slot << "' (Invalid Level Error). TSC Exception: " << err.what() << std::endl;
             save_description = _("No Description");
-            auto_erase_description = 1;
         }
     }
     else {
