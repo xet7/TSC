@@ -780,19 +780,43 @@ cSave* cSavegame::Load(unsigned int save_slot)
 {
     fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
 
+    cSave* savegame = NULL; //The save game object read from the save state file
+
+    //First try to load the game using the newer format
     if (File_Exists(filename)) {
-        return cSave::Load_From_File(filename);
+        savegame = cSave::Load_From_File(filename);
+    }
+    else
+    {
+        //If it is not in the newer format, try the older format
+        fs::path filename_old = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save");
+        if (File_Exists(filename_old)) {
+            savegame = cSave::Load_From_File(filename_old);
+        }
+        else {
+            //There is not a file in any useful format -- throw an exception
+            std::stringstream ss;
+            ss << "No savegame found at slot " << save_slot << " (filename '" << filename << "' or '" << filename_old << "')!";
+            throw(InvalidSavegameError(save_slot, ss.str()));
+        }
     }
 
-    // if not new format try the old
-    fs::path filename_old = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save");
-    if (File_Exists(filename_old)) {
-        return cSave::Load_From_File(filename_old);
+    //Now check to make sure each level referenced in the save file exists
+    if (!savegame->m_levels.empty()) {
+        for (Save_LevelList::iterator itr = savegame->m_levels.begin(); itr != savegame->m_levels.end(); ++itr) {
+            cSave_Level* save_level = (*itr);
+            fs::path filename = pLevel_Manager->Get_Path(save_level->m_name);
+            if (filename.empty()) {
+                throw(InvalidLevelError("Empty level filename!"));
+            }
+            if (!File_Exists(filename)) {
+                std::string msg = "Level file not found: " + path_to_utf8(filename);
+                throw (InvalidLevelError(msg));
+            }
+        }
     }
 
-    std::stringstream ss;
-    ss << "No savegame found at slot " << save_slot << " (filename '" << filename << "' or '" << filename_old << "')!";
-    throw(InvalidSavegameError(save_slot, ss.str()));
+    return savegame;
 }
 
 std::string cSavegame::Get_Description(unsigned int save_slot, bool only_description /* = 0 */)
