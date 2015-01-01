@@ -421,7 +421,7 @@ void cBaseBox::Activate(void)
 void cBaseBox::Update(void)
 {
     // animate only a visible box or an activated invisible box
-    if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_maryo_type == MARYO_GHOST) || m_useable_count != m_start_useable_count) {
+    if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_alex_type == ALEX_GHOST) || m_useable_count != m_start_useable_count) {
         // Spinbox animation handling
         if ((m_type == TYPE_SPIN_BOX || m_useable_count != 0) && m_anim_enabled) {
             // Set_Image in Update_Animation overwrites col_pos
@@ -446,7 +446,7 @@ void cBaseBox::Draw(cSurface_Request* request /* = NULL */)
     // editor disabled
     if (!editor_level_enabled) {
         // visible box or activated invisible box
-        if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_maryo_type == MARYO_GHOST) || m_useable_count != m_start_useable_count) {
+        if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_alex_type == ALEX_GHOST) || m_useable_count != m_start_useable_count) {
             cAnimated_Sprite::Draw(request);
         }
     }
@@ -593,8 +593,8 @@ bool cBaseBox::Is_Draw_Valid(void)
 
         // ghost
         if (m_box_invisible == BOX_GHOST) {
-            // maryo is not ghost
-            if (pLevel_Player->m_maryo_type != MARYO_GHOST) {
+            // alex is not ghost
+            if (pLevel_Player->m_alex_type != ALEX_GHOST) {
                 return 0;
             }
         }
@@ -658,7 +658,7 @@ void cBaseBox::Handle_Collision_Player(cObjectCollision* collision)
         }
         else {
             if (Is_Visible_On_Screen()) {
-                pAudio->Play_Sound("wall_hit.wav", RID_MARYO_WALL_HIT);
+                pAudio->Play_Sound("wall_hit.wav", RID_ALEX_WALL_HIT);
             }
         }
     }

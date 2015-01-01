@@ -322,11 +322,11 @@ void Preload_Images(bool draw_gui /* = 0 */)
     vector<fs::path> image_files;
 
     // player
-    vector<fs::path> player_small_images    = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("maryo/small"), ".png", false, false);
-    vector<fs::path> player_big_images      = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("maryo/big"), ".png", false, false);
-    vector<fs::path> player_fire_images     = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("maryo/fire"), ".png", false, false);
-    vector<fs::path> player_ice_images      = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("maryo/ice"), ".png", false, false);
-    vector<fs::path> player_ghost_images    = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("maryo/ghost"), ".png", false, false);
+    vector<fs::path> player_small_images    = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/small"), ".png", false, false);
+    vector<fs::path> player_big_images      = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/big"), ".png", false, false);
+    vector<fs::path> player_fire_images     = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/fire"), ".png", false, false);
+    vector<fs::path> player_ice_images      = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ice"), ".png", false, false);
+    vector<fs::path> player_ghost_images    = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ghost"), ".png", false, false);
 
     image_files.insert(image_files.end(), player_small_images.begin(), player_small_images.end());
     image_files.insert(image_files.end(), player_big_images.begin(), player_big_images.end());
@@ -415,7 +415,7 @@ void Preload_Images(bool draw_gui /* = 0 */)
     image_files.push_back(utf8_to_path("animation/iceball/1.png"));
 
     // HUD
-    image_files.push_back(utf8_to_path("game/maryo_l.png"));
+    image_files.push_back(utf8_to_path("game/alex_l.png"));
     image_files.push_back(utf8_to_path("game/gold_m.png"));
     image_files.push_back(utf8_to_path("game/itembox.png"));
 
@@ -475,7 +475,7 @@ void Preload_Sounds(bool draw_gui /* = 0 */)
     sound_files.push_back(utf8_to_path("player/jump_big_power.ogg"));
     sound_files.push_back(utf8_to_path("player/jump_ghost.ogg"));
     // todo : create again
-    //sound_files.push_back( utf8_to_path( "player/maryo_au.ogg" ) );
+    //sound_files.push_back( utf8_to_path( "player/alex_au.ogg" ) );
     sound_files.push_back(utf8_to_path("player/powerdown.ogg"));
     sound_files.push_back(utf8_to_path("player/ghost_end.ogg"));
     sound_files.push_back(utf8_to_path("player/run_stop.ogg"));

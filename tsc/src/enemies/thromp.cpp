@@ -277,7 +277,7 @@ void cThromp::Update(void)
         GL_rect final_distance = Get_Final_Distance_Rect();
 
         // if player is in front then activate
-        if (pLevel_Player->m_maryo_type != MARYO_GHOST && pLevel_Player->m_col_rect.Intersects(final_distance)) {
+        if (pLevel_Player->m_alex_type != ALEX_GHOST && pLevel_Player->m_col_rect.Intersects(final_distance)) {
             Activate();
         }
     }

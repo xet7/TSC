@@ -29,7 +29,7 @@ namespace TSC {
     };
 
     /**
-     * Box that can be moved around by Maryo.
+     * Box that can be moved around by Alex.
      */
     class cCrate: public cAnimated_Sprite {
     public:

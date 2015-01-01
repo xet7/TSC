@@ -204,7 +204,7 @@ void cSpika::Update(void)
 
 
     // if player is left
-    if (pLevel_Player->m_maryo_type != MARYO_GHOST && player_rect.Intersects(rect_left)) {
+    if (pLevel_Player->m_alex_type != ALEX_GHOST && player_rect.Intersects(rect_left)) {
         if (m_velx > -m_speed) {
             m_velx -= m_speed * 0.1f * pFramerate->m_speed_factor;
 
@@ -214,7 +214,7 @@ void cSpika::Update(void)
         }
     }
     // if player is right
-    else if (pLevel_Player->m_maryo_type != MARYO_GHOST && player_rect.Intersects(rect_right)) {
+    else if (pLevel_Player->m_alex_type != ALEX_GHOST && player_rect.Intersects(rect_right)) {
         if (m_velx < m_speed) {
             m_velx += m_speed * 0.1f * pFramerate->m_speed_factor;
 

@@ -325,7 +325,7 @@ void cFlyon::Update(void)
             }
 
             // if player is in front: wait again
-            if (pLevel_Player->m_maryo_type != MARYO_GHOST && pLevel_Player->m_col_rect.Intersects(rect1)) {
+            if (pLevel_Player->m_alex_type != ALEX_GHOST && pLevel_Player->m_col_rect.Intersects(rect1)) {
                 m_wait_time = speedfactor_fps * 2;
             }
             // if not: jump out
@@ -532,9 +532,9 @@ void cFlyon::Handle_Collision_Player(cObjectCollision* collision)
         return;
     }
 
-    if (pLevel_Player->m_maryo_type != MARYO_SMALL && !pLevel_Player->m_invincible && collision->m_direction == m_direction) {
+    if (pLevel_Player->m_alex_type != ALEX_SMALL && !pLevel_Player->m_invincible && collision->m_direction == m_direction) {
         // todo : create again
-        //pAudio->PlaySound( "player/maryo_au.ogg", RID_MARYO_AU );
+        //pAudio->PlaySound( "player/alex_au.ogg", RID_ALEX_AU );
         pLevel_Player->Action_Jump(1);
     }
 

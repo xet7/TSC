@@ -167,7 +167,7 @@ namespace TSC {
         float m_invincible;
         //Amount of time left for star (used for graphic flash effect)
         float m_invincible_star;
-        // time maryo is in ghost mode
+        // time alex is in ghost mode
         float m_ghost_time;
         // ghost mode drawing modifier
         float m_ghost_time_mod;

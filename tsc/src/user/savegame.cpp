@@ -543,19 +543,19 @@ int cSavegame::Load_Game(unsigned int save_slot)
 
     // below version 8 the state was the type
     if (savegame->m_version < 8) {
-        pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_state), 0, 0);
+        pLevel_Player->Set_Type(static_cast<Alex_type>(savegame->m_player_state), 0, 0);
     }
     else {
         /*Set the player's power up type.
-        For ghost maryo, we first set the ghost power up as the type and then set the other power up as the type,
+        For ghost alex, we first set the ghost power up as the type and then set the other power up as the type,
         marking a flag for the temporary ghost power up.  Logic for both fields is not included above in the version
         8 code because version 8 save files did not have the temporary power up field saved*/
-        if (savegame -> m_player_type == MARYO_GHOST) {
-            pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type), false, false);
-            pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type_temp_power), false, false, true);
+        if (savegame -> m_player_type == ALEX_GHOST) {
+            pLevel_Player->Set_Type(static_cast<Alex_type>(savegame->m_player_type), false, false);
+            pLevel_Player->Set_Type(static_cast<Alex_type>(savegame->m_player_type_temp_power), false, false, true);
         }
         else {
-            pLevel_Player->Set_Type(static_cast<Maryo_type>(savegame->m_player_type), false, false);
+            pLevel_Player->Set_Type(static_cast<Alex_type>(savegame->m_player_type), false, false);
         }
         pLevel_Player -> Set_Moving_State(static_cast<Moving_state>(savegame->m_player_state));
     }
@@ -608,7 +608,7 @@ int cSavegame::Load_Game(unsigned int save_slot)
 
 bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 {
-    if (pLevel_Player->m_maryo_type == MARYO_DEAD || pLevel_Player->m_lives < 0) {
+    if (pLevel_Player->m_alex_type == ALEX_DEAD || pLevel_Player->m_lives < 0) {
         cerr << "Error : Couldn't save savegame " << description << " because of invalid game state" << endl;
         return 0;
     }
@@ -697,8 +697,8 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
     savegame->m_lives = pLevel_Player->m_lives;
     savegame->m_points = pLevel_Player->m_points;
-    savegame->m_player_type = pLevel_Player->m_maryo_type;
-    savegame->m_player_type_temp_power = pLevel_Player->m_maryo_type_temp_power;
+    savegame->m_player_type = pLevel_Player->m_alex_type;
+    savegame->m_player_type_temp_power = pLevel_Player->m_alex_type_temp_power;
     savegame->m_invincible = pLevel_Player->m_invincible;
     savegame->m_invincible_star = pLevel_Player->m_invincible_star;
     savegame->m_ghost_time = pLevel_Player -> m_ghost_time;

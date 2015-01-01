@@ -194,7 +194,7 @@ void cLevel_Entry::Activate(void)
 
         // set image
         if (m_direction == DIR_UP || m_direction == DIR_DOWN) {
-            pLevel_Player->Set_Image_Num(MARYO_IMG_FALL + pLevel_Player->m_direction);
+            pLevel_Player->Set_Image_Num(ALEX_IMG_FALL + pLevel_Player->m_direction);
         }
         else if (m_direction == DIR_LEFT || m_direction == DIR_RIGHT) {
             pLevel_Player->Set_Image_Num(pLevel_Player->m_direction);

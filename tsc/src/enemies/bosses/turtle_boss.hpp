@@ -34,7 +34,7 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Turtle Boss *** *** *** *** *** *** *** *** *** */
     /* The uber-evolved walking Turtle
-     * Likes to play roller coaster with maryo and bursts out in fire if he gets mad.
+     * Likes to play roller coaster with alex and bursts out in fire if he gets mad.
     */
     class cTurtleBoss : public cEnemy {
     public:
@@ -140,7 +140,7 @@ namespace TSC {
 
         /* If the player kicked the shell this counter starts.
          * if this counter is higher than 0
-         * maryo cannot get killed by the shell
+         * alex cannot get killed by the shell
          */
         float m_player_counter;
 

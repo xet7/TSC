@@ -289,24 +289,24 @@ void cLevel_Exit::Activate(void)
         }
 
         // size moved is the height
-        float maryo_size = pLevel_Player->m_col_rect.m_h;
+        float alex_size = pLevel_Player->m_col_rect.m_h;
 
         // move slowly in
-        while (maryo_size > 0.0f) {
+        while (alex_size > 0.0f) {
             pLevel_Player->Move(speedx, speedy);
 
             // reduce size
             if (speedx > 0.0f) {
-                maryo_size -= speedx * pFramerate->m_speed_factor;
+                alex_size -= speedx * pFramerate->m_speed_factor;
             }
             else if (speedx < 0.0f) {
-                maryo_size += speedx * pFramerate->m_speed_factor;
+                alex_size += speedx * pFramerate->m_speed_factor;
             }
             else if (speedy > 0.0f) {
-                maryo_size -= speedy * pFramerate->m_speed_factor;
+                alex_size -= speedy * pFramerate->m_speed_factor;
             }
             else if (speedy < 0.0f) {
-                maryo_size += speedy * pFramerate->m_speed_factor;
+                alex_size += speedy * pFramerate->m_speed_factor;
             }
             else {
                 break;

@@ -527,9 +527,9 @@ void cGee::Handle_Collision_Player(cObjectCollision* collision)
         pLevel_Player->Add_Kill_Multiplier();
     }
     else if (!pLevel_Player->m_invincible) {
-        if (pLevel_Player->m_maryo_type != MARYO_SMALL) {
+        if (pLevel_Player->m_alex_type != ALEX_SMALL) {
             // todo : create again
-            //pAudio->PlaySound( "player/maryo_au.ogg", RID_MARYO_AU );
+            //pAudio->PlaySound( "player/alex_au.ogg", RID_ALEX_AU );
 
             if (collision->m_direction == DIR_BOTTOM) {
                 pLevel_Player->Action_Jump(1);

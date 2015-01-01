@@ -39,7 +39,7 @@ cOverworld_Player::cOverworld_Player(cSprite_Manager* sprite_manager, cOverworld
     m_pos_z = 0.0999f;
     m_massive_type = MASS_MASSIVE;
     m_camera_range = 0;
-    m_name = "Maryo";
+    m_name = "Alex";
 
     m_overworld = overworld;
     m_current_waypoint = -2; // no waypoint
@@ -62,7 +62,7 @@ cOverworld_Player::cOverworld_Player(cSprite_Manager* sprite_manager, cOverworld
     m_debug_current_waypoint = new cHudSprite(m_sprite_manager);
     m_debug_current_waypoint->Set_Pos(500, game_res_h * 0.97f, 1);
 
-    Set_Type(MARYO_SMALL);
+    Set_Type(ALEX_SMALL);
     m_direction = DIR_DOWN;
     Set_Direction(DIR_UNDEFINED);
 }
@@ -80,28 +80,28 @@ void cOverworld_Player::Load_Images(void)
 {
     Unload_Images();
 
-    if (m_maryo_state == MARYO_SMALL) {
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/down_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/up_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/left_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right.png"));
-        Add_Image(pVideo->Get_Package_Surface("world/maryo/small/right_2.png"));
+    if (m_alex_state == ALEX_SMALL) {
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/down.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/down_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/down.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/down_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/up_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/up.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/up_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/up_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/left.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/left_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/left.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/left_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/right.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/right_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/right.png"));
+        Add_Image(pVideo->Get_Package_Surface("world/alex/small/right_2.png"));
 
         Set_Animation(1);
     }
     else {
-        cerr << "Unsupported Maryo state : " << static_cast<unsigned int>(m_maryo_state) << endl;
+        cerr << "Unsupported Alex state : " << static_cast<unsigned int>(m_alex_state) << endl;
         return;
     }
 
@@ -154,14 +154,14 @@ void cOverworld_Player::Set_Direction(const ObjectDirection dir, bool new_start_
     Update_Vel();
 }
 
-void cOverworld_Player::Set_Type(Maryo_type new_type)
+void cOverworld_Player::Set_Type(Alex_type new_type)
 {
     // already set
-    if (m_maryo_state == new_type) {
+    if (m_alex_state == new_type) {
         return;
     }
 
-    m_maryo_state = new_type;
+    m_alex_state = new_type;
     Load_Images();
 }
 
@@ -390,7 +390,7 @@ bool cOverworld_Player::Start_Walk(ObjectDirection new_direction)
 
     // print debug info
     if (pOverworld_Manager->m_debug_mode) {
-        cout << "Current Maryo Direction : " << m_direction << endl;
+        cout << "Current Alex Direction : " << m_direction << endl;
 
         if (m_current_waypoint > 0) {
             cout << "Waypoint Direction Forward : " << Get_Waypoint()->m_direction_forward << " Backward : " << Get_Waypoint()->m_direction_backward << endl;
@@ -466,12 +466,12 @@ bool cOverworld_Player::Start_Walk(ObjectDirection new_direction)
         Move(m_velx, m_vely, 1);
     }
 
-    // if maryo is not on his current waypoint collide with every waypoint
+    // if alex is not on his current waypoint collide with every waypoint
     if (m_current_waypoint >= 0 && !m_col_rect.Intersects(Get_Waypoint()->m_rect)) {
         m_current_waypoint = -1;
     }
 
-    // if maryo is walking into a new direction
+    // if alex is walking into a new direction
     if (direction_old != m_direction) {
         return 1;
     }
@@ -485,7 +485,7 @@ void cOverworld_Player::Update_Walk(void)
     Move(m_velx, m_vely);
     Update_Path_Diff();
 
-    /* Check if Maryo is too far away from the line in the current direction
+    /* Check if Alex is too far away from the line in the current direction
      * or if no line is anymore connected
      * if true change direction
     */
@@ -508,7 +508,7 @@ void cOverworld_Player::Update_Walk(void)
 
     Auto_Pos_Correction();
 
-    // check if a new waypoint is near maryo
+    // check if a new waypoint is near alex
     for (unsigned int i = 0; i < m_overworld->m_waypoints.size(); i++) {
         // skip the start waypoint
         if (static_cast<int>(i) == m_current_waypoint) {
@@ -638,7 +638,7 @@ void cOverworld_Player::Change_Direction(void)
     float x = m_col_rect.m_x + (m_col_rect.m_w * 0.5f);
     float y = m_col_rect.m_y + (m_col_rect.m_h * 0.5f);
 
-    /* check with a big collision line the difference to the next layer line behind maryo
+    /* check with a big collision line the difference to the next layer line behind alex
      * if no line is found turn around
      * if a line is found walk into it's direction
     */
@@ -707,7 +707,7 @@ void cOverworld_Player::Change_Direction(void)
         }
     }
     else {
-        cerr << "Warning : Unknown Maryo direction " << static_cast<int>(m_direction) << endl;
+        cerr << "Warning : Unknown Alex direction " << static_cast<int>(m_direction) << endl;
         Set_Direction(DIR_DOWN);
     }
 
