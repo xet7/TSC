@@ -89,10 +89,10 @@ namespace TSC {
 
         virtual void Draw(cSurface_Request* request = NULL);
 
-        cGL_Surface* m_maryo_head;
+        cGL_Surface* m_alex_head;
         cGL_Surface* m_goldpiece;
 
-        GL_point m_rect_maryo_head;
+        GL_point m_rect_alex_head;
         GL_point m_rect_goldpiece;
     };
 

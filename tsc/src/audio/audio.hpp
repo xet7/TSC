@@ -28,13 +28,13 @@ namespace TSC {
 
 // sounds which shouldn't be played multiple times at the same time
     enum AudioChannel {
-        RID_MARYO_JUMP      = 1,
-        RID_MARYO_WALL_HIT  = 2,
-        RID_MARYO_POWERDOWN = 3,
-        RID_MARYO_DEATH     = 5,
-        RID_MARYO_BALL      = 4,
-        RID_MARYO_AU        = 8,
-        RID_MARYO_STOP      = 9,
+        RID_ALEX_JUMP      = 1,
+        RID_ALEX_WALL_HIT  = 2,
+        RID_ALEX_POWERDOWN = 3,
+        RID_ALEX_DEATH     = 5,
+        RID_ALEX_BALL      = 4,
+        RID_ALEX_AU        = 8,
+        RID_ALEX_STOP      = 9,
 
         RID_FIREPLANT       = 6,
         RID_MUSHROOM_BLUE   = 6,

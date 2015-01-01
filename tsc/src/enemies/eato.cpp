@@ -242,9 +242,9 @@ void cEato::Handle_Collision_Player(cObjectCollision* collision)
     // only if not invincible
     if (pLevel_Player->m_invincible <= 0.0f) {
         // if player is big and not a bottom collision
-        if (pLevel_Player->m_maryo_type != MARYO_SMALL && (collision->m_direction != DIR_BOTTOM)) {
+        if (pLevel_Player->m_alex_type != ALEX_SMALL && (collision->m_direction != DIR_BOTTOM)) {
             // todo : create again
-            //pAudio->PlaySound( "player/maryo_au.ogg", RID_MARYO_AU );
+            //pAudio->PlaySound( "player/alex_au.ogg", RID_ALEX_AU );
             pLevel_Player->Action_Jump(1);
         }
 

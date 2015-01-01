@@ -87,7 +87,7 @@ void cHud_Manager::Load(void)
         return;
     }
 
-    // Menu Background ( Maryo head and the Goldpiece image )
+    // Menu Background ( Alex head and the Goldpiece image )
     cMenuBackground* menu_background = new cMenuBackground(m_sprite_manager);
     Add(static_cast<cHudSprite*>(menu_background));
     // Point Display
@@ -143,7 +143,7 @@ void cHud_Manager::Update_Text(void)
 
         if (Game_Mode != MODE_OVERWORLD) {
             // goldpiece
-            item->m_rect_goldpiece.m_y = item->m_rect_maryo_head.m_y + 6.0f;
+            item->m_rect_goldpiece.m_y = item->m_rect_alex_head.m_y + 6.0f;
         }
         else {
             // goldpiece
@@ -258,17 +258,17 @@ cMenuBackground::cMenuBackground(cSprite_Manager* sprite_manager)
     m_sprite_array = ARRAY_HUD;
     m_name = "HUD Menu Background";
 
-    m_maryo_head = pVideo->Get_Package_Surface("game/maryo_l.png");
+    m_alex_head = pVideo->Get_Package_Surface("game/alex_l.png");
     m_goldpiece = pVideo->Get_Package_Surface("game/gold_m.png");
 
-    if (!m_maryo_head || !m_goldpiece) {
+    if (!m_alex_head || !m_goldpiece) {
         cerr << "Error : MenuBackground images loading failed" << endl;
         return;
     }
 
-    // maryo head
-    m_rect_maryo_head.m_x = game_res_w * 0.933f;
-    m_rect_maryo_head.m_y = 15.0f;
+    // alex head
+    m_rect_alex_head.m_x = game_res_w * 0.933f;
+    m_rect_alex_head.m_y = 15.0f;
     // goldpiece
     m_rect_goldpiece.m_x = 250.0f;
     m_rect_goldpiece.m_y = 0.0f;
@@ -285,9 +285,9 @@ void cMenuBackground::Draw(cSurface_Request* request /* = NULL */)
         return;
     }
 
-    // maryo head
+    // alex head
     if (Game_Mode != MODE_OVERWORLD) {
-        m_maryo_head->Blit(m_rect_maryo_head.m_x, m_rect_maryo_head.m_y, m_pos_z);
+        m_alex_head->Blit(m_rect_alex_head.m_x, m_rect_alex_head.m_y, m_pos_z);
     }
 
     // goldpiece
@@ -1035,7 +1035,7 @@ void cDebugDisplay::Draw_fps(void)
 
 void cDebugDisplay::Draw_Debug_Mode(void)
 {
-    if (!game_debug || (Game_Mode == MODE_LEVEL && pLevel_Player->m_maryo_type == MARYO_DEAD)) {
+    if (!game_debug || (Game_Mode == MODE_LEVEL && pLevel_Player->m_alex_type == ALEX_DEAD)) {
         return;
     }
 

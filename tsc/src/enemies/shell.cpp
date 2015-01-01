@@ -112,7 +112,7 @@ void cShell::Update()
         m_player_counter -= pFramerate->m_speed_factor;
 
         if (m_player_counter <= 0.0f) {
-            // do not start collision detection if colliding with maryo
+            // do not start collision detection if colliding with alex
             if (pLevel_Player->m_col_rect.Intersects(m_col_rect)) {
                 m_player_counter = 5.0f;
             }

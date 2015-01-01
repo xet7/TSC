@@ -303,13 +303,13 @@ void cRokko::Update(void)
         // Do not self-activate when manual triggering is enabled
         if (m_manual)
             return;
-        // Do not activate if Maryo is a ghost
-        else if (pLevel_Player->m_maryo_type == MARYO_GHOST)
+        // Do not activate if Alex is a ghost
+        else if (pLevel_Player->m_alex_type == ALEX_GHOST)
             return;
         // if player is in front then activate
         else if (pLevel_Player->m_col_rect.Intersects(Get_Final_Distance_Rect()))
             Activate();
-        // Do not activate if Maryo is not near by
+        // Do not activate if Alex is not near by
         else
             return;
     }

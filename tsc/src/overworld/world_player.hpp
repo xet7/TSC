@@ -45,7 +45,7 @@ namespace TSC {
         virtual void Set_Direction(const ObjectDirection dir, bool new_start_direction = 0);
 
         // Set the Type
-        void Set_Type(Maryo_type new_type);
+        void Set_Type(Alex_type new_type);
 
         // Update
         virtual void Update(void);
@@ -79,11 +79,11 @@ namespace TSC {
         // Start fixed walking into the given Waypoint
         void Start_Waypoint_Walk(int new_waypoint);
         /* Fixed walking into the Waypoint
-         * moves maryo smoothly into the found Waypoint
+         * moves alex smoothly into the found Waypoint
         */
         void Update_Waypoint_Walk(void);
 
-        // Set Maryo to the given Waypoint position
+        // Set Alex to the given Waypoint position
         bool Set_Waypoint(int waypoint, bool new_startpos = 0);
         // Get current Waypoint
         cWaypoint* Get_Waypoint(void);
@@ -91,15 +91,15 @@ namespace TSC {
         // Returns the current Waypoint front line
         cLayer_Line_Point_Start* Get_Front_Line(ObjectDirection dir) const;
 
-        /* Checks how much Maryo can walk into all directions
+        /* Checks how much Alex can walk into all directions
          * and sets the size into the path directions
         */
         void Update_Path_Diff(unsigned int check_size = 25);
 
-        // Maryo changes direction if a near path is found or turns around
+        // Alex changes direction if a near path is found or turns around
         void Change_Direction(void);
 
-        /* Automatically corrects Maryo's position to the walkable Layer Line
+        /* Automatically corrects Alex's position to the walkable Layer Line
          * with the given size and the minimal distance to not-walkable area
         */
         void Auto_Pos_Correction(float size = 1.7f, float min_distance = 5.0f);
@@ -107,7 +107,7 @@ namespace TSC {
         // parent overworld
         cOverworld* m_overworld;
         // state
-        Maryo_type m_maryo_state;
+        Alex_type m_alex_state;
         // current waypoint
         int m_current_waypoint;
         // line waypoint

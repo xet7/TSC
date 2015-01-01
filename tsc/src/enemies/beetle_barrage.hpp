@@ -65,7 +65,7 @@ namespace TSC {
         void Init();
 
         /* Map m_active_range onto the current position for checking
-         * whether Maryo is there. For performance reasons we don’t
+         * whether Alex is there. For performance reasons we don’t
          * return or reference it here, but set an instance member
          * m_active_area.
          * Depending on whether you want to calculate the circle for
@@ -83,7 +83,7 @@ namespace TSC {
         bool Editor_Range_Text_Changed(const CEGUI::EventArgs& event);
         bool Editor_Spit_Count_Text_Changed(const CEGUI::EventArgs& event);
 
-        // The area we react on Maryo.
+        // The area we react on Alex.
         float m_active_range;
         GL_Circle m_active_area;
         float m_beetle_interval;

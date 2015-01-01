@@ -25,33 +25,33 @@
 
 namespace TSC {
 
-    /* *** *** *** *** *** *** *** *** Maryo states *** *** *** *** *** *** *** *** *** */
+    /* *** *** *** *** *** *** *** *** Alex states *** *** *** *** *** *** *** *** *** */
 
-    enum Maryo_type {
+    enum Alex_type {
         // normal
-        MARYO_DEAD = 0,
-        MARYO_SMALL = 1,
-        MARYO_BIG = 2,
-        MARYO_FIRE = 3,
-        MARYO_ICE = 4,
-        MARYO_CAPE = 5,
-        MARYO_GHOST = 6
+        ALEX_DEAD = 0,
+        ALEX_SMALL = 1,
+        ALEX_BIG = 2,
+        ALEX_FIRE = 3,
+        ALEX_ICE = 4,
+        ALEX_CAPE = 5,
+        ALEX_GHOST = 6
     };
 
-    /* *** *** *** *** *** *** *** *** Maryo image array positions *** *** *** *** *** *** *** *** *** */
+    /* *** *** *** *** *** *** *** *** Alex image array positions *** *** *** *** *** *** *** *** *** */
 
-    enum Maryo_imgpos {
-        MARYO_IMG_STAND = 0,
-        MARYO_IMG_WALK = 0, // walking also uses the stay image
-        MARYO_IMG_RUN = 8,
-        MARYO_IMG_FALL = 12,
-        MARYO_IMG_JUMP = 14,
-        MARYO_IMG_DEAD = 16,
-        MARYO_IMG_DUCK = 18,
-        MARYO_IMG_CLIMB = 20,
-        MARYO_IMG_THROW = 22,
-        MARYO_IMG_FLY = 26,
-        MARYO_IMG_SPECIAL_1 = 34
+    enum Alex_imgpos {
+        ALEX_IMG_STAND = 0,
+        ALEX_IMG_WALK = 0, // walking also uses the stay image
+        ALEX_IMG_RUN = 8,
+        ALEX_IMG_FALL = 12,
+        ALEX_IMG_JUMP = 14,
+        ALEX_IMG_DEAD = 16,
+        ALEX_IMG_DUCK = 18,
+        ALEX_IMG_CLIMB = 20,
+        ALEX_IMG_THROW = 22,
+        ALEX_IMG_FLY = 26,
+        ALEX_IMG_SPECIAL_1 = 34
     };
 
     /* *** *** *** *** *** *** *** Level player return stack entry *** *** *** *** *** *** *** *** *** *** */
@@ -92,14 +92,14 @@ namespace TSC {
         // Set the ground object
         virtual bool Set_On_Ground(cSprite* obj, bool set_on_top = 1);
 
-        /* downgrade state ( if small maryo : dies )
+        /* downgrade state ( if small alex : dies )
          * force : dies or a complete downgrade
         */
         virtual void DownGrade(bool force = 0);
-        /* downgrade state ( if small maryo : dies )
+        /* downgrade state ( if small alex : dies )
          * if delayed is set the downgrade is handled on the next game update
-         * force : Also kill big/fire/ice/etc Maryo
-         * ignore_invincible: If Maryo was just hurt, he is invicable for a short
+         * force : Also kill big/fire/ice/etc Alex
+         * ignore_invincible: If Alex was just hurt, he is invicable for a short
          * time and this method immediately returns usually without doing anything
          * (this also applies to star effect). Setting `ignore_invicable' will make
          * this method ignore this restriction. This does *not* affect god mode, which
@@ -166,7 +166,7 @@ namespace TSC {
          * sound : if set the upgrade sound is played
          * temp_power : set the temp power item
         */
-        void Set_Type(Maryo_type new_type, bool animation = 1, bool sound = 1, bool temp_power = 0);
+        void Set_Type(Alex_type new_type, bool animation = 1, bool sound = 1, bool temp_power = 0);
         void Set_Type(SpriteType item_type, bool animation = 1, bool sound = 1, bool temp_power = 0);
         // set the moving state
         void Set_Moving_State(Moving_state new_state);
@@ -179,11 +179,11 @@ namespace TSC {
         /* Draw an animation using the given new type
          * ends with the new type set
         */
-        void Draw_Animation(Maryo_type new_mtype);
+        void Draw_Animation(Alex_type new_mtype);
         // Returns the current image number without the direction modifier
         unsigned int Get_Image(void) const;
 
-        // Loads the images depending on maryo_type
+        // Loads the images depending on alex_type
         void Load_Images(void);
 
         /* Sets the best position to advance in size
@@ -268,19 +268,19 @@ namespace TSC {
         // Clear return items off the stack.
         void Clear_Return(void);
 
-        // current Maryo type
-        Maryo_type m_maryo_type;
-        //  Maryo type after the temporary powerup
-        Maryo_type m_maryo_type_temp_power;
+        // current Alex type
+        Alex_type m_alex_type;
+        //  Alex type after the temporary powerup
+        Alex_type m_alex_type_temp_power;
 
         // true if player god mode is active
         bool m_god_mode;
 
-        // time maryo walked
+        // time alex walked
         float m_walk_time;
         // running particle counter
         float m_running_particle_counter;
-        // time maryo is in ghost mode
+        // time alex is in ghost mode
         float m_ghost_time;
         // ghost mode drawing modifier
         float m_ghost_time_mod;
@@ -317,7 +317,7 @@ namespace TSC {
 
         // throw animation counter
         float m_throwing_counter;
-        // if maryo is ducked
+        // if alex is ducked
         Uint32 m_ducked_counter;
         // ducked animation counter
         float m_ducked_animation_counter;

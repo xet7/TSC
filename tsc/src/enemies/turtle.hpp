@@ -34,7 +34,7 @@ namespace TSC {
 
     /* *** *** *** *** *** *** cTurtle *** *** *** *** *** *** *** *** *** *** *** */
     /* The evolved walking Turtle
-     * Likes to play roller coaster with maryo
+     * Likes to play roller coaster with alex
     */
     class cTurtle : public cEnemy {
     public:
@@ -123,7 +123,7 @@ namespace TSC {
 
         /* If the player kicked the shell this counter is set.
          * if this counter is higher than 0
-         * maryo cannot get killed by the shell
+         * alex cannot get killed by the shell
          */
         float m_player_counter;
 

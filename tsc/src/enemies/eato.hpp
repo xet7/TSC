@@ -24,7 +24,7 @@ namespace TSC {
 
     /* *** *** *** *** *** cEato *** *** *** *** *** *** *** *** *** *** *** *** */
     /* Eats your Butt !
-     * Secret attack: Merges visually with the background and becomes an anti-maryo mine.
+     * Secret attack: Merges visually with the background and becomes an anti-alex mine.
     */
     class cEato : public cEnemy {
     public:

@@ -57,7 +57,7 @@ namespace TSC {
         void Set_Max_Distance_Front(float distance);
         // Set max detection distance for the sides
         void Set_Max_Distance_Sides(float distance);
-        // Set if Rokko self-activates if Maryo is nearby
+        // Set if Rokko self-activates if Alex is nearby
         // (default is to self-activate).
         void Set_Manual(bool manual);
         bool Get_Manual();
@@ -127,7 +127,7 @@ namespace TSC {
 
         virtual std::string Get_XML_Type_Name();
     private:
-        // If this is set, Rokko won’t go off if Maryo comes.
+        // If this is set, Rokko won’t go off if Alex comes.
         // You have to call Activate() manually.
         bool m_manual;
     };

@@ -235,7 +235,7 @@ void cBeetleBarrage::Handle_Collision_Player(cObjectCollision* p_collision)
     // only if not invincable
     if (pLevel_Player->m_invincible <= 0.0f) {
         // If player is big and does not come from the bottom
-        if (pLevel_Player->m_maryo_type != MARYO_SMALL && p_collision->m_direction != DIR_BOTTOM)
+        if (pLevel_Player->m_alex_type != ALEX_SMALL && p_collision->m_direction != DIR_BOTTOM)
             pLevel_Player->Action_Jump(true);
 
         pLevel_Player->DownGrade_Player();

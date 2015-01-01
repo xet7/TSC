@@ -1083,8 +1083,8 @@ Col_Valid_Type cMovingSprite::Validate_Collision_Ghost(cSprite* obj)
                 return COL_VTYPE_NOT_VALID;
             }
 
-            // maryo is not ghost
-            if (pLevel_Player->m_maryo_type != MARYO_GHOST) {
+            // alex is not ghost
+            if (pLevel_Player->m_alex_type != ALEX_GHOST) {
                 return COL_VTYPE_NOT_VALID;
             }
         }

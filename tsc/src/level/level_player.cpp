@@ -60,9 +60,9 @@ cLevel_Player::cLevel_Player(cSprite_Manager* sprite_manager)
     m_massive_type = MASS_MASSIVE;
     m_state = STA_FALL;
 
-    m_maryo_type = MARYO_SMALL;
-    m_maryo_type_temp_power = MARYO_DEAD;
-    m_name = "Maryo";
+    m_alex_type = ALEX_SMALL;
+    m_alex_type_temp_power = ALEX_DEAD;
+    m_name = "Alex";
 
     m_pos_z = cSprite::m_pos_z_player;
     m_gravity_max = 25.0f;
@@ -148,7 +148,7 @@ void cLevel_Player::Set_Direction(const ObjectDirection dir, bool new_start_dire
 {
     // set start image
     if (new_start_direction) {
-        cMovingSprite::Set_Image(pVideo->Get_Package_Surface("maryo/small/stand_" + Get_Direction_Name(dir) + ".png"), 1);
+        cMovingSprite::Set_Image(pVideo->Get_Package_Surface("alex/small/stand_" + Get_Direction_Name(dir) + ".png"), 1);
 
         // set back current image
         m_curr_img = -1;
@@ -197,7 +197,7 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
         return;
 
     // already dead
-    if (m_maryo_type == MARYO_DEAD) {
+    if (m_alex_type == ALEX_DEAD) {
         return;
     }
 
@@ -214,11 +214,11 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
     }
 
     // if not weakest state or not forced
-    if (m_maryo_type != MARYO_SMALL && !force) {
-        pAudio->Play_Sound("player/powerdown.ogg", RID_MARYO_POWERDOWN);
+    if (m_alex_type != ALEX_SMALL && !force) {
+        pAudio->Play_Sound("player/powerdown.ogg", RID_ALEX_POWERDOWN);
 
         // power down
-        Set_Type(MARYO_SMALL);
+        Set_Type(ALEX_SMALL);
 
         m_invincible = speedfactor_fps * 2.5f;
         m_invincible_mod = 0.0f;
@@ -232,7 +232,7 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
         return;
     }
 
-    Set_Type(MARYO_DEAD, 0, 0);
+    Set_Type(ALEX_DEAD, 0, 0);
     pHud_Time->Reset();
     pHud_Points->Clear();
     Ball_Clear();
@@ -241,15 +241,15 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
 
     // lost a live
     if (m_lives >= 0) {
-        pAudio->Play_Sound(utf8_to_path("player/dead.ogg"), RID_MARYO_DEATH);
+        pAudio->Play_Sound(utf8_to_path("player/dead.ogg"), RID_ALEX_DEATH);
     }
     // game over
     else {
-        pAudio->Play_Sound(pPackage_Manager->Get_Music_Reading_Path("game/lost_1.ogg"), RID_MARYO_DEATH);
+        pAudio->Play_Sound(pPackage_Manager->Get_Music_Reading_Path("game/lost_1.ogg"), RID_ALEX_DEATH);
     }
 
     // dying animation
-    Set_Image_Num(MARYO_IMG_DEAD + 1);
+    Set_Image_Num(ALEX_IMG_DEAD + 1);
 
     // draw
     Draw_Game();
@@ -260,7 +260,7 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
     SDL_Delay(500);
     pFramerate->Reset();
 
-    Set_Image_Num(MARYO_IMG_DEAD);
+    Set_Image_Num(ALEX_IMG_DEAD);
 
     float i;
 
@@ -323,10 +323,10 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
         Move(0.0f, 14.0f);
 
         if (m_walk_count > 2.0f) {
-            Set_Image_Num(MARYO_IMG_DEAD);
+            Set_Image_Num(ALEX_IMG_DEAD);
         }
         else {
-            Set_Image_Num(MARYO_IMG_DEAD + 1);
+            Set_Image_Num(ALEX_IMG_DEAD + 1);
         }
 
         // draw
@@ -419,7 +419,7 @@ animation_end:
     }
     // back to overworld
     else {
-        Set_Type(MARYO_SMALL, 0, 0);
+        Set_Type(ALEX_SMALL, 0, 0);
         Game_Action = GA_ENTER_WORLD;
     }
 
@@ -938,7 +938,7 @@ void cLevel_Player::Start_Ducking(void)
     }
 
     /* Always set the initial duck direction according to the moving direction,
-     * not to Maryo’s direction, because the player could run otherwise, turn
+     * not to Alex’s direction, because the player could run otherwise, turn
      * around, and duck then, allowing him to hop through narrow passages
      * where it isn’t allowed (see Start_Jumping() for the actual test
      * of the m_duck_direction variable). */
@@ -950,8 +950,8 @@ void cLevel_Player::Start_Ducking(void)
     Release_Item(1, 1);
 
     // set ducking image ( without Check_OutofLevel from cMovingSprite )
-    cSprite::Move(0.0f, m_image->m_col_h - m_images[MARYO_IMG_DUCK].m_image->m_col_h, 1);
-    Set_Image_Num(MARYO_IMG_DUCK + m_direction);
+    cSprite::Move(0.0f, m_image->m_col_h - m_images[ALEX_IMG_DUCK].m_image->m_col_h, 1);
+    Set_Image_Num(ALEX_IMG_DUCK + m_direction);
 
     m_ducked_counter = 1;
     Set_Moving_State(STA_STAY);
@@ -964,7 +964,7 @@ void cLevel_Player::Stop_Ducking(void)
     }
 
     // get space needed to stand up
-    const float move_y = -(m_images[MARYO_IMG_STAND].m_image->m_col_h - m_image->m_col_h);
+    const float move_y = -(m_images[ALEX_IMG_STAND].m_image->m_col_h - m_image->m_col_h);
 
     cObjectCollisionType* col_list = Collision_Check_Relative(0.0f, move_y, 0.0f, 0.0f, COLLIDE_ONLY_BLOCKING);
 
@@ -980,7 +980,7 @@ void cLevel_Player::Stop_Ducking(void)
 
     // unset ducking image ( without Check_out_of_Level from cMovingSprite )
     cSprite::Move(0.0f, move_y, 1);
-    Set_Image_Num(MARYO_IMG_STAND + m_direction);
+    Set_Image_Num(ALEX_IMG_STAND + m_direction);
 
     m_ducked_counter = 0;
     m_ducked_animation_counter = 0.0f;
@@ -1082,7 +1082,7 @@ void cLevel_Player::Update_Climbing(void)
 
         // check if reached climbable top
         if (m_vely < 0.0f) {
-            // do not climb further upwards if maryo will loose contact
+            // do not climb further upwards if alex will loose contact
             if (!Is_On_Climbable(-10.0f)) {
                 // only stop if loosing contact upwards
                 m_vely = 0.0f;
@@ -1142,25 +1142,25 @@ void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
     // play sound
     if (m_next_jump_sound) {
         // small
-        if (m_maryo_type == MARYO_SMALL) {
+        if (m_alex_type == ALEX_SMALL) {
             if (m_force_jump) {
-                pAudio->Play_Sound("player/jump_small_power.ogg", RID_MARYO_JUMP);
+                pAudio->Play_Sound("player/jump_small_power.ogg", RID_ALEX_JUMP);
             }
             else {
-                pAudio->Play_Sound("player/jump_small.ogg", RID_MARYO_JUMP);
+                pAudio->Play_Sound("player/jump_small.ogg", RID_ALEX_JUMP);
             }
         }
         // ghost
-        else if (m_maryo_type == MARYO_GHOST) {
-            pAudio->Play_Sound("player/jump_ghost.ogg", RID_MARYO_JUMP);
+        else if (m_alex_type == ALEX_GHOST) {
+            pAudio->Play_Sound("player/jump_ghost.ogg", RID_ALEX_JUMP);
         }
         // big
         else {
             if (m_force_jump) {
-                pAudio->Play_Sound("player/jump_big_power.ogg", RID_MARYO_JUMP);
+                pAudio->Play_Sound("player/jump_big_power.ogg", RID_ALEX_JUMP);
             }
             else {
-                pAudio->Play_Sound("player/jump_big.ogg", RID_MARYO_JUMP);
+                pAudio->Play_Sound("player/jump_big.ogg", RID_ALEX_JUMP);
             }
         }
     }
@@ -1177,7 +1177,7 @@ void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
     Col_Move(0.0f, -1.0f, 1, 1);
 
     // fly
-    if (m_maryo_type == MARYO_CAPE && !m_force_jump && m_state == STA_RUN && jump_key && ((m_direction == DIR_RIGHT && m_velx > 14) || (m_direction == DIR_LEFT && m_velx < -14))) {
+    if (m_alex_type == ALEX_CAPE && !m_force_jump && m_state == STA_RUN && jump_key && ((m_direction == DIR_RIGHT && m_velx > 14) || (m_direction == DIR_LEFT && m_velx < -14))) {
         m_vely = -m_next_jump_power * 0.5f;
         Set_Moving_State(STA_FLY);
     }
@@ -1301,7 +1301,7 @@ void cLevel_Player::Update_Item(void)
         float item_pos_x = 0.0f;
         float item_pos_y = 0.0f;
 
-        if (m_maryo_type == MARYO_SMALL) {
+        if (m_alex_type == ALEX_SMALL) {
             if (m_direction == DIR_LEFT) {
                 item_pos_x = (m_rect.m_w * 0.20f) - m_active_object->m_col_rect.m_w;
             }
@@ -1551,65 +1551,65 @@ void cLevel_Player::Release_Item(bool set_position /* = 1 */, bool no_action /* 
 void cLevel_Player::Set_Type(SpriteType item_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
 {
     if (item_type == TYPE_PLAYER) {
-        Set_Type(MARYO_SMALL, animation, sound, temp_power);
+        Set_Type(ALEX_SMALL, animation, sound, temp_power);
     }
     else if (item_type == TYPE_MUSHROOM_DEFAULT) {
-        Set_Type(MARYO_BIG, animation, sound, temp_power);
+        Set_Type(ALEX_BIG, animation, sound, temp_power);
     }
     else if (item_type == TYPE_MUSHROOM_BLUE) {
-        Set_Type(MARYO_ICE, animation, sound, temp_power);
+        Set_Type(ALEX_ICE, animation, sound, temp_power);
     }
     else if (item_type == TYPE_MUSHROOM_GHOST) {
-        Set_Type(MARYO_GHOST, animation, sound, temp_power);
+        Set_Type(ALEX_GHOST, animation, sound, temp_power);
     }
     else if (item_type == TYPE_FIREPLANT) {
-        Set_Type(MARYO_FIRE, animation, sound, temp_power);
+        Set_Type(ALEX_FIRE, animation, sound, temp_power);
     }
 }
 
-void cLevel_Player::Set_Type(Maryo_type new_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
+void cLevel_Player::Set_Type(Alex_type new_type, bool animation /* = 1 */, bool sound /* = 1 */, bool temp_power /* = 0 */)
 {
     // already set
-    if (m_maryo_type == new_type) {
+    if (m_alex_type == new_type) {
         return;
     }
 
     // play sound
     if (sound) {
-        if (new_type == MARYO_BIG) {
+        if (new_type == ALEX_BIG) {
             pAudio->Play_Sound("item/mushroom.ogg", RID_MUSHROOM);
         }
-        else if (new_type == MARYO_FIRE) {
+        else if (new_type == ALEX_FIRE) {
             pAudio->Play_Sound("item/fireplant.ogg", RID_FIREPLANT);
         }
-        else if (new_type == MARYO_ICE) {
+        else if (new_type == ALEX_ICE) {
             pAudio->Play_Sound("item/mushroom_blue.wav", RID_MUSHROOM_BLUE);
         }
-        else if (new_type == MARYO_CAPE) {
+        else if (new_type == ALEX_CAPE) {
             pAudio->Play_Sound("item/feather.ogg", RID_FEATHER);
         }
-        else if (new_type == MARYO_GHOST) {
+        else if (new_type == ALEX_GHOST) {
             pAudio->Play_Sound("item/mushroom_ghost.ogg", RID_MUSHROOM_GHOST);
         }
     }
 
     if (!temp_power) {
         // was flying
-        if (m_maryo_type == MARYO_CAPE) {
+        if (m_alex_type == ALEX_CAPE) {
             Stop_Flying(0);
         }
     }
 
     // remember old type
-    Maryo_type old_type = m_maryo_type;
+    Alex_type old_type = m_alex_type;
 
     // draw animation and set new type
     if (animation) {
         Draw_Animation(new_type);
 
         if (temp_power) {
-            m_maryo_type = old_type;
-            m_maryo_type_temp_power = new_type;
+            m_alex_type = old_type;
+            m_alex_type_temp_power = new_type;
             // Draw_Animation ends with the new type images
             Load_Images();
         }
@@ -1618,10 +1618,10 @@ void cLevel_Player::Set_Type(Maryo_type new_type, bool animation /* = 1 */, bool
     // only set type
     else {
         if (temp_power) {
-            m_maryo_type_temp_power = new_type;
+            m_alex_type_temp_power = new_type;
         }
         else {
-            m_maryo_type = new_type;
+            m_alex_type = new_type;
             Load_Images();
         }
     }
@@ -1632,15 +1632,15 @@ void cLevel_Player::Set_Type(Maryo_type new_type, bool animation /* = 1 */, bool
     }
 
     // to ghost
-    if (m_maryo_type == MARYO_GHOST) {
+    if (m_alex_type == ALEX_GHOST) {
         m_ghost_time = speedfactor_fps * 10;
-        m_maryo_type_temp_power = old_type;
+        m_alex_type_temp_power = old_type;
     }
     // was ghost
-    else if (old_type == MARYO_GHOST) {
+    else if (old_type == ALEX_GHOST) {
         m_ghost_time = 0;
         m_ghost_time_mod = 0;
-        m_maryo_type_temp_power = MARYO_DEAD;
+        m_alex_type_temp_power = ALEX_DEAD;
 
         // check for ghost ground
         if (m_ground_object) {
@@ -1677,8 +1677,8 @@ void cLevel_Player::Set_Moving_State(Moving_state new_state)
     }
     // was flying
     else if (m_state == STA_FLY) {
-        Change_Size(0, -(m_images[MARYO_IMG_FALL].m_image->m_h - m_images[MARYO_IMG_FLY].m_image->m_h));
-        Set_Image_Num(MARYO_IMG_FALL + m_direction);
+        Change_Size(0, -(m_images[ALEX_IMG_FALL].m_image->m_h - m_images[ALEX_IMG_FLY].m_image->m_h));
+        Set_Image_Num(ALEX_IMG_FALL + m_direction);
 
         // reset flying rotation
         m_rot_z = 0.0f;
@@ -1833,7 +1833,7 @@ void cLevel_Player::Reset_Save(void)
     pLevel_Manager->Unload();
 
     // reset player
-    Set_Type(MARYO_SMALL, 0, 0);
+    Set_Type(ALEX_SMALL, 0, 0);
     Reset();
     m_lives = 3;
     m_goldpieces = 0;
@@ -1938,7 +1938,7 @@ void cLevel_Player::Update(void)
         // ended
         if (m_ghost_time <= 0.0f) {
             pAudio->Play_Sound("player/ghost_end.ogg", RID_MUSHROOM_GHOST);
-            Set_Type(m_maryo_type_temp_power, 1, 0);
+            Set_Type(m_alex_type_temp_power, 1, 0);
         }
         // near end
         else if (m_ghost_time * 0.5f < speedfactor_fps * 3) {
@@ -2027,13 +2027,13 @@ void cLevel_Player::Update(void)
     Update_Item();
 
     // image counter
-    if (m_state == STA_WALK || (m_maryo_type != MARYO_CAPE && m_state == STA_RUN)) {
+    if (m_state == STA_WALK || (m_alex_type != ALEX_CAPE && m_state == STA_RUN)) {
         // 4 frames
-        if (m_maryo_type == MARYO_SMALL) {
+        if (m_alex_type == ALEX_SMALL) {
             m_walk_count += pFramerate->m_speed_factor * 0.35f;
         }
         // 4 frames
-        else if (m_maryo_type == MARYO_BIG) {
+        else if (m_alex_type == ALEX_BIG) {
             m_walk_count += pFramerate->m_speed_factor * 0.3f;
         }
         // 4 frames
@@ -2072,15 +2072,15 @@ void cLevel_Player::Update(void)
     }
     else if (m_state == STA_RUN) {
         // ? frames
-        if (m_maryo_type == MARYO_SMALL) {
+        if (m_alex_type == ALEX_SMALL) {
             //m_walk_count += pFramerate->m_speed_factor * 0.35f;
         }
         // ? frames
-        else if (m_maryo_type == MARYO_BIG) {
+        else if (m_alex_type == ALEX_BIG) {
             //m_walk_count += pFramerate->m_speed_factor * 0.3f;
         }
         // 2 frames
-        else if (m_maryo_type == MARYO_CAPE) {
+        else if (m_alex_type == ALEX_CAPE) {
             m_walk_count += pFramerate->m_speed_factor * 0.35f;
         }
         // ? frames
@@ -2111,15 +2111,15 @@ void cLevel_Player::Update(void)
         }
     }
 
-    if (m_state == STA_WALK || m_state == STA_STAY || (m_maryo_type != MARYO_CAPE && m_state == STA_RUN)) {
+    if (m_state == STA_WALK || m_state == STA_STAY || (m_alex_type != ALEX_CAPE && m_state == STA_RUN)) {
         // 4 frames
-        if (m_maryo_type == MARYO_SMALL) {
+        if (m_alex_type == ALEX_SMALL) {
             if (m_walk_count >= 8.0f) {
                 m_walk_count = 0.0f;
             }
         }
         // 4 frames
-        else if (m_maryo_type == MARYO_BIG) {
+        else if (m_alex_type == ALEX_BIG) {
             if (m_walk_count >= 8.0f) {
                 m_walk_count = 0.0f;
             }
@@ -2133,13 +2133,13 @@ void cLevel_Player::Update(void)
     }
     else if (m_state == STA_RUN) {
         // ? frames
-        if (m_maryo_type == MARYO_SMALL) {
+        if (m_alex_type == ALEX_SMALL) {
         }
         // ? frames
-        else if (m_maryo_type == MARYO_BIG) {
+        else if (m_alex_type == ALEX_BIG) {
         }
         // 2 frames
-        else if (m_maryo_type == MARYO_CAPE) {
+        else if (m_alex_type == ALEX_CAPE) {
             if (m_walk_count >= 4.0f) {
                 m_walk_count = 0.0f;
             }
@@ -2248,30 +2248,30 @@ void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
     }
 }
 
-void cLevel_Player::Draw_Animation(Maryo_type new_mtype)
+void cLevel_Player::Draw_Animation(Alex_type new_mtype)
 {
     // already set or invalid
-    if (new_mtype == m_maryo_type || m_maryo_type == MARYO_DEAD || new_mtype == MARYO_DEAD) {
+    if (new_mtype == m_alex_type || m_alex_type == ALEX_DEAD || new_mtype == ALEX_DEAD) {
         return;
     }
 
-    Maryo_type maryo_type_old = m_maryo_type;
+    Alex_type alex_type_old = m_alex_type;
     bool parachute_old = m_parachute;
 
     float posx_old = m_pos_x;
     float posy_old = m_pos_y;
 
     // Change_Size needs new state size
-    m_maryo_type = maryo_type_old;
+    m_alex_type = alex_type_old;
     Parachute(parachute_old);
     Load_Images();
 
-    // correct position for bigger maryo
-    if (maryo_type_old == MARYO_SMALL && (new_mtype == MARYO_BIG || new_mtype == MARYO_FIRE || new_mtype == MARYO_ICE || new_mtype == MARYO_CAPE || new_mtype == MARYO_GHOST)) {
+    // correct position for bigger alex
+    if (alex_type_old == ALEX_SMALL && (new_mtype == ALEX_BIG || new_mtype == ALEX_FIRE || new_mtype == ALEX_ICE || new_mtype == ALEX_CAPE || new_mtype == ALEX_GHOST)) {
         Change_Size(-5.0f, -12.0f);
     }
-    // correct position for small maryo
-    else if ((maryo_type_old == MARYO_BIG || maryo_type_old == MARYO_FIRE || maryo_type_old == MARYO_ICE || new_mtype == MARYO_CAPE || maryo_type_old == MARYO_GHOST) && new_mtype == MARYO_SMALL) {
+    // correct position for small alex
+    else if ((alex_type_old == ALEX_BIG || alex_type_old == ALEX_FIRE || alex_type_old == ALEX_ICE || new_mtype == ALEX_CAPE || alex_type_old == ALEX_GHOST) && new_mtype == ALEX_SMALL) {
         Change_Size(5.0f, 12.0f);
     }
 
@@ -2282,7 +2282,7 @@ void cLevel_Player::Draw_Animation(Maryo_type new_mtype)
     for (unsigned int i = 0; i < 7; i++) {
         // set to current type
         if (i % 2) {
-            m_maryo_type = maryo_type_old;
+            m_alex_type = alex_type_old;
             Parachute(parachute_old);
             Load_Images();
 
@@ -2290,15 +2290,15 @@ void cLevel_Player::Draw_Animation(Maryo_type new_mtype)
         }
         // set to new type
         else {
-            m_maryo_type = new_mtype;
-            if (new_mtype != MARYO_CAPE) {
+            m_alex_type = new_mtype;
+            if (new_mtype != ALEX_CAPE) {
                 Parachute(0);
             }
             Load_Images();
 
             // always set the ghost type to draw the ghost rect until it ends
-            if (i < 6 && maryo_type_old == MARYO_GHOST) {
-                m_maryo_type = maryo_type_old;
+            if (i < 6 && alex_type_old == ALEX_GHOST) {
+                m_alex_type = alex_type_old;
             }
 
             Set_Pos(posx_new, posy_new);
@@ -2318,27 +2318,27 @@ void cLevel_Player::Draw_Animation(Maryo_type new_mtype)
 unsigned int cLevel_Player::Get_Image(void) const
 {
     // throwing
-    if (m_throwing_counter && (m_maryo_type == MARYO_FIRE || m_maryo_type == MARYO_ICE) && !m_ducked_counter && (m_state == STA_FALL || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_JUMP)) {
+    if (m_throwing_counter && (m_alex_type == ALEX_FIRE || m_alex_type == ALEX_ICE) && !m_ducked_counter && (m_state == STA_FALL || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_JUMP)) {
         int imgnum = 0;
 
         if (m_throwing_counter < speedfactor_fps * 0.2f) {
             imgnum = 2;
         }
 
-        return MARYO_IMG_THROW + imgnum;
+        return ALEX_IMG_THROW + imgnum;
     }
 
     // ducked
     if (m_ducked_counter && (m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_JUMP || m_state == STA_FALL)) {
-        return MARYO_IMG_DUCK;
+        return ALEX_IMG_DUCK;
     }
 
     // parachute
     if (m_parachute && m_state == STA_FALL) {
-        return MARYO_IMG_SPECIAL_1;
+        return ALEX_IMG_SPECIAL_1;
     }
 
-    if (m_state == STA_STAY || m_state == STA_WALK || (m_maryo_type != MARYO_CAPE && m_state == STA_RUN)) {
+    if (m_state == STA_STAY || m_state == STA_WALK || (m_alex_type != ALEX_CAPE && m_state == STA_RUN)) {
         unsigned int imgnum = static_cast<unsigned int>(m_walk_count);
 
         for (unsigned int i = 0; i < imgnum; i++) {
@@ -2347,7 +2347,7 @@ unsigned int cLevel_Player::Get_Image(void) const
             }
         }
 
-        return MARYO_IMG_WALK + imgnum;
+        return ALEX_IMG_WALK + imgnum;
     }
     else if (m_state == STA_RUN) {
         unsigned int imgnum = static_cast<unsigned int>(m_walk_count);
@@ -2358,7 +2358,7 @@ unsigned int cLevel_Player::Get_Image(void) const
             }
         }
 
-        return MARYO_IMG_RUN + imgnum;
+        return ALEX_IMG_RUN + imgnum;
     }
     else if (m_state == STA_FALL) {
         /*unsigned int imgnum = static_cast<unsigned int>(m_walk_count);
@@ -2371,12 +2371,12 @@ unsigned int cLevel_Player::Get_Image(void) const
             }
         }
 
-        return MARYO_IMG_FALL + imgnum;*/
-        return MARYO_IMG_FALL;
+        return ALEX_IMG_FALL + imgnum;*/
+        return ALEX_IMG_FALL;
     }
     /*else if( m_state == STAY )
     {
-        return MARYO_IMG_STAND;
+        return ALEX_IMG_STAND;
     }*/
     else if (m_state == STA_JUMP) {
         /*unsigned int imgnum = static_cast<unsigned int>(m_walk_count);
@@ -2389,8 +2389,8 @@ unsigned int cLevel_Player::Get_Image(void) const
             }
         }
 
-        return MARYO_IMG_JUMP + imgnum;*/
-        return MARYO_IMG_JUMP;
+        return ALEX_IMG_JUMP + imgnum;*/
+        return ALEX_IMG_JUMP;
     }
     else if (m_state == STA_FLY) {
         unsigned int imgnum = static_cast<unsigned int>(m_walk_count);
@@ -2401,102 +2401,102 @@ unsigned int cLevel_Player::Get_Image(void) const
             }
         }
 
-        return MARYO_IMG_FLY + imgnum;
+        return ALEX_IMG_FLY + imgnum;
     }
     else if (m_state == STA_CLIMB) {
         if (m_walk_count > 4) {
-            return MARYO_IMG_CLIMB;
+            return ALEX_IMG_CLIMB;
         }
         else {
-            return MARYO_IMG_CLIMB + 1;
+            return ALEX_IMG_CLIMB + 1;
         }
     }
 
-    return MARYO_IMG_STAND;
+    return ALEX_IMG_STAND;
 }
 
 void cLevel_Player::Load_Images(void)
 {
     // not valid
-    if (m_maryo_type == MARYO_DEAD) {
+    if (m_alex_type == ALEX_DEAD) {
         return;
     }
 
     Clear_Images();
 
-    // special maryo images state
+    // special alex images state
     std::string special_state;
     // if holding item
     if (m_active_object) {
         special_state = "_holding";
     }
 
-    if (m_maryo_type == MARYO_SMALL) {
+    if (m_alex_type == ALEX_SMALL) {
         /********************* Small **************************/
         // standing
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/stand_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/stand_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/stand_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/stand_right" + special_state + ".png"));
         // walking
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/walk_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/walk_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/walk_right_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/walk_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/walk_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/walk_right_1" + special_state + ".png"));
         // running
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         // falling
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/fall_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/fall_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/fall_right" + special_state + ".png"));
         // jumping
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/jump_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/jump_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/jump_right" + special_state + ".png"));
         // dead
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_right.png"));
         // ducked
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/duck_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/duck_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/duck_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/duck_right.png"));
         // climbing
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/climb_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/climb_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/climb_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/climb_right.png"));
         /****************************************************/
     }
-    else if (m_maryo_type == MARYO_BIG) {
+    else if (m_alex_type == ALEX_BIG) {
         /********************* Big ****************************/
         // standing
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/stand_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/stand_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/stand_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/stand_right" + special_state + ".png"));
         // walking
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/walk_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/walk_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/walk_right_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/walk_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/walk_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/walk_right_1" + special_state + ".png"));
         // running
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         // falling
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/fall_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/fall_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/fall_right" + special_state + ".png"));
         // jumping
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/jump_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/jump_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/jump_right" + special_state + ".png"));
         // dead
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_right.png"));
         // ducked
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/duck_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/duck_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/duck_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/duck_right.png"));
         // climbing
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/climb_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/big/climb_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/climb_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/big/climb_right.png"));
         // throwing
         Add_Image(NULL);
         Add_Image(NULL);
@@ -2504,167 +2504,167 @@ void cLevel_Player::Load_Images(void)
         Add_Image(NULL);
         /****************************************************/
     }
-    else if (m_maryo_type == MARYO_FIRE) {
+    else if (m_alex_type == ALEX_FIRE) {
         /********************* Fire **************************/
         // standing
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/stand_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/stand_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/stand_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/stand_right" + special_state + ".png"));
         // walking
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/walk_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/walk_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/walk_right_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/walk_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/walk_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/walk_right_1" + special_state + ".png"));
         // running
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         // falling
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/fall_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/fall_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/fall_right" + special_state + ".png"));
         // jumping
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/jump_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/jump_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/jump_right" + special_state + ".png"));
         // dead
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_right.png"));
         // ducked
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/duck_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/duck_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/duck_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/duck_right.png"));
         // climbing
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/climb_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/climb_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/climb_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/climb_right.png"));
         // throwing
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/throw_left_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/throw_right_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/throw_left_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/fire/throw_right_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/throw_left_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/throw_right_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/throw_left_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/fire/throw_right_2.png"));
         /****************************************************/
     }
-    else if (m_maryo_type == MARYO_ICE) {
+    else if (m_alex_type == ALEX_ICE) {
         /********************* Ice **************************/
         // standing
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/stand_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/stand_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/stand_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/stand_right" + special_state + ".png"));
         // walking
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/walk_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/walk_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/walk_right_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/walk_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/walk_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/walk_right_1" + special_state + ".png"));
         // running
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         // falling
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/fall_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/fall_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/fall_right" + special_state + ".png"));
         // jumping
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/jump_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/jump_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/jump_right" + special_state + ".png"));
         // dead
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_right.png"));
         // ducked
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/duck_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/duck_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/duck_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/duck_right.png"));
         // climbing
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/climb_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/climb_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/climb_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/climb_right.png"));
         // throwing
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/throw_left_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/throw_right_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/throw_left_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ice/throw_right_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/throw_left_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/throw_right_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/throw_left_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ice/throw_right_2.png"));
         /****************************************************/
     }
-    else if (m_maryo_type == MARYO_CAPE) {
+    else if (m_alex_type == ALEX_CAPE) {
         /********************* Cape **************************/
         // standing
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/right" + special_state + ".png"));
         // walking
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/walk_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/walk_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/walk_right_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/walk_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/walk_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/walk_right_1" + special_state + ".png"));
         // running
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/run_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/run_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/run_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/run_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/run_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/run_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/run_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/run_right_2" + special_state + ".png"));
         // falling
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fall_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fall_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fall_right" + special_state + ".png"));
         // jumping
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/jump_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/jump_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/jump_right" + special_state + ".png"));
         // dead
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_right.png"));
         // ducked
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/duck_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/duck_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/duck_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/duck_right.png"));
         // climbing
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/climb_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/climb_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/climb_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/climb_right.png"));
         // throwing
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         // flying
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_left_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_right_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_left_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_right_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_left_3.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_right_3.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_left_4.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/fly_right_4.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_left_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_right_1.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_left_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_right_2.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_left_3.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_right_3.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_left_4.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/fly_right_4.png"));
         // slow fall/parachute
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/slow_fall_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/flying/slow_fall_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/slow_fall_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/flying/slow_fall_right.png"));
         /****************************************************/
     }
-    else if (m_maryo_type == MARYO_GHOST) {
+    else if (m_alex_type == ALEX_GHOST) {
         /********************* Ghost **************************/
         // standing
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/stand_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/stand_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/stand_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/stand_right" + special_state + ".png"));
         // walking
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/walk_right_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/walk_left_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/walk_right_2" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/walk_left_1" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/walk_right_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/walk_left_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/walk_right_2" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/walk_left_1" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/walk_right_1" + special_state + ".png"));
         // running
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         Add_Image(NULL);
         // falling
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/fall_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/fall_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/fall_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/fall_right" + special_state + ".png"));
         // jumping
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/jump_left" + special_state + ".png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/jump_right" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/jump_left" + special_state + ".png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/jump_right" + special_state + ".png"));
         // dead
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/small/dead_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/small/dead_right.png"));
         // ducked
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/duck_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/duck_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/duck_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/duck_right.png"));
         // climbing
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/climb_left.png"));
-        Add_Image(pVideo->Get_Package_Surface("maryo/ghost/climb_right.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/climb_left.png"));
+        Add_Image(pVideo->Get_Package_Surface("alex/ghost/climb_right.png"));
         // throwing
         Add_Image(NULL);
         Add_Image(NULL);
@@ -2679,37 +2679,37 @@ void cLevel_Player::Load_Images(void)
 
 void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMovingSprite* base /* = NULL */)
 {
-    Maryo_type current_maryo_type;
+    Alex_type current_alex_type;
     bool use_temp_power;
 
     // use original type
-    if (m_maryo_type == MARYO_GHOST) {
-        current_maryo_type = m_maryo_type_temp_power;
+    if (m_alex_type == ALEX_GHOST) {
+        current_alex_type = m_alex_type_temp_power;
         use_temp_power = 1;
     }
     // already using original type
     else {
-        current_maryo_type = m_maryo_type;
+        current_alex_type = m_alex_type;
         use_temp_power = 0;
     }
 
     // Default Mushroom
     if (item_type == TYPE_MUSHROOM_DEFAULT) {
-        if ((current_maryo_type == MARYO_SMALL || force) && Change_Size(-5, -12, 1)) {
+        if ((current_alex_type == ALEX_SMALL || force) && Change_Size(-5, -12, 1)) {
             // change to big
-            if (current_maryo_type == MARYO_SMALL) {
+            if (current_alex_type == ALEX_SMALL) {
                 // set type
-                Set_Type(MARYO_BIG, 1, 1, use_temp_power);
+                Set_Type(ALEX_BIG, 1, 1, use_temp_power);
             }
             // move item to itembox
-            else if (current_maryo_type == MARYO_BIG) {
+            else if (current_alex_type == ALEX_BIG) {
                 // item to itembox
                 pHud_Itembox->Set_Item(TYPE_MUSHROOM_DEFAULT);
             }
             // change to big
-            else if (current_maryo_type == MARYO_FIRE) {
+            else if (current_alex_type == ALEX_FIRE) {
                 // set type
-                Set_Type(MARYO_BIG, 0, 1, use_temp_power);
+                Set_Type(ALEX_BIG, 0, 1, use_temp_power);
                 // old item to itembox
                 pHud_Itembox->Set_Item(TYPE_FIREPLANT);
             }
@@ -2721,21 +2721,21 @@ void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMoving
     }
     // Fireplant
     else if (item_type == TYPE_FIREPLANT) {
-        if (((current_maryo_type == MARYO_SMALL || force) && Change_Size(-5, -12, 1)) ||
-                (current_maryo_type == MARYO_BIG || current_maryo_type == MARYO_ICE || force)) {
+        if (((current_alex_type == ALEX_SMALL || force) && Change_Size(-5, -12, 1)) ||
+                (current_alex_type == ALEX_BIG || current_alex_type == ALEX_ICE || force)) {
             // move item to itembox
-            if (current_maryo_type == MARYO_FIRE) {
+            if (current_alex_type == ALEX_FIRE) {
                 // move item to itembox
                 pHud_Itembox->Set_Item(TYPE_FIREPLANT);
             }
             // change to fire
             else {
                 // set type
-                Set_Type(MARYO_FIRE, 1, 1, use_temp_power);
+                Set_Type(ALEX_FIRE, 1, 1, use_temp_power);
             }
         }
         // fire explosion
-        else if (current_maryo_type == MARYO_FIRE && pHud_Itembox->m_item_id == TYPE_FIREPLANT) {
+        else if (current_alex_type == ALEX_FIRE && pHud_Itembox->m_item_id == TYPE_FIREPLANT) {
             unsigned int ball_amount = 10;
 
             // if star add another ball
@@ -2753,21 +2753,21 @@ void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMoving
     }
     // Blue Mushroom
     else if (item_type == TYPE_MUSHROOM_BLUE) {
-        if (((current_maryo_type == MARYO_SMALL || force) && Change_Size(-5, -20, 1)) ||
-                ((current_maryo_type == MARYO_BIG || current_maryo_type == MARYO_FIRE || force))) {
+        if (((current_alex_type == ALEX_SMALL || force) && Change_Size(-5, -20, 1)) ||
+                ((current_alex_type == ALEX_BIG || current_alex_type == ALEX_FIRE || force))) {
             // move item to itembox
-            if (current_maryo_type == MARYO_ICE) {
+            if (current_alex_type == ALEX_ICE) {
                 // move item to itembox
                 pHud_Itembox->Set_Item(TYPE_MUSHROOM_BLUE);
             }
             // change to ice
             else {
                 // set type
-                Set_Type(MARYO_ICE, 1, 1, use_temp_power);
+                Set_Type(ALEX_ICE, 1, 1, use_temp_power);
             }
         }
         // ice explosion
-        else if (current_maryo_type == MARYO_ICE && pHud_Itembox->m_item_id == TYPE_MUSHROOM_BLUE) {
+        else if (current_alex_type == ALEX_ICE && pHud_Itembox->m_item_id == TYPE_MUSHROOM_BLUE) {
             unsigned int ball_amount = 10;
 
             // if star add another ball
@@ -2785,17 +2785,17 @@ void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMoving
     }
     // Ghost Mushroom
     else if (item_type == TYPE_MUSHROOM_GHOST) {
-        if (((m_maryo_type == MARYO_SMALL || force) && Change_Size(-5, -20, 1)) ||
-                m_maryo_type != MARYO_SMALL) {
+        if (((m_alex_type == ALEX_SMALL || force) && Change_Size(-5, -20, 1)) ||
+                m_alex_type != ALEX_SMALL) {
             // set back ghost time
-            if (m_maryo_type == MARYO_GHOST) {
+            if (m_alex_type == ALEX_GHOST) {
                 m_ghost_time = speedfactor_fps * 10;
                 m_ghost_time_mod = 0;
             }
             // change to ghost
             else {
                 // set type
-                Set_Type(MARYO_GHOST, 1, 1);
+                Set_Type(ALEX_GHOST, 1, 1);
             }
         }
         // move item to itembox
@@ -3041,7 +3041,7 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
             if (m_direction != DIR_LEFT) {
                 // play stop sound if already running
                 if (m_velx > 12.0f && m_ground_object) {
-                    pAudio->Play_Sound("player/run_stop.ogg", RID_MARYO_STOP);
+                    pAudio->Play_Sound("player/run_stop.ogg", RID_ALEX_STOP);
                 }
 
                 m_direction = DIR_LEFT;
@@ -3089,7 +3089,7 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
             if (m_direction != DIR_RIGHT) {
                 // play stop sound if already running
                 if (m_velx < -12.0f && m_ground_object) {
-                    pAudio->Play_Sound("player/run_stop.ogg", RID_MARYO_STOP);
+                    pAudio->Play_Sound("player/run_stop.ogg", RID_ALEX_STOP);
                 }
 
                 m_direction = DIR_RIGHT;
@@ -3127,8 +3127,8 @@ void cLevel_Player::Action_Shoot(void)
 {
     // add fire or ice-ball
     ball_effect ball_type = FIREBALL_DEFAULT;
-    // if ice maryo
-    if (m_maryo_type == MARYO_ICE || m_maryo_type_temp_power == MARYO_ICE) {
+    // if ice alex
+    if (m_alex_type == ALEX_ICE || m_alex_type_temp_power == ALEX_ICE) {
         ball_type = ICEBALL_DEFAULT;
     }
 
@@ -3204,7 +3204,7 @@ void cLevel_Player::Action_Stop_Shoot(void)
 
 bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, float ball_start_angle /* = -1 */, unsigned int amount /* = 0 */) const
 {
-    if ((m_maryo_type != MARYO_FIRE && m_maryo_type_temp_power != MARYO_FIRE && m_maryo_type != MARYO_ICE && m_maryo_type_temp_power != MARYO_ICE) || m_ducked_counter) {
+    if ((m_alex_type != ALEX_FIRE && m_alex_type_temp_power != ALEX_FIRE && m_alex_type != ALEX_ICE && m_alex_type_temp_power != ALEX_ICE) || m_ducked_counter) {
         return 0;
     }
 
@@ -3229,12 +3229,12 @@ bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, f
             ball_vel_x = 12;
 
             // sound
-            pAudio->Play_Sound("item/iceball.wav", RID_MARYO_BALL);
+            pAudio->Play_Sound("item/iceball.wav", RID_ALEX_BALL);
         }
         // fireball
         else {
             // sound
-            pAudio->Play_Sound("item/fireball.ogg", RID_MARYO_BALL);
+            pAudio->Play_Sound("item/fireball.ogg", RID_ALEX_BALL);
         }
 
         if (m_direction == DIR_LEFT) {
@@ -3307,7 +3307,7 @@ bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, f
             anim->Set_Fading_Speed(0.3f);
             pActive_Animation_Manager->Add(anim);
 
-            pAudio->Play_Sound("item/fireball_explosion.wav", RID_MARYO_BALL);
+            pAudio->Play_Sound("item/fireball_explosion.wav", RID_ALEX_BALL);
         }
         else {
             // create animation
@@ -3324,7 +3324,7 @@ bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, f
             anim->Emit();
             pActive_Animation_Manager->Add(anim);
 
-            pAudio->Play_Sound("item/iceball_explosion.wav", RID_MARYO_BALL);
+            pAudio->Play_Sound("item/iceball_explosion.wav", RID_ALEX_BALL);
         }
     }
     // unknown type
@@ -3383,7 +3383,7 @@ void cLevel_Player::Update_Kill_Multiplier(void)
 Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
 {
     // don't collide with anything if dead
-    if (m_maryo_type == MARYO_DEAD) {
+    if (m_alex_type == ALEX_DEAD) {
         return COL_VTYPE_NOT_VALID;
     }
 
@@ -3484,8 +3484,8 @@ Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
 
             // ghost
             if (box->m_box_invisible == BOX_GHOST) {
-                // maryo is not ghost
-                if (m_maryo_type != MARYO_GHOST) {
+                // alex is not ghost
+                if (m_alex_type != ALEX_GHOST) {
                     return COL_VTYPE_NOT_VALID;
                 }
             }
@@ -3601,7 +3601,7 @@ Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
 void cLevel_Player::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     // if invalid
-    if (collision->m_direction == DIR_UNDEFINED || m_maryo_type == MARYO_DEAD || !m_active) {
+    if (collision->m_direction == DIR_UNDEFINED || m_alex_type == ALEX_DEAD || !m_active) {
         return;
     }
 
@@ -3729,7 +3729,7 @@ void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
     }
 
     /* fixme: the collision direction is sometimes wrong as left/right if landing on a moving platform which moves upwards
-    * this seems to cause maryo to hang or to get stuck in it
+    * this seems to cause alex to hang or to get stuck in it
     * easily reproducible with a low framerate and fast moving platform
     */
     //printf( "direction is %s\n", Get_Direction_Name( collision->m_direction ).c_str() );
@@ -3782,7 +3782,7 @@ void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
                 }
 
                 if (collision->m_array == ARRAY_MASSIVE) {
-                    pAudio->Play_Sound("wall_hit.wav", RID_MARYO_WALL_HIT);
+                    pAudio->Play_Sound("wall_hit.wav", RID_ALEX_WALL_HIT);
 
                     // create animation
                     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);

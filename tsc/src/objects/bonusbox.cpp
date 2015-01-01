@@ -269,15 +269,15 @@ void cBonusBox::Activate(void)
         random = 1;
     }
 
-    Maryo_type current_maryo_type;
+    Alex_type current_alex_type;
 
     // use original type
-    if (pLevel_Player->m_maryo_type == MARYO_GHOST) {
-        current_maryo_type = pLevel_Player->m_maryo_type_temp_power;
+    if (pLevel_Player->m_alex_type == ALEX_GHOST) {
+        current_alex_type = pLevel_Player->m_alex_type_temp_power;
     }
     // already using original type
     else {
-        current_maryo_type = pLevel_Player->m_maryo_type;
+        current_alex_type = pLevel_Player->m_alex_type;
     }
 
     // the item from this box
@@ -289,7 +289,7 @@ void cBonusBox::Activate(void)
     }
     // check if lower item should be used if no force best item
     else if (!m_force_best_item && (box_type == TYPE_FIREPLANT || box_type == TYPE_MUSHROOM_BLUE) &&
-             (current_maryo_type == MARYO_SMALL || ((current_maryo_type == MARYO_FIRE || current_maryo_type == MARYO_ICE) && !pHud_Itembox->m_item_id))) {
+             (current_alex_type == ALEX_SMALL || ((current_alex_type == ALEX_FIRE || current_alex_type == ALEX_ICE) && !pHud_Itembox->m_item_id))) {
         pAudio->Play_Sound("sprout_1.ogg");
 
         cMushroom* mushroom = new cMushroom(m_sprite_manager);

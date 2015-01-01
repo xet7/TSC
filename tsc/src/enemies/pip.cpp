@@ -285,9 +285,9 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
     if (p_collision->m_direction == DIR_UNDEFINED)
         return;
 
-    // Hit from the top. Downgrade if Maryo is not small.
+    // Hit from the top. Downgrade if Alex is not small.
     if (p_collision->m_direction == DIR_TOP && pLevel_Player->m_state != STA_FLY) {
-        if (pLevel_Player->m_maryo_type == MARYO_SMALL) {
+        if (pLevel_Player->m_alex_type == ALEX_SMALL) {
             pAudio->Play_Sound("wall_hit.wav");
             pLevel_Player->Action_Jump(true);
             return;
@@ -315,7 +315,7 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
             pAudio->Play_Sound("player/jump_big_power.ogg");
         }
     }
-    else { // Otherwise downgrade Maryo
+    else { // Otherwise downgrade Alex
         pLevel_Player->DownGrade_Player();
         Turn_Around(p_collision->m_direction);
     }

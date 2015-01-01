@@ -634,7 +634,7 @@ void cLevel::Draw_Layer_2(LevelDrawType type /* = LVL_DRAW */)
     }
 
     // ghost
-    if (pLevel_Player->m_maryo_type == MARYO_GHOST) {
+    if (pLevel_Player->m_alex_type == ALEX_GHOST) {
         // create request
         cRect_Request* request = new cRect_Request();
 
@@ -674,13 +674,13 @@ bool cLevel::Key_Down(const SDLKey key)
 {
     // debug key F2
     if (key == SDLK_F2 && game_debug && !editor_level_enabled) {
-        pLevel_Player->Set_Type(MARYO_CAPE, 0);
+        pLevel_Player->Set_Type(ALEX_CAPE, 0);
     }
     // special key F3
     else if (key == SDLK_F3 && !editor_level_enabled) {
         //pLevel_Player->GotoNextLevel();
         //DrawEffect( HORIZONTAL_VERTICAL_FADE );
-        //pLevel_Player->Draw_Animation( MARYO_FIRE );
+        //pLevel_Player->Draw_Animation( ALEX_FIRE );
 
         cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
         anim->Set_Emitter_Rect(pLevel_Player->m_pos_x + static_cast<float>(pLevel_Player->m_col_rect.m_w / 2), pLevel_Player->m_pos_y - 100, 10, 10);
@@ -766,7 +766,7 @@ bool cLevel::Key_Down(const SDLKey key)
     }
     // Set Small state
     else if (pKeyboard->m_keys[SDLK_k] && pKeyboard->m_keys[SDLK_i] && pKeyboard->m_keys[SDLK_d] && !editor_enabled) {
-        pLevel_Player->Set_Type(MARYO_SMALL, 0);
+        pLevel_Player->Set_Type(ALEX_SMALL, 0);
     }
     // Exit
     else if (key == SDLK_ESCAPE) {
