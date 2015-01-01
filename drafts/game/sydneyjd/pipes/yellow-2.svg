@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="red-2.svg"
+   sodipodi:docname="yellow-2.svg"
    inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes/Done pipes/Yellow/yellow-2.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -201,7 +201,7 @@
        x2="465.32138"
        y2="254.51497"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.76618234,0,0,0.76618234,48.896147,85.145057)" />
+       gradientTransform="matrix(0.76618234,0,0,0.76618234,48.896147,-9.0519467)" />
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5275"
@@ -223,8 +223,51 @@
        fx="285.26718"
        fy="263.29697"
        r="288.78308"
-       gradientTransform="matrix(0.44946676,0.0030047,-0.00910876,1.3852964,142.66214,-81.011659)"
+       gradientTransform="matrix(0.44946676,0.0030047,-0.00910876,1.3852964,142.66214,-175.20866)"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3771"
+       id="linearGradient3777"
+       x1="616.61639"
+       y1="521.85107"
+       x2="456.13037"
+       y2="521.85107"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.75904775,0,0,0.79841124,51.39794,-20.738088)" />
+    <linearGradient
+       id="linearGradient3771">
+      <stop
+         style="stop-color:#a37a00;stop-opacity:1;"
+         offset="0"
+         id="stop3773" />
+      <stop
+         style="stop-color:#3e4547;stop-opacity:0;"
+         offset="1"
+         id="stop3775" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3794"
+       id="radialGradient3800"
+       cx="285.59552"
+       cy="528.03241"
+       fx="285.59552"
+       fy="528.03241"
+       r="254.59781"
+       gradientTransform="matrix(0.46033453,2.4555608e-8,-8.8510553e-8,2.1952087,137.03144,-758.34605)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient3794">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.50980395;"
+         offset="0"
+         id="stop3796" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3798" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -234,8 +277,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="-48.682896"
-     inkscape:cy="-47.059038"
+     inkscape:cx="107.67262"
+     inkscape:cy="210.88053"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -256,7 +299,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -267,17 +310,17 @@
      transform="translate(-76.552866,-108.15626)">
     <path
        style="fill:none;stroke:#000000;stroke-width:0.76618236px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 111.28528,206.26046 25.17457,155.42556 392.94208,0 25.17456,-155.42556 z"
+       d="m 111.28528,112.06346 25.17457,155.42556 392.94208,0 25.17456,-155.42556 z"
        id="path3012"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#00ccff;fill-opacity:0;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.7349878;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0.00465118;stroke-dasharray:none"
-       d="m 136.79436,360.54538 c 0,-0.23142 -5.54114,-34.61881 -12.31365,-76.41644 -6.77251,-41.79763 -12.31365,-76.33276 -12.31365,-76.74475 0,-0.63268 34.32399,-0.74907 220.89311,-0.74907 l 220.8931,0 -0.27688,1.505 c -0.15228,0.82775 -5.77923,35.55222 -12.50433,77.1655 l -12.22745,75.66051 -196.07514,0 c -107.84131,0 -196.07511,-0.18934 -196.07511,-0.42075 z"
+       d="m 136.79436,266.34838 c 0,-0.23142 -5.54114,-34.61881 -12.31365,-76.41644 -6.77251,-41.79763 -12.31365,-76.33276 -12.31365,-76.74475 0,-0.63268 34.32399,-0.74907 220.89311,-0.74907 l 220.8931,0 -0.27688,1.505 c -0.15228,0.82775 -5.77923,35.55222 -12.50433,77.1655 l -12.22745,75.66051 -196.07514,0 c -107.84131,0 -196.07511,-0.18934 -196.07511,-0.42075 z"
        id="path3019"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#c1bb00;fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.73476887000000002;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0.00465118000000000;stroke-dasharray:none"
-       d="m 136.79436,360.53402 c 0,-0.23767 -5.54114,-34.63088 -12.31365,-76.42938 -6.77251,-41.7985 -12.31365,-76.32852 -12.31365,-76.73339 0,-0.61544 36.21523,-0.73613 220.89311,-0.73613 l 220.8931,0 -0.27775,1.505 c -0.15276,0.82775 -5.78072,35.55222 -12.50656,77.1655 l -12.2288,75.66051 -196.07291,0 c -107.84009,0 -196.07289,-0.19445 -196.07289,-0.43211 z"
+       style="fill:#c1bb00;fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.73476887;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0.00465118;stroke-dasharray:none"
+       d="m 136.79436,266.33702 c 0,-0.23767 -5.54114,-34.63088 -12.31365,-76.42938 -6.77251,-41.7985 -12.31365,-76.32852 -12.31365,-76.73339 0,-0.61544 36.21523,-0.73613 220.89311,-0.73613 l 220.8931,0 -0.27775,1.505 c -0.15276,0.82775 -5.78072,35.55222 -12.50656,77.1655 l -12.2288,75.66051 -196.07291,0 c -107.84009,0 -196.07289,-0.19445 -196.07289,-0.43211 z"
        id="path3791"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes/Gray/gray-2.png"
@@ -285,12 +328,12 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:5.74636745;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.98139535;stroke-dasharray:none"
-       d="m 110.42605,205.32992 444.25363,0.38699 -24.76675,155.56617 -393.17221,0 z"
+       d="m 110.42605,111.13292 444.25363,0.38699 -24.76675,155.56617 -393.17221,0 z"
        id="path3827"
        inkscape:connector-curvature="0" />
     <path
        style="fill:url(#linearGradient3829);fill-opacity:1;stroke:none"
-       d="m 388.27806,208.42576 162.9188,0.19349 -23.7993,149.56797 -136.41063,0 z"
+       d="m 388.27806,114.22876 162.9188,0.19349 -23.7993,149.56797 -136.41063,0 z"
        id="path3813"
        inkscape:connector-curvature="0" />
     <path
@@ -299,7 +342,35 @@
        inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes/Gray/gray-2.png"
        inkscape:connector-curvature="0"
        id="path3826"
-       d="m 133.51072,358.15561 c 0,-0.23116 -5.54114,-33.68174 -12.31365,-74.33466 -6.7725,-40.6529 -12.31364,-74.23655 -12.31364,-74.63033 0,-0.59857 36.21522,-0.71596 220.8931,-0.71596 l 220.89311,0 -0.27776,1.46376 c -0.15276,0.80507 -5.78071,34.57783 -12.50655,75.0506 l -12.2288,73.58686 -196.07291,0 c -107.84009,0 -196.0729,-0.18913 -196.0729,-0.42027 z"
+       d="m 133.51072,263.95861 c 0,-0.23116 -5.54114,-33.68174 -12.31365,-74.33466 -6.7725,-40.6529 -12.31364,-74.23655 -12.31364,-74.63033 0,-0.59857 36.21522,-0.71596 220.8931,-0.71596 l 220.89311,0 -0.27776,1.46376 c -0.15276,0.80507 -5.78071,34.57783 -12.50655,75.0506 l -12.2288,73.58686 -196.07291,0 c -107.84009,0 -196.0729,-0.18913 -196.0729,-0.42027 z"
        style="fill:url(#radialGradient3836);fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.72462988;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0.00465118;stroke-dasharray:none" />
+    <path
+       style="fill:#c1bb00;fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.7436589;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;display:inline"
+       d="m 139.58,400.79538 0,-131.16684 192.35821,0 192.3582,0 0,131.16684 0,131.16683 -192.3582,0 -192.35821,0 0,-131.16683 z"
+       id="path3997"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:5.82231474;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 139.44802,532.2451 0.0943,-262.59968 z"
+       id="path4116"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4118"
+       d="M 525.59436,532.04653 525.68866,269.505 z"
+       style="fill:none;stroke:#000000;stroke-width:5.82229471;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <rect
+       style="fill:url(#linearGradient3777);fill-opacity:1;fill-rule:nonzero;stroke:none;display:inline"
+       id="rect3001"
+       width="137.38765"
+       height="262.4758"
+       x="385.44427"
+       y="269.46335"
+       ry="0.81491733" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3024"
+       d="m 139.58,400.79538 0,-131.16684 192.35821,0 192.3582,0 0,131.16684 0,131.16683 -192.3582,0 -192.35821,0 0,-131.16683 z"
+       style="fill:url(#radialGradient3800);fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.7436589;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;display:inline" />
   </g>
 </svg>
