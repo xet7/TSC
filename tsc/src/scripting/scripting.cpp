@@ -18,6 +18,9 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
+#include "../audio/audio.hpp"
+#include "../user/savegame.hpp"
+#include "../input/keyboard.hpp"
 
 #include "objects/mrb_tsc.hpp"
 #include "objects/mrb_eventable.hpp"
@@ -94,6 +97,19 @@ cMRuby_Interpreter::cMRuby_Interpreter(cLevel* p_level)
 
 cMRuby_Interpreter::~cMRuby_Interpreter()
 {
+    /* When the mruby interpreter gets deleted, all remaining mruby objects
+     * (mrb_value instances) are invalidated. Therefore, we wipe all the
+     * existing event callbacks here. */
+    cSprite_List::iterator iter;
+    for (iter = mp_level->m_sprite_manager->objects.begin(); iter != mp_level->m_sprite_manager->objects.end(); iter++) {
+        cSprite* p_sprite = *iter;
+        p_sprite->clear_event_handlers();
+    }
+    pAudio->clear_event_handlers();
+    pKeyboard->clear_event_handlers();
+    pSavegame->clear_event_handlers();
+    pLevel_Player->clear_event_handlers();
+
     // Get all the registered timers from mruby
     mrb_value klass = mrb_obj_value(mrb_class_get(mp_mruby, "Timer"));
     mrb_value rb_timers = mrb_iv_get(mp_mruby, klass, mrb_intern_cstr(mp_mruby, "instances"));
