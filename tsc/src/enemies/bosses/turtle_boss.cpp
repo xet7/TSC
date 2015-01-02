@@ -277,7 +277,7 @@ void cTurtleBoss::DownGrade(bool force /* = 0 */)
             // fade out music
             pAudio->Fadeout_Music(500);
             // play finish music
-            pAudio->Play_Music("game/courseclear.ogg", 0, 0);
+            pAudio->Play_Music("game/courseclear_A.ogg", 0, 0);
         }
 
         // set shell image

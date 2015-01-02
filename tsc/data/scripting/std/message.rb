@@ -33,6 +33,10 @@ module Std
 
       # Actual activation
       super
+
+      # Hide afterwards
+      self.massive_type = :passive
+      warp(-100, 100)
     end
 
   end

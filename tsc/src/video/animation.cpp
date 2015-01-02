@@ -523,11 +523,11 @@ cParticle_Emitter::cParticle_Emitter(XmlAttributes& attributes, cSprite_Manager*
                          attributes.fetch<float>("const_rot_x_rand", m_const_rot_x_rand));
 
     // constant rotation y
-    Set_Const_Rotation_X(attributes.fetch<float>("const_rot_y", m_const_rot_y),
+    Set_Const_Rotation_Y(attributes.fetch<float>("const_rot_y", m_const_rot_y),
                          attributes.fetch<float>("const_rot_y_rand", m_const_rot_y_rand));
 
     // constant rotation z
-    Set_Const_Rotation_X(attributes.fetch<float>("const_rot_z", m_const_rot_z),
+    Set_Const_Rotation_Z(attributes.fetch<float>("const_rot_z", m_const_rot_z),
                          attributes.fetch<float>("const_rot_z_rand", m_const_rot_z_rand));
 
     // angle

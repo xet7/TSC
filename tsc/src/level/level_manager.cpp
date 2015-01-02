@@ -334,7 +334,7 @@ void cLevel_Manager::Finish_Level(bool win_music /* = 0 */)
     Game_Action_Data_Start.add("music_fadeout", "1500");
     Game_Action_Data_Start.add("screen_fadeout", CEGUI::PropertyHelper::intToString(EFFECT_OUT_RANDOM));
     if (win_music) {
-        Game_Action_Data_Middle.add("play_music", "game/courseclear.ogg");
+        Game_Action_Data_Middle.add("play_music", "game/courseclear_A.ogg");
     }
     // delay unload level
     Game_Action_Data_Middle.add("unload_levels", "1");

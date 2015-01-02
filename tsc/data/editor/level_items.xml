@@ -651,9 +651,9 @@
 	<item>
 		<property name="object_name" value="particle_emitter" />
 		<property name="object_tags" value="level;special" />
-		<property name="file" value="animation/particles/dirt.png" />
-		<property name="size_x" value="10" />
-		<property name="size_y" value="10" />
+		<property name="particle_image" value="animation/particles/dirt.png" />
+		<property name="sizex" value="10" />
+		<property name="sizey" value="10" />
 		<property name="emitter_time_to_live" value="-1" />
 	</item>
 	<item>

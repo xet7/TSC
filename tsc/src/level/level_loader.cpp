@@ -420,6 +420,30 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("pipes/yellow/hor.png", "pipes/yellow/hor_1.png");
         // green was removed (see above)
     }
+    // V2.0.0-beta6 and lower: up.png was renamed to up_1.png (same for left, down, right).
+    // Note this builds upon the previous line for green pipes.
+    if (engine_version < 43) {
+        attributes.relocate_image("pipes/blue/up.png",    "pipes/blue/up_1.png");
+        attributes.relocate_image("pipes/blue/left.png",  "pipes/blue/left_1.png");
+        attributes.relocate_image("pipes/blue/right.png", "pipes/blue/right_1.png");
+        attributes.relocate_image("pipes/blue/down.png",  "pipes/blue/down_1.png");
+        attributes.relocate_image("pipes/grey/up.png",    "pipes/grey/up_1.png");
+        attributes.relocate_image("pipes/grey/left.png",  "pipes/grey/left_1.png");
+        attributes.relocate_image("pipes/grey/right.png", "pipes/grey/right_1.png");
+        attributes.relocate_image("pipes/grey/down.png",  "pipes/grey/down_1.png");
+        attributes.relocate_image("pipes/orange/up.png",    "pipes/orange/up_1.png");
+        attributes.relocate_image("pipes/orange/left.png",  "pipes/orange/left_1.png");
+        attributes.relocate_image("pipes/orange/right.png", "pipes/orange/right_1.png");
+        attributes.relocate_image("pipes/orange/down.png",  "pipes/orange/down_1.png");
+        attributes.relocate_image("pipes/red/up.png",    "pipes/red/up_1.png");
+        attributes.relocate_image("pipes/red/left.png",  "pipes/red/left_1.png");
+        attributes.relocate_image("pipes/red/right.png", "pipes/red/right_1.png");
+        attributes.relocate_image("pipes/red/down.png",  "pipes/red/down_1.png");
+        attributes.relocate_image("pipes/yellow/up.png",    "pipes/yellow/up_1.png");
+        attributes.relocate_image("pipes/yellow/left.png",  "pipes/yellow/left_1.png");
+        attributes.relocate_image("pipes/yellow/right.png", "pipes/yellow/right_1.png");
+        attributes.relocate_image("pipes/yellow/down.png",  "pipes/yellow/down_1.png");
+    }
     // always: fix sprite with undefined massive-type
     if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
         cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << endl;
@@ -874,6 +898,16 @@ std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const 
 
     // Note : If you relocate images don't forget the global effect
 
+    //Fix old emitter definitions
+    if (attributes.exists("pos_x"))
+        attributes["posx"] =  attributes["pos_x"];
+    if (attributes.exists("pos_y"))
+        attributes["posy"] =  attributes["pos_y"];
+    if (attributes.exists("size_x"))
+        attributes["sizex"] =  attributes["size_x"];
+    if (attributes.exists("size_y"))
+        attributes["sizey"] =  attributes["size_y"];
+
     // if V.1.9 and lower : move y coordinate bottom to 0
     if (engine_version < 35 && attributes.exists("posy"))
         attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
@@ -890,6 +924,11 @@ std::vector<cSprite*> cLevelLoader::Create_Particle_Emitters_From_XML_Tag(const 
     if (engine_version < 38 && attributes.exists("file")) {
         attributes["image"] = attributes["file"];
         attributes.erase("file");
+    }
+
+    if (attributes.exists("image") && !attributes.exists("particle_image")) {
+        attributes["particle_image"] = attributes["image"] ;
+        attributes.erase("image");
     }
 
     cParticle_Emitter* p_emitter = new cParticle_Emitter(attributes, p_sprite_manager);
@@ -918,12 +957,17 @@ std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std
         attributes.erase("creation_speed");
     }
 
+    if (attributes.exists("image") && !attributes.exists("particle_image")) {
+        attributes["particle_image"] = attributes["image"] ;
+        attributes.erase("image");
+    }
+
     // if V.1.9 and lower : change fire_1 animation to particles
     if (engine_version < 37) {
-        attributes.relocate_image("animation/fire_1/1.png", "animation/particles/fire_1.png", "image");
-        attributes.relocate_image("animation/fire_1/2.png", "animation/particles/fire_2.png", "image");
-        attributes.relocate_image("animation/fire_1/3.png", "animation/particles/fire_3.png", "image");
-        attributes.relocate_image("animation/fire_1/4.png", "animation/particles/fire_4.png", "image");
+        attributes.relocate_image("animation/fire_1/1.png", "animation/particles/fire_1.png", "particle_image");
+        attributes.relocate_image("animation/fire_1/2.png", "animation/particles/fire_2.png", "particle_image");
+        attributes.relocate_image("animation/fire_1/3.png", "animation/particles/fire_3.png", "particle_image");
+        attributes.relocate_image("animation/fire_1/4.png", "animation/particles/fire_4.png", "particle_image");
     }
 
     // change disabled type to quota 0
@@ -933,17 +977,17 @@ std::vector<cSprite*> cLevelLoader::Create_Global_Effects_From_XML_Tag(const std
     }
 
     // rename attributes
-    attributes["pos_x"]         = int_to_string(attributes.fetch<int>("rect_x", 0));
-    attributes["pos_y"]         = int_to_string(attributes.fetch<int>("rect_y", 0) - 600);
-    attributes["size_x"]        = int_to_string(attributes.fetch<int>("rect_w", game_res_w));
-    attributes["size_y"]        = int_to_string(attributes.fetch<int>("rect_h", 0));
+    attributes["posx"]         = int_to_string(attributes.fetch<int>("rect_x", 0));
+    attributes["posy"]         = int_to_string(attributes.fetch<int>("rect_y", 0) - 600);
+    attributes["sizex"]        = int_to_string(attributes.fetch<int>("rect_w", game_res_w));
+    attributes["sizey"]        = int_to_string(attributes.fetch<int>("rect_h", 0));
     attributes["pos_z"]         = float_to_string(attributes.fetch<float>("z", 0.12f));
     attributes["pos_z_rand"]    = float_to_string(attributes.fetch<float>("z_rand", 0.0f));
     attributes["emitter_time_to_live"] = "-1.0";
     if (!attributes.exists("time_to_live"))
         attributes["time_to_live"] = "0.7";
     attributes["emitter_interval"]  = float_to_string(attributes.fetch<float>("emitter_iteration_interval", 0.3f));
-    attributes["size_scale"]        = float_to_string(attributes.fetch<float>("speed", 0.2f));
+    attributes["size_scale"]        = float_to_string(attributes.fetch<float>("scale", 0.2f));
     attributes["size_scale_rand"]   = float_to_string(attributes.fetch<float>("scale_rand", 0.2f));
     attributes["vel"]               = float_to_string(attributes.fetch<float>("speed", 0.2f));
     attributes["vel_rand"]          = float_to_string(attributes.fetch<float>("speed_rand", 8.0f));
