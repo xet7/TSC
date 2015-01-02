@@ -108,6 +108,7 @@ cMRuby_Interpreter::~cMRuby_Interpreter()
     pAudio->clear_event_handlers();
     pKeyboard->clear_event_handlers();
     pSavegame->clear_event_handlers();
+    pLevel_Player->clear_event_handlers();
 
     // Get all the registered timers from mruby
     mrb_value klass = mrb_obj_value(mrb_class_get(mp_mruby, "Timer"));
