@@ -210,7 +210,7 @@ void TSC::Scripting::Init_Moving_Platform(mrb_state* p_state)
     mrb_define_method(p_state, p_rcMovingPlatform, "move_type", Get_Move_Type, MRB_ARGS_NONE());
     mrb_define_method(p_state, p_rcMovingPlatform, "move_type=", Set_Move_Type, MRB_ARGS_REQ(1));
     mrb_define_method(p_state, p_rcMovingPlatform, "path_identifier", Get_Path_Identifier, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcMovingPlatform, "move_type=", Set_Path_Identifier, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcMovingPlatform, "path_identifier=", Set_Path_Identifier, MRB_ARGS_REQ(1));
     mrb_define_method(p_state, p_rcMovingPlatform, "speed", Get_Speed, MRB_ARGS_NONE());
     mrb_define_method(p_state, p_rcMovingPlatform, "speed=", Set_Speed, MRB_ARGS_REQ(1));
     mrb_define_method(p_state, p_rcMovingPlatform, "middle_count", Get_Middle_Count, MRB_ARGS_NONE());
