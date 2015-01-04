@@ -217,7 +217,7 @@ namespace TSC {
         // enemy
         TYPE_FURBALL = 10,
         TYPE_FURBALL_BOSS = 62,
-        TYPE_TURTLE = 19,
+        TYPE_ARMY = 19,
         TYPE_TURTLE_BOSS = 56,
         TYPE_FLYON = 29,
         TYPE_ROKKO = 30,

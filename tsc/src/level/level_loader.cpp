@@ -30,7 +30,7 @@
 #include "../objects/moving_platform.hpp"
 #include "../enemies/eato.hpp"
 #include "../enemies/furball.hpp"
-#include "../enemies/turtle.hpp"
+#include "../enemies/army.hpp"
 #include "../enemies/shell.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 #include "../enemies/flyon.hpp"
@@ -830,8 +830,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
         result.push_back(new cEato(attributes, p_sprite_manager));
     else if (type == "furball")
         result.push_back(new cFurball(attributes, p_sprite_manager));
-    else if (type == "turtle")
-        result.push_back(new cTurtle(attributes, p_sprite_manager));
+    else if (type == "turtle" || type == "army" )
+        result.push_back(new cArmy(attributes, p_sprite_manager));
     else if (type == "shell")
         result.push_back(new cShell(attributes, p_sprite_manager));
     else if (type == "turtleboss") {

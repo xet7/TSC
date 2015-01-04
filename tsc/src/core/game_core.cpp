@@ -526,10 +526,10 @@ void Preload_Sounds(bool draw_gui /* = 0 */)
     // thromp
     sound_files.push_back(utf8_to_path("enemy/thromp/hit.ogg"));
     sound_files.push_back(utf8_to_path("enemy/thromp/die.ogg"));
-    // turtle
-    sound_files.push_back(utf8_to_path("enemy/turtle/hit.ogg"));
-    sound_files.push_back(utf8_to_path("enemy/turtle/shell/hit.ogg"));
-    sound_files.push_back(utf8_to_path("enemy/turtle/stand_up.wav"));
+    // army
+    sound_files.push_back(utf8_to_path("enemy/army/hit.ogg"));
+    sound_files.push_back(utf8_to_path("enemy/army/shell/hit.ogg"));
+    sound_files.push_back(utf8_to_path("enemy/army/stand_up.wav"));
     // turtle boss
     sound_files.push_back(utf8_to_path("enemy/boss/turtle/big_hit.ogg"));
     sound_files.push_back(utf8_to_path("enemy/boss/turtle/shell_attack.ogg"));

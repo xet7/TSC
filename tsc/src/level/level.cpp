@@ -31,7 +31,7 @@
 #include "../user/savegame.hpp"
 #include "../overworld/world_manager.hpp"
 #include "../overworld/overworld.hpp"
-#include "../enemies/turtle.hpp"
+#include "../enemies/army.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 #include "../enemies/rokko.hpp"
 #include "../enemies/krush.hpp"
