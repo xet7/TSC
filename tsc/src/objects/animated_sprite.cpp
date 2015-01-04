@@ -16,11 +16,28 @@
 #include "../objects/animated_sprite.hpp"
 #include "../core/game_core.hpp"
 #include "../core/framerate.hpp"
+#include "../core/file_parser.hpp"
+#include "../core/filesystem/package_manager.hpp"
 #include "../core/global_basic.hpp"
 
 using namespace std;
 
 namespace TSC {
+
+/* *** *** *** *** *** *** *** cAnimation_Parser *** *** *** *** *** *** *** *** *** *** */
+class cAnimation_Parser : public cFile_parser
+{
+public:
+    bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
+    {
+        if(count > 0)
+            m_images.push_back(parts[0]);
+        return 1;
+    }
+
+    vector<std::string> m_images;
+};
+
 
 /* *** *** *** *** *** *** *** cAnimation_Surface *** *** *** *** *** *** *** *** *** *** */
 
@@ -69,6 +86,75 @@ void cAnimated_Sprite::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     m_images.push_back(obj);
 }
 
+void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time, bool total)
+{
+    // Parse the animation file
+    boost::filesystem::path filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
+    if(filename == boost::filesystem::path())
+    {
+        cerr << "Warning: Unable to load animation: " << name << endl;
+        return;
+    }
+
+    cAnimation_Parser parser;
+    if(!parser.Parse(path_to_utf8(filename)))
+    {
+        cerr << "Warning: Unable to parse animation file: " << filename << endl;
+        return;
+    }
+
+    if(parser.m_images.size() == 0)
+    {
+        cerr << "Warning: Empty animation file: " << filename << endl;
+        return;
+    }
+
+    // Update time if needed
+    if(total && time > 0)
+    {
+        time = time / parser.m_images.size();
+    }
+
+    int start, end;
+    start = m_images.size();
+    for(vector<std::string>::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr)
+    {
+        Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(*itr)), time);
+    }
+    end = m_images.size() - 1;
+
+    // Add the item
+    m_named_ranges[name] = std::pair<int, int>(start, end);
+}
+
+void cAnimated_Sprite::Set_Named_Animation(const std::string& name)
+{
+    cAnimation_Name_Map::iterator it = m_named_ranges.find(name);
+    if(it == m_named_ranges.end())
+    {
+        cerr << "Warning: Named animation not found: " << name << endl;
+        Set_Image_Num(-1);
+        Set_Animation(0);
+        return;
+    }
+
+    int start = it->second.first;
+    int end = it->second.second;
+
+    Set_Image_Num(start);
+    if(end > start)
+    {
+        Set_Animation(1);
+        Set_Animation_Image_Range(start, end);
+        Reset_Animation();
+    }
+    else
+    {
+        Set_Animation(0);
+        Reset_Animation();
+    }
+}
+
 void cAnimated_Sprite::Set_Image_Num(const int num, const bool new_startimage /* = 0 */, const bool del_img /* = 0 */)
 {
     if (m_curr_img == num) {
@@ -100,7 +186,11 @@ cGL_Surface* cAnimated_Sprite::Get_Image(const unsigned int num) const
 void cAnimated_Sprite::Clear_Images(void)
 {
     m_curr_img = -1;
+    m_anim_enabled = 0;
+    m_anim_img_start = 0;
+    m_anim_img_end = 0;
     m_images.clear();
+    m_named_ranges.clear();
 }
 
 void cAnimated_Sprite::Update_Animation(void)

@@ -47,6 +47,13 @@ namespace TSC {
          * time: if not set uses the default display time
         */
         void Add_Image(cGL_Surface* image, Uint32 time = 0);
+
+        // Add an animation
+        void Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time = 0, bool total = false);
+
+        // Set an active sequence
+        void Set_Named_Animation(const std::string& name);
+
         // Set the animation start and end image
         inline void Set_Animation_Image_Range(const int start, const int end)
         {
@@ -124,6 +131,10 @@ namespace TSC {
         // Surface list
         typedef vector<cAnimation_Surface> cAnimation_Surface_List;
         cAnimation_Surface_List m_images;
+
+        // Animation names
+        typedef std::map<std::string, std::pair<int, int> > cAnimation_Name_Map;
+        cAnimation_Name_Map m_named_ranges;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
