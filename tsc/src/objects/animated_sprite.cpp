@@ -186,9 +186,6 @@ cGL_Surface* cAnimated_Sprite::Get_Image(const unsigned int num) const
 void cAnimated_Sprite::Clear_Images(void)
 {
     m_curr_img = -1;
-    m_anim_enabled = 0;
-    m_anim_img_start = 0;
-    m_anim_img_end = 0;
     m_images.clear();
     m_named_ranges.clear();
 }
