@@ -28,14 +28,40 @@ namespace TSC {
 class cAnimation_Parser : public cFile_parser
 {
 public:
+    typedef std::pair<std::string, Uint32> Entry_Type;
+    typedef std::vector<Entry_Type> List_Type;
+
+    cAnimation_Parser(Uint32 time) : m_time(time)
+    {
+    }
+
     bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
     {
-        if(count > 0)
-            m_images.push_back(parts[0]);
+        if(count == 1)
+        {
+            // only a filename
+            m_images.push_back(Entry_Type(parts[0], m_time));
+        }
+        else if(count == 2)
+        {
+            if(parts[0] == "time")
+            {
+                // Setting default time for images
+                m_time = string_to_int(parts[1]);
+            }
+            else
+            {
+                // filename and a time for that specific image
+                m_images.push_back(Entry_Type(parts[0], string_to_int(parts[1])));
+            }
+        }
+
         return 1;
     }
 
-    vector<std::string> m_images;
+
+    List_Type m_images;
+    Uint32 m_time;
 };
 
 
@@ -86,7 +112,7 @@ void cAnimated_Sprite::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     m_images.push_back(obj);
 }
 
-void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time, bool total)
+void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */)
 {
     // Parse the animation file
     boost::filesystem::path filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
@@ -96,7 +122,7 @@ void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem:
         return;
     }
 
-    cAnimation_Parser parser;
+    cAnimation_Parser parser(time == 0 ? m_anim_time_default : time);
     if(!parser.Parse(path_to_utf8(filename)))
     {
         cerr << "Warning: Unable to parse animation file: " << filename << endl;
@@ -109,17 +135,12 @@ void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem:
         return;
     }
 
-    // Update time if needed
-    if(total && time > 0)
-    {
-        time = time / parser.m_images.size();
-    }
-
+    // Add images
     int start, end;
     start = m_images.size();
-    for(vector<std::string>::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr)
+    for(cAnimation_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr)
     {
-        Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(*itr)), time);
+        Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(itr->first)), itr->second);
     }
     end = m_images.size() - 1;
 
