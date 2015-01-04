@@ -9741,7 +9741,7 @@
 		<Property name="speed" value="5.8" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1555" />
 		<Property name="posy" value="395" />
 		<Property name="color" value="red" />
@@ -9790,7 +9790,7 @@
 		<Property name="direction" value="top_right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="5133" />
 		<Property name="posy" value="490" />
 		<Property name="color" value="red" />
@@ -10217,7 +10217,7 @@
 		<Property name="direction" value="top_right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="11531" />
 		<Property name="posy" value="5521" />
 		<Property name="color" value="red" />

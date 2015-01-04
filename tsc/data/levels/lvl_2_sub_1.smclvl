@@ -1449,14 +1449,14 @@
         <property name="gold_color" value="red" />
     </box>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="1427" />
         <property name="posy" value="-118" />
         <property name="color" value="red" />
         <property name="direction" value="right" />
     </enemy>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="1967" />
         <property name="posy" value="-381" />
         <property name="color" value="red" />
@@ -1484,7 +1484,7 @@
         <property name="segment_0_y2" value="0" />
     </path>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="810" />
         <property name="posy" value="-344" />
         <property name="color" value="red" />

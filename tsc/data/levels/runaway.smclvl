@@ -1839,14 +1839,14 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="575" />
 		<Property name="posy" value="-2425" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="312" />
 		<Property name="posy" value="-2425" />
 		<Property name="color" value="green" />

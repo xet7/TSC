@@ -454,14 +454,14 @@
         <property name="posy" value="-175" />
     </enemystopper>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="1188" />
         <property name="posy" value="-236" />
         <property name="color" value="red" />
         <property name="direction" value="left" />
     </enemy>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="976" />
         <property name="posy" value="-135" />
         <property name="color" value="red" />
@@ -1397,7 +1397,7 @@
         <property name="force_best_item" value="0" />
     </box>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="6232" />
         <property name="posy" value="-131" />
         <property name="color" value="red" />
@@ -1630,7 +1630,7 @@
         <property name="posy" value="-67" />
     </enemystopper>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="7065" />
         <property name="posy" value="-131" />
         <property name="color" value="red" />
@@ -2083,7 +2083,7 @@
         <property name="type" value="massive" />
     </sprite>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="7817" />
         <property name="posy" value="-307" />
         <property name="color" value="red" />
@@ -2102,7 +2102,7 @@
         <property name="type" value="passive" />
     </sprite>
     <enemy >
-        <property name="type" value="turtle" />
+        <property name="type" value="army" />
         <property name="posx" value="8115" />
         <property name="posy" value="-304" />
         <property name="color" value="red" />

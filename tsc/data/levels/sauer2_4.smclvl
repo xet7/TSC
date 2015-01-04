@@ -377,7 +377,7 @@
 		<Property name="type" value="massive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="646" />
 		<Property name="posy" value="401" />
 		<Property name="color" value="green" />
@@ -481,7 +481,7 @@
 		<Property name="type" value="massive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1341" />
 		<Property name="posy" value="458" />
 		<Property name="color" value="red" />
@@ -1281,14 +1281,14 @@
 		<Property name="posy" value="347" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4451" />
 		<Property name="posy" value="282" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4030" />
 		<Property name="posy" value="399" />
 		<Property name="color" value="green" />
@@ -1795,7 +1795,7 @@
 		<Property name="force_best_item" value="0" />
 	</box>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="5514" />
 		<Property name="posy" value="146" />
 		<Property name="color" value="green" />
@@ -2315,7 +2315,7 @@
 		<Property name="posy" value="398" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="6566" />
 		<Property name="posy" value="106" />
 		<Property name="color" value="green" />
@@ -2520,7 +2520,7 @@
 		<Property name="segment_2_y2" value="0" />
 	</path>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="5920" />
 		<Property name="posy" value="470" />
 		<Property name="color" value="green" />
@@ -2633,7 +2633,7 @@
 		<Property name="segment_1_y2" value="-400" />
 	</path>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="7297" />
 		<Property name="posy" value="332" />
 		<Property name="color" value="green" />
@@ -2648,7 +2648,7 @@
 		<Property name="posy" value="404" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3838" />
 		<Property name="posy" value="145" />
 		<Property name="color" value="green" />
