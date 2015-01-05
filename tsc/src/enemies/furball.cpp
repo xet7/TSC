@@ -208,25 +208,6 @@ void cFurball::Set_Color(const DefaultColor& col)
 
     Get_Named_Animation_Range("turn", m_turn_start, m_turn_end);
 
-    /*Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_1.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_2.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_3.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_4.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_5.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_6.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_7.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/walk_8.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/turn.png"));
-    Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/dead.png"));
-
-    // boss has hit image
-    if (m_type == TYPE_FURBALL_BOSS) {
-        Add_Image(pVideo->Get_Package_Surface("enemy/furball/" + filename_dir + "/hit.png"));
-    }
-    else {
-        Add_Image(NULL);
-    }*/
-
     Set_Named_Animation("walk", true);
 }
 
@@ -385,11 +366,9 @@ void cFurball::Set_Moving_State(Moving_state new_state)
         Set_Named_Animation("walk");
         if (m_color_type == COL_BLUE) {
             Set_Animation_Speed(1.142);
-            // Set_Time_All(70, 1);
         }
         else {
             Set_Animation_Speed(1.0);
-            // Set_Time_All(80, 1);
         }
     }
     else if (new_state == STA_RUN) {
@@ -397,7 +376,6 @@ void cFurball::Set_Moving_State(Moving_state new_state)
 
         Set_Named_Animation("walk");
         Set_Animation_Speed(1.142);
-        // Set_Time_All(70, 1);
     }
 
     m_state = new_state;

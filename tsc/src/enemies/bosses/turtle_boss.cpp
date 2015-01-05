@@ -223,9 +223,7 @@ void cTurtleBoss::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     if (m_turtle_state == TURTLEBOSS_WALK) {
         m_velx *= 0.5f;
         // hack : disable turn image
-        //Set_Image_Num( 4 );
-        //Set_Animation( 0 );
-        //Reset_Animation();
+        // Set_Named_Animation("turn");
     }
 
     Update_Rotation_Hor();
@@ -358,11 +356,11 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
         m_state = STA_WALK;
         m_camera_range = 1500;
 
-        Uint32 time_subtract = (m_hits + (m_downgrade_count * m_max_hits)) * 10;
-        if (time_subtract > 280) {
-            time_subtract = 280;
+        float speed = 1.0 + (m_hits + (m_downgrade_count * m_max_hits)) / 15.0;
+        if(speed > 15.0) {
+            speed = 15.0;
         }
-        Set_Time_All(300 - time_subtract, 1);
+        Set_Animation_Speed(speed);
         Set_Named_Animation("walk");
     }
     else if (new_state == TURTLEBOSS_STAND_ANGRY) {
@@ -381,11 +379,11 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
         m_state = STA_RUN;
         m_camera_range = 5000;
 
-        Uint32 time_subtract = (m_hits + (m_downgrade_count * m_max_hits)) * 2;
-        if (time_subtract > 80) {
-            time_subtract = 80;
+        float speed = 3.0 + (m_hits + (m_downgrade_count * m_max_hits)) / 8.0;
+        if(speed > 15) {
+            speed = 15;
         }
-        Set_Time_All(100 - time_subtract, 1);
+        Set_Animation_Speed(speed);
         Set_Named_Animation("shell_run");
     }
 
