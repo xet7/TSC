@@ -442,10 +442,15 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("pipes/yellow/down.png",  "pipes/yellow/down_1.png");
     }
 
+    // V2.0.0-beta6 and lower: green small pipes were replaced with grey small pipes.
+    // Thus any image with a green/small directory must be replaced with a grey/small directory.
     if (engine_version < 44)
     {
         attributes.relocate_image("pipes/green/small/up.png",    "pipes/grey/small/up.png");
-        attributes.relocate_image("pipes/green/small/ver.png",    "pipes/grey/small/ver.png");
+        attributes.relocate_image("pipes/green/small/ver.png",   "pipes/grey/small/ver.png");
+        attributes.relocate_image("pipes/green/small/left.png",  "pipes/grey/small/left.png");
+        attributes.relocate_image("pipes/green/small/right.png", "pipes/grey/small/right.png");
+        attributes.relocate_image("pipes/green/small/hor.png",   "pipes/grey/small/hor.png");
     }
 
 
