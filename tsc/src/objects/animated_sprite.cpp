@@ -112,27 +112,27 @@ void cAnimated_Sprite::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     m_images.push_back(obj);
 }
 
-void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */)
+bool cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */)
 {
     // Parse the animation file
     boost::filesystem::path filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
     if(filename == boost::filesystem::path())
     {
         cerr << "Warning: Unable to load animation: " << name << endl;
-        return;
+        return false;
     }
 
     cAnimation_Parser parser(time == 0 ? m_anim_time_default : time);
     if(!parser.Parse(path_to_utf8(filename)))
     {
         cerr << "Warning: Unable to parse animation file: " << filename << endl;
-        return;
+        return false;
     }
 
     if(parser.m_images.size() == 0)
     {
         cerr << "Warning: Empty animation file: " << filename << endl;
-        return;
+        return false;
     }
 
     // Add images
@@ -148,14 +148,16 @@ void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem:
     if(end >= start)
     {
         m_named_ranges[name] = std::pair<int, int>(start, end);
+        return true;
     }
     else
     {
         cerr << "Warning: No animation images added: " << filename << endl;
+        return false;
     }
 }
 
-void cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool new_startimage /* = 0 */)
+bool cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool new_startimage /* = 0 */)
 {
     int start, end;
     if(!Get_Named_Animation_Range(name, start, end))
@@ -163,7 +165,7 @@ void cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool n
         cerr << "Warning: Named animation not found: " << name << endl;
         Set_Image_Num(-1, new_startimage);
         Set_Animation(0);
-        return;
+        return false;
     }
 
     Set_Image_Num(start, new_startimage);
@@ -178,6 +180,7 @@ void cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool n
         Set_Animation(0);
         Reset_Animation();
     }
+    return true;
 }
 
 bool cAnimated_Sprite::Get_Named_Animation_Range(const std::string& name, int& start, int& end)

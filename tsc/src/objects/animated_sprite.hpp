@@ -49,10 +49,10 @@ namespace TSC {
         void Add_Image(cGL_Surface* image, Uint32 time = 0);
 
         // Add an animation
-        void Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time = 0);
+        bool Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time = 0);
 
         // Set an active sequence
-        void Set_Named_Animation(const std::string& name, const bool new_startimage = 0);
+        bool Set_Named_Animation(const std::string& name, const bool new_startimage = 0);
 
         // Get the named animation range
         bool Get_Named_Animation_Range(const std::string& name, int& start, int& end);
