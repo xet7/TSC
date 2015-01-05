@@ -29155,7 +29155,7 @@
 		<Property name="posy" value="117" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="13777" />
 		<Property name="posy" value="46" />
 		<Property name="color" value="green" />
@@ -29200,7 +29200,7 @@
 		<Property name="type" value="text" />
 		<Property name="invisible" value="0" />
 		<Property name="useable_count" value="-1" />
-		<Property name="text" value="Hitting that box is impossible, but I can do something with the turtle...&lt;br/&gt;" />
+		<Property name="text" value="Hitting that box is impossible, but I can do something with the armadillo...&lt;br/&gt;" />
 	</box>
 	<box>
 		<Property name="posx" value="13998" />

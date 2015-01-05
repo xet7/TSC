@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"
-#include "../enemies/turtle.hpp"
+#include "../enemies/army.hpp"
 #include "../enemies/bosses/turtle_boss.hpp"
 #include "../gui/hud.hpp"
 #include "../scripting/events/activate_event.hpp"
@@ -668,12 +668,12 @@ void cBaseBox::Handle_Collision_Enemy(cObjectCollision* collision)
 {
     cEnemy* enemy = static_cast<cEnemy*>(m_sprite_manager->Get_Pointer(collision->m_number));
 
-    // if turtle
-    if (enemy->m_type == TYPE_TURTLE || enemy->m_type == TYPE_SHELL) {
-        cTurtle* turtle = static_cast<cTurtle*>(enemy);  // Shell is a turtle anyway
+    // if army
+    if (enemy->m_type == TYPE_ARMY || enemy->m_type == TYPE_SHELL) {
+        cArmy* army = static_cast<cArmy*>(enemy);  // Shell is a army anyway
 
         // if not shell
-        if (turtle->m_turtle_state != TURTLE_SHELL_RUN && turtle->m_turtle_state != TURTLE_SHELL_STAND) {
+        if (army->m_army_state != ARMY_SHELL_RUN && army->m_army_state != ARMY_SHELL_STAND) {
             return;
         }
     }

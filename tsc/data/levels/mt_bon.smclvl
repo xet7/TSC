@@ -2799,7 +2799,7 @@
 		<Property name="posy" value="307" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="295" />
 		<Property name="posy" value="244" />
 		<Property name="color" value="green" />

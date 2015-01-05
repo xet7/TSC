@@ -909,7 +909,7 @@ void cTurtleBoss::Handle_Collision_Enemy(cObjectCollision* collision)
     }
     else if (m_turtle_state == TURTLEBOSS_WALK) {
         // turtle shell
-        if (enemy->m_type == TYPE_TURTLE && enemy->m_state == STA_RUN) {
+        if (enemy->m_type == TYPE_ARMY && enemy->m_state == STA_RUN) {
             Hit_Enemy(enemy);
         }
         else {

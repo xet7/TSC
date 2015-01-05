@@ -262,7 +262,7 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1234" />
 		<Property name="posy" value="343" />
 		<Property name="color" value="red" />

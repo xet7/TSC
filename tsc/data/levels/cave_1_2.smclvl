@@ -6513,7 +6513,7 @@
 		<Property name="color" value="red" />
 	</item>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3958" />
 		<Property name="posy" value="205" />
 		<Property name="color" value="red" />

@@ -4546,7 +4546,7 @@
 		<Property name="color" value="green" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1560" />
 		<Property name="posy" value="-377" />
 		<Property name="color" value="green" />

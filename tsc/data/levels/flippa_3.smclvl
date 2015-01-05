@@ -6887,8 +6887,8 @@
     <property name="posx" value="9063"/>
     <property name="posy" value="-1991"/>
     <property name="uid" value="914"/>
-    <property name="image" value="enemy/turtle/red/walk_1.png"/>
-    <property name="type" value="turtle"/>
+    <property name="image" value="enemy/army/red/walk_1.png"/>
+    <property name="type" value="army"/>
     <property name="posx" value="9063"/>
     <property name="posy" value="-1991"/>
     <property name="color" value="red"/>
@@ -6898,8 +6898,8 @@
     <property name="posx" value="9907"/>
     <property name="posy" value="-2019"/>
     <property name="uid" value="915"/>
-    <property name="image" value="enemy/turtle/red/walk_1.png"/>
-    <property name="type" value="turtle"/>
+    <property name="image" value="enemy/army/red/walk_1.png"/>
+    <property name="type" value="army"/>
     <property name="posx" value="9907"/>
     <property name="posy" value="-2019"/>
     <property name="color" value="red"/>
@@ -7357,8 +7357,8 @@
     <property name="posx" value="9424"/>
     <property name="posy" value="-2170"/>
     <property name="uid" value="980"/>
-    <property name="image" value="enemy/turtle/red/walk_1.png"/>
-    <property name="type" value="turtle"/>
+    <property name="image" value="enemy/army/red/walk_1.png"/>
+    <property name="type" value="army"/>
     <property name="posx" value="9424"/>
     <property name="posy" value="-2170"/>
     <property name="color" value="red"/>

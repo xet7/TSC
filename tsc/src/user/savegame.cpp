@@ -32,7 +32,7 @@
 #include "../scripting/events/level_save_event.hpp"
 #include "../core/global_basic.hpp"
 #include "../audio/audio.hpp"
-#include "../enemies/turtle.hpp"
+#include "../enemies/army.hpp"
 
 using namespace std;
 
@@ -521,10 +521,10 @@ int cSavegame::Load_Game(unsigned int save_slot)
                 level_object->Load_From_Savegame(save_object);
                 //If the currently loaded object is a shell (loose or with army in it) and if it was linked, call the Get_Item
                 //method to properly set it up with the player
-                if (save_object ->m_type == TYPE_SHELL  || save_object -> m_type == TYPE_TURTLE) {
-                    cTurtle* turtle = static_cast<cTurtle*>(level_object);
-                    if (turtle ->m_state == STA_OBJ_LINKED) {
-                        pLevel_Player ->Get_Item(turtle ->m_type, false, turtle);
+                if (save_object ->m_type == TYPE_SHELL  || save_object -> m_type == TYPE_ARMY) {
+                    cArmy* army = static_cast<cArmy*>(level_object);
+                    if (army ->m_state == STA_OBJ_LINKED) {
+                        pLevel_Player ->Get_Item(army ->m_type, false, army);
                     }
                 }
             }

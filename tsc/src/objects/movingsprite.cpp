@@ -22,7 +22,7 @@
 #include "../user/preferences.hpp"
 #include "../audio/audio.hpp"
 #include "../level/level_player.hpp"
-#include "../enemies/turtle.hpp"
+#include "../enemies/army.hpp"
 #include "../objects/box.hpp"
 #include "../video/renderer.hpp"
 #include "../video/gl_surface.hpp"

@@ -3497,7 +3497,7 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="6441" />
 		<Property name="posy" value="202" />
 		<Property name="color" value="green" />
@@ -4721,7 +4721,7 @@
 		<Property name="posy" value="267" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="8443" />
 		<Property name="posy" value="198" />
 		<Property name="color" value="green" />
@@ -4839,7 +4839,7 @@
 		<Property name="type" value="text" />
 		<Property name="invisible" value="0" />
 		<Property name="useable_count" value="-1" />
-		<Property name="text" value="You can grab a turtle&apos;s shell by pressing &quot;Ctrl&quot;. But be careful. First hit the turtle on its head. And when it disappears in its shell, grab it!&lt;br/&gt;If you think, this is too hard for you, kick the shell in the abyss, but then you will pass a special item...&lt;br/&gt;" />
+		<Property name="text" value="You can grab an armadillo&apos;s shell by pressing &quot;Ctrl&quot;. But be careful. First hit the armadillo on its head. And when it disappears in its shell, grab it!&lt;br/&gt;If you think, this is too hard for you, kick the shell in the abyss, but then you will pass a special item...&lt;br/&gt;" />
 	</box>
 	<sprite>
 		<Property name="posx" value="9957" />

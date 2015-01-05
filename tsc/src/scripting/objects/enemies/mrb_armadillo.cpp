@@ -12,7 +12,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../../enemies/turtle.hpp"
+#include "../../../enemies/army.hpp"
 #include "../../../level/level.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../core/property_helper.hpp"
@@ -43,7 +43,7 @@ using namespace TSC::Scripting;
  */
 static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
 {
-    cTurtle* p_armadillo = new cTurtle(pActive_Level->m_sprite_manager);
+    cArmy* p_armadillo = new cArmy(pActive_Level->m_sprite_manager);
     DATA_PTR(self) = p_armadillo;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
@@ -79,11 +79,11 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
     else if (colorstr == "green")
         col = COL_GREEN;
     else {
-        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid turtle/armadillo color %s", colorstr.c_str());
+        mrb_raisef(p_state, MRB_ARGUMENT_ERROR(p_state), "Invalid armadillo color %s", colorstr.c_str());
         return mrb_nil_value(); // Not rached
     }
 
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
     p_armadillo->Set_Color(col);
 
     return mrb_symbol_value(color);
@@ -99,7 +99,7 @@ static mrb_value Set_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
 {
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
     switch (p_armadillo->m_color_type) {
     case COL_RED:
         return str2sym(p_state, "red");
@@ -119,8 +119,8 @@ static mrb_value Get_Color(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Walking(mrb_state* p_state, mrb_value self)
 {
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
-    return p_armadillo->m_turtle_state == TURTLE_WALK ? mrb_true_value() : mrb_false_value();
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
+    return p_armadillo->m_army_state == ARMY_WALK ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -132,8 +132,8 @@ static mrb_value Is_Walking(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shell_Standing(mrb_state* p_state, mrb_value self)
 {
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
-    return p_armadillo->m_turtle_state == TURTLE_SHELL_STAND ? mrb_true_value() : mrb_false_value();
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
+    return p_armadillo->m_army_state == ARMY_SHELL_STAND ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -145,8 +145,8 @@ static mrb_value Is_Shell_Standing(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shell_Moving(mrb_state* p_state, mrb_value self)
 {
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
-    return p_armadillo->m_turtle_state == TURTLE_SHELL_RUN ? mrb_true_value() : mrb_false_value();
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
+    return p_armadillo->m_army_state == ARMY_SHELL_RUN ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -159,8 +159,8 @@ static mrb_value Is_Shell_Moving(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Is_Shelled(mrb_state* p_state, mrb_value self)
 {
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
-    return p_armadillo->m_turtle_state == TURTLE_SHELL_RUN || p_armadillo->m_turtle_state == TURTLE_SHELL_STAND ? mrb_true_value() : mrb_false_value();
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
+    return p_armadillo->m_army_state == ARMY_SHELL_RUN || p_armadillo->m_army_state == ARMY_SHELL_STAND ? mrb_true_value() : mrb_false_value();
 }
 
 /**
@@ -173,7 +173,7 @@ static mrb_value Is_Shelled(mrb_state* p_state, mrb_value self)
  */
 static mrb_value Stand_Up(mrb_state* p_state, mrb_value self)
 {
-    cTurtle* p_armadillo = Get_Data_Ptr<cTurtle>(p_state, self);
+    cArmy* p_armadillo = Get_Data_Ptr<cArmy>(p_state, self);
     p_armadillo->Stand_Up();
 
     return mrb_nil_value();

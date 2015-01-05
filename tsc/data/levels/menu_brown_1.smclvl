@@ -242,8 +242,8 @@
     <property name="posx" value="260"/>
     <property name="posy" value="-126"/>
     <property name="uid" value="22"/>
-    <property name="image" value="enemy/turtle/green/walk_1.png"/>
-    <property name="type" value="turtle"/>
+    <property name="image" value="enemy/army/green/walk_1.png"/>
+    <property name="type" value="army"/>
     <property name="posx" value="260"/>
     <property name="posy" value="-126"/>
     <property name="color" value="green"/>
