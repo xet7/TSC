@@ -95,11 +95,12 @@ void cTurtleBoss::Init(void)
     m_level_ends_if_killed = 1;
     m_can_be_hit_from_shell = 0;
 
+    m_color_type = COL_DEFAULT;
+    Set_Color(COL_RED); // Load images before calling set moving state
+    
     m_turtle_state = TURTLEBOSS_DEAD;
     Set_Turtle_Moving_State(TURTLEBOSS_WALK);
-
-    m_color_type = COL_DEFAULT;
-    Set_Color(COL_RED);
+    
     Set_Direction(DIR_RIGHT, 1);
 }
 
@@ -187,20 +188,33 @@ void cTurtleBoss::Set_Color(DefaultColor col)
     Clear_Images();
 
     if (m_color_type == COL_RED) {
+        Add_Animation("still", "enemy/bosses/turtle/still.animation");
+        Add_Animation("walk", "enemy/bosses/turtle/walk.animation");
+        Add_Animation("turn", "enemy/bosses/turtle/turn.animation");
+        Add_Animation("dead", "enemy/bosses/turtle/dead.animation");
+        Add_Animation("shell_stand", "enemy/bosses/turtle/shell_stand.animation");
+        Add_Animation("shell_run", "enemy/bosses/turtle/shell_run.animation");
+        Add_Animation("shell_active", "enemy/bosses/turtle/shell_active.animation");
+
+        int dummy;
+        Get_Named_Animation_Range("turn", m_turn_start, m_turn_end);
+        Get_Named_Animation_Range("walk", m_walk_start, dummy);
+        Get_Named_Animation_Range("shell_stand", m_shell_stand_start, dummy);
+
         // Walk
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_0.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_1.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_2.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_1.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_0.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_1.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_2.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_1.png"));
         // Walk Turn
         //Add_Image( pVideo->Get_Surface( "enemy/bosses/turtle/turn_1.png" ) );
-        Add_Image(NULL);
+        //Add_Image(NULL);
         // Shell
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_front.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_1.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_2.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_3.png"));
-        Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_active.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_front.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_1.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_2.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_3.png"));
+        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_active.png"));
 
         m_kill_points = 750;
     }
@@ -209,7 +223,7 @@ void cTurtleBoss::Set_Color(DefaultColor col)
         cerr << "Error : Unknown Turtle Boss color : " << m_color_type << endl;
     }
 
-    Set_Image_Num(0, 1);
+    Set_Named_Animation("still", true);
 }
 
 void cTurtleBoss::Set_Level_Ends_If_Killed(bool level_ends_if_killed)
@@ -268,7 +282,8 @@ void cTurtleBoss::DownGrade(bool force /* = 0 */)
         Set_Dead(1);
 
         if (m_turtle_state == TURTLEBOSS_WALK) {
-            Move(0.0f, m_images[0].m_image->m_h - m_images[5].m_image->m_h, 1);
+            if(m_walk_start >= 0 && m_shell_stand_start >= 0)
+                Move(0.0f, m_images[m_walk_start].m_image->m_h - m_images[m_shell_stand_start].m_image->m_h, 1);
         }
     }
 
@@ -281,7 +296,7 @@ void cTurtleBoss::DownGrade(bool force /* = 0 */)
         }
 
         // set shell image
-        Set_Image_Num(5);
+        Set_Named_Animation("dead");
 
         m_massive_type = MASS_PASSIVE;
         m_counter = 0.0f;
@@ -358,15 +373,12 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
         m_state = STA_WALK;
         m_camera_range = 1500;
 
-        Set_Animation(1);
-        Set_Animation_Image_Range(0, 3);
         Uint32 time_subtract = (m_hits + (m_downgrade_count * m_max_hits)) * 10;
         if (time_subtract > 280) {
             time_subtract = 280;
         }
         Set_Time_All(300 - time_subtract, 1);
-        Reset_Animation();
-        Set_Image_Num(m_anim_img_start);
+        Set_Named_Animation("walk");
     }
     else if (new_state == TURTLEBOSS_STAND_ANGRY) {
         m_state = STA_STAY;
@@ -377,25 +389,19 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
         m_state = STA_STAY;
         m_camera_range = 2000;
 
-        Set_Animation(0);
-        // set stay image
-        Set_Animation_Image_Range(5, 5);
-        Set_Image_Num(m_anim_img_start);
+        Set_Named_Animation("shell_stand");
     }
     else if (new_state == TURTLEBOSS_SHELL_RUN) {
         m_counter = 0.0f;
         m_state = STA_RUN;
         m_camera_range = 5000;
 
-        Set_Animation(1);
-        Set_Animation_Image_Range(6, 9);
         Uint32 time_subtract = (m_hits + (m_downgrade_count * m_max_hits)) * 2;
         if (time_subtract > 80) {
             time_subtract = 80;
         }
         Set_Time_All(100 - time_subtract, 1);
-        Reset_Animation();
-        Set_Image_Num(m_anim_img_start);
+        Set_Named_Animation("shell_run");
     }
 
     m_turtle_state = new_state;
@@ -415,17 +421,16 @@ void cTurtleBoss::Update(void)
 
     Update_Animation();
 
+
     // walking
     if (m_turtle_state == TURTLEBOSS_WALK) {
         m_anim_counter += pFramerate->m_elapsed_ticks;
 
         // if turn around image
-        if (m_curr_img == 4) {
+        if (m_curr_img >= m_turn_start && m_curr_img <= m_turn_end) {
             // set normal image back
             if (m_anim_counter >= 200) {
-                Set_Animation(1);
-                Reset_Animation();
-                Set_Image_Num(m_anim_img_start);
+                Set_Named_Animation("walk");
                 Update_Rotation_Hor();
             }
             // rotate the turn image
@@ -446,10 +451,10 @@ void cTurtleBoss::Update(void)
             // animation
             if (m_counter < 192.0f) {
                 if (static_cast<int>(m_counter) % 5 == 1) {
-                    Set_Image_Num(9);   // active
+                    Set_Named_Animation("shell_active"); // active
                 }
                 else {
-                    Set_Image_Num(5);   // front
+                    Set_Named_Animation("shell_front"); // front
                 }
             }
             // activate
@@ -537,7 +542,8 @@ void cTurtleBoss::Update(void)
             pAudio->Play_Sound("enemy/boss/turtle/shell_attack.ogg");
 
             Set_Turtle_Moving_State(TURTLEBOSS_SHELL_RUN);
-            Col_Move(0.0f, m_images[0].m_image->m_col_h - m_images[5].m_image->m_col_h, 1, 1);
+            if(m_walk_start >= 0 && m_shell_stand_start >= 0)
+                Col_Move(0.0f, m_images[m_walk_start].m_image->m_col_h - m_images[m_shell_stand_start].m_image->m_col_h, 1, 1);
 
             if (m_direction == DIR_RIGHT) {
                 m_velx = m_velx_max;
@@ -559,7 +565,7 @@ void cTurtleBoss::Stand_Up(void)
     }
 
     // get space needed to stand up
-    float move_y = m_image->m_col_h - m_images[0].m_image->m_col_h;
+    float move_y = m_image->m_col_h - ((m_walk_start >= 0) ? m_images[m_walk_start].m_image->m_col_h : 0);
 
     cObjectCollisionType* col_list = Collision_Check_Relative(0.0f, move_y, 0.0f, 0.0f, COLLIDE_ONLY_BLOCKING);
 
