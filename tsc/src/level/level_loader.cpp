@@ -441,6 +441,14 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("pipes/yellow/right.png", "pipes/yellow/right_1.png");
         attributes.relocate_image("pipes/yellow/down.png",  "pipes/yellow/down_1.png");
     }
+
+    if (engine_version < 44)
+    {
+        attributes.relocate_image("pipes/green/small/up.png",    "pipes/grey/small/up.png");
+        attributes.relocate_image("pipes/green/small/ver.png",    "pipes/grey/small/ver.png");
+    }
+
+
     // always: fix sprite with undefined massive-type
     if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
         std::cerr << "Warning: Fixing type 'undefined' by forcing it to 'passive'" << std::endl;
