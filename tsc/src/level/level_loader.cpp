@@ -447,9 +447,10 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
     if (engine_version < 44)
     {
         attributes.relocate_image("pipes/green/small/up.png",    "pipes/grey/small/up.png");
-        attributes.relocate_image("pipes/green/small/ver.png",   "pipes/grey/small/ver.png");
         attributes.relocate_image("pipes/green/small/left.png",  "pipes/grey/small/left.png");
         attributes.relocate_image("pipes/green/small/right.png", "pipes/grey/small/right.png");
+        attributes.relocate_image("pipes/green/small/down.png", "pipes/grey/small/down.png");
+        attributes.relocate_image("pipes/green/small/ver.png",   "pipes/grey/small/ver.png");
         attributes.relocate_image("pipes/green/small/hor.png",   "pipes/grey/small/hor.png");
     }
 
