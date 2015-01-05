@@ -148,13 +148,13 @@ void cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem:
     m_named_ranges[name] = std::pair<int, int>(start, end);
 }
 
-void cAnimated_Sprite::Set_Named_Animation(const std::string& name)
+void cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool new_startimage /* = 0 */)
 {
     cAnimation_Name_Map::iterator it = m_named_ranges.find(name);
     if(it == m_named_ranges.end())
     {
         cerr << "Warning: Named animation not found: " << name << endl;
-        Set_Image_Num(-1);
+        Set_Image_Num(-1, new_startimage);
         Set_Animation(0);
         return;
     }
@@ -162,7 +162,7 @@ void cAnimated_Sprite::Set_Named_Animation(const std::string& name)
     int start = it->second.first;
     int end = it->second.second;
 
-    Set_Image_Num(start);
+    Set_Image_Num(start, new_startimage);
     if(end > start)
     {
         Set_Animation(1);
