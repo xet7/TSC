@@ -176,6 +176,23 @@ void cAnimated_Sprite::Set_Named_Animation(const std::string& name)
     }
 }
 
+bool cAnimated_Sprite::Get_Named_Animation_Range(const std::string& name, int& start, int& end)
+{
+    cAnimation_Name_Map::iterator it = m_named_ranges.find(name);
+    if(it == m_named_ranges.end())
+    {
+        start = -1;
+        end = -1;
+        return false;
+    }
+    else
+    {
+        start = it->second.first;
+        end = it->second.second;
+        return true;
+    }
+}
+
 void cAnimated_Sprite::Set_Image_Num(const int num, const bool new_startimage /* = 0 */, const bool del_img /* = 0 */)
 {
     if (m_curr_img == num) {

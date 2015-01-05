@@ -54,6 +54,9 @@ namespace TSC {
         // Set an active sequence
         void Set_Named_Animation(const std::string& name);
 
+        // Get the named animation range
+        bool Get_Named_Animation_Range(const std::string& name, int& start, int& end);
+
         // Set the animation start and end image
         inline void Set_Animation_Image_Range(const int start, const int end)
         {
