@@ -201,21 +201,6 @@ void cTurtleBoss::Set_Color(DefaultColor col)
         Get_Named_Animation_Range("walk", m_walk_start, dummy);
         Get_Named_Animation_Range("shell_stand", m_shell_stand_start, dummy);
 
-        // Walk
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_0.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_1.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_2.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/walk_1.png"));
-        // Walk Turn
-        //Add_Image( pVideo->Get_Surface( "enemy/bosses/turtle/turn_1.png" ) );
-        //Add_Image(NULL);
-        // Shell
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_front.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_1.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_2.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_move_3.png"));
-        //Add_Image(pVideo->Get_Surface("enemy/bosses/turtle/shell_active.png"));
-
         m_kill_points = 750;
     }
     // unknown color
