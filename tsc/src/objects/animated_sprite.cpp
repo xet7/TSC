@@ -114,34 +114,45 @@ void cAnimated_Sprite::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
 
 bool cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */)
 {
-    // Parse the animation file
-    boost::filesystem::path filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
-    if(filename == boost::filesystem::path())
-    {
-        cerr << "Warning: Unable to load animation: " << name
-             << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
-        return false;
-    }
-
-    cAnimation_Parser parser(time == 0 ? m_anim_time_default : time);
-    if(!parser.Parse(path_to_utf8(filename)))
-    {
-        cerr << "Warning: Unable to parse animation file: " << filename << endl;
-        return false;
-    }
-
-    if(parser.m_images.size() == 0)
-    {
-        cerr << "Warning: Empty animation file: " << filename << endl;
-        return false;
-    }
-
-    // Add images
     int start, end;
+    boost::filesystem::path filename;
+
     start = m_images.size();
-    for(cAnimation_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr)
+    if(path.extension() == utf8_to_path(".png"))
     {
-        Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(itr->first)), itr->second);
+        // Adding a single image
+        Add_Image(pVideo->Get_Package_Surface(path), time);
+        filename = path;
+    }
+    else
+    {
+        // Parse the animation file
+        filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
+        if(filename == boost::filesystem::path())
+        {
+            cerr << "Warning: Unable to load animation: " << name
+                << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
+            return false;
+        }
+
+        cAnimation_Parser parser(time);
+        if(!parser.Parse(path_to_utf8(filename)))
+        {
+            cerr << "Warning: Unable to parse animation file: " << filename << endl;
+            return false;
+        }
+
+        if(parser.m_images.size() == 0)
+        {
+            cerr << "Warning: Empty animation file: " << filename << endl;
+            return false;
+        }
+
+        // Add images
+        for(cAnimation_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr)
+        {
+            Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(itr->first)), itr->second);
+        }
     }
     end = m_images.size() - 1;
 
