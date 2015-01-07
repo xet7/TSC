@@ -67,12 +67,13 @@ void cArmy::Init(void)
     m_pos_z = 0.091f;
     m_gravity_max = 24.0f;
 
+    m_color_type = COL_DEFAULT;
+    Set_Color(COL_RED);
+
     m_player_counter = 0.0f;
     m_army_state = ARMY_DEAD;
     Set_Army_Moving_State(ARMY_WALK);
 
-    m_color_type = COL_DEFAULT;
-    Set_Color(COL_RED);
     Set_Direction(DIR_RIGHT, 1);
 
     m_kill_sound = "stomp_4.ogg";
