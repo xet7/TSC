@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="blue-2.svg"
-   inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes/second try done pipes/Blue/blue-2.png"
+   inkscape:export-filename="/home/sydney/Sources/TSC/tsc/data/pixmaps/pipes/blue/up_1.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -320,10 +320,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="150.85433"
-     inkscape:cy="205.87947"
+     inkscape:cx="95.957464"
+     inkscape:cy="34.450899"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer4"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="847"
@@ -342,7 +342,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -721,5 +721,19 @@
        d="m 93.536438,226.66709 c 0.76967,-0.28656 1.473559,-0.52867 1.5642,-0.53805 0.0906,-0.01 0.653608,-0.58187 1.251005,-1.27221 2.917657,-3.37159 3.621995,-5.34304 3.621995,-10.1379 0,-2.90894 -0.111931,-3.7898 -0.686418,-5.40077 -2.085776,-5.84914 -7.503394,-8.6009 -11.551995,-5.8676 -1.820512,1.22908 -3.657365,3.82644 -4.506935,6.37295 -0.927452,2.77993 -0.841171,7.28739 0.193482,10.10918 1.60785,4.38497 3.616075,6.19034 7.875618,7.08005 0.461795,0.0965 1.469389,-0.0591 2.239048,-0.34565 z m -4.79682,-3.67045 c -0.958442,-0.49434 -2.609072,-2.67904 -3.169569,-4.19505 -0.77425,-2.09424 -0.945992,-4.55402 -0.468276,-6.70696 0.404905,-1.82474 1.666931,-4.52051 2.116286,-4.52051 0.213713,0 3.379632,14.82232 3.379632,15.82277 0,0.43946 -0.395065,0.35434 -1.858073,-0.40025 l 0,0 z m 4.887032,-9.36602 c -0.874011,-4.28224 -1.547481,-7.84329 -1.49664,-7.91348 0.0508,-0.0701 0.640009,0.0969 1.309207,0.37127 1.58109,0.64821 3.633345,3.44875 4.093241,5.58569 0.497146,2.31006 0.410165,4.73124 -0.241173,6.71379 -0.609817,1.85609 -1.64614,3.61675 -1.913414,3.25073 -0.0892,-0.12216 -0.877241,-3.72575 -1.751221,-8.008 l 0,0 z"
        id="path4023"
        inkscape:connector-curvature="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer#2"
+     style="display:inline">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.97277147;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="rect3086"
+       width="386.38333"
+       height="96.067101"
+       x="63.639385"
+       y="159.44652"
+       ry="0.38040632" />
   </g>
 </svg>
