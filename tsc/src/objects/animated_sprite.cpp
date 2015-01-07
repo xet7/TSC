@@ -118,7 +118,8 @@ bool cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem:
     boost::filesystem::path filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
     if(filename == boost::filesystem::path())
     {
-        cerr << "Warning: Unable to load animation: " << name << endl;
+        cerr << "Warning: Unable to load animation: " << name
+             << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
         return false;
     }
 
@@ -162,7 +163,8 @@ bool cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool n
     int start, end;
     if(!Get_Named_Animation_Range(name, start, end))
     {
-        cerr << "Warning: Named animation not found: " << name << endl;
+        cerr << "Warning: Named animation not found: " << name 
+             << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
         Set_Image_Num(-1, new_startimage);
         Set_Animation(0);
         return false;
