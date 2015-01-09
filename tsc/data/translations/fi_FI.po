@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-17 18:23+0100\n"
+"POT-Creation-Date: 2015-01-09 10:30+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Lauri Ojansivu <x@xet7.org>\n"
 "Language-Team: TSC Finnish translation team\n"
@@ -406,7 +406,7 @@ msgstr "violetti"
 #: ../../src/enemies/krush.cpp:369 ../../src/enemies/larry.cpp:400
 #: ../../src/enemies/pip.cpp:358 ../../src/enemies/rokko.cpp:568
 #: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/thromp.cpp:657
-#: ../../src/enemies/turtle.cpp:924 ../../src/level/level_player.cpp:3952
+#: ../../src/enemies/turtle.cpp:925 ../../src/level/level_player.cpp:3952
 #: ../../src/objects/level_entry.cpp:383 ../../src/objects/level_exit.cpp:465
 #: ../../src/objects/moving_platform.cpp:982
 #: ../../src/video/animation.cpp:1557
@@ -417,7 +417,7 @@ msgstr "Suunta"
 #: ../../src/enemies/bosses/turtle_boss.cpp:1004
 #: ../../src/enemies/furball.cpp:747 ../../src/enemies/gee.cpp:574
 #: ../../src/enemies/krush.cpp:369 ../../src/enemies/larry.cpp:400
-#: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/turtle.cpp:924
+#: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/turtle.cpp:925
 #: ../../src/objects/moving_platform.cpp:982
 msgid "Starting direction."
 msgstr "Aloitus suunta."
@@ -858,7 +858,7 @@ msgid "Enter"
 msgstr "Mene"
 
 #: ../../src/gui/menu_data.cpp:482 ../../src/gui/menu_data.cpp:1151
-#: ../../src/gui/menu_data.cpp:2806 ../../src/gui/menu_data.cpp:3117
+#: ../../src/gui/menu_data.cpp:2806 ../../src/gui/menu_data.cpp:3138
 msgid "Back"
 msgstr "Takaisin"
 
@@ -1225,7 +1225,7 @@ msgstr ""
 msgid "Enabled : "
 msgstr "Käytössä : "
 
-#: ../../src/gui/menu_data.cpp:2989
+#: ../../src/gui/menu_data.cpp:2994
 msgid ""
 "3000 Points needed for saving in a level.\n"
 "Saving on the Overworld is free."
@@ -1233,15 +1233,17 @@ msgstr ""
 "3000 Pistettä tarvitaan tason tallentamiseen.\n"
 "Tallentaminen Ylimaailmassa on ilmaista."
 
-#: ../../src/gui/menu_data.cpp:3006
+#: ../../src/gui/menu_data.cpp:3013 ../../src/gui/menu_data.cpp:3017
+#: ../../src/gui/menu_data.cpp:3022
 msgid "No Description"
 msgstr "Ei kuvausta"
 
-#: ../../src/gui/menu_data.cpp:3010
+#: ../../src/gui/menu_data.cpp:3026
 msgid "Enter Description"
 msgstr "Kirjoita kuvaus"
 
-#: ../../src/gui/menu_data.cpp:3026 ../../src/gui/menu_data.cpp:3031
+#: ../../src/gui/menu_data.cpp:3042 ../../src/gui/menu_data.cpp:3047
+#: ../../src/gui/menu_data.cpp:3052
 msgid "Savegame loading failed"
 msgstr "Tallennetun pelin lataus epäonnistui"
 
@@ -1393,12 +1395,12 @@ msgid "Bonusbox Poisonous berry"
 msgstr "Bonuslaatikko Myrkyllinen marja"
 
 #: ../../src/objects/bonusbox.cpp:229
-msgid "Bonusbox Yellow Goldpiece"
-msgstr "Bonuslaatikko Keltainen kultapala"
+msgid "Bonusbox Jewel"
+msgstr "Bonuslaatikko Jalokivi"
 
 #: ../../src/objects/bonusbox.cpp:233
-msgid "Bonusbox Red Goldpiece"
-msgstr "Bonuslaatikko Punainen kultapala"
+msgid "Bonusbox Red Jewel"
+msgstr "Bonuslaatikko Punainen Jalokivi"
 
 #: ../../src/objects/bonusbox.cpp:434
 msgid "Animation"
@@ -1460,8 +1462,8 @@ msgstr "Tähti"
 
 #: ../../src/objects/bonusbox.cpp:456 ../../src/objects/bonusbox.cpp:478
 #: ../../src/objects/bonusbox.cpp:581 ../../src/objects/goldpiece.cpp:197
-msgid "Goldpiece"
-msgstr "Kultapala"
+msgid "Jewel"
+msgstr "Jalokivi"
 
 #: ../../src/objects/bonusbox.cpp:457 ../../src/objects/bonusbox.cpp:481
 #: ../../src/objects/bonusbox.cpp:584 ../../src/objects/powerup.cpp:287
@@ -1477,12 +1479,12 @@ msgid "Force best available item when activated"
 msgstr "Pakota paras saatavilla oleva esine kun aktivoitu"
 
 #: ../../src/objects/bonusbox.cpp:510
-msgid "Gold color"
-msgstr "Kullan väri"
+msgid "Jewel color"
+msgstr "Jalokiven väri"
 
 #: ../../src/objects/bonusbox.cpp:510
-msgid "Gold color if the item is a goldpiece"
-msgstr "Kullan väri jos esine on kultapala"
+msgid "Jewel color if the item is a jewel"
+msgstr "Jalokiven väri jos esine on jalokivi"
 
 #: ../../src/objects/box.cpp:45
 msgid "Box"
@@ -1543,16 +1545,16 @@ msgid "Enemystopper"
 msgstr "Vihollisenpysäytin"
 
 #: ../../src/objects/goldpiece.cpp:151
-msgid "Red Falling Goldpiece"
-msgstr "Punainen putoava kultapala"
+msgid "Red Falling Jewel"
+msgstr "Punainen Putoava Jalokivi"
 
 #: ../../src/objects/goldpiece.cpp:166
-msgid "Falling Goldpiece"
-msgstr "Putoava kultapala"
+msgid "Falling Jewel"
+msgstr "Putoava Jalokivi"
 
 #: ../../src/objects/goldpiece.cpp:182
-msgid "Red Goldpiece"
-msgstr "Punainen kultapala"
+msgid "Red Jewel"
+msgstr "Punainen Jalokivi"
 
 #: ../../src/objects/lava.cpp:55
 msgid "Lava"
@@ -1918,20 +1920,20 @@ msgid "Saved to Slot "
 msgstr "Tallennettu tallennuspaikkaan "
 
 #. TRANS: %u is replaced by the number of the save slot, starting with 1.
-#: ../../src/user/savegame.cpp:806
+#: ../../src/user/savegame.cpp:830
 #, c-format
 msgid "%u. Free Save"
 msgstr "%u. Vapaa tallennuspaikka"
 
-#: ../../src/user/savegame.cpp:828
+#: ../../src/user/savegame.cpp:852
 msgid " -  Level "
 msgstr "- Taso "
 
-#: ../../src/user/savegame.cpp:835
+#: ../../src/user/savegame.cpp:859
 msgid " -  Unknown"
 msgstr "- Tuntematon"
 
-#: ../../src/user/savegame.cpp:839
+#: ../../src/user/savegame.cpp:863
 msgid " - Date "
 msgstr "- Pvm "
 
@@ -2138,6 +2140,18 @@ msgstr "Tallennetaan kuvia välimuistiin"
 #: ../../src/video/video.cpp:2149
 msgid "This program is distributed under the terms of the GPLv3"
 msgstr "Tätä ohjelmaa levitetään GPLv3 ehtojen mukaisesti"
+
+#~ msgid "Bonusbox Yellow Goldpiece"
+#~ msgstr "Bonuslaatikko Keltainen kultapala"
+
+#~ msgid "Goldpiece"
+#~ msgstr "Kultapala"
+
+#~ msgid "Falling Goldpiece"
+#~ msgstr "Putoava kultapala"
+
+#~ msgid "Red Goldpiece"
+#~ msgstr "Punainen kultapala"
 
 #~ msgid "Box Goldpiece Yellow"
 #~ msgstr "Laatikko kultapala keltainen"
