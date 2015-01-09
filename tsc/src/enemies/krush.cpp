@@ -60,8 +60,8 @@ void cKrush::Init(void)
     m_pos_z = 0.093f;
     m_gravity_max = 27.0f;
 
-    Add_Image_Set("big", "enemy/krush/big.animation", 0, NULL, &m_big_end);
-    Add_Image_Set("small", "enemy/krush/small.animation", 0, &m_small_start);
+    Add_Image_Set("big", "enemy/krush/big.imgset", 0, NULL, &m_big_end);
+    Add_Image_Set("small", "enemy/krush/small.imgset", 0, &m_small_start);
 
     m_state = STA_FALL;
     Set_Moving_State(STA_WALK);

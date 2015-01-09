@@ -380,8 +380,8 @@ void cThromp::Update_Images(void)
     // clear images
     Clear_Images();
     // set images
-    Add_Image_Set("main", m_img_dir / utf8_to_path(Get_Direction_Name(m_start_direction) + ".animation"));
-    Add_Image_Set("active", m_img_dir / utf8_to_path(Get_Direction_Name(m_start_direction) + "_active.animation"));
+    Add_Image_Set("main", m_img_dir / utf8_to_path(Get_Direction_Name(m_start_direction) + ".imgset"));
+    Add_Image_Set("active", m_img_dir / utf8_to_path(Get_Direction_Name(m_start_direction) + "_active.imgset"));
     // set start image
     Set_Image_Set("main", true);
 

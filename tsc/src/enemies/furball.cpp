@@ -199,11 +199,11 @@ void cFurball::Set_Color(const DefaultColor& col)
 
     Update_Velocity_Max();
 
-    Add_Image_Set("walk", "enemy/furball/" + filename_dir + "/walk.animation");
-    Add_Image_Set("turn", "enemy/furball/" + filename_dir + "/turn.animation", 0, &m_turn_start, &m_turn_end);
-    Add_Image_Set("dead", "enemy/furball/" + filename_dir + "/dead.animation");
+    Add_Image_Set("walk", "enemy/furball/" + filename_dir + "/walk.imgset");
+    Add_Image_Set("turn", "enemy/furball/" + filename_dir + "/turn.imgset", 0, &m_turn_start, &m_turn_end);
+    Add_Image_Set("dead", "enemy/furball/" + filename_dir + "/dead.imgset");
     if (m_type == TYPE_FURBALL_BOSS) {
-        Add_Image_Set("hit", "enemy/furball/" + filename_dir + "/hit.animation");
+        Add_Image_Set("hit", "enemy/furball/" + filename_dir + "/hit.imgset");
     }
 
     Set_Image_Set("walk", true);

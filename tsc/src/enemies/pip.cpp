@@ -61,8 +61,8 @@ void cPip::Init()
     m_pos_z = 0.093f;
     m_gravity_max = 13.0f;
 
-    Add_Image_Set("big", "enemy/pip/big.animation", 0, &m_big_start);
-    Add_Image_Set("small", "enemy/pip/small.animation", 0, &m_small_start);
+    Add_Image_Set("big", "enemy/pip/big.imgset", 0, &m_big_start);
+    Add_Image_Set("small", "enemy/pip/small.imgset", 0, &m_small_start);
 
     m_state = STA_FALL;
     Set_Moving_State(STA_WALK);

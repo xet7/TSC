@@ -146,9 +146,9 @@ void cSpikeball::Set_Color(const DefaultColor& col)
 
     Update_Velocity_Max();
 
-    Add_Image_Set("walk", "enemy/spikeball/" + filename_dir + "/walk.animation");
-    Add_Image_Set("turn", "enemy/spikeball/" + filename_dir + "/turn.animation", 0, &m_turn_start, &m_turn_end);
-    //Add_Image_Set("dead", "enemy/spikeball/" + filename_dir + "/dead.animation");
+    Add_Image_Set("walk", "enemy/spikeball/" + filename_dir + "/walk.imgset");
+    Add_Image_Set("turn", "enemy/spikeball/" + filename_dir + "/turn.imgset", 0, &m_turn_start, &m_turn_end);
+    //Add_Image_Set("dead", "enemy/spikeball/" + filename_dir + "/dead.imgset");
 
     Set_Image_Set("walk", true);
 }

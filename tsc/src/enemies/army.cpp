@@ -185,11 +185,11 @@ void cArmy::Set_Color(DefaultColor col)
     // FIXME: Red armadillo currently has not enough images!
     // Hence many images are duplicate for the red armadillo.
 
-    Add_Image_Set("walk", "enemy/army/" + filename_dir + "/walk.animation", 0, &m_walk_start);
-    Add_Image_Set("turn", "enemy/army/" + filename_dir + "/turn.animation", 0, &m_turn_start, &m_turn_end);
-    Add_Image_Set("shell", "enemy/army/" + filename_dir + "/shell.animation", 0, &m_shell_start);
-    Add_Image_Set("shell_look", "enemy/army/" + filename_dir + "/shell_look.animation");
-    Add_Image_Set("roll", "enemy/army/" + filename_dir + "/roll.animation");
+    Add_Image_Set("walk", "enemy/army/" + filename_dir + "/walk.imgset", 0, &m_walk_start);
+    Add_Image_Set("turn", "enemy/army/" + filename_dir + "/turn.imgset", 0, &m_turn_start, &m_turn_end);
+    Add_Image_Set("shell", "enemy/army/" + filename_dir + "/shell.imgset", 0, &m_shell_start);
+    Add_Image_Set("shell_look", "enemy/army/" + filename_dir + "/shell_look.imgset");
+    Add_Image_Set("roll", "enemy/army/" + filename_dir + "/roll.imgset");
 
     Set_Image_Set("walk", true);
 }

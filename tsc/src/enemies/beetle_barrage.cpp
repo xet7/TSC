@@ -65,8 +65,8 @@ void cBeetleBarrage::Init()
     m_beetle_fly_distance = 35.0f;
     m_beetle_spit_count = 5;
 
-    Add_Image_Set("still", utf8_to_path("enemy/beetle_barrage/still.animation"));
-    Add_Image_Set("active", utf8_to_path("enemy/beetle_barrage/active.animation"));
+    Add_Image_Set("still", utf8_to_path("enemy/beetle_barrage/still.imgset"));
+    Add_Image_Set("active", utf8_to_path("enemy/beetle_barrage/active.imgset"));
     Set_Image_Set("still");
 
     Set_Active_Range(200);

@@ -221,7 +221,7 @@ void cGee::Set_Color(DefaultColor col)
         m_fire_resistant = 0;
     }
 
-    Add_Image_Set("main", "enemy/gee/" + filename_dir + "/main.animation");
+    Add_Image_Set("main", "enemy/gee/" + filename_dir + "/main.imgset");
     Set_Image_Set("main", true);
 }
 

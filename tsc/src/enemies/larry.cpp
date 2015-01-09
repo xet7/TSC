@@ -59,11 +59,11 @@ void cLarry::Init()
     m_explosion_counter = 0.0f;
     m_kill_sound = "ambient/thunder_1.ogg";
 
-    Add_Image_Set("walk", "enemy/larry/grey/walk.animation");
-    Add_Image_Set("walk_turn", "enemy/larry/grey/walk_turn.animation", 0, &m_walk_turn_start, &m_walk_turn_end);
-    Add_Image_Set("run", "enemy/larry/grey/run.animation");
-    Add_Image_Set("run_turn", "enemy/larry/grey/run_turn.animation", 0, &m_run_turn_start, &m_run_turn_end);
-    Add_Image_Set("action", "enemy/larry/grey/action.animation", 0, &m_action_start, &m_action_end);
+    Add_Image_Set("walk", "enemy/larry/grey/walk.imgset");
+    Add_Image_Set("walk_turn", "enemy/larry/grey/walk_turn.imgset", 0, &m_walk_turn_start, &m_walk_turn_end);
+    Add_Image_Set("run", "enemy/larry/grey/run.imgset");
+    Add_Image_Set("run_turn", "enemy/larry/grey/run_turn.imgset", 0, &m_run_turn_start, &m_run_turn_end);
+    Add_Image_Set("action", "enemy/larry/grey/action.imgset", 0, &m_action_start, &m_action_end);
 
     Set_Moving_State(STA_WALK);
     Set_Direction(DIR_RIGHT);

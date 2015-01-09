@@ -150,7 +150,7 @@ void cFlyon::Set_Image_Dir(fs::path dir)
     }
 
     // if not image directory
-    if (!File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(dir) + "/still.animation"))) {
+    if (!File_Exists(pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(dir) + "/still.imgset"))) {
         cerr    << "Warning: Flyon image files not found; does the flyon directory "
                 << path_to_utf8(dir) << " exist?" << endl;
         return;
@@ -161,8 +161,8 @@ void cFlyon::Set_Image_Dir(fs::path dir)
     // clear images
     Clear_Images();
     // set images
-    Add_Image_Set("still", m_img_dir / utf8_to_path("still.animation"));
-    Add_Image_Set("fly", m_img_dir / utf8_to_path("fly.animation"));
+    Add_Image_Set("still", m_img_dir / utf8_to_path("still.imgset"));
+    Add_Image_Set("fly", m_img_dir / utf8_to_path("fly.imgset"));
     Set_Image_Set("fly", true);
 }
 

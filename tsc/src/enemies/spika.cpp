@@ -106,7 +106,7 @@ void cSpika::Set_Color(DefaultColor col)
     m_color_type = col;
 
     if (m_color_type == COL_ORANGE) {
-        Add_Image_Set("main", "enemy/spika/orange.animation");
+        Add_Image_Set("main", "enemy/spika/orange.imgset");
 
         m_speed = 3;
         m_detection_size = 160.0f;
@@ -116,7 +116,7 @@ void cSpika::Set_Color(DefaultColor col)
         m_ice_resistance = 0.0f;
     }
     else if (m_color_type == COL_GREEN) {
-        Add_Image_Set("main", "enemy/spika/green.animation");
+        Add_Image_Set("main", "enemy/spika/green.imgset");
 
         m_speed = 4;
         m_detection_size = 220.0f;
@@ -126,7 +126,7 @@ void cSpika::Set_Color(DefaultColor col)
         m_ice_resistance = 0.1f;
     }
     else if (m_color_type == COL_GREY) {
-        Add_Image_Set("main", "enemy/spika/grey.animation");
+        Add_Image_Set("main", "enemy/spika/grey.imgset");
 
         m_speed = 7;
         m_detection_size = 330.0f;
@@ -136,7 +136,7 @@ void cSpika::Set_Color(DefaultColor col)
         m_ice_resistance = 0.5f;
     }
     else if (m_color_type == COL_RED) {
-        Add_Image_Set("main", "enemy/spika/red.animation");
+        Add_Image_Set("main", "enemy/spika/red.imgset");
 
         m_speed = 10;
         m_detection_size = 300.0f;

@@ -89,8 +89,8 @@ void cRokko::Init(void)
     m_kill_sound = "enemy/rokko/hit.wav";
     m_kill_points = 250;
 
-    Add_Image_Set("fly", "enemy/rokko/yellow/fly.animation");
-    Add_Image_Set("break", "enemy/rokko/yellow/break.animation", 0, NULL, &m_break_end);
+    Add_Image_Set("fly", "enemy/rokko/yellow/fly.imgset");
+    Add_Image_Set("break", "enemy/rokko/yellow/break.imgset", 0, NULL, &m_break_end);
 
     Set_Image_Set("fly", true);
 }
