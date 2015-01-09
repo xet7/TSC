@@ -148,7 +148,7 @@ void cGoldpiece::Set_Gold_Color(DefaultColor color)
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/red/9_falling.png"));
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/red/10_falling.png"));
 
-            m_name = _("Red Falling Goldpiece");
+            m_name = _("Red Falling Jewel");
         }
         // default is yellow
         else {
@@ -163,7 +163,7 @@ void cGoldpiece::Set_Gold_Color(DefaultColor color)
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/yellow/9_falling.png"));
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/yellow/10_falling.png"));
 
-            m_name = _("Falling Goldpiece");
+            m_name = _("Falling Jewel");
         }
     }
     else {
@@ -179,7 +179,7 @@ void cGoldpiece::Set_Gold_Color(DefaultColor color)
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/red/9.png"));
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/red/10.png"));
 
-            m_name = _("Red Goldpiece");
+            m_name = _("Red Jewel");
         }
         // default is yellow
         else {
@@ -194,7 +194,7 @@ void cGoldpiece::Set_Gold_Color(DefaultColor color)
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/yellow/9.png"));
             Add_Image(pVideo->Get_Surface("game/items/goldpiece/yellow/10.png"));
 
-            m_name = _("Goldpiece");
+            m_name = _("Jewel");
         }
     }
 
