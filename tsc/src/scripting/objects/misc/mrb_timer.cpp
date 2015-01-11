@@ -372,7 +372,7 @@ static mrb_value Initialize(mrb_state* p_state,  mrb_value self)
  *
  * #### Parameters
  * interval
- * : The interval at which to fire the callback.
+ * : The interval at which to fire the callback, in milliseconds.
  *
  * #### Return value
  *
@@ -399,14 +399,14 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
 /**
  * Method: Timer::after
  *
- *   after( secs ){...} → a_timer
+ *   after( millisecs ){...} → a_timer
  *
  * Shortcut for calling [new()](#new) with `is_periodic = false` followed
  * by a call to [#start](#start)..
  *
  * #### Parameters
- * secs
- * : The number of seconds to wait before the callback gets
+ * millisecs
+ * : The number of milliseconds to wait before the callback gets
  *   executed.
  *
  * #### Return value
@@ -415,11 +415,11 @@ static mrb_value Every(mrb_state* p_state,  mrb_value self)
  */
 static mrb_value After(mrb_state* p_state,  mrb_value self)
 {
-    mrb_int secs;
+    mrb_int millisecs;
     mrb_value block;
-    mrb_get_args(p_state, "i&", &secs, &block);
+    mrb_get_args(p_state, "i&", &millisecs, &block);
 
-    cTimer* p_timer = new cTimer(pActive_Level->m_mruby, secs, block);
+    cTimer* p_timer = new cTimer(pActive_Level->m_mruby, millisecs, block);
     mrb_value instance = mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Timer"), &rtTSC_Scriptable, p_timer));
 
     // Prevent mruby timer from getting out of scope

@@ -3,7 +3,7 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="40"/>
-    <property name="save_time" value="1418469392"/>
+    <property name="save_time" value="1419364754"/>
   </information>
   <settings>
     <property name="lvl_author" value="sauer2"/>
@@ -2421,15 +2421,8 @@
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="3068"/>
-    <property name="posy" value="-350"/>
-    <property name="uid" value="386"/>
-    <property name="image" value="ground/jungle_1/beanstalk_2_right.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
-    <property name="posx" value="4399"/>
-    <property name="posy" value="-230"/>
+    <property name="posx" value="4382"/>
+    <property name="posy" value="-233"/>
     <property name="uid" value="387"/>
     <property name="image" value="ground/jungle_1/big_plant_2.png"/>
     <property name="type" value="passive"/>
@@ -2694,13 +2687,6 @@
     <property name="type" value="massive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="2953"/>
-    <property name="posy" value="-149"/>
-    <property name="uid" value="399"/>
-    <property name="image" value="game/box/brown1_1.png"/>
-    <property name="type" value="massive"/>
-  </sprite>
-  <sprite>
     <property name="posx" value="3595"/>
     <property name="posy" value="-149"/>
     <property name="uid" value="398"/>
@@ -2708,25 +2694,9 @@
     <property name="type" value="massive"/>
   </sprite>
   <item>
-    <property name="posx" value="3323"/>
-    <property name="posy" value="-147"/>
-    <property name="uid" value="400"/>
-    <property name="image" value="game/items/mushroom_blue.png"/>
-    <property name="type" value="mushroom"/>
-    <property name="mushroom_type" value="51"/>
-  </item>
-  <item>
     <property name="posx" value="3606"/>
     <property name="posy" value="-176"/>
     <property name="uid" value="401"/>
-    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
-    <property name="type" value="goldpiece"/>
-    <property name="color" value="yellow"/>
-  </item>
-  <item>
-    <property name="posx" value="2964"/>
-    <property name="posy" value="-178"/>
-    <property name="uid" value="402"/>
     <property name="image" value="game/items/goldpiece/yellow/1.png"/>
     <property name="type" value="goldpiece"/>
     <property name="color" value="yellow"/>
@@ -3390,15 +3360,6 @@
     <property name="image" value="blocks/brick/1_grey.png"/>
     <property name="type" value="massive"/>
   </sprite>
-  <enemy>
-    <property name="posx" value="3389"/>
-    <property name="posy" value="-69"/>
-    <property name="uid" value="447"/>
-    <property name="image" value="enemy/eato/brown/1.png"/>
-    <property name="type" value="eato"/>
-    <property name="image_dir" value="enemy/eato/brown/"/>
-    <property name="direction" value="top_right"/>
-  </enemy>
   <sprite>
     <property name="posx" value="3385"/>
     <property name="posy" value="-34"/>
@@ -3406,15 +3367,6 @@
     <property name="image" value="blocks/brick/1_grey.png"/>
     <property name="type" value="massive"/>
   </sprite>
-  <enemy>
-    <property name="posx" value="3432"/>
-    <property name="posy" value="-69"/>
-    <property name="uid" value="448"/>
-    <property name="image" value="enemy/eato/green/1.png"/>
-    <property name="type" value="eato"/>
-    <property name="image_dir" value="enemy/eato/green/"/>
-    <property name="direction" value="top_right"/>
-  </enemy>
   <sprite>
     <property name="posx" value="3428"/>
     <property name="posy" value="-34"/>
@@ -3426,9 +3378,9 @@
     <property name="posx" value="3475"/>
     <property name="posy" value="-69"/>
     <property name="uid" value="450"/>
-    <property name="image" value="enemy/eato/green/1.png"/>
+    <property name="image" value="enemy/eato/brown/1.png"/>
     <property name="type" value="eato"/>
-    <property name="image_dir" value="enemy/eato/green/"/>
+    <property name="image_dir" value="enemy/eato/brown/"/>
     <property name="direction" value="top_right"/>
   </enemy>
   <sprite>
@@ -4141,8 +4093,51 @@
     <property name="color" value="brown"/>
     <property name="direction" value="right"/>
   </enemy>
+  <box>
+    <property name="posx" value="2941"/>
+    <property name="posy" value="-149"/>
+    <property name="uid" value="580"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="24"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="1"/>
+  </box>
+  <sprite>
+    <property name="posx" value="3339"/>
+    <property name="posy" value="-284"/>
+    <property name="uid" value="386"/>
+    <property name="image" value="ground/jungle_1/beanstalk_2_right.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="2794"/>
+    <property name="posy" value="-320"/>
+    <property name="uid" value="447"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="52"/>
+    <property name="invisible" value="1"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <box>
+    <property name="posx" value="2794"/>
+    <property name="posy" value="-526"/>
+    <property name="uid" value="578"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="35"/>
+    <property name="invisible" value="2"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
   <script>TSC.require "std/message"
-
+TSC.require "std/switch"
 
 # the first jewel on the left
 
@@ -4212,6 +4207,13 @@ end
 
 UIDS[286].on_activate do
   Level.display_info_message("A little higher...")
+end
+
+
+
+# the POW button that triggers the fireberry
+Std::Switch.new(x: 3132, y: -142) do
+  UIDS[580].activate
 end
 </script>
 </level>

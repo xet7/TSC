@@ -229,11 +229,11 @@ void cBonusBox::Set_Goldcolor(DefaultColor new_color)
 
     if (m_gold_color == COL_YELLOW) {
         m_item_image = pVideo->Get_Package_Surface("game/items/goldpiece/yellow/1.png");
-        m_name = _("Bonusbox Yellow Goldpiece");
+        m_name = _("Bonusbox Jewel");
     }
     else if (m_gold_color == COL_RED) {
         m_item_image = pVideo->Get_Package_Surface("game/items/goldpiece/red/1.png");
-        m_name = _("Bonusbox Red Goldpiece");
+        m_name = _("Bonusbox Red Jewel");
     }
     else {
         cerr << "Warning : Unknown Bonusbox Gold Color " << m_gold_color << endl;
@@ -456,7 +456,7 @@ void cBonusBox::Editor_Activate(void)
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Ghost berry")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("1-UP berry")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Star")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Goldpiece")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Jewel")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Poisonous berry")));
 
     if (box_type == TYPE_MUSHROOM_DEFAULT) {
@@ -478,7 +478,7 @@ void cBonusBox::Editor_Activate(void)
         combobox->setText(UTF8_("Star"));
     }
     else if (box_type == TYPE_GOLDPIECE) {
-        combobox->setText(UTF8_("Goldpiece"));
+        combobox->setText(UTF8_("Jewel"));
     }
     else if (box_type == TYPE_MUSHROOM_POISON) {
         combobox->setText(UTF8_("Poisonous berry"));
@@ -510,7 +510,7 @@ void cBonusBox::Editor_Activate(void)
 
     // gold color
     combobox = static_cast<CEGUI::Combobox*>(wmgr.createWindow("TaharezLook/Combobox", "editor_bonusbox_gold_color"));
-    Editor_Add(UTF8_("Gold color"), UTF8_("Gold color if the item is a goldpiece"), combobox, 100, 80);
+    Editor_Add(UTF8_("Jewel color"), UTF8_("Jewel color if the item is a jewel"), combobox, 100, 80);
 
     combobox->addItem(new CEGUI::ListboxTextItem("yellow"));
     combobox->addItem(new CEGUI::ListboxTextItem("red"));
@@ -581,7 +581,7 @@ bool cBonusBox::Editor_Item_Select(const CEGUI::EventArgs& event)
     else if (item->getText().compare(UTF8_("Star")) == 0) {
         Set_Bonus_Type(TYPE_STAR);
     }
-    else if (item->getText().compare(UTF8_("Goldpiece")) == 0) {
+    else if (item->getText().compare(UTF8_("Jewel")) == 0) {
         Set_Bonus_Type(TYPE_GOLDPIECE);
     }
     else if (item->getText().compare(UTF8_("Poisonous berry")) == 0) {

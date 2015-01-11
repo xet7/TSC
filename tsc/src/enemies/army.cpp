@@ -314,7 +314,7 @@ void cArmy::Set_Army_Moving_State(Army_state new_state)
     else if (new_state == ARMY_SHELL_STAND) {
         m_state = STA_STAY;
         m_camera_range = 2000;
-        Set_Rotation_Y(0.0f);
+        Set_Rotation_Z(0.0f);
 
         Set_Animation(0);
         // set stay image
@@ -324,7 +324,7 @@ void cArmy::Set_Army_Moving_State(Army_state new_state)
     else if (new_state == ARMY_SHELL_RUN) {
         m_state = STA_RUN;
         m_camera_range = 5000;
-        Set_Rotation_Y(0.0f);
+        Set_Rotation_Z(0.0f);
 
         Set_Animation(0);
         Set_Animation_Image_Range(6 - 1 + 5, 6 - 1 + 5);
@@ -334,6 +334,7 @@ void cArmy::Set_Army_Moving_State(Army_state new_state)
     m_army_state = new_state;
 
     Update_Velocity_Max();
+    Update_Rotation_Hor();
 }
 
 void cArmy::Update(void)
