@@ -136,6 +136,123 @@ task :tarball => :clobber do
   end
 end
 
+desc "Create all files necessary for a release."
+task :release do
+  version = ENV["VERSION"] || "#{TSC_VERSION_MAJOR}.#{TSC_VERSION_MINOR}.#{TSC_VERSION_PATCH}"
+  puts "Building release files for TSC version #{version}"
+
+  if ENV["TSCSIGNKEY"]
+    gpgkey = ENV["TSCSIGNKEY"].strip
+  else
+    puts "$TSCSIGNKEY is unset! Please specify your GPG key to use for"
+    puts "signing the source package."
+    print "GPG Key ID: "
+    gpgkey = $stdin.gets.chomp
+
+    if gpgkey.empty?
+      raise "No GPG key specified. Exiting."
+    end
+  end
+
+  if ENV["TSCCROSSCOMPILEPATH"]
+    crosspath = ENV["TSCCROSSCOMPILEPATH"]
+  else
+    puts "$TSCCROSSCOMPILEPATH is unset. Please specify the value for the $PATH"
+    puts "variable to use when crosscompiling for Windows."
+    print "$PATH: "
+    crosspath = $stdin.gets.chomp
+
+    if crosspath.empty?
+      puts "No extra crosspath specified. Assuming regular $PATH works."
+      crosspath = ENV["PATH"]
+    end
+  end
+
+  if ENV["TSCTARGETPATH"]
+    targetpath = ENV["TSCTARGETPATH"]
+  else
+    puts "$TSCTARGETPATH is unset. /tmp/tsc-release will be used instead."
+    print "Is that ok? (y/n) "
+    if $stdin.gets.chomp.downcase != "y"
+      raise "$TSCTARGETPATH unset and default rejected."
+    else
+      targetpath = "/tmp/tsc-release"
+    end
+  end
+
+  source_tarball = File.join(Dir.pwd, "..", "..", "TSC-#{version}.tar.xz")
+
+  unless File.file?(source_tarball)
+    raise "Something went wrong. There is no source tarball at '#{source_tarball}'."
+  end
+
+  mkdir targetpath
+  cd targetpath  do
+    # First create the native build. While not required strictly for releasing,
+    # this ensures the code compiles.
+    mkdir "native"
+    cd "native" do
+      sh "tar -xvJf '#{source_tarball}'"
+      cd "TSC-#{version}/tsc" do
+        mkdir "build"
+        cd "build" do
+          sh "cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=#{Dir.pwd}/testinstall .."
+          sh "make -j#{`nproc`.strip}"
+          sh "make install"
+
+          puts ">>>>> Running the game now. Test a bit and close when you are satisfied. <<<<<"
+          print "Press [ENTER] to start"
+          $stdin.gets
+          sh "#{Dir.pwd}/testinstall/bin/tsc"
+        end
+      end
+    end
+
+    # Now create the Windows setup installer
+    mkdir "win32"
+    cd "win32" do
+      sh "tar -xvJf '#{source_tarball}'"
+      cd "TSC-#{version}/tsc" do
+        mkdir "crossbuild"
+        cd "crossbuild" do
+          puts "Adjusting $PATH for crosscompiling to '#{crosspath}'"
+          ENV["PATH"] = crosspath
+
+          cp "../cmake/toolchains/linux2mingw32.cmake", "."
+          sh "cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=linux2mingw32.cmake .."
+          sh "make -j#{`nproc`.strip}"
+          sh "cpack -G NSIS"
+        end
+      end
+    end
+
+    mkdir "files"
+    cd "files" do
+      # Collect the files
+      cp source_tarball, "."
+      cp "../win32/TSC-#{version}/tsc/crossbuild/TSC-#{TSC_VERSION_MAJOR}.#{TSC_VERSION_MINOR}.#{TSC_VERSION_PATCH}-win32.exe", "TSC-#{version}-win32.exe"
+
+      tarballfile = File.basename(source_tarball)
+      win32exefile = "TSC-#{version}-win32.exe"
+
+      # Sign them
+      sh "gpg --local-user #{gpgkey} --detach-sign #{tarballfile}"
+      sh "gpg --local-user #{gpgkey} --detach-sign #{win32exefile}"
+
+      # Generate checksums
+      sh "md5sum #{tarballfile} #{win32exefile} > TSC-#{version}.md5sums"
+      sh "sha256sum #{tarballfile} #{win32exefile} > TSC-#{version}.sha256sums"
+
+      puts
+      sh "ls -hl"
+    end
+  end
+
+  puts "===== DONE ====="
+  puts "All files required for releasing are in #{targetpath}/files."
+  puts "Don’t forget to add a signed Git tag (-s or -u option) to the repository."
+end
+
 # Ensure :clobber also wipes out mruby build content
 task :clean_mruby do
   cd "../mruby/mruby" do
