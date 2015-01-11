@@ -1,12 +1,12 @@
 # Brazilian Portuguese translations for Secretchronicles
 # This file is distributed under the same license as the Secretchronicles package.
-# Copyright © 2003-2011,2014 Rafael Ferreira <rafael.f.f1@gmail.com>
+# Copyright © 2003-2011,2014,2015 Rafael Ferreira <rafael.f.f1@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-17 18:23+0100\n"
-"PO-Revision-Date: 2014-12-27 02:58-0300\n"
+"POT-Creation-Date: 2015-01-09 10:30+0100\n"
+"PO-Revision-Date: 2015-01-09 11:40-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
 "Language: pt_BR\n"
@@ -31,8 +31,7 @@ msgstr "Contínuo"
 #: ../../src/audio/random_sound.cpp:457
 msgid "Check if the sound should be played continuously instead of randomly"
 msgstr ""
-"Verifica se o áudio deveria ser tocado continuamente ao invés de "
-"aleatoriamente"
+"Verifica se o áudio deveria ser tocado continuamente ao invés de aleatoriamente"
 
 #: ../../src/audio/random_sound.cpp:464
 msgid "Delay Minimum"
@@ -75,8 +74,7 @@ msgid "End"
 msgstr "Fim"
 
 #: ../../src/audio/random_sound.cpp:504
-msgid ""
-"Volume reduction ends at this distance. Sound is not played beyond this."
+msgid "Volume reduction ends at this distance. Sound is not played beyond this."
 msgstr ""
 "Redução de Volume finaliza a esta distância. O som não é tocado depois disso."
 
@@ -173,8 +171,9 @@ msgstr ""
 " \n"
 "M - Alterna entre objetos seleciones dentre tipos de maciço\n"
 "Tipos maciços com suas cores:\n"
-"   [colour='FFFF2F0F']Maciço[colour='FFFFFFFF']->[colour='FFFFAF2F']SemiMaciço"
-"[colour='FFFFFFFF']->[colour='FFDF00FF']Escalável[colour='FFFFFFFF']-"
+"   [colour='FFFF2F0F']Maciço[colour='FFFFFFFF']-"
+">[colour='FFFFAF2F']SemiMaciço[colour='FFFFFFFF']-"
+">[colour='FFDF00FF']Escalável[colour='FFFFFFFF']-"
 ">[colour='FF1FFF1F']Passivo[colour='FFFFFFFF']->[colour='FF1FFF1F']Frente "
 "Passivo [colour='FFFFFFFF']\n"
 "O - Habilita modo de ajuste a objeto\n"
@@ -219,8 +218,7 @@ msgstr "Carregando Imagens"
 msgid "Loading Sounds"
 msgstr "Carregando Sons"
 
-#: ../../src/core/property_helper.cpp:487
-#: ../../src/core/property_helper.cpp:737
+#: ../../src/core/property_helper.cpp:487 ../../src/core/property_helper.cpp:737
 msgid "undefined"
 msgstr "indefinido"
 
@@ -292,8 +290,7 @@ msgstr "primeira"
 msgid "last"
 msgstr "última"
 
-#: ../../src/core/property_helper.cpp:739
-#: ../../src/core/property_helper.cpp:845
+#: ../../src/core/property_helper.cpp:739 ../../src/core/property_helper.cpp:845
 msgid "green"
 msgstr "verde"
 
@@ -394,25 +391,22 @@ msgstr "cinza"
 msgid "violet"
 msgstr "violeta"
 
-#: ../../src/enemies/beetle.cpp:255
-#: ../../src/enemies/bosses/turtle_boss.cpp:1004
+#: ../../src/enemies/beetle.cpp:255 ../../src/enemies/bosses/turtle_boss.cpp:1004
 #: ../../src/enemies/eato.cpp:258 ../../src/enemies/flyon.cpp:556
 #: ../../src/enemies/furball.cpp:747 ../../src/enemies/gee.cpp:574
 #: ../../src/enemies/krush.cpp:369 ../../src/enemies/larry.cpp:400
 #: ../../src/enemies/pip.cpp:358 ../../src/enemies/rokko.cpp:568
 #: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/thromp.cpp:657
-#: ../../src/enemies/turtle.cpp:924 ../../src/level/level_player.cpp:3952
+#: ../../src/enemies/turtle.cpp:925 ../../src/level/level_player.cpp:3952
 #: ../../src/objects/level_entry.cpp:383 ../../src/objects/level_exit.cpp:465
-#: ../../src/objects/moving_platform.cpp:982
-#: ../../src/video/animation.cpp:1557
+#: ../../src/objects/moving_platform.cpp:982 ../../src/video/animation.cpp:1557
 msgid "Direction"
 msgstr "Direção"
 
-#: ../../src/enemies/beetle.cpp:255
-#: ../../src/enemies/bosses/turtle_boss.cpp:1004
+#: ../../src/enemies/beetle.cpp:255 ../../src/enemies/bosses/turtle_boss.cpp:1004
 #: ../../src/enemies/furball.cpp:747 ../../src/enemies/gee.cpp:574
 #: ../../src/enemies/krush.cpp:369 ../../src/enemies/larry.cpp:400
-#: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/turtle.cpp:924
+#: ../../src/enemies/spikeball.cpp:508 ../../src/enemies/turtle.cpp:925
 #: ../../src/objects/moving_platform.cpp:982
 msgid "Starting direction."
 msgstr "Direção inicial."
@@ -853,7 +847,7 @@ msgid "Enter"
 msgstr "Entrar"
 
 #: ../../src/gui/menu_data.cpp:482 ../../src/gui/menu_data.cpp:1151
-#: ../../src/gui/menu_data.cpp:2806 ../../src/gui/menu_data.cpp:3117
+#: ../../src/gui/menu_data.cpp:2806 ../../src/gui/menu_data.cpp:3138
 msgid "Back"
 msgstr "Voltar"
 
@@ -1220,7 +1214,7 @@ msgstr ""
 msgid "Enabled : "
 msgstr "Habilitado : "
 
-#: ../../src/gui/menu_data.cpp:2989
+#: ../../src/gui/menu_data.cpp:2994
 msgid ""
 "3000 Points needed for saving in a level.\n"
 "Saving on the Overworld is free."
@@ -1228,15 +1222,17 @@ msgstr ""
 "3000 Pontos necessários para salvar em um nível.\n"
 "Salvar no Overworld é livre."
 
-#: ../../src/gui/menu_data.cpp:3006
+#: ../../src/gui/menu_data.cpp:3013 ../../src/gui/menu_data.cpp:3017
+#: ../../src/gui/menu_data.cpp:3022
 msgid "No Description"
 msgstr "Nenhuma Descrição"
 
-#: ../../src/gui/menu_data.cpp:3010
+#: ../../src/gui/menu_data.cpp:3026
 msgid "Enter Description"
 msgstr "Insira Descrição"
 
-#: ../../src/gui/menu_data.cpp:3026 ../../src/gui/menu_data.cpp:3031
+#: ../../src/gui/menu_data.cpp:3042 ../../src/gui/menu_data.cpp:3047
+#: ../../src/gui/menu_data.cpp:3052
 msgid "Savegame loading failed"
 msgstr "Falha ao carregar jogo salvo"
 
@@ -1303,13 +1299,11 @@ msgctxt "level"
 msgid "Name"
 msgstr "Nome"
 
-#: ../../src/level/level_editor.cpp:281
-#: ../../src/overworld/world_editor.cpp:180
+#: ../../src/level/level_editor.cpp:281 ../../src/overworld/world_editor.cpp:180
 msgid " already exists"
 msgstr " já existe"
 
-#: ../../src/level/level_editor.cpp:293
-#: ../../src/overworld/world_editor.cpp:176
+#: ../../src/level/level_editor.cpp:293 ../../src/overworld/world_editor.cpp:176
 msgid "Created "
 msgstr "Criado "
 
@@ -1317,8 +1311,7 @@ msgstr "Criado "
 msgid "Load a Level"
 msgstr "Carregar um Nível"
 
-#: ../../src/level/level_editor.cpp:322
-#: ../../src/overworld/world_editor.cpp:208
+#: ../../src/level/level_editor.cpp:322 ../../src/overworld/world_editor.cpp:208
 msgid "Loaded "
 msgstr "Carregado "
 
@@ -1388,12 +1381,12 @@ msgid "Bonusbox Poisonous berry"
 msgstr "Caixa Bônus de Fruta Venenosa"
 
 #: ../../src/objects/bonusbox.cpp:229
-msgid "Bonusbox Yellow Goldpiece"
-msgstr "Caixa Bônus de Moeda de Ouro Amarela"
+msgid "Bonusbox Jewel"
+msgstr "Caixa Bônus de Joia"
 
 #: ../../src/objects/bonusbox.cpp:233
-msgid "Bonusbox Red Goldpiece"
-msgstr "Caixa Bônus de Moeda de Ouro Vermelha"
+msgid "Bonusbox Red Jewel"
+msgstr "Caixa Bônus de Joia Vermelha"
 
 #: ../../src/objects/bonusbox.cpp:434
 msgid "Animation"
@@ -1455,8 +1448,8 @@ msgstr "Estrela"
 
 #: ../../src/objects/bonusbox.cpp:456 ../../src/objects/bonusbox.cpp:478
 #: ../../src/objects/bonusbox.cpp:581 ../../src/objects/goldpiece.cpp:197
-msgid "Goldpiece"
-msgstr "Moeda de Ouro"
+msgid "Jewel"
+msgstr "Joia"
 
 #: ../../src/objects/bonusbox.cpp:457 ../../src/objects/bonusbox.cpp:481
 #: ../../src/objects/bonusbox.cpp:584 ../../src/objects/powerup.cpp:287
@@ -1472,12 +1465,12 @@ msgid "Force best available item when activated"
 msgstr "Força melhor item disponível quando ativo"
 
 #: ../../src/objects/bonusbox.cpp:510
-msgid "Gold color"
-msgstr "Cor dourada"
+msgid "Jewel color"
+msgstr "Cor da joia"
 
 #: ../../src/objects/bonusbox.cpp:510
-msgid "Gold color if the item is a goldpiece"
-msgstr "Cor dourada se o item é uma moeda de ouro"
+msgid "Jewel color if the item is a jewel"
+msgstr "Cor da joia, se o item for uma joia"
 
 #: ../../src/objects/box.cpp:45
 msgid "Box"
@@ -1537,16 +1530,16 @@ msgid "Enemystopper"
 msgstr "Detenção de Inimigos"
 
 #: ../../src/objects/goldpiece.cpp:151
-msgid "Red Falling Goldpiece"
-msgstr "Moeda de Ouro Vermelha Caída"
+msgid "Red Falling Jewel"
+msgstr "Joia Vermelha Caindo"
 
 #: ../../src/objects/goldpiece.cpp:166
-msgid "Falling Goldpiece"
-msgstr "Moeda de Ouro Caída"
+msgid "Falling Jewel"
+msgstr "Joia Caindo"
 
 #: ../../src/objects/goldpiece.cpp:182
-msgid "Red Goldpiece"
-msgstr "Moeda de Ouro Vermelha"
+msgid "Red Jewel"
+msgstr "Joia Vermelha"
 
 #: ../../src/objects/lava.cpp:55
 msgid "Lava"
@@ -1585,8 +1578,7 @@ msgid "Destination Level"
 msgstr "Nível de Destino"
 
 #: ../../src/objects/level_exit.cpp:502
-msgid ""
-"Name of the level that should be entered. If empty uses the current level."
+msgid "Name of the level that should be entered. If empty uses the current level."
 msgstr "Nome do nível que deveria ser informado. Se vazio, usa o nível atual."
 
 #: ../../src/objects/level_exit.cpp:509
@@ -1598,8 +1590,8 @@ msgid ""
 "Name of the Entry in the destination level. If empty the entry point is the "
 "player start position."
 msgstr ""
-"Nome da Entrada do nível de destino. Se vazio, o ponto de entrada é a "
-"posição de início do jogador."
+"Nome da Entrada do nível de destino. Se vazio, o ponto de entrada é a posição "
+"de início do jogador."
 
 #: ../../src/objects/level_exit.cpp:516
 msgid "Return Level"
@@ -1630,8 +1622,7 @@ msgid "Movement type."
 msgstr "Tipo de Movimento."
 
 #: ../../src/objects/moving_platform.cpp:994
-msgid ""
-"Movable distance into its direction if type is line or radius if circle."
+msgid "Movable distance into its direction if type is line or radius if circle."
 msgstr ""
 "Distância movimentável até sua direção se o tipo for linha ou raio se for "
 "círculo."
@@ -1706,8 +1697,7 @@ msgstr "Identificação"
 
 #: ../../src/objects/path.cpp:709
 msgid ""
-"Identifier name of the Path. This is needed for objects that can link to "
-"this."
+"Identifier name of the Path. This is needed for objects that can link to this."
 msgstr ""
 "Nome de identificação do caminho. É necessário para que objetos possam se "
 "vincular a este."
@@ -1722,8 +1712,8 @@ msgstr "Exibir ou não a linha de movimentação do caminho."
 
 #: ../../src/objects/path.cpp:730
 msgid ""
-"Movement type. Mirror moves forth and back and rewind starts from the "
-"beginning again."
+"Movement type. Mirror moves forth and back and rewind starts from the beginning "
+"again."
 msgstr ""
 "Tipo de Movimento. Espelha movimentos para frente e para trás e recomeça do "
 "início."
@@ -1816,8 +1806,7 @@ msgstr "Não foi possível salvar descrição do mundo "
 msgid "Couldn't save world "
 msgstr "Não foi possível salvar mundo "
 
-#: ../../src/overworld/overworld.cpp:252
-#: ../../src/overworld/world_editor.cpp:180
+#: ../../src/overworld/overworld.cpp:252 ../../src/overworld/world_editor.cpp:180
 msgid "World "
 msgstr "Mundo "
 
@@ -1914,20 +1903,20 @@ msgid "Saved to Slot "
 msgstr "Salvo no Slot "
 
 #. TRANS: %u is replaced by the number of the save slot, starting with 1.
-#: ../../src/user/savegame.cpp:806
+#: ../../src/user/savegame.cpp:830
 #, c-format
 msgid "%u. Free Save"
 msgstr "%u. Slot Livre"
 
-#: ../../src/user/savegame.cpp:828
+#: ../../src/user/savegame.cpp:852
 msgid " -  Level "
 msgstr " -  Nível "
 
-#: ../../src/user/savegame.cpp:835
+#: ../../src/user/savegame.cpp:859
 msgid " -  Unknown"
 msgstr " -  Desconhecido"
 
-#: ../../src/user/savegame.cpp:839
+#: ../../src/user/savegame.cpp:863
 msgid " - Date "
 msgstr " - Data "
 
@@ -2132,6 +2121,30 @@ msgstr "Efetuando Cache de Imagens"
 #: ../../src/video/video.cpp:2149
 msgid "This program is distributed under the terms of the GPLv3"
 msgstr "Esse programa é distribuído sob os termos da GPLv3"
+
+#~ msgid "Bonusbox Yellow Goldpiece"
+#~ msgstr "Caixa Bônus de Moeda de Ouro Amarela"
+
+#~ msgid "Bonusbox Red Goldpiece"
+#~ msgstr "Caixa Bônus de Moeda de Ouro Vermelha"
+
+#~ msgid "Goldpiece"
+#~ msgstr "Moeda de Ouro"
+
+#~ msgid "Gold color"
+#~ msgstr "Cor dourada"
+
+#~ msgid "Gold color if the item is a goldpiece"
+#~ msgstr "Cor dourada se o item é uma moeda de ouro"
+
+#~ msgid "Red Falling Goldpiece"
+#~ msgstr "Moeda de Ouro Vermelha Caída"
+
+#~ msgid "Falling Goldpiece"
+#~ msgstr "Moeda de Ouro Caída"
+
+#~ msgid "Red Goldpiece"
+#~ msgstr "Moeda de Ouro Vermelha"
 
 #~ msgid "Change selected Sprite(s) image to"
 #~ msgstr "Mudar a(s) imagem(ns) sprite(s) selecionada(s) para"
