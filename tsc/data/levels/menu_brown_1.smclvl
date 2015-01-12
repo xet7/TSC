@@ -2,8 +2,8 @@
 <level>
   <information>
     <property name="game_version" value="2.0.0"/>
-    <property name="engine_version" value="42"/>
-    <property name="save_time" value="1419425924"/>
+    <property name="engine_version" value="44"/>
+    <property name="save_time" value="1421079178"/>
   </information>
   <settings>
     <property name="lvl_author" value="FluXy"/>
@@ -191,7 +191,7 @@
     <property name="posx" value="620"/>
     <property name="posy" value="-214"/>
     <property name="uid" value="15"/>
-    <property name="image" value="pipes/grey/up.png"/>
+    <property name="image" value="pipes/grey/up_1.png"/>
     <property name="type" value="massive"/>
   </sprite>
   <sprite>
@@ -303,8 +303,8 @@
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="681"/>
-    <property name="posy" value="-211"/>
+    <property name="posx" value="677"/>
+    <property name="posy" value="-229"/>
     <property name="uid" value="19"/>
     <property name="image" value="ground/green_2/hedges/small_4.png"/>
     <property name="type" value="passive"/>
@@ -392,8 +392,8 @@
     <property name="force_best_item" value="1"/>
   </box>
   <levelexit>
-    <property name="posx" value="666"/>
-    <property name="posy" value="-204"/>
+    <property name="posx" value="665"/>
+    <property name="posy" value="-219"/>
     <property name="uid" value="46"/>
     <property name="image" value=""/>
     <property name="type" value="1"/>
