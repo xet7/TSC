@@ -55,7 +55,9 @@ ViM configurations to work, you will need the localvimrc plugin, which can be
 installed with the following command on most Bourne-compatible shells:
 
 ~~~sh
-mkdir -p ~/.vim/plugin && cd ~/.vim/plugin && https://raw.githubusercontent.com/embear/vim-localvimrc/master/plugin/localvimrc.vim
+mkdir -p ~/.vim/plugin
+cd ~/.vim/plugin
+wget https://raw.githubusercontent.com/embear/vim-localvimrc/master/plugin/localvimrc.vim
 ~~~
 
 License
