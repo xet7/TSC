@@ -452,6 +452,13 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("pipes/green/small/ver.png",   "pipes/grey/small/ver.png");
         attributes.relocate_image("pipes/green/small/hor.png",   "pipes/grey/small/hor.png");
     }
+    // V2.0.0-beta7 and lower: for statue background objects, fireplant.png was renamed to fireberry.png,
+    // and mushroom.png was renamed to berry.png
+    if (engine_version < 45)
+    {
+        attributes.relocate_image("ground/castle_1/statue/objects/fireplant.png", "ground/castle_1/statue/objects/fireberry.png");
+        attributes.relocate_image("ground/castle_1/statue/objects/mushroom.png",  "ground/castle_1/statue/objects/berry.png");
+    }
 
     // always: fix sprite with undefined massive-type
     if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
