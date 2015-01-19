@@ -9,7 +9,7 @@
         <Property Name="MousePassThroughEnabled" Value="False" />
         <Window Type="TaharezLook/FrameWindow" Name="box_question_window" >
             <Property Name="Text" Value="Question" />
-            <Property Name="Tooltip" Value="Box wants an answer !" />
+            <Property Name="Tooltip" Value="Box wants an answer!" />
             <Property Name="SizingEnabled" Value="False" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
