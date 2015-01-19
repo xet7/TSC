@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="blue-2.svg"
-   inkscape:export-filename="/home/sydney/Sources/TSC/tsc/data/pixmaps/pipes/blue/up_1.png"
+   inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes final for compress test/blue/up_3.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -273,7 +273,7 @@
        xlink:href="#linearGradient3794"
        id="radialGradient3229"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.46050321,2.4300345e-8,-8.8542985e-8,2.1723892,60.462001,-855.62058)"
+       gradientTransform="matrix(0.46048599,-0.00398262,0.09907411,11.455219,8.5110036,-5757.5468)"
        cx="285.59552"
        cy="528.03241"
        fx="285.59552"
@@ -319,16 +319,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="95.957464"
-     inkscape:cy="34.450899"
+     inkscape:zoom="0.12374369"
+     inkscape:cx="-2229.1512"
+     inkscape:cy="81.571196"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="svg2"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="847"
      inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -415,8 +415,11 @@
   <path
      inkscape:connector-curvature="0"
      id="path3024"
-     d="m 63.011481,291.47123 0,-129.80334 192.428709,0 192.42869,0 0,129.80334 0,129.80309 -192.42869,0 -192.428709,0 0,-129.80309 z"
-     style="fill:url(#radialGradient3229);fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.73991925;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none" />
+     d="m 63.36996,290.04266 0,-129.80334 192.42871,0 192.42869,0 0,129.80334 0,129.80309 -192.42869,0 -192.42871,0 0,-129.80309 z"
+     style="fill:url(#radialGradient3229);fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.73991925000000003;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none"
+     inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes final for compress test/blue/up_2.png"
+     inkscape:export-xdpi="90"
+     inkscape:export-ydpi="90" />
   <rect
      style="fill:none;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:1.02712727000000004;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0.99069770000000001;stroke-dasharray:none;display:inline"
      id="rect3014"
@@ -435,7 +438,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer"
-     style="display:inline">
+     style="display:none">
     <path
        sodipodi:type="arc"
        style="fill:#8f9697;fill-opacity:1;fill-rule:nonzero;stroke:#414646;stroke-width:69.58421326;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
@@ -726,14 +729,5 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Layer#2"
-     style="display:inline">
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.97277147;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="rect3086"
-       width="386.38333"
-       height="96.067101"
-       x="63.639385"
-       y="159.44652"
-       ry="0.38040632" />
-  </g>
+     style="display:none" />
 </svg>

@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="orange-2.svg"
-   inkscape:export-filename="/home/sydney/Sources/TSC/tsc/data/pixmaps/pipes/orange/up_1.png"
+   inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes final for compress test/orange/up_3.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -234,7 +234,7 @@
        fx="285.59552"
        fy="528.03241"
        r="254.59781"
-       gradientTransform="matrix(0.46034903,2.4372049e-8,-8.851334e-8,2.178799,137.23874,-751.2378)"
+       gradientTransform="matrix(0.46034799,-9.7488028e-4,0.03718695,17.559228,117.60307,-8872.3243)"
        gradientUnits="userSpaceOnUse" />
     <linearGradient
        id="linearGradient3794">
@@ -276,16 +276,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="-44.314838"
-     inkscape:cy="-46.034859"
+     inkscape:zoom="0.087500002"
+     inkscape:cx="-4065.6332"
+     inkscape:cy="441.71015"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="847"
      inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -373,7 +373,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer"
-     style="display:inline">
+     style="display:none">
     <path
        sodipodi:type="arc"
        style="fill:#8f9697;fill-opacity:1;fill-rule:nonzero;stroke:#414646;stroke-width:69.58421326;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
@@ -664,14 +664,5 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Layer#2"
-     style="display:inline">
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.97277147;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="rect3086"
-       width="386.38333"
-       height="96.067101"
-       x="63.639385"
-       y="159.44652"
-       ry="0.38040632" />
-  </g>
+     style="display:none" />
 </svg>

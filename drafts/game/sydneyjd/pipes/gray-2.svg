@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="gray-2.svg"
-   inkscape:export-filename="/home/sydney/Sources/TSC/tsc/data/pixmaps/pipes/grey/up_1.png"
+   inkscape:export-filename="/home/sydney/Contrib/TSC/Pipes final for compress test/gray/up_3.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -235,7 +235,7 @@
        fx="285.59552"
        fy="528.03241"
        r="254.59781"
-       gradientTransform="matrix(0.46031111,2.4435867e-8,-8.8506047e-8,2.1845042,137.0244,-754.59549)"
+       gradientTransform="matrix(0.46030392,-0.00257389,0.08977735,16.055121,89.621053,-8077.9953)"
        gradientUnits="userSpaceOnUse" />
     <linearGradient
        id="linearGradient3794">
@@ -278,16 +278,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="116.80084"
-     inkscape:cy="49.525092"
+     inkscape:zoom="0.12374369"
+     inkscape:cx="-1555.1195"
+     inkscape:cy="1189.0739"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="847"
      inkscape:window-x="0"
-     inkscape:window-y="31"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -374,13 +374,13 @@
        inkscape:connector-curvature="0"
        id="path3024"
        d="m 139.57282,398.89353 0,-130.5272 192.34843,0 192.3484,0 0,130.5272 0,130.52723 -192.3484,0 -192.34843,0 0,-130.52723 z"
-       style="fill:url(#radialGradient3800);fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.74182487;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;display:inline" />
+       style="fill:url(#radialGradient3800);fill-opacity:1;fill-rule:nonzero;stroke:#0b0b0b;stroke-width:0.74182486999999986;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer"
-     style="display:inline">
+     style="display:none">
     <path
        sodipodi:type="arc"
        style="fill:#8f9697;fill-opacity:1;fill-rule:nonzero;stroke:#414646;stroke-width:69.58421326;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
@@ -671,14 +671,5 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Layer#2"
-     style="display:inline">
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.97277147;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="rect3086"
-       width="386.38333"
-       height="96.067101"
-       x="63.63961"
-       y="159.44652"
-       ry="0.38040632" />
-  </g>
+     style="display:none" />
 </svg>
