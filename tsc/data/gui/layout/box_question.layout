@@ -28,7 +28,7 @@
             </Window>
             <Window Type="TaharezLook/Button" Name="box_question_button_no" >
                 <Property Name="Text" Value="No" />
-                <Property Name="Tooltip" Value="NOOO !" />
+                <Property Name="Tooltip" Value="NOOO!" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.33,0},{0.8,0},{0.58,0},{0.98,0}}" />
             </Window>
