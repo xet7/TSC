@@ -5,4 +5,5 @@ editor_tags level;castle;stuff
 name Stone_Fireberry
 type passive
 ground_type stone
-author datahead_and_bugsbane
+author bugsbane_modified_by_datahead
+license GPLv3+
