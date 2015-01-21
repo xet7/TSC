@@ -1304,16 +1304,16 @@ void cParticle_Emitter::Set_Color(const Color& col, const Color& col_rand /* = C
 
 #ifdef _DEBUG
     if (m_color.red + col_rand.red > 255) {
-        cerr << "cParticle_Emitter::Set_Color random color red (" << col_rand.red << ") is too high for " << path_to_utf8(m_image_filename) << endl;
+        cerr << "cParticle_Emitter::Set_Color random color red (" << static_cast<int>(col_rand.red) << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
     if (m_color.green + col_rand.green > 255) {
-        cerr << "cParticle_Emitter::Set_Color random color green (" << col_rand.green << ") is too high for " << path_to_utf8(m_image_filename) << endl;
+        cerr << "cParticle_Emitter::Set_Color random color green (" << static_cast<int>(col_rand.green) << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
     if (m_color.blue + col_rand.blue > 255) {
-        cerr << "cParticle_Emitter::Set_Color random color blue (" << col_rand.blue << ") is too high for " << path_to_utf8(m_image_filename) << endl;
+        cerr << "cParticle_Emitter::Set_Color random color blue (" << static_cast<int>(col_rand.blue) << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
     if (m_color.alpha + col_rand.alpha > 255) {
-        cerr << "cParticle_Emitter::Set_Color random color alpha (" << col_rand.alpha << ") is too high for " << path_to_utf8(m_image_filename) << endl;
+        cerr << "cParticle_Emitter::Set_Color random color alpha (" << static_cast<int>(col_rand.alpha) << ") is too high for " << path_to_utf8(m_image_filename) << endl;
     }
 #endif
 }
