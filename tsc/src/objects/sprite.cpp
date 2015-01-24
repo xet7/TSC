@@ -406,6 +406,7 @@ void cSprite::Init(void)
     m_anim_img_end = 0;
     m_anim_time_default = 1000;
     m_anim_counter = 0;
+    m_anim_last_ticks = pFramerate->m_last_ticks - 1;
     m_anim_mod = 1.0f;
 
     // collision data
@@ -494,6 +495,7 @@ cSprite* cSprite::Copy(void) const
     basic_sprite->m_anim_img_end = m_anim_img_end;
     basic_sprite->m_anim_time_default = m_anim_time_default;
     basic_sprite->m_anim_counter = m_anim_counter;
+    basic_sprite->m_anim_last_ticks = m_anim_last_ticks;
     basic_sprite->m_anim_mod = m_anim_mod;
     basic_sprite->m_images = m_images;
     basic_sprite->m_named_ranges = m_named_ranges;
@@ -807,6 +809,12 @@ void cSprite::Clear_Images(void)
 
 void cSprite::Update_Animation(void)
 {
+    // prevent calling twice within the same update cycle
+    if (m_anim_last_ticks == pFramerate->m_last_ticks) {
+        return;
+    }
+    m_anim_last_ticks = pFramerate->m_last_ticks;
+
     // if not valid
     if (!m_anim_enabled || m_anim_img_end == 0) {
         return;

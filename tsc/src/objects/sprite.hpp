@@ -535,6 +535,7 @@ namespace TSC {
         Uint32 m_anim_time_default;
         // animation counter
         Uint32 m_anim_counter;
+        Uint32 m_anim_last_ticks;
         // animation speed modifier
         float m_anim_mod;
 
