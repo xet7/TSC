@@ -304,7 +304,7 @@ void cMushroom::Set_Type(SpriteType new_type)
 
     m_type = new_type;
 
-    Set_Image_Num(0, 1, 0);
+    Set_Image_Num(0, 1);
 }
 
 void cMushroom::Activate(void)
@@ -503,7 +503,7 @@ void cFirePlant::Init(void)
     Add_Image(pVideo->Get_Package_Surface("game/items/fireberry_2.png"));
     Add_Image(pVideo->Get_Package_Surface("game/items/fireberry_3.png"));
 
-    Set_Image_Num(0, 1, 0);
+    Set_Image_Num(0, 1);
 
     m_name = _("Fireberry");
 

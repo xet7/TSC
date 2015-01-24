@@ -70,7 +70,7 @@ void cLava::Init()
 
     // set start image
     Reset_Animation();
-    Set_Image_Num(m_anim_img_start, true, false);
+    Set_Image_Num(m_anim_img_start, true);
 }
 
 void cLava::Update()

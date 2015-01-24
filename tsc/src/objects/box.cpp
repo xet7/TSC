@@ -215,7 +215,7 @@ void cBaseBox::Set_Animation_Type(const std::string& new_anim_type)
 
     Reset_Animation();
     // set start image
-    Set_Image_Num(m_anim_img_start, 1, 0);
+    Set_Image_Num(m_anim_img_start, 1);
 }
 
 void cBaseBox::Set_Useable_Count(int count, bool new_startcount /* = 0 */)
