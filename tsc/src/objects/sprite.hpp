@@ -425,8 +425,8 @@ namespace TSC {
 
         // Update the position rect values
         void Update_Position_Rect(void);
-        // default update
-        virtual void Update(void) {};
+        // default update, derived updates should not call this again if they also call Update_Animation()
+        virtual void Update(void) { Update_Animation(); };
         /* late update
          * use if it is needed that other objects are already updated
         */
@@ -520,6 +520,8 @@ namespace TSC {
         cGL_Surface* m_image;
         /// editor and first image
         cGL_Surface* m_start_image;
+        /// image filename
+        std::string m_image_filename;
 
         // currently set image array number
         int m_curr_img;
