@@ -297,7 +297,6 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
         if (m_state == STA_WALK) {
             DownGrade();
             pLevel_Player->Action_Jump(true);
-            pLevel_Player->m_pos_x += 15; // Ensure the player does not get stuck on one of the small pips
 	    
 	    //Shoot the player up a bit but not too much - this helps prevent him from immediately stomping on a small pip
             pLevel_Player->m_vely = -30.0f;
