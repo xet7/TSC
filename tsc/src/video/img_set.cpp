@@ -322,6 +322,10 @@ void cImageSet::Update_Animation(void)
     if (static_cast<Uint32>(m_anim_counter * m_anim_mod) >= image.m_time) {
         // leave old image
         int branch_target = image.Leave();
+        if (branch_target >= 0) {
+            // add target for next image to the image set starting point
+            branch_target += m_anim_img_start;
+        }
 
         // branch if needed
         if(branch_target >= m_anim_img_start && branch_target <= m_anim_img_end) {
