@@ -24,18 +24,32 @@
 #include "../video/video.hpp"
 
 namespace TSC {
+    /* *** *** *** *** *** *** *** cImageSet_FrameInfo *** *** *** *** *** *** *** *** *** *** */
+    struct cImageSet_FrameInfo {
+        cImageSet_FrameInfo();
+
+        boost::filesystem::path m_filename;
+        Uint32 m_time_min;
+        Uint32 m_time_max;
+
+        typedef std::pair<int, int> Entry_Type;
+        typedef std::vector<Entry_Type> List_Type;
+
+        List_Type m_branches;
+    };
+
     /* *** *** *** *** *** *** *** cImageSet_Parser *** *** *** *** *** *** *** *** *** *** */
     class cImageSet_Parser : public cFile_parser
     {
     public:
-        typedef std::pair<std::string, Uint32> Entry_Type;
-        typedef std::vector<Entry_Type> List_Type;
+        typedef std::vector<cImageSet_FrameInfo> List_Type;
 
         cImageSet_Parser(Uint32 time);
         bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line);
 
         List_Type m_images;
-        Uint32 m_time;
+        Uint32 m_time_min;
+        Uint32 m_time_max;
     };
 
     /* *** *** *** *** *** *** *** cImageSet_Surface *** *** *** *** *** *** *** *** *** *** */
@@ -45,10 +59,17 @@ namespace TSC {
         cImageSet_Surface(void);
         ~cImageSet_Surface(void);
 
+        // enter the frame
+        void Enter(void);
+        // leave a frame, return next frame for branching or -1 
+        int Leave(void);
+
         // the image
         cGL_Surface* m_image;
         // time to display in milliseconds
         Uint32 m_time;
+        // information
+        cImageSet_FrameInfo m_info;
     };
 
 

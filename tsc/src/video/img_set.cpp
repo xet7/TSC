@@ -22,6 +22,7 @@
 #include "../core/file_parser.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../core/math/utilities.hpp"
 #include "../core/global_basic.hpp"
 
 using namespace std;
@@ -30,27 +31,61 @@ namespace fs = boost::filesystem;
 
 namespace TSC {
 
+/* *** *** *** *** *** *** *** cImageSet_FrameInfo *** *** *** *** *** *** *** *** *** *** */
+cImageSet_FrameInfo::cImageSet_FrameInfo()
+{
+    m_time_min = 0;
+    m_time_max = 0;
+}
 
 /* *** *** *** *** *** *** *** cImageSet_Parser *** *** *** *** *** *** *** *** *** *** */
-cImageSet_Parser::cImageSet_Parser(Uint32 time) : m_time(time)
+cImageSet_Parser::cImageSet_Parser(Uint32 time)
+    : m_time_min(time), m_time_max(time)
 {
 }
 
 bool cImageSet_Parser::HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
 {
-    if(count == 1) {
-        // only a filename
-        m_images.push_back(Entry_Type(parts[0], m_time));
+    if(count == 2 && parts[0] == "time") {
+        // set min and max times to same thing
+        m_time_min = m_time_max = string_to_int(parts[1]);
     }
-    else if(count == 2) {
-        if(parts[0] == "time") {
-            // Setting default time for images
-            m_time = string_to_int(parts[1]);
+    else if(count == 3 && parts[0] == "time") {
+        // set min and max times
+        m_time_min = string_to_int(parts[1]);
+        m_time_max = string_to_int(parts[2]);
+    }
+    else if(count > 0) {
+        cImageSet_FrameInfo info;
+
+        // initial values, combine filename with imageset path
+        info.m_filename = data_file.parent_path() / utf8_to_path(parts[0]);
+        info.m_time_min = m_time_min;
+        info.m_time_max = m_time_max;
+
+        // parse the rest
+        for(unsigned int idx = 1; idx < count; idx++)
+        {
+            if(parts[idx] == "time") {
+                if(idx + 2 < count) {
+                    // first is min time, second is max time
+                    info.m_time_min = string_to_int(parts[idx + 1]);
+                    info.m_time_max = string_to_int(parts[idx + 2]);
+                }
+                idx += 2;
+            }
+            else if(parts[idx] == "branch") {
+                if(idx + 2 < count) {
+                    // first is frame number (starting at 0), second is percentage likely to branch
+                    cImageSet_FrameInfo::Entry_Type branch(string_to_int(parts[idx + 1]), string_to_int(parts[idx + 2]));
+                    info.m_branches.push_back(branch);
+                }
+                idx += 2;
+            }
         }
-        else {
-            // filename and a time for that specific image
-            m_images.push_back(Entry_Type(parts[0], string_to_int(parts[1])));
-        }
+
+        // add to list
+        m_images.push_back(info);
     }
 
     return 1;
@@ -69,6 +104,33 @@ cImageSet_Surface::~cImageSet_Surface(void)
     //
 }
 
+void cImageSet_Surface::Enter(void)
+{
+    // set random time for this frame
+    m_time = m_info.m_time_min + rand() % (m_info.m_time_max - m_info.m_time_min + 1);
+}
+
+int cImageSet_Surface::Leave(void)
+{
+    // determine any branching to other frames
+    if(m_info.m_branches.size() == 0)
+        return -1;
+
+    int rnd = rand() % 101;
+    for(cImageSet_FrameInfo::List_Type::iterator it = m_info.m_branches.begin(); it != m_info.m_branches.end(); ++it)
+    {
+        // first is frame number, second is percentage
+        if(rnd <= it->second) {
+            return it->first;
+        }
+
+        // remove that from rnd
+        rnd = rnd - it->second;
+    }
+
+    // no branch
+    return -1;
+}
 
 /* *** *** *** *** *** *** *** cImageSet *** *** *** *** *** *** *** *** *** *** */
 
@@ -99,6 +161,10 @@ void cImageSet::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     cImageSet_Surface obj;
     obj.m_image = image;
     obj.m_time = time;
+
+    // we may not be adding from an image set, so set up some initial information
+    obj.m_info.m_time_min = time;
+    obj.m_info.m_time_max = time;
 
     m_images.push_back(obj);
 }
@@ -142,7 +208,10 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
 
         // Add images
         for(cImageSet_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
-            Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(itr->first)), itr->second);
+            Add_Image(pVideo->Get_Package_Surface(itr->m_filename), itr->m_time_min);
+
+            // update info
+            m_images.back().m_info = *itr;
         }
     }
     end = m_images.size() - 1;
@@ -248,17 +317,26 @@ void cImageSet::Update_Animation(void)
         return;
     }
 
-    cImageSet_Surface image = m_images[m_curr_img];
+    cImageSet_Surface& image = m_images[m_curr_img];
 
     if (static_cast<Uint32>(m_anim_counter * m_anim_mod) >= image.m_time) {
-        if (m_curr_img >= m_anim_img_end) {
+        // leave old image
+        int branch_target = image.Leave();
+
+        // branch if needed
+        if(branch_target >= m_anim_img_start && branch_target <= m_anim_img_end) {
+            Set_Image_Num(branch_target);
+        }
+        else if (m_curr_img >= m_anim_img_end) {
             Set_Image_Num(m_anim_img_start);
         }
         else {
             Set_Image_Num(m_curr_img + 1);
         }
 
+        // enter new image after updating animation counter
         m_anim_counter = static_cast<Uint32>(m_anim_counter * m_anim_mod) - image.m_time;
+        m_images[m_curr_img].Enter();
     }
 
     return;
