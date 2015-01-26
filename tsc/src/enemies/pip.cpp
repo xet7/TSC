@@ -302,8 +302,9 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
             DownGrade();
             pLevel_Player->Action_Jump(true);
 	    
-	    //Shoot the player up a bit but not too much - this helps prevent him from immediately stomping on a small pip
-            pLevel_Player->m_vely = -30.0f;
+            //Move the player up a little bit so that they don't instantaneously stomp on a pip
+            pLevel_Player->m_pos_y -= 5;
+            pLevel_Player->Update_Position_Rect();
 
             // It is very hard to not get hit by the two resulting small pips. Thus,
             // grant the player a short period of invincibility.
