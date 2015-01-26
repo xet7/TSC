@@ -158,6 +158,10 @@ void cPip::DownGrade(bool force /* = false */)
             p_newpip->m_pos_x = m_pos_x + 75;
             p_newpip->m_pos_y = m_pos_y;
 
+            //We just changed pips' positions.  Update the collision rectangles accordingly.
+            Update_Position_Rect();
+            p_newpip ->Update_Position_Rect();
+
             // Accelerate us up-left
             m_velx = -15.0f;
             m_vely = -15.0f;
