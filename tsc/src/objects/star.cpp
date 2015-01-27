@@ -57,8 +57,9 @@ void cjStar::Init(void)
 
     m_velx = 5;
 
-    Add_Image(pVideo->Get_Package_Surface("game/items/star.png"));
-    Set_Image_Num(0, 1);
+    Clear_Images();
+    Add_Image_Set("main", "game/items/star.imgset");
+    Set_Image_Set("main", 1);
 
     m_name = _("Star");
 }
@@ -99,6 +100,7 @@ void cjStar::Update(void)
     if (!m_valid_update || !Is_In_Range()) {
         return;
     }
+    Update_Animation();
 
     // Add Gravitation
     if (m_vely < m_gravity_max) {
