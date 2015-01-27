@@ -151,11 +151,13 @@ void cPip::DownGrade(bool force /* = false */)
         if (m_state == STA_WALK) { // Split big up into two small ones
             Set_Moving_State(STA_RUN);
 
-            // Spawn a second pip so it looks as if cut in twice
+            int big_pip_width = m_images[0].m_image->m_col_w; //Image width of a big pip
+
+            // Spawn a second pip so it looks as if cut in two
             cPip* p_newpip = Copy();
             p_newpip->Set_Spawned(true); // Do not save into level file when editor is activated + saved!
             p_newpip->Set_Moving_State(STA_RUN);
-            p_newpip->m_pos_x = m_pos_x + 75;
+            p_newpip->m_pos_x = m_pos_x + big_pip_width / 2; //Stay within bounds of original big pip
             p_newpip->m_pos_y = m_pos_y;
 
             //We just changed pips' positions.  Update the collision rectangles accordingly.
