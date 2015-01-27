@@ -137,7 +137,7 @@ bool cLevel::New(std::string levelname)
         // search for a not existing file
         while (1) {
             // set name
-            filename = pResource_Manager->Get_User_Level("new_" + int_to_string(i) + ".smclvl");
+            filename = pResource_Manager->Get_User_Level("new_" + int_to_string(i) + ".tsclvl");
             // try to open the file
             ifs.open(filename, ios::in);
 
