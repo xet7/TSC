@@ -407,6 +407,21 @@ to the repository; GitHub allows pull requests in the same
 repository. If your code is not ready yet, prepend a prominent “[WIP]” (=
 Work In Progress) mark to the title.
 
+Once your code has been merged into one of the main development or
+release branches, please delete the old branch on the remote so that
+it doesn’t clutter the branch list anymore:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ git checkout devel
+$ git branch -d yourbranchname
+$ git push origin :yourbranchname
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first command switches your working area away from the branch that
+is going to be deleted, the second command deletes the branch locally,
+and the third command pushes the deletion onto the remote (note the
+colon in the command).
+
 Merging
 -------
 
