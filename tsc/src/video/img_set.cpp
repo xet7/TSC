@@ -184,8 +184,11 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
     start = m_images.size();
     if(path.extension() == utf8_to_path(".png")) {
         // Adding a single image
-        Add_Image(pVideo->Get_Package_Surface(path), time);
         filename = path;
+        cGL_Surface* surface = pVideo->Get_Package_Surface(path);
+        if(surface) {
+            Add_Image(surface, time);
+        }
     }
     else {
         // Parse the animation file
@@ -208,10 +211,13 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
 
         // Add images
         for(cImageSet_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
-            Add_Image(pVideo->Get_Package_Surface(itr->m_filename), itr->m_time_min);
+            cGL_Surface* surface = pVideo->Get_Package_Surface(itr->m_filename);
+            if(surface) {
+                Add_Image(surface, itr->m_time_min);
 
-            // update info
-            m_images.back().m_info = *itr;
+                // update info
+                m_images.back().m_info = *itr;
+            }
         }
     }
     end = m_images.size() - 1;
