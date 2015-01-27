@@ -56,7 +56,7 @@ install to.
 * The DevIL library.
 
 Additionally, TSC needs CEGUI version 0.7.x. However, as this old
-version is not provided by any modern Linux distribution anymore, the
+version is not provided by most modern Linux distributions anymore, the
 build system has been set up to download and compile it on its own and
 then link it in statically. **For Windows** (see below) this does not
 hold true, you have to provide CEGUI 0.7.x libraries yourself (or just
