@@ -351,6 +351,8 @@ void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 *
     for (cImageSet_Surface_List::iterator itr = m_images.begin(); itr != m_images.end(); ++itr) {
         cImageSet_Surface& obj = (*itr);
         obj.m_time = time;
+        obj.m_info.m_time_min = time;
+        obj.m_info.m_time_max = time;
     }
 
     if (default_time) {
