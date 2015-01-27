@@ -84,12 +84,6 @@ void cResource_Manager::Init_User_Directory(void)
     if (!Dir_Exists(m_paths.user_config_dir)) {
         fs::create_directories(m_paths.user_config_dir);
     }
-
-    // For those upgrading from an old version, move their stuff to
-    // the new paths.
-#ifdef __unix__
-    compat_move_directories();
-#endif
 }
 
 fs::path cResource_Manager::Get_Game_Pixmaps_Directory()
@@ -347,102 +341,6 @@ fs::path cResource_Manager::xdg_get_directory(const std::string& envvarname, con
         else
             throw (ConfigurationError("$HOME environment variable is not set!"));
     }
-}
-
-void cResource_Manager::compat_move_directories()
-{
-    char* path = NULL;
-    path = getenv("HOME");
-
-    if (!path)
-        return;
-
-    fs::path olddir = utf8_to_path(path) / utf8_to_path(".smc");
-    if (!fs::exists(olddir))
-        return;
-
-    std::cout << "INFO: Old ~/.smc directory detected. Copying files." << std::endl;
-    fs::directory_iterator end_iter;
-
-    std::cout << "Copying levels." << std::endl;
-    fs::path dir = olddir / utf8_to_path("levels");
-    try {
-        fs::directory_iterator iter(dir);
-        for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-            fs::copy_file(iter->path(), Get_User_Level_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
-    }
-    catch (fs::filesystem_error& error) {
-        if (error.code() != errc::no_such_file_or_directory)
-            throw error;
-        std::cout << "No levels detected." << std::endl;
-    }
-
-    std::cout << "Copying savegames." << std::endl;
-    dir = olddir / utf8_to_path("savegames");
-    try {
-        for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-            fs::copy_file(iter->path(), Get_User_Savegame_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
-    }
-    catch (fs::filesystem_error& error) {
-        if (error.code() != errc::no_such_file_or_directory)
-            throw error;
-        std::cout << "No savegames detected." << std::endl;
-    }
-
-    std::cout << "Copying screenshots." << std::endl;
-    dir = olddir / utf8_to_path("screenshots");
-    try {
-        for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-            fs::copy_file(iter->path(), Get_User_Screenshot_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
-    }
-    catch (fs::filesystem_error& error) {
-        if (error.code() != errc::no_such_file_or_directory)
-            throw error;
-        std::cout << "No screenshots detected." << std::endl;
-    }
-
-    std::cout << "Copying campaigns." << std::endl;
-    dir = olddir / utf8_to_path("campaign"); // sic! The old version had no trailing s.
-    try {
-        for (fs::directory_iterator iter(dir); iter != end_iter; iter++)
-            fs::copy_file(iter->path(), Get_User_Campaign_Directory() / iter->path().filename(), fs::copy_option::overwrite_if_exists);
-    }
-    catch (fs::filesystem_error& error) {
-        if (error.code() != errc::no_such_file_or_directory)
-            throw error;
-        std::cout << "No campaigns detected." << std::endl;
-    }
-
-    std::cout << "Copying worlds." << std::endl;
-    dir = olddir / utf8_to_path("worlds");
-    try {
-        for (fs::directory_iterator iter(dir); iter != end_iter; iter++) {
-            fs::create_directory(Get_User_World_Directory() / iter->path().filename());
-            fs::copy_file(iter->path() / utf8_to_path("description.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("description.xml"), fs::copy_option::overwrite_if_exists);
-            fs::copy_file(iter->path() / utf8_to_path("layer.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("layer.xml"), fs::copy_option::overwrite_if_exists);
-            fs::copy_file(iter->path() / utf8_to_path("world.xml"), Get_User_World_Directory() / iter->path().filename() / utf8_to_path("world.xml"), fs::copy_option::overwrite_if_exists);
-        }
-    }
-    catch (fs::filesystem_error& error) {
-        if (error.code() != errc::no_such_file_or_directory)
-            throw error;
-        std::cout << "No worlds detected." << std::endl;
-    }
-
-    std::cout << "Copying config.xml." << std::endl;
-    try {
-        fs::copy_file(olddir / utf8_to_path("config.xml"), Get_Preferences_File(), fs::copy_option::overwrite_if_exists);
-    }
-    catch (fs::filesystem_error& error) {
-        if (error.code() != errc::no_such_file_or_directory)
-            throw error;
-        std::cout << "No configuration detected." << std::endl;
-    }
-
-    // Leave the cache alone. It will be regenerated anyway.
-
-    std::cerr << "Warning: Removing old ~/.smc directory now." << std::endl;
-    fs::remove_all(olddir);
 }
 #endif
 
