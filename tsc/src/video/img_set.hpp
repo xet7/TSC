@@ -145,6 +145,9 @@ namespace TSC {
             }
         };
 
+        /* Fetch a single image from another image set. */
+        static cGL_Surface* Fetch_Single_Image(const boost::filesystem::path& path, int idx = 0);
+
         // currently set image array number
         int m_curr_img;
         // if animation is enabled

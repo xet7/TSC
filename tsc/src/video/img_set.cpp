@@ -360,6 +360,21 @@ void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 *
     }
 }
 
+/* static */
+cGL_Surface* cImageSet::Fetch_Single_Image(const fs::path& path, int idx /*= 0*/)
+{
+    cSimpleImageSet images;
+
+    // Create the image set, then return the specified frame if it exists
+    if(images.Add_Image_Set("main", path)) {
+        // for a single image set added, the first frame is at 0
+        return images.Get_Image(static_cast<unsigned int>(idx));
+    }
+    else {
+        return NULL;
+    }
+}
+
 /* *** *** *** *** *** *** cSimpleImageSet *** *** *** *** *** *** *** *** *** */
 cSimpleImageSet::cSimpleImageSet()
     : m_image(NULL)
