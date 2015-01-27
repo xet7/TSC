@@ -161,8 +161,8 @@ bool cLevel::New(std::string levelname)
     }
     else {
         // set file type
-        if (filename.extension() != fs::path(".smclvl"))
-            filename.replace_extension(".smclvl");
+        if (filename.extension() != fs::path(".tsclvl"))
+            filename.replace_extension(".tsclvl");
 
         // set user directory, creating an absolute path if necessary
         filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());
@@ -200,7 +200,7 @@ cLevel* cLevel::Load_From_File(fs::path filename)
     cLevelLoader loader;
 
     // new level format
-    if (filename.extension() == fs::path(".smclvl")) {
+    if (filename.extension() == fs::path(".tsclvl")) {
         loader.parse_file(filename);
     }
     else { // old level format
@@ -941,8 +941,8 @@ void cLevel::Set_Filename(fs::path filename, bool rename_old /* = true */)
     }
 
     // add level file type
-    if (filename.extension() != fs::path(".smclvl"))
-        filename.replace_extension(".smclvl");
+    if (filename.extension() != fs::path(".tsclvl"))
+        filename.replace_extension(".tsclvl");
 
     // add level dir if we aren’t absolute yet
     filename = fs::absolute(filename, pPackage_Manager->Get_User_Level_Path());

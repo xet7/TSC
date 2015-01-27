@@ -236,7 +236,7 @@ static mrb_value Get_Camera_Motion(mrb_state* p_state, mrb_value self)
  *
  * #### Parameters
  * name
- * : The name of the new level (without path and without .smclvl extension).
+ * : The name of the new level (without path and without .tsclvl extension).
  */
 static mrb_value Set_Level(mrb_state* p_state, mrb_value self)
 {
@@ -255,7 +255,7 @@ static mrb_value Set_Level(mrb_state* p_state, mrb_value self)
  *   level() → a_string
  *
  * Returns the destination level for this level exit as a string
- * without path and without .smclvl extension.
+ * without path and without .tsclvl extension.
  */
 static mrb_value Get_Level(mrb_state* p_state, mrb_value self)
 {

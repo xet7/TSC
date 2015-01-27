@@ -222,7 +222,7 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     // User specified menu level
     level = pPreferences->m_menu_level;
     if (!level.empty()) {
-        level = level + ".smclvl";
+        level = level + ".tsclvl";
 
         result = Get_User_Level_Path() / level;
         if (fs::exists(result))
@@ -245,7 +245,7 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     if (!m_current_package.empty()) {
         level = m_packages[m_current_package].menu_level;
         if (!level.empty()) {
-            level = level + ".smclvl";
+            level = level + ".tsclvl";
 
             result = Get_User_Level_Path() / level;
             if (fs::exists(result))
@@ -258,7 +258,7 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     }
 
     // Default menu level
-    level = pPreferences->m_menu_level_default + ".smclvl";
+    level = pPreferences->m_menu_level_default + ".tsclvl";
 
     result = pResource_Manager->Get_User_Level_Directory() / level;
     if (fs::exists(result))
@@ -374,7 +374,7 @@ void cPackage_Manager :: Scan_Packages( fs::path base, fs::path path, bool user_
     if(fs::exists(subdir) && fs::is_directory(subdir)) {
         for(fs::directory_iterator dir_iter(subdir) ; dir_iter != end_iter ; ++dir_iter) {
             fs::path entry = dir_iter->path();
-            if(entry.extension() == fs::path(".smcpkg")) {
+            if(entry.extension() == fs::path(".tscpkg")) {
                 // Determine package name and load info
                 Load_Package_Info(entry, user_packages);
             }
