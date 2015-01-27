@@ -49,7 +49,7 @@ void cSavegameLoader::parse_file(fs::path filename)
 {
     m_savefile = filename;
 
-    m_is_old_format = m_savefile.extension() == utf8_to_path(".smcsav") ? false : true;
+    m_is_old_format = m_savefile.extension() == utf8_to_path(".tscsav") ? false : true;
 
     xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 }

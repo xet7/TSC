@@ -76,8 +76,8 @@ cCampaign_Manager::~cCampaign_Manager(void)
 
 void cCampaign_Manager::Load(void)
 {
-    vector<fs::path> user_files = Get_Directory_Files(pResource_Manager->Get_User_Campaign_Directory(), ".smccpn", false, false);
-    vector<fs::path> game_files = Get_Directory_Files(pResource_Manager->Get_Game_Campaign_Directory(), ".smccpn", false, false);
+    vector<fs::path> user_files = Get_Directory_Files(pResource_Manager->Get_User_Campaign_Directory(), ".tsccpn", false, false);
+    vector<fs::path> game_files = Get_Directory_Files(pResource_Manager->Get_Game_Campaign_Directory(), ".tsccpn", false, false);
 
     for (vector<fs::path>::iterator itr = user_files.begin(); itr != user_files.end(); ++itr) {
         fs::path user_campaign_filename = (*itr);

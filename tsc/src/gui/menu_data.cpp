@@ -558,15 +558,15 @@ void cMenu_Start::Get_Levels(fs::path dir, CEGUI::colour color)
     CEGUI::Listbox* listbox_levels = static_cast<CEGUI::Listbox*>(CEGUI::WindowManager::getSingleton().getWindow("listbox_levels"));
 
     // get all files
-    vector<fs::path> lvl_files = Get_Directory_Files(dir, ".smclvl", false, false);
+    vector<fs::path> lvl_files = Get_Directory_Files(dir, ".tsclvl", false, false);
 
     // list all available levels
     for (vector<fs::path>::iterator itr = lvl_files.begin(); itr != lvl_files.end(); ++itr) {
         // get filename without base directory
         fs::path lvl_path = (*itr).filename();
 
-        // erase file extension only if smclvl
-        if (lvl_path.extension() == fs::path(".smclvl"))
+        // erase file extension only if tsclvl
+        if (lvl_path.extension() == fs::path(".tsclvl"))
             lvl_path = lvl_path.stem();
 
         // create listbox item

@@ -165,7 +165,7 @@ fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_
     // user level directory as default
     fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
     // use new file type as default
-    user_filename.replace_extension(".smclvl");
+    user_filename.replace_extension(".tsclvl");
 
     if (File_Exists(user_filename)) {
         // found
@@ -184,7 +184,7 @@ fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_
         fs::path game_filename = fs::absolute(filename, pResource_Manager->Get_Game_Level_Directory());
 
         // use new file type
-        game_filename.replace_extension(".smclvl");
+        game_filename.replace_extension(".tsclvl");
 
         if (File_Exists(game_filename)) {
             // found

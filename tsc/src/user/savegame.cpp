@@ -754,7 +754,7 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
         }
     }
 
-    fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
+    fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav");
     // remove old format savegame
     fs::remove(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save"));
 
@@ -778,7 +778,7 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
 cSave* cSavegame::Load(unsigned int save_slot)
 {
-    fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
+    fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav");
 
     cSave* savegame = NULL; //The save game object read from the save state file
 
@@ -873,7 +873,7 @@ std::string cSavegame::Get_Description(unsigned int save_slot, bool only_descrip
 
 bool cSavegame::Is_Valid(unsigned int save_slot) const
 {
-    return (File_Exists(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav")) || File_Exists(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save")));
+    return (File_Exists(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav")) || File_Exists(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save")));
 }
 
 cSavegame* pSavegame = NULL;
