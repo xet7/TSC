@@ -388,6 +388,9 @@ install(DIRECTORY "${TSC_SOURCE_DIR}/data/sounds/"
 install(DIRECTORY "${TSC_SOURCE_DIR}/data/worlds/"
   DESTINATION share/tsc/worlds
   COMPONENT worlds)
+install(FILES "${TSC_SOURCE_DIR}/docs/man/tsc.6"
+  DESTINATION man/man6
+  COMPONENT base)
 
 foreach(pofile ${po_files})
   get_filename_component(lang ${pofile} NAME_WE)
