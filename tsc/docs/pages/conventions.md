@@ -30,7 +30,7 @@ Code in TSC is indented with 4 spaces, no tabs. Most code editors can
 be configured to automatically insert the required number of spaces
 when you hit the TAB key.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 void foo()
 {
     cool_code();
@@ -43,7 +43,7 @@ License header
 Each file in TSC is required to start with the following license
 header:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 /***************************************************************************
 * <FILENAME>.<cpp/hpp> - <SHORT DESCRIPTION OF THE FILE>
 *
@@ -69,21 +69,21 @@ Copyright © 2014 The TSC Contributors
 
 and you have changed the file in 2015, you can change it like this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 Copyright © 2014-2015 The TSC Contributors
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 If later in 2016 you work again on the file, you can change it like
 this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 Copyright © 2014-2016 The TSC Contributors
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 If nobody worked on the file in 2015, but only in 2014 and 2016, the
 notice has to look like this (note the comma!):
 
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 Copyright © 2014,2016 The TSC Contributors
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -100,7 +100,7 @@ As a difference to Stroustrup style, due to historical reasons class
 names start with a lowercase c, following by the real name in
 Camel_Case.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 class cFoo_Bar {
     // ...
 };
@@ -109,7 +109,7 @@ class cFoo_Bar {
 Nesting classes is OK for indicating a very strong relationship
 between two classes.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 class cPath {
 
     class cSegment {
@@ -131,7 +131,7 @@ historical reasons. Methods in classes are uppercase, both for member
 and static methods, and long names use Camel_Case. Class-independent
 methods (i.e. utility methods) are lowercase.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 class cFoo {
 public:
     void Cool_Method();
@@ -155,7 +155,7 @@ notation.
 In any case, a variable for a pointer should always contain
 "p". Prefixes are combinable. Examples:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 int count; // local variable
 int m_count; // member variable
 static int s_count; // static member variable
@@ -173,7 +173,7 @@ variables. This way, you can be sure in the implementation of your
 class that nobody messes with the variables from the outside in an
 unexpected way.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 class cFoo {
 public:
     int Get_Bar();
@@ -190,7 +190,7 @@ taking advantage of C++’s `inline` keyword that retains the secrecy
 principle and still allows the compiler to optimize the method call
 away:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 class cFoo {
 public:
     inline int Get_Bar(){ return m_bar; }
@@ -220,7 +220,7 @@ The header guards that prevent `#include` from including a header file
 multiple times are of course an exception. Header guard macros in TSC
 should always look like this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 #ifndef TSC_NAMESPACE_CLASS_HPP
 #define TSC_NAMESPACE_CLASS_HPP
 // Code...
@@ -236,7 +236,7 @@ Implementing code that needs to differenciate between multiple
 different operating systems (or other environment-related macros)
 should look like this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 void foo()
 {
 #if defined(_WIN32)
@@ -264,7 +264,7 @@ especially if they get out of sync with the code itself.
 Single and two-line comments use `//`. For comments with three and
 more lines, use `/* */`.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 // Short comment
 
 /* Long comment that explains a more complicated factum that
@@ -284,7 +284,7 @@ Namespace resolution
 Don’t leave spaces around the `::` operator, neither in a definition
 nor in the implementation.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 cFoo :: Bar() // WRONG
 {
 }
@@ -312,7 +312,7 @@ All TSC code is required to be defined under the `TSC` namespace. In
 the header files, always write out `namespace TSC {` in full and
 indent accordingly. In your sourcecode files, add a line
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 using namespace TSC;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
