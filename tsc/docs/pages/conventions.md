@@ -553,6 +553,110 @@ $ git commit --author="jonny <john.doe@example.com>"
 Ensure that you add the full real name with nickname mapping to
 `docs/authors.txt` as outlined already.
 
+Signoff
+-------
+
+There are times when you want to commit something into the main
+development branch from which you don’t really know whether it’s
+legally acceptable. Take for example a graphic that has
+been sent to the mailinglist with the goal to get it included into the
+game. Due to timing constraints, nobody answers the contribution, and
+when three days later someone comes around and reviews it and finds it
+good, the author has disappeared and is not catchable anymore. The
+graphic is awesome, but the contribution email did not include any
+license information. Now, if you decide to add it into one of
+the main branches, it will fall back on you in case of possible legal
+problems following. You probably don’t want that. So, what do do?
+
+The hierarchy in open-source projects is usually very flat. Some
+structures, though, are inevitable. One of them is the project
+leadership, which includes the burden to finally decide on all
+problems that cannot be answered by the team in a collective mannor
+for whatever reason. Unless a lawyer joins the team, this also
+includes the final decision on legal questions regarding
+contributions. Thus, the answer to the above question is to have the
+project lead or the project assistant lead “signoff” your commit. With
+the signoff, **the person who does the signoff certifies that to the
+best of his knowledge the contribution is legally OK**.
+
+The submission procedure for a signoff request is as follows. Extract
+the legally fragile content in such a way you can add it in as a
+single commit. If it’s a code patch in Git format, that has already
+been done for you. If it isn’t, you have to construct a patch in Git
+format by first including and commiting the contribution as usual (if
+required, under use of the `--author` option as described above). Then
+create the Git patch:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ git format-patch HEAD~1
+$ git reset --hard HEAD~1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This creates a `.patch` file in the current working directory and then
+immediately removes the commit from the Git history so you don’t
+accidentally push it onto the remote. Send the patch file to one of
+the persons mentioned above by email or post it on the tracker.
+
+This is all you have to do; the project lead/assistant lead will keep
+track of the rest. For reference, what he’ll be doing is the
+following: First, he will carefully check if the contribution is
+legally safe. If he comes to the result it isn’t, it will not get
+in. Period. If he is sure all is well, then he will add the patch back
+in using the `git am` command. Then he will do the classic signoff
+command:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ git commit --amend --gpg-sign=THEGPGKEYID --signoff
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This keeps the `author` metadata information and additionally adds
+`signoff` metadata information. The `signoff` information will then be
+set to the person who did the signoff (i.e. the project lead/assistant
+lead). Afterwards, an ordinary `git push` will follow to add the
+signed-off commit to the remote repository.
+
+The signoff procedure has the purpose of handing the bloat load of the
+legal question off to someone different so you don’t have to deal with
+details you don’t know how to deal with. It’s *not* a way to get any
+weirdly licensed code into the project codebase; the maintainer doing
+the signoff still has to check the legal circumstances and may well
+reject the contribution if he isn’t certain about permission. The
+maintainer doing the signoff also will not necessarily check the
+contribution semantically; whether it solves an important problem or
+has a good code quality is not checked. The signoff procedure solely
+focuses on the legal aspect; it is on you as a developer to check the
+contribution matches the conventions layed down in this document. If
+you want to initiate a technical peer-review of the contribution, file
+a usual pull request again the target branch.
+
+### Third party’s pull request ###
+
+If you have to deal with an entire pull request full of questionable
+stuff that’s a problem. Signing off all the commits in the PR is
+not practicable; thus the pull request has to be squashed into one
+single commit the reviewer can sign off. You might be able to do it
+like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ git pull git://git.example.com thebranch
+$ git reset <initial commit>
+$ git add .
+$ git commit --amend -m "Squashed version of git://git.example.com thebranch"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Replace `<initial commit>` with the initial commit of the target
+branch, which you can find by using a tool that displays Git
+history graphically such as `gitk`. The `reset` command will
+discard all the commits apart from the branch’s initial commit, but
+leave the changes in the working directory. Using `git commit
+--amend`, you overwrite the initial commit of the branch with the
+contents of the working directory. The commit message you use should
+contain the URL where you pulled from originally. Also ensure the
+author information of that commit is correct.
+
+Now you have a single commit you can apply the above procedure to
+(i.e. `format-patch`, etc.).
+
 Documentation
 -------------
 
