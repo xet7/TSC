@@ -443,14 +443,19 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
     }
     // V2.0.0-beta6 and lower: green small pipes were replaced with grey small pipes.
     // Thus any image with a green/small directory must be replaced with a grey/small directory.
-    if (engine_version < 44)
-    {
+    if (engine_version < 44) {
         attributes.relocate_image("pipes/green/small/up.png",    "pipes/grey/small/up.png");
         attributes.relocate_image("pipes/green/small/left.png",  "pipes/grey/small/left.png");
         attributes.relocate_image("pipes/green/small/right.png", "pipes/grey/small/right.png");
         attributes.relocate_image("pipes/green/small/down.png", "pipes/grey/small/down.png");
         attributes.relocate_image("pipes/green/small/ver.png",   "pipes/grey/small/ver.png");
         attributes.relocate_image("pipes/green/small/hor.png",   "pipes/grey/small/hor.png");
+    }
+    // V2.0.0-beta7 and lower: for statue background objects, fireplant.png was renamed to fireberry.png,
+    // and mushroom.png was renamed to berry.png
+    if (engine_version < 45) {
+        attributes.relocate_image("ground/castle_1/statue/objects/fireplant.png", "ground/castle_1/statue/objects/fireberry.png");
+        attributes.relocate_image("ground/castle_1/statue/objects/mushroom.png",  "ground/castle_1/statue/objects/berry.png");
     }
 
     // always: fix sprite with undefined massive-type
