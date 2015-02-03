@@ -195,11 +195,11 @@ cLevel* cLevel::Load_From_File(fs::path filename)
     // This is our loader
     cLevelLoader loader;
 
-    // new level format
-    if (filename.extension() == fs::path(".tsclvl")) {
+    // supported level format
+    if (filename.extension() == fs::path(".tsclvl")  || filename.extension() == fs::path(".smclvl")) {
         loader.parse_file(filename);
     }
-    else { // old level format
+    else { // old, unsupported level format
         pHud_Debug->Set_Text(_("Unsupported Level format : ") + (const std::string)path_to_utf8(filename));
         return NULL;
     }

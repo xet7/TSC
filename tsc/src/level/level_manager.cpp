@@ -164,7 +164,7 @@ fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_
 
     // user level directory as default
     fs::path user_filename = fs::absolute(filename, pResource_Manager->Get_User_Level_Directory());
-    // use new file type as default
+    // use new TSC file type as default
     user_filename.replace_extension(".tsclvl");
 
     if (File_Exists(user_filename)) {
@@ -172,7 +172,15 @@ fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_
         return user_filename;
     }
 
-    // use old file type
+    // use old SMC file type
+    user_filename.replace_extension(".smclvl");
+
+    if (File_Exists(user_filename)) {
+        // found
+        return user_filename;
+    }
+
+    // use very old file type
     user_filename.replace_extension(".txt");
 
     if (File_Exists(user_filename)) {
@@ -181,9 +189,10 @@ fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_
     }
 
     if (!check_only_user_dir) {
+        //Next try the game data directory
         fs::path game_filename = fs::absolute(filename, pResource_Manager->Get_Game_Level_Directory());
 
-        // use new file type
+        // use new TSC file type
         game_filename.replace_extension(".tsclvl");
 
         if (File_Exists(game_filename)) {
@@ -191,7 +200,15 @@ fs::path cLevel_Manager::Get_Path(const std::string& levelname, bool check_only_
             return game_filename;
         }
 
-        // use old file type
+        // use old SMC file type
+        game_filename.replace_extension(".smclvl");
+
+        if (File_Exists(game_filename)) {
+            // found
+            return game_filename;
+        }
+
+        // use very old file type
         game_filename.replace_extension(".txt");
 
         if (File_Exists(game_filename)) {
