@@ -14,6 +14,64 @@ manual](https://www.gnu.org/software/gettext/manual/gettext.html). It
 will explain to you the problems and best practises of
 internationalization and make you familiar with the Gettext toolchain.
 
+Prerequisites
+-------------
+
+For translating, you will need the following things:
+
+1. Git
+2. A Git checkout of the game’s repository.
+3. Ruby 1.9 or later with Rake installed
+4. A text editor
+
+### Git ###
+
+Install the `git` or `git-core` package from your Linux distribution’s
+repositories.
+
+### Git checkout ###
+
+TSC uses multiple branches for development so you have to decide on
+which branch you want to work on. In short, the `devel` branch is an
+ever-changing target, because it contains the most recent additions to
+the source code that will change translation strings all the
+time. Therefore, if a `release-X.X.X` branch exists (where the Xes are
+numbers), it is recommended to do translation work on that branch. You
+can view the available branches [on the online repository
+viewer](https://github.com/Secretchronicles/TSC).
+
+Once you have decided on the branch to work on, open up a console and
+run the following commands:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ git clone git://github.com/Secretchronicles/TSC.git
+$ cd TSC
+$ git checkout branchname
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+where you replace `branchname` with the name of the branch you want to
+work on, e.g. `release-2.0.0`.
+
+### Ruby with rake ###
+
+Install the `ruby` and `rake` packages from your Linux distribution’s
+repositories. Debian has a package named `ruby-full` that is
+preferred as it pulls in Rake automatically.
+
+### Text editor ###
+
+The format used by Gettext for translations is known as “PO”. It’s a
+_plaintext_ format and as such can be edited with any editor. However,
+it follows a distinct structure that, if violated, makes the
+translation file unusable for the developers. It is therefore
+recommended that you install a specialised PO editor that
+automatically ensures that you don’t screw the format up. A very good
+start is a tool named [Poedit](http://poedit.net/), which should be
+available in the repositories of all major Linux distributions. If you
+already know [Emacs](https://www.gnu.org/software/emacs/), there’s a
+special [`po-mode` available](http://www.emacswiki.org/emacs/PoMode)
+for it.
+
 Glossary
 --------
 
@@ -58,8 +116,9 @@ If for example you want to update the Spanish locale, you want to work
 on the `es.po` file. The first thing to do is to bring it up to date
 with the master `.pot` template file, which you can do either by
 calling the `msgmerge` program directly or (recommended) by relying on
-the Rake tasks the developers defined for you. Change to the directory
-containing the `.po` files and execute this:
+the Rake tasks the developers defined for you. Open a commandline
+window, change to the directory containing the `.po` files (in the TSC
+source tree, this is `tsc/data/translations/`) and execute this:
 
 ~~~~~~~~~~~~~~~~~~~~
 $ rake es.po
@@ -67,31 +126,28 @@ $ rake es.po
 ~~~~~~~~~~~~~~~~~~~~
 
 Now the `es.po` file is up-to-date and you can start working on
-it. This is possible with any editor you are comfortable with, but
-there are specialized PO editors such as [Poedit](http://poedit.net/)
-or [Emacs with `po-mode`](https://www.gnu.org/software/emacs/) that
-will prevent you from violating the PO format accidentally.
+it. Please use a specialised PO Editor for this as outlined above.
 
 The first thing you have to do when working with a `.po` file for the
 first time is adapting the PO header, i.e. the translation for the
 first `msgid` string right at the top (the one that starts with
 `Project-Id-Version`). The first four fields (until
 `PO-Revision-Date`) are usually updated by the toolchain and/or your
-PO editor, so you should not care about them (especially, **never**
-change `POT-Creation-Date` and `Project-Id-Version`). The other fields
-might need modification to properly instruct Gettext’s localisation
+PO editor, so you should not care about them. The other fields might
+need modification to properly instruct Gettext’s localisation
 routines. Most importantly, set the `Language` field to your locale’s
 two or four-letter code and set `Content-Type` to `text/plain;
 charset=UTF-8` unless you have a very good reason to not use UTF-8 for
-your translations. Next you have to tell Gettext how your language
-handles pluralization by adding a `Plural-Forms` field to the PO
-header as described under section 11.2.6 "Additional functions for
-plural forms" of the Gettext manual (skip the part that talks about
-the functions, and start with the paragraph that starts with "Now, how
-do these functions solve the problem of the plural forms?"). That
-section contains a list of useful `Plural-Forms` declarations you can
-use. Reading the manual, you find that the `Plural-Forms` declaration
-for Spanish is explicitely mentioned there as follows:
+your translations (there’s never a good reason to not use UTF-8). Next
+you have to tell Gettext how your language handles pluralization by
+adding a `Plural-Forms` field to the PO header as described under
+section 11.2.6 "Additional functions for plural forms" of the Gettext
+manual (skip the part that talks about the functions, and start with
+the paragraph that starts with "Now, how do these functions solve the
+problem of the plural forms?"). That section contains a list of useful
+`Plural-Forms` declarations you can use. Reading the manual, you find
+that the `Plural-Forms` declaration for Spanish is explicitely
+mentioned there as follows:
 
 ~~~~~~~~~~~~~~~~~~~~
 Plural-Forms: nplurals=2; plural=n != 1;
@@ -103,7 +159,7 @@ your language’s pluralisation rules very good.
 
 Once done, your PO header should look something like this:
 
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~{.po}
 "Project-Id-Version: The Secret Chronicles of Dr. M.\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-30 21:36+0200\n"
@@ -147,7 +203,7 @@ Special cases
 
 Usually the strings to translate look like this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.po}
 #: ../../src/gui/menu_data.cpp:1585
 msgid "Enable to play Sounds."
 msgstr "Aktiviere um Sounds abzuspielen."
@@ -157,7 +213,7 @@ msgstr "Aktiviere um Sounds abzuspielen."
 your translation. Occasionally, however, you encounter strings that
 look like this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.po}
 #. TRANS: Key on a keyboard
 #: ../../src/gui/menu_data.cpp:1634
 msgid "Key"
@@ -170,7 +226,7 @@ information that may be useful for translation.
 
 Or you may find something like this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ po
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.po}
 #: ../../src/gui/menu_data.cpp:1632 ../../src/gui/menu_data.cpp:1755
 msgctxt "action"
 msgid "Name"
@@ -178,23 +234,38 @@ msgstr "Name"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `msgcxt` lines denote a context in which a word is used. They are used
-when the same word (in English) is used with different cases, so that
-translators can translate the same word differently depending on the
-context.
+when the same word (in English) is used in different situations
+(e.g. “game” may either mean playing something, or animals in hunting
+terminology — not that this is used in TSC, but I wanted to give an
+example), so that translators can translate the same word differently
+depending on the context.
 
 Sending your translation upstream
 ---------------------------------
 
-If you want your translation to be included into official TSC, please
-do one of the following:
+Any translation is greatly appreciated. It is impossible for us
+developers to translate the game in all the languages out there in the
+world, so please _do_ submit your translation! You can do it in one of
+the following ways:
 
-* Open an issue ticket or pull request at
+* Post to the forums at http://forum.secretchronicles.de
+* Open an issue ticket or pull request on the tracker at
   https://github.com/Secretchronicles/TSC/issues
-* Post to the forums at http://tsc.quintilianus.eu
-* Write an email to me: quintus@quintilianus.eu
+* Write an email to the [mailinglist](http://lists.secretchronicles.de/).
 
-Appendix A: Generating the POT file
----------------------------------
+If you don’t submit through the forum (where the following is covered
+by the forum rules) or the mailinglist (same there), please
+explicitely state something like “I license my translation as
+CC-BY 4.0” so that we have certainty over the legal situation.
+
+Appendix
+--------
+
+The following sections are partly informational and partly for
+reference by developers. As a translator, you don’t have to care about
+them.
+
+### Appendix A: Generating the POT file ###
 
 Use this to have `xgettext` scan through TSC’s sources and update the
 `.pot` file:
@@ -203,8 +274,7 @@ Use this to have `xgettext` scan through TSC’s sources and update the
 $ rake potfile
 ~~~~~~~~~~~~~~~~~~~~
 
-Appendix B: Guidelines for developers
--------------------------------------
+### Appendix B: Guidelines for developers ###
 
 Rule No. 1: Read the [Gettext manual](https://www.gnu.org/software/gettext/manual).
 
@@ -213,7 +283,7 @@ for retrieving the translations, don’t call gettext() directly, or
 your strings will not be found by `xgettext`. If for example you want
 to make "Hello, world" translatable, this is how it would look like:
 
-~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~{.cpp}
 std::cout << _("Hello, world") << std::endl;
 ~~~~~~~~~~~~~~~~~~
 
@@ -232,7 +302,7 @@ and a plural version for English, and Gettext will use that
 information to allow the translator to use any number of plurals he
 needs:
 
-~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~{.cpp}
 printf(PL_("You found one item", "You found %d items", item_count), item_count);
 puts("\n");
 ~~~~~~~~~~~~~~~~~~
@@ -245,7 +315,7 @@ buffer large enough, because the target language may use significantly
 more bytes for the same message as English (think especially non-latin
 based languages).
 
-~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~{.cpp}
 char buf[500];
 sprintf(buf, _("I greet %d people"), num_people);
 
@@ -257,7 +327,7 @@ word is not clear enough or where you think adding information may
 prove useful for the translators. `rake potfile` intructs `xgettext`
 to add these comments right before the next `msgid` it encounters:
 
-~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~{.cpp}
 // TRANS: "Key" as in "keyhole", not as in "keyboard"
 std::cout << _("Select key:");
 ~~~~~~~~~~~~~~~~~~
@@ -272,7 +342,7 @@ language. "Game" for example may be used as in "playing", or as in
 is "Spiel" and the one for the latter use is "Wild". Contexts are
 easily set up by using the `C_()` macro instead of `_()`.
 
-~~~~~~~~~~~~~~~~~~ c++
+~~~~~~~~~~~~~~~~~~{.cpp}
 std::cout << C_("playing", "game") << std::endl;
 std::cout << C_("hunting", "game") << std::endl;
 ~~~~~~~~~~~~~~~~~~
