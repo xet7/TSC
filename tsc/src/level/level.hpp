@@ -179,6 +179,8 @@ namespace TSC {
         cSprite_Manager* m_sprite_manager;
         // MRuby interpreter used for this level
         Scripting::cMRuby_Interpreter* m_mruby;
+        // Do not re-Init() on sublevel loading.
+        bool m_mruby_has_been_initialized;
 
         /* *** *** *** Settings *** *** *** *** */
 
