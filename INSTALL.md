@@ -80,6 +80,31 @@ TSC on Ubuntu Linux 14.04:
 * For generating a setup installer:
   * The NSIS tools.
 
+Configuration options
+---------------------
+
+This section describes possible configuration you may apply before
+building. If you just want to build the game, you can skip it. If you
+want custom configuration or want to package it for e.g. a Linux
+distribution, read on.
+
+You may pass the following optional variables to the `cmake` command:
+
+* `FIXED_DATA_DIR=/some/dir`: Overrides the default installation path for the
+  game data with this fixed directory.
+* `BINARY_DIR=/some/dir`: Overrides the default installation path for
+  the game binary.
+
+Especially if you are packaging, you will most likely also find it
+useful to execute the install step like this:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make DESTDIR=/some/dir install
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This will shift the file system root for installation to `/some/dir`
+so that all pathes you gave to `cmake` will be below that path.
+
 Installing from a released tarball
 ----------------------------------
 
