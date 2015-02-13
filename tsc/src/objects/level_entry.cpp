@@ -270,6 +270,7 @@ void cLevel_Entry::Activate(void)
         pLevel_Player->m_pos_z = player_posz;
         // set state back
         pLevel_Player->m_state = player_state;
+        pLevel_Player->Set_Warping(false); // Release kill protection for warps
 
         if (m_direction == DIR_RIGHT || m_direction == DIR_LEFT) {
             pLevel_Player->Set_Rotation_Z(0);

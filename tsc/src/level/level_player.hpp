@@ -268,6 +268,10 @@ namespace TSC {
         // Clear return items off the stack.
         void Clear_Return(void);
 
+        // If enabled, prevents the player from dying if he is below the level X axis.
+        inline void Set_Warping(bool enable = true){m_is_warping = enable;}
+        inline bool Get_Warping(){return m_is_warping;}
+
         // current Maryo type
         Maryo_type m_maryo_type;
         //  Maryo type after the temporary powerup
@@ -342,6 +346,8 @@ namespace TSC {
         cMovingSprite* m_active_object;
         // direction when ducking started ( for the anti stuck under a block test )
         ObjectDirection m_duck_direction;
+        // Are we going through a level exit/level entry right now?
+        bool m_is_warping;
 
         // default position
         static const float m_default_pos_x;
