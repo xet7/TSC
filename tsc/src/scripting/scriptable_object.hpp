@@ -29,14 +29,18 @@ namespace TSC {
             cScriptable_Object();
             virtual ~cScriptable_Object();
 
-            void clear_event_handlers();
+            void clear_event_handlers(const std::string& levelname = "");
             void register_event_handler(const std::string& evtname, mrb_value callback);
             std::vector<mrb_value>::iterator event_handlers_begin(const std::string& evtname);
             std::vector<mrb_value>::iterator event_handlers_end(const std::string& evtname);
 
         protected:
-            /// Mapping of event names and registered callbacks.
-            std::map<std::string, std::vector<mrb_value> > m_callbacks;
+            /// Mapping of level + event names and registered callbacks.
+            /// Example in ruby syntax:
+            /// {"mylevel" => {"myevent" => [handle1, handle2]}, "mevent2" => ["handle3"]}
+            std::map<std::string, std::map<std::string, std::vector<mrb_value> > > m_callbacks;
+        private:
+            std::string get_active_level_name();
         };
     };
 };
