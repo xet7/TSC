@@ -36,6 +36,7 @@ set(TSC_VERSION_POSTFIX "beta7+")
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
 option(ENABLE_NLS "Enable translations and localisations" ON)
 set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having TSC determine it dynamically.")
+set(BINARY_DIR "" CACHE FILEPATH "Enforce a path to install the binary to. If you use this, you MUST also set FIXED_DATA_DIR.")
 
 #FIXME: Actually use ENABLE_MRUBY
 
@@ -348,16 +349,30 @@ else()
     )
 endif()
 
-# Installation instructions
+# User-definable installation variables
 unset(sharedir)
 if (NOT("${FIXED_DATA_DIR}" STREQUAL ""))
   set(sharedir "${FIXED_DATA_DIR}")
 else()
   set(sharedir share/tsc)
 endif()
+unset(binary_dir)
+if (NOT("${BINARY_DIR}" STREQUAL ""))
+  set(binary_dir "${BINARY_DIR}")
+else()
+  set(binary_dir bin)
+endif()
 
+message(STATUS "----- Path configuration -----")
+message(STATUS "Install prefix:   ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Data directory:   ${sharedir}")
+message(STATUS "Binary directory: ${binary_dir}")
+message(STATUS "(relative pathes are relative to the install prefix)")
+message(STATUS "------------------------------")
+
+# Installation instructions
 install(TARGETS tsc
-  DESTINATION bin
+  DESTINATION ${binary_dir}
   COMPONENT base)
 install(DIRECTORY "${TSC_SOURCE_DIR}/data/campaigns/" # Note trailing slash for content copy
   DESTINATION ${sharedir}/campaigns
