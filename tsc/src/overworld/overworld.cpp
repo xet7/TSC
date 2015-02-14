@@ -728,7 +728,7 @@ cWaypoint* cOverworld::Get_Waypoint(unsigned int num)
 int cOverworld::Get_Level_Waypoint_Num(std::string level_name)
 {
     // erase file type if set
-    if (level_name.rfind(".txt") != std::string::npos || level_name.rfind(".tsclvl") != std::string::npos) {
+    if (level_name.rfind(".txt") != std::string::npos || level_name.rfind(".smclvl") != std::string::npos || level_name.rfind(".tsclvl") != std::string::npos) {
         level_name.erase(level_name.rfind("."));
     }
 
