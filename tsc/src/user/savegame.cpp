@@ -757,7 +757,7 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
     fs::path filename = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav");
     // remove old format savegame files
     fs::remove(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save"));
-    fs::remove(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smclvl"));
+    fs::remove(m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav"));
 
     try {
         savegame->Write_To_File(filename);
