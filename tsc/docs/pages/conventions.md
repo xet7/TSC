@@ -1,8 +1,8 @@
 Coding conventions
 ==================
 
-This file documents the coding conventions used in TSC. If you plan on
-contributing to the game, please read this.
+This file documents the coding and other procedural conventions used
+in TSC. If you plan on contributing to the game, please read this.
 
 The general style used for TSC’s codebase is the [Stroustrup
 style][1]. For any formatting questions, you should therefore read
@@ -15,6 +15,8 @@ picked up by Emacs when you edit the sourcecode, so you don’t have to
 worry about changing the indentation and other style settings
 manually. Stil, a style file doesn’t lift the burden of properly
 formatting the code, it is just a help.
+
+\tableofcontents
 
 File names
 ----------
@@ -721,6 +723,49 @@ bool cFoo::Bar(int x, int y, int count)
     // Code...
 }
 \endverbatim
+
+Non-code contributions
+----------------------
+
+If you are contributing assets other than source code, you have to
+explicitely state the license for your asset at a place that is not
+the project’s Git repository itself. If you are not a team member,
+this is usually easy because you have to file a ticket on the tracker
+or email or otherwise contact the team, and in this contact message
+you can simply state your licensing terms. It is recommended to
+license non-code contributions as CC-BY 4.0 or later to ensure we can
+use and modify the asset.
+
+If you are a team member, you have Git access. Just committing the
+assets to the Git repository may be a bit of a temptation, but you
+should not do that, at least not only do that, because there needs to
+be some kind of licensing confirmation outside of the Git
+repository. It is recommended to file a new Pull Request for the
+graphics you want to include and state your licensing terms
+there. After you did that, you can merge the Pull Request yourself or
+wait for someone else from the team to review and merge it. Might be
+good to have discussion regarding new assets anyway. The recommended
+workflow that eases this process looks like this:
+
+1. Create a new branch for your assets that branches off the current
+   release branch, if any, or the `devel` branch.
+2. Create the assets in one or more commits, as you see fit.
+3. File a public Pull Request on GitHub against the branch you
+   branched off the assets branch.
+4. In the Pull Request, state the licensing.
+5. Optionally, have some discussions with the other team members over
+   the new assets.
+6. Merge the Pull Request.
+7. Delete the asset branch.
+
+For the curious: The explicit licensing statement is not needed for
+source code, because TSC’s code is only licensed as GPLv3+. This means
+that if you add to it, you are forced to license your code as GPLv3+
+as well, because any different licensing would be a copyright
+infringement. Graphics, music, and other assets are not part of the
+source code, but new works on their own, without the GPL expanding to
+them. That is why the team needs a licensing confirmation on non-code
+assets.
 
 Miscellanea
 -----------
