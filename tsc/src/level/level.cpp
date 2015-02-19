@@ -196,11 +196,11 @@ cLevel* cLevel::Load_From_File(fs::path filename)
     // This is our loader
     cLevelLoader loader;
 
-    // new level format
-    if (filename.extension() == fs::path(".tsclvl")) {
+    // supported level format
+    if (filename.extension() == fs::path(".tsclvl")  || filename.extension() == fs::path(".smclvl")) {
         loader.parse_file(filename);
     }
-    else { // old level format
+    else { // old, unsupported level format
         pHud_Debug->Set_Text(_("Unsupported Level format : ") + (const std::string)path_to_utf8(filename));
         return NULL;
     }
@@ -357,8 +357,12 @@ void cLevel::Save(void)
         m_level_filename = fs::absolute(m_level_filename, pResource_Manager->Get_User_Level_Directory());
     }
 
+    //Force all levels to save with the .tsclvl extension
+    fs::path tsc_level_filename = m_level_filename;
+    tsc_level_filename.replace_extension(".tsclvl");
+
     try {
-        Save_To_File(m_level_filename);
+        Save_To_File(tsc_level_filename);
     }
     catch (xmlpp::exception& e) {
         std::cerr << "Error: Couldn't save level file: " << e.what() << std::endl;
@@ -367,6 +371,15 @@ void cLevel::Save(void)
 
         // Abort
         return;
+    }
+
+    //If the file originally had .smclvl for the extension and if the .tsclvl save was successful, remove the old
+    //.smclvl file.
+    if (m_level_filename.extension().string() == ".smclvl") {
+        if (fs::exists(m_level_filename) && fs::exists(tsc_level_filename)) {
+            fs::remove(m_level_filename);
+        }
+        m_level_filename.replace_extension(".tsclvl");
     }
 
     // Display nice completion message
