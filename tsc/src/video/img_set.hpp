@@ -176,6 +176,31 @@ namespace TSC {
 
     };
 
+    /* *** *** *** *** *** *** cSimpleImageSet *** *** *** *** *** *** *** *** *** */
+
+    class cSimpleImageSet : public cImageSet {
+    public:
+        // ctor
+        cSimpleImageSet();
+        // dtor
+        virtual ~cSimpleImageSet();
+
+        // store identity
+        inline void Set_Identity(const std::string& identity) {
+            m_identity = identity;
+        }
+
+        // return identity
+        virtual std::string Get_Identity(void);
+        // set the current imageset image
+        virtual void Set_Image_Set_Image(cGL_Surface* new_image, bool new_startimage = 0);
+
+        // identity
+        std::string m_identity;
+        // image
+        cGL_Surface* m_image;
+    };
+
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace TSC

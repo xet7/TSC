@@ -360,6 +360,26 @@ void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 *
     }
 }
 
+/* *** *** *** *** *** *** cSimpleImageSet *** *** *** *** *** *** *** *** *** */
+cSimpleImageSet::cSimpleImageSet()
+    : m_image(NULL)
+{
+}
+
+cSimpleImageSet::~cSimpleImageSet()
+{
+}
+
+std::string cSimpleImageSet::Get_Identity(void)
+{
+    return m_identity;
+}
+
+void cSimpleImageSet::Set_Image_Set_Image(cGL_Surface* new_image, bool new_startimage /*=0*/)
+{
+    m_image = new_image;
+}
+
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace TSC
