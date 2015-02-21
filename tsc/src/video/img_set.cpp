@@ -30,20 +30,20 @@ namespace fs = boost::filesystem;
 
 namespace TSC {
 
-/* *** *** *** *** *** *** *** cImageSet_FrameInfo *** *** *** *** *** *** *** *** *** *** */
-cImageSet_FrameInfo::cImageSet_FrameInfo()
+/* *** *** *** *** *** *** *** cImageSet::FrameInfo *** *** *** *** *** *** *** *** *** *** */
+cImageSet::FrameInfo::FrameInfo()
 {
     m_time_min = 0;
     m_time_max = 0;
 }
 
-/* *** *** *** *** *** *** *** cImageSet_Parser *** *** *** *** *** *** *** *** *** *** */
-cImageSet_Parser::cImageSet_Parser(Uint32 time)
+/* *** *** *** *** *** *** *** cImageSet::Parser *** *** *** *** *** *** *** *** *** *** */
+cImageSet::Parser::Parser(Uint32 time)
     : m_time_min(time), m_time_max(time)
 {
 }
 
-bool cImageSet_Parser::HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
+bool cImageSet::Parser::HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
 {
     if(count == 2 && parts[0] == "time") {
         // set min and max times to same thing
@@ -55,7 +55,7 @@ bool cImageSet_Parser::HandleMessage(const std::string* parts, unsigned int coun
         m_time_max = string_to_int(parts[2]);
     }
     else if(count > 0) {
-        cImageSet_FrameInfo info;
+        FrameInfo info;
 
         // initial values, combine filename with imageset path
         info.m_filename = data_file.parent_path() / utf8_to_path(parts[0]);
@@ -76,7 +76,7 @@ bool cImageSet_Parser::HandleMessage(const std::string* parts, unsigned int coun
             else if(parts[idx] == "branch") {
                 if(idx + 2 < count) {
                     // first is frame number (starting at 0), second is percentage likely to branch
-                    cImageSet_FrameInfo::Entry_Type branch(string_to_int(parts[idx + 1]), string_to_int(parts[idx + 2]));
+                    FrameInfo::Entry_Type branch(string_to_int(parts[idx + 1]), string_to_int(parts[idx + 2]));
                     info.m_branches.push_back(branch);
                 }
                 idx += 2;
@@ -90,33 +90,33 @@ bool cImageSet_Parser::HandleMessage(const std::string* parts, unsigned int coun
     return 1;
 }
 
-/* *** *** *** *** *** *** *** cImageSet_Surface *** *** *** *** *** *** *** *** *** *** */
+/* *** *** *** *** *** *** *** cImageSet::Surface *** *** *** *** *** *** *** *** *** *** */
 
-cImageSet_Surface::cImageSet_Surface(void)
+cImageSet::Surface::Surface(void)
 {
     m_image = NULL;
     m_time = 0;
 }
 
-cImageSet_Surface::~cImageSet_Surface(void)
+cImageSet::Surface::~Surface(void)
 {
     //
 }
 
-void cImageSet_Surface::Enter(void)
+void cImageSet::Surface::Enter(void)
 {
     // set random time for this frame
     m_time = m_info.m_time_min + rand() % (m_info.m_time_max - m_info.m_time_min + 1);
 }
 
-int cImageSet_Surface::Leave(void)
+int cImageSet::Surface::Leave(void)
 {
     // determine any branching to other frames
     if(m_info.m_branches.size() == 0)
         return -1;
 
     int rnd = rand() % 101;
-    for(cImageSet_FrameInfo::List_Type::iterator it = m_info.m_branches.begin(); it != m_info.m_branches.end(); ++it)
+    for(FrameInfo::List_Type::iterator it = m_info.m_branches.begin(); it != m_info.m_branches.end(); ++it)
     {
         // first is frame number, second is percentage
         if(rnd <= it->second) {
@@ -157,7 +157,7 @@ void cImageSet::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
         time = m_anim_time_default;
     }
 
-    cImageSet_Surface obj;
+    Surface obj;
     obj.m_image = image;
     obj.m_time = time;
 
@@ -197,7 +197,7 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
             return false;
         }
 
-        cImageSet_Parser parser(time);
+        Parser parser(time);
         if(!parser.Parse(path_to_utf8(filename))) {
             cerr << "Warning: Unable to parse image set: " << filename << endl;
             return false;
@@ -209,7 +209,7 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
         }
 
         // Add images
-        for(cImageSet_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
+        for(Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
             cGL_Surface* surface = pVideo->Get_Package_Surface(itr->m_filename);
             if(surface) {
                 Add_Image(surface, itr->m_time_min);
@@ -241,7 +241,7 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
 
 bool cImageSet::Set_Image_Set(const std::string& name, bool new_startimage /* =0 */)
 {
-    cImageSet_Name_Map::iterator it = m_named_ranges.find(name);
+    Name_Map::iterator it = m_named_ranges.find(name);
 
     if(it == m_named_ranges.end()) {
         cerr << "Warning: Named image set not found: " << name << " " << Get_Identity() << endl;
@@ -322,7 +322,7 @@ void cImageSet::Update_Animation(void)
         return;
     }
 
-    cImageSet_Surface& image = m_images[m_curr_img];
+    Surface& image = m_images[m_curr_img];
 
     if (static_cast<Uint32>(m_anim_counter * m_anim_mod) >= image.m_time) {
         // leave old image
@@ -353,8 +353,8 @@ void cImageSet::Update_Animation(void)
 
 void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 */)
 {
-    for (cImageSet_Surface_List::iterator itr = m_images.begin(); itr != m_images.end(); ++itr) {
-        cImageSet_Surface& obj = (*itr);
+    for (Surface_List::iterator itr = m_images.begin(); itr != m_images.end(); ++itr) {
+        Surface& obj = (*itr);
         obj.m_time = time;
         obj.m_info.m_time_min = time;
         obj.m_info.m_time_max = time;

@@ -23,59 +23,61 @@
 #include "../video/video.hpp"
 
 namespace TSC {
-    /* *** *** *** *** *** *** *** cImageSet_FrameInfo *** *** *** *** *** *** *** *** *** *** */
-    struct cImageSet_FrameInfo {
-        cImageSet_FrameInfo();
-
-        boost::filesystem::path m_filename;
-        Uint32 m_time_min;
-        Uint32 m_time_max;
-
-        typedef std::pair<int, int> Entry_Type;
-        typedef std::vector<Entry_Type> List_Type;
-
-        List_Type m_branches;
-    };
-
-    /* *** *** *** *** *** *** *** cImageSet_Parser *** *** *** *** *** *** *** *** *** *** */
-    class cImageSet_Parser : public cFile_parser
-    {
-    public:
-        typedef std::vector<cImageSet_FrameInfo> List_Type;
-
-        cImageSet_Parser(Uint32 time);
-        bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line);
-
-        List_Type m_images;
-        Uint32 m_time_min;
-        Uint32 m_time_max;
-    };
-
-    /* *** *** *** *** *** *** *** cImageSet_Surface *** *** *** *** *** *** *** *** *** *** */
-
-    class cImageSet_Surface {
-    public:
-        cImageSet_Surface(void);
-        ~cImageSet_Surface(void);
-
-        // enter the frame
-        void Enter(void);
-        // leave a frame, return next frame for branching or -1 
-        int Leave(void);
-
-        // the image
-        cGL_Surface* m_image;
-        // time to display in milliseconds
-        Uint32 m_time;
-        // information
-        cImageSet_FrameInfo m_info;
-    };
-
 
     /* *** *** *** *** *** *** *** cImageSet *** *** *** *** *** *** *** *** *** *** */
-
     class cImageSet {
     public:
+        /* *** *** *** *** *** *** *** FrameInfo *** *** *** *** *** *** *** *** *** *** */
+        struct FrameInfo {
+            FrameInfo();
+
+            boost::filesystem::path m_filename;
+            Uint32 m_time_min;
+            Uint32 m_time_max;
+
+            typedef std::pair<int, int> Entry_Type;
+            typedef std::vector<Entry_Type> List_Type;
+
+            List_Type m_branches;
+        };
+
+        /* *** *** *** *** *** *** *** Parser *** *** *** *** *** *** *** *** *** *** */
+        class Parser : public cFile_parser
+        {
+        public:
+            typedef std::vector<FrameInfo> List_Type;
+
+            Parser(Uint32 time);
+            bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line);
+
+            List_Type m_images;
+            Uint32 m_time_min;
+            Uint32 m_time_max;
+        };
+
+        /* *** *** *** *** *** *** *** Surface *** *** *** *** *** *** *** *** *** *** */
+
+        class Surface {
+        public:
+            Surface(void);
+            ~Surface(void);
+
+            // enter the frame
+            void Enter(void);
+            // leave a frame, return next frame for branching or -1 
+            int Leave(void);
+
+            // the image
+            cGL_Surface* m_image;
+            // time to display in milliseconds
+            Uint32 m_time;
+            // information
+            FrameInfo m_info;
+        };
+
+
+        /* *** *** *** *** *** *** *** cImageSet Contents *** *** *** *** *** *** *** *** *** *** */
+
         // constructor
         cImageSet();
         // destructor
@@ -169,12 +171,12 @@ namespace TSC {
 
 
         // Surface list
-        typedef vector<cImageSet_Surface> cImageSet_Surface_List;
-        cImageSet_Surface_List m_images;
+        typedef vector<Surface> Surface_List;
+        Surface_List m_images;
 
         // Image set names
-        typedef std::map<std::string, std::pair<int, int> > cImageSet_Name_Map;
-        cImageSet_Name_Map m_named_ranges;
+        typedef std::map<std::string, std::pair<int, int> > Name_Map;
+        Name_Map m_named_ranges;
 
     };
 
