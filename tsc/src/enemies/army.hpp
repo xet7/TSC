@@ -1,5 +1,5 @@
 /***************************************************************************
- * turtle.h
+ * army.h
  *
  * Copyright © 2003 - 2011 Florian Richter
  * Copyright © 2013 - 2014 The TSC Contributors
@@ -14,8 +14,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TSC_TURTLE_HPP
-#define TSC_TURTLE_HPP
+#ifndef TSC_ARMY_HPP
+#define TSC_ARMY_HPP
 
 #include "../enemies/enemy.hpp"
 #include "../scripting/objects/enemies/mrb_armadillo.hpp"
@@ -24,31 +24,31 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-    enum Turtle_state {
-        TURTLE_DEAD     = 0,
-        TURTLE_WALK     = 1,
-        TURTLE_SHELL_STAND  = 2,
-        TURTLE_SHELL_RUN    = 3,
-        TURTLE_FLY      = 4 // todo
+    enum Army_state {
+        ARMY_DEAD     = 0,
+        ARMY_WALK     = 1,
+        ARMY_SHELL_STAND  = 2,
+        ARMY_SHELL_RUN    = 3,
+        ARMY_FLY      = 4 // todo
     };
 
-    /* *** *** *** *** *** *** cTurtle *** *** *** *** *** *** *** *** *** *** *** */
-    /* The evolved walking Turtle
+    /* *** *** *** *** *** *** cArmy *** *** *** *** *** *** *** *** *** *** *** */
+    /* The evolved walking Army
      * Likes to play roller coaster with alex
     */
-    class cTurtle : public cEnemy {
+    class cArmy : public cEnemy {
     public:
         // constructor
-        cTurtle(cSprite_Manager* sprite_manager);
+        cArmy(cSprite_Manager* sprite_manager);
         // create from stream
-        cTurtle(XmlAttributes& attributes, cSprite_Manager* sprite_manager);
+        cArmy(XmlAttributes& attributes, cSprite_Manager* sprite_manager);
         // destructor
-        virtual ~cTurtle(void);
+        virtual ~cArmy(void);
 
         // init defaults
         void Init(void);
         // copy
-        virtual cTurtle* Copy(void) const;
+        virtual cArmy* Copy(void) const;
 
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
@@ -80,8 +80,8 @@ namespace TSC {
         virtual void Update_Normal_Dying(void);
         virtual void Update_Instant_Dying(void);
 
-        // set the turtle moving state
-        void Set_Turtle_Moving_State(Turtle_state new_state);
+        // set the armadillo moving state
+        void Set_Army_Moving_State(Army_state new_state);
 
         // update
         virtual void Update(void);
@@ -118,8 +118,8 @@ namespace TSC {
         // editor direction option selected event
         bool Editor_Direction_Select(const CEGUI::EventArgs& event);
 
-        // internal turtle state
-        Turtle_state m_turtle_state;
+        // internal armadillo state
+        Army_state m_army_state;
 
         /* If the player kicked the shell this counter is set.
          * if this counter is higher than 0
@@ -136,6 +136,12 @@ namespace TSC {
     protected:
 
         virtual std::string Get_XML_Type_Name();
+
+        // image indexes
+        int m_walk_start;
+        int m_shell_start;
+        int m_turn_start;
+        int m_turn_end;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

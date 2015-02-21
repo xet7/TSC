@@ -3773,49 +3773,49 @@
 		<Property name="posy" value="-3260" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="11547" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="11667" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="11787" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="11907" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="12027" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="12147" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="12267" />
 		<Property name="posy" value="-3332" />
 		<Property name="color" value="green" />
@@ -7226,14 +7226,14 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="13611" />
 		<Property name="posy" value="-1949" />
 		<Property name="color" value="green" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="13769" />
 		<Property name="posy" value="-1949" />
 		<Property name="color" value="green" />

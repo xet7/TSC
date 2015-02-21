@@ -526,10 +526,10 @@ void Preload_Sounds(bool draw_gui /* = 0 */)
     // thromp
     sound_files.push_back(utf8_to_path("enemy/thromp/hit.ogg"));
     sound_files.push_back(utf8_to_path("enemy/thromp/die.ogg"));
-    // turtle
-    sound_files.push_back(utf8_to_path("enemy/turtle/hit.ogg"));
-    sound_files.push_back(utf8_to_path("enemy/turtle/shell/hit.ogg"));
-    sound_files.push_back(utf8_to_path("enemy/turtle/stand_up.wav"));
+    // army
+    sound_files.push_back(utf8_to_path("enemy/army/hit.ogg"));
+    sound_files.push_back(utf8_to_path("enemy/army/shell/hit.ogg"));
+    sound_files.push_back(utf8_to_path("enemy/army/stand_up.wav"));
     // turtle boss
     sound_files.push_back(utf8_to_path("enemy/boss/turtle/big_hit.ogg"));
     sound_files.push_back(utf8_to_path("enemy/boss/turtle/shell_attack.ogg"));
@@ -575,6 +575,24 @@ void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Gl
     xmlpp::Element* p_propnode = p_element->add_child("property");
     p_propnode->set_attribute("name", name);
     p_propnode->set_attribute("value", value);
+}
+
+void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
+{
+    // Determine if the property exists first
+    xmlpp::Node::NodeList children = p_element->get_children("property");
+
+    for(xmlpp::Node::NodeList::iterator it = children.begin(); it != children.end(); ++it) {
+        xmlpp::Element* element = dynamic_cast<xmlpp::Element*>(*it);
+
+        if(element && element->get_attribute_value("name") == name) {
+            element->set_attribute("value", value);
+            return;
+        }
+    }
+
+    // No match found
+    Add_Property(p_element, name, value);
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

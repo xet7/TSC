@@ -210,7 +210,7 @@
 		<Property name="speed" value="8.5" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1013" />
 		<Property name="posy" value="341" />
 		<Property name="color" value="red" />

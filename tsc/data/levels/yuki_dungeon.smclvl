@@ -22183,7 +22183,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1808" />
 		<Property name="posy" value="-1148" />
 		<Property name="color" value="red" />
@@ -22258,14 +22258,14 @@
 		<Property name="speed" value="5.8" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3089" />
 		<Property name="posy" value="479" />
 		<Property name="color" value="red" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3398" />
 		<Property name="posy" value="83" />
 		<Property name="color" value="red" />
@@ -22296,14 +22296,14 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3829" />
 		<Property name="posy" value="-535" />
 		<Property name="color" value="red" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3896" />
 		<Property name="posy" value="-535" />
 		<Property name="color" value="red" />
@@ -22366,7 +22366,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1418" />
 		<Property name="posy" value="-1496" />
 		<Property name="color" value="red" />

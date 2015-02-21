@@ -15,11 +15,11 @@
 
 #ifndef TSC_SHELL_HPP
 #define TSC_SHELL_HPP
-#include "turtle.hpp"
+#include "army.hpp"
 
 namespace TSC {
 
-    class cShell: public cTurtle {
+    class cShell: public cArmy {
     public:
         cShell(cSprite_Manager* p_sprite_manager);
         cShell(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager);

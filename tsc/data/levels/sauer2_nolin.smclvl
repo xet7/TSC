@@ -1440,7 +1440,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="787" />
 		<Property name="posy" value="-26" />
 		<Property name="color" value="green" />
@@ -1887,7 +1887,7 @@
 		<Property name="gold_color" value="red" />
 	</box>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1322" />
 		<Property name="posy" value="211" />
 		<Property name="color" value="green" />
@@ -3643,7 +3643,7 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="2452" />
 		<Property name="posy" value="82" />
 		<Property name="color" value="green" />
@@ -4004,7 +4004,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1927" />
 		<Property name="posy" value="-439" />
 		<Property name="color" value="green" />
@@ -4404,7 +4404,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="2972" />
 		<Property name="posy" value="-740" />
 		<Property name="color" value="green" />
@@ -7411,7 +7411,7 @@
 		<Property name="posy" value="-178" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3282" />
 		<Property name="posy" value="-248" />
 		<Property name="color" value="green" />
@@ -9010,7 +9010,7 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4860" />
 		<Property name="posy" value="-517" />
 		<Property name="color" value="red" />
@@ -9024,7 +9024,7 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4714" />
 		<Property name="posy" value="-921" />
 		<Property name="color" value="red" />

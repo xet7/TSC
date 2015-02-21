@@ -175,24 +175,24 @@
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
-		<property name="type" value="turtle" />
+		<property name="type" value="army" />
 	</item>
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
-		<property name="type" value="turtle" />
+		<property name="type" value="army" />
 		<property name="direction" value="left" />
 	</item>
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
-		<property name="type" value="turtle" />
+		<property name="type" value="army" />
 		<property name="color" value="green" />
 	</item>
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
-		<property name="type" value="turtle" />
+		<property name="type" value="army" />
 		<property name="direction" value="left" />
 		<property name="color" value="green" />
 	</item>
