@@ -37,20 +37,16 @@ public:
 
     bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
     {
-        if(count == 1)
-        {
+        if(count == 1) {
             // only a filename
             m_images.push_back(Entry_Type(parts[0], m_time));
         }
-        else if(count == 2)
-        {
-            if(parts[0] == "time")
-            {
+        else if(count == 2) {
+            if(parts[0] == "time") {
                 // Setting default time for images
                 m_time = string_to_int(parts[1]);
             }
-            else
-            {
+            else {
                 // filename and a time for that specific image
                 m_images.push_back(Entry_Type(parts[0], string_to_int(parts[1])));
             }
@@ -112,103 +108,89 @@ void cAnimated_Sprite::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     m_images.push_back(obj);
 }
 
-bool cAnimated_Sprite::Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */)
+bool cAnimated_Sprite::Add_Image_Set(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */, int* start_num /* = NULL */, int* end_num /* = NULL */)
 {
     int start, end;
     boost::filesystem::path filename;
 
+    // Set to -1 until added
+    if(start_num)
+        *start_num = -1;
+
+    if(end_num)
+        *end_num = -1;
+
     start = m_images.size();
-    if(path.extension() == utf8_to_path(".png"))
-    {
+    if(path.extension() == utf8_to_path(".png")) {
         // Adding a single image
         Add_Image(pVideo->Get_Package_Surface(path), time);
         filename = path;
     }
-    else
-    {
+    else {
         // Parse the animation file
         filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
-        if(filename == boost::filesystem::path())
-        {
+        if(filename == boost::filesystem::path()) {
             cerr << "Warning: Unable to load animation: " << name
                 << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
             return false;
         }
 
         cAnimation_Parser parser(time);
-        if(!parser.Parse(path_to_utf8(filename)))
-        {
+        if(!parser.Parse(path_to_utf8(filename))) {
             cerr << "Warning: Unable to parse animation file: " << filename << endl;
             return false;
         }
 
-        if(parser.m_images.size() == 0)
-        {
+        if(parser.m_images.size() == 0) {
             cerr << "Warning: Empty animation file: " << filename << endl;
             return false;
         }
 
         // Add images
-        for(cAnimation_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr)
-        {
+        for(cAnimation_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
             Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(itr->first)), itr->second);
         }
     }
     end = m_images.size() - 1;
 
     // Add the item
-    if(end >= start)
-    {
+    if(end >= start) {
         m_named_ranges[name] = std::pair<int, int>(start, end);
+
+        if(start_num)
+            *start_num = start;
+
+        if(end_num)
+            *end_num = end;
+
         return true;
     }
-    else
-    {
+    else {
         cerr << "Warning: No animation images added: " << filename << endl;
         return false;
     }
 }
 
-bool cAnimated_Sprite::Set_Named_Animation(const std::string& name, const bool new_startimage /* = 0 */)
+bool cAnimated_Sprite::Set_Image_Set(const std::string& name, const bool new_startimage /* = 0 */)
 {
-    int start, end;
-    if(!Get_Named_Animation_Range(name, start, end))
-    {
+    cAnimation_Name_Map::iterator it = m_named_ranges.find(name);
+
+    if(it == m_named_ranges.end()) {
         cerr << "Warning: Named animation not found: " << name 
              << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
         Set_Image_Num(-1, new_startimage);
         Set_Animation(0);
         return false;
     }
+    else {
+        int start = it->second.first;
+        int end = it->second.second;
 
-    Set_Image_Num(start, new_startimage);
-    if(end > start)
-    {
-        Set_Animation(1);
+        Set_Image_Num(start, new_startimage);
         Set_Animation_Image_Range(start, end);
+        Set_Animation((end > start)); // True if more than one image
         Reset_Animation();
-    }
-    else
-    {
-        Set_Animation(0);
-        Reset_Animation();
-    }
-    return true;
-}
 
-bool cAnimated_Sprite::Get_Named_Animation_Range(const std::string& name, int& start, int& end)
-{
-    cAnimation_Name_Map::iterator it = m_named_ranges.find(name);
-    if(it == m_named_ranges.end())
-    {
-        start = -1;
-        end = -1;
-        return false;
-    }
-    else
-    {
-        start = it->second.first;
-        end = it->second.second;
         return true;
     }
 }

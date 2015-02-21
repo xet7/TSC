@@ -48,14 +48,11 @@ namespace TSC {
         */
         void Add_Image(cGL_Surface* image, Uint32 time = 0);
 
-        // Add an animation
-        bool Add_Animation(const std::string& name, boost::filesystem::path path, Uint32 time = 0);
+        // Add an image set
+        bool Add_Image_Set(const std::string& name, boost::filesystem::path path, Uint32 time = 0, int* start_num = NULL, int* end_num = NULL);
 
-        // Set an active sequence
-        bool Set_Named_Animation(const std::string& name, const bool new_startimage = 0);
-
-        // Get the named animation range
-        bool Get_Named_Animation_Range(const std::string& name, int& start, int& end);
+        // Set an active image set
+        bool Set_Image_Set(const std::string& name, const bool new_startimage = 0);
 
         // Set the animation start and end image
         inline void Set_Animation_Image_Range(const int start, const int end)
