@@ -18,7 +18,7 @@
 #define TSC_MOVING_PLATFORM_HPP
 
 #include "../core/global_basic.hpp"
-#include "../objects/animated_sprite.hpp"
+#include "../objects/movingsprite.hpp"
 #include "../objects/path.hpp"
 #include "../scripting/objects/specials/mrb_moving_platform.hpp"
 
@@ -48,7 +48,7 @@ namespace TSC {
      * Move along a line, circle or path
      * todo : circle start angle and circle radius for height and width ?
     */
-    class cMoving_Platform : public cAnimated_Sprite {
+    class cMoving_Platform : public cMovingSprite {
     public:
         // constructor
         cMoving_Platform(cSprite_Manager* sprite_manager);

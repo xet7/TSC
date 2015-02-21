@@ -35,7 +35,7 @@ namespace TSC {
 /* *** *** *** *** *** *** cPowerUp *** *** *** *** *** *** *** *** *** *** *** */
 
 cPowerUp::cPowerUp(cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "item")
+    : cMovingSprite(sprite_manager, "item")
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_massive_type = MASS_PASSIVE;
@@ -125,7 +125,7 @@ void cPowerUp::Draw(cSurface_Request* request /* = NULL */)
         return;
     }
 
-    cAnimated_Sprite::Draw(request);
+    cMovingSprite::Draw(request);
 }
 
 bool cPowerUp::Is_Update_Valid(void)
