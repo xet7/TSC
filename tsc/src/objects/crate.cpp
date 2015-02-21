@@ -65,7 +65,7 @@ void cCrate::Init()
 
     Add_Image(pVideo->Get_Package_Surface("blocks/extra/box.png"));
     Set_Animation(false);
-    Set_Image_Num(0, true, false);
+    Set_Image_Num(0, true);
 }
 
 void cCrate::Load_From_Savegame(cSave_Level_Object* p_saveobj)
