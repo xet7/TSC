@@ -173,11 +173,13 @@ void cBall::Set_Ball_Type(ball_effect type)
     Clear_Images();
 
     if (type == FIREBALL_DEFAULT || type == FIREBALL_EXPLOSION) {
-        Set_Image(pVideo->Get_Package_Surface("animation/fireball/1.png"));
+        Add_Image_Set("main", "animation/fireball/ball.imgset");
+        Set_Image_Set("main");
         m_ball_type = FIREBALL_DEFAULT;
     }
     else if (type == ICEBALL_DEFAULT || type == ICEBALL_EXPLOSION) {
-        Set_Image(pVideo->Get_Package_Surface("animation/iceball/1.png"));
+        Add_Image_Set("main", "animation/iceball/ball.imgset");
+        Set_Image_Set("main");
         m_ball_type = ICEBALL_DEFAULT;
     }
     else {

@@ -109,9 +109,9 @@ namespace TSC {
         // Set the middle image count
         void Set_Middle_Count(const unsigned int val);
         // set image
-        void Set_Image_Top_Left(cGL_Surface* surface);
-        void Set_Image_Top_Middle(cGL_Surface* surface);
-        void Set_Image_Top_Right(cGL_Surface* surface);
+        void Set_Image_Top_Left(const boost::filesystem::path& path);
+        void Set_Image_Top_Middle(const boost::filesystem::path& path);
+        void Set_Image_Top_Right(const boost::filesystem::path& path);
 
         // update
         virtual void Update(void);
@@ -188,6 +188,16 @@ namespace TSC {
 
         // path state if linked to a path
         cPath_State m_path_state;
+
+        // images
+        cSimpleImageSet m_left_image;
+        cSimpleImageSet m_middle_image;
+        cSimpleImageSet m_right_image;
+
+        // image filenames
+        boost::filesystem::path m_left_filename;
+        boost::filesystem::path m_middle_filename;
+        boost::filesystem::path m_right_filename;
 
         // Save to XML node
         virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);

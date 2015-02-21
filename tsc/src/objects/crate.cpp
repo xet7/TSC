@@ -63,9 +63,9 @@ void cCrate::Init()
     m_can_be_ground = true;
     Set_Scale_Directions(1, 1, 1, 1);
 
-    Add_Image(pVideo->Get_Package_Surface("blocks/extra/box.png"));
-    Set_Animation(false);
-    Set_Image_Num(0, true);
+    Clear_Images();
+    Add_Image_Set("main", "blocks/extra/crate.imgset");
+    Set_Image_Set("main", true);
 }
 
 void cCrate::Load_From_Savegame(cSave_Level_Object* p_saveobj)
@@ -126,6 +126,9 @@ void cCrate::Update()
         return;
 
     cMovingSprite::Update();
+
+    // cMovingSprite::Update does not call cSprite::Update, so update animation directly
+    Update_Animation();
 
     // Slow down if moving
     if (m_crate_state == CRATE_SLIDE && !Is_Float_Equal(m_velx, 0.0f)) {

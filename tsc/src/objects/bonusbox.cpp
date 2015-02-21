@@ -116,13 +116,11 @@ void cBonusBox::Set_Useable_Count(int count, bool new_startcount /* = 0 */)
 
     // disable
     if (!m_useable_count) {
-        Reset_Animation();
-        Set_Animation(0);
-        Set_Image_Num(0);
+        Set_Image_Set("disabled");
     }
     // enable
     else {
-        Set_Animation(1);
+        Set_Image_Set("main");
     }
 
     Update_Valid_Update();
@@ -148,39 +146,39 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
         m_item_image = pVideo->Get_Package_Surface("game/editor/unknown.png");
     }
     else if (box_type == TYPE_MUSHROOM_DEFAULT) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/mushroom_red.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/berry_big.imgset");
         m_name = _("Bonusbox Berry");
     }
     else if (box_type == TYPE_FIREPLANT) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/fireberry_1.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/berry_fire.imgset");
         m_name = _("Bonusbox Fire berry");
     }
     else if (box_type == TYPE_MUSHROOM_BLUE) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/mushroom_blue.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/berry_ice.imgset");
         m_name = _("Bonusbox Ice berry");
     }
     else if (box_type == TYPE_MUSHROOM_GHOST) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/mushroom_ghost.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/berry_ghost.imgset");
         m_name = _("Bonusbox Ghost berry");
     }
     else if (box_type == TYPE_MUSHROOM_LIVE_1) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/mushroom_green.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/berry_life.imgset");
         m_name = _("Bonusbox 1-Up berry");
     }
     else if (box_type == TYPE_STAR) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/star.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/star.imgset");
         m_name = _("Bonusbox Star");
     }
     else if (box_type == TYPE_GOLDPIECE) {
         if (m_gold_color == COL_RED) {
-            m_item_image = pVideo->Get_Package_Surface("game/items/goldpiece/red/1.png");
+            m_item_image = cImageSet::Fetch_Single_Image("game/items/goldpiece/red/jewel.imgset");
         }
         else {
-            m_item_image = pVideo->Get_Package_Surface("game/items/goldpiece/yellow/1.png");
+            m_item_image = cImageSet::Fetch_Single_Image("game/items/goldpiece/yellow/jewel.imgset");
         }
     }
     else if (box_type == TYPE_MUSHROOM_POISON) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/mushroom_poison.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/berry_poison.imgset");
         m_name = _("Bonusbox Poisonous berry");
     }
     else {
@@ -228,11 +226,11 @@ void cBonusBox::Set_Goldcolor(DefaultColor new_color)
     }
 
     if (m_gold_color == COL_YELLOW) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/goldpiece/yellow/1.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/goldpiece/yellow/jewel.imgset");
         m_name = _("Bonusbox Yellow Goldpiece");
     }
     else if (m_gold_color == COL_RED) {
-        m_item_image = pVideo->Get_Package_Surface("game/items/goldpiece/red/1.png");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/goldpiece/red/jewel.imgset");
         m_name = _("Bonusbox Red Goldpiece");
     }
     else {

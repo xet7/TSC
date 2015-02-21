@@ -132,8 +132,7 @@ void cSpinBox::Activate(void)
 
     m_spin_counter = 0.0f;
     // enable animation
-    Set_Animation(1);
-    Reset_Animation();
+    Set_Image_Set("spin");
 }
 
 void cSpinBox::Stop(void)
@@ -145,11 +144,11 @@ void cSpinBox::Stop(void)
 
     // disabled image
     if (!m_useable_count) {
-        Set_Image_Num(0);
+        Set_Image_Set("disabled");
     }
     // default image
     else {
-        Set_Image_Num(1);
+        Set_Image_Set("main");
     }
     // reset
     m_spin = 0;
@@ -158,9 +157,6 @@ void cSpinBox::Stop(void)
 
     // back to a massive box
     m_massive_type = MASS_MASSIVE;
-    // disable animation
-    Set_Animation(0);
-    Reset_Animation();
 }
 
 void cSpinBox::Update(void)
@@ -175,7 +171,7 @@ void cSpinBox::Update(void)
         m_spin_counter += pFramerate->m_speed_factor;
 
         // spinning animation finished
-        if (m_curr_img == 1) {
+        if (m_curr_img == m_anim_img_start) {
             // spinning time finished
             if (m_spin_counter > speedfactor_fps * 5) {
                 // reset spin counter
