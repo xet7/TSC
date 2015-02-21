@@ -23,13 +23,13 @@
 using namespace TSC;
 
 cLava::cLava(cSprite_Manager* p_sprite_manager)
-    : cAnimated_Sprite(p_sprite_manager, "lava")
+    : cMovingSprite(p_sprite_manager, "lava")
 {
     Init();
 }
 
 cLava::cLava(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
-    : cAnimated_Sprite(p_sprite_manager, "lava")
+    : cMovingSprite(p_sprite_manager, "lava")
 {
     Init();
     Set_Pos(attributes.fetch<float>("posx", 0), attributes.fetch<float>("posy", 0), true);
@@ -83,7 +83,7 @@ void cLava::Draw(cSurface_Request* p_request /* = NULL */)
     if (!m_valid_draw)
         return;
 
-    cAnimated_Sprite::Draw(p_request);
+    cMovingSprite::Draw(p_request);
 }
 
 void cLava::Handle_Collision_Player(cObjectCollision* p_collision)
@@ -107,7 +107,7 @@ void cLava::Handle_Collision_Enemy(cObjectCollision* p_collision)
 
 xmlpp::Element* cLava::Save_To_XML_Node(xmlpp::Element* p_element)
 {
-    xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+    xmlpp::Element* p_node = cMovingSprite::Save_To_XML_Node(p_element);
 
     // No configuration currently
 

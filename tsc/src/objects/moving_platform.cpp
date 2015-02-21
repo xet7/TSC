@@ -40,13 +40,13 @@ namespace TSC {
 /* *** *** *** *** *** *** *** cMoving_Platform *** *** *** *** *** *** *** *** *** *** */
 
 cMoving_Platform::cMoving_Platform(cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "moving_platform"), m_path_state(sprite_manager)
+    : cMovingSprite(sprite_manager, "moving_platform"), m_path_state(sprite_manager)
 {
     cMoving_Platform::Init();
 }
 
 cMoving_Platform::cMoving_Platform(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "moving_platform"), m_path_state(sprite_manager)
+    : cMovingSprite(sprite_manager, "moving_platform"), m_path_state(sprite_manager)
 {
     cMoving_Platform::Init();
 
@@ -178,7 +178,7 @@ std::string cMoving_Platform::Get_XML_Type_Name()
 
 xmlpp::Element* cMoving_Platform::Save_To_XML_Node(xmlpp::Element* p_element)
 {
-    xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+    xmlpp::Element* p_node = cMovingSprite::Save_To_XML_Node(p_element);
 
     // massive type
     Add_Property(p_node, "massive_type", Get_Massive_Type_Name(m_massive_type));
@@ -352,7 +352,7 @@ void cMoving_Platform::Set_Direction(const ObjectDirection dir, bool new_start_d
     // save old direction
     ObjectDirection start_direction_old = m_start_direction;
     // set direction
-    cAnimated_Sprite::Set_Direction(dir, new_start_direction);
+    cMovingSprite::Set_Direction(dir, new_start_direction);
 
     if (new_start_direction) {
         // changed direction
@@ -737,7 +737,7 @@ void cMoving_Platform::Draw(cSurface_Request* request /* = NULL */)
 
         surface_request = new cSurface_Request();
         // draw only first image complete
-        cAnimated_Sprite::Draw(surface_request);
+        cMovingSprite::Draw(surface_request);
         surface_request->m_pos_x += x;
         x += m_images[0].m_image->m_w;
         // add request
@@ -752,7 +752,7 @@ void cMoving_Platform::Draw(cSurface_Request* request /* = NULL */)
         for (unsigned int i = 0; i < m_middle_count; i++) {
             // create request
             surface_request = new cSurface_Request();
-            cAnimated_Sprite::Draw_Image(surface_request);
+            cMovingSprite::Draw_Image(surface_request);
             surface_request->m_pos_x += x;
             x += m_images[1].m_image->m_w;
             // add request
@@ -767,7 +767,7 @@ void cMoving_Platform::Draw(cSurface_Request* request /* = NULL */)
         m_start_image = m_image;
         // create request
         surface_request = new cSurface_Request();
-        cAnimated_Sprite::Draw_Image(surface_request);
+        cMovingSprite::Draw_Image(surface_request);
         surface_request->m_pos_x += x;
         //x += m_images[2]->w;
         // add request
@@ -875,7 +875,7 @@ bool cMoving_Platform::Is_Update_Valid()
 
 bool cMoving_Platform::Is_Draw_Valid(void)
 {
-    bool valid = cAnimated_Sprite::Is_Draw_Valid();
+    bool valid = cMovingSprite::Is_Draw_Valid();
 
     // if editor enabled
     if (editor_enabled) {

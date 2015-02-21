@@ -28,6 +28,7 @@
 #include "../core/i18n.hpp"
 #include "../scripting/events/touch_event.hpp"
 #include "../level/level_editor.hpp"
+#include "../core/file_parser.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
@@ -298,6 +299,56 @@ void cCollidingSprite::Handle_Collision(cObjectCollision* collision)
     }
 }
 
+/* *** *** *** *** *** *** *** cAnimation_Parser *** *** *** *** *** *** *** *** *** *** */
+class cAnimation_Parser : public cFile_parser
+{
+public:
+    typedef std::pair<std::string, Uint32> Entry_Type;
+    typedef std::vector<Entry_Type> List_Type;
+
+    cAnimation_Parser(Uint32 time) : m_time(time)
+    {
+    }
+
+    bool HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
+    {
+        if(count == 1) {
+            // only a filename
+            m_images.push_back(Entry_Type(parts[0], m_time));
+        }
+        else if(count == 2) {
+            if(parts[0] == "time") {
+                // Setting default time for images
+                m_time = string_to_int(parts[1]);
+            }
+            else {
+                // filename and a time for that specific image
+                m_images.push_back(Entry_Type(parts[0], string_to_int(parts[1])));
+            }
+        }
+
+        return 1;
+    }
+
+
+    List_Type m_images;
+    Uint32 m_time;
+};
+
+/* *** *** *** *** *** *** *** cAnimation_Surface *** *** *** *** *** *** *** *** *** *** */
+
+cAnimation_Surface::cAnimation_Surface(void)
+{
+    m_image = NULL;
+    m_time = 0;
+}
+
+cAnimation_Surface::~cAnimation_Surface(void)
+{
+    //
+}
+
+
 /* *** *** *** *** *** *** *** cSprite *** *** *** *** *** *** *** *** *** *** */
 
 const float cSprite::m_pos_z_passive_start = 0.01f;
@@ -321,7 +372,14 @@ cSprite::cSprite(XmlAttributes& attributes, cSprite_Manager* sprite_manager, con
     // position
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
     // image
-    Set_Image(pVideo->Get_Package_Surface(utf8_to_path(attributes["image"])), true) ;
+    m_image_filename = attributes["image"];
+    if(utf8_to_path(m_image_filename).extension() == utf8_to_path(".png")) {
+        Set_Image(pVideo->Get_Package_Surface(utf8_to_path(attributes["image"])), true) ;
+    }
+    else {
+        Add_Image_Set("main", utf8_to_path(m_image_filename));
+        Set_Image_Set("main", true);
+    }
     // Massivity.
     // FIXME: Should be separate "massivity" attribute or so.
     Set_Massive_Type(Get_Massive_Type_Id(attributes["type"]));
@@ -340,6 +398,16 @@ void cSprite::Init(void)
     // undefined
     m_type = TYPE_UNDEFINED;
     m_sprite_array = ARRAY_UNDEFINED;
+
+    // animation data
+    m_curr_img = -1;
+    m_anim_enabled = 0;
+    m_anim_img_start = 0;
+    m_anim_img_end = 0;
+    m_anim_time_default = 1000;
+    m_anim_counter = 0;
+    m_anim_last_ticks = pFramerate->m_last_ticks - 1;
+    m_anim_mod = 1.0f;
 
     // collision data
     m_col_pos.m_x = 0.0f;
@@ -415,7 +483,24 @@ void cSprite::Init(void)
 cSprite* cSprite::Copy(void) const
 {
     cSprite* basic_sprite = new cSprite(m_sprite_manager);
+ 
+    // current image
+    basic_sprite->m_image_filename = m_image_filename;
     basic_sprite->Set_Image(m_start_image, true);
+
+    // animation details
+    basic_sprite->m_curr_img = m_curr_img;
+    basic_sprite->m_anim_enabled = m_anim_enabled;
+    basic_sprite->m_anim_img_start = m_anim_img_start;
+    basic_sprite->m_anim_img_end = m_anim_img_end;
+    basic_sprite->m_anim_time_default = m_anim_time_default;
+    basic_sprite->m_anim_counter = m_anim_counter;
+    basic_sprite->m_anim_last_ticks = m_anim_last_ticks;
+    basic_sprite->m_anim_mod = m_anim_mod;
+    basic_sprite->m_images = m_images;
+    basic_sprite->m_named_ranges = m_named_ranges;
+
+    // basic settings
     basic_sprite->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
     basic_sprite->m_type = m_type;
     basic_sprite->m_sprite_array = m_sprite_array;
@@ -456,7 +541,9 @@ xmlpp::Element* cSprite::Save_To_XML_Node(xmlpp::Element* p_element)
 
     // image
     boost::filesystem::path img_filename;
-    if (m_start_image)
+    if (!m_image_filename.empty())
+        img_filename = utf8_to_path(m_image_filename);
+    else if (m_start_image)
         img_filename = m_start_image->m_path;
     else if (m_image)
         img_filename = m_image->m_path;
@@ -583,6 +670,191 @@ void cSprite::Set_Sprite_Type(SpriteType type)
 {
     m_type = type;
 }
+
+void cSprite::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
+{
+    // set to default time
+    if (time == 0) {
+        time = m_anim_time_default;
+    }
+
+    cAnimation_Surface obj;
+    obj.m_image = image;
+    obj.m_time = time;
+
+    m_images.push_back(obj);
+}
+
+bool cSprite::Add_Image_Set(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */, int* start_num /* = NULL */, int* end_num /* = NULL */)
+{
+    int start, end;
+    boost::filesystem::path filename;
+
+    // Set to -1 until added
+    if(start_num)
+        *start_num = -1;
+
+    if(end_num)
+        *end_num = -1;
+
+    start = m_images.size();
+    if(path.extension() == utf8_to_path(".png")) {
+        // Adding a single image
+        Add_Image(pVideo->Get_Package_Surface(path), time);
+        filename = path;
+    }
+    else {
+        // Parse the animation file
+        filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
+        if(filename == boost::filesystem::path()) {
+            cerr << "Warning: Unable to load animation: " << name
+                << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
+            return false;
+        }
+
+        cAnimation_Parser parser(time);
+        if(!parser.Parse(path_to_utf8(filename))) {
+            cerr << "Warning: Unable to parse animation file: " << filename << endl;
+            return false;
+        }
+
+        if(parser.m_images.size() == 0) {
+            cerr << "Warning: Empty animation file: " << filename << endl;
+            return false;
+        }
+
+        // Add images
+        for(cAnimation_Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
+            Add_Image(pVideo->Get_Package_Surface(path.parent_path() / utf8_to_path(itr->first)), itr->second);
+        }
+    }
+    end = m_images.size() - 1;
+
+    // Add the item
+    if(end >= start) {
+        m_named_ranges[name] = std::pair<int, int>(start, end);
+
+        if(start_num)
+            *start_num = start;
+
+        if(end_num)
+            *end_num = end;
+
+        return true;
+    }
+    else {
+        cerr << "Warning: No animation images added: " << filename << endl;
+        return false;
+    }
+}
+
+bool cSprite::Set_Image_Set(const std::string& name, const bool new_startimage /* = 0 */)
+{
+    cAnimation_Name_Map::iterator it = m_named_ranges.find(name);
+
+    if(it == m_named_ranges.end()) {
+        cerr << "Warning: Named animation not found: " << name 
+             << ", sprite type " << m_type << ", name " << m_name.c_str() << endl;
+        Set_Image_Num(-1, new_startimage);
+        Set_Animation(0);
+        return false;
+    }
+    else {
+        int start = it->second.first;
+        int end = it->second.second;
+
+        Set_Image_Num(start, new_startimage);
+        Set_Animation_Image_Range(start, end);
+        Set_Animation((end > start)); // True if more than one image
+        Reset_Animation();
+
+        return true;
+    }
+}
+
+void cSprite::Set_Image_Num(const int num, const bool new_startimage /* = 0 */, const bool del_img /* = 0 */)
+{
+    if (m_curr_img == num) {
+        return;
+    }
+
+    m_curr_img = num;
+
+    if (m_curr_img < 0) {
+        Set_Image(NULL, new_startimage, del_img);
+    }
+    else if (m_curr_img < static_cast<int>(m_images.size())) {
+        Set_Image(m_images[m_curr_img].m_image, new_startimage, del_img);
+    }
+    else {
+        debug_print("Warning : Object image number %d bigger as the array size %u, sprite type %d, name %s\n", m_curr_img, static_cast<unsigned int>(m_images.size()), m_type, m_name.c_str());
+    }
+}
+
+cGL_Surface* cSprite::Get_Image(const unsigned int num) const
+{
+    if (num >= m_images.size()) {
+        return NULL;
+    }
+
+    return m_images[num].m_image;
+}
+
+void cSprite::Clear_Images(void)
+{
+    m_curr_img = -1;
+    m_images.clear();
+    m_named_ranges.clear();
+}
+
+void cSprite::Update_Animation(void)
+{
+    // prevent calling twice within the same update cycle
+    if (m_anim_last_ticks == pFramerate->m_last_ticks) {
+        return;
+    }
+    m_anim_last_ticks = pFramerate->m_last_ticks;
+
+    // if not valid
+    if (!m_anim_enabled || m_anim_img_end == 0) {
+        return;
+    }
+
+    m_anim_counter += pFramerate->m_elapsed_ticks;
+
+    // out of range
+    if (m_curr_img < 0 || m_curr_img >= static_cast<int>(m_images.size())) {
+        cerr << "Warning: Animation image " << m_curr_img << " for " << m_name << " out of range (max " << (m_images.size() - 1) << "). Forcing start image." << endl;
+        Set_Image_Num(m_anim_img_start);
+        return;
+    }
+
+    cAnimation_Surface image = m_images[m_curr_img];
+
+    if (static_cast<Uint32>(m_anim_counter * m_anim_mod) >= image.m_time) {
+        if (m_curr_img >= m_anim_img_end) {
+            Set_Image_Num(m_anim_img_start);
+        }
+        else {
+            Set_Image_Num(m_curr_img + 1);
+        }
+
+        m_anim_counter = static_cast<Uint32>(m_anim_counter * m_anim_mod) - image.m_time;
+    }
+}
+
+void cSprite::Set_Time_All(const Uint32 time, const bool default_time /* = 0 */)
+{
+    for (cAnimation_Surface_List::iterator itr = m_images.begin(); itr != m_images.end(); ++itr) {
+        cAnimation_Surface& obj = (*itr);
+        obj.m_time = time;
+    }
+
+    if (default_time) {
+        Set_Default_Time(time);
+    }
+}
+
 
 /**
  * Returns the string to use for the XML `type` property of
