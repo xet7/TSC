@@ -199,16 +199,14 @@ void cFurball::Set_Color(const DefaultColor& col)
 
     Update_Velocity_Max();
 
-    Add_Animation("walk", "enemy/furball/" + filename_dir + "/walk.animation");
-    Add_Animation("turn", "enemy/furball/" + filename_dir + "/turn.animation");
-    Add_Animation("dead", "enemy/furball/" + filename_dir + "/dead.animation");
+    Add_Image_Set("walk", "enemy/furball/" + filename_dir + "/walk.animation");
+    Add_Image_Set("turn", "enemy/furball/" + filename_dir + "/turn.animation", 0, &m_turn_start, &m_turn_end);
+    Add_Image_Set("dead", "enemy/furball/" + filename_dir + "/dead.animation");
     if (m_type == TYPE_FURBALL_BOSS) {
-        Add_Animation("hit", "enemy/furball/" + filename_dir + "/hit.animation");
+        Add_Image_Set("hit", "enemy/furball/" + filename_dir + "/hit.animation");
     }
 
-    Get_Named_Animation_Range("turn", m_turn_start, m_turn_end);
-
-    Set_Named_Animation("walk", true);
+    Set_Image_Set("walk", true);
 }
 
 void cFurball::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
@@ -221,7 +219,7 @@ void cFurball::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
         }
 
         // set turn around image
-        Set_Named_Animation("turn");
+        Set_Image_Set("turn");
     }
     // only update rotation if no turn around image
     else {
@@ -253,7 +251,7 @@ void cFurball::DownGrade(bool force /* = 0 */)
             Generate_Hit_Animation();
             // set hit image
             if(m_type == TYPE_FURBALL_BOSS) {
-                Set_Named_Animation("hit");
+                Set_Image_Set("hit");
             }
             Set_Moving_State(STA_STAY);
         }
@@ -269,7 +267,7 @@ void cFurball::DownGrade(bool force /* = 0 */)
         m_velx = 0.0f;
         m_vely = 0.0f;
         // dead image
-        Set_Named_Animation("dead");
+        Set_Image_Set("dead");
 
         // default stomp death
         if (!force || m_type == TYPE_FURBALL_BOSS) {
@@ -363,7 +361,7 @@ void cFurball::Set_Moving_State(Moving_state new_state)
     else if (new_state == STA_WALK) {
         m_counter_running = 0.0f;
 
-        Set_Named_Animation("walk");
+        Set_Image_Set("walk");
         if (m_color_type == COL_BLUE) {
             Set_Animation_Speed(1.142);
         }
@@ -374,7 +372,7 @@ void cFurball::Set_Moving_State(Moving_state new_state)
     else if (new_state == STA_RUN) {
         m_counter_hit = 0.0f;
 
-        Set_Named_Animation("walk");
+        Set_Image_Set("walk");
         Set_Animation_Speed(1.142);
     }
 
@@ -490,7 +488,7 @@ void cFurball::Update(void)
 
             // back to normal animation
             if (m_anim_counter >= 200) {
-                Set_Named_Animation("walk");
+                Set_Image_Set("walk");
                 Update_Rotation_Hor();
             }
             // rotate the turn image

@@ -60,12 +60,8 @@ void cKrush::Init(void)
     m_pos_z = 0.093f;
     m_gravity_max = 27.0f;
 
-    Add_Animation("big", "enemy/krush/big.animation");
-    Add_Animation("small", "enemy/krush/small.animation");
-
-    int dummy;
-    Get_Named_Animation_Range("big", dummy, m_big_end);
-    Get_Named_Animation_Range("small", m_small_start, dummy);
+    Add_Image_Set("big", "enemy/krush/big.animation", 0, NULL, &m_big_end);
+    Add_Image_Set("small", "enemy/krush/small.animation", 0, &m_small_start);
 
     m_state = STA_FALL;
     Set_Moving_State(STA_WALK);
@@ -187,12 +183,12 @@ void cKrush::Set_Moving_State(Moving_state new_state)
     }
 
     if (new_state == STA_WALK) {
-        Set_Named_Animation("big");
+        Set_Image_Set("big");
 
         m_kill_points = 20;
     }
     else if (new_state == STA_RUN) {
-        Set_Named_Animation("small");
+        Set_Image_Set("small");
 
         m_kill_points = 40;
     }

@@ -59,15 +59,11 @@ void cLarry::Init()
     m_explosion_counter = 0.0f;
     m_kill_sound = "ambient/thunder_1.ogg";
 
-    Add_Animation("walk", "enemy/larry/grey/walk.animation");
-    Add_Animation("walk_turn", "enemy/larry/grey/walk_turn.animation");
-    Add_Animation("run", "enemy/larry/grey/run.animation");
-    Add_Animation("run_turn", "enemy/larry/grey/run_turn.animation");
-    Add_Animation("action", "enemy/larry/grey/action.animation");
-
-    Get_Named_Animation_Range("walk_turn", m_walk_turn_start, m_walk_turn_end);
-    Get_Named_Animation_Range("run_turn", m_run_turn_start, m_run_turn_end);
-    Get_Named_Animation_Range("action", m_action_start, m_action_end);
+    Add_Image_Set("walk", "enemy/larry/grey/walk.animation");
+    Add_Image_Set("walk_turn", "enemy/larry/grey/walk_turn.animation", 0, &m_walk_turn_start, &m_walk_turn_end);
+    Add_Image_Set("run", "enemy/larry/grey/run.animation");
+    Add_Image_Set("run_turn", "enemy/larry/grey/run_turn.animation", 0, &m_run_turn_start, &m_run_turn_end);
+    Add_Image_Set("action", "enemy/larry/grey/action.animation", 0, &m_action_start, &m_action_end);
 
     Set_Moving_State(STA_WALK);
     Set_Direction(DIR_RIGHT);
@@ -135,10 +131,10 @@ void cLarry::Update()
                 (m_state == STA_RUN && m_anim_counter >= 100)) { /* fusing */
 
             if (m_state == STA_WALK) {
-                Set_Named_Animation("walk");
+                Set_Image_Set("walk");
                 m_velx_max = 1.5f;
             } else if (m_state == STA_RUN) {
-                Set_Named_Animation("run");
+                Set_Image_Set("run");
                 m_velx_max = 3.0f;
             }
             else {
@@ -153,7 +149,7 @@ void cLarry::Update()
 
         // back to normal animation
         if (m_anim_counter >= 600) {
-            Set_Named_Animation("run");
+            Set_Image_Set("run");
             m_velx_max = 3.0f;
 
             Update_Rotation_Hor();
@@ -275,9 +271,9 @@ void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     cEnemy::Turn_Around(col_dir);
 
     if (m_state == STA_WALK)
-        Set_Named_Animation("walk_turn");
+        Set_Image_Set("walk_turn");
     else
-        Set_Named_Animation("run_turn");
+        Set_Image_Set("run_turn");
 
     // Stop walking while turning (reset to normal in Update())
     m_velx = 0.0f;
@@ -293,13 +289,13 @@ void cLarry::Set_Moving_State(Moving_state new_state)
     m_state = new_state;
 
     if (m_state == STA_WALK) {
-        Set_Named_Animation("walk", true);
+        Set_Image_Set("walk", true);
 
         m_velx_gain = 0.3f;
         m_velx_max = 1.5f;
     }
     else if (m_state == STA_RUN) {
-        Set_Named_Animation("run");
+        Set_Image_Set("run");
     }
 
     Reset_Animation();
@@ -311,7 +307,7 @@ void cLarry::Fuse()
     Set_Moving_State(STA_RUN);
 
     // Stop walking for a moment (reset to normal in Update())
-    Set_Named_Animation("action");
+    Set_Image_Set("action");
     m_velx = 0.0f;
     m_velx_max = 0.0f;
     Update_Rotation_Hor();

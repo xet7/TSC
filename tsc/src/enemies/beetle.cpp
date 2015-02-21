@@ -227,8 +227,8 @@ void cBeetle::Set_Rest_Living_Time(float time)
 void cBeetle::Set_Color(DefaultColor color)
 {
     Clear_Images();
-    Add_Animation("fly", utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/fly.animation"));
-    Set_Named_Animation("fly", true);
+    Add_Image_Set("fly", utf8_to_path("enemy/beetle/" + Get_Color_Name(color) + "/fly.animation"));
+    Set_Image_Set("fly", true);
 
     m_color = color;
 }

@@ -161,9 +161,9 @@ void cFlyon::Set_Image_Dir(fs::path dir)
     // clear images
     Clear_Images();
     // set images
-    Add_Animation("still", m_img_dir / utf8_to_path("still.animation"));
-    Add_Animation("fly", m_img_dir / utf8_to_path("fly.animation"));
-    Set_Named_Animation("fly", true);
+    Add_Image_Set("still", m_img_dir / utf8_to_path("still.animation"));
+    Add_Image_Set("fly", m_img_dir / utf8_to_path("fly.animation"));
+    Set_Image_Set("fly", true);
 }
 
 void cFlyon::Set_Direction(const ObjectDirection dir)
@@ -261,14 +261,14 @@ void cFlyon::Set_Moving_State(Moving_state new_state)
 
         m_move_back = 0;
 
-        Set_Named_Animation("still");
+        Set_Image_Set("still");
     }
     else if (new_state == STA_FLY) {
         m_velx = m_dest_velx;
         m_vely = m_dest_vely;
         m_move_back = 0;
 
-        Set_Named_Animation("fly");
+        Set_Image_Set("fly");
     }
 
     m_state = new_state;

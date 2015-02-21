@@ -89,13 +89,10 @@ void cRokko::Init(void)
     m_kill_sound = "enemy/rokko/hit.wav";
     m_kill_points = 250;
 
-    Add_Animation("fly", "enemy/rokko/yellow/fly.animation");
-    Add_Animation("break", "enemy/rokko/yellow/break.animation");
+    Add_Image_Set("fly", "enemy/rokko/yellow/fly.animation");
+    Add_Image_Set("break", "enemy/rokko/yellow/break.animation", 0, NULL, &m_break_end);
 
-    int dummy;
-    Get_Named_Animation_Range("break", dummy, m_break_end);
-
-    Set_Named_Animation("fly", true);
+    Set_Image_Set("fly", true);
 }
 
 cRokko* cRokko::Copy(void) const
@@ -168,7 +165,7 @@ void cRokko::Set_Direction(const ObjectDirection dir, bool new_start_direction /
 
     Update_Rotation_Hor();
     Update_Distance_rect();
-    //Set_Named_Animation("fly", true);
+    //Set_Image_Set("fly", true);
 }
 
 void cRokko::Set_Speed(float nspeed)
@@ -229,7 +226,7 @@ void cRokko::Activate(bool with_sound /* = 1 */)
 void cRokko::DownGrade(bool force /* = 0 */)
 {
     Set_Dead(1);
-    Set_Named_Animation("break");
+    Set_Image_Set("break");
     m_massive_type = MASS_PASSIVE;
     m_gravity_max = 26.0f;
     m_vely = 0;

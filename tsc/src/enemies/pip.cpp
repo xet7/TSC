@@ -61,12 +61,8 @@ void cPip::Init()
     m_pos_z = 0.093f;
     m_gravity_max = 13.0f;
 
-    Add_Animation("big", "enemy/pip/big.animation");
-    Add_Animation("small", "enemy/pip/small.animation");
-
-    int dummy;
-    Get_Named_Animation_Range("big", m_big_start, dummy);
-    Get_Named_Animation_Range("small", m_small_start, dummy);
+    Add_Image_Set("big", "enemy/pip/big.animation", 0, &m_big_start);
+    Add_Image_Set("small", "enemy/pip/small.animation", 0, &m_small_start);
 
     m_state = STA_FALL;
     Set_Moving_State(STA_WALK);
@@ -196,11 +192,11 @@ void cPip::Set_Moving_State(Moving_state new_state)
         return;
 
     if (new_state == STA_WALK) {
-        Set_Named_Animation("big");
+        Set_Image_Set("big");
         m_kill_points = 35;
     }
     else if (new_state == STA_RUN) {
-        Set_Named_Animation("small");
+        Set_Image_Set("small");
         m_kill_points = 70;
     }
 

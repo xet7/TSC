@@ -120,8 +120,8 @@ void cEato::Set_Image_Dir(fs::path dir)
     // clear images
     Clear_Images();
     // set images
-    Add_Animation("main", m_img_dir / utf8_to_path("main.animation"));
-    Set_Named_Animation("main");
+    Add_Image_Set("main", m_img_dir / utf8_to_path("main.animation"));
+    Set_Image_Set("main");
 }
 
 void cEato::Set_Direction(const ObjectDirection dir)

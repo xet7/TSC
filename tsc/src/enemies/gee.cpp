@@ -221,8 +221,8 @@ void cGee::Set_Color(DefaultColor col)
         m_fire_resistant = 0;
     }
 
-    Add_Animation("main", "enemy/gee/" + filename_dir + "/main.animation");
-    Set_Named_Animation("main", true);
+    Add_Image_Set("main", "enemy/gee/" + filename_dir + "/main.animation");
+    Set_Image_Set("main", true);
 }
 
 void cGee::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)

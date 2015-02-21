@@ -63,8 +63,8 @@ cStaticEnemy::cStaticEnemy(XmlAttributes& attributes, cSprite_Manager* sprite_ma
     {
         m_image_filename = attributes.fetch("image", "enemy/static/saw/default.png");
     }
-    Add_Animation("main", utf8_to_path(m_image_filename));
-    Set_Named_Animation("main", true);
+    Add_Image_Set("main", utf8_to_path(m_image_filename));
+    Set_Image_Set("main", true);
 
     // path
     Set_Path_Identifier(attributes["path"]);
@@ -96,8 +96,8 @@ void cStaticEnemy::Init(void)
     Set_Speed(0.0f);
 
     m_image_filename = "enemy/static/blocks/spike_1/2_grey.png";
-    Add_Animation("main", utf8_to_path(m_image_filename));
-    Set_Named_Animation("main", true);
+    Add_Image_Set("main", utf8_to_path(m_image_filename));
+    Set_Image_Set("main", true);
 }
 
 void cStaticEnemy::Init_Links(void)
@@ -111,8 +111,8 @@ cStaticEnemy* cStaticEnemy::Copy(void) const
     cStaticEnemy* static_enemy = new cStaticEnemy(m_sprite_manager);
     static_enemy->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
     static_enemy->Clear_Images();
-    static_enemy->Add_Animation("main", utf8_to_path(m_image_filename));
-    static_enemy->Set_Named_Animation("main", true);
+    static_enemy->Add_Image_Set("main", utf8_to_path(m_image_filename));
+    static_enemy->Set_Image_Set("main", true);
     static_enemy->Set_Rotation_Speed(m_rotation_speed);
     static_enemy->Set_Path_Identifier(m_path_state.m_path_identifier);
     static_enemy->Set_Speed(m_speed);
@@ -372,8 +372,8 @@ bool cStaticEnemy::Editor_Image_Text_Changed(const CEGUI::EventArgs& event)
 
     Clear_Images();
     m_image_filename = str_text;
-    Add_Animation("main", utf8_to_path(m_image_filename));
-    Set_Named_Animation("main", true);
+    Add_Image_Set("main", utf8_to_path(m_image_filename));
+    Set_Image_Set("main", true);
 
     return 1;
 }

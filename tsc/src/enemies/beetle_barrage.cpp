@@ -65,9 +65,9 @@ void cBeetleBarrage::Init()
     m_beetle_fly_distance = 35.0f;
     m_beetle_spit_count = 5;
 
-    Add_Animation("still", utf8_to_path("enemy/beetle_barrage/still.animation"));
-    Add_Animation("active", utf8_to_path("enemy/beetle_barrage/active.animation"));
-    Set_Named_Animation("still");
+    Add_Image_Set("still", utf8_to_path("enemy/beetle_barrage/still.animation"));
+    Add_Image_Set("active", utf8_to_path("enemy/beetle_barrage/active.animation"));
+    Set_Image_Set("still");
 
     Set_Active_Range(200);
     Set_Moving_State(STA_STAY);
@@ -134,14 +134,14 @@ void cBeetleBarrage::Update()
             m_spitting_beetles_counter = 20.0f;
 
             m_is_spitting_out_beetles = true;
-            Set_Named_Animation("active");
+            Set_Image_Set("active");
         }
     }
 
     if (m_is_spitting_out_beetles) {
         if (m_spitting_beetles_counter <= 0.0f) {
             m_spitting_beetles_counter = 0.0f;
-            Set_Named_Animation("still");
+            Set_Image_Set("still");
 
             Generate_Beetles();
 

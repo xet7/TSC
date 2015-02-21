@@ -188,18 +188,13 @@ void cTurtleBoss::Set_Color(DefaultColor col)
     Clear_Images();
 
     if (m_color_type == COL_RED) {
-        Add_Animation("still", "enemy/bosses/turtle/still.animation");
-        Add_Animation("walk", "enemy/bosses/turtle/walk.animation");
-        Add_Animation("turn", "enemy/bosses/turtle/turn.animation");
-        Add_Animation("dead", "enemy/bosses/turtle/dead.animation");
-        Add_Animation("shell_stand", "enemy/bosses/turtle/shell_stand.animation");
-        Add_Animation("shell_run", "enemy/bosses/turtle/shell_run.animation");
-        Add_Animation("shell_active", "enemy/bosses/turtle/shell_active.animation");
-
-        int dummy;
-        Get_Named_Animation_Range("turn", m_turn_start, m_turn_end);
-        Get_Named_Animation_Range("walk", m_walk_start, dummy);
-        Get_Named_Animation_Range("shell_stand", m_shell_stand_start, dummy);
+        Add_Image_Set("still", "enemy/bosses/turtle/still.animation");
+        Add_Image_Set("walk", "enemy/bosses/turtle/walk.animation", 0, &m_walk_start);
+        Add_Image_Set("turn", "enemy/bosses/turtle/turn.animation", 0, &m_turn_start, &m_turn_end);
+        Add_Image_Set("dead", "enemy/bosses/turtle/dead.animation");
+        Add_Image_Set("shell_stand", "enemy/bosses/turtle/shell_stand.animation", 0, &m_shell_stand_start);
+        Add_Image_Set("shell_run", "enemy/bosses/turtle/shell_run.animation");
+        Add_Image_Set("shell_active", "enemy/bosses/turtle/shell_active.animation");
 
         m_kill_points = 750;
     }
@@ -208,7 +203,7 @@ void cTurtleBoss::Set_Color(DefaultColor col)
         cerr << "Error : Unknown Turtle Boss color : " << m_color_type << endl;
     }
 
-    Set_Named_Animation("still", true);
+    Set_Image_Set("still", true);
 }
 
 void cTurtleBoss::Set_Level_Ends_If_Killed(bool level_ends_if_killed)
@@ -223,7 +218,7 @@ void cTurtleBoss::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     if (m_turtle_state == TURTLEBOSS_WALK) {
         m_velx *= 0.5f;
         // hack : disable turn image
-        // Set_Named_Animation("turn");
+        // Set_Image_Set("turn");
     }
 
     Update_Rotation_Hor();
@@ -279,7 +274,7 @@ void cTurtleBoss::DownGrade(bool force /* = 0 */)
         }
 
         // set shell image
-        Set_Named_Animation("dead");
+        Set_Image_Set("dead");
 
         m_massive_type = MASS_PASSIVE;
         m_counter = 0.0f;
@@ -361,7 +356,7 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
             speed = 15.0;
         }
         Set_Animation_Speed(speed);
-        Set_Named_Animation("walk");
+        Set_Image_Set("walk");
     }
     else if (new_state == TURTLEBOSS_STAND_ANGRY) {
         m_state = STA_STAY;
@@ -372,7 +367,7 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
         m_state = STA_STAY;
         m_camera_range = 2000;
 
-        Set_Named_Animation("shell_stand");
+        Set_Image_Set("shell_stand");
     }
     else if (new_state == TURTLEBOSS_SHELL_RUN) {
         m_counter = 0.0f;
@@ -384,7 +379,7 @@ void cTurtleBoss::Set_Turtle_Moving_State(TurtleBoss_state new_state)
             speed = 15;
         }
         Set_Animation_Speed(speed);
-        Set_Named_Animation("shell_run");
+        Set_Image_Set("shell_run");
     }
 
     m_turtle_state = new_state;
@@ -413,7 +408,7 @@ void cTurtleBoss::Update(void)
         if (m_curr_img >= m_turn_start && m_curr_img <= m_turn_end) {
             // set normal image back
             if (m_anim_counter >= 200) {
-                Set_Named_Animation("walk");
+                Set_Image_Set("walk");
                 Update_Rotation_Hor();
             }
             // rotate the turn image
@@ -434,10 +429,10 @@ void cTurtleBoss::Update(void)
             // animation
             if (m_counter < 192.0f) {
                 if (static_cast<int>(m_counter) % 5 == 1) {
-                    Set_Named_Animation("shell_active"); // active
+                    Set_Image_Set("shell_active"); // active
                 }
                 else {
-                    Set_Named_Animation("shell_front"); // front
+                    Set_Image_Set("shell_front"); // front
                 }
             }
             // activate

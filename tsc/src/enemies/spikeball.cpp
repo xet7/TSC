@@ -146,13 +146,11 @@ void cSpikeball::Set_Color(const DefaultColor& col)
 
     Update_Velocity_Max();
 
-    Add_Animation("walk", "enemy/spikeball/" + filename_dir + "/walk.animation");
-    Add_Animation("turn", "enemy/spikeball/" + filename_dir + "/turn.animation");
-    //Add_Animation("dead", "enemy/spikeball/" + filename_dir + "/dead.animation");
+    Add_Image_Set("walk", "enemy/spikeball/" + filename_dir + "/walk.animation");
+    Add_Image_Set("turn", "enemy/spikeball/" + filename_dir + "/turn.animation", 0, &m_turn_start, &m_turn_end);
+    //Add_Image_Set("dead", "enemy/spikeball/" + filename_dir + "/dead.animation");
 
-    Get_Named_Animation_Range("turn", m_turn_start, m_turn_end);
-
-    Set_Named_Animation("walk", true);
+    Set_Image_Set("walk", true);
 }
 
 void cSpikeball::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
@@ -165,7 +163,7 @@ void cSpikeball::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
         }
 
         // set turn around image
-        Set_Named_Animation("turn");
+        Set_Image_Set("turn");
     }
     // only update rotation if no turn around image
     else {
@@ -181,7 +179,7 @@ void cSpikeball::DownGrade(bool force /* = 0 */)
     m_velx = 0.0f;
     m_vely = 0.0f;
     // dead image
-    Set_Named_Animation("dead");
+    Set_Image_Set("dead");
 
     // default stomp death
     if (!force) {
@@ -209,13 +207,13 @@ void cSpikeball::Set_Moving_State(Moving_state new_state)
         m_counter_running = 0.0f;
         m_counter_walk = Get_Random_Float(0.0f, 80.0f);
 
-        Set_Named_Animation("walk");
+        Set_Image_Set("walk");
         Set_Animation_Speed(1.0);
     }
     else if (new_state == STA_RUN) {
         m_counter_stay = 0.0f;
 
-        Set_Named_Animation("walk");
+        Set_Image_Set("walk");
         Set_Animation_Speed(2.16);
     }
 
@@ -250,7 +248,7 @@ void cSpikeball::Update(void)
 
         // set turn around image
         if (m_counter_stay > 40.0f && !(m_curr_img >= m_turn_start && m_curr_img <= m_turn_end)) {
-            Set_Named_Animation("turn");
+            Set_Image_Set("turn");
 
             // random direction
             if ((rand() % 2) == 1) {
@@ -330,7 +328,7 @@ void cSpikeball::Update(void)
 
             // back to normal animation
             if (m_anim_counter >= 200) {
-                Set_Named_Animation("walk");
+                Set_Image_Set("walk");
                 Update_Rotation_Hor();
             }
             // rotate the turn image
