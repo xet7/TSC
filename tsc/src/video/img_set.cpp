@@ -125,7 +125,7 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
         // Parse the animation file
         filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
         if(filename == boost::filesystem::path()) {
-            cerr << "Warning: Unable to load image set: " << name << Get_Identity() << endl;
+            cerr << "Warning: Unable to load image set: " << name << " " << Get_Identity() << endl;
             return false;
         }
 
@@ -170,7 +170,7 @@ bool cImageSet::Set_Image_Set(const std::string& name, bool new_startimage /* =0
     cImageSet_Name_Map::iterator it = m_named_ranges.find(name);
 
     if(it == m_named_ranges.end()) {
-        cerr << "Warning: Named image set not found: " << name << Get_Identity() << endl;
+        cerr << "Warning: Named image set not found: " << name << " " << Get_Identity() << endl;
         Set_Image_Num(-1, new_startimage);
         Set_Animation(0);
         return false;
@@ -206,7 +206,7 @@ void cImageSet::Set_Image_Num(const int num, bool new_startimage /* = 0 */)
         Set_Image_Set_Image(m_images[m_curr_img].m_image, new_startimage);
     }
     else {
-        debug_print("Warning : Object image number %d bigger as the array size %u%s", m_curr_img, static_cast<unsigned int>(m_images.size()), Get_Identity().c_str());
+        debug_print("Warning : Object image number %d bigger as the array size %u %s\n", m_curr_img, static_cast<unsigned int>(m_images.size()), Get_Identity().c_str());
     }
 }
 
