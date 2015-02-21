@@ -54,15 +54,8 @@ cStaticEnemy::cStaticEnemy(XmlAttributes& attributes, cSprite_Manager* sprite_ma
     Set_Rotation_Speed(string_to_float(attributes.fetch("rotation_speed", "-7.5")));
 
     // image
+    m_image_filename = attributes.fetch("image", m_image_filename); // Init sets m_image_filename default
     Clear_Images();
-    if(attributes.exists("animation"))
-    {
-        m_image_filename = attributes.fetch("animation", "enemy/static/saw/default.png");
-    }
-    else
-    {
-        m_image_filename = attributes.fetch("image", "enemy/static/saw/default.png");
-    }
     Add_Image_Set("main", utf8_to_path(m_image_filename));
     Set_Image_Set("main", true);
 
@@ -96,6 +89,7 @@ void cStaticEnemy::Init(void)
     Set_Speed(0.0f);
 
     m_image_filename = "enemy/static/blocks/spike_1/2_grey.png";
+    Clear_Images();
     Add_Image_Set("main", utf8_to_path(m_image_filename));
     Set_Image_Set("main", true);
 }
@@ -111,6 +105,7 @@ cStaticEnemy* cStaticEnemy::Copy(void) const
     cStaticEnemy* static_enemy = new cStaticEnemy(m_sprite_manager);
     static_enemy->Set_Pos(m_start_pos_x, m_start_pos_y, 1);
     static_enemy->Clear_Images();
+    static_enemy->m_image_filename = m_image_filename;
     static_enemy->Add_Image_Set("main", utf8_to_path(m_image_filename));
     static_enemy->Set_Image_Set("main", true);
     static_enemy->Set_Rotation_Speed(m_rotation_speed);
@@ -130,9 +125,7 @@ xmlpp::Element* cStaticEnemy::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
 
-    if(utf8_to_path(m_image_filename).extension() != utf8_to_path(".png")) {
-        Add_Property(p_node, "animation", m_image_filename);
-    }
+    Replace_Property(p_node, "image", m_image_filename);
     Add_Property(p_node, "rotation_speed", m_rotation_speed);
     Add_Property(p_node, "path", m_path_state.m_path_identifier);
     Add_Property(p_node, "speed", m_speed);

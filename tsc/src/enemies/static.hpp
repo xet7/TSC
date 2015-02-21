@@ -117,7 +117,6 @@ namespace TSC {
     protected:
 
         virtual std::string Get_XML_Type_Name();
-        std::string m_image_filename;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
