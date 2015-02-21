@@ -1855,7 +1855,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4462" />
 		<Property name="posy" value="-730" />
 		<Property name="color" value="red" />
@@ -1876,7 +1876,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="6532" />
 		<Property name="posy" value="-656" />
 		<Property name="color" value="red" />
@@ -1892,7 +1892,7 @@
 		<Property name="speed" value="5.8" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="7637" />
 		<Property name="posy" value="-1641" />
 		<Property name="color" value="red" />
@@ -1934,14 +1934,14 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="12032" />
 		<Property name="posy" value="-2792" />
 		<Property name="color" value="red" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="12170" />
 		<Property name="posy" value="-2793" />
 		<Property name="color" value="red" />
@@ -2072,7 +2072,7 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="17483" />
 		<Property name="posy" value="-3895" />
 		<Property name="color" value="red" />
@@ -2100,7 +2100,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="18606" />
 		<Property name="posy" value="-3720" />
 		<Property name="color" value="red" />

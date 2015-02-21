@@ -349,7 +349,7 @@ void cSpika::Handle_Collision_Enemy(cObjectCollision* collision)
         DownGrade(1);
     }
     // enemies that also hit us
-    else if ((enemy->m_type == TYPE_TURTLE && enemy->m_state == STA_RUN)) {
+    else if ((enemy->m_type == TYPE_ARMY && enemy->m_state == STA_RUN)) {
         enemy->DownGrade(1);
         // also hits us
         DownGrade(1);

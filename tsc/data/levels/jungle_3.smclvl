@@ -3153,7 +3153,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="2271" />
 		<Property name="posy" value="-332" />
 		<Property name="color" value="red" />
@@ -7862,7 +7862,7 @@
 		<Property name="type" value="front_passive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="1913" />
 		<Property name="posy" value="-335" />
 		<Property name="color" value="green" />
@@ -9887,7 +9887,7 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="13309" />
 		<Property name="posy" value="371" />
 		<Property name="color" value="green" />
@@ -9900,14 +9900,14 @@
 		<Property name="motion" value="0" />
 	</levelexit>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="13089" />
 		<Property name="posy" value="374" />
 		<Property name="color" value="red" />
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="12460" />
 		<Property name="posy" value="311" />
 		<Property name="color" value="red" />
@@ -10111,7 +10111,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="5780" />
 		<Property name="posy" value="47" />
 		<Property name="color" value="green" />
@@ -10248,7 +10248,7 @@
 		<Property name="color" value="red" />
 	</item>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="5538" />
 		<Property name="posy" value="309" />
 		<Property name="color" value="green" />

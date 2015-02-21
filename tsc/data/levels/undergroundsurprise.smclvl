@@ -516,7 +516,7 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="375" />
 		<Property name="posy" value="-1767" />
 		<Property name="color" value="red" />

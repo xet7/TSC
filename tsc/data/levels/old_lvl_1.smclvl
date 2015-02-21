@@ -2585,8 +2585,8 @@
     <property name="posx" value="5931"/>
     <property name="posy" value="-444"/>
     <property name="uid" value="357"/>
-    <property name="image" value="enemy/turtle/red/walk_1.png"/>
-    <property name="type" value="turtle"/>
+    <property name="image" value="enemy/army/red/walk_1.png"/>
+    <property name="type" value="army"/>
     <property name="posx" value="5931"/>
     <property name="posy" value="-444"/>
     <property name="color" value="red"/>

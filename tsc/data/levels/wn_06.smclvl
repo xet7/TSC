@@ -2325,7 +2325,7 @@
 		<Property name="direction" value="right" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="6601" />
 		<Property name="posy" value="-917" />
 		<Property name="color" value="red" />
@@ -2353,7 +2353,7 @@
 		<Property name="direction" value="left" />
 	</enemy>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="6457" />
 		<Property name="posy" value="350" />
 		<Property name="color" value="red" />
@@ -2541,7 +2541,7 @@
 		<Property name="posy" value="315" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="7233" />
 		<Property name="posy" value="-55" />
 		<Property name="color" value="green" />
@@ -4717,7 +4717,7 @@
 		<Property name="useable_count" value="-1" />
 	</box>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4576" />
 		<Property name="posy" value="-2663" />
 		<Property name="color" value="green" />
@@ -7386,7 +7386,7 @@
 		<Property name="color" value="yellow" />
 	</item>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="4849" />
 		<Property name="posy" value="-976" />
 		<Property name="color" value="green" />
@@ -7732,7 +7732,7 @@
 		<Property name="type" value="passive" />
 	</sprite>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="6360" />
 		<Property name="posy" value="-911" />
 		<Property name="color" value="red" />
@@ -7774,7 +7774,7 @@
 		<Property name="posy" value="-2419" />
 	</enemystopper>
 	<enemy>
-		<Property name="type" value="turtle" />
+		<Property name="type" value="army" />
 		<Property name="posx" value="3150" />
 		<Property name="posy" value="-2655" />
 		<Property name="color" value="red" />

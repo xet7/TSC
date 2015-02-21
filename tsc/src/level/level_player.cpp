@@ -26,7 +26,7 @@
 #include "../core/sprite_manager.hpp"
 #include "../core/framerate.hpp"
 #include "../audio/audio.hpp"
-#include "../enemies/turtle.hpp"
+#include "../enemies/army.hpp"
 #include "../overworld/overworld.hpp"
 #include "../level/level.hpp"
 #include "../gui/menu.hpp"
@@ -1292,7 +1292,7 @@ void cLevel_Player::Update_Item(void)
     // if active object item is available
     if (m_active_object) {
         // collision with something or activated
-        if ((m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL) && static_cast<cTurtle*>(m_active_object)->m_dead) { // shell is a turtle anyways
+        if ((m_active_object->m_type == TYPE_ARMY || m_active_object->m_type == TYPE_SHELL) && static_cast<cArmy*>(m_active_object)->m_dead) { // shell is an armadillo anyways
             Release_Item(false);
             return;
         }
@@ -1352,11 +1352,11 @@ void cLevel_Player::Update_Item(void)
 
             // enemy item
             if (col->m_array == ARRAY_ENEMY) {
-                if (col->m_obj->m_type == TYPE_TURTLE) {
+                if (col->m_obj->m_type == TYPE_ARMY) {
                     cEnemy* enemy = static_cast<cEnemy*>(col->m_obj);
 
                     if (enemy->m_state == STA_STAY) {
-                        Get_Item(TYPE_TURTLE, 0, enemy);
+                        Get_Item(TYPE_ARMY, 0, enemy);
                         break;
                     }
                 }
@@ -1399,64 +1399,64 @@ void cLevel_Player::Release_Item(bool set_position /* = 1 */, bool no_action /* 
     }
 
     // add back to level
-    if (m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL) {
-        cTurtle* turtle = static_cast<cTurtle*>(m_active_object);
+    if (m_active_object->m_type == TYPE_ARMY || m_active_object->m_type == TYPE_SHELL) {
+        cArmy* army = static_cast<cArmy*>(m_active_object);
 
         // play kick sound if not dead
-        if (!turtle->m_dead) {
-            pAudio->Play_Sound("enemy/turtle/shell/hit.ogg");
+        if (!army->m_dead) {
+            pAudio->Play_Sound("enemy/army/shell/hit.ogg");
         }
 
         // if object got kicked upwards use state stay
         if (kick_direction == DIR_UP || no_action) {
-            turtle->m_turtle_state = TURTLE_DEAD;
-            turtle->Set_Turtle_Moving_State(TURTLE_SHELL_STAND);
+            army->m_army_state = ARMY_DEAD;
+            army->Set_Army_Moving_State(ARMY_SHELL_STAND);
 
             // small direction acceleration if no object action
             if (kick_direction == DIR_LEFT) {
                 if (no_action) {
-                    turtle->m_direction = kick_direction;
-                    turtle->m_velx = -5.0f;
+                    army->m_direction = kick_direction;
+                    army->m_velx = -5.0f;
                 }
             }
             else if (kick_direction == DIR_RIGHT) {
                 if (no_action) {
-                    turtle->m_direction = kick_direction;
-                    turtle->m_velx = 5.0f;
+                    army->m_direction = kick_direction;
+                    army->m_velx = 5.0f;
                 }
             }
             // upwards
             else if (kick_direction == DIR_UP) {
                 if (!no_action) {
-                    turtle->m_vely = m_vely - 10.0f;
+                    army->m_vely = m_vely - 10.0f;
                 }
             }
         }
         // default object horizontal kicking
         else {
-            turtle->Set_Direction(kick_direction);
-            turtle->m_turtle_state = TURTLE_DEAD;
-            turtle->Set_Turtle_Moving_State(TURTLE_SHELL_RUN);
+            army->Set_Direction(kick_direction);
+            army->m_army_state = ARMY_DEAD;
+            army->Set_Army_Moving_State(ARMY_SHELL_RUN);
 
-            if (turtle->m_direction == DIR_RIGHT) {
-                turtle->m_velx = turtle->m_velx_max;
+            if (army->m_direction == DIR_RIGHT) {
+                army->m_velx = army->m_velx_max;
             }
             else {
-                turtle->m_velx = -turtle->m_velx_max;
+                army->m_velx = -army->m_velx_max;
             }
         }
 
-        if (!turtle->m_dead) {
-            turtle->m_massive_type = MASS_MASSIVE;
+        if (!army->m_dead) {
+            army->m_massive_type = MASS_MASSIVE;
 
             // if shell and not frozen
-            if (turtle->m_state == STA_RUN && !turtle->m_freeze_counter) {
+            if (army->m_state == STA_RUN && !army->m_freeze_counter) {
                 // safe time
-                turtle->m_player_counter = speedfactor_fps * 0.5f;
+                army->m_player_counter = speedfactor_fps * 0.5f;
             }
         }
 
-        turtle->Update_Valid_Update();
+        army->Update_Valid_Update();
     }
 
     // set position
@@ -1520,7 +1520,7 @@ void cLevel_Player::Release_Item(bool set_position /* = 1 */, bool no_action /* 
 
         // check if still blocking objects on the final position
         if (!col_list->empty() && (col_list->Is_Included(ARRAY_MASSIVE) || col_list->Is_Included(ARRAY_ACTIVE) || col_list->Is_Included(ARRAY_ENEMY))) {
-            if (m_active_object->m_type == TYPE_TURTLE || m_active_object->m_type == TYPE_SHELL) {
+            if (m_active_object->m_type == TYPE_ARMY || m_active_object->m_type == TYPE_SHELL) {
                 // shell
                 if (m_active_object->m_state == STA_RUN) {
                     // if collision with static blocking objects
@@ -2826,8 +2826,8 @@ void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMoving
         m_invincible = speedfactor_fps * 16.0f;
         m_invincible_star = speedfactor_fps * 15.0f;
     }
-    // Turtle Shell
-    else if (item_type == TYPE_TURTLE || item_type == TYPE_SHELL) {
+    // Armadillo Shell
+    else if (item_type == TYPE_ARMY || item_type == TYPE_SHELL) {
         pAudio->Play_Sound("player/pickup_item.wav");
 
         m_active_object = base;
@@ -2839,12 +2839,12 @@ void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMoving
         m_active_object->m_vely = 0.0f;
 
 
-        cTurtle* turtle = static_cast<cTurtle*>(m_active_object);  // shells are turtles by inheritance anyway
+        cArmy* army = static_cast<cArmy*>(m_active_object);  // shells are armys by inheritance anyway
         // clear the standing counter
-        turtle->m_counter = 0.0f;
+        army->m_counter = 0.0f;
         // clear player counter
-        turtle->m_player_counter = 0.0f;
-        turtle->Set_Image_Num(5 + 5);
+        army->m_player_counter = 0.0f;
+        army->Set_Image_Num(5 + 5);
 
         // load holding images
         Load_Images();
@@ -3447,17 +3447,17 @@ Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
 
             return COL_VTYPE_BLOCKING;
         }
-        case TYPE_TURTLE: {
+        case TYPE_ARMY: {
             // block if on top
             if (m_vely >= 0.0f && Is_On_Top(obj)) {
                 return COL_VTYPE_BLOCKING;
             }
             // if not on top
             else {
-                cTurtle* turtle = static_cast<cTurtle*>(obj);
+                cArmy* army = static_cast<cArmy*>(obj);
 
                 // if player counter active
-                if (turtle->m_player_counter > 0.0f) {
+                if (army->m_player_counter > 0.0f) {
                     // let shell slide through us
                     return COL_VTYPE_NOT_VALID;
                 }

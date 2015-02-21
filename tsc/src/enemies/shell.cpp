@@ -24,20 +24,20 @@
 using namespace TSC;
 
 cShell::cShell(cSprite_Manager* p_sprite_manager)
-    : cTurtle(p_sprite_manager)
+    : cArmy(p_sprite_manager)
 {
     cShell::Init();
 }
 
 cShell::cShell(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
-    : cTurtle(attributes, p_sprite_manager)
+    : cArmy(attributes, p_sprite_manager)
 {
-    // Actually this init should be before the cTurtle constructor call,
-    // (and behind cTurtle::Init() there), but C++ limitations make this
+    // Actually this init should be before the cArmy constructor call,
+    // (and behind cArmy::Init() there), but C++ limitations make this
     // impossible. Seems to work fine this way, though.
     cShell::Init();
 
-    // Redo turtle init due to c++ limitations outlined above
+    // Redo army init due to c++ limitations outlined above
     // position
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 
@@ -56,13 +56,13 @@ cShell::~cShell()
 
 void cShell::Init()
 {
-    cTurtle::Init();
+    cArmy::Init();
 
     m_type = TYPE_SHELL;
     m_name = "Shell";
     m_gravity_max = 22.0f;
 
-    Set_Turtle_Moving_State(TURTLE_SHELL_STAND);
+    Set_Army_Moving_State(ARMY_SHELL_STAND);
 }
 
 cShell* cShell::Copy() const
@@ -82,7 +82,7 @@ std::string cShell::Get_XML_Type_Name()
 void cShell::Update()
 {
     // The loose shell can't stand up as the ordinary
-    // turtle. We ignore how cTurtle handles this and
+    // army. We ignore how cArmy handles this and
     // implement updating ourselves.
     cEnemy::Update();
     if (!m_valid_update || !Is_In_Range())
@@ -90,7 +90,7 @@ void cShell::Update()
 
     Update_Animation();
 
-    if (m_turtle_state == TURTLE_SHELL_STAND) {
+    if (m_army_state == ARMY_SHELL_STAND) {
         // slow down
         if (!Is_Float_Equal(m_velx, 0.0f)) {
             Add_Velocity_X(-m_velx * 0.2f);
@@ -100,10 +100,10 @@ void cShell::Update()
             }
         }
     }
-    else if (m_turtle_state == TURTLE_SHELL_RUN)
+    else if (m_army_state == ARMY_SHELL_RUN)
         Update_Velocity();
 
-    if (m_turtle_state == TURTLE_SHELL_STAND || m_turtle_state == TURTLE_SHELL_RUN) {
+    if (m_army_state == ARMY_SHELL_STAND || m_army_state == ARMY_SHELL_RUN) {
         if (!Is_Float_Equal(m_velx, 0.0f))
             Add_Rotation_Z((m_velx / (m_image->m_w * 0.009f)) * pFramerate->m_speed_factor);
     }
@@ -133,7 +133,7 @@ void cShell::Set_Color(DefaultColor col)
     if (m_color_type == col)
         return;
 
-    cTurtle::Set_Color(col);
+    cArmy::Set_Color(col);
 
     // Make it show up in the editor properly
     Set_Image_Num(10, true);
