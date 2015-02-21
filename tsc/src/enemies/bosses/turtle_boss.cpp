@@ -188,13 +188,13 @@ void cTurtleBoss::Set_Color(DefaultColor col)
     Clear_Images();
 
     if (m_color_type == COL_RED) {
-        Add_Image_Set("still", "enemy/bosses/turtle/still.animation");
-        Add_Image_Set("walk", "enemy/bosses/turtle/walk.animation", 0, &m_walk_start);
-        Add_Image_Set("turn", "enemy/bosses/turtle/turn.animation", 0, &m_turn_start, &m_turn_end);
-        Add_Image_Set("dead", "enemy/bosses/turtle/dead.animation");
-        Add_Image_Set("shell_stand", "enemy/bosses/turtle/shell_stand.animation", 0, &m_shell_stand_start);
-        Add_Image_Set("shell_run", "enemy/bosses/turtle/shell_run.animation");
-        Add_Image_Set("shell_active", "enemy/bosses/turtle/shell_active.animation");
+        Add_Image_Set("still", "enemy/bosses/turtle/still.imgset");
+        Add_Image_Set("walk", "enemy/bosses/turtle/walk.imgset", 0, &m_walk_start);
+        Add_Image_Set("turn", "enemy/bosses/turtle/turn.imgset", 0, &m_turn_start, &m_turn_end);
+        Add_Image_Set("dead", "enemy/bosses/turtle/dead.imgset");
+        Add_Image_Set("shell_stand", "enemy/bosses/turtle/shell_stand.imgset", 0, &m_shell_stand_start);
+        Add_Image_Set("shell_run", "enemy/bosses/turtle/shell_run.imgset");
+        Add_Image_Set("shell_active", "enemy/bosses/turtle/shell_active.imgset");
 
         m_kill_points = 750;
     }

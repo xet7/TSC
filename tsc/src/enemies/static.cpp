@@ -188,7 +188,9 @@ void cStaticEnemy::DownGrade(bool force /* = 0 */)
 void cStaticEnemy::Update(void)
 {
     cEnemy::Update();
-    Update_Animation();
+    if (!m_freeze_counter) {
+        Update_Animation();
+    }
 
     if (!m_valid_update || !Is_In_Range()) {
         return;
