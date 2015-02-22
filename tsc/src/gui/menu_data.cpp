@@ -647,6 +647,7 @@ void cMenu_Start::Load_Package(std::string name)
 
     pPreferences->m_package = name;
     pPreferences->Save();
+    Game_Action = GA_RESET;
 }
 
 void cMenu_Start::Load_Campaign(std::string name)

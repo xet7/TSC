@@ -116,7 +116,8 @@ namespace TSC {
         GA_ENTER_LEVEL      = 3,
         GA_DOWNGRADE_PLAYER = 4,
         GA_ACTIVATE_LEVEL_EXIT  = 5,
-        GA_ENTER_LEVEL_SETTINGS = 6
+        GA_ENTER_LEVEL_SETTINGS = 6,
+        GA_RESET                = 7
     };
 
     /* *** *** *** *** *** Level draw type *** *** *** *** *** *** *** *** *** *** *** *** */

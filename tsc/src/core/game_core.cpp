@@ -44,6 +44,7 @@ namespace TSC {
 /* *** *** *** *** *** *** *** *** Variables *** *** *** *** *** *** *** *** *** */
 
 bool game_exit = 0;
+bool game_reset = 0;
 GameMode Game_Mode = MODE_NOTHING;
 GameModeType Game_Mode_Type = MODE_TYPE_DEFAULT;
 GameAction Game_Action = GA_NONE;
@@ -109,6 +110,10 @@ void Handle_Game_Events(void)
             level_exit->Activate();
             Handle_Generic_Game_Events(current_game_action_data_middle);
             Handle_Generic_Game_Events(current_game_action_data_end);
+        }
+        // reset
+        else if(current_game_action == GA_RESET) {
+            game_reset = 1;
         }
         // full events
         else {

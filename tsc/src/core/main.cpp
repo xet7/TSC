@@ -172,50 +172,60 @@ int main(int argc, char** argv)
         }
     }
 
-    // initialize everything
-    Init_Game();
+    do {
+        game_reset = false;
+        game_exit = false;
 
-    // command line level entering
-    if (argc > 2 && (arguments[1] == "--level" || arguments[1] == "-l") && !arguments[2].empty()) {
-        Game_Action = GA_ENTER_LEVEL;
-        Game_Mode_Type = MODE_TYPE_LEVEL_CUSTOM;
-        Game_Action_Data_Middle.add("load_level", arguments[2]);
-    }
-    // command line world entering
-    else if (argc > 2 && (arguments[1] == "--world" || arguments[1] == "-w") && !arguments[2].empty()) {
-        Game_Action = GA_ENTER_WORLD;
-        Game_Action_Data_Middle.add("enter_world", arguments[2]);
-    }
-    // enter main menu
-    else {
-        Game_Action = GA_ENTER_MENU;
-        Game_Action_Data_Middle.add("load_menu", int_to_string(MENU_MAIN));
-    }
+        // initialize everything
+        Init_Game();
 
-    Game_Action_Data_Start.add("screen_fadeout", CEGUI::PropertyHelper::intToString(EFFECT_OUT_BLACK));
-    Game_Action_Data_Start.add("screen_fadeout_speed", "3");
-    Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_BLACK));
-    Game_Action_Data_End.add("screen_fadein_speed", "3");
+        // command line level entering
+        if (argc > 2 && (arguments[1] == "--level" || arguments[1] == "-l") && !arguments[2].empty()) {
+            Game_Action = GA_ENTER_LEVEL;
+            Game_Mode_Type = MODE_TYPE_LEVEL_CUSTOM;
+            Game_Action_Data_Middle.add("load_level", arguments[2]);
+        }
+        // command line world entering
+        else if (argc > 2 && (arguments[1] == "--world" || arguments[1] == "-w") && !arguments[2].empty()) {
+            Game_Action = GA_ENTER_WORLD;
+            Game_Action_Data_Middle.add("enter_world", arguments[2]);
+        }
+        // enter main menu
+        else {
+            Game_Action = GA_ENTER_MENU;
+            Game_Action_Data_Middle.add("load_menu", int_to_string(MENU_MAIN));
+        }
 
-    // game loop
-    while (!game_exit) {
-        // update
-        Update_Game();
-        // draw
-        Draw_Game();
+        Game_Action_Data_Start.add("screen_fadeout", CEGUI::PropertyHelper::intToString(EFFECT_OUT_BLACK));
+        Game_Action_Data_Start.add("screen_fadeout_speed", "3");
+        Game_Action_Data_End.add("screen_fadein", CEGUI::PropertyHelper::intToString(EFFECT_IN_BLACK));
+        Game_Action_Data_End.add("screen_fadein_speed", "3");
 
-        // render
+        // game loop
+        while (!game_exit and !game_reset) {
+            // update
+            Update_Game();
+            // draw
+            Draw_Game();
+
+            // render
 #ifdef TSC_RENDER_THREAD_TEST
-        pVideo->Render(1);
+            pVideo->Render(1);
 #else
-        pVideo->Render();
+            pVideo->Render();
 #endif
 
-        // update speedfactor
-        pFramerate->Update();
-    }
+            // update speedfactor
+            pFramerate->Update();
+        }
 
-    Exit_Game();
+        Exit_Game();
+ 
+        // reset should start fresh, so reset package, level, and world
+        g_cmdline_package = "";
+        argc = 0;
+
+    } while (game_reset);
     return EXIT_SUCCESS;
 }
 
