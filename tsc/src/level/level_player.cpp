@@ -112,6 +112,8 @@ cLevel_Player::cLevel_Player(cSprite_Manager* sprite_manager)
     m_active_object = NULL;
     m_duck_direction = DIR_UNDEFINED;
 
+    m_is_warping = false;
+
     Set_Pos(m_default_pos_x, m_default_pos_y, 1);
 }
 
@@ -3938,7 +3940,9 @@ void cLevel_Player::Handle_out_of_Level(ObjectDirection dir)
             // falling below ground
             else
             {*/
-            DownGrade_Player(true, true, true);
+            if (!m_is_warping) { // Very low level exits kill the player otherwise.
+                DownGrade_Player(true, true, true);
+            }
             //}
         }
     }

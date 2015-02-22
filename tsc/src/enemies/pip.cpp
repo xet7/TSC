@@ -150,22 +150,25 @@ void cPip::DownGrade(bool force /* = false */)
     else {
         if (m_state == STA_WALK) { // Split big up into two small ones
             Set_Moving_State(STA_RUN);
-            Col_Move(m_images[10].m_image->m_col_w - m_images[0].m_image->m_col_w, 0.0f, true, true);
 
-            // Spawn a second pip so it looks as if cut in twice
+            int big_pip_width = m_images[0].m_image->m_col_w; //Image width of a big pip
+
+            // Spawn a second pip so it looks as if cut in two
             cPip* p_newpip = Copy();
             p_newpip->Set_Spawned(true); // Do not save into level file when editor is activated + saved!
             p_newpip->Set_Moving_State(STA_RUN);
-            p_newpip->m_pos_x = m_pos_x;
+            p_newpip->m_pos_x = m_pos_x + big_pip_width / 2; //Stay within bounds of original big pip
             p_newpip->m_pos_y = m_pos_y;
 
+            //We just changed pips' positions.  Update the collision rectangles accordingly.
+            Update_Position_Rect();
+            p_newpip ->Update_Position_Rect();
+
             // Accelerate us up-left
-            m_pos_y -= 5.0f;
             m_velx = -15.0f;
             m_vely = -15.0f;
 
             // Accelerate the new one up-right
-            p_newpip->m_pos_y -= 60;
             p_newpip->m_velx = 15.0f; // Opposite direction than above!
             p_newpip->m_vely = -15.0f;
             m_sprite_manager->Add(p_newpip);
@@ -300,7 +303,10 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
         if (m_state == STA_WALK) {
             DownGrade();
             pLevel_Player->Action_Jump(true);
-            pLevel_Player->m_pos_x += 15; // Ensure the player does not get stuck on one of the small pips
+	    
+            //Move the player up a little bit so that they don't instantaneously stomp on a pip
+            pLevel_Player->m_pos_y -= 10;
+            pLevel_Player->Update_Position_Rect();
 
             // It is very hard to not get hit by the two resulting small pips. Thus,
             // grant the player a short period of invincibility.
@@ -310,7 +316,7 @@ void cPip::Handle_Collision_Player(cObjectCollision* p_collision)
         else if (m_state == STA_RUN) { // small walking
             DownGrade();
             pLevel_Player->Add_Kill_Multiplier();
-            // Whoooohooooo!
+            // Whoooohooooo!  Shoot the player up high!
             pLevel_Player->m_vely = -60.0f;
             pAudio->Play_Sound("player/jump_big_power.ogg");
         }

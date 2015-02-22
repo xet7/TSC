@@ -250,6 +250,7 @@ void cLevel_Exit::Activate(void)
         pLevel_Player->Set_Image_Num(pLevel_Player->Get_Image() + pLevel_Player->m_direction);
         pLevel_Player->Stop_Ducking();
         pLevel_Player->Reset_On_Ground();
+        pLevel_Player->Set_Warping(true); // Ensures we don’t get accidentally killed if below level X axis.
 
         // set position and image
         if (m_direction == DIR_UP || m_direction == DIR_DOWN) {

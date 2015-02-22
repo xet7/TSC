@@ -77,6 +77,7 @@ module Std
 
       @sprite.on_touch do |other|
         if !@activated && other.player? && other.velocity_y > 0
+          Audio.play_sound("switch.ogg")
           @sprite.image = "ground/underground/pow/#{@color}_active.png"
           @activated = true
           @callback.call

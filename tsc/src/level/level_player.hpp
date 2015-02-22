@@ -273,6 +273,10 @@ namespace TSC {
         //  Alex type after the temporary powerup
         Alex_type m_alex_type_temp_power;
 
+        // If enabled, prevents the player from dying if he is below the level X axis.
+        inline void Set_Warping(bool enable = true){m_is_warping = enable;}
+        inline bool Get_Warping(){return m_is_warping;}
+
         // true if player god mode is active
         bool m_god_mode;
 
@@ -341,6 +345,8 @@ namespace TSC {
         cMovingSprite* m_active_object;
         // direction when ducking started ( for the anti stuck under a block test )
         ObjectDirection m_duck_direction;
+        // Are we going through a level exit/level entry right now?
+        bool m_is_warping;
 
         // default position
         static const float m_default_pos_x;

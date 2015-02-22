@@ -5,3 +5,6 @@
 # globally available in *all* levels (except local variables,
 # of course). If you want, you can add your own code here,
 # but please don't remove anything you don't know what it does.
+
+# Alias Armadillo to Army so that both names work.
+Army = Armadillo

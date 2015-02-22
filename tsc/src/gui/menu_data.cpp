@@ -534,15 +534,18 @@ void cMenu_Start::Get_Levels(fs::path dir, CEGUI::colour color)
     CEGUI::Listbox* listbox_levels = static_cast<CEGUI::Listbox*>(CEGUI::WindowManager::getSingleton().getWindow("listbox_levels"));
 
     // get all files
+    // .tsclvl is the new TSC level format, but .smclvl is listed for reverse compatibility
     vector<fs::path> lvl_files = Get_Directory_Files(dir, ".tsclvl", false, false);
+    vector<fs::path> lvl_files2 = Get_Directory_Files(dir, ".smclvl", false, false);
+    lvl_files.insert(lvl_files.end(), lvl_files2.begin(), lvl_files2.end());
 
     // list all available levels
     for (vector<fs::path>::iterator itr = lvl_files.begin(); itr != lvl_files.end(); ++itr) {
         // get filename without base directory
         fs::path lvl_path = (*itr).filename();
 
-        // erase file extension only if tsclvl
-        if (lvl_path.extension() == fs::path(".tsclvl"))
+        // erase file extension only if tsclvl or smclvl (reverse compatibilty)
+        if (lvl_path.extension() == fs::path(".tsclvl") || lvl_path.extension() == fs::path(".smclvl"))
             lvl_path = lvl_path.stem();
 
         // create listbox item

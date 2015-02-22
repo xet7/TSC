@@ -103,15 +103,18 @@ cMRuby_Interpreter::~cMRuby_Interpreter()
     /* When the mruby interpreter gets deleted, all remaining mruby objects
      * (mrb_value instances) are invalidated. Therefore, we wipe all the
      * existing event callbacks here. */
+    std::string levelname = path_to_utf8(pActive_Level->m_level_filename.stem());
     cSprite_List::iterator iter;
     for (iter = mp_level->m_sprite_manager->objects.begin(); iter != mp_level->m_sprite_manager->objects.end(); iter++) {
         cSprite* p_sprite = *iter;
-        p_sprite->clear_event_handlers();
+        p_sprite->clear_event_handlers(levelname); // Would probably work fine without the level name (→ total clearing) as these sprites do not live longer than the level itself anyway
     }
-    pAudio->clear_event_handlers();
-    pKeyboard->clear_event_handlers();
-    pSavegame->clear_event_handlers();
-    pLevel_Player->clear_event_handlers();
+    // These objects stay alive even though a level ends. Only wipe those
+    // handlers for our own level.
+    pAudio->clear_event_handlers(levelname);
+    pKeyboard->clear_event_handlers(levelname);
+    pSavegame->clear_event_handlers(levelname);
+    pLevel_Player->clear_event_handlers(levelname);
 
     // Get all the registered timers from mruby
     mrb_value klass = mrb_obj_value(mrb_class_get(mp_mruby, "Timer"));

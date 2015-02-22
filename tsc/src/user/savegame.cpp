@@ -761,8 +761,9 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
     fs::path save_dir = pPackage_Manager->Get_User_Savegame_Path();
     fs::path filename = save_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav");
-    // remove old format savegame
+    // remove old format savegame files
     fs::remove(save_dir / utf8_to_path(int_to_string(save_slot) + ".save"));
+    fs::remove(save_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav"));
 
     try {
         savegame->Write_To_File(filename);
@@ -793,18 +794,24 @@ cSave* cSavegame::Load(unsigned int save_slot)
     if (File_Exists(filename)) {
         savegame = cSave::Load_From_File(filename);
     }
-    else
-    {
-        //If it is not in the newer format, try the older format
-        fs::path filename_old = save_dir / utf8_to_path(int_to_string(save_slot) + ".save");
-        if (File_Exists(filename_old)) {
-            savegame = cSave::Load_From_File(filename_old);
+    else {
+        //If it is not in the newer tscsav format, try the older .smcsav format
+        fs::path filename_smc = save_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav");
+        if (File_Exists(filename_smc)) {
+            savegame = cSave::Load_From_File(filename_smc);
         }
         else {
-            //There is not a file in any useful format -- throw an exception
-            std::stringstream ss;
-            ss << "No savegame found at slot " << save_slot << " (filename '" << filename << "' or '" << filename_old << "')!";
-            throw(InvalidSavegameError(save_slot, ss.str()));
+            //If it is not in the other two formats, try the very old .save format
+            fs::path filename_old = m_savegame_dir / utf8_to_path(int_to_string(save_slot) + ".save");
+            if (File_Exists(filename_old)) {
+                savegame = cSave::Load_From_File(filename_old);
+            }
+            else {
+                //There is not a file in any useful format -- throw an exception
+                std::stringstream ss;
+                ss << "No savegame found at slot " << save_slot << " (filename '" << filename << "' or '" << filename_old << "')!";
+                throw(InvalidSavegameError(save_slot, ss.str()));
+            }
         }
     }
 
@@ -882,7 +889,8 @@ std::string cSavegame::Get_Description(unsigned int save_slot, bool only_descrip
 bool cSavegame::Is_Valid(unsigned int save_slot) const
 {
     fs::path save_dir = pPackage_Manager->Get_User_Savegame_Path();
-    return (File_Exists(save_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav")) || File_Exists(save_dir / utf8_to_path(int_to_string(save_slot) + ".save")));
+    return (File_Exists(save_dir / utf8_to_path(int_to_string(save_slot) + ".tscsav")) || File_Exists(save_dir / utf8_to_path(int_to_string(save_slot) + ".smcsav")) ||
+            File_Exists(save_dir / utf8_to_path(int_to_string(save_slot) + ".save")));
 }
 
 cSavegame* pSavegame = NULL;
