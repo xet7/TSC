@@ -35,7 +35,7 @@ namespace TSC {
 /* *** *** *** *** *** *** cPowerUp *** *** *** *** *** *** *** *** *** *** *** */
 
 cPowerUp::cPowerUp(cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "item")
+    : cMovingSprite(sprite_manager, "item")
 {
     m_sprite_array = ARRAY_ACTIVE;
     m_massive_type = MASS_PASSIVE;
@@ -125,7 +125,7 @@ void cPowerUp::Draw(cSurface_Request* request /* = NULL */)
         return;
     }
 
-    cAnimated_Sprite::Draw(request);
+    cMovingSprite::Draw(request);
 }
 
 bool cPowerUp::Is_Update_Valid(void)
@@ -278,23 +278,23 @@ void cMushroom::Set_Type(SpriteType new_type)
     Clear_Images();
 
     if (new_type == TYPE_MUSHROOM_DEFAULT) {
-        Add_Image(pVideo->Get_Package_Surface("game/items/mushroom_red.png"));
+        Add_Image_Set("main", "game/items/berry_big.imgset");
         m_name = _("Berry");
     }
     else if (new_type == TYPE_MUSHROOM_LIVE_1) {
-        Add_Image(pVideo->Get_Package_Surface("game/items/mushroom_green.png"));
+        Add_Image_Set("main", "game/items/berry_life.imgset");
         m_name = _("1-UP berry");
     }
     else if (new_type == TYPE_MUSHROOM_POISON) {
-        Add_Image(pVideo->Get_Package_Surface("game/items/mushroom_poison.png"));
+        Add_Image_Set("main", "game/items/berry_poison.imgset");
         m_name = _("Poisonous berry");
     }
     else if (new_type == TYPE_MUSHROOM_BLUE) {
-        Add_Image(pVideo->Get_Package_Surface("game/items/mushroom_blue.png"));
+        Add_Image_Set("main", "game/items/berry_ice.imgset");
         m_name = _("Ice berry");
     }
     else if (new_type == TYPE_MUSHROOM_GHOST) {
-        Add_Image(pVideo->Get_Package_Surface("game/items/mushroom_ghost.png"));
+        Add_Image_Set("main", "game/items/berry_ghost.imgset");
         m_name = _("Ghost berry");
     }
     else {
@@ -303,8 +303,7 @@ void cMushroom::Set_Type(SpriteType new_type)
     }
 
     m_type = new_type;
-
-    Set_Image_Num(0, 1, 0);
+    Set_Image_Set("main", 1);
 }
 
 void cMushroom::Activate(void)
@@ -348,6 +347,7 @@ void cMushroom::Update(void)
     if (!m_valid_update || !Is_In_Range()) {
         return;
     }
+    Update_Animation();
 
     if (!m_ground_object) {
         if (m_vely < m_gravity_max) {
@@ -392,6 +392,7 @@ void cMushroom::Update(void)
 
         if (m_type == TYPE_MUSHROOM_BLUE) {
             // glimming
+            // TODO: using image sets, we could perhaps do this as separate frames.
             float new_glim = m_combine_color[2];
 
             if (m_glim_mod) {
@@ -499,11 +500,9 @@ void cFirePlant::Init(void)
     m_can_be_on_ground = 0;
     m_pos_z = 0.051f;
 
-    Add_Image(pVideo->Get_Package_Surface("game/items/fireberry_1.png"));
-    Add_Image(pVideo->Get_Package_Surface("game/items/fireberry_2.png"));
-    Add_Image(pVideo->Get_Package_Surface("game/items/fireberry_3.png"));
-
-    Set_Image_Num(0, 1, 0);
+    Clear_Images();
+    Add_Image_Set("main", "game/items/berry_fire.imgset");
+    Set_Image_Set("main", 1);
 
     m_name = _("Fireberry");
 
@@ -527,7 +526,7 @@ void cFirePlant::Activate(void)
 
     pLevel_Player->Get_Item(TYPE_FIREPLANT);
 
-    pHud_Points->Add_Points(700, m_pos_x + m_image->m_w / 2, m_pos_y);
+    pHud_Points->Add_Points(700, m_pos_x + (m_image ? m_image->m_w / 2 : 0), m_pos_y);
 
     // if spawned destroy
     if (m_spawned) {
@@ -544,6 +543,7 @@ void cFirePlant::Update(void)
     if (!m_valid_update || !Is_Visible_On_Screen()) {
         return;
     }
+    Update_Animation();
 
     if (!m_ground_object) {
         if (m_vely < m_gravity_max) {
@@ -552,14 +552,6 @@ void cFirePlant::Update(void)
     }
     else {
         m_vely = 0.0f;
-    }
-
-    m_counter += pFramerate->m_speed_factor;
-
-    if (m_counter > speedfactor_fps * 0.1f) {
-        Set_Image_Num((m_curr_img + 1) % m_images.size());
-
-        m_counter = 0.0f;
     }
 
     // particle animation
@@ -612,13 +604,9 @@ void cMoon::Init(void)
     m_can_be_on_ground = 0;
     m_pos_z = 0.052f;
 
-    Add_Image(pVideo->Get_Package_Surface("game/items/moon_1.png"), 4800);
-    Add_Image(pVideo->Get_Package_Surface("game/items/moon_2.png"), 150);
-
-    Set_Image_Num(0, 1);
-    Set_Animation(1);
-    Set_Animation_Image_Range(0, 1);
-    Reset_Animation();
+    Clear_Images();
+    Add_Image_Set("main", "game/items/moon.imgset");
+    Set_Image_Set("main", 1);
 
     m_name = _("Moon (3-UP)");
     m_particle_counter = 0.0f;
@@ -641,7 +629,7 @@ void cMoon::Activate(void)
 
     pLevel_Player->Get_Item(TYPE_MOON);
 
-    pHud_Points->Add_Points(4000, m_pos_x + m_image->m_w / 2, m_pos_y);
+    pHud_Points->Add_Points(4000, m_pos_x + (m_image ? m_image->m_w / 2 : 0), m_pos_y);
 
     // if spawned destroy
     if (m_spawned) {

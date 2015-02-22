@@ -35,13 +35,13 @@ namespace TSC {
 /* *** *** *** *** *** *** cBall *** *** *** *** *** *** *** *** *** *** *** */
 
 cBall::cBall(cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "ball")
+    : cMovingSprite(sprite_manager, "ball")
 {
     cBall::Init();
 }
 
 cBall::cBall(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "ball")
+    : cMovingSprite(sprite_manager, "ball")
 {
     cBall::Init();
 
@@ -104,7 +104,7 @@ std::string cBall::Get_XML_Type_Name()
 
 xmlpp::Element* cBall::Save_To_XML_Node(xmlpp::Element* p_element)
 {
-    xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+    xmlpp::Element* p_node = cMovingSprite::Save_To_XML_Node(p_element);
 
     // direction
     Add_Property(p_node, "direction", m_direction);
@@ -173,16 +173,18 @@ void cBall::Set_Ball_Type(ball_effect type)
     Clear_Images();
 
     if (type == FIREBALL_DEFAULT || type == FIREBALL_EXPLOSION) {
-        Set_Image(pVideo->Get_Package_Surface("animation/fireball/1.png"));
+        Add_Image_Set("main", "animation/fireball/ball.imgset");
+        Set_Image_Set("main");
         m_ball_type = FIREBALL_DEFAULT;
     }
     else if (type == ICEBALL_DEFAULT || type == ICEBALL_EXPLOSION) {
-        Set_Image(pVideo->Get_Package_Surface("animation/iceball/1.png"));
+        Add_Image_Set("main", "animation/iceball/ball.imgset");
+        Set_Image_Set("main");
         m_ball_type = ICEBALL_DEFAULT;
     }
     else {
         cerr << "Warning : Ball unknown type " << type << endl;
-        cAnimated_Sprite::Destroy();
+        cMovingSprite::Destroy();
     }
 }
 
@@ -221,7 +223,7 @@ void cBall::Destroy(void)
         pActive_Animation_Manager->Add(anim);
     }
 
-    cAnimated_Sprite::Destroy();
+    cMovingSprite::Destroy();
 }
 
 void cBall::Update(void)
@@ -301,7 +303,7 @@ void cBall::Draw(cSurface_Request* request /* = NULL */)
         Set_Color_Combine(m_glim_counter / 6.0f, m_glim_counter / 6.0f, m_glim_counter / 6.0f, GL_ADD);
     }
 
-    cAnimated_Sprite::Draw(request);
+    cMovingSprite::Draw(request);
 }
 
 void cBall::Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
@@ -399,7 +401,7 @@ void cBall::Handle_Collision(cObjectCollision* collision)
         return;
     }
 
-    cAnimated_Sprite::Handle_Collision(collision);
+    cMovingSprite::Handle_Collision(collision);
 }
 
 void cBall::Handle_Collision_Player(cObjectCollision* collision)

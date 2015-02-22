@@ -40,7 +40,7 @@ namespace TSC {
 /* *** *** *** *** *** *** *** *** cBaseBox *** *** *** *** *** *** *** *** *** */
 
 cBaseBox::cBaseBox(cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "box")
+    : cMovingSprite(sprite_manager, "box")
 {
     m_type = TYPE_ACTIVE_SPRITE;
     m_sprite_array = ARRAY_ACTIVE;
@@ -102,7 +102,7 @@ std::string cBaseBox::Get_XML_Type_Name()
 
 xmlpp::Element* cBaseBox::Save_To_XML_Node(xmlpp::Element* p_element)
 {
-    xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+    xmlpp::Element* p_node = cMovingSprite::Save_To_XML_Node(p_element);
 
     if (box_type != TYPE_SPIN_BOX && box_type != TYPE_TEXT_BOX) {
         // animation type
@@ -158,64 +158,41 @@ void cBaseBox::Set_Animation_Type(const std::string& new_anim_type)
 
     if (m_anim_type.compare("Bonus") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Package_Surface("game/box/brown1_1.png"));
+        Add_Image_Set("disabled", "game/box/disabled.imgset");
         // animation images
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/1.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/2.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/3.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/4.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/5.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/bonus/6.png"));
+        Add_Image_Set("main", "game/box/yellow/bonus/bonus.imgset");
 
-        Set_Animation(1);
-        Set_Animation_Image_Range(1, 6);
-        Set_Time_All(90, 1);
+        Set_Image_Set("main");
     }
     else if (m_anim_type.compare("Default") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Package_Surface("game/box/brown1_1.png"));
+        Add_Image_Set("disabled", "game/box/disabled.imgset");
         // default
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/default.png"));
+        Add_Image_Set("main", "game/box/yellow/default.imgset");
 
-        Set_Animation(0);
-        Set_Animation_Image_Range(1, 1);
+        Set_Image_Set("main");
     }
     else if (m_anim_type.compare("Power") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Package_Surface("game/box/brown1_1.png"));
+        Add_Image_Set("disabled", "game/box/disabled.imgset");
         // animation images
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_1.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_2.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_3.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/power_4.png"));
+        Add_Image_Set("main", "game/box/yellow/power.imgset");
 
-        Set_Animation(1);
-        Set_Animation_Image_Range(1, 4);
-        Set_Time_All(80, 1);
+        Set_Image_Set("main");
     }
     else if (m_anim_type.compare("Spin") == 0) {
         // disabled image
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/disabled.png"));
+        Add_Image_Set("disabled", "game/box/yellow/spin/disabled.imgset");
         // animation images
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/default.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/1.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/2.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/3.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/4.png"));
-        Add_Image(pVideo->Get_Package_Surface("game/box/yellow/spin/5.png"));
+        Add_Image_Set("main", "game/box/yellow/spin/still.imgset");
+        Add_Image_Set("spin", "game/box/yellow/spin/spin.imgset");
 
-        Set_Animation(0);
-        Set_Animation_Image_Range(1, 6);
-        Set_Time_All(80, 1);
+        Set_Image_Set("main");
     }
     else {
         cerr << "Warning : Unknown Box Animation Type : " << m_anim_type << endl;
         Set_Animation_Type("Bonus");
     }
-
-    Reset_Animation();
-    // set start image
-    Set_Image_Num(m_anim_img_start, 1, 0);
 }
 
 void cBaseBox::Set_Useable_Count(int count, bool new_startcount /* = 0 */)
@@ -422,16 +399,13 @@ void cBaseBox::Update(void)
 {
     // animate only a visible box or an activated invisible box
     if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_alex_type == ALEX_GHOST) || m_useable_count != m_start_useable_count) {
-        // Spinbox animation handling
-        if ((m_type == TYPE_SPIN_BOX || m_useable_count != 0) && m_anim_enabled) {
-            // Set_Image in Update_Animation overwrites col_pos
-            GL_point col_pos_temp = m_col_pos;
+        // Set_Image in Update_Animation overwrites col_pos
+        GL_point col_pos_temp = m_col_pos;
 
-            Update_Animation();
+        Update_Animation();
 
-            // save col_pos
-            m_col_pos = col_pos_temp;
-        }
+        // save col_pos
+        m_col_pos = col_pos_temp;
     }
 
     Update_Collision();
@@ -447,7 +421,7 @@ void cBaseBox::Draw(cSurface_Request* request /* = NULL */)
     if (!editor_level_enabled) {
         // visible box or activated invisible box
         if (m_box_invisible == BOX_VISIBLE || (m_box_invisible == BOX_GHOST && pLevel_Player->m_alex_type == ALEX_GHOST) || m_useable_count != m_start_useable_count) {
-            cAnimated_Sprite::Draw(request);
+            cMovingSprite::Draw(request);
         }
     }
     // editor enabled
@@ -473,7 +447,7 @@ void cBaseBox::Draw(cSurface_Request* request /* = NULL */)
         }
         // visible box
         else {
-            cAnimated_Sprite::Draw(request);
+            cMovingSprite::Draw(request);
         }
 
         // draw item image

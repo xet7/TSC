@@ -32,13 +32,13 @@ namespace TSC {
 /* *** *** *** *** *** *** cGoldpiece *** *** *** *** *** *** *** *** *** *** *** */
 
 cGoldpiece::cGoldpiece(cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "item")
+    : cMovingSprite(sprite_manager, "item")
 {
     cGoldpiece::Init();
 }
 
 cGoldpiece::cGoldpiece(XmlAttributes& attributes, cSprite_Manager* sprite_manager)
-    : cAnimated_Sprite(sprite_manager, "item")
+    : cMovingSprite(sprite_manager, "item")
 {
     cGoldpiece::Init();
 
@@ -79,7 +79,7 @@ std::string cGoldpiece::Get_XML_Type_Name()
 
 xmlpp::Element* cGoldpiece::Save_To_XML_Node(xmlpp::Element* p_element)
 {
-    xmlpp::Element* p_node = cAnimated_Sprite::Save_To_XML_Node(p_element);
+    xmlpp::Element* p_node = cMovingSprite::Save_To_XML_Node(p_element);
 
     // color
     Add_Property(p_node, "color", Get_Color_Name(m_color_type));
@@ -137,79 +137,38 @@ void cGoldpiece::Set_Gold_Color(DefaultColor color)
 
     if (m_type == TYPE_FALLING_GOLDPIECE) {
         if (m_color_type == COL_RED) {
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/1_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/2_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/3_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/4_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/5_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/6_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/7_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/8_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/9_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/10_falling.png"));
+            Add_Image_Set("main", "game/items/goldpiece/red/falling.imgset");
 
             m_name = _("Red Falling Jewel");
         }
         // default is yellow
         else {
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/1_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/2_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/3_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/4_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/5_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/6_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/7_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/8_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/9_falling.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/10_falling.png"));
+            Add_Image_Set("main", "game/items/goldpiece/yellow/falling.imgset");
 
             m_name = _("Falling Jewel");
         }
     }
     else {
         if (m_color_type == COL_RED) {
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/1.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/2.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/3.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/4.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/5.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/6.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/7.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/8.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/9.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/red/10.png"));
+            Add_Image_Set("main", "game/items/goldpiece/red/jewel.imgset");
 
             m_name = _("Red Jewel");
         }
         // default is yellow
         else {
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/1.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/2.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/3.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/4.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/5.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/6.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/7.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/8.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/9.png"));
-            Add_Image(pVideo->Get_Package_Surface("game/items/goldpiece/yellow/10.png"));
+            Add_Image_Set("main", "game/items/goldpiece/yellow/jewel.imgset");
 
             m_name = _("Jewel");
         }
     }
 
-    Set_Image_Num(0, 1);
-    Set_Animation(1);
-    Set_Animation_Image_Range(0, 9);
-
+    Set_Image_Set("main", 1);
     if (m_type == TYPE_JUMPING_GOLDPIECE || m_type == TYPE_FALLING_GOLDPIECE) {
-        Set_Time_All(70, 1);
+        Set_Animation_Speed(1.143);
     }
     else {
-        Set_Time_All(80, 1);
+        Set_Animation_Speed(1.0);
     }
-
-    Reset_Animation();
 }
 
 void cGoldpiece::Activate(void)
@@ -285,7 +244,7 @@ void cGoldpiece::Draw(cSurface_Request* request /* = NULL */)
         return;
     }
 
-    cAnimated_Sprite::Draw(request);
+    cMovingSprite::Draw(request);
 }
 
 bool cGoldpiece::Is_Update_Valid()
