@@ -27,6 +27,8 @@ namespace TSC {
 
 // quit game if true
     extern bool game_exit;
+// reset game if true
+    extern bool game_reset;
 // current Game Mode
     extern GameMode Game_Mode;
 // current Game Mode Type
