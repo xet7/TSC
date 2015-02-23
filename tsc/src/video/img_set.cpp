@@ -43,6 +43,16 @@ cImageSet::Parser::Parser(Uint32 time)
 {
 }
 
+bool cImageSet::Parser::Parse(const fs::path& filename)
+{
+    // We want to store a relative data path, so that the image filenames are treated
+    // as relative.  This way, an image set can reference images anywhere along the
+    // package search path and not be fixed relative to the location of the image set file.
+    relative_data_file = pPackage_Manager->Get_Relative_Pixmap_Path(filename);
+
+    return cFile_parser::Parse(filename);
+}
+
 bool cImageSet::Parser::HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
 {
     if(count == 2 && parts[0] == "time") {
@@ -58,9 +68,28 @@ bool cImageSet::Parser::HandleMessage(const std::string* parts, unsigned int cou
         FrameInfo info;
 
         // initial values, combine filename with imageset path
-        info.m_filename = data_file.parent_path() / utf8_to_path(parts[0]);
+        fs::path tmp = relative_data_file.parent_path() / utf8_to_path(parts[0]);
         info.m_time_min = m_time_min;
         info.m_time_max = m_time_max;
+
+        // Normalize filename to deal with the fact that an image set located at
+        // /package1/pixmaps/mine/1.imgset containing an image ../blocks/1.png
+        // becomes mine/../blocks/1.png, and the directory mine/ may not exist
+        // in some packages or the base data.  This also means no using symbolic
+        // links in data directories.
+        for(boost::filesystem::path::iterator it = tmp.begin(); it != tmp.end(); ++it)
+        {
+            if(*it == "..")
+            {
+                // TODO: make sure there is a parent path
+                info.m_filename = info.m_filename.parent_path();
+            }
+            else
+            {
+                info.m_filename /= *it;
+            }
+        }
+
 
         // parse the rest
         for(unsigned int idx = 1; idx < count; idx++)
