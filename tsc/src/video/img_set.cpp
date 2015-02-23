@@ -81,8 +81,14 @@ bool cImageSet::Parser::HandleMessage(const std::string* parts, unsigned int cou
         {
             if(*it == "..")
             {
-                // TODO: make sure there is a parent path
-                info.m_filename = info.m_filename.parent_path();
+                if(!info.m_filename.empty()) {
+                    info.m_filename = info.m_filename.parent_path();
+                } else {
+                    cerr << "Warning: path '" << utf8_to_path(parts[0])
+                         << "' referenced from '" << data_file
+                         << "' false outside of pixmap search paths" << endl;
+                    return 1; // don't abort parsing, just continue with next line skipping this frame
+                }
             }
             else
             {
