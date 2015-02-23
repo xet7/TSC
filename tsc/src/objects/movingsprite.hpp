@@ -65,6 +65,11 @@ namespace TSC {
         // destructor
         virtual ~cMovingSprite(void);
 
+        // load from save game
+        virtual void Load_From_Savegame(cSave_Level_Object* save_object);
+        // save to save game
+        virtual cSave_Level_Object* Save_To_Savegame(bool force=true);
+
         // Init defaults
         void Init(void);
         // copy this object

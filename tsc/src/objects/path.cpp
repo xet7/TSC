@@ -529,14 +529,9 @@ void cPath::Load_From_Savegame(cSave_Level_Object* save_object)
 
 }
 
-cSave_Level_Object* cPath::Save_To_Savegame(void)
+cSave_Level_Object* cPath::Save_To_Savegame(bool force/*=true*/)
 {
-    cSave_Level_Object* save_object = new cSave_Level_Object();
-
-    // default values
-    save_object->m_type = m_type;
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
+    cSave_Level_Object* save_object = cSprite::Save_To_Savegame();
 
     return save_object;
 }

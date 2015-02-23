@@ -131,7 +131,7 @@ void cFlyon::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cFlyon::Save_To_Savegame(void)
+cSave_Level_Object* cFlyon::Save_To_Savegame(bool force/*=true*/)
 {
     cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
 

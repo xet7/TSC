@@ -96,13 +96,9 @@ void cCrate::Load_From_Savegame(cSave_Level_Object* p_saveobj)
     }
 }
 
-cSave_Level_Object* cCrate::Save_To_Savegame(void)
+cSave_Level_Object* cCrate::Save_To_Savegame(bool force/*=true*/)
 {
-    cSave_Level_Object* p_saveobj = new cSave_Level_Object();
-
-    p_saveobj->m_type = m_type;
-    p_saveobj->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
-    p_saveobj->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
+    cSave_Level_Object* p_saveobj = cMovingSprite::Save_To_Savegame();
 
     p_saveobj->m_properties.push_back(cSave_Level_Object_Property("state", int_to_string(m_state)));
 
