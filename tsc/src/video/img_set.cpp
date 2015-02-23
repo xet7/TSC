@@ -258,6 +258,12 @@ bool cImageSet::Set_Image_Set(const std::string& name, bool new_startimage /* =0
         Set_Animation((end > start)); // True if more than one image
         Reset_Animation();
 
+        // Enter in Update_Animation only calls after leaving the current
+        // frame, so we need to call the initial Enter here.
+        if(start >= 0 && start <= static_cast<int>(m_images.size())) {
+            m_images[start].Enter();
+        }
+
         return true;
     }
 }
