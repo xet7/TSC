@@ -150,7 +150,7 @@ int cImageSet::Surface::Leave(void)
     if(m_info.m_branches.size() == 0)
         return -1;
 
-    int rnd = rand() % 101;
+    int rnd = (rand() % 100) + 1; // 1 to 100 inclusive
     for(FrameInfo::List_Type::iterator it = m_info.m_branches.begin(); it != m_info.m_branches.end(); ++it)
     {
         // first is frame number, second is percentage
