@@ -43,6 +43,16 @@ cImageSet::Parser::Parser(Uint32 time)
 {
 }
 
+bool cImageSet::Parser::Parse(const fs::path& filename)
+{
+    // We want to store a relative data path, so that the image filenames are treated
+    // as relative.  This way, an image set can reference images anywhere along the
+    // package search path and not be fixed relative to the location of the image set file.
+    relative_data_file = pPackage_Manager->Get_Relative_Pixmap_Path(filename);
+
+    return cFile_parser::Parse(filename);
+}
+
 bool cImageSet::Parser::HandleMessage(const std::string* parts, unsigned int count, unsigned int line)
 {
     if(count == 2 && parts[0] == "time") {
@@ -58,9 +68,34 @@ bool cImageSet::Parser::HandleMessage(const std::string* parts, unsigned int cou
         FrameInfo info;
 
         // initial values, combine filename with imageset path
-        info.m_filename = data_file.parent_path() / utf8_to_path(parts[0]);
+        fs::path tmp = relative_data_file.parent_path() / utf8_to_path(parts[0]);
         info.m_time_min = m_time_min;
         info.m_time_max = m_time_max;
+
+        // Normalize filename to deal with the fact that an image set located at
+        // /package1/pixmaps/mine/1.imgset containing an image ../blocks/1.png
+        // becomes mine/../blocks/1.png, and the directory mine/ may not exist
+        // in some packages or the base data.  This also means no using symbolic
+        // links in data directories.
+        for(boost::filesystem::path::iterator it = tmp.begin(); it != tmp.end(); ++it)
+        {
+            if(*it == "..")
+            {
+                if(!info.m_filename.empty()) {
+                    info.m_filename = info.m_filename.parent_path();
+                } else {
+                    cerr << "Warning: path '" << utf8_to_path(parts[0])
+                         << "' referenced from '" << data_file
+                         << "' false outside of pixmap search paths" << endl;
+                    return 1; // don't abort parsing, just continue with next line skipping this frame
+                }
+            }
+            else
+            {
+                info.m_filename /= *it;
+            }
+        }
+
 
         // parse the rest
         for(unsigned int idx = 1; idx < count; idx++)
@@ -115,7 +150,7 @@ int cImageSet::Surface::Leave(void)
     if(m_info.m_branches.size() == 0)
         return -1;
 
-    int rnd = rand() % 101;
+    int rnd = (rand() % 100) + 1; // 1 to 100 inclusive
     for(FrameInfo::List_Type::iterator it = m_info.m_branches.begin(); it != m_info.m_branches.end(); ++it)
     {
         // first is frame number, second is percentage
@@ -257,6 +292,12 @@ bool cImageSet::Set_Image_Set(const std::string& name, bool new_startimage /* =0
         Set_Animation_Image_Range(start, end);
         Set_Animation((end > start)); // True if more than one image
         Reset_Animation();
+
+        // Enter in Update_Animation only calls after leaving the current
+        // frame, so we need to call the initial Enter here.
+        if(start >= 0 && start <= static_cast<int>(m_images.size())) {
+            m_images[start].Enter();
+        }
 
         return true;
     }
