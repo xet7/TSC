@@ -526,14 +526,18 @@ xmlpp::Element* cSprite::Save_To_XML_Node(xmlpp::Element* p_element)
  */
 cSave_Level_Object* cSprite::Save_To_Savegame(bool force /*=true*/)
 {
-    // default values
-    cSave_Level_Object* save_object = new cSave_Level_Object();
+    if(force) {
+        cSave_Level_Object* save_object = new cSave_Level_Object();
 
-    save_object->m_type = m_type;
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
+        // default values
+        save_object->m_type = m_type;
+        save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
+        save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
 
-    return save_object;
+        return save_object;
+    } else {
+        return NULL;
+    }
 }
 
 /**
