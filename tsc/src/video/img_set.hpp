@@ -109,7 +109,7 @@ namespace TSC {
         // Get an array image
         cGL_Surface* Get_Image(const unsigned int num) const;
         // Clear the image list
-        void Clear_Images(void);
+        void Clear_Images(bool reset_image=false, bool reset_startimage=false);
 
         /* Set if the animation is enabled
          * default : disabled

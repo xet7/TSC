@@ -334,11 +334,15 @@ cGL_Surface* cImageSet::Get_Image(const unsigned int num) const
     return m_images[num].m_image;
 }
 
-void cImageSet::Clear_Images(void)
+void cImageSet::Clear_Images(bool reset_image/*=false*/, bool reset_startimage/*=false*/)
 {
     m_curr_img = -1;
     m_images.clear();
     m_named_ranges.clear();
+
+    if(reset_image) {
+        Set_Image_Set_Image(NULL, reset_startimage);
+    }
 }
 
 void cImageSet::Update_Animation(void)
