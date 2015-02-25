@@ -286,8 +286,7 @@ endif()
 # of TSC.
 file(GLOB_RECURSE tsc_sources
   "src/*.cpp"
-  "src/*.hpp"
-  )
+  "src/*.hpp")
 
 ###############################################
 # Targets
@@ -409,6 +408,26 @@ install(DIRECTORY "${TSC_SOURCE_DIR}/data/worlds/"
   COMPONENT worlds)
 install(FILES "${TSC_SOURCE_DIR}/docs/man/tsc.6"
   DESTINATION man/man6
+  COMPONENT base)
+install(FILES "${TSC_SOURCE_DIR}/extras/icons/tsc_icon_16.png"
+  DESTINATION share/icons/hicolor/16x16/apps
+  RENAME tsc.png
+  COMPONENT base)
+install(FILES "${TSC_SOURCE_DIR}/extras/icons/tsc_icon_32.png"
+  DESTINATION share/icons/hicolor/32x32/apps
+  RENAME tsc.png
+  COMPONENT base)
+install(FILES "${TSC_SOURCE_DIR}/extras/icons/tsc_icon_48.png"
+  DESTINATION share/icons/hicolor/48x48/apps
+  RENAME tsc.png
+  COMPONENT base)
+install(FILES "${TSC_SOURCE_DIR}/extras/icons/tsc_icon_64.png"
+  DESTINATION share/icons/hicolor/64x64/apps
+  RENAME tsc.png
+  COMPONENT base)
+install(FILES "${TSC_SOURCE_DIR}/extras/icons/tsc_icon_128.png"
+  DESTINATION share/icons/hicolor/128x128/apps
+  RENAME tsc.png
   COMPONENT base)
 
 foreach(pofile ${po_files})
