@@ -429,6 +429,9 @@ install(FILES "${TSC_SOURCE_DIR}/extras/icons/tsc_icon_128.png"
   DESTINATION share/icons/hicolor/128x128/apps
   RENAME tsc.png
   COMPONENT base)
+install(FILES "${TSC_SOURCE_DIR}/extras/tsc.desktop"
+  DESTINATION share/applications
+  COMPONENT base)
 
 foreach(pofile ${po_files})
   get_filename_component(lang ${pofile} NAME_WE)
