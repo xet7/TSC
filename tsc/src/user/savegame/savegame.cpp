@@ -16,307 +16,37 @@
 
 #include "savegame.hpp"
 #include "savegame_loader.hpp"
-#include "preferences.hpp"
-#include "../core/game_core.hpp"
-#include "../core/obj_manager.hpp"
-#include "../core/errors.hpp"
-#include "../level/level.hpp"
-#include "../overworld/world_manager.hpp"
-#include "../level/level_player.hpp"
-#include "../overworld/overworld.hpp"
-#include "../core/i18n.hpp"
-#include "../core/filesystem/filesystem.hpp"
-#include "../core/filesystem/resource_manager.hpp"
-#include "../core/filesystem/package_manager.hpp"
-#include "../scripting/events/level_load_event.hpp"
-#include "../scripting/events/level_save_event.hpp"
-#include "../core/global_basic.hpp"
-#include "../audio/audio.hpp"
-#include "../enemies/army.hpp"
+#include "../preferences.hpp"
+#include "save.hpp"
+#include "save_level.hpp"
+#include "save_overworld.hpp"
+#include "../../core/game_core.hpp"
+#include "../../core/obj_manager.hpp"
+#include "../../core/errors.hpp"
+#include "../../level/level.hpp"
+#include "../../overworld/world_manager.hpp"
+#include "../../level/level_player.hpp"
+#include "../../overworld/overworld.hpp"
+#include "../../core/i18n.hpp"
+#include "../../core/filesystem/filesystem.hpp"
+#include "../../core/filesystem/resource_manager.hpp"
+#include "../../core/filesystem/package_manager.hpp"
+#include "../../scripting/events/level_load_event.hpp"
+#include "../../scripting/events/level_save_event.hpp"
+#include "../../core/global_basic.hpp"
+#include "../../audio/audio.hpp"
+#include "../../enemies/army.hpp"
 
 using namespace std;
-
 
 namespace fs = boost::filesystem;
 
 namespace TSC {
 
-/* *** *** *** *** *** *** *** cSave_Overworld_Waypoint *** *** *** *** *** *** *** *** *** *** */
-
-cSave_Overworld_Waypoint::cSave_Overworld_Waypoint(void)
-{
-    m_access = 0;
-}
-
-cSave_Overworld_Waypoint::~cSave_Overworld_Waypoint(void)
-{
-
-}
-
-/* *** *** *** *** *** *** *** cSave_Overworld *** *** *** *** *** *** *** *** *** *** */
-
-cSave_Overworld::cSave_Overworld(void)
-{
-
-}
-
-cSave_Overworld::~cSave_Overworld(void)
-{
-    for (unsigned int i = 0; i < m_waypoints.size(); i++) {
-        delete m_waypoints[i];
-    }
-
-    m_waypoints.clear();
-}
-
-/* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
-
-cSave_Level::cSave_Level(void)
-{
-    // level
-    m_active = false;
-    m_level_pos_x = 0.0f;
-    m_level_pos_y = 0.0f;
-}
-
-cSave_Level::~cSave_Level(void)
-{
-    for (cSprite_List::iterator itr = m_regular_objects.begin(); itr != m_regular_objects.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_regular_objects.clear();
-
-    for (cSprite_List::iterator itr = m_spawned_objects.begin(); itr != m_spawned_objects.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_spawned_objects.clear();
-}
-
-cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
-{
-    cSprite_List::const_iterator iter;
-
-    // <level>
-    xmlpp::Element* p_node = p_parent_node->add_child("level");
-    Add_Property(p_node, "level_name", m_name);
-
-    // Player position. Only save that for the active level.
-    if (m_active) {
-        Add_Property(p_node, "player_posx", p_level->m_level_pos_x);
-        Add_Property(p_node, "player_posy", p_level->m_level_pos_y);
-    }
-
-    /* Custom data a script writer wants to store; empty if the
-     * script writer didn’t hook into the on_load and on_save
-     * events. */
-    if (!m_mruby_data.empty())
-        Add_Property(p_node, "mruby_data", p_level->m_mruby_data);
-
-    // The regular objects.
-    // <object_data>
-    xmlpp::Element* p_objects_data_node->add_child("objects_data");
-    for(iter=m_regular_objects.begin(); iter != m_regular_objects.end(); iter++) {
-        cSprite* p_sprite = (*iter);
-
-        /* TODO: Have the sprite itself decide whether it wants to be
-         * saved or not by not adding anything to the node and
-         * returning false from Save_To_Savegame_XML_Node(). For now,
-         * just assume TYPE_UNDEFINED sprites, i.e. all static
-         * nonmoving sprites, do not need to be saved. */
-        if (p_sprite->m_type != TYPE_UNDEFINED) {
-            xmlpp::Element* p_object_node = p_objects_data_node->add_child("object");
-            p_sprite->Save_To_Savegame_XML_Node(p_object_node);
-        }
-    }
-
-    // The spawned objects. These have always to be saved.
-    // <spawned_objects>
-    xmlpp::Element* p_spawned_node = p_node->add_child("spawned_objects");
-    for(iter=m_spawned_objects.begin(); iter != m_spawned_objects.end(); iter++) {
-        cSprite* p_sprite = (*iter);
-        p_sprite->Save_To_XML_Node(p_spawned_node);
-    }
-    // </spawned_objects>
-
-    //</level>
-}
-
 /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
 cSave_Player_Return_Entry::cSave_Player_Return_Entry(const std::string& level, const std::string& entry) :
     m_level(level), m_entry(entry)
 {
-}
-
-/* *** *** *** *** *** *** *** cSave *** *** *** *** *** *** *** *** *** *** */
-
-cSave::cSave(void)
-{
-    Init();
-}
-
-cSave::~cSave(void)
-{
-    for (Save_LevelList::iterator itr = m_levels.begin(); itr != m_levels.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_levels.clear();
-
-    for (Save_OverworldList::iterator itr = m_overworlds.begin(); itr != m_overworlds.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_overworlds.clear();
-}
-
-void cSave::Init(void)
-{
-    // save
-    m_save_time = 0;
-    m_version = 0;
-
-    // player
-    m_lives = 0;
-    m_points = 0;
-    m_goldpieces = 0;
-    m_player_type = 0;
-    m_player_state = 0;
-    m_itembox_item = 0;
-    m_invincible = 0;
-    m_invincible_star = 0;
-    m_ghost_time = 0;
-    m_ghost_time_mod = 0;
-
-    //Player state (ie power ups)
-    m_player_type = 0;
-    m_player_type_temp_power = 0;
-
-    // level
-    m_level_time = 0;
-    // set earliest available version
-    m_level_engine_version = 39;
-
-    // overworld
-    m_overworld_current_waypoint = 0;
-}
-
-cSave* cSave::Load_From_File(fs::path filepath)
-{
-    debug_print("Loading savegame file '%s'\n", path_to_utf8(filepath).c_str());
-
-    cSavegameLoader loader;
-    loader.parse_file(filepath);
-    return loader.Get_Save();
-}
-
-std::string cSave::Get_Active_Level(void)
-{
-    if (m_levels.empty()) {
-        return "";
-    }
-
-    for (Save_LevelList::iterator itr = m_levels.begin(); itr != m_levels.end(); ++itr) {
-        cSave_Level* save_level = (*itr);
-
-        if (pLevel_Manager->Get_Path(save_level->m_name).empty()) {
-            continue;
-        }
-
-        // if active level
-        if (!Is_Float_Equal(save_level->m_level_pos_x, 0.0f) && !Is_Float_Equal(save_level->m_level_pos_y, 0.0f)) {
-            return save_level->m_name;
-        }
-    }
-
-    return "";
-}
-
-void cSave::Write_To_File(fs::path filepath)
-{
-    xmlpp::Document doc;
-    xmlpp::Element* p_root = doc.create_root_node("savegame");
-    xmlpp::Element* p_node = NULL;
-
-    // <information>
-    p_node = p_root->add_child("information");
-    Add_Property(p_node, "version", m_version);
-    Add_Property(p_node, "level_engine_version", m_level_engine_version);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(m_save_time));
-    Add_Property(p_node, "description", m_description);
-    // </information>
-
-    // <player>
-    p_node = p_root->add_child("player");
-    Add_Property(p_node, "lives", m_lives);
-    Add_Property(p_node, "points", m_points);
-    Add_Property(p_node, "goldpieces", m_goldpieces);
-    Add_Property(p_node, "type", m_player_type);
-    Add_Property(p_node, "type_temp_power", m_player_type_temp_power);
-    Add_Property(p_node, "invincible_star", m_invincible_star);
-    Add_Property(p_node, "invincible", m_invincible);
-    Add_Property(p_node, "ghost_time", m_ghost_time);
-    Add_Property(p_node, "ghost_time_mod", m_ghost_time_mod);
-
-    Add_Property(p_node, "state", m_player_state);
-    Add_Property(p_node, "itembox_item", m_itembox_item);
-    // if a level is available
-    if (!m_levels.empty())
-        Add_Property(p_node, "level_time", m_level_time);
-    Add_Property(p_node, "overworld_active", m_overworld_active);
-    Add_Property(p_node, "overworld_current_waypoint", m_overworld_current_waypoint);
-    // </player>
-
-    // player return stack
-    std::vector<cSave_Player_Return_Entry>::const_iterator return_iter;
-    for (return_iter = m_return_entries.begin(); return_iter != m_return_entries.end(); return_iter++) {
-        cSave_Player_Return_Entry item = *return_iter;
-
-        p_node = p_root->add_child("return");
-        if (!item.m_level.empty())
-            Add_Property(p_node, "level", item.m_level);
-        if (!item.m_entry.empty())
-            Add_Property(p_node, "entry", item.m_entry);
-    }
-
-    // levels
-    Save_LevelList::const_iterator iter;
-    for (iter=m_levels.begin(); iter != m_levels.end(); iter++) {
-        cSave_Level* p_level = *iter;
-        p_level->Save_To_Node(p_root);
-    }
-
-    // Overworlds
-    Save_OverworldList::const_iterator oiter;
-    for (oiter=m_overworlds.begin(); oiter != m_overworlds.end(); oiter++) {
-        cSave_Overworld* p_overworld = *oiter;
-
-        // <overworld>
-        p_node = p_root->add_child("overworld");
-        Add_Property(p_node, "name", p_overworld->m_name);
-
-        Save_Overworld_WaypointList::const_iterator wpiter;
-        for (wpiter=p_overworld->m_waypoints.begin(); wpiter != p_overworld->m_waypoints.end(); wpiter++) {
-            cSave_Overworld_Waypoint* p_wp = *wpiter;
-
-            // skip empty waypoints
-            if (p_wp->m_destination.empty())
-                continue;
-
-            // <waypoint>
-            xmlpp::Element* p_waypoint_node = p_node->add_child("waypoint");
-            Add_Property(p_waypoint_node, "destination", p_wp->m_destination);
-            Add_Property(p_waypoint_node, "access", p_wp->m_access);
-            // </waypoint>
-        }
-
-        // </overworld>
-    }
-
-    // Write to file (raises xmlpp::exception on error)
-    doc.write_to_file_formatted(Glib::filename_from_utf8(path_to_utf8(filepath)));
-    debug_print("Wrote savegame file '%s'.\n", path_to_utf8(filepath).c_str());
 }
 
 /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
