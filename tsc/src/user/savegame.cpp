@@ -615,85 +615,12 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
     cSave* savegame = new cSave();
 
+    // General stuff
     savegame->m_version = SAVEGAME_VERSION;
     savegame->m_level_engine_version = level_engine_version;
     savegame->m_save_time = time(NULL);
-
     savegame->m_description = description;
     savegame->m_goldpieces = pLevel_Player->m_goldpieces;
-
-    // if in a level
-    if (pActive_Level->Is_Loaded()) {
-        savegame->m_level_time = pHud_Time->m_milliseconds;
-
-        for (vector<cLevel*>::iterator itr = pLevel_Manager->objects.begin(); itr != pLevel_Manager->objects.end(); ++itr) {
-            cLevel* level = (*itr);
-
-            if (!level->Is_Loaded()) {
-                continue;
-            }
-
-            // create level data
-            cSave_Level* save_level = new cSave_Level();
-
-            save_level->m_name = path_to_utf8(Trim_Filename(level->m_level_filename, false, false));
-
-            // save position and script data if active level
-            if (pActive_Level == level) {
-                // Position.
-                save_level->m_level_pos_x = pLevel_Player->m_pos_x;
-                save_level->m_level_pos_y = pLevel_Player->m_pos_y - 5.0f;
-
-                // Custom data a script writer wants to store in the
-                // savegame (pSavegame holds the event table for the
-                // level saving events).
-                mrb_state* p_state = pActive_Level->m_mruby->Get_MRuby_State();
-                mrb_value storage_hash = mrb_hash_new(p_state);
-                mrb_int key = pActive_Level->m_mruby->Protect_From_GC(storage_hash);
-
-                Scripting::cLevel_Save_Event evt(storage_hash);
-                evt.Fire(pActive_Level->m_mruby, pSavegame);
-
-                // We use JSON to store the data for now, as mruby doesn’t have Marshal, sadly.
-                mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern_cstr(p_state, "JSON"));
-                mrb_value result = mrb_funcall(p_state, mod_json, "stringify", 1, storage_hash);
-                save_level->m_mruby_data = std::string(mrb_string_value_ptr(p_state, result));
-
-                pActive_Level->m_mruby->Unprotect_From_GC(key); // GC can collect it now
-            }
-
-            // spawned objects
-            for (cSprite_List::iterator itr = level->m_sprite_manager->objects.begin(); itr != level->m_sprite_manager->objects.end(); ++itr) {
-                cSprite* obj = (*itr);
-
-                // if spawned and active
-                if (!obj->m_spawned || obj->m_auto_destroy) {
-                    continue;
-                }
-
-                // add
-                save_level->m_spawned_objects.push_back(obj->Copy());
-            }
-
-            // save object status
-            for (cSprite_List::iterator itr = level->m_sprite_manager->objects.begin(); itr != level->m_sprite_manager->objects.end(); ++itr) {
-                cSprite* obj = (*itr);
-
-                // get save data, but don't force if it doesn't need to be saved
-                cSave_Level_Object* save_obj = obj->Save_To_Savegame(false);
-
-                // nothing to save
-                if (!save_obj) {
-                    continue;
-                }
-
-                // add
-                save_level->m_level_objects.push_back(save_obj);
-            }
-
-            savegame->m_levels.push_back(save_level);
-        }
-    }
 
     savegame->m_lives = pLevel_Player->m_lives;
     savegame->m_points = pLevel_Player->m_points;
@@ -710,6 +637,72 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
     // player return stack
     for (std::vector<cLevel_Player_Return_Entry>::const_iterator itr = pLevel_Player->m_return_stack.begin(); itr != pLevel_Player->m_return_stack.end(); itr++) {
         savegame->m_return_entries.push_back(cSave_Player_Return_Entry(itr->level, itr->entry));
+    }
+
+    // if in a level
+    if (pActive_Level->Is_Loaded()) {
+        // General info relating to all loaded levels
+        savegame->m_level_time = pHud_Time->m_milliseconds;
+
+        // Create save data for all loaded levels. Note that if a user entered
+        // a sublevel, multiple levels can be loaded.
+        for (vector<cLevel*>::iterator itr = pLevel_Manager->objects.begin(); itr != pLevel_Manager->objects.end(); ++itr) {
+            cLevel* level = (*itr);
+
+            if (!level->Is_Loaded()) {
+                continue;
+            }
+
+            cSave_Level* save_level = new cSave_Level();
+
+            // General info about the level
+            save_level->m_name = path_to_utf8(Trim_Filename(level->m_level_filename, false, false));
+
+            // Special treatment of the active level
+            if (pActive_Level == level) {
+                // Position.
+                save_level->m_level_pos_x = pLevel_Player->m_pos_x;
+                save_level->m_level_pos_y = pLevel_Player->m_pos_y - 5.0f;
+
+                // Custom data a script writer wants to store in the
+                // savegame (pSavegame holds the event table for the
+                // level saving events).
+                // TODO: Why not have mruby saving in sublevels?
+                mrb_state* p_state = pActive_Level->m_mruby->Get_MRuby_State();
+                mrb_value storage_hash = mrb_hash_new(p_state);
+                mrb_int key = pActive_Level->m_mruby->Protect_From_GC(storage_hash);
+
+                Scripting::cLevel_Save_Event evt(storage_hash);
+                evt.Fire(pActive_Level->m_mruby, pSavegame);
+
+                // We use JSON to store the data for now, as mruby doesn’t have Marshal, sadly.
+                mrb_value mod_json = mrb_const_get(p_state, mrb_obj_value(p_state->object_class), mrb_intern_cstr(p_state, "JSON"));
+                mrb_value result = mrb_funcall(p_state, mod_json, "stringify", 1, storage_hash);
+                save_level->m_mruby_data = std::string(mrb_string_value_ptr(p_state, result));
+
+                pActive_Level->m_mruby->Unprotect_From_GC(key); // GC can collect it now
+            }
+
+            // All the sprites in the level.
+            for (cSprite_List::iterator itr = level->m_sprite_manager->objects.begin(); itr != level->m_sprite_manager->objects.end(); ++itr) {
+                cSprite* p_obj = (*itr);
+
+                /* Spawned objects. These cannot be in the level XML
+                 * by definition, e.g. they can be generated by level
+                 * script or C++ code. */
+                if (p_obj->m_spawned) {
+                    if (!p_obj->m_auto_destroy) {
+                        save_level->m_spawned_objects.push_back(obj->Copy());
+                    }
+                }
+                else {
+                    // All other objects.
+                    save_level->m_regular_objects.push_back(obj->Copy());
+                }
+            }
+
+            savegame->m_levels.push_back(save_level);
+        }
     }
 
     // save overworld progress

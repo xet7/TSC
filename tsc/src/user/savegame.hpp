@@ -57,41 +57,12 @@ namespace TSC {
 
     typedef vector<cSave_Overworld*> Save_OverworldList;
 
-    /* *** *** *** *** *** *** *** cSave_Level_Object_Property *** *** *** *** *** *** *** *** *** *** */
-// Level object string property
-    class cSave_Level_Object_Property {
-    public:
-        cSave_Level_Object_Property(const std::string& new_name = "", const std::string& new_value = "");
-
-        std::string m_name;
-        std::string m_value;
-    };
-
-    typedef vector<cSave_Level_Object_Property> Save_Level_Object_ProprtyList;
-
-    /* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
-// Level object save data
-    class cSave_Level_Object {
-    public:
-        cSave_Level_Object(void);
-        ~cSave_Level_Object(void);
-
-        // Check if property exists
-        bool exists(const std::string& val_name);
-
-        // Returns the value
-        std::string Get_Value(const std::string& val_name);
-
-        SpriteType m_type;
-
-        // object properties
-        Save_Level_Object_ProprtyList m_properties;
-    };
-
-    typedef vector<cSave_Level_Object*> Save_Level_ObjectList;
-
     /* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
-// Level save data
+    /**
+     * Represents a cLevel instance in the savegame containing a list of
+     * all spawned sprites. Note a single savegame may include multiple
+     * levels when a user saves while or after he visited a sublevel
+     */
     class cSave_Level {
     public:
         cSave_Level(void);
@@ -102,9 +73,9 @@ namespace TSC {
         float m_level_pos_x;
         float m_level_pos_y;
 
-        // objects data
-        Save_Level_ObjectList m_level_objects;
-        // spawned objects
+        /// List of objects that originate from the level XML.
+        cSprite_List m_regular_objects;
+        /// List of spawned objects (i.e. not from the level XML).
         cSprite_List m_spawned_objects;
 
         // Data a script writer wants to store
