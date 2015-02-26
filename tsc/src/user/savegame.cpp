@@ -124,23 +124,73 @@ std::string cSave_Level_Object::Get_Value(const std::string& val_name)
 cSave_Level::cSave_Level(void)
 {
     // level
+    m_active = false;
     m_level_pos_x = 0.0f;
     m_level_pos_y = 0.0f;
 }
 
 cSave_Level::~cSave_Level(void)
 {
-    for (Save_Level_ObjectList::iterator itr = m_level_objects.begin(); itr != m_level_objects.end(); ++itr) {
+    for (cSprite_List::iterator itr = m_regular_objects.begin(); itr != m_regular_objects.end(); ++itr) {
         delete *itr;
     }
 
-    m_level_objects.clear();
+    m_regular_objects.clear();
 
     for (cSprite_List::iterator itr = m_spawned_objects.begin(); itr != m_spawned_objects.end(); ++itr) {
         delete *itr;
     }
 
     m_spawned_objects.clear();
+}
+
+cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
+{
+    cSprite_List::const_iterator iter;
+
+    // <level>
+    xmlpp::Element* p_node = p_parent_node->add_child("level");
+    Add_Property(p_node, "level_name", m_name);
+
+    // Player position. Only save that for the active level.
+    if (m_active) {
+        Add_Property(p_node, "player_posx", p_level->m_level_pos_x);
+        Add_Property(p_node, "player_posy", p_level->m_level_pos_y);
+    }
+
+    /* Custom data a script writer wants to store; empty if the
+     * script writer didn’t hook into the on_load and on_save
+     * events. */
+    if (!m_mruby_data.empty())
+        Add_Property(p_node, "mruby_data", p_level->m_mruby_data);
+
+    // The regular objects.
+    // <object_data>
+    xmlpp::Element* p_objects_data_node->add_child("objects_data");
+    for(iter=m_regular_objects.begin(); iter != m_regular_objects.end(); iter++) {
+        cSprite* p_sprite = (*iter);
+
+        /* TODO: Have the sprite itself decide whether it wants to be
+         * saved or not by not adding anything to the node and
+         * returning false from Save_To_Savegame_XML_Node(). For now,
+         * just assume TYPE_UNDEFINED sprites, i.e. all static
+         * nonmoving sprites, do not need to be saved. */
+        if (p_sprite->m_type != TYPE_UNDEFINED) {
+            xmlpp::Element* p_object_node = p_objects_data_node->add_child("object");
+            p_sprite->Save_To_Savegame_XML_Node(p_object_node);
+        }
+    }
+
+    // The spawned objects. These have always to be saved.
+    // <spawned_objects>
+    xmlpp::Element* p_spawned_node = p_node->add_child("spawned_objects");
+    for(iter=m_spawned_objects.begin(); iter != m_spawned_objects.end(); iter++) {
+        cSprite* p_sprite = (*iter);
+        p_sprite->Save_To_XML_Node(p_spawned_node);
+    }
+    // </spawned_objects>
+
+    //</level>
 }
 
 /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
@@ -284,50 +334,7 @@ void cSave::Write_To_File(fs::path filepath)
     Save_LevelList::const_iterator iter;
     for (iter=m_levels.begin(); iter != m_levels.end(); iter++) {
         cSave_Level* p_level = *iter;
-
-        // <level>
-        p_node = p_root->add_child("level");
-        Add_Property(p_node, "level_name", p_level->m_name);
-
-        // position is only set when saving the active level
-        if (!Is_Float_Equal(p_level->m_level_pos_x, 0.0f) && !Is_Float_Equal(p_level->m_level_pos_y, 0.0f)) {
-            Add_Property(p_node, "player_posx", p_level->m_level_pos_x);
-            Add_Property(p_node, "player_posy", p_level->m_level_pos_y);
-        }
-        // mruby data is only set when saving the active level and
-        // the script writer added something to it.
-        if (!p_level->m_mruby_data.empty())
-            Add_Property(p_node, "mruby_data", p_level->m_mruby_data);
-
-        // <spawned_objects>
-        xmlpp::Element* p_spawned_node = p_node->add_child("spawned_objects");
-        cSprite_List::const_iterator iter2;
-        for (iter2=p_level->m_spawned_objects.begin(); iter2 != p_level->m_spawned_objects.end(); iter2++) {
-            cSprite* p_sprite = *iter2;
-            p_sprite->Save_To_XML_Node(p_spawned_node);
-        }
-        // </spawned_objects>
-
-        // <objects_data>
-        xmlpp::Element* p_objects_data_node = p_node->add_child("objects_data");
-        Save_Level_ObjectList::const_iterator iter3;
-        for (iter3=p_level->m_level_objects.begin(); iter3 != p_level->m_level_objects.end(); iter3++) {
-            cSave_Level_Object* p_obj = *iter3;
-
-            // <object>
-            xmlpp::Element* p_object_node = p_objects_data_node->add_child("object");
-            Add_Property(p_object_node, "type", p_obj->m_type);
-
-            // properties
-            Save_Level_Object_ProprtyList::const_iterator iter4;
-            for (iter4=p_obj->m_properties.begin(); iter4 != p_obj->m_properties.end(); iter4++) {
-                cSave_Level_Object_Property property = *iter4;
-                Add_Property(p_object_node, property.m_name, property.m_value);
-            }
-            // </object>
-        }
-        // </objects_data>
-        // </level>
+        p_level->Save_To_Node(p_root);
     }
 
     // Overworlds
@@ -660,6 +667,7 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
             // Special treatment of the active level
             if (pActive_Level == level) {
+                save_level->m_active = true;
                 // Position.
                 save_level->m_level_pos_x = pLevel_Player->m_pos_x;
                 save_level->m_level_pos_y = pLevel_Player->m_pos_y - 5.0f;

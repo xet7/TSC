@@ -68,7 +68,11 @@ namespace TSC {
         cSave_Level(void);
         ~cSave_Level(void);
 
+        void Save_To_Node(xmlpp::Element* p_parent_node);
+
         std::string m_name;
+        /// True if this is the active level.
+        bool is_active;
         // player position is only set if level is the active one
         float m_level_pos_x;
         float m_level_pos_y;
