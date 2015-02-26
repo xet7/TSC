@@ -520,24 +520,23 @@ xmlpp::Element* cSprite::Save_To_XML_Node(xmlpp::Element* p_element)
 }
 
 /**
- * This method saves the node to a savegame.
+ * This method saves the sprite to the given savegame XML node.
+ * It is intended to be called only inside the savegame mechanism.
+ * It returns false by default, but still adds a "type" attribute
+ * to the given XML element, so that in subclasses you can easily
+ * override this method, add your own additional savegame attributes,
+ * and return true to have the cSave_Level::Save_To_Node() method
+ * consider the node for storing.
  *
- * \param force Force creating a node
+ * "posx" and "posy" attributes for the initial position (m_start_pos*
+ * attributes) are also saved.
  */
-cSave_Level_Object* cSprite::Save_To_Savegame(bool force /*=true*/)
+bool cSprite::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    if(force) {
-        cSave_Level_Object* save_object = new cSave_Level_Object();
-
-        // default values
-        save_object->m_type = m_type;
-        save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
-        save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
-
-        return save_object;
-    } else {
-        return NULL;
-    }
+    Add_Property(p_element, "type", m_type);
+    Add_Property(p_element, "posx", int_to_string(static_cast<int>(m_start_pos_x)));
+    Add_Property(p_element, "posy", int_to_string(static_cast<int>(m_start_pos_y)));
+    return false;
 }
 
 /**
