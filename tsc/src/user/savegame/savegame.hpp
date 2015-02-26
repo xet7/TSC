@@ -28,35 +28,6 @@ namespace TSC {
 #define SAVEGAME_VERSION 12
 #define SAVEGAME_VERSION_UNSUPPORTED 5
 
-    /* *** *** *** *** *** *** *** cSave_Overworld_Waypoint *** *** *** *** *** *** *** *** *** *** */
-// Overworld Waypoint save data
-    class cSave_Overworld_Waypoint {
-    public:
-        cSave_Overworld_Waypoint(void);
-        ~cSave_Overworld_Waypoint(void);
-
-        std::string m_destination;
-        bool m_access;
-    };
-
-    typedef vector<cSave_Overworld_Waypoint*> Save_Overworld_WaypointList;
-
-
-    /* *** *** *** *** *** *** *** cSave_Overworld *** *** *** *** *** *** *** *** *** *** */
-// Overworld save data
-    class cSave_Overworld {
-    public:
-        cSave_Overworld(void);
-        ~cSave_Overworld(void);
-
-        std::string m_name;
-
-        // waypoint data
-        Save_Overworld_WaypointList m_waypoints;
-    };
-
-    typedef vector<cSave_Overworld*> Save_OverworldList;
-
     /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
     class cSave_Player_Return_Entry {
     public:

@@ -36,38 +36,9 @@
 
 using namespace std;
 
-
 namespace fs = boost::filesystem;
 
 namespace TSC {
-
-/* *** *** *** *** *** *** *** cSave_Overworld_Waypoint *** *** *** *** *** *** *** *** *** *** */
-
-cSave_Overworld_Waypoint::cSave_Overworld_Waypoint(void)
-{
-    m_access = 0;
-}
-
-cSave_Overworld_Waypoint::~cSave_Overworld_Waypoint(void)
-{
-
-}
-
-/* *** *** *** *** *** *** *** cSave_Overworld *** *** *** *** *** *** *** *** *** *** */
-
-cSave_Overworld::cSave_Overworld(void)
-{
-
-}
-
-cSave_Overworld::~cSave_Overworld(void)
-{
-    for (unsigned int i = 0; i < m_waypoints.size(); i++) {
-        delete m_waypoints[i];
-    }
-
-    m_waypoints.clear();
-}
 
 /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
 cSave_Player_Return_Entry::cSave_Player_Return_Entry(const std::string& level, const std::string& entry) :
