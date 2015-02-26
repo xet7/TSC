@@ -101,7 +101,6 @@ xmlpp::Element* cSpikeball::Save_To_XML_Node(xmlpp::Element* p_element)
 
 void cSpikeball::Load_From_Savegame(cSave_Level_Object* save_object)
 {
-    cerr << "Loading Spikeball\n";
     cEnemy::Load_From_Savegame(save_object);
 
     Update_Rotation_Hor();
