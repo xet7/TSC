@@ -53,63 +53,12 @@ cPowerUp::~cPowerUp(void)
 
 void cPowerUp::Load_From_Savegame(cSave_Level_Object* save_object)
 {
-    // new position x
-    if (save_object->exists("new_posx")) {
-        Set_Pos_X(string_to_float(save_object->Get_Value("new_posx")));
-    }
-
-    // new position y
-    if (save_object->exists("new_posy")) {
-        Set_Pos_Y(string_to_float(save_object->Get_Value("new_posy")));
-    }
-
-    // direction
-    if (save_object->exists("direction")) {
-        m_direction = static_cast<ObjectDirection>(string_to_int(save_object->Get_Value("direction")));
-    }
-
-    // velocity x
-    if (save_object->exists("velx")) {
-        m_velx = string_to_float(save_object->Get_Value("velx"));
-    }
-
-    // velocity y
-    if (save_object->exists("vely")) {
-        m_vely = string_to_float(save_object->Get_Value("vely"));
-    }
-
-    // active
-    if (save_object->exists("active")) {
-        Set_Active(string_to_int(save_object->Get_Value("active")) > 0);
-    }
+    cMovingSprite::Load_From_Savegame(save_object);
 }
 
-cSave_Level_Object* cPowerUp::Save_To_Savegame(void)
+cSave_Level_Object* cPowerUp::Save_To_Savegame(bool force/*=true*/)
 {
-    cSave_Level_Object* save_object = new cSave_Level_Object();
-
-    // default values
-    save_object->m_type = m_type;
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
-
-    // new position ( only save if needed )
-    if (!Is_Float_Equal(m_start_pos_x, m_pos_x) || !Is_Float_Equal(m_start_pos_y, m_pos_y)) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("new_posx", int_to_string(static_cast<int>(m_pos_x))));
-        save_object->m_properties.push_back(cSave_Level_Object_Property("new_posy", int_to_string(static_cast<int>(m_pos_y))));
-    }
-
-    // direction
-    save_object->m_properties.push_back(cSave_Level_Object_Property("direction", int_to_string(m_direction)));
-
-    // velocity
-    save_object->m_properties.push_back(cSave_Level_Object_Property("velx", float_to_string(m_velx)));
-    save_object->m_properties.push_back(cSave_Level_Object_Property("vely", float_to_string(m_vely)));
-
-    // active
-    if (!m_active) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("active", int_to_string(m_active)));
-    }
+    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
 
     return save_object;
 }

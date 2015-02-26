@@ -126,22 +126,20 @@ void cBaseBox::Load_From_Savegame(cSave_Level_Object* save_object)
     Set_Useable_Count(save_useable_count);
 }
 
-cSave_Level_Object* cBaseBox::Save_To_Savegame(void)
+cSave_Level_Object* cBaseBox::Save_To_Savegame(bool force/*=true*/)
 {
     // only save if needed
-    if (m_useable_count == m_start_useable_count) {
+    bool needsave = m_useable_count != m_start_useable_count;
+    if(!needsave && !force) {
         return NULL;
     }
 
-    cSave_Level_Object* save_object = new cSave_Level_Object();
+    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
 
-    // default values
-    save_object->m_type = m_type;
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
-    save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
-
-    // Useable Count
-    save_object->m_properties.push_back(cSave_Level_Object_Property("useable_count", int_to_string(m_useable_count)));
+    // Useable Count only if needed
+    if(needsave) {
+        save_object->m_properties.push_back(cSave_Level_Object_Property("useable_count", int_to_string(m_useable_count)));
+    }
 
     return save_object;
 }

@@ -679,8 +679,8 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
             for (cSprite_List::iterator itr = level->m_sprite_manager->objects.begin(); itr != level->m_sprite_manager->objects.end(); ++itr) {
                 cSprite* obj = (*itr);
 
-                // get save data
-                cSave_Level_Object* save_obj = obj->Save_To_Savegame();
+                // get save data, but don't force if it doesn't need to be saved
+                cSave_Level_Object* save_obj = obj->Save_To_Savegame(false);
 
                 // nothing to save
                 if (!save_obj) {

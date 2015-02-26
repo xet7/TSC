@@ -90,28 +90,17 @@ void cSpinBox::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cSpinBox::Save_To_Savegame(void)
+cSave_Level_Object* cSpinBox::Save_To_Savegame(bool force/*=true*/)
 {
-    if(!m_spin)
+    if(!m_spin && !force)
         return NULL;
-
-    /* HACK:
-     * This is a hack to force cBaseBox to save. We need a "force" option for Save_To_Savegame
-     * We make sure the usable count and start count differ so it saves by changing the start
-     * count since it saves the useable count. */
-    int original_count = m_start_useable_count;
-    m_start_useable_count = m_useable_count + 1;
 
     cSave_Level_Object* save_object = cBaseBox::Save_To_Savegame();
-    m_start_useable_count = original_count; // Restore original start count
-
-    if(save_object == NULL) {
-        // oh well, can't save spin counter
-        return NULL;
-    }
 
     // spin counter
-    save_object->m_properties.push_back(cSave_Level_Object_Property("spin_counter", float_to_string(m_spin_counter)));
+    if(m_spin) {
+        save_object->m_properties.push_back(cSave_Level_Object_Property("spin_counter", float_to_string(m_spin_counter)));
+    }
 
     return save_object;
 }

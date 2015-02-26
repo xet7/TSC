@@ -49,7 +49,7 @@ namespace TSC {
         // load from savegame
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to savegame
-        virtual cSave_Level_Object* Save_To_Savegame(void);
+        virtual cSave_Level_Object* Save_To_Savegame(bool force=true);
 
         // Set the image directory. `dir' must be relative to the pixmaps/ directory.
         void Set_Image_Dir(boost::filesystem::path dir);

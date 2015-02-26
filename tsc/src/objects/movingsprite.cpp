@@ -20,6 +20,7 @@
 #include "../core/game_core.hpp"
 #include "../level/level.hpp"
 #include "../user/preferences.hpp"
+#include "../user/savegame.hpp"
 #include "../audio/audio.hpp"
 #include "../level/level_player.hpp"
 #include "../enemies/army.hpp"
@@ -53,6 +54,76 @@ cMovingSprite::cMovingSprite(XmlAttributes& attributes, cSprite_Manager* sprite_
 cMovingSprite::~cMovingSprite(void)
 {
     //
+}
+
+void cMovingSprite::Load_From_Savegame(cSave_Level_Object* save_object)
+{
+    cSprite::Load_From_Savegame(save_object);
+
+    // state
+    if (save_object->exists("state")) {
+        m_state = static_cast<Moving_state>(string_to_int(save_object->Get_Value("state")));
+    }
+
+    // new position x
+    if (save_object->exists("new_posx")) {
+        Set_Pos_X(string_to_float(save_object->Get_Value("new_posx")));
+    }
+
+    // new position y
+    if (save_object->exists("new_posy")) {
+        Set_Pos_Y(string_to_float(save_object->Get_Value("new_posy")));
+    }
+
+    // direction
+    if (save_object->exists("direction")) {
+        m_direction = static_cast<ObjectDirection>(string_to_int(save_object->Get_Value("direction")));
+    }
+
+    // velocity x
+    if (save_object->exists("velx")) {
+        m_velx = string_to_float(save_object->Get_Value("velx"));
+    }
+
+    // velocity y
+    if (save_object->exists("vely")) {
+        m_vely = string_to_float(save_object->Get_Value("vely"));
+    }
+
+    // active
+    if (save_object->exists("active")) {
+        Set_Active(string_to_int(save_object->Get_Value("active")) > 0);
+    }
+}
+
+cSave_Level_Object* cMovingSprite::Save_To_Savegame(bool force/*=true*/)
+{
+    cSave_Level_Object* save_object = cSprite::Save_To_Savegame();
+
+    // state
+    save_object->m_properties.push_back(cSave_Level_Object_Property("state", int_to_string(m_state)));
+
+    // new position ( only save if needed )
+    if (!Is_Float_Equal(m_start_pos_x, m_pos_x) || !Is_Float_Equal(m_start_pos_y, m_pos_y)) {
+        save_object->m_properties.push_back(cSave_Level_Object_Property("new_posx", int_to_string(static_cast<int>(m_pos_x))));
+        save_object->m_properties.push_back(cSave_Level_Object_Property("new_posy", int_to_string(static_cast<int>(m_pos_y))));
+    }
+
+    // direction
+    save_object->m_properties.push_back(cSave_Level_Object_Property("direction", int_to_string(m_direction)));
+
+    // velocity (only if needed)
+    if(!Is_Float_Equal(m_velx, 0.0) || !Is_Float_Equal(m_vely, 0.0)) {
+        save_object->m_properties.push_back(cSave_Level_Object_Property("velx", float_to_string(m_velx)));
+        save_object->m_properties.push_back(cSave_Level_Object_Property("vely", float_to_string(m_vely)));
+    }
+
+    // active ( only save if needed )
+    if (!m_active) {
+        save_object->m_properties.push_back(cSave_Level_Object_Property("active", int_to_string(m_active)));
+    }
+
+    return save_object;
 }
 
 void cMovingSprite::Init(void)

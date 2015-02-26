@@ -33,6 +33,7 @@
 #include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/global_basic.hpp"
+#include "../user/savegame.hpp"
 
 using namespace std;
 
@@ -516,6 +517,27 @@ xmlpp::Element* cSprite::Save_To_XML_Node(xmlpp::Element* p_element)
         Add_Property(p_node, "type", type);
 
     return p_node;
+}
+
+/**
+ * This method saves the node to a savegame.
+ *
+ * \param force Force creating a node
+ */
+cSave_Level_Object* cSprite::Save_To_Savegame(bool force /*=true*/)
+{
+    if(force) {
+        cSave_Level_Object* save_object = new cSave_Level_Object();
+
+        // default values
+        save_object->m_type = m_type;
+        save_object->m_properties.push_back(cSave_Level_Object_Property("posx", int_to_string(static_cast<int>(m_start_pos_x))));
+        save_object->m_properties.push_back(cSave_Level_Object_Property("posy", int_to_string(static_cast<int>(m_start_pos_y))));
+
+        return save_object;
+    } else {
+        return NULL;
+    }
 }
 
 /**

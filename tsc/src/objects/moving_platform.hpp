@@ -78,7 +78,7 @@ namespace TSC {
         // load from savegame
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to savegame
-        virtual cSave_Level_Object* Save_To_Savegame(void);
+        virtual cSave_Level_Object* Save_To_Savegame(bool force=true);
 
         // Set move type
         void Set_Move_Type(Moving_Platform_Type move_type);
