@@ -1,5 +1,5 @@
 /***************************************************************************
- * save.hpp  -  Main savegame save object
+ * save.cpp  -  Main savegame save object
  *
  * Copyright © 2003 - 2011 Florian Richter
  * Copyright © 2013 - 2014 The TSC Contributors
