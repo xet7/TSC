@@ -126,22 +126,13 @@ void cBaseBox::Load_From_Savegame(cSave_Level_Object* save_object)
     Set_Useable_Count(save_useable_count);
 }
 
-cSave_Level_Object* cBaseBox::Save_To_Savegame(bool force/*=true*/)
+bool cBaseBox::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    // only save if needed
-    bool needsave = m_useable_count != m_start_useable_count;
-    if(!needsave && !force) {
-        return NULL;
-    }
+    cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
+    Add_Property("useable_count", int_to_string(m_useable_count));
 
-    // Useable Count only if needed
-    if(needsave) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("useable_count", int_to_string(m_useable_count)));
-    }
-
-    return save_object;
+    return true;
 }
 
 void cBaseBox::Set_Animation_Type(const std::string& new_anim_type)
