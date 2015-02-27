@@ -37,7 +37,7 @@ namespace TSC {
         // load from savegame
         void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to an existing savegame object
-        void Save_To_Savegame(cSave_Level_Object* save_object);
+        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element);
         // Set the parent sprite manager
         void Set_Sprite_Manager(cSprite_Manager* sprite_manager);
 
@@ -157,8 +157,6 @@ namespace TSC {
 
         // load from savegame
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
-        // save to savegame
-        virtual cSave_Level_Object* Save_To_Savegame(bool force=true);
 
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
