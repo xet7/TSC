@@ -17,7 +17,6 @@
 #include "savegame.hpp"
 #include "savegame_loader.hpp"
 #include "../preferences.hpp"
-#include "save_overworld.hpp"
 #include "../../core/game_core.hpp"
 #include "../../core/obj_manager.hpp"
 #include "../../core/errors.hpp"
