@@ -17,6 +17,7 @@
 #ifndef TSC_SAVEGAME_SAVE_HPP
 #define TSC_SAVEGAME_SAVE_HPP
 #include "../../core/global_basic.hpp"
+#include "save_level.hpp"
 
 namespace TSC {
 

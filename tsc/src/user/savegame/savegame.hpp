@@ -17,9 +17,10 @@
 #ifndef TSC_SAVEGAME_HPP
 #define TSC_SAVEGAME_HPP
 
-#include "../objects/sprite.hpp"
-#include "../scripting/scriptable_object.hpp"
-#include "../scripting/objects/misc/mrb_level.hpp"
+#include "../../objects/sprite.hpp"
+#include "../../scripting/scriptable_object.hpp"
+#include "../../scripting/objects/misc/mrb_level.hpp"
+#include "save.hpp"
 
 namespace TSC {
 
