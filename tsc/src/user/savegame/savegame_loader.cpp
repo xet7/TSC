@@ -13,13 +13,13 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/i18n.hpp"
-#include "../level/level_loader.hpp"
-#include "../overworld/world_manager.hpp"
+#include "../../core/i18n.hpp"
+#include "../../level/level_loader.hpp"
+#include "../../overworld/world_manager.hpp"
 #include "savegame_loader.hpp"
 #include "savegame.hpp"
-#include "../core/global_basic.hpp"
-#include "../level/level_player.hpp"
+#include "../../core/global_basic.hpp"
+#include "../../level/level_player.hpp"
 
 namespace fs = boost::filesystem;
 using namespace std;
