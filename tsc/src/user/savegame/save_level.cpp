@@ -15,6 +15,7 @@
 */
 
 #include "save_level.hpp"
+#include "../../core/game_core.hpp"
 
 using namespace TSC;
 
@@ -67,7 +68,6 @@ std::string cSave_Level_Object::Get_Value(const std::string& val_name)
 cSave_Level::cSave_Level(void)
 {
     // level
-    m_active = false;
     m_level_pos_x = 0.0f;
     m_level_pos_y = 0.0f;
 }
@@ -87,7 +87,7 @@ cSave_Level::~cSave_Level(void)
     m_spawned_objects.clear();
 }
 
-cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
+void cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
 {
     cSprite_List::const_iterator iter;
 
@@ -96,20 +96,20 @@ cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
     Add_Property(p_node, "level_name", m_name);
 
     // Player position. Only save that for the active level.
-    if (m_active) {
-        Add_Property(p_node, "player_posx", p_level->m_level_pos_x);
-        Add_Property(p_node, "player_posy", p_level->m_level_pos_y);
+    if (!Is_Float_Equal(m_level_pos_x, 0.0f) && !Is_Float_Equal(m_level_pos_y, 0.0f)) {
+        Add_Property(p_node, "player_posx", m_level_pos_x);
+        Add_Property(p_node, "player_posy", m_level_pos_y);
     }
 
     /* Custom data a script writer wants to store; empty if the
      * script writer didn’t hook into the on_load and on_save
      * events. */
     if (!m_mruby_data.empty())
-        Add_Property(p_node, "mruby_data", p_level->m_mruby_data);
+        Add_Property(p_node, "mruby_data", m_mruby_data);
 
     // The regular objects.
-    // <object_data>
-    xmlpp::Element* p_objects_data_node->add_child("objects_data");
+    // <objects_data>
+    xmlpp::Element* p_objects_data_node = p_node->add_child("objects_data");
     for(iter=m_regular_objects.begin(); iter != m_regular_objects.end(); iter++) {
         cSprite* p_sprite = (*iter);
 
@@ -123,6 +123,7 @@ cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
             p_sprite->Save_To_Savegame_XML_Node(p_object_node);
         }
     }
+    // </objects_data>
 
     // The spawned objects. These have always to be saved.
     // <spawned_objects>
