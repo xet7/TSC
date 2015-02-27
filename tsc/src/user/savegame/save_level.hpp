@@ -19,6 +19,50 @@
 #include "../objects/sprite.hpp"
 
 namespace TSC {
+    /* *** *** *** *** *** *** *** cSave_Level_Object_Property *** *** *** *** *** *** *** *** *** *** */
+    /**
+    * Legacy class that holds the diff for a single attribute
+    * of a regular level object. See the description of
+    * cSave_Level_Object for why this class still exists (backward
+    * compatibility only).
+    *
+    * This class is only used for level loading still, level saving uses
+    * a newer mechanism already that doesn’t need it.
+    */
+    class cSave_Level_Object_Property {
+    public:
+        cSave_Level_Object_Property(const std::string& new_name = "", const std::string& new_value = "");
+        std::string m_name;
+        std::string m_value;
+    };
+    typedef vector<cSave_Level_Object_Property> Save_Level_Object_ProprtyList;
+
+    /* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
+    /**
+     * Legacy class for loading regular level objects from diffs.
+     * The old save system stored only diffs in the savegame files for
+     * the level objects that can be loaded from the XML, but due to
+     * backward compatibility we can’t get rid of this class currently,
+     * because using a newer format that saves regular level objects just
+     * like spawned objects we’d have to change the level save format.
+     *
+     * This class is only used for level loading still, level saving uses
+     * a newer mechanism already that doesn’t need it.
+     */
+    class cSave_Level_Object {
+    public:
+        cSave_Level_Object(void);
+        ~cSave_Level_Object(void);
+        // Check if property exists
+        bool exists(const std::string& val_name);
+        // Returns the value
+        std::string Get_Value(const std::string& val_name);
+        SpriteType m_type;
+        // object properties
+        Save_Level_Object_ProprtyList m_properties;
+    };
+    typedef vector<cSave_Level_Object*> Save_Level_ObjectList;
+
     /* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
     /**
      * Represents a cLevel instance in the savegame containing a list of
@@ -43,6 +87,14 @@ namespace TSC {
         cSprite_List m_regular_objects;
         /// List of spawned objects (i.e. not from the level XML).
         cSprite_List m_spawned_objects;
+        /** Legacy list of objects that originate from the level XML.
+         * This member is intended to be removed once we break the
+         * save level format. It holds diffs rather than entire
+         * objects and is used only during savegame level loading
+         * still, savegame level saving already uses the proper new
+         * m_regular_objects member above that holds complete cSprite
+         * instances rather than diffs. */
+        Save_Level_ObjectList m_level_objects;
 
         // Data a script writer wants to store
         std::string m_mruby_data;

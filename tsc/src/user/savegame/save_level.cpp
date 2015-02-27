@@ -16,9 +16,53 @@
 
 #include "save_level.hpp"
 
-/* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
-
 using namespace TSC;
+
+/* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
+cSave_Level_Object_Property::cSave_Level_Object_Property(const std::string& new_name /* = "" */, const std::string& new_value /* = "" */)
+{
+    m_name = new_name;
+    m_value = new_value;
+}
+
+/* *** *** *** *** *** *** *** cSave_Level_Object *** *** *** *** *** *** *** *** *** *** */
+cSave_Level_Object::cSave_Level_Object(void)
+{
+    m_type = TYPE_UNDEFINED;
+}
+
+cSave_Level_Object::~cSave_Level_Object(void)
+{
+    m_properties.clear();
+}
+
+bool cSave_Level_Object::exists(const std::string& val_name)
+{
+    for (Save_Level_Object_ProprtyList::iterator itr = m_properties.begin(); itr != m_properties.end(); ++itr) {
+        cSave_Level_Object_Property obj = (*itr);
+        if (obj.m_name.compare(val_name) == 0) {
+            // found
+            return 1;
+        }
+    }
+    // not found
+    return 0;
+}
+
+std::string cSave_Level_Object::Get_Value(const std::string& val_name)
+{
+    for (Save_Level_Object_ProprtyList::iterator itr = m_properties.begin(); itr != m_properties.end(); ++itr) {
+        cSave_Level_Object_Property obj = (*itr);
+        if (obj.m_name.compare(val_name) == 0) {
+            // found
+            return obj.m_value;
+        }
+    }
+    // not found
+    return "";
+}
+
+/* *** *** *** *** *** *** *** cSave_Level *** *** *** *** *** *** *** *** *** *** */
 
 cSave_Level::cSave_Level(void)
 {
