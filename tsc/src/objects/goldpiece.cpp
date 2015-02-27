@@ -92,13 +92,6 @@ void cGoldpiece::Load_From_Savegame(cSave_Level_Object* save_object)
     cMovingSprite::Load_From_Savegame(save_object);
 }
 
-cSave_Level_Object* cGoldpiece::Save_To_Savegame(bool force/*=true*/)
-{
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
-
-    return save_object;
-}
-
 void cGoldpiece::Set_Gold_Color(DefaultColor color)
 {
     m_color_type = color;
