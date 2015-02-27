@@ -244,7 +244,7 @@ bool cMoving_Platform::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
     cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 
     // platform state
-    Add_Property("platform_state", int_to_string(m_platform_state));
+    Add_Property(p_element, "platform_state", int_to_string(m_platform_state));
 
     // path state
     m_path_state.Save_To_Savegame_XML_Node(p_element);
