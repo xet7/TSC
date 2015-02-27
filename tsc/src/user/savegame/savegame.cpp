@@ -344,7 +344,6 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
             // Special treatment of the active level
             if (pActive_Level == level) {
-                save_level->m_active = true;
                 // Position.
                 save_level->m_level_pos_x = pLevel_Player->m_pos_x;
                 save_level->m_level_pos_y = pLevel_Player->m_pos_y - 5.0f;
