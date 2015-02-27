@@ -130,7 +130,7 @@ bool cBaseBox::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
     cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 
-    Add_Property("useable_count", int_to_string(m_useable_count));
+    Add_Property(p_element, "useable_count", int_to_string(m_useable_count));
 
     return true;
 }
