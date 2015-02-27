@@ -128,16 +128,16 @@ void cArmy::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cArmy::Save_To_Savegame(bool force/*=true*/)
+bool cArmy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
+    cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 
     // army_state ( only save if needed )
     if (m_army_state != ARMY_WALK) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("army_state", int_to_string(m_army_state)));
+        Add_Property(p_element, "army_state", int_to_string(m_army_state));
     }
 
-    return save_object;
+    return true;
 }
 
 void cArmy::Set_Direction(const ObjectDirection dir, bool new_start_direction /* = 0 */)
