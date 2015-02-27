@@ -78,7 +78,7 @@ bool cPath_State::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
     Add_Property(p_element, "new_pos_y", float_to_string(m_pos_y));
 
     // current segment
-    Add_Property(p_element, "current_segment", int_to_string(current_segment));
+    Add_Property(p_element, "current_segment", int_to_string(m_current_segment));
 
     // current segment position
     Add_Property(p_element, "current_segmant_pos", float_to_string(m_current_segment_pos));
