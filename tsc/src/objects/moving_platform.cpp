@@ -239,17 +239,17 @@ void cMoving_Platform::Load_From_Savegame(cSave_Level_Object* save_object)
     m_path_state.Load_From_Savegame(save_object);
 }
 
-cSave_Level_Object* cMoving_Platform::Save_To_Savegame(bool force/*=true*/)
+bool cMoving_Platform::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
+    cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 
     // platform state
-    save_object->m_properties.push_back(cSave_Level_Object_Property("platform_state", int_to_string(m_platform_state)));
+    Add_Property("platform_state", int_to_string(m_platform_state));
 
     // path state
-    m_path_state.Save_To_Savegame(save_object);
+    m_path_state.Save_To_Savegame_XML_Node(p_element);
 
-    return save_object;
+    return true;
 }
 
 void cMoving_Platform::Set_Move_Type(Moving_Platform_Type move_type)

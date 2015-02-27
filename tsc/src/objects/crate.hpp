@@ -39,7 +39,6 @@ namespace TSC {
         virtual ~cCrate();
 
         virtual void Load_From_Savegame(cSave_Level_Object* p_save_object);
-        virtual cSave_Level_Object* Save_To_Savegame(bool force=true);
 
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)

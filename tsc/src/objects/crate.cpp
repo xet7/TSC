@@ -96,24 +96,6 @@ void cCrate::Load_From_Savegame(cSave_Level_Object* p_saveobj)
     }
 }
 
-cSave_Level_Object* cCrate::Save_To_Savegame(bool force/*=true*/)
-{
-    cSave_Level_Object* p_saveobj = cMovingSprite::Save_To_Savegame();
-
-    p_saveobj->m_properties.push_back(cSave_Level_Object_Property("state", int_to_string(m_state)));
-
-    // new position (only save if needed)
-    if (!Is_Float_Equal(m_start_pos_x, m_pos_x) || !(Is_Float_Equal(m_start_pos_y, m_pos_y))) {
-        p_saveobj->m_properties.push_back(cSave_Level_Object_Property("new_posx", int_to_string(static_cast<int>(m_pos_x))));
-        p_saveobj->m_properties.push_back(cSave_Level_Object_Property("new_posy", int_to_string(static_cast<int>(m_pos_y))));
-    }
-
-    p_saveobj->m_properties.push_back(cSave_Level_Object_Property("velx", float_to_string(m_velx)));
-    p_saveobj->m_properties.push_back(cSave_Level_Object_Property("vely", float_to_string(m_vely)));
-
-    return p_saveobj;
-}
-
 void cCrate::Update()
 {
     if (!m_valid_update || !Is_In_Range())

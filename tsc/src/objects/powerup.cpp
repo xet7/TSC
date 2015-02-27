@@ -56,13 +56,6 @@ void cPowerUp::Load_From_Savegame(cSave_Level_Object* save_object)
     cMovingSprite::Load_From_Savegame(save_object);
 }
 
-cSave_Level_Object* cPowerUp::Save_To_Savegame(bool force/*=true*/)
-{
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
-
-    return save_object;
-}
-
 void cPowerUp::Draw(cSurface_Request* request /* = NULL */)
 {
     if (!m_valid_draw) {
