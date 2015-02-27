@@ -130,7 +130,7 @@ void cArmy::Load_From_Savegame(cSave_Level_Object* save_object)
 
 bool cArmy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    cMovingSprite::Save_To_Savegame_XML_Node(p_element);
+    cEnemy::Save_To_Savegame_XML_Node(p_element);
 
     // army_state ( only save if needed )
     if (m_army_state != ARMY_WALK) {
