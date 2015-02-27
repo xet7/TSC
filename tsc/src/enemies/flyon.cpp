@@ -131,16 +131,16 @@ void cFlyon::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cFlyon::Save_To_Savegame(bool force/*=true*/)
+bool cFlyon::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
+    cEnemy::Save_To_Savegame_XML_Node(p_element);
 
     // move_back ( only save if needed )
     if (m_move_back) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("move_back", int_to_string(m_move_back)));
+        Add_Property(p_element, "move_back", int_to_string(m_move_back));
     }
 
-    return save_object;
+    return true;
 }
 
 void cFlyon::Set_Image_Dir(fs::path dir)
