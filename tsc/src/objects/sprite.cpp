@@ -33,7 +33,7 @@
 #include "../core/filesystem/package_manager.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/global_basic.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 
 using namespace std;
 

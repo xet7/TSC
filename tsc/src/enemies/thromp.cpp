@@ -21,7 +21,7 @@
 #include "../level/level.hpp"
 #include "../gui/hud.hpp"
 #include "../video/gl_surface.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../input/mouse.hpp"
 #include "../core/i18n.hpp"

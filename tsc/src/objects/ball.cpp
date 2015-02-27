@@ -25,7 +25,7 @@
 #include "../level/level.hpp"
 #include "../gui/hud.hpp"
 #include "../core/sprite_manager.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/global_basic.hpp"
 
 using namespace std;

@@ -18,7 +18,7 @@
 #include "../core/framerate.hpp"
 #include "../core/game_core.hpp"
 #include "../core/i18n.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 
 namespace TSC {
 

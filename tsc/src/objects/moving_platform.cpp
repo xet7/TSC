@@ -20,7 +20,7 @@
 #include "../video/gl_surface.hpp"
 #include "../core/framerate.hpp"
 #include "../video/renderer.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/i18n.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../level/level_player.hpp"

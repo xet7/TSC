@@ -17,7 +17,7 @@
 #include "../enemies/enemy.hpp"
 #include "../core/camera.hpp"
 #include "../video/animation.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/game_core.hpp"
 #include "../core/i18n.hpp"
 #include "../level/level_player.hpp"

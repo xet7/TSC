@@ -27,7 +27,7 @@
 #include "../input/mouse.hpp"
 #include "../core/framerate.hpp"
 #include "../core/errors.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../video/renderer.hpp"
 #include "../level/level.hpp"
 #include "../input/keyboard.hpp"

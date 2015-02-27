@@ -21,7 +21,7 @@
 #include "../core/framerate.hpp"
 #include "../video/animation.hpp"
 #include "../gui/hud.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"
 #include "../level/level.hpp"

@@ -20,7 +20,7 @@
 #include "../gui/hud.hpp"
 #include "../level/level_player.hpp"
 #include "../video/gl_surface.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/i18n.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/xml_attributes.hpp"

@@ -22,7 +22,7 @@
 #include "../core/game_core.hpp"
 #include "../level/level_player.hpp"
 #include "../video/gl_surface.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"

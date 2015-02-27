@@ -20,7 +20,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../video/renderer.hpp"
 #include "../input/mouse.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../level/level.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../enemies/static.hpp"

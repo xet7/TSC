@@ -20,7 +20,7 @@
 #include "../core/game_core.hpp"
 #include "../level/level.hpp"
 #include "../user/preferences.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../audio/audio.hpp"
 #include "../level/level_player.hpp"
 #include "../enemies/army.hpp"
