@@ -29,15 +29,6 @@ namespace TSC {
 #define SAVEGAME_VERSION 12
 #define SAVEGAME_VERSION_UNSUPPORTED 5
 
-    /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
-    class cSave_Player_Return_Entry {
-    public:
-        cSave_Player_Return_Entry(const std::string& level, const std::string& entry);
-
-        std::string m_level;
-        std::string m_entry;
-    };
-
     /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
 
 // TODO: Maybe this class should be removed entirely and merged with cSave?
