@@ -72,16 +72,16 @@ void cEnemy::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cEnemy::Save_To_Savegame(bool force/*=true*/)
+bool cEnemy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
+    cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 
     // dead ( only save if needed )
     if (m_dead) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("dead", int_to_string(m_dead)));
+        Add_Property(p_element, "dead", int_to_string(m_dead));
     }
 
-    return save_object;
+    return true;
 }
 
 void cEnemy::Set_Dead(bool enable /* = 1 */)
