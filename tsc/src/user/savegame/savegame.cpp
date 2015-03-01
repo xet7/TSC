@@ -184,17 +184,7 @@ int cSavegame::Load_Game(unsigned int save_slot)
                 int posx = string_to_int(save_object->Get_Value("posx"));
                 int posy = string_to_int(save_object->Get_Value("posy"));
 
-                // get level object
-                bool check_position = true;
-
-                /*The Get_from_Position method below searches for the saved object in the level definition using its original position information.
-                Loose shells will slightly have their current position offset based on their image during the initialization process during level loading
-                Only require the original position field be checked for them.*/
-                if (save_object->m_type == TYPE_SHELL ) {
-                    check_position = false;
-                }
-
-                cSprite* level_object = level->m_sprite_manager->Get_from_Position(posx, posy, save_object->m_type, check_position);
+                cSprite* level_object = level->m_sprite_manager->Get_from_Position(posx, posy, save_object->m_type);
 
                 // if not anymore available
                 if (!level_object) {
