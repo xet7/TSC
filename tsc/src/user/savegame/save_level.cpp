@@ -101,16 +101,16 @@ void cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
     xmlpp::Element* p_objects_data_node = p_node->add_child("objects_data");
     std::vector<const cSprite*>::const_iterator iter;
     for(iter=m_regular_objects.begin(); iter != m_regular_objects.end(); iter++) {
+        xmlpp::Document subdoc;
+        xmlpp::Element* p_object_node = subdoc.create_root_node("object");
         const cSprite* p_sprite = (*iter);
 
-        /* TODO: Have the sprite itself decide whether it wants to be
-         * saved or not by not adding anything to the node and
-         * returning false from Save_To_Savegame_XML_Node(). For now,
-         * just assume TYPE_UNDEFINED sprites, i.e. all static
-         * nonmoving sprites, do not need to be saved. */
-        if (p_sprite->m_type != TYPE_UNDEFINED) {
-            xmlpp::Element* p_object_node = p_objects_data_node->add_child("object");
-            p_sprite->Save_To_Savegame_XML_Node(p_object_node);
+        /* Let the sprite itself decide whether it wants to be saved.
+         * If the virtual method Save_To_Savegame_XML_Node() returns false,
+         * no saving shall be done, the created XML node is ignored and not
+         * used. If the method returns true, we add in the created node. */
+        if (p_sprite->Save_To_Savegame_XML_Node(p_object_node)) {
+            p_objects_data_node->import_node(p_object_node);
         }
     }
     // </objects_data>
