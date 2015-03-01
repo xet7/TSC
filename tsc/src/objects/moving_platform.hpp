@@ -78,7 +78,7 @@ namespace TSC {
         // load from savegame
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to savegame
-        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element);
+        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const;
 
         // Set move type
         void Set_Move_Type(Moving_Platform_Type move_type);

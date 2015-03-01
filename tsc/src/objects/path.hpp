@@ -37,7 +37,7 @@ namespace TSC {
         // load from savegame
         void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to an existing savegame object
-        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element);
+        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const;
         // Set the parent sprite manager
         void Set_Sprite_Manager(cSprite_Manager* sprite_manager);
 

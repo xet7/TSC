@@ -148,7 +148,7 @@ void cStaticEnemy::Load_From_Savegame(cSave_Level_Object* save_object)
     m_path_state.Load_From_Savegame(save_object);
 }
 
-bool cStaticEnemy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cStaticEnemy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     cEnemy::Save_To_Savegame_XML_Node(p_element);
 

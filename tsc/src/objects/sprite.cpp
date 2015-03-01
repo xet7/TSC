@@ -531,7 +531,7 @@ xmlpp::Element* cSprite::Save_To_XML_Node(xmlpp::Element* p_element)
  * "posx" and "posy" attributes for the initial position (m_start_pos*
  * attributes) are also saved.
  */
-bool cSprite::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cSprite::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     Add_Property(p_element, "type", m_type);
     Add_Property(p_element, "posx", int_to_string(static_cast<int>(m_start_pos_x)));

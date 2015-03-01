@@ -72,7 +72,7 @@ void cEnemy::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-bool cEnemy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cEnemy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 

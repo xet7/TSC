@@ -71,7 +71,7 @@ void cPath_State::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-bool cPath_State::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cPath_State::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     // path position
     Add_Property(p_element, "new_pos_x", float_to_string(m_pos_x));

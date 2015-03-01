@@ -104,9 +104,9 @@ void cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
     // The regular objects.
     // <objects_data>
     xmlpp::Element* p_objects_data_node = p_node->add_child("objects_data");
-    std::vector<const cSprite*>::iterator iter;
+    std::vector<const cSprite*>::const_iterator iter;
     for(iter=m_regular_objects.begin(); iter != m_regular_objects.end(); iter++) {
-        cSprite* p_sprite = const_cast<cSprite*>((*iter)); // DEBUG DEBUG FIXME HACK TODO
+        const cSprite* p_sprite = (*iter);
 
         /* TODO: Have the sprite itself decide whether it wants to be
          * saved or not by not adding anything to the node and

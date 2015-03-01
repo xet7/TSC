@@ -131,7 +131,7 @@ void cFlyon::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-bool cFlyon::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cFlyon::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     cEnemy::Save_To_Savegame_XML_Node(p_element);
 
