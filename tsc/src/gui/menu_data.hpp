@@ -340,7 +340,7 @@ namespace TSC {
 
     class cMenu_Credits : public cMenu_Base {
     public:
-        cMenu_Credits(void);
+        cMenu_Credits(cHudSprite* p_tsc_logo);
         virtual ~cMenu_Credits(void);
 
         virtual void Init(void);
@@ -358,6 +358,8 @@ namespace TSC {
          * fade_in : if set fade in instead of fade out
         */
         void Menu_Fade(bool fade_in = 1);
+    private:
+        cHudSprite* mp_tsc_logo;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

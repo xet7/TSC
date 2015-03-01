@@ -81,6 +81,8 @@ namespace TSC {
         // Draw
         void Draw(bool with_background = 1);
 
+        inline cHudSprite* Get_TSC_Logo(){ return mp_tsc_logo; }
+
         // Returns the currently active Menu Item
         cMenu_Item* Get_Active_Item(void);
         // Returns the number of loaded Menus
@@ -100,6 +102,7 @@ namespace TSC {
 
     private:
         MenuList m_items;
+        cHudSprite* mp_tsc_logo;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

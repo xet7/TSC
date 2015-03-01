@@ -124,13 +124,13 @@ cMenuHandler::cMenuHandler(void)
     Reset();
 
     // TSC logo image
-    cHudSprite* sprite = new cHudSprite(m_level->m_sprite_manager);
-    sprite->Set_Image(pVideo->Get_Surface("game/logo/logo.png"));
-    //sprite->Set_Pos(180.0f, 20.0f);
-    sprite->Set_Pos(295.0f, 20.0f);
-    sprite->Set_Scale(0.8f);
-    sprite->Set_Massive_Type(MASS_FRONT_PASSIVE);
-    m_level->m_sprite_manager->Add(sprite);
+    mp_tsc_logo = new cHudSprite(m_level->m_sprite_manager);
+    mp_tsc_logo->Set_Image(pVideo->Get_Surface("game/logo/logo.png"));
+    //mp_tsc_logo->Set_Pos(180.0f, 20.0f);
+    mp_tsc_logo->Set_Pos(295.0f, 20.0f);
+    mp_tsc_logo->Set_Scale(0.8f);
+    mp_tsc_logo->Set_Massive_Type(MASS_FRONT_PASSIVE);
+    m_level->m_sprite_manager->Add(mp_tsc_logo); // Lets the sprite manager manage the memory
 }
 
 cMenuHandler::~cMenuHandler(void)
@@ -140,6 +140,7 @@ cMenuHandler::~cMenuHandler(void)
     delete m_camera;
     delete m_level;
     delete m_player;
+    mp_tsc_logo = NULL;
 }
 
 void cMenuHandler::Add_Menu_Item(cMenu_Item* item, float shadow_pos /* = 0 */, Color shadow_color /* = static_cast<Uint8>(0) */)
@@ -533,7 +534,7 @@ void cMenuCore::Load(const MenuID menu /* = MENU_MAIN */, const GameMode exit_ga
     }
     // Credits
     else if (m_menu_id == MENU_CREDITS) {
-        m_menu_data = static_cast<cMenu_Base*>(new cMenu_Credits());
+        m_menu_data = static_cast<cMenu_Base*>(new cMenu_Credits(m_handler->Get_TSC_Logo()));
     }
 
     m_menu_data->Set_Exit_To_Game_Mode(exit_gamemode);
