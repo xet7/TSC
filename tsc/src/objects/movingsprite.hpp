@@ -65,9 +65,6 @@ namespace TSC {
         // destructor
         virtual ~cMovingSprite(void);
 
-        /// Save the entire object below the given XML node.
-        virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
-
         // load from save game
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to save game

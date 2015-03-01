@@ -75,6 +75,11 @@ cSave_Level::cSave_Level(void)
 cSave_Level::~cSave_Level(void)
 {
     m_regular_objects.clear();
+
+    for (cSprite_List::iterator itr = m_spawned_objects.begin(); itr != m_spawned_objects.end(); ++itr) {
+        delete *itr;
+    }
+
     m_spawned_objects.clear();
 }
 
