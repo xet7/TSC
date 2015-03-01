@@ -84,8 +84,9 @@ namespace TSC {
         float m_level_pos_y;
 
         /// List of objects that originate from the level XML.
-        cSprite_List m_regular_objects;
+        std::vector<const cSprite*> m_regular_objects;
         /// List of spawned objects (i.e. not from the level XML).
+        /// TODO: Should probably be list of const cSprite* also.
         cSprite_List m_spawned_objects;
         /** Legacy list of objects that originate from the level XML.
          * This member is intended to be removed once we break the
