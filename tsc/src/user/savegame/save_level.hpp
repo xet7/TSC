@@ -87,7 +87,7 @@ namespace TSC {
         std::vector<const cSprite*> m_regular_objects;
         /// List of spawned objects (i.e. not from the level XML).
         /// TODO: Should probably be list of const cSprite* also.
-        cSprite_List m_spawned_objects;
+        cSprite_List m_spawned_objects; // TODO: Should be std::vector<const cSprite*>, however, during loading this is filled via new() (in contrast to saving)
         /** Legacy list of objects that originate from the level XML.
          * This member is intended to be removed once we break the
          * save level format. It holds diffs rather than entire
