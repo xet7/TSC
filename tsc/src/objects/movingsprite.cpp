@@ -47,6 +47,15 @@ cMovingSprite::cMovingSprite(XmlAttributes& attributes, cSprite_Manager* sprite_
     // TODO: This is the same as in the cSprite constructor!
     // position
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+    Set_Pos(string_to_float(attributes["new_posx"]), string_to_float(attributes["new_posy"]), false);
+
+    m_direction = static_cast<ObjectDirection>(string_to_int(attributes["direction"]));
+
+    m_velx = string_to_float(attributes["velx"]);
+    m_vely = string_to_float(attributes["vely"]);
+
+    Set_Active(string_to_int(attributes["active"]) > 0);
+
     // image
     Set_Image(pVideo->Get_Package_Surface(utf8_to_path(attributes["image"])), true) ;
 }
@@ -94,6 +103,20 @@ void cMovingSprite::Load_From_Savegame(cSave_Level_Object* save_object)
     if (save_object->exists("active")) {
         Set_Active(string_to_int(save_object->Get_Value("active")) > 0);
     }
+}
+
+xmlpp::Element* cMovingSprite::Save_To_XML_Node(xmlpp::Element* p_element)
+{
+    p_element = cSprite::Save_To_XML_Node(p_element);
+
+    Add_Property(p_element, "new_posx", int_to_string(static_cast<int>(m_pos_x)));
+    Add_Property(p_element, "new_posy", int_to_string(static_cast<int>(m_pos_y)));
+    Add_Property(p_element, "direction", int_to_string(m_direction));
+    Add_Property(p_element, "velx", float_to_string(m_velx));
+    Add_Property(p_element, "vely", float_to_string(m_vely));
+    Add_Property(p_element, "active", int_to_string(m_active));
+
+    return p_element;
 }
 
 /**

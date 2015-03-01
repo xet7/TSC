@@ -366,12 +366,12 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
                  * script or C++ code. */
                 if (p_obj->m_spawned) {
                     if (!p_obj->m_auto_destroy) {
-                        save_level->m_spawned_objects.push_back(p_obj->Copy());
+                        save_level->m_spawned_objects.push_back(p_obj);
                     }
                 }
                 else {
                     // All other objects.
-                    save_level->m_regular_objects.push_back(p_obj); // Same object pushed into the vector! That should be done with m_spawned_object also, but loading code demands pointers to new objects for modification (backward compatibiliy).
+                    save_level->m_regular_objects.push_back(p_obj);
                 }
             }
 

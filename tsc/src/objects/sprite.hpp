@@ -132,7 +132,7 @@ namespace TSC {
         // copy this sprite
         virtual cSprite* Copy(void) const;
 
-        /// Save the level below the given XML node.
+        /// Save the entire object below the given XML node.
         virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
 
         // load from savegame
