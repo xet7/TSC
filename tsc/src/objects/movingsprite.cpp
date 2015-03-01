@@ -100,7 +100,7 @@ void cMovingSprite::Load_From_Savegame(cSave_Level_Object* save_object)
  * Each moving sprite has the potential to change, so this method returns
  * true now (as opposed to the cSprite implementation).
  */
-bool cMovingSprite::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cMovingSprite::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     cSprite::Save_To_Savegame_XML_Node(p_element);
 

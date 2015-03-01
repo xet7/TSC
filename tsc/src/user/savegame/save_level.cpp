@@ -74,23 +74,12 @@ cSave_Level::cSave_Level(void)
 
 cSave_Level::~cSave_Level(void)
 {
-    for (cSprite_List::iterator itr = m_regular_objects.begin(); itr != m_regular_objects.end(); ++itr) {
-        delete *itr;
-    }
-
     m_regular_objects.clear();
-
-    for (cSprite_List::iterator itr = m_spawned_objects.begin(); itr != m_spawned_objects.end(); ++itr) {
-        delete *itr;
-    }
-
     m_spawned_objects.clear();
 }
 
 void cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
 {
-    cSprite_List::const_iterator iter;
-
     // <level>
     xmlpp::Element* p_node = p_parent_node->add_child("level");
     Add_Property(p_node, "level_name", m_name);
@@ -110,8 +99,9 @@ void cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
     // The regular objects.
     // <objects_data>
     xmlpp::Element* p_objects_data_node = p_node->add_child("objects_data");
+    std::vector<const cSprite*>::const_iterator iter;
     for(iter=m_regular_objects.begin(); iter != m_regular_objects.end(); iter++) {
-        cSprite* p_sprite = (*iter);
+        const cSprite* p_sprite = (*iter);
 
         /* TODO: Have the sprite itself decide whether it wants to be
          * saved or not by not adding anything to the node and
@@ -128,8 +118,9 @@ void cSave_Level::Save_To_Node(xmlpp::Element* p_parent_node)
     // The spawned objects. These have always to be saved.
     // <spawned_objects>
     xmlpp::Element* p_spawned_node = p_node->add_child("spawned_objects");
-    for(iter=m_spawned_objects.begin(); iter != m_spawned_objects.end(); iter++) {
-        cSprite* p_sprite = (*iter);
+    cSprite_List::iterator iter2; // TODO: Should be const_iterator
+    for(iter2=m_spawned_objects.begin(); iter2 != m_spawned_objects.end(); iter2++) {
+        cSprite* p_sprite = (*iter2);
         p_sprite->Save_To_XML_Node(p_spawned_node);
     }
     // </spawned_objects>

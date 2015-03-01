@@ -90,7 +90,7 @@ void cSpinBox::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-bool cSpinBox::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cSpinBox::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     cBaseBox::Save_To_Savegame_XML_Node(p_element);
 

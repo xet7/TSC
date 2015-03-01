@@ -239,7 +239,7 @@ void cMoving_Platform::Load_From_Savegame(cSave_Level_Object* save_object)
     m_path_state.Load_From_Savegame(save_object);
 }
 
-bool cMoving_Platform::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
+bool cMoving_Platform::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     cMovingSprite::Save_To_Savegame_XML_Node(p_element);
 

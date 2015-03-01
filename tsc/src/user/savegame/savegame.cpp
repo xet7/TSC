@@ -184,17 +184,7 @@ int cSavegame::Load_Game(unsigned int save_slot)
                 int posx = string_to_int(save_object->Get_Value("posx"));
                 int posy = string_to_int(save_object->Get_Value("posy"));
 
-                // get level object
-                int checkPosition = 1;
-
-                /*The Get_from_Position method below searches for the saved object in the level definition using its original position information.
-                Loose shells will slightly have their current position offset based on their image during the initialization process during level loading
-                Only require the original position field be checked for them.*/
-                if (save_object->m_type == TYPE_SHELL ) {
-                    checkPosition = 0;
-                }
-
-                cSprite* level_object = level->m_sprite_manager->Get_from_Position(posx, posy, save_object->m_type, checkPosition);
+                cSprite* level_object = level->m_sprite_manager->Get_from_Position(posx, posy, save_object->m_type);
 
                 // if not anymore available
                 if (!level_object) {
@@ -376,13 +366,12 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
                  * script or C++ code. */
                 if (p_obj->m_spawned) {
                     if (!p_obj->m_auto_destroy) {
-                        save_level->m_spawned_objects.push_back(p_obj->Copy());
+                        save_level->m_spawned_objects.push_back(p_obj);
                     }
                 }
-                else {
-                    // All other objects.
-                    save_level->m_regular_objects.push_back(p_obj->Copy());
-                }
+
+                // Base for every object; this will be loaded from the bare level XML.
+                save_level->m_regular_objects.push_back(p_obj);
             }
 
             savegame->m_levels.push_back(save_level);

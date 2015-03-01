@@ -68,7 +68,7 @@ namespace TSC {
         // load from save game
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to save game
-        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element);
+        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const;
 
         // Init defaults
         void Init(void);
