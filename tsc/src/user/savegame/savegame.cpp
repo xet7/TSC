@@ -369,10 +369,9 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
                         save_level->m_spawned_objects.push_back(p_obj->Copy());
                     }
                 }
-                else {
-                    // All other objects.
-                    save_level->m_regular_objects.push_back(p_obj); // Same object pushed into the vector! That should be done with m_spawned_object also, but loading code demands pointers to new objects for modification (backward compatibiliy).
-                }
+
+                // Base for every object; this will be loaded from the bare level XML.
+                save_level->m_regular_objects.push_back(p_obj); // Same object pushed into the vector! That should be done with m_spawned_object also, but loading code demands pointers to new objects for modification (backward compatibiliy).
             }
 
             savegame->m_levels.push_back(save_level);
