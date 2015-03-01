@@ -104,7 +104,7 @@ bool cMovingSprite::Save_To_Savegame_XML_Node(xmlpp::Element* p_element)
 {
     cSprite::Save_To_Savegame_XML_Node(p_element);
 
-    Add_Property(p_element, "state", int_to_string(state));
+    Add_Property(p_element, "state", int_to_string(m_state));
 
     // new position ( only save if needed )
     if (!Is_Float_Equal(m_start_pos_x, m_pos_x) || !Is_Float_Equal(m_start_pos_y, m_pos_y)) {

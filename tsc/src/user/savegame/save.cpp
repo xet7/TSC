@@ -15,8 +15,14 @@
 */
 
 #include "save.hpp"
+#include "../../core/property_helper.hpp"
+#include "../../core/game_core.hpp"
+#include "../../level/level_manager.hpp"
+#include "savegame_loader.hpp"
 
 using namespace TSC;
+
+namespace fs = boost::filesystem;
 
 /* *** *** *** *** *** *** *** cSave *** *** *** *** *** *** *** *** *** *** */
 

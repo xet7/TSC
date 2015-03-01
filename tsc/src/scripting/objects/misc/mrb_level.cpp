@@ -14,7 +14,7 @@
 
 #include "../../../level/level.hpp"
 #include "../../../level/level_player.hpp"
-#include "../../../user/savegame.hpp"
+#include "../../../user/savegame/savegame.hpp"
 #include "../../../gui/hud.hpp"
 #include "../../../core/property_helper.hpp"
 #include "../../events/event.hpp"

@@ -17,9 +17,6 @@
 #include "savegame.hpp"
 #include "savegame_loader.hpp"
 #include "../preferences.hpp"
-#include "save.hpp"
-#include "save_level.hpp"
-#include "save_overworld.hpp"
 #include "../../core/game_core.hpp"
 #include "../../core/obj_manager.hpp"
 #include "../../core/errors.hpp"
@@ -347,7 +344,6 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
 
             // Special treatment of the active level
             if (pActive_Level == level) {
-                save_level->m_active = true;
                 // Position.
                 save_level->m_level_pos_x = pLevel_Player->m_pos_x;
                 save_level->m_level_pos_y = pLevel_Player->m_pos_y - 5.0f;
@@ -380,12 +376,12 @@ bool cSavegame::Save_Game(unsigned int save_slot, std::string description)
                  * script or C++ code. */
                 if (p_obj->m_spawned) {
                     if (!p_obj->m_auto_destroy) {
-                        save_level->m_spawned_objects.push_back(obj->Copy());
+                        save_level->m_spawned_objects.push_back(p_obj->Copy());
                     }
                 }
                 else {
                     // All other objects.
-                    save_level->m_regular_objects.push_back(obj->Copy());
+                    save_level->m_regular_objects.push_back(p_obj->Copy());
                 }
             }
 

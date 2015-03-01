@@ -16,7 +16,7 @@
 
 #ifndef TSC_SAVEGAME_SAVE_LEVEL_HPP
 #define TSC_SAVEGAME_SAVE_LEVEL_HPP
-#include "../objects/sprite.hpp"
+#include "../../objects/sprite.hpp"
 
 namespace TSC {
     /* *** *** *** *** *** *** *** cSave_Level_Object_Property *** *** *** *** *** *** *** *** *** *** */

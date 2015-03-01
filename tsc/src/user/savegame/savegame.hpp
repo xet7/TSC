@@ -17,9 +17,10 @@
 #ifndef TSC_SAVEGAME_HPP
 #define TSC_SAVEGAME_HPP
 
-#include "../objects/sprite.hpp"
-#include "../scripting/scriptable_object.hpp"
-#include "../scripting/objects/misc/mrb_level.hpp"
+#include "../../objects/sprite.hpp"
+#include "../../scripting/scriptable_object.hpp"
+#include "../../scripting/objects/misc/mrb_level.hpp"
+#include "save.hpp"
 
 namespace TSC {
 
@@ -27,15 +28,6 @@ namespace TSC {
 
 #define SAVEGAME_VERSION 12
 #define SAVEGAME_VERSION_UNSUPPORTED 5
-
-    /* *** *** *** *** *** cSave_Player_Return_Entry *** *** *** *** *** *** *** *** */
-    class cSave_Player_Return_Entry {
-    public:
-        cSave_Player_Return_Entry(const std::string& level, const std::string& entry);
-
-        std::string m_level;
-        std::string m_entry;
-    };
 
     /* *** *** *** *** *** *** *** cSavegame *** *** *** *** *** *** *** *** *** *** */
 
