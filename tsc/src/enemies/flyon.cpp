@@ -18,7 +18,7 @@
 #include "../core/game_core.hpp"
 #include "../level/level_player.hpp"
 #include "../video/animation.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
@@ -131,16 +131,16 @@ void cFlyon::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cFlyon::Save_To_Savegame(bool force/*=true*/)
+bool cFlyon::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
-    cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
+    cEnemy::Save_To_Savegame_XML_Node(p_element);
 
     // move_back ( only save if needed )
     if (m_move_back) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("move_back", int_to_string(m_move_back)));
+        Add_Property(p_element, "move_back", int_to_string(m_move_back));
     }
 
-    return save_object;
+    return true;
 }
 
 void cFlyon::Set_Image_Dir(fs::path dir)

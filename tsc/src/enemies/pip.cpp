@@ -24,7 +24,7 @@
 #include "../video/gl_surface.hpp"
 #include "../gui/hud.hpp"
 #include "../level/level_player.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "pip.hpp"
 
 using namespace TSC;

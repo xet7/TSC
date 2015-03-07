@@ -34,7 +34,7 @@
 #include "../overworld/overworld.hpp"
 #include "../campaign/campaign_manager.hpp"
 #include "../input/mouse.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../input/keyboard.hpp"
 #include "../video/renderer.hpp"
 #include "../core/i18n.hpp"

@@ -148,12 +148,13 @@ void cStaticEnemy::Load_From_Savegame(cSave_Level_Object* save_object)
     m_path_state.Load_From_Savegame(save_object);
 }
 
-cSave_Level_Object* cStaticEnemy::Save_To_Savegame(bool force/*=true*/)
+bool cStaticEnemy::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
-    cSave_Level_Object* save_object = cEnemy::Save_To_Savegame();
-    m_path_state.Save_To_Savegame(save_object);
+    cEnemy::Save_To_Savegame_XML_Node(p_element);
 
-    return save_object;
+    m_path_state.Save_To_Savegame_XML_Node(p_element);
+
+    return true;
 }
 
 void cStaticEnemy::Set_Rotation_Speed(float speed)

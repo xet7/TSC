@@ -61,10 +61,9 @@ namespace TSC {
         cSprite* Get_Last(const SpriteType type) const;
         /* Return the matching object from the given start position
          * type : if not set to zero only returns the object with the given type
-         * check_pos : if set to 1 the normal position must be the same
-         * if 2 return object also if found on the normal position
+         * check_pos : if set to true the normal position must be equal to the start position as well
         */
-        cSprite* Get_from_Position(int start_pos_x, int start_pos_y, const SpriteType type = TYPE_UNDEFINED, int check_pos = 0) const;
+        cSprite* Get_from_Position(int start_pos_x, int start_pos_y, const SpriteType type = TYPE_UNDEFINED, bool check_pos = false) const;
         /* Return the object assigned the given UID. Returns NULL
          * if no object has this UID.
          */

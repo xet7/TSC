@@ -27,7 +27,7 @@
 #include "../input/mouse.hpp"
 #include "../core/framerate.hpp"
 #include "../core/errors.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../video/renderer.hpp"
 #include "../level/level.hpp"
 #include "../input/keyboard.hpp"
@@ -3187,15 +3187,15 @@ void cMenu_Savegames::Update_Saved_Games_Text(void)
 
 /* *** *** *** *** *** *** *** *** cMenu_Credits *** *** *** *** *** *** *** *** *** */
 
-cMenu_Credits::cMenu_Credits(void)
+cMenu_Credits::cMenu_Credits(cHudSprite* p_tsc_logo)
     : cMenu_Base()
 {
-
+    mp_tsc_logo = p_tsc_logo;
 }
 
 cMenu_Credits::~cMenu_Credits(void)
 {
-
+    mp_tsc_logo = NULL;
 }
 
 void cMenu_Credits::Init(void)
@@ -3479,11 +3479,6 @@ void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
         move_speed = 2.0f;
     }
 
-    // get logo
-    // FIXME: We shouldn’t have to search this in the sprite manager. It
-    // should be referenced at some central place.
-    cSprite* logo = pMenuCore->m_handler->m_level->m_sprite_manager->Get_from_Position(180, logo_pos_y, TYPE_UNDEFINED, 2);
-
     // fade out
     while (1) {
         // # Update
@@ -3497,11 +3492,11 @@ void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
             }
 
             // move logo out
-            if (logo && logo->m_pos_y > -200.0f) {
-                logo->Move(0.0f, move_speed);
+            if (mp_tsc_logo && mp_tsc_logo->m_pos_y > -200.0f) {
+                mp_tsc_logo->Move(0.0f, move_speed);
 
-                if (logo->m_pos_y < -200.0f) {
-                    logo->Set_Pos_Y(-200.0f);
+                if (mp_tsc_logo->m_pos_y < -200.0f) {
+                    mp_tsc_logo->Set_Pos_Y(-200.0f);
                 }
             }
         }
@@ -3514,11 +3509,11 @@ void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
             }
 
             // move logo in
-            if (logo && logo->m_pos_y < 20.0f) {
-                logo->Move(0.0f, move_speed);
+            if (mp_tsc_logo && mp_tsc_logo->m_pos_y < 20.0f) {
+                mp_tsc_logo->Move(0.0f, move_speed);
 
-                if (logo->m_pos_y > 20.0f) {
-                    logo->Set_Pos_Y(20.0f);
+                if (mp_tsc_logo->m_pos_y > 20.0f) {
+                    mp_tsc_logo->Set_Pos_Y(20.0f);
                 }
             }
         }

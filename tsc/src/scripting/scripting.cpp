@@ -19,7 +19,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../audio/audio.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../input/keyboard.hpp"
 
 #include "objects/mrb_tsc.hpp"

@@ -60,7 +60,7 @@ namespace TSC {
         // load from savegame
         virtual void Load_From_Savegame(cSave_Level_Object* save_object);
         // save to savegame
-        virtual cSave_Level_Object* Save_To_Savegame(bool force=true);
+        virtual bool Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const;
 
         // Set Direction
         virtual void Set_Direction(const ObjectDirection dir, bool new_start_direction = 0);

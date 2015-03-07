@@ -21,7 +21,7 @@
 #include "../core/framerate.hpp"
 #include "../video/animation.hpp"
 #include "../gui/hud.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/math/utilities.hpp"
 #include "../core/i18n.hpp"
 #include "../level/level.hpp"
@@ -90,13 +90,6 @@ xmlpp::Element* cGoldpiece::Save_To_XML_Node(xmlpp::Element* p_element)
 void cGoldpiece::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cMovingSprite::Load_From_Savegame(save_object);
-}
-
-cSave_Level_Object* cGoldpiece::Save_To_Savegame(bool force/*=true*/)
-{
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
-
-    return save_object;
 }
 
 void cGoldpiece::Set_Gold_Color(DefaultColor color)

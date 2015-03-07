@@ -18,7 +18,7 @@
 #include "../core/framerate.hpp"
 #include "../core/game_core.hpp"
 #include "../core/i18n.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 
 namespace TSC {
 
@@ -90,19 +90,16 @@ void cSpinBox::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-cSave_Level_Object* cSpinBox::Save_To_Savegame(bool force/*=true*/)
+bool cSpinBox::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
-    if(!m_spin && !force)
-        return NULL;
-
-    cSave_Level_Object* save_object = cBaseBox::Save_To_Savegame();
+    cBaseBox::Save_To_Savegame_XML_Node(p_element);
 
     // spin counter
-    if(m_spin) {
-        save_object->m_properties.push_back(cSave_Level_Object_Property("spin_counter", float_to_string(m_spin_counter)));
+    if (m_spin) {
+        Add_Property(p_element, "spin_counter", float_to_string(m_spin_counter));
     }
 
-    return save_object;
+    return true;
 }
 
 void cSpinBox::Activate(void)

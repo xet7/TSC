@@ -20,7 +20,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../video/renderer.hpp"
 #include "../input/mouse.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../level/level.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../enemies/static.hpp"
@@ -71,20 +71,22 @@ void cPath_State::Load_From_Savegame(cSave_Level_Object* save_object)
     }
 }
 
-void cPath_State::Save_To_Savegame(cSave_Level_Object* save_object)
+bool cPath_State::Save_To_Savegame_XML_Node(xmlpp::Element* p_element) const
 {
     // path position
-    save_object->m_properties.push_back(cSave_Level_Object_Property("new_pos_x", float_to_string(m_pos_x)));
-    save_object->m_properties.push_back(cSave_Level_Object_Property("new_pos_y", float_to_string(m_pos_y)));
+    Add_Property(p_element, "new_pos_x", float_to_string(m_pos_x));
+    Add_Property(p_element, "new_pos_y", float_to_string(m_pos_y));
 
     // current segment
-    save_object->m_properties.push_back(cSave_Level_Object_Property("current_segment", int_to_string(m_current_segment)));
+    Add_Property(p_element, "current_segment", int_to_string(m_current_segment));
 
     // current segment position
-    save_object->m_properties.push_back(cSave_Level_Object_Property("current_segment_pos", float_to_string(m_current_segment_pos)));
+    Add_Property(p_element, "current_segmant_pos", float_to_string(m_current_segment_pos));
 
     // forward
-    save_object->m_properties.push_back(cSave_Level_Object_Property("forward", int_to_string(static_cast<int>(m_forward))));
+    Add_Property(p_element, "forward", int_to_string(static_cast<int>(m_forward)));
+
+    return true;
 }
 
 void cPath_State::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
@@ -527,13 +529,6 @@ xmlpp::Element* cPath::Save_To_XML_Node(xmlpp::Element* p_element)
 void cPath::Load_From_Savegame(cSave_Level_Object* save_object)
 {
 
-}
-
-cSave_Level_Object* cPath::Save_To_Savegame(bool force/*=true*/)
-{
-    cSave_Level_Object* save_object = cSprite::Save_To_Savegame();
-
-    return save_object;
 }
 
 void cPath::Set_Identifier(const std::string& identifier)

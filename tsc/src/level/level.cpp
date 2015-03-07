@@ -28,7 +28,7 @@
 #include "../input/keyboard.hpp"
 #include "../input/mouse.hpp"
 #include "../input/joystick.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../overworld/world_manager.hpp"
 #include "../overworld/overworld.hpp"
 #include "../enemies/army.hpp"

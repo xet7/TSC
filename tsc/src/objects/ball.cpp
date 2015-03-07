@@ -25,7 +25,7 @@
 #include "../level/level.hpp"
 #include "../gui/hud.hpp"
 #include "../core/sprite_manager.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../core/global_basic.hpp"
 
 using namespace std;
@@ -120,13 +120,6 @@ xmlpp::Element* cBall::Save_To_XML_Node(xmlpp::Element* p_element)
 void cBall::Load_From_Savegame(cSave_Level_Object* save_object)
 {
     cMovingSprite::Load_From_Savegame(save_object);
-}
-
-cSave_Level_Object* cBall::Save_To_Savegame(bool force/*=true*/)
-{
-    cSave_Level_Object* save_object = cMovingSprite::Save_To_Savegame();
-
-    return save_object;
 }
 
 void cBall::Set_Ball_Type(ball_effect type)

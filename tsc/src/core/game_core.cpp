@@ -30,7 +30,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../objects/level_exit.hpp"
 #include "../gui/menu_data.hpp"
-#include "../user/savegame.hpp"
+#include "../user/savegame/savegame.hpp"
 #include "../overworld/world_editor.hpp"
 #include "filesystem/resource_manager.hpp"
 #include "../core/global_basic.hpp"
