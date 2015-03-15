@@ -457,6 +457,10 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
         attributes.relocate_image("ground/castle_1/statue/objects/fireplant.png", "ground/castle_1/statue/objects/fireberry.png");
         attributes.relocate_image("ground/castle_1/statue/objects/mushroom.png",  "ground/castle_1/statue/objects/berry.png");
     }
+    // V2.0.0-beta7 and lower: the star was replaced with a lemon
+    if (engine_version < 46) {
+        attributes.relocate_image("game/items/star.png", "game/items/lemon.png");
+    }
 
     // always: fix sprite with undefined massive-type
     if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
