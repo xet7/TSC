@@ -727,10 +727,10 @@ std::vector<cSprite*> cLevelLoader::Create_Moving_Platforms_From_XML_Tag(const s
 
     // if V.1.7 and lower : change new slider middle count because start and end image is now half the width
     if (engine_version < 32) {
-        if (!p_moving_platform->m_images.empty()) {
-            if (p_moving_platform->m_images[0].m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0)
+        if ( !(p_moving_platform->m_left_filename.empty() && p_moving_platform->m_middle_filename.empty() && p_moving_platform->m_right_filename.empty())) {
+            if (p_moving_platform->m_left_filename.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0)
                 p_moving_platform->Set_Middle_Count(p_moving_platform->m_middle_count + 1);
-            else if (p_moving_platform->m_images[0].m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0)
+            else if (p_moving_platform->m_left_filename.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0)
                 p_moving_platform->Set_Middle_Count(p_moving_platform->m_middle_count + 1);
         }
     }
@@ -772,9 +772,9 @@ std::vector<cSprite*> cLevelLoader::Create_Falling_Platforms_From_XML_Tag(const 
 
     // if V.1.7 and lower : change new slider middle count because start and end image is now half the width
     if (engine_version < 32) {
-        if (p_moving_platform->m_images[0].m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0)
+        if (p_moving_platform->m_left_filename.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/left.png")) == 0)
             p_moving_platform->Set_Middle_Count(p_moving_platform->m_middle_count + 1);
-        else if (p_moving_platform->m_images[0].m_image->m_path.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0)
+        else if (p_moving_platform->m_left_filename.compare(pResource_Manager->Get_Game_Pixmap("ground/green_1/slider/1/brown/right.png")) == 0)
             p_moving_platform->Set_Middle_Count(p_moving_platform->m_middle_count + 1);
     }
 
