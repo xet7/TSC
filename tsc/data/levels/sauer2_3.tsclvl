@@ -1,2351 +1,2774 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
-	<information>
-		<Property name="game_version" value="2" />
-		<Property name="engine_version" value="39" />
-		<Property name="save_time" value="1275169505" />
-	</information>
-	<settings>
-		<Property name="lvl_author" value="Sauer2" />
-		<Property name="lvl_version" value="1.1" />
-		<Property name="lvl_music" value="land/land_2.ogg" />
-		<Property name="lvl_description" value="" />
-		<Property name="lvl_difficulty" value="0" />
-		<Property name="lvl_land_type" value="undefined" />
-		<Property name="cam_limit_x" value="0" />
-		<Property name="cam_limit_y" value="0" />
-		<Property name="cam_limit_w" value="20000" />
-		<Property name="cam_limit_h" value="-4600" />
-		<Property name="cam_fixed_hor_vel" value="0" />
-	</settings>
-	<background>
-		<Property name="type" value="103" />
-		<Property name="bg_color_1_red" value="0" />
-		<Property name="bg_color_1_green" value="30" />
-		<Property name="bg_color_1_blue" value="150" />
-		<Property name="bg_color_2_red" value="60" />
-		<Property name="bg_color_2_green" value="100" />
-		<Property name="bg_color_2_blue" value="230" />
-	</background>
-	<background>
-		<Property name="type" value="1" />
-		<Property name="posx" value="0" />
-		<Property name="posy" value="0" />
-		<Property name="posz" value="0.00011" />
-		<Property name="image" value="game/background/green_hills_2.png" />
-		<Property name="speedx" value="0.5" />
-		<Property name="speedy" value="0.5" />
-		<Property name="const_velx" value="0" />
-		<Property name="const_vely" value="0" />
-	</background>
-	<player>
-		<Property name="posx" value="57" />
-		<Property name="posy" value="-281" />
-		<Property name="direction" value="right" />
-	</player>
-	<sprite>
-		<Property name="posx" value="6414" />
-		<Property name="posy" value="-503" />
-		<Property name="image" value="hills/green_2/big_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7256" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="195" />
-		<Property name="posy" value="-218" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="132" />
-		<Property name="posy" value="-218" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="68" />
-		<Property name="posy" value="-218" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4" />
-		<Property name="posy" value="-218" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="195" />
-		<Property name="posy" value="-154" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="195" />
-		<Property name="posy" value="-90" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="195" />
-		<Property name="posy" value="-26" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4" />
-		<Property name="posy" value="-154" />
-		<Property name="image" value="ground/green_3/ground/middle/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4" />
-		<Property name="posy" value="-90" />
-		<Property name="image" value="ground/green_3/ground/middle/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4" />
-		<Property name="posy" value="-26" />
-		<Property name="image" value="ground/green_3/ground/middle/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="68" />
-		<Property name="posy" value="-154" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="131" />
-		<Property name="posy" value="-154" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="68" />
-		<Property name="posy" value="-90" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="131" />
-		<Property name="posy" value="-90" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="68" />
-		<Property name="posy" value="-26" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="131" />
-		<Property name="posy" value="-26" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="427" />
-		<Property name="posy" value="-213" />
-		<Property name="image" value="ground/mushroom_1/platform/green/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="491" />
-		<Property name="posy" value="-213" />
-		<Property name="image" value="ground/mushroom_1/platform/green/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="363" />
-		<Property name="posy" value="-213" />
-		<Property name="image" value="ground/mushroom_1/platform/green/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="426" />
-		<Property name="posy" value="-160" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="426" />
-		<Property name="posy" value="-100" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="426" />
-		<Property name="posy" value="-36" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_double_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="409" />
-		<Property name="posy" value="-441" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="451" />
-		<Property name="posy" value="-441" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<moving_platform>
-		<Property name="posx" value="697" />
-		<Property name="posy" value="-201" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="massive" />
-		<Property name="direction" value="down" />
-		<Property name="max_distance" value="150" />
-		<Property name="speed" value="0" />
-		<Property name="touch_time" value="6" />
-		<Property name="shake_time" value="20" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="4" />
-		<Property name="image_top_left" value="ground/jungle_1/slider/2_blue_left.png" />
-		<Property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png" />
-		<Property name="image_top_right" value="ground/jungle_1/slider/2_blue_right.png" />
-	</moving_platform>
-	<sprite>
-		<Property name="posx" value="957" />
-		<Property name="posy" value="-194" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1021" />
-		<Property name="posy" value="-194" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1084" />
-		<Property name="posy" value="-194" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1148" />
-		<Property name="posy" value="-194" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1212" />
-		<Property name="posy" value="-194" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1086" />
-		<Property name="posy" value="-140" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_riffle_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1086" />
-		<Property name="posy" value="-76" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1086" />
-		<Property name="posy" value="-12" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_bottom.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8" />
-		<Property name="posy" value="-337" />
-		<Property name="image" value="ground/green_2/hedges/big_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="176" />
-		<Property name="posy" value="-260" />
-		<Property name="image" value="blocks/extra/mushroom.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="8" />
-		<Property name="posy" value="-468" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="51" />
-		<Property name="posy" value="-468" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="red" />
-	</box>
-	<enemy>
-		<Property name="type" value="spikeball" />
-		<Property name="posx" value="431" />
-		<Property name="posy" value="-266" />
-		<Property name="color" value="grey" />
-		<Property name="direction" value="left" />
-	</enemy>
-	<enemystopper>
-		<Property name="posx" value="358" />
-		<Property name="posy" value="-226" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="544" />
-		<Property name="posy" value="-228" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="furball" />
-		<Property name="posx" value="996" />
-		<Property name="posy" value="-243" />
-		<Property name="color" value="blue" />
-		<Property name="direction" value="left" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="furball" />
-		<Property name="posx" value="1067" />
-		<Property name="posy" value="-237" />
-		<Property name="color" value="blue" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="rokko" />
-		<Property name="posx" value="1301" />
-		<Property name="posy" value="-417" />
-		<Property name="direction" value="left" />
-		<Property name="speed" value="9" />
-	</enemy>
-	<enemystopper>
-		<Property name="posx" value="954" />
-		<Property name="posy" value="-216" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="1264" />
-		<Property name="posy" value="-211" />
-	</enemystopper>
-	<sprite>
-		<Property name="posx" value="1159" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1223" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1287" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1351" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1415" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/left_top.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1415" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1479" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/left_top.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1479" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1543" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1607" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/middle/left_top.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1479" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1543" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1543" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1607" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/right_top.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1607" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/right_bottom.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1671" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/left_bottom.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1671" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/left_top.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1607" />
-		<Property name="posy" value="-237" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1671" />
-		<Property name="posy" value="-237" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1735" />
-		<Property name="posy" value="-237" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1799" />
-		<Property name="posy" value="-237" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1863" />
-		<Property name="posy" value="-237" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1863" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1863" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1863" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1671" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1735" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1799" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1735" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1799" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1735" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1799" />
-		<Property name="posy" value="-45" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<enemystopper>
-		<Property name="posx" value="1595" />
-		<Property name="posy" value="-252" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="1927" />
-		<Property name="posy" value="-253" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="1145" />
-		<Property name="posy" value="-59" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="spikeball" />
-		<Property name="posx" value="1258" />
-		<Property name="posy" value="-97" />
-		<Property name="color" value="grey" />
-		<Property name="direction" value="left" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="spikeball" />
-		<Property name="posx" value="1753" />
-		<Property name="posy" value="-565" />
-		<Property name="color" value="grey" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="furball" />
-		<Property name="posx" value="1908" />
-		<Property name="posy" value="-561" />
-		<Property name="color" value="blue" />
-		<Property name="direction" value="left" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="turtle" />
-		<Property name="posx" value="1697" />
-		<Property name="posy" value="-316" />
-		<Property name="color" value="red" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="turtle" />
-		<Property name="posx" value="1756" />
-		<Property name="posy" value="-315" />
-		<Property name="color" value="red" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="1156" />
-		<Property name="posy" value="-127" />
-		<Property name="color" value="red" />
-	</item>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="1155" />
-		<Property name="posy" value="-87" />
-		<Property name="color" value="red" />
-	</item>
-	<sprite>
-		<Property name="posx" value="1188" />
-		<Property name="posy" value="-87" />
-		<Property name="image" value="ground/green_1/hedges/medium_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1550" />
-		<Property name="posy" value="-138" />
-		<Property name="image" value="ground/green_1/hedges/big_1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1624" />
-		<Property name="posy" value="-362" />
-		<Property name="image" value="ground/green_2/hedges/big_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1813" />
-		<Property name="posy" value="-291" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1813" />
-		<Property name="posy" value="-355" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1813" />
-		<Property name="posy" value="-416" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1813" />
-		<Property name="posy" value="-480" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1844" />
-		<Property name="posy" value="-516" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1780" />
-		<Property name="posy" value="-516" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1908" />
-		<Property name="posy" value="-516" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1716" />
-		<Property name="posy" value="-516" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1412" />
-		<Property name="posy" value="-173" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_bottom.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1412" />
-		<Property name="posy" value="-237" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1412" />
-		<Property name="posy" value="-301" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1412" />
-		<Property name="posy" value="-365" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1413" />
-		<Property name="posy" value="-371" />
-		<Property name="image" value="ground/mushroom_1/platform/green/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1477" />
-		<Property name="posy" value="-371" />
-		<Property name="image" value="ground/mushroom_1/platform/green/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1349" />
-		<Property name="posy" value="-371" />
-		<Property name="image" value="ground/mushroom_1/platform/green/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1554" />
-		<Property name="posy" value="-225" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1554" />
-		<Property name="posy" value="-289" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1554" />
-		<Property name="posy" value="-353" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1554" />
-		<Property name="posy" value="-416" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1589" />
-		<Property name="posy" value="-441" />
-		<Property name="image" value="ground/mushroom_1/platform/red/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1525" />
-		<Property name="posy" value="-441" />
-		<Property name="image" value="ground/mushroom_1/platform/red/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="1370" />
-		<Property name="posy" value="-615" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="0" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-	</box>
-	<box>
-		<Property name="posx" value="1033" />
-		<Property name="posy" value="-424" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Bonus" />
-		<Property name="item" value="51" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-	</box>
-	<sprite>
-		<Property name="posx" value="575" />
-		<Property name="posy" value="-109" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="507" />
-		<Property name="posy" value="-26" />
-		<Property name="image" value="clouds/light_yellow_1/10.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="860" />
-		<Property name="posy" value="-25" />
-		<Property name="image" value="clouds/light_yellow_1/1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="954" />
-		<Property name="posy" value="-28" />
-		<Property name="image" value="clouds/light_yellow_1/8.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1913" />
-		<Property name="posy" value="-26" />
-		<Property name="image" value="clouds/light_yellow_1/1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="1573" />
-		<Property name="posy" value="-715" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="5" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<sprite>
-		<Property name="posx" value="2193" />
-		<Property name="posy" value="-62" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2193" />
-		<Property name="posy" value="-126" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2193" />
-		<Property name="posy" value="-190" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2193" />
-		<Property name="posy" value="-254" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2193" />
-		<Property name="posy" value="-318" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2112" />
-		<Property name="posy" value="-64" />
-		<Property name="image" value="clouds/light_yellow_1/4.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2122" />
-		<Property name="posy" value="-19" />
-		<Property name="image" value="clouds/light_yellow_1/6.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2304" />
-		<Property name="posy" value="-49" />
-		<Property name="image" value="clouds/light_yellow_1/1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="1826" />
-		<Property name="posy" value="-279" />
-		<Property name="color" value="yellow" />
-	</item>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="1826" />
-		<Property name="posy" value="-324" />
-		<Property name="color" value="yellow" />
-	</item>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="1826" />
-		<Property name="posy" value="-371" />
-		<Property name="color" value="yellow" />
-	</item>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="1826" />
-		<Property name="posy" value="-423" />
-		<Property name="color" value="yellow" />
-	</item>
-	<sprite>
-		<Property name="posx" value="2008" />
-		<Property name="posy" value="-27" />
-		<Property name="image" value="clouds/light_yellow_1/2.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2548" />
-		<Property name="posy" value="-125" />
-		<Property name="image" value="clouds/light_yellow_1/6.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<moving_platform>
-		<Property name="posx" value="2570" />
-		<Property name="posy" value="-259" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="halfmassive" />
-		<Property name="direction" value="down" />
-		<Property name="max_distance" value="200" />
-		<Property name="speed" value="5" />
-		<Property name="touch_time" value="0" />
-		<Property name="shake_time" value="16" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="3" />
-		<Property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png" />
-		<Property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png" />
-		<Property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png" />
-	</moving_platform>
-	<moving_platform>
-		<Property name="posx" value="2835" />
-		<Property name="posy" value="-255" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="halfmassive" />
-		<Property name="direction" value="down" />
-		<Property name="max_distance" value="150" />
-		<Property name="speed" value="3" />
-		<Property name="touch_time" value="0" />
-		<Property name="shake_time" value="16" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="3" />
-		<Property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png" />
-		<Property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png" />
-		<Property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png" />
-	</moving_platform>
-	<moving_platform>
-		<Property name="posx" value="3106" />
-		<Property name="posy" value="-253" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="halfmassive" />
-		<Property name="direction" value="down" />
-		<Property name="max_distance" value="200" />
-		<Property name="speed" value="5" />
-		<Property name="touch_time" value="0" />
-		<Property name="shake_time" value="16" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="3" />
-		<Property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png" />
-		<Property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png" />
-		<Property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png" />
-	</moving_platform>
-	<sprite>
-		<Property name="posx" value="2556" />
-		<Property name="posy" value="-460" />
-		<Property name="image" value="hills/green_2/big_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="330" />
-		<Property name="posy" value="-95" />
-		<Property name="image" value="hills/very_light_blue_1/1_medium.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3410" />
-		<Property name="posy" value="-61" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3474" />
-		<Property name="posy" value="-61" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3538" />
-		<Property name="posy" value="-61" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3602" />
-		<Property name="posy" value="-61" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3666" />
-		<Property name="posy" value="-61" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3476" />
-		<Property name="posy" value="-125" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="halfmassive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3540" />
-		<Property name="posy" value="-125" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="halfmassive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3446" />
-		<Property name="posy" value="-106" />
-		<Property name="image" value="ground/green_1/hedges/medium_1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3662" />
-		<Property name="posy" value="-92" />
-		<Property name="image" value="ground/green_2/hedges/small_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<enemystopper>
-		<Property name="posx" value="1713" />
-		<Property name="posy" value="-531" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="1959" />
-		<Property name="posy" value="-532" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="spikeball" />
-		<Property name="posx" value="3646" />
-		<Property name="posy" value="-111" />
-		<Property name="color" value="grey" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="spikeball" />
-		<Property name="posx" value="4743" />
-		<Property name="posy" value="-338" />
-		<Property name="color" value="grey" />
-		<Property name="direction" value="left" />
-	</enemy>
-	<enemystopper>
-		<Property name="posx" value="3394" />
-		<Property name="posy" value="-77" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="3730" />
-		<Property name="posy" value="-75" />
-	</enemystopper>
-	<sprite>
-		<Property name="posx" value="3605" />
-		<Property name="posy" value="-107" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3605" />
-		<Property name="posy" value="-171" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3605" />
-		<Property name="posy" value="-235" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3570" />
-		<Property name="posy" value="-286" />
-		<Property name="image" value="ground/mushroom_1/platform/green/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3634" />
-		<Property name="posy" value="-286" />
-		<Property name="image" value="ground/mushroom_1/platform/green/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3698" />
-		<Property name="posy" value="-286" />
-		<Property name="image" value="ground/mushroom_1/platform/green/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3506" />
-		<Property name="posy" value="-286" />
-		<Property name="image" value="ground/mushroom_1/platform/green/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3857" />
-		<Property name="posy" value="-63" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3857" />
-		<Property name="posy" value="-127" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3857" />
-		<Property name="posy" value="-190" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3857" />
-		<Property name="posy" value="-254" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3857" />
-		<Property name="posy" value="-318" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="3505" />
-		<Property name="posy" value="-503" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="3548" />
-		<Property name="posy" value="-503" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="3591" />
-		<Property name="posy" value="-503" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Bonus" />
-		<Property name="item" value="51" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-	</box>
-	<enemystopper>
-		<Property name="posx" value="3503" />
-		<Property name="posy" value="-299" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="3749" />
-		<Property name="posy" value="-303" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="furball" />
-		<Property name="posx" value="3546" />
-		<Property name="posy" value="-331" />
-		<Property name="color" value="blue" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="spika" />
-		<Property name="posx" value="7689" />
-		<Property name="posy" value="-445" />
-		<Property name="color" value="grey" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="3911" />
-		<Property name="posy" value="-606" />
-		<Property name="image" value="clouds/light_yellow_1/2.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4296" />
-		<Property name="posy" value="-437" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4232" />
-		<Property name="posy" value="-437" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4168" />
-		<Property name="posy" value="-437" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4296" />
-		<Property name="posy" value="-373" />
-		<Property name="image" value="ground/green_3/ground/bottom/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4168" />
-		<Property name="posy" value="-373" />
-		<Property name="image" value="ground/green_3/ground/bottom/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4232" />
-		<Property name="posy" value="-373" />
-		<Property name="image" value="ground/green_3/ground/bottom/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4236" />
-		<Property name="posy" value="-316" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4236" />
-		<Property name="posy" value="-252" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4236" />
-		<Property name="posy" value="-188" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4236" />
-		<Property name="posy" value="-124" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_bottom.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4170" />
-		<Property name="posy" value="-409" />
-		<Property name="image" value="clouds/default_1/1_right.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4140" />
-		<Property name="posy" value="-1027" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2648" />
-		<Property name="posy" value="-27" />
-		<Property name="image" value="clouds/light_yellow_1/4.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="4249" />
-		<Property name="posy" value="-166" />
-		<Property name="color" value="red" />
-	</item>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="4249" />
-		<Property name="posy" value="-212" />
-		<Property name="color" value="red" />
-	</item>
-	<item>
-		<Property name="type" value="goldpiece" />
-		<Property name="posx" value="4249" />
-		<Property name="posy" value="-260" />
-		<Property name="color" value="red" />
-	</item>
-	<sprite>
-		<Property name="posx" value="4304" />
-		<Property name="posy" value="-451" />
-		<Property name="image" value="ground/green_1/plant_m.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4196" />
-		<Property name="posy" value="-467" />
-		<Property name="image" value="ground/green_2/hedges/small_2.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3498" />
-		<Property name="posy" value="-154" />
-		<Property name="image" value="ground/green_2/hedges/small_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="4230" />
-		<Property name="posy" value="-497" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="4247" />
-		<Property name="posy" value="-480" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="4478" />
-		<Property name="posy" value="-696" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="2" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="4564" />
-		<Property name="posy" value="-696" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="red" />
-	</box>
-	<box>
-		<Property name="posx" value="4521" />
-		<Property name="posy" value="-696" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="0" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-	</box>
-	<box>
-		<Property name="posx" value="4521" />
-		<Property name="posy" value="-967" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<sprite>
-		<Property name="posx" value="4731" />
-		<Property name="posy" value="-62" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4731" />
-		<Property name="posy" value="-126" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4731" />
-		<Property name="posy" value="-189" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4731" />
-		<Property name="posy" value="-246" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4785" />
-		<Property name="posy" value="-284" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4721" />
-		<Property name="posy" value="-284" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4657" />
-		<Property name="posy" value="-284" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4877" />
-		<Property name="posy" value="-204" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4941" />
-		<Property name="posy" value="-204" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4478" />
-		<Property name="posy" value="-491" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4521" />
-		<Property name="posy" value="-491" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4564" />
-		<Property name="posy" value="-491" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4443" />
-		<Property name="posy" value="-129" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4556" />
-		<Property name="posy" value="-222" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5004" />
-		<Property name="posy" value="-204" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_2.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5067" />
-		<Property name="posy" value="-204" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4971" />
-		<Property name="posy" value="-149" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4971" />
-		<Property name="posy" value="-85" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4971" />
-		<Property name="posy" value="-21" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5190" />
-		<Property name="posy" value="-220" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5254" />
-		<Property name="posy" value="-220" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5190" />
-		<Property name="posy" value="-157" />
-		<Property name="image" value="ground/green_3/ground/bottom/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5318" />
-		<Property name="posy" value="-157" />
-		<Property name="image" value="ground/green_3/ground/bottom/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5318" />
-		<Property name="posy" value="-220" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5254" />
-		<Property name="posy" value="-157" />
-		<Property name="image" value="ground/green_3/ground/bottom/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="4478" />
-		<Property name="posy" value="-309" />
-		<Property name="image" value="hills/green_2/medium_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5076" />
-		<Property name="posy" value="-769" />
-		<Property name="image" value="clouds/light_yellow_1/8.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<enemystopper>
-		<Property name="posx" value="4872" />
-		<Property name="posy" value="-216" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="5121" />
-		<Property name="posy" value="-217" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="turtle" />
-		<Property name="posx" value="4910" />
-		<Property name="posy" value="-280" />
-		<Property name="color" value="red" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="5287" />
-		<Property name="posy" value="-279" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="5282" />
-		<Property name="posy" value="-262" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="4947" />
-		<Property name="posy" value="-495" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="4990" />
-		<Property name="posy" value="-495" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="5033" />
-		<Property name="posy" value="-495" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="5076" />
-		<Property name="posy" value="-495" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="4947" />
-		<Property name="posy" value="-700" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="4990" />
-		<Property name="posy" value="-700" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="5033" />
-		<Property name="posy" value="-700" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="5076" />
-		<Property name="posy" value="-700" />
-		<Property name="type" value="spin" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="-1" />
-	</box>
-	<box>
-		<Property name="posx" value="5011" />
-		<Property name="posy" value="-906" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Bonus" />
-		<Property name="item" value="24" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-	</box>
-	<sprite>
-		<Property name="posx" value="5606" />
-		<Property name="posy" value="-63" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5606" />
-		<Property name="posy" value="-127" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5606" />
-		<Property name="posy" value="-191" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5606" />
-		<Property name="posy" value="-254" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5606" />
-		<Property name="posy" value="-318" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5604" />
-		<Property name="posy" value="-345" />
-		<Property name="image" value="ground/mushroom_1/platform/green/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5668" />
-		<Property name="posy" value="-345" />
-		<Property name="image" value="ground/mushroom_1/platform/green/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5540" />
-		<Property name="posy" value="-345" />
-		<Property name="image" value="ground/mushroom_1/platform/green/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5900" />
-		<Property name="posy" value="-224" />
-		<Property name="image" value="ground/mushroom_1/platform/red/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5964" />
-		<Property name="posy" value="-224" />
-		<Property name="image" value="ground/mushroom_1/platform/red/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5837" />
-		<Property name="posy" value="-224" />
-		<Property name="image" value="ground/mushroom_1/platform/red/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6167" />
-		<Property name="posy" value="-292" />
-		<Property name="image" value="ground/mushroom_1/platform/red/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6103" />
-		<Property name="posy" value="-292" />
-		<Property name="image" value="ground/mushroom_1/platform/red/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6039" />
-		<Property name="posy" value="-292" />
-		<Property name="image" value="ground/mushroom_1/platform/red/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5904" />
-		<Property name="posy" value="-182" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_double_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5904" />
-		<Property name="posy" value="-121" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_double_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5904" />
-		<Property name="posy" value="-60" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6100" />
-		<Property name="posy" value="-239" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6100" />
-		<Property name="posy" value="-175" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6100" />
-		<Property name="posy" value="-111" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6100" />
-		<Property name="posy" value="-49" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="5513" />
-		<Property name="posy" value="-636" />
-		<Property name="image" value="clouds/light_yellow_1/4.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="6088" />
-		<Property name="posy" value="-550" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="5891" />
-		<Property name="posy" value="-468" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Bonus" />
-		<Property name="item" value="0" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-	</box>
-	<moving_platform>
-		<Property name="posx" value="6415" />
-		<Property name="posy" value="-245" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="massive" />
-		<Property name="direction" value="right" />
-		<Property name="max_distance" value="400" />
-		<Property name="speed" value="3" />
-		<Property name="touch_time" value="0" />
-		<Property name="shake_time" value="0" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="4" />
-		<Property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png" />
-		<Property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png" />
-		<Property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png" />
-	</moving_platform>
-	<enemystopper>
-		<Property name="posx" value="5534" />
-		<Property name="posy" value="-357" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="5722" />
-		<Property name="posy" value="-359" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="furball" />
-		<Property name="posx" value="5584" />
-		<Property name="posy" value="-390" />
-		<Property name="color" value="blue" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="6485" />
-		<Property name="posy" value="-201" />
-		<Property name="image" value="clouds/light_yellow_1/8.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6204" />
-		<Property name="posy" value="-770" />
-		<Property name="image" value="clouds/light_yellow_1/5.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="6673" />
-		<Property name="posy" value="-472" />
-		<Property name="image" value="clouds/light_yellow_1/7.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7162" />
-		<Property name="posy" value="-52" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7226" />
-		<Property name="posy" value="-172" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7162" />
-		<Property name="posy" value="-172" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7098" />
-		<Property name="posy" value="-172" />
-		<Property name="image" value="ground/mushroom_1/platform/gold/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7162" />
-		<Property name="posy" value="-116" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_top.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7471" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7471" />
-		<Property name="posy" value="-50" />
-		<Property name="image" value="ground/green_3/ground/middle/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7535" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7599" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7663" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="ground/green_3/ground/middle/left_top.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7663" />
-		<Property name="posy" value="-178" />
-		<Property name="image" value="ground/green_3/ground/middle/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7663" />
-		<Property name="posy" value="-242" />
-		<Property name="image" value="ground/green_3/ground/middle/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7663" />
-		<Property name="posy" value="-306" />
-		<Property name="image" value="ground/green_3/ground/top/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7727" />
-		<Property name="posy" value="-306" />
-		<Property name="image" value="ground/green_3/ground/top/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7791" />
-		<Property name="posy" value="-306" />
-		<Property name="image" value="ground/green_3/ground/top/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7791" />
-		<Property name="posy" value="-242" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7791" />
-		<Property name="posy" value="-178" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7791" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7791" />
-		<Property name="posy" value="-50" />
-		<Property name="image" value="ground/green_3/ground/middle/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7727" />
-		<Property name="posy" value="-242" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7727" />
-		<Property name="posy" value="-178" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7727" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7535" />
-		<Property name="posy" value="-50" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7599" />
-		<Property name="posy" value="-50" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7663" />
-		<Property name="posy" value="-50" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7727" />
-		<Property name="posy" value="-50" />
-		<Property name="image" value="ground/green_3/ground/middle/1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<box>
-		<Property name="posx" value="7619" />
-		<Property name="posy" value="-306" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Default" />
-		<Property name="item" value="8" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="0" />
-		<Property name="gold_color" value="yellow" />
-	</box>
-	<box>
-		<Property name="posx" value="7576" />
-		<Property name="posy" value="-306" />
-		<Property name="type" value="bonus" />
-		<Property name="animation" value="Bonus" />
-		<Property name="item" value="35" />
-		<Property name="invisible" value="0" />
-		<Property name="useable_count" value="1" />
-		<Property name="force_best_item" value="1" />
-	</box>
-	<sprite>
-		<Property name="posx" value="7124" />
-		<Property name="posy" value="-706" />
-		<Property name="image" value="clouds/light_yellow_1/8.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7699" />
-		<Property name="posy" value="-434" />
-		<Property name="image" value="ground/green_2/hedges/big_1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7480" />
-		<Property name="posy" value="-155" />
-		<Property name="image" value="ground/green_1/hedges/medium_2.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7535" />
-		<Property name="posy" value="-157" />
-		<Property name="image" value="clouds/light_yellow_1/4.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8027" />
-		<Property name="posy" value="-222" />
-		<Property name="image" value="ground/mushroom_1/platform/green/middle_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8091" />
-		<Property name="posy" value="-222" />
-		<Property name="image" value="ground/mushroom_1/platform/green/right.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7963" />
-		<Property name="posy" value="-222" />
-		<Property name="image" value="ground/mushroom_1/platform/green/left.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8029" />
-		<Property name="posy" value="-158" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft_riffle.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8029" />
-		<Property name="posy" value="-94" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8029" />
-		<Property name="posy" value="-30" />
-		<Property name="image" value="ground/mushroom_1/platform/shaft.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8264" />
-		<Property name="posy" value="-592" />
-		<Property name="image" value="clouds/light_yellow_1/10.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8333" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="clouds/light_yellow_1/1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7385" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8520" />
-		<Property name="posy" value="-265" />
-		<Property name="image" value="clouds/light_yellow_1/7.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="8029" />
-		<Property name="posy" value="-342" />
-		<Property name="image" value="game/level/door_wood_1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<levelexit>
-		<Property name="posx" value="8053" />
-		<Property name="posy" value="-239" />
-		<Property name="type" value="0" />
-		<Property name="camera_motion" value="1" />
-	</levelexit>
-	<sprite>
-		<Property name="posx" value="241" />
-		<Property name="posy" value="-103" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="1056" />
-		<Property name="posy" value="-24" />
-		<Property name="image" value="clouds/light_yellow_1/1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2359" />
-		<Property name="posy" value="-123" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="2867" />
-		<Property name="posy" value="-172" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3141" />
-		<Property name="posy" value="-53" />
-		<Property name="image" value="clouds/light_yellow_1/1.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="3211" />
-		<Property name="posy" value="-129" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7736" />
-		<Property name="posy" value="-851" />
-		<Property name="image" value="clouds/light_yellow_1/9.png" />
-		<Property name="type" value="passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="rokko" />
-		<Property name="posx" value="3965" />
-		<Property name="posy" value="-338" />
-		<Property name="direction" value="left" />
-		<Property name="speed" value="9" />
-	</enemy>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="4502" />
-		<Property name="posy" value="-553" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="4521" />
-		<Property name="posy" value="-534" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="7184" />
-		<Property name="posy" value="-234" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="7203" />
-		<Property name="posy" value="-215" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="7965" />
-		<Property name="posy" value="-284" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="7984" />
-		<Property name="posy" value="-265" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="8098" />
-		<Property name="posy" value="-284" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="8092" />
-		<Property name="posy" value="-265" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7428" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7342" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7299" />
-		<Property name="posy" value="-114" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7855" />
-		<Property name="posy" value="-306" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<sprite>
-		<Property name="posx" value="7855" />
-		<Property name="posy" value="-349" />
-		<Property name="image" value="game/box/brown1_1.png" />
-		<Property name="type" value="massive" />
-	</sprite>
-	<moving_platform>
-		<Property name="posx" value="4168" />
-		<Property name="posy" value="-120" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="massive" />
-		<Property name="direction" value="right" />
-		<Property name="max_distance" value="150" />
-		<Property name="speed" value="0" />
-		<Property name="touch_time" value="20" />
-		<Property name="shake_time" value="6" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="1" />
-		<Property name="image_top_left" value="ground/mushroom_1/platform/red/left.png" />
-		<Property name="image_top_middle" value="ground/mushroom_1/platform/red/middle_1.png" />
-		<Property name="image_top_right" value="ground/mushroom_1/platform/red/right.png" />
-	</moving_platform>
-	<moving_platform>
-		<Property name="posx" value="3763" />
-		<Property name="posy" value="-361" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="massive" />
-		<Property name="direction" value="down" />
-		<Property name="max_distance" value="250" />
-		<Property name="speed" value="5" />
-		<Property name="touch_time" value="20" />
-		<Property name="shake_time" value="16" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="2" />
-		<Property name="image_top_left" value="ground/mushroom_1/platform/red/left.png" />
-		<Property name="image_top_middle" value="ground/mushroom_1/platform/red/middle_1.png" />
-		<Property name="image_top_right" value="ground/mushroom_1/platform/red/right.png" />
-	</moving_platform>
-	<moving_platform>
-		<Property name="posx" value="2060" />
-		<Property name="posy" value="-299" />
-		<Property name="move_type" value="0" />
-		<Property name="massive_type" value="massive" />
-		<Property name="direction" value="down" />
-		<Property name="max_distance" value="200" />
-		<Property name="speed" value="5" />
-		<Property name="touch_time" value="0" />
-		<Property name="shake_time" value="0" />
-		<Property name="touch_move_time" value="0" />
-		<Property name="middle_img_count" value="3" />
-		<Property name="image_top_left" value="ground/mushroom_1/platform/red/left.png" />
-		<Property name="image_top_middle" value="ground/mushroom_1/platform/red/middle_1.png" />
-		<Property name="image_top_right" value="ground/mushroom_1/platform/red/right.png" />
-	</moving_platform>
-	<enemy>
-		<Property name="type" value="furball" />
-		<Property name="posx" value="3617" />
-		<Property name="posy" value="-331" />
-		<Property name="color" value="blue" />
-		<Property name="direction" value="right" />
-	</enemy>
-	<enemystopper>
-		<Property name="posx" value="4642" />
-		<Property name="posy" value="-299" />
-	</enemystopper>
-	<enemystopper>
-		<Property name="posx" value="4849" />
-		<Property name="posy" value="-295" />
-	</enemystopper>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="5963" />
-		<Property name="posy" value="-290" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="5970" />
-		<Property name="posy" value="-267" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="6168" />
-		<Property name="posy" value="-356" />
-		<Property name="rotation_speed" value="-7.5" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="" />
-		<Property name="speed" value="0" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<sprite>
-		<Property name="posx" value="6174" />
-		<Property name="posy" value="-335" />
-		<Property name="image" value="blocks/screw/1.png" />
-		<Property name="type" value="front_passive" />
-	</sprite>
-	<enemy>
-		<Property name="type" value="static" />
-		<Property name="posx" value="2589" />
-		<Property name="posy" value="-43" />
-		<Property name="rotation_speed" value="-7" />
-		<Property name="image" value="enemy/static/saw/default.png" />
-		<Property name="path" value="saw_1" />
-		<Property name="speed" value="6" />
-		<Property name="fire_resistant" value="0" />
-		<Property name="ice_resistance" value="0" />
-	</enemy>
-	<path>
-		<Property name="posx" value="2589" />
-		<Property name="posy" value="-44" />
-		<Property name="identifier" value="saw_1" />
-		<Property name="rewind" value="0" />
-		<Property name="segment_0_x1" value="0" />
-		<Property name="segment_0_y1" value="0" />
-		<Property name="segment_0_x2" value="180" />
-		<Property name="segment_0_y2" value="-400" />
-		<Property name="segment_1_x1" value="180" />
-		<Property name="segment_1_y1" value="-400" />
-		<Property name="segment_1_x2" value="220" />
-		<Property name="segment_1_y2" value="-400" />
-		<Property name="segment_2_x1" value="220" />
-		<Property name="segment_2_y1" value="-400" />
-		<Property name="segment_2_x2" value="400" />
-		<Property name="segment_2_y2" value="0" />
-	</path>
+  <information>
+    <property name="game_version" value="2.0.0"/>
+    <property name="engine_version" value="45"/>
+    <property name="save_time" value="1427022978"/>
+  </information>
+  <settings>
+    <property name="lvl_author" value="Sauer2"/>
+    <property name="lvl_version" value="1.1"/>
+    <property name="lvl_music" value="land/land_2.ogg"/>
+    <property name="lvl_description" value=""/>
+    <property name="lvl_difficulty" value="0"/>
+    <property name="lvl_land_type" value="undefined"/>
+    <property name="cam_limit_x" value="0"/>
+    <property name="cam_limit_y" value="0"/>
+    <property name="cam_limit_w" value="20000"/>
+    <property name="cam_limit_h" value="-4600"/>
+    <property name="cam_fixed_hor_vel" value="0.000000"/>
+    <property name="unload_after_exit" value="0"/>
+  </settings>
+  <background>
+    <property name="type" value="103"/>
+    <property name="bg_color_1_red" value="0"/>
+    <property name="bg_color_1_green" value="30"/>
+    <property name="bg_color_1_blue" value="150"/>
+    <property name="bg_color_2_red" value="60"/>
+    <property name="bg_color_2_green" value="100"/>
+    <property name="bg_color_2_blue" value="230"/>
+  </background>
+  <background>
+    <property name="type" value="1"/>
+    <property name="posx" value="0.000000"/>
+    <property name="posy" value="0.000000"/>
+    <property name="posz" value="0.000110"/>
+    <property name="image" value="game/background/green_hills_2.png"/>
+    <property name="speedx" value="0.500000"/>
+    <property name="speedy" value="0.500000"/>
+    <property name="const_velx" value="0.000000"/>
+    <property name="const_vely" value="0.000000"/>
+  </background>
+  <player>
+    <property name="posx" value="57"/>
+    <property name="posy" value="-281"/>
+    <property name="direction" value="right"/>
+  </player>
+  <sprite>
+    <property name="posx" value="6414"/>
+    <property name="posy" value="-503"/>
+    <property name="uid" value="1"/>
+    <property name="image" value="hills/green_2/big_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7256"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="2"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="195"/>
+    <property name="posy" value="-218"/>
+    <property name="uid" value="3"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="132"/>
+    <property name="posy" value="-218"/>
+    <property name="uid" value="4"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="68"/>
+    <property name="posy" value="-218"/>
+    <property name="uid" value="5"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4"/>
+    <property name="posy" value="-218"/>
+    <property name="uid" value="6"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="195"/>
+    <property name="posy" value="-154"/>
+    <property name="uid" value="7"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="195"/>
+    <property name="posy" value="-90"/>
+    <property name="uid" value="8"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="195"/>
+    <property name="posy" value="-26"/>
+    <property name="uid" value="9"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4"/>
+    <property name="posy" value="-154"/>
+    <property name="uid" value="10"/>
+    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4"/>
+    <property name="posy" value="-90"/>
+    <property name="uid" value="11"/>
+    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4"/>
+    <property name="posy" value="-26"/>
+    <property name="uid" value="12"/>
+    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="68"/>
+    <property name="posy" value="-154"/>
+    <property name="uid" value="13"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="131"/>
+    <property name="posy" value="-154"/>
+    <property name="uid" value="14"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="68"/>
+    <property name="posy" value="-90"/>
+    <property name="uid" value="15"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="131"/>
+    <property name="posy" value="-90"/>
+    <property name="uid" value="16"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="68"/>
+    <property name="posy" value="-26"/>
+    <property name="uid" value="17"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="131"/>
+    <property name="posy" value="-26"/>
+    <property name="uid" value="18"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="427"/>
+    <property name="posy" value="-213"/>
+    <property name="uid" value="19"/>
+    <property name="image" value="ground/mushroom_1/platform/green/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="491"/>
+    <property name="posy" value="-213"/>
+    <property name="uid" value="20"/>
+    <property name="image" value="ground/mushroom_1/platform/green/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="363"/>
+    <property name="posy" value="-213"/>
+    <property name="uid" value="21"/>
+    <property name="image" value="ground/mushroom_1/platform/green/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="426"/>
+    <property name="posy" value="-160"/>
+    <property name="uid" value="22"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="426"/>
+    <property name="posy" value="-100"/>
+    <property name="uid" value="23"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="426"/>
+    <property name="posy" value="-36"/>
+    <property name="uid" value="24"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_double_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="409"/>
+    <property name="posy" value="-441"/>
+    <property name="uid" value="25"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="451"/>
+    <property name="posy" value="-441"/>
+    <property name="uid" value="26"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <moving_platform>
+    <property name="posx" value="701"/>
+    <property name="posy" value="-276"/>
+    <property name="uid" value="350"/>
+    <property name="image" value="ground/jungle_1/slider/1_blue_right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="halfmassive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="down"/>
+    <property name="max_distance" value="200"/>
+    <property name="speed" value="5.000000"/>
+    <property name="touch_time" value="0.000000"/>
+    <property name="shake_time" value="16.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="3"/>
+    <property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png"/>
+    <property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png"/>
+    <property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png"/>
+  </moving_platform>
+  <sprite>
+    <property name="posx" value="957"/>
+    <property name="posy" value="-194"/>
+    <property name="uid" value="28"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1021"/>
+    <property name="posy" value="-194"/>
+    <property name="uid" value="29"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1084"/>
+    <property name="posy" value="-194"/>
+    <property name="uid" value="30"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1148"/>
+    <property name="posy" value="-194"/>
+    <property name="uid" value="31"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1212"/>
+    <property name="posy" value="-194"/>
+    <property name="uid" value="32"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1086"/>
+    <property name="posy" value="-140"/>
+    <property name="uid" value="33"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_riffle_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1086"/>
+    <property name="posy" value="-76"/>
+    <property name="uid" value="34"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1086"/>
+    <property name="posy" value="-12"/>
+    <property name="uid" value="35"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_bottom.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8"/>
+    <property name="posy" value="-337"/>
+    <property name="uid" value="36"/>
+    <property name="image" value="ground/green_2/hedges/big_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="176"/>
+    <property name="posy" value="-260"/>
+    <property name="uid" value="37"/>
+    <property name="image" value="blocks/extra/mushroom.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="8"/>
+    <property name="posy" value="-468"/>
+    <property name="uid" value="38"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="51"/>
+    <property name="posy" value="-468"/>
+    <property name="uid" value="39"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="red"/>
+  </box>
+  <enemystopper>
+    <property name="posx" value="358"/>
+    <property name="posy" value="-226"/>
+    <property name="uid" value="41"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="544"/>
+    <property name="posy" value="-228"/>
+    <property name="uid" value="42"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="476"/>
+    <property name="posy" value="-260"/>
+    <property name="uid" value="43"/>
+    <property name="image" value="enemy/furball/blue/walk_1.png"/>
+    <property name="type" value="furball"/>
+    <property name="color" value="blue"/>
+    <property name="direction" value="left"/>
+  </enemy>
+  <enemy>
+    <property name="posx" value="1309"/>
+    <property name="posy" value="-90"/>
+    <property name="uid" value="44"/>
+    <property name="image" value="enemy/furball/blue/walk_1.png"/>
+    <property name="type" value="furball"/>
+    <property name="color" value="blue"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <enemystopper>
+    <property name="posx" value="954"/>
+    <property name="posy" value="-216"/>
+    <property name="uid" value="46"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="1264"/>
+    <property name="posy" value="-211"/>
+    <property name="uid" value="47"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <sprite>
+    <property name="posx" value="1159"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="48"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1223"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="49"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1287"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="50"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1351"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="51"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1415"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="52"/>
+    <property name="image" value="ground/green_3/ground/middle/left_top.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1415"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="53"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1479"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="54"/>
+    <property name="image" value="ground/green_3/ground/middle/left_top.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1479"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="55"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1543"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="56"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1607"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="57"/>
+    <property name="image" value="ground/green_3/ground/middle/left_top.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1479"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="58"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1543"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="59"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1543"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="60"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1607"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="61"/>
+    <property name="image" value="ground/green_3/ground/middle/right_top.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1607"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="62"/>
+    <property name="image" value="ground/green_3/ground/middle/right_bottom.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1671"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="63"/>
+    <property name="image" value="ground/green_3/ground/middle/left_bottom.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1671"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="64"/>
+    <property name="image" value="ground/green_3/ground/middle/left_top.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1607"/>
+    <property name="posy" value="-237"/>
+    <property name="uid" value="65"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1671"/>
+    <property name="posy" value="-237"/>
+    <property name="uid" value="66"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1735"/>
+    <property name="posy" value="-237"/>
+    <property name="uid" value="67"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1799"/>
+    <property name="posy" value="-237"/>
+    <property name="uid" value="68"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1863"/>
+    <property name="posy" value="-237"/>
+    <property name="uid" value="69"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1863"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="70"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1863"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="71"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1863"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="72"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1671"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="73"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1735"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="74"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1799"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="75"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1735"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="76"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1799"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="77"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1735"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="78"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1799"/>
+    <property name="posy" value="-45"/>
+    <property name="uid" value="79"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <enemystopper>
+    <property name="posx" value="1595"/>
+    <property name="posy" value="-252"/>
+    <property name="uid" value="80"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="1927"/>
+    <property name="posy" value="-253"/>
+    <property name="uid" value="81"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="1145"/>
+    <property name="posy" value="-59"/>
+    <property name="uid" value="82"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="1150"/>
+    <property name="posy" value="-252"/>
+    <property name="uid" value="83"/>
+    <property name="image" value="enemy/spikeball/grey/walk_1.png"/>
+    <property name="type" value="spikeball"/>
+    <property name="color" value="grey"/>
+    <property name="direction" value="left"/>
+  </enemy>
+  <enemy>
+    <property name="posx" value="1908"/>
+    <property name="posy" value="-561"/>
+    <property name="uid" value="85"/>
+    <property name="image" value="enemy/furball/blue/walk_1.png"/>
+    <property name="type" value="furball"/>
+    <property name="color" value="blue"/>
+    <property name="direction" value="left"/>
+  </enemy>
+  <enemy>
+    <property name="posx" value="1697"/>
+    <property name="posy" value="-316"/>
+    <property name="uid" value="86"/>
+    <property name="image" value="enemy/turtle/red/walk_1.png"/>
+    <property name="type" value="turtle"/>
+    <property name="posx" value="1697"/>
+    <property name="posy" value="-316"/>
+    <property name="color" value="red"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <enemy>
+    <property name="posx" value="1756"/>
+    <property name="posy" value="-315"/>
+    <property name="uid" value="87"/>
+    <property name="image" value="enemy/turtle/red/walk_1.png"/>
+    <property name="type" value="turtle"/>
+    <property name="posx" value="1756"/>
+    <property name="posy" value="-315"/>
+    <property name="color" value="red"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <item>
+    <property name="posx" value="1156"/>
+    <property name="posy" value="-127"/>
+    <property name="uid" value="88"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <item>
+    <property name="posx" value="1155"/>
+    <property name="posy" value="-87"/>
+    <property name="uid" value="89"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <sprite>
+    <property name="posx" value="1188"/>
+    <property name="posy" value="-87"/>
+    <property name="uid" value="90"/>
+    <property name="image" value="ground/green_1/hedges/medium_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1550"/>
+    <property name="posy" value="-138"/>
+    <property name="uid" value="91"/>
+    <property name="image" value="ground/green_1/hedges/big_1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1624"/>
+    <property name="posy" value="-362"/>
+    <property name="uid" value="92"/>
+    <property name="image" value="ground/green_2/hedges/big_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1813"/>
+    <property name="posy" value="-291"/>
+    <property name="uid" value="93"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1813"/>
+    <property name="posy" value="-355"/>
+    <property name="uid" value="94"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1813"/>
+    <property name="posy" value="-416"/>
+    <property name="uid" value="95"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1813"/>
+    <property name="posy" value="-480"/>
+    <property name="uid" value="96"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1844"/>
+    <property name="posy" value="-516"/>
+    <property name="uid" value="97"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1780"/>
+    <property name="posy" value="-516"/>
+    <property name="uid" value="98"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1908"/>
+    <property name="posy" value="-516"/>
+    <property name="uid" value="99"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1716"/>
+    <property name="posy" value="-516"/>
+    <property name="uid" value="100"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1412"/>
+    <property name="posy" value="-173"/>
+    <property name="uid" value="101"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_bottom.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1412"/>
+    <property name="posy" value="-237"/>
+    <property name="uid" value="102"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1412"/>
+    <property name="posy" value="-301"/>
+    <property name="uid" value="103"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1412"/>
+    <property name="posy" value="-365"/>
+    <property name="uid" value="104"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1413"/>
+    <property name="posy" value="-371"/>
+    <property name="uid" value="105"/>
+    <property name="image" value="ground/mushroom_1/platform/green/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1477"/>
+    <property name="posy" value="-371"/>
+    <property name="uid" value="106"/>
+    <property name="image" value="ground/mushroom_1/platform/green/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1349"/>
+    <property name="posy" value="-371"/>
+    <property name="uid" value="107"/>
+    <property name="image" value="ground/mushroom_1/platform/green/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1554"/>
+    <property name="posy" value="-225"/>
+    <property name="uid" value="108"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1554"/>
+    <property name="posy" value="-289"/>
+    <property name="uid" value="109"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1554"/>
+    <property name="posy" value="-353"/>
+    <property name="uid" value="110"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1554"/>
+    <property name="posy" value="-416"/>
+    <property name="uid" value="111"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1589"/>
+    <property name="posy" value="-441"/>
+    <property name="uid" value="112"/>
+    <property name="image" value="ground/mushroom_1/platform/red/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1525"/>
+    <property name="posy" value="-441"/>
+    <property name="uid" value="113"/>
+    <property name="image" value="ground/mushroom_1/platform/red/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="1370"/>
+    <property name="posy" value="-615"/>
+    <property name="uid" value="114"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <box>
+    <property name="posx" value="1033"/>
+    <property name="posy" value="-424"/>
+    <property name="uid" value="115"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="51"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <sprite>
+    <property name="posx" value="575"/>
+    <property name="posy" value="-109"/>
+    <property name="uid" value="116"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="507"/>
+    <property name="posy" value="-26"/>
+    <property name="uid" value="117"/>
+    <property name="image" value="clouds/light_yellow_1/10.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="860"/>
+    <property name="posy" value="-25"/>
+    <property name="uid" value="118"/>
+    <property name="image" value="clouds/light_yellow_1/1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="954"/>
+    <property name="posy" value="-28"/>
+    <property name="uid" value="119"/>
+    <property name="image" value="clouds/light_yellow_1/8.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1913"/>
+    <property name="posy" value="-26"/>
+    <property name="uid" value="120"/>
+    <property name="image" value="clouds/light_yellow_1/1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="1573"/>
+    <property name="posy" value="-715"/>
+    <property name="uid" value="121"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="5"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <sprite>
+    <property name="posx" value="2193"/>
+    <property name="posy" value="-62"/>
+    <property name="uid" value="122"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2193"/>
+    <property name="posy" value="-126"/>
+    <property name="uid" value="123"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2193"/>
+    <property name="posy" value="-190"/>
+    <property name="uid" value="124"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2193"/>
+    <property name="posy" value="-254"/>
+    <property name="uid" value="125"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2193"/>
+    <property name="posy" value="-318"/>
+    <property name="uid" value="126"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2112"/>
+    <property name="posy" value="-64"/>
+    <property name="uid" value="127"/>
+    <property name="image" value="clouds/light_yellow_1/4.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2122"/>
+    <property name="posy" value="-19"/>
+    <property name="uid" value="128"/>
+    <property name="image" value="clouds/light_yellow_1/6.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2304"/>
+    <property name="posy" value="-49"/>
+    <property name="uid" value="129"/>
+    <property name="image" value="clouds/light_yellow_1/1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <item>
+    <property name="posx" value="1826"/>
+    <property name="posy" value="-279"/>
+    <property name="uid" value="130"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="1826"/>
+    <property name="posy" value="-324"/>
+    <property name="uid" value="131"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="1826"/>
+    <property name="posy" value="-371"/>
+    <property name="uid" value="132"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="1826"/>
+    <property name="posy" value="-423"/>
+    <property name="uid" value="133"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <sprite>
+    <property name="posx" value="2008"/>
+    <property name="posy" value="-27"/>
+    <property name="uid" value="134"/>
+    <property name="image" value="clouds/light_yellow_1/2.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2548"/>
+    <property name="posy" value="-125"/>
+    <property name="uid" value="135"/>
+    <property name="image" value="clouds/light_yellow_1/6.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <moving_platform>
+    <property name="posx" value="2570"/>
+    <property name="posy" value="-259"/>
+    <property name="uid" value="136"/>
+    <property name="image" value="ground/jungle_1/slider/1_blue_right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="halfmassive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="down"/>
+    <property name="max_distance" value="200"/>
+    <property name="speed" value="5.000000"/>
+    <property name="touch_time" value="0.000000"/>
+    <property name="shake_time" value="16.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="3"/>
+    <property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png"/>
+    <property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png"/>
+    <property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png"/>
+  </moving_platform>
+  <moving_platform>
+    <property name="posx" value="2835"/>
+    <property name="posy" value="-255"/>
+    <property name="uid" value="137"/>
+    <property name="image" value="ground/jungle_1/slider/1_blue_right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="halfmassive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="down"/>
+    <property name="max_distance" value="150"/>
+    <property name="speed" value="3.000000"/>
+    <property name="touch_time" value="0.000000"/>
+    <property name="shake_time" value="16.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="3"/>
+    <property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png"/>
+    <property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png"/>
+    <property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png"/>
+  </moving_platform>
+  <moving_platform>
+    <property name="posx" value="3106"/>
+    <property name="posy" value="-253"/>
+    <property name="uid" value="138"/>
+    <property name="image" value="ground/jungle_1/slider/1_blue_right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="halfmassive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="down"/>
+    <property name="max_distance" value="200"/>
+    <property name="speed" value="5.000000"/>
+    <property name="touch_time" value="0.000000"/>
+    <property name="shake_time" value="16.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="3"/>
+    <property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png"/>
+    <property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png"/>
+    <property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png"/>
+  </moving_platform>
+  <sprite>
+    <property name="posx" value="2556"/>
+    <property name="posy" value="-460"/>
+    <property name="uid" value="139"/>
+    <property name="image" value="hills/green_2/big_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="330"/>
+    <property name="posy" value="-95"/>
+    <property name="uid" value="140"/>
+    <property name="image" value="hills/very_light_blue_1/1_medium.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3410"/>
+    <property name="posy" value="-61"/>
+    <property name="uid" value="141"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3474"/>
+    <property name="posy" value="-61"/>
+    <property name="uid" value="142"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3538"/>
+    <property name="posy" value="-61"/>
+    <property name="uid" value="143"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3602"/>
+    <property name="posy" value="-61"/>
+    <property name="uid" value="144"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3666"/>
+    <property name="posy" value="-61"/>
+    <property name="uid" value="145"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3476"/>
+    <property name="posy" value="-125"/>
+    <property name="uid" value="146"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="halfmassive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3540"/>
+    <property name="posy" value="-125"/>
+    <property name="uid" value="147"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="halfmassive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3446"/>
+    <property name="posy" value="-106"/>
+    <property name="uid" value="148"/>
+    <property name="image" value="ground/green_1/hedges/medium_1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3662"/>
+    <property name="posy" value="-92"/>
+    <property name="uid" value="149"/>
+    <property name="image" value="ground/green_2/hedges/small_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <enemystopper>
+    <property name="posx" value="1713"/>
+    <property name="posy" value="-531"/>
+    <property name="uid" value="150"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="1959"/>
+    <property name="posy" value="-532"/>
+    <property name="uid" value="151"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="3646"/>
+    <property name="posy" value="-111"/>
+    <property name="uid" value="152"/>
+    <property name="image" value="enemy/spikeball/grey/walk_1.png"/>
+    <property name="type" value="spikeball"/>
+    <property name="color" value="grey"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <enemystopper>
+    <property name="posx" value="3394"/>
+    <property name="posy" value="-77"/>
+    <property name="uid" value="154"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="3730"/>
+    <property name="posy" value="-75"/>
+    <property name="uid" value="155"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <sprite>
+    <property name="posx" value="3605"/>
+    <property name="posy" value="-107"/>
+    <property name="uid" value="156"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3605"/>
+    <property name="posy" value="-171"/>
+    <property name="uid" value="157"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3605"/>
+    <property name="posy" value="-235"/>
+    <property name="uid" value="158"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3570"/>
+    <property name="posy" value="-286"/>
+    <property name="uid" value="159"/>
+    <property name="image" value="ground/mushroom_1/platform/green/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3634"/>
+    <property name="posy" value="-286"/>
+    <property name="uid" value="160"/>
+    <property name="image" value="ground/mushroom_1/platform/green/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3698"/>
+    <property name="posy" value="-286"/>
+    <property name="uid" value="161"/>
+    <property name="image" value="ground/mushroom_1/platform/green/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3506"/>
+    <property name="posy" value="-286"/>
+    <property name="uid" value="162"/>
+    <property name="image" value="ground/mushroom_1/platform/green/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3857"/>
+    <property name="posy" value="-63"/>
+    <property name="uid" value="163"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3857"/>
+    <property name="posy" value="-127"/>
+    <property name="uid" value="164"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3857"/>
+    <property name="posy" value="-190"/>
+    <property name="uid" value="165"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3857"/>
+    <property name="posy" value="-254"/>
+    <property name="uid" value="166"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3857"/>
+    <property name="posy" value="-318"/>
+    <property name="uid" value="167"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="3505"/>
+    <property name="posy" value="-503"/>
+    <property name="uid" value="168"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="3548"/>
+    <property name="posy" value="-503"/>
+    <property name="uid" value="169"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="3591"/>
+    <property name="posy" value="-503"/>
+    <property name="uid" value="170"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="51"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <enemystopper>
+    <property name="posx" value="3503"/>
+    <property name="posy" value="-299"/>
+    <property name="uid" value="171"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="3749"/>
+    <property name="posy" value="-303"/>
+    <property name="uid" value="172"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="3546"/>
+    <property name="posy" value="-331"/>
+    <property name="uid" value="173"/>
+    <property name="image" value="enemy/furball/blue/walk_1.png"/>
+    <property name="type" value="furball"/>
+    <property name="color" value="blue"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <enemy>
+    <property name="posx" value="7689"/>
+    <property name="posy" value="-445"/>
+    <property name="uid" value="174"/>
+    <property name="image" value="enemy/spika/grey.png"/>
+    <property name="type" value="spika"/>
+    <property name="color" value="grey"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="3911"/>
+    <property name="posy" value="-606"/>
+    <property name="uid" value="175"/>
+    <property name="image" value="clouds/light_yellow_1/2.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4296"/>
+    <property name="posy" value="-437"/>
+    <property name="uid" value="176"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4232"/>
+    <property name="posy" value="-437"/>
+    <property name="uid" value="177"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4168"/>
+    <property name="posy" value="-437"/>
+    <property name="uid" value="178"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4296"/>
+    <property name="posy" value="-373"/>
+    <property name="uid" value="179"/>
+    <property name="image" value="ground/green_3/ground/bottom/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4168"/>
+    <property name="posy" value="-373"/>
+    <property name="uid" value="180"/>
+    <property name="image" value="ground/green_3/ground/bottom/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4232"/>
+    <property name="posy" value="-373"/>
+    <property name="uid" value="181"/>
+    <property name="image" value="ground/green_3/ground/bottom/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4236"/>
+    <property name="posy" value="-316"/>
+    <property name="uid" value="182"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4236"/>
+    <property name="posy" value="-252"/>
+    <property name="uid" value="183"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4236"/>
+    <property name="posy" value="-188"/>
+    <property name="uid" value="184"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4236"/>
+    <property name="posy" value="-124"/>
+    <property name="uid" value="185"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_bottom.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4170"/>
+    <property name="posy" value="-409"/>
+    <property name="uid" value="186"/>
+    <property name="image" value="clouds/default_1/1_right.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4140"/>
+    <property name="posy" value="-1027"/>
+    <property name="uid" value="187"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2648"/>
+    <property name="posy" value="-27"/>
+    <property name="uid" value="188"/>
+    <property name="image" value="clouds/light_yellow_1/4.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <item>
+    <property name="posx" value="4249"/>
+    <property name="posy" value="-166"/>
+    <property name="uid" value="189"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <item>
+    <property name="posx" value="4249"/>
+    <property name="posy" value="-212"/>
+    <property name="uid" value="190"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <item>
+    <property name="posx" value="4249"/>
+    <property name="posy" value="-260"/>
+    <property name="uid" value="191"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <sprite>
+    <property name="posx" value="4304"/>
+    <property name="posy" value="-451"/>
+    <property name="uid" value="192"/>
+    <property name="image" value="ground/green_1/plant_m.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4196"/>
+    <property name="posy" value="-467"/>
+    <property name="uid" value="193"/>
+    <property name="image" value="ground/green_2/hedges/small_2.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3498"/>
+    <property name="posy" value="-154"/>
+    <property name="uid" value="194"/>
+    <property name="image" value="ground/green_2/hedges/small_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="4230"/>
+    <property name="posy" value="-497"/>
+    <property name="uid" value="195"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="4247"/>
+    <property name="posy" value="-480"/>
+    <property name="uid" value="196"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="4478"/>
+    <property name="posy" value="-696"/>
+    <property name="uid" value="197"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="2"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="4564"/>
+    <property name="posy" value="-696"/>
+    <property name="uid" value="198"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="red"/>
+  </box>
+  <box>
+    <property name="posx" value="4521"/>
+    <property name="posy" value="-696"/>
+    <property name="uid" value="199"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <box>
+    <property name="posx" value="4521"/>
+    <property name="posy" value="-967"/>
+    <property name="uid" value="200"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <sprite>
+    <property name="posx" value="4731"/>
+    <property name="posy" value="-62"/>
+    <property name="uid" value="201"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4731"/>
+    <property name="posy" value="-126"/>
+    <property name="uid" value="202"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4731"/>
+    <property name="posy" value="-189"/>
+    <property name="uid" value="203"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4731"/>
+    <property name="posy" value="-246"/>
+    <property name="uid" value="204"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4785"/>
+    <property name="posy" value="-284"/>
+    <property name="uid" value="205"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4721"/>
+    <property name="posy" value="-284"/>
+    <property name="uid" value="206"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4657"/>
+    <property name="posy" value="-284"/>
+    <property name="uid" value="207"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4877"/>
+    <property name="posy" value="-204"/>
+    <property name="uid" value="208"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4941"/>
+    <property name="posy" value="-204"/>
+    <property name="uid" value="209"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4478"/>
+    <property name="posy" value="-491"/>
+    <property name="uid" value="210"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4521"/>
+    <property name="posy" value="-491"/>
+    <property name="uid" value="211"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4564"/>
+    <property name="posy" value="-491"/>
+    <property name="uid" value="212"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4443"/>
+    <property name="posy" value="-129"/>
+    <property name="uid" value="213"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4556"/>
+    <property name="posy" value="-222"/>
+    <property name="uid" value="214"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5004"/>
+    <property name="posy" value="-204"/>
+    <property name="uid" value="215"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_2.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5067"/>
+    <property name="posy" value="-204"/>
+    <property name="uid" value="216"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4971"/>
+    <property name="posy" value="-149"/>
+    <property name="uid" value="217"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4971"/>
+    <property name="posy" value="-85"/>
+    <property name="uid" value="218"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4971"/>
+    <property name="posy" value="-21"/>
+    <property name="uid" value="219"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5190"/>
+    <property name="posy" value="-220"/>
+    <property name="uid" value="220"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5254"/>
+    <property name="posy" value="-220"/>
+    <property name="uid" value="221"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5190"/>
+    <property name="posy" value="-157"/>
+    <property name="uid" value="222"/>
+    <property name="image" value="ground/green_3/ground/bottom/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5318"/>
+    <property name="posy" value="-157"/>
+    <property name="uid" value="223"/>
+    <property name="image" value="ground/green_3/ground/bottom/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5318"/>
+    <property name="posy" value="-220"/>
+    <property name="uid" value="224"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5254"/>
+    <property name="posy" value="-157"/>
+    <property name="uid" value="225"/>
+    <property name="image" value="ground/green_3/ground/bottom/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4478"/>
+    <property name="posy" value="-309"/>
+    <property name="uid" value="226"/>
+    <property name="image" value="hills/green_2/medium_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5076"/>
+    <property name="posy" value="-769"/>
+    <property name="uid" value="227"/>
+    <property name="image" value="clouds/light_yellow_1/8.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <enemystopper>
+    <property name="posx" value="4872"/>
+    <property name="posy" value="-216"/>
+    <property name="uid" value="228"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="5121"/>
+    <property name="posy" value="-217"/>
+    <property name="uid" value="229"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="4910"/>
+    <property name="posy" value="-280"/>
+    <property name="uid" value="230"/>
+    <property name="image" value="enemy/turtle/red/walk_1.png"/>
+    <property name="type" value="turtle"/>
+    <property name="posx" value="4910"/>
+    <property name="posy" value="-280"/>
+    <property name="color" value="red"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <enemy>
+    <property name="posx" value="5287"/>
+    <property name="posy" value="-279"/>
+    <property name="uid" value="231"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="5282"/>
+    <property name="posy" value="-262"/>
+    <property name="uid" value="232"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="4947"/>
+    <property name="posy" value="-495"/>
+    <property name="uid" value="233"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="4990"/>
+    <property name="posy" value="-495"/>
+    <property name="uid" value="234"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="5033"/>
+    <property name="posy" value="-495"/>
+    <property name="uid" value="235"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="5076"/>
+    <property name="posy" value="-495"/>
+    <property name="uid" value="236"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="4947"/>
+    <property name="posy" value="-700"/>
+    <property name="uid" value="237"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="4990"/>
+    <property name="posy" value="-700"/>
+    <property name="uid" value="238"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="5033"/>
+    <property name="posy" value="-700"/>
+    <property name="uid" value="239"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="5076"/>
+    <property name="posy" value="-700"/>
+    <property name="uid" value="240"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="spin"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="-1"/>
+  </box>
+  <box>
+    <property name="posx" value="5011"/>
+    <property name="posy" value="-906"/>
+    <property name="uid" value="241"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="24"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <sprite>
+    <property name="posx" value="5606"/>
+    <property name="posy" value="-63"/>
+    <property name="uid" value="242"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5606"/>
+    <property name="posy" value="-127"/>
+    <property name="uid" value="243"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5606"/>
+    <property name="posy" value="-191"/>
+    <property name="uid" value="244"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5606"/>
+    <property name="posy" value="-254"/>
+    <property name="uid" value="245"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5606"/>
+    <property name="posy" value="-318"/>
+    <property name="uid" value="246"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5604"/>
+    <property name="posy" value="-345"/>
+    <property name="uid" value="247"/>
+    <property name="image" value="ground/mushroom_1/platform/green/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5668"/>
+    <property name="posy" value="-345"/>
+    <property name="uid" value="248"/>
+    <property name="image" value="ground/mushroom_1/platform/green/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5540"/>
+    <property name="posy" value="-345"/>
+    <property name="uid" value="249"/>
+    <property name="image" value="ground/mushroom_1/platform/green/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5900"/>
+    <property name="posy" value="-224"/>
+    <property name="uid" value="250"/>
+    <property name="image" value="ground/mushroom_1/platform/red/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5964"/>
+    <property name="posy" value="-224"/>
+    <property name="uid" value="251"/>
+    <property name="image" value="ground/mushroom_1/platform/red/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5837"/>
+    <property name="posy" value="-224"/>
+    <property name="uid" value="252"/>
+    <property name="image" value="ground/mushroom_1/platform/red/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6167"/>
+    <property name="posy" value="-292"/>
+    <property name="uid" value="253"/>
+    <property name="image" value="ground/mushroom_1/platform/red/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6103"/>
+    <property name="posy" value="-292"/>
+    <property name="uid" value="254"/>
+    <property name="image" value="ground/mushroom_1/platform/red/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6039"/>
+    <property name="posy" value="-292"/>
+    <property name="uid" value="255"/>
+    <property name="image" value="ground/mushroom_1/platform/red/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5904"/>
+    <property name="posy" value="-182"/>
+    <property name="uid" value="256"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_double_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5904"/>
+    <property name="posy" value="-121"/>
+    <property name="uid" value="257"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_double_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5904"/>
+    <property name="posy" value="-60"/>
+    <property name="uid" value="258"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6100"/>
+    <property name="posy" value="-239"/>
+    <property name="uid" value="259"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6100"/>
+    <property name="posy" value="-175"/>
+    <property name="uid" value="260"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6100"/>
+    <property name="posy" value="-111"/>
+    <property name="uid" value="261"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6100"/>
+    <property name="posy" value="-49"/>
+    <property name="uid" value="262"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="5513"/>
+    <property name="posy" value="-636"/>
+    <property name="uid" value="263"/>
+    <property name="image" value="clouds/light_yellow_1/4.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="6088"/>
+    <property name="posy" value="-550"/>
+    <property name="uid" value="264"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="5891"/>
+    <property name="posy" value="-468"/>
+    <property name="uid" value="265"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="0"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+  </box>
+  <moving_platform>
+    <property name="posx" value="6415"/>
+    <property name="posy" value="-245"/>
+    <property name="uid" value="266"/>
+    <property name="image" value="ground/jungle_1/slider/1_blue_right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="massive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="right"/>
+    <property name="max_distance" value="400"/>
+    <property name="speed" value="3.000000"/>
+    <property name="touch_time" value="0.000000"/>
+    <property name="shake_time" value="0.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="4"/>
+    <property name="image_top_left" value="ground/jungle_1/slider/1_blue_left.png"/>
+    <property name="image_top_middle" value="ground/jungle_1/slider/1_blue_middle.png"/>
+    <property name="image_top_right" value="ground/jungle_1/slider/1_blue_right.png"/>
+  </moving_platform>
+  <enemystopper>
+    <property name="posx" value="5534"/>
+    <property name="posy" value="-357"/>
+    <property name="uid" value="267"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="5722"/>
+    <property name="posy" value="-359"/>
+    <property name="uid" value="268"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="5584"/>
+    <property name="posy" value="-390"/>
+    <property name="uid" value="269"/>
+    <property name="image" value="enemy/furball/blue/walk_1.png"/>
+    <property name="type" value="furball"/>
+    <property name="color" value="blue"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="6485"/>
+    <property name="posy" value="-201"/>
+    <property name="uid" value="270"/>
+    <property name="image" value="clouds/light_yellow_1/8.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6204"/>
+    <property name="posy" value="-770"/>
+    <property name="uid" value="271"/>
+    <property name="image" value="clouds/light_yellow_1/5.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="6673"/>
+    <property name="posy" value="-472"/>
+    <property name="uid" value="272"/>
+    <property name="image" value="clouds/light_yellow_1/7.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7162"/>
+    <property name="posy" value="-52"/>
+    <property name="uid" value="273"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7226"/>
+    <property name="posy" value="-172"/>
+    <property name="uid" value="274"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7162"/>
+    <property name="posy" value="-172"/>
+    <property name="uid" value="275"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7098"/>
+    <property name="posy" value="-172"/>
+    <property name="uid" value="276"/>
+    <property name="image" value="ground/mushroom_1/platform/gold/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7162"/>
+    <property name="posy" value="-116"/>
+    <property name="uid" value="277"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_top.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7471"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="278"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7471"/>
+    <property name="posy" value="-50"/>
+    <property name="uid" value="279"/>
+    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7535"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="280"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7599"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="281"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7663"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="282"/>
+    <property name="image" value="ground/green_3/ground/middle/left_top.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7663"/>
+    <property name="posy" value="-178"/>
+    <property name="uid" value="283"/>
+    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7663"/>
+    <property name="posy" value="-242"/>
+    <property name="uid" value="284"/>
+    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7663"/>
+    <property name="posy" value="-306"/>
+    <property name="uid" value="285"/>
+    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7727"/>
+    <property name="posy" value="-306"/>
+    <property name="uid" value="286"/>
+    <property name="image" value="ground/green_3/ground/top/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7791"/>
+    <property name="posy" value="-306"/>
+    <property name="uid" value="287"/>
+    <property name="image" value="ground/green_3/ground/top/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7791"/>
+    <property name="posy" value="-242"/>
+    <property name="uid" value="288"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7791"/>
+    <property name="posy" value="-178"/>
+    <property name="uid" value="289"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7791"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="290"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7791"/>
+    <property name="posy" value="-50"/>
+    <property name="uid" value="291"/>
+    <property name="image" value="ground/green_3/ground/middle/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7727"/>
+    <property name="posy" value="-242"/>
+    <property name="uid" value="292"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7727"/>
+    <property name="posy" value="-178"/>
+    <property name="uid" value="293"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7727"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="294"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7535"/>
+    <property name="posy" value="-50"/>
+    <property name="uid" value="295"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7599"/>
+    <property name="posy" value="-50"/>
+    <property name="uid" value="296"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7663"/>
+    <property name="posy" value="-50"/>
+    <property name="uid" value="297"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7727"/>
+    <property name="posy" value="-50"/>
+    <property name="uid" value="298"/>
+    <property name="image" value="ground/green_3/ground/middle/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <box>
+    <property name="posx" value="7619"/>
+    <property name="posy" value="-306"/>
+    <property name="uid" value="299"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <box>
+    <property name="posx" value="7576"/>
+    <property name="posy" value="-306"/>
+    <property name="uid" value="300"/>
+    <property name="image" value="game/box/yellow/bonus/1.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Bonus"/>
+    <property name="item" value="35"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="1"/>
+    <property name="force_best_item" value="1"/>
+  </box>
+  <sprite>
+    <property name="posx" value="7124"/>
+    <property name="posy" value="-706"/>
+    <property name="uid" value="301"/>
+    <property name="image" value="clouds/light_yellow_1/8.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7699"/>
+    <property name="posy" value="-434"/>
+    <property name="uid" value="302"/>
+    <property name="image" value="ground/green_2/hedges/big_1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7480"/>
+    <property name="posy" value="-155"/>
+    <property name="uid" value="303"/>
+    <property name="image" value="ground/green_1/hedges/medium_2.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7535"/>
+    <property name="posy" value="-157"/>
+    <property name="uid" value="304"/>
+    <property name="image" value="clouds/light_yellow_1/4.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8027"/>
+    <property name="posy" value="-222"/>
+    <property name="uid" value="305"/>
+    <property name="image" value="ground/mushroom_1/platform/green/middle_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8091"/>
+    <property name="posy" value="-222"/>
+    <property name="uid" value="306"/>
+    <property name="image" value="ground/mushroom_1/platform/green/right.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7963"/>
+    <property name="posy" value="-222"/>
+    <property name="uid" value="307"/>
+    <property name="image" value="ground/mushroom_1/platform/green/left.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8029"/>
+    <property name="posy" value="-158"/>
+    <property name="uid" value="308"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft_riffle.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8029"/>
+    <property name="posy" value="-94"/>
+    <property name="uid" value="309"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8029"/>
+    <property name="posy" value="-30"/>
+    <property name="uid" value="310"/>
+    <property name="image" value="ground/mushroom_1/platform/shaft.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8264"/>
+    <property name="posy" value="-592"/>
+    <property name="uid" value="311"/>
+    <property name="image" value="clouds/light_yellow_1/10.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8333"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="312"/>
+    <property name="image" value="clouds/light_yellow_1/1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7385"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="313"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8520"/>
+    <property name="posy" value="-265"/>
+    <property name="uid" value="314"/>
+    <property name="image" value="clouds/light_yellow_1/7.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8029"/>
+    <property name="posy" value="-342"/>
+    <property name="uid" value="315"/>
+    <property name="image" value="game/level/door_wood_1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <levelexit>
+    <property name="posx" value="8053"/>
+    <property name="posy" value="-239"/>
+    <property name="uid" value="316"/>
+    <property name="image" value=""/>
+    <property name="type" value="0"/>
+    <property name="camera_motion" value="1"/>
+  </levelexit>
+  <sprite>
+    <property name="posx" value="241"/>
+    <property name="posy" value="-103"/>
+    <property name="uid" value="317"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="1056"/>
+    <property name="posy" value="-24"/>
+    <property name="uid" value="318"/>
+    <property name="image" value="clouds/light_yellow_1/1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2359"/>
+    <property name="posy" value="-123"/>
+    <property name="uid" value="319"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="2867"/>
+    <property name="posy" value="-172"/>
+    <property name="uid" value="320"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3141"/>
+    <property name="posy" value="-53"/>
+    <property name="uid" value="321"/>
+    <property name="image" value="clouds/light_yellow_1/1.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3211"/>
+    <property name="posy" value="-129"/>
+    <property name="uid" value="322"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7736"/>
+    <property name="posy" value="-851"/>
+    <property name="uid" value="323"/>
+    <property name="image" value="clouds/light_yellow_1/9.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="4502"/>
+    <property name="posy" value="-553"/>
+    <property name="uid" value="325"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="4521"/>
+    <property name="posy" value="-534"/>
+    <property name="uid" value="326"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="7184"/>
+    <property name="posy" value="-234"/>
+    <property name="uid" value="327"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="7203"/>
+    <property name="posy" value="-215"/>
+    <property name="uid" value="328"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="7965"/>
+    <property name="posy" value="-284"/>
+    <property name="uid" value="329"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="7984"/>
+    <property name="posy" value="-265"/>
+    <property name="uid" value="330"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="8098"/>
+    <property name="posy" value="-284"/>
+    <property name="uid" value="331"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="8092"/>
+    <property name="posy" value="-265"/>
+    <property name="uid" value="332"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7428"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="333"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7342"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="334"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7299"/>
+    <property name="posy" value="-114"/>
+    <property name="uid" value="335"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7855"/>
+    <property name="posy" value="-306"/>
+    <property name="uid" value="336"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="7855"/>
+    <property name="posy" value="-349"/>
+    <property name="uid" value="337"/>
+    <property name="image" value="game/box/brown1_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <moving_platform>
+    <property name="posx" value="4168"/>
+    <property name="posy" value="-120"/>
+    <property name="uid" value="338"/>
+    <property name="image" value="ground/mushroom_1/platform/red/right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="massive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="right"/>
+    <property name="max_distance" value="150"/>
+    <property name="speed" value="0.000000"/>
+    <property name="touch_time" value="20.000000"/>
+    <property name="shake_time" value="32.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="1"/>
+    <property name="image_top_left" value="ground/mushroom_1/platform/red/left.png"/>
+    <property name="image_top_middle" value="ground/mushroom_1/platform/red/middle_1.png"/>
+    <property name="image_top_right" value="ground/mushroom_1/platform/red/right.png"/>
+  </moving_platform>
+  <moving_platform>
+    <property name="posx" value="3763"/>
+    <property name="posy" value="-361"/>
+    <property name="uid" value="339"/>
+    <property name="image" value="ground/mushroom_1/platform/red/right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="massive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="down"/>
+    <property name="max_distance" value="250"/>
+    <property name="speed" value="5.000000"/>
+    <property name="touch_time" value="20.000000"/>
+    <property name="shake_time" value="32.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="2"/>
+    <property name="image_top_left" value="ground/mushroom_1/platform/red/left.png"/>
+    <property name="image_top_middle" value="ground/mushroom_1/platform/red/middle_1.png"/>
+    <property name="image_top_right" value="ground/mushroom_1/platform/red/right.png"/>
+  </moving_platform>
+  <moving_platform>
+    <property name="posx" value="2060"/>
+    <property name="posy" value="-299"/>
+    <property name="uid" value="340"/>
+    <property name="image" value="ground/mushroom_1/platform/red/right.png"/>
+    <property name="type" value="0"/>
+    <property name="massive_type" value="massive"/>
+    <property name="move_type" value="0"/>
+    <property name="direction" value="down"/>
+    <property name="max_distance" value="200"/>
+    <property name="speed" value="5.000000"/>
+    <property name="touch_time" value="0.000000"/>
+    <property name="shake_time" value="0.000000"/>
+    <property name="touch_move_time" value="0.000000"/>
+    <property name="middle_img_count" value="3"/>
+    <property name="image_top_left" value="ground/mushroom_1/platform/red/left.png"/>
+    <property name="image_top_middle" value="ground/mushroom_1/platform/red/middle_1.png"/>
+    <property name="image_top_right" value="ground/mushroom_1/platform/red/right.png"/>
+  </moving_platform>
+  <enemy>
+    <property name="posx" value="3617"/>
+    <property name="posy" value="-331"/>
+    <property name="uid" value="341"/>
+    <property name="image" value="enemy/furball/blue/walk_1.png"/>
+    <property name="type" value="furball"/>
+    <property name="color" value="blue"/>
+    <property name="direction" value="right"/>
+  </enemy>
+  <enemystopper>
+    <property name="posx" value="4642"/>
+    <property name="posy" value="-299"/>
+    <property name="uid" value="342"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemystopper>
+    <property name="posx" value="4849"/>
+    <property name="posy" value="-295"/>
+    <property name="uid" value="343"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+  </enemystopper>
+  <enemy>
+    <property name="posx" value="5963"/>
+    <property name="posy" value="-290"/>
+    <property name="uid" value="344"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="5970"/>
+    <property name="posy" value="-267"/>
+    <property name="uid" value="345"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="6168"/>
+    <property name="posy" value="-356"/>
+    <property name="uid" value="346"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.500000"/>
+    <property name="path" value=""/>
+    <property name="speed" value="0.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <sprite>
+    <property name="posx" value="6174"/>
+    <property name="posy" value="-335"/>
+    <property name="uid" value="347"/>
+    <property name="image" value="blocks/screw/1.png"/>
+    <property name="type" value="front_passive"/>
+  </sprite>
+  <enemy>
+    <property name="posx" value="2589"/>
+    <property name="posy" value="-43"/>
+    <property name="uid" value="348"/>
+    <property name="image" value="enemy/static/saw/default.png"/>
+    <property name="type" value="static"/>
+    <property name="rotation_speed" value="-7.000000"/>
+    <property name="path" value="saw_1"/>
+    <property name="speed" value="6.000000"/>
+    <property name="fire_resistant" value="0"/>
+    <property name="ice_resistance" value="0.000000"/>
+  </enemy>
+  <path>
+    <property name="posx" value="2589"/>
+    <property name="posy" value="-44"/>
+    <property name="uid" value="349"/>
+    <property name="image" value=""/>
+    <property name="type" value="passive"/>
+    <property name="identifier" value="saw_1"/>
+    <property name="show_line" value="0"/>
+    <property name="rewind" value="0"/>
+    <property name="segment_0_x1" value="0.000000"/>
+    <property name="segment_0_y1" value="0.000000"/>
+    <property name="segment_0_x2" value="180.000000"/>
+    <property name="segment_0_y2" value="-400.000000"/>
+    <property name="segment_1_x1" value="180.000000"/>
+    <property name="segment_1_y1" value="-400.000000"/>
+    <property name="segment_1_x2" value="220.000000"/>
+    <property name="segment_1_y2" value="-400.000000"/>
+    <property name="segment_2_x1" value="220.000000"/>
+    <property name="segment_2_y1" value="-400.000000"/>
+    <property name="segment_2_x2" value="400.000000"/>
+    <property name="segment_2_y2" value="0.000000"/>
+  </path>
+  <script></script>
 </level>
