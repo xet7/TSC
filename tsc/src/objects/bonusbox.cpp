@@ -166,7 +166,7 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
     }
     else if (box_type == TYPE_STAR) {
         m_item_image = pVideo->Get_Surface("game/items/lemon.png");
-        m_name = _("Bonusbox Star");
+        m_name = _("Bonusbox Lemon");
     }
     else if (box_type == TYPE_GOLDPIECE) {
         if (m_gold_color == COL_RED) {
@@ -452,7 +452,7 @@ void cBonusBox::Editor_Activate(void)
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Ice berry")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Ghost berry")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("1-UP berry")));
-    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Star")));
+    combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Lemon")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Jewel")));
     combobox->addItem(new CEGUI::ListboxTextItem(UTF8_("Poisonous berry")));
 
@@ -472,7 +472,7 @@ void cBonusBox::Editor_Activate(void)
         combobox->setText(UTF8_("1-UP berry"));
     }
     else if (box_type == TYPE_STAR) {
-        combobox->setText(UTF8_("Star"));
+        combobox->setText(UTF8_("Lemon"));
     }
     else if (box_type == TYPE_GOLDPIECE) {
         combobox->setText(UTF8_("Jewel"));
@@ -575,7 +575,7 @@ bool cBonusBox::Editor_Item_Select(const CEGUI::EventArgs& event)
     else if (item->getText().compare(UTF8_("1-UP berry")) == 0) {
         Set_Bonus_Type(TYPE_MUSHROOM_LIVE_1);
     }
-    else if (item->getText().compare(UTF8_("Star")) == 0) {
+    else if (item->getText().compare(UTF8_("Lemon")) == 0) {
         Set_Bonus_Type(TYPE_STAR);
     }
     else if (item->getText().compare(UTF8_("Jewel")) == 0) {

@@ -60,7 +60,7 @@ void cjStar::Init(void)
     Add_Image(pVideo->Get_Surface("game/items/lemon.png"));
     Set_Image_Num(0, 1, 0);
 
-    m_name = _("Star");
+    m_name = _("Lemon");
 }
 
 cjStar* cjStar::Copy(void) const
