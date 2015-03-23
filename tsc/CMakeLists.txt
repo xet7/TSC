@@ -189,6 +189,7 @@ if (WIN32)
 else()
   set(Boost_USE_STATIC_LIBS OFF)
   find_package(DevIL REQUIRED)
+  find_package(X11 REQUIRED)
   find_package(Boost 1.50.0
     COMPONENTS filesystem chrono thread system
     REQUIRED)
@@ -344,6 +345,7 @@ else()
     ${LibXmlPP_LIBRARIES}
     ${PNG_LIBRARIES}
     ${FREETYPE_LIBRARIES}
+    ${X11_LIBRARIES}
     ${CMAKE_DL_LIBS}
     )
 endif()
