@@ -341,7 +341,7 @@ void Preload_Images(bool draw_gui /* = 0 */)
     image_files.push_back(utf8_to_path("game/items/fireberry_2.png"));
     image_files.push_back(utf8_to_path("game/items/fireberry_3.png"));
     // Star
-    image_files.push_back(utf8_to_path("game/items/star.png"));
+    image_files.push_back(utf8_to_path("game/items/lemon.png"));
     // Feather
     //image_files.push_back( "game/items/feather_1.png" );
     // Yellow Goldpiece
