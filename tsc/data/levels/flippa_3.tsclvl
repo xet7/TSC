@@ -2,8 +2,8 @@
 <level>
   <information>
     <property name="game_version" value="2.0.0"/>
-    <property name="engine_version" value="43"/>
-    <property name="save_time" value="1420226689"/>
+    <property name="engine_version" value="45"/>
+    <property name="save_time" value="1427212580"/>
   </information>
   <settings>
     <property name="lvl_author" value="Flippa"/>
@@ -44,6 +44,13 @@
     <property name="posy" value="-430"/>
     <property name="direction" value="right"/>
   </player>
+  <sprite>
+    <property name="posx" value="7540"/>
+    <property name="posy" value="-893"/>
+    <property name="uid" value="1038"/>
+    <property name="image" value="ground/jungle_2/hedge/1_yellow.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
   <particle_emitter>
     <property name="posx" value="0"/>
     <property name="posy" value="-632"/>
@@ -1041,8 +1048,8 @@
     <property name="type" value="massive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="8585"/>
-    <property name="posy" value="-403"/>
+    <property name="posx" value="8592"/>
+    <property name="posy" value="-401"/>
     <property name="uid" value="138"/>
     <property name="image" value="signs/default_1/1_ending_up_right.png"/>
     <property name="type" value="passive"/>
@@ -1335,7 +1342,7 @@
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="141"/>
+    <property name="posx" value="178"/>
     <property name="posy" value="-350"/>
     <property name="uid" value="180"/>
     <property name="image" value="ground/green_2/hedges/small_2.png"/>
@@ -1594,7 +1601,7 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-505"/>
     <property name="uid" value="213"/>
-    <property name="image" value="ground/green_3/ground/top/left.png"/>
+    <property name="image" value="ground/green_3/ground/top/right."/>
     <property name="type" value="0"/>
     <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
@@ -1613,9 +1620,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-441"/>
     <property name="uid" value="214"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -1632,9 +1639,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-377"/>
     <property name="uid" value="215"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -1651,9 +1658,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-313"/>
     <property name="uid" value="216"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -1670,9 +1677,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-249"/>
     <property name="uid" value="217"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -1689,9 +1696,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-185"/>
     <property name="uid" value="218"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -1708,9 +1715,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-121"/>
     <property name="uid" value="219"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -1727,9 +1734,9 @@
     <property name="posx" value="2471"/>
     <property name="posy" value="-57"/>
     <property name="uid" value="220"/>
-    <property name="image" value="ground/green_3/ground/middle/left.png"/>
+    <property name="image" value="ground/green_3/ground/middle/right."/>
     <property name="type" value="0"/>
-    <property name="massive_type" value="halfmassive"/>
+    <property name="massive_type" value="massive"/>
     <property name="move_type" value="0"/>
     <property name="direction" value="down"/>
     <property name="max_distance" value="300"/>
@@ -3807,7 +3814,7 @@
     <property name="color" value="yellow"/>
   </item>
   <item>
-    <property name="posx" value="5510"/>
+    <property name="posx" value="5516"/>
     <property name="posy" value="-517"/>
     <property name="uid" value="483"/>
     <property name="image" value="game/items/goldpiece/yellow/1.png"/>
@@ -3815,7 +3822,7 @@
     <property name="color" value="yellow"/>
   </item>
   <item>
-    <property name="posx" value="5548"/>
+    <property name="posx" value="5554"/>
     <property name="posy" value="-517"/>
     <property name="uid" value="484"/>
     <property name="image" value="game/items/goldpiece/yellow/1.png"/>
@@ -5421,13 +5428,6 @@
     <property name="type" value="climbable"/>
   </sprite>
   <sprite>
-    <property name="posx" value="8670"/>
-    <property name="posy" value="-772"/>
-    <property name="uid" value="705"/>
-    <property name="image" value="ground/jungle_1/kplant_head.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
     <property name="posx" value="8877"/>
     <property name="posy" value="-1136"/>
     <property name="uid" value="706"/>
@@ -5979,13 +5979,6 @@
     <property name="uid" value="784"/>
     <property name="image" value="ground/jungle_1/kplant.png"/>
     <property name="type" value="climbable"/>
-  </sprite>
-  <sprite>
-    <property name="posx" value="8658"/>
-    <property name="posy" value="-1800"/>
-    <property name="uid" value="785"/>
-    <property name="image" value="ground/jungle_1/kplant_head.png"/>
-    <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="6165"/>
@@ -7644,8 +7637,8 @@
     <property name="type" value="passive"/>
   </sprite>
   <levelexit>
-    <property name="posx" value="10888"/>
-    <property name="posy" value="-2113"/>
+    <property name="posx" value="10884"/>
+    <property name="posy" value="-2118"/>
     <property name="uid" value="1019"/>
     <property name="image" value=""/>
     <property name="type" value="1"/>
@@ -7654,13 +7647,14 @@
     <property name="direction" value="down"/>
   </levelexit>
   <levelexit>
-    <property name="posx" value="4134"/>
-    <property name="posy" value="-585"/>
+    <property name="posx" value="4139"/>
+    <property name="posy" value="-590"/>
     <property name="uid" value="1020"/>
     <property name="image" value=""/>
     <property name="type" value="1"/>
-    <property name="camera_motion" value="1"/>
+    <property name="camera_motion" value="2"/>
     <property name="level_name" value="flippa_3_mushroom"/>
+    <property name="entry" value="entrance"/>
     <property name="direction" value="down"/>
   </levelexit>
   <levelexit>
@@ -7671,6 +7665,7 @@
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
     <property name="level_name" value="flippa_3_desert"/>
+    <property name="entry" value="entrance"/>
     <property name="direction" value="left"/>
   </levelexit>
   <sprite>
@@ -7786,13 +7781,6 @@
     <property name="type" value="halfmassive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="7541"/>
-    <property name="posy" value="-886"/>
-    <property name="uid" value="1038"/>
-    <property name="image" value="ground/jungle_2/hedge/1_yellow.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
     <property name="posx" value="7572"/>
     <property name="posy" value="-831"/>
     <property name="uid" value="1039"/>
@@ -7864,12 +7852,13 @@
   </sprite>
   <levelexit>
     <property name="posx" value="5540"/>
-    <property name="posy" value="-469"/>
+    <property name="posy" value="-476"/>
     <property name="uid" value="1049"/>
     <property name="image" value=""/>
     <property name="type" value="1"/>
     <property name="camera_motion" value="1"/>
     <property name="level_name" value="flippa_3_green"/>
+    <property name="entry" value="entrance"/>
     <property name="direction" value="down"/>
   </levelexit>
   <sprite>
@@ -8741,8 +8730,8 @@
     <property name="type" value="passive"/>
   </sprite>
   <level_entry>
-    <property name="posx" value="4036"/>
-    <property name="posy" value="-2075"/>
+    <property name="posx" value="4037"/>
+    <property name="posy" value="-2067"/>
     <property name="uid" value="1172"/>
     <property name="image" value=""/>
     <property name="type" value="1"/>
@@ -8750,12 +8739,12 @@
     <property name="name" value="1"/>
   </level_entry>
   <level_entry>
-    <property name="posx" value="3946"/>
-    <property name="posy" value="-767"/>
+    <property name="posx" value="5542"/>
+    <property name="posy" value="-229"/>
     <property name="uid" value="1173"/>
     <property name="image" value=""/>
     <property name="type" value="1"/>
-    <property name="direction" value="up"/>
+    <property name="direction" value="down"/>
     <property name="name" value="4"/>
   </level_entry>
   <level_entry>
@@ -8788,5 +8777,175 @@
     <property name="image" value="blocks/pipe/connection/plastic_1/red/left.png"/>
     <property name="type" value="front_passive"/>
   </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2407"/>
+    <property name="uid" value="351"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2457"/>
+    <property name="uid" value="1179"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2507"/>
+    <property name="uid" value="1180"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2557"/>
+    <property name="uid" value="1181"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2607"/>
+    <property name="uid" value="1182"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2657"/>
+    <property name="uid" value="1183"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3992"/>
+    <property name="posy" value="-2707"/>
+    <property name="uid" value="1184"/>
+    <property name="image" value="pipes/blue/ver_1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="3999"/>
+    <property name="posy" value="-2741"/>
+    <property name="uid" value="1185"/>
+    <property name="image" value="blocks/ice/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="4042"/>
+    <property name="posy" value="-2741"/>
+    <property name="uid" value="1186"/>
+    <property name="image" value="blocks/ice/1.png"/>
+    <property name="type" value="massive"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8670"/>
+    <property name="posy" value="-772"/>
+    <property name="uid" value="705"/>
+    <property name="image" value="ground/jungle_1/kplant_head.png"/>
+    <property name="type" value="climbable"/>
+  </sprite>
+  <sprite>
+    <property name="posx" value="8658"/>
+    <property name="posy" value="-1800"/>
+    <property name="uid" value="785"/>
+    <property name="image" value="ground/jungle_1/kplant_head.png"/>
+    <property name="type" value="climbable"/>
+  </sprite>
+  <box>
+    <property name="posx" value="6392"/>
+    <property name="posy" value="-566"/>
+    <property name="uid" value="1188"/>
+    <property name="image" value="game/box/yellow/default.png"/>
+    <property name="type" value="bonus"/>
+    <property name="animation" value="Default"/>
+    <property name="item" value="8"/>
+    <property name="invisible" value="0"/>
+    <property name="useable_count" value="10"/>
+    <property name="force_best_item" value="0"/>
+    <property name="gold_color" value="yellow"/>
+  </box>
+  <item>
+    <property name="posx" value="6199"/>
+    <property name="posy" value="-948"/>
+    <property name="uid" value="1190"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="5949"/>
+    <property name="posy" value="-1059"/>
+    <property name="uid" value="1189"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <item>
+    <property name="posx" value="6500"/>
+    <property name="posy" value="-947"/>
+    <property name="uid" value="1187"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="6791"/>
+    <property name="posy" value="-890"/>
+    <property name="uid" value="1191"/>
+    <property name="image" value="game/items/goldpiece/red/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="red"/>
+  </item>
+  <item>
+    <property name="posx" value="7034"/>
+    <property name="posy" value="-680"/>
+    <property name="uid" value="1192"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="6602"/>
+    <property name="posy" value="-429"/>
+    <property name="uid" value="1193"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="6625"/>
+    <property name="posy" value="-429"/>
+    <property name="uid" value="1194"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="6648"/>
+    <property name="posy" value="-429"/>
+    <property name="uid" value="1195"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="6671"/>
+    <property name="posy" value="-429"/>
+    <property name="uid" value="1196"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
+  <item>
+    <property name="posx" value="6694"/>
+    <property name="posy" value="-429"/>
+    <property name="uid" value="1197"/>
+    <property name="image" value="game/items/goldpiece/yellow/1.png"/>
+    <property name="type" value="goldpiece"/>
+    <property name="color" value="yellow"/>
+  </item>
   <script></script>
 </level>
