@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Secretchronicles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-23 21:59+0100\n"
-"PO-Revision-Date: 2015-03-23 22:00+0100\n"
+"POT-Creation-Date: 2015-03-25 10:38+0100\n"
+"PO-Revision-Date: 2015-03-25 10:38+0100\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: SMC German translation team\n"
 "Language: de\n"
@@ -1797,9 +1797,9 @@ msgstr "Linie Position Y2"
 msgid "Fireberry"
 msgstr "Feuerbeere"
 
-#: ../../src/objects/powerup.cpp:620
-msgid "Moon (3-UP)"
-msgstr "Mond (+3)"
+#: ../../src/objects/powerup.cpp:616
+msgid "Cookie (3-UP)"
+msgstr "Keks (+3)"
 
 #: ../../src/objects/spinbox.cpp:49
 msgid "Spinbox"
