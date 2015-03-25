@@ -609,11 +609,11 @@ void cMoon::Init(void)
     m_can_be_on_ground = 0;
     m_pos_z = 0.052f;
 
-    Add_Image(pVideo->Get_Surface("game/items/moon_1.png"));
+    Add_Image(pVideo->Get_Surface("game/items/cookie.png"));
 
     Set_Image_Num(0, 1);
 
-    m_name = _("Moon (3-UP)");
+    m_name = _("Cookie (3-UP)");
     m_particle_counter = 0.0f;
 }
 
