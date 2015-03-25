@@ -547,10 +547,10 @@ void cMoon::Init(void)
     m_pos_z = 0.052f;
 
     Clear_Images();
-    Add_Image_Set("main", "game/items/moon.imgset");
+    Add_Image_Set("main", "game/items/cookie.imgset");
     Set_Image_Set("main", 1);
 
-    m_name = _("Moon (3-UP)");
+    m_name = _("Cookie (3-UP)");
     m_particle_counter = 0.0f;
 }
 
@@ -573,6 +573,19 @@ void cMoon::Activate(void)
 
     pHud_Points->Add_Points(4000, m_pos_x + (m_image ? m_image->m_w / 2 : 0), m_pos_y);
 
+    // Particle burst on collection
+    cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
+    anim->Set_Image(pVideo->Get_Surface("animation/particles/dirt.png"));
+    anim->Set_Emitter_Rect(m_pos_x, m_pos_y, m_rect.m_w, m_rect.m_h);
+    anim->Set_Quota(20);
+    anim->Set_Pos_Z(m_pos_z - 0.0001f);
+    anim->Set_Speed(0.6f, 0.6f);
+    anim->Set_Scale(1.0f);
+    anim->Set_Time_to_Live(5.0f);
+    anim->Set_Const_Rotation_Z(7.0f, 1.0f);
+    anim->Emit();
+    pActive_Animation_Manager->Add(anim);
+
     // if spawned destroy
     if (m_spawned) {
         Destroy();
@@ -589,22 +602,19 @@ void cMoon::Update(void)
         return;
     }
 
-    Update_Animation();
-
     m_particle_counter += pFramerate->m_speed_factor * 0.06;
 
     // particles
     if (m_particle_counter >= 1.0f) {
         cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
-        anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-        anim->Set_Emitter_Rect(m_pos_x + 26.0f, m_pos_y + 10.0f, 10.0f, 28.0f);
+        anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/dirt.png"));
+        anim->Set_Emitter_Rect(m_pos_x, m_pos_y, m_rect.m_w, m_rect.m_h);
         anim->Set_Quota(static_cast<int>(m_particle_counter));
         anim->Set_Pos_Z(m_pos_z - 0.0001f);
         anim->Set_Speed(0.2f, 0.2f);
-        anim->Set_Scale(0.2f);
-        anim->Set_Time_to_Live(0.9f);
-        anim->Set_Color(Color(static_cast<Uint8>(200), 200, 0));
-        anim->Set_Blending(BLEND_ADD);
+        anim->Set_Scale(1.0f);
+        anim->Set_Time_to_Live(2.5f);
+        anim->Set_Const_Rotation_Z(5.0f, 1.0f);
         anim->Emit();
         pActive_Animation_Manager->Add(anim);
 

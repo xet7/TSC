@@ -3,7 +3,7 @@
   <information>
     <property name="game_version" value="2.0.0"/>
     <property name="engine_version" value="4"/>
-    <property name="save_time" value="1420974118"/>
+    <property name="save_time" value="1427148478"/>
   </information>
   <settings>
     <property name="music" value="overworld/land_2.ogg"/>
@@ -17,20 +17,17 @@
     <property name="waypoint" value="0"/>
     <property name="moving_state" value="1"/>
   </player>
-  <sprite>
-    <property name="posx" value="385"/>
-    <property name="posy" value="-449"/>
-    <property name="uid" value="1"/>
-    <property name="image" value="world/way/yellow_1/updown.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
-    <property name="posx" value="335"/>
-    <property name="posy" value="-492"/>
-    <property name="uid" value="2"/>
-    <property name="image" value="world/way/yellow_1/leftright.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
+  <waypoint>
+    <property name="posx" value="399"/>
+    <property name="posy" value="-465"/>
+    <property name="uid" value="39"/>
+    <property name="image" value="world/waypoint/default_1.png"/>
+    <property name="type" value="1"/>
+    <property name="destination" value="mountain_trials"/>
+    <property name="direction_backward" value="down"/>
+    <property name="direction_forward" value="left"/>
+    <property name="access" value="0"/>
+  </waypoint>
   <sprite>
     <property name="posx" value="432"/>
     <property name="posy" value="-163"/>
@@ -193,17 +190,6 @@
     <property name="access" value="0"/>
   </waypoint>
   <waypoint>
-    <property name="posx" value="400"/>
-    <property name="posy" value="-471"/>
-    <property name="uid" value="22"/>
-    <property name="image" value="world/waypoint/default_1.png"/>
-    <property name="type" value="1"/>
-    <property name="destination" value="wn_07"/>
-    <property name="direction_backward" value="down"/>
-    <property name="direction_forward" value="left"/>
-    <property name="access" value="0"/>
-  </waypoint>
-  <waypoint>
     <property name="posx" value="249"/>
     <property name="posy" value="-471"/>
     <property name="uid" value="23"/>
@@ -306,24 +292,10 @@
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
-    <property name="posx" value="290"/>
-    <property name="posy" value="-492"/>
-    <property name="uid" value="37"/>
-    <property name="image" value="world/way/yellow_1/leftright.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
-    <property name="posx" value="385"/>
-    <property name="posy" value="-492"/>
-    <property name="uid" value="38"/>
-    <property name="image" value="world/way/yellow_1/rightdown.png"/>
-    <property name="type" value="passive"/>
-  </sprite>
-  <sprite>
-    <property name="posx" value="352"/>
-    <property name="posy" value="-598"/>
-    <property name="uid" value="39"/>
-    <property name="image" value="world/objects/castle/1.png"/>
+    <property name="posx" value="392"/>
+    <property name="posy" value="-482"/>
+    <property name="uid" value="71"/>
+    <property name="image" value="world/objects/hill/bluegreen_big.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>

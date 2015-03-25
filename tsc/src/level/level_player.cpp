@@ -1987,7 +1987,7 @@ void cLevel_Player::Update(void)
 
             if (m_invincible_star_counter > 1.0f) {
                 // set particle color
-                Color particle_color = orange;
+                Color particle_color = green;
                 particle_color.green += static_cast<Uint8>(m_invincible_mod / 5.0f);
                 particle_color.blue += static_cast<Uint8>(m_invincible_mod / 1.5f);
 
@@ -1995,7 +1995,7 @@ void cLevel_Player::Update(void)
                 cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
                 anim->Set_Emitter_Rect(m_col_rect.m_x + m_col_rect.m_w * 0.1f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.8f, m_col_rect.m_h * 0.8f);
                 anim->Set_Quota(static_cast<int>(m_invincible_star_counter));
-                anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/star.png"));
+                anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
                 anim->Set_Pos_Z(m_pos_z - 0.000001f);
                 anim->Set_Time_to_Live(0.3f);
                 anim->Set_Fading_Alpha(1);
@@ -2192,7 +2192,7 @@ void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
     if (m_invincible > 0.0f) {
         // star invincible
         if (m_invincible_star > 0.0f) {
-            Set_Color_Combine(m_invincible_mod / 130, m_invincible_mod / 130, m_invincible_mod / 180, GL_ADD);
+            Set_Color_Combine(0, m_invincible_mod / 130, 0, GL_ADD);
         }
         // default invincible
         else {

@@ -58,10 +58,10 @@ void cjStar::Init(void)
     m_velx = 5;
 
     Clear_Images();
-    Add_Image_Set("main", "game/items/star.imgset");
+    Add_Image_Set("main", "game/items/lemon.imgset");
     Set_Image_Set("main", 1);
 
-    m_name = _("Star");
+    m_name = _("Lemon");
 }
 
 cjStar* cjStar::Copy(void) const
@@ -107,6 +107,9 @@ void cjStar::Update(void)
         Add_Velocity_Y_Max(1.8f, m_gravity_max);
     }
 
+    // Update animation frames
+    Update_Animation();
+
     // rotate
     if (m_vely < 0.0f) {
         Add_Rotation_Z((5 - (m_vely / 2.5f)) * pFramerate->m_speed_factor);
@@ -121,7 +124,7 @@ void cjStar::Update(void)
         }
     }
 
-    // generate small stars
+    // generate small particles
     m_anim_counter += 1.1f * pFramerate->m_speed_factor;
 
     if (m_anim_counter > 1.0f) {
@@ -170,13 +173,13 @@ void cjStar::Generate_Particles(float x /* = 0.0f */, float y /* = 0.0f */, bool
     }
 
     // set particle color
-    Color particle_color = orange;
+    Color particle_color = green;
     particle_color.green += static_cast<Uint8>(m_glim_counter / 5);
     particle_color.blue += static_cast<Uint8>(m_glim_counter / 1.5f);
 
     // create emitter
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
-    anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/star.png"));
+    anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
     anim->Set_Pos_Z(m_pos_z + 0.0001f);
 
     if (random) {
