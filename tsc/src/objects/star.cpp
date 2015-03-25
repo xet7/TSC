@@ -57,8 +57,13 @@ void cjStar::Init(void)
 
     m_velx = 5;
 
-    Add_Image(pVideo->Get_Surface("game/items/lemon.png"));
-    Set_Image_Num(0, 1, 0);
+    Add_Image(pVideo->Get_Surface("game/items/lemon_1.png"), 100);
+    Add_Image(pVideo->Get_Surface("game/items/lemon_2.png"), 100);
+    Add_Image(pVideo->Get_Surface("game/items/lemon_3.png"), 100);
+    Set_Image_Num(0, true);
+    Set_Animation(true);
+    Set_Animation_Image_Range(0, 2);
+    Reset_Animation();
 
     m_name = _("Lemon");
 }
@@ -104,6 +109,9 @@ void cjStar::Update(void)
     if (m_vely < m_gravity_max) {
         Add_Velocity_Y_Max(1.8f, m_gravity_max);
     }
+
+    // Update animation frames
+    Update_Animation();
 
     // rotate
     if (m_vely < 0.0f) {
