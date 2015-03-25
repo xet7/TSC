@@ -459,7 +459,7 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
     }
     // V2.0.0-beta7 and lower: the star was replaced with a lemon
     if (engine_version < 46) {
-        attributes.relocate_image("game/items/star.png", "game/items/lemon.png");
+        attributes.relocate_image("game/items/star.png", "game/items/lemon_1.png");
     }
 
     // always: fix sprite with undefined massive-type
