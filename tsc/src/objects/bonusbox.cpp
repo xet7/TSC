@@ -166,7 +166,7 @@ void cBonusBox::Set_Bonus_Type(SpriteType bonus_type)
         m_name = _("Bonusbox 1-Up berry");
     }
     else if (box_type == TYPE_STAR) {
-        m_item_image = cImageSet::Fetch_Single_Image("game/items/lemon_1.imgset");
+        m_item_image = cImageSet::Fetch_Single_Image("game/items/lemon.imgset");
         m_name = _("Bonusbox Lemon");
     }
     else if (box_type == TYPE_GOLDPIECE) {
