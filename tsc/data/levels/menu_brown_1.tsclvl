@@ -1945,7 +1945,7 @@
     <property name="posx" value="114"/>
     <property name="posy" value="-296"/>
     <property name="uid" value="80"/>
-    <property name="image" value="maryo/small/stand_right.png"/>
+    <property name="image" value="alex/small/stand_right.png"/>
     <property name="type" value="front_passive"/>
   </sprite>
   <levelexit>

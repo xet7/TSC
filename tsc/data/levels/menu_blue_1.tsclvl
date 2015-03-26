@@ -226,7 +226,7 @@
 	<sprite>
 		<Property name="posx" value="34" />
 		<Property name="posy" value="478" />
-		<Property name="image" value="maryo/small/stand_right.png" />
+		<Property name="image" value="alex/small/stand_right.png" />
 		<Property name="type" value="front_passive" />
 	</sprite>
 	<item>
