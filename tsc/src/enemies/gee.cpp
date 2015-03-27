@@ -130,7 +130,9 @@ void cGee::Load_From_Savegame(cSave_Level_Object* save_object)
     Update_Rotation_Hor();
 }
 
-void cGee::Set_Direction(const ObjectDirection dir)
+// new_start_direction is ignored by this override of cMovingSprite::Set_Direction(),
+// it’s only there to keep the chain established by `virtual'.
+void cGee::Set_Direction(const ObjectDirection dir, bool new_start_direction)
 {
     // already set
     if (m_start_direction == dir) {

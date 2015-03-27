@@ -49,7 +49,7 @@ namespace TSC {
         }
 
         // Set Direction
-        virtual void Set_Direction(const ObjectDirection dir);
+        virtual void Set_Direction(const ObjectDirection dir, bool new_start_direction = 0);
         // Set Max Distance
         void Set_Max_Distance(int nmax_distance);
         // set color
