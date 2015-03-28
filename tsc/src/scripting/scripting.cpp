@@ -55,8 +55,8 @@
 #include "objects/powerups/mrb_powerup.hpp"
 #include "objects/powerups/mrb_berry.hpp"
 #include "objects/powerups/mrb_fireberry.hpp"
-#include "objects/powerups/mrb_moon.hpp"
-#include "objects/powerups/mrb_star.hpp"
+#include "objects/powerups/mrb_cookie.hpp"
+#include "objects/powerups/mrb_lemon.hpp"
 #include "objects/boxes/mrb_box.hpp"
 #include "objects/boxes/mrb_spinbox.hpp"
 #include "objects/boxes/mrb_textbox.hpp"
@@ -325,8 +325,8 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Powerup(mp_mruby);
     Init_Berry(mp_mruby);
     Init_Fireberry(mp_mruby);
-    Init_Moon(mp_mruby);
-    Init_Star(mp_mruby);
+    Init_Cookie(mp_mruby);
+    Init_Lemon(mp_mruby);
     Init_Box(mp_mruby);
     Init_SpinBox(mp_mruby);
     Init_TextBox(mp_mruby);

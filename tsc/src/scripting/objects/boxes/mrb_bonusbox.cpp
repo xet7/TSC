@@ -94,8 +94,8 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
  *   mushroom_red:
  *   : See *mushroom_default*.
  *
- *   star
- *   : Box containing a star.
+ *   lemon
+ *   : Box containing a lemon.
  *
  *   undefined
  *   : Empty box.
@@ -119,7 +119,7 @@ static mrb_value Set_Bonus_Type(mrb_state* p_state, mrb_value self)
         bonustype = TYPE_MUSHROOM_GHOST;
     else if (typestr == "mushroom_live_1")
         bonustype = TYPE_MUSHROOM_LIVE_1;
-    else if (typestr == "star")
+    else if (typestr == "lemon")
         bonustype = TYPE_STAR;
     else if (typestr == "goldpiece")
         bonustype = TYPE_GOLDPIECE;
@@ -160,7 +160,7 @@ static mrb_value Get_Bonus_Type(mrb_state* p_state, mrb_value self)
     case TYPE_MUSHROOM_LIVE_1:
         return str2sym(p_state, "mushroom_live_1");
     case TYPE_STAR:
-        return str2sym(p_state, "star");
+        return str2sym(p_state, "lemon");
     case TYPE_GOLDPIECE:
         return str2sym(p_state, "goldpiece");
     case TYPE_MUSHROOM_POISON:
