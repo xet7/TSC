@@ -269,7 +269,7 @@ task :clobber => [:clean_mruby, :clean_ssl]
 
 desc "Run optipng on all PNG graphics to cut size down."
 task :optipng do
-  pngs = Dir["data/pixmaps/**/*.png"].sort.first(5)
+  pngs = Dir["data/pixmaps/**/*.png"].sort
 
   # Ensure we have optipng available
   optipng = `which optipng`.strip
