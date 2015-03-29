@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_star.cpp
+ * mrb_lemon.cpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,21 +12,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mrb_star.hpp"
+#include "mrb_lemon.hpp"
 #include "mrb_powerup.hpp"
 #include "../../../level/level.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../objects/star.hpp"
 
 /**
- * Class: Star
+ * Class: Lemon
  *
  * Parent: [Powerup](powerup.html)
  * {: .superclass}
  *
- * _Stars_ are the most powerful powerups in the game. Alex gains the
+ * _Lemons_ are the most powerful powerups in the game. Alex gains the
  * ability to jump higher, gets resistant against all kinds of enemies,
- * etc. Stars wildly jump around and are hard to catch. Even if catched,
+ * etc. Lemons wildly jump around and are hard to catch. Even if catched,
  * its effect only lasts a fixed period of time (which is hardcoded into
  * TSC, thus not configurable via the scripting API).
  */
@@ -36,11 +36,11 @@ using namespace TSC::Scripting;
 
 
 /**
- * Method: Star::new
+ * Method: Lemon::new
  *
- *   new() → a_star
+ *   new() → a_lemon
  *
- * Creates a new star powerup with the default values.
+ * Creates a new lemon powerup with the default values.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
@@ -59,12 +59,12 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Star#activate!
+ * Method: Lemon#activate!
  *
  *   activate!()
  *
- * Apply the item to Alex. Doing so will destroy the star. If
- * Alex already has star effect, the star effect time is reset
+ * Apply the item to Alex. Doing so will destroy the lemon. If
+ * Alex already has lemon effect, the lemon effect time is reset
  * to 0.
  */
 static mrb_value Activate(mrb_state* p_state, mrb_value self)
@@ -75,7 +75,7 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Star#glimming=
+ * Method: Lemon#glimming=
  *
  *   glimming=( bool ) → bool
  *
@@ -93,7 +93,7 @@ static mrb_value Set_Glim_Mode(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Star#glimming?
+ * Method: Lemon#glimming?
  *
  *   glimming?() → true or false
  *
@@ -105,13 +105,13 @@ static mrb_value Get_Glim_Mode(mrb_state* p_state, mrb_value self)
     return mrb_bool_value(p_star->m_glim_mod);
 }
 
-void TSC::Scripting::Init_Star(mrb_state* p_state)
+void TSC::Scripting::Init_Lemon(mrb_state* p_state)
 {
-    struct RClass* p_rcStar = mrb_define_class(p_state, "Star", mrb_class_get(p_state, "Powerup"));
-    MRB_SET_INSTANCE_TT(p_rcStar, MRB_TT_DATA);
+    struct RClass* p_rcLemon = mrb_define_class(p_state, "Lemon", mrb_class_get(p_state, "Powerup"));
+    MRB_SET_INSTANCE_TT(p_rcLemon, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcStar, "initialize", Initialize, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcStar, "activate!", Activate, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcStar, "glimming=", Set_Glim_Mode, MRB_ARGS_REQ(1));
-    mrb_define_method(p_state, p_rcStar, "glimming?", Get_Glim_Mode, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLemon, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLemon, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcLemon, "glimming=", Set_Glim_Mode, MRB_ARGS_REQ(1));
+    mrb_define_method(p_state, p_rcLemon, "glimming?", Get_Glim_Mode, MRB_ARGS_NONE());
 }

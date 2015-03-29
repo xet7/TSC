@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_moon.cpp
+ * mrb_cookie.cpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,23 +12,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mrb_moon.hpp"
+#include "mrb_cookie.hpp"
 #include "mrb_powerup.hpp"
 #include "../../../level/level.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../objects/powerup.hpp"
 
 /**
- * Class: Moon
+ * Class: Cookie
  *
  * Parent: [Powerup](powerup.html)
  * {: .superclass}
  *
- * The _moon_ is a 3-live-up item that is typically used to make
+ * The _cookie_ is a 3-live-up item that is typically used to make
  * the user aware he has successfully reached a particularly
  * hard-to-reach location. Do not overuse it! Use it sparely!
  *
- * Also note that the moon is immune to gravity — wherever you
+ * Also note that the cookie is immune to gravity — wherever you
  * place it, it will just hang there and not fall down. This
  * facility can be used to innocently hide it behind clouds so
  * it looks like a part of the level background.
@@ -39,11 +39,11 @@ using namespace TSC::Scripting;
 
 
 /**
- * Method: Moon::new
+ * Method: Cookie::new
  *
- *   new() → a_moon
+ *   new() → a_cookie
  *
- * Creates a new moon powerup with the default values.
+ * Creates a new cookie powerup with the default values.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
@@ -62,11 +62,11 @@ static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 }
 
 /**
- * Method: Moon#activate!
+ * Method: Cookie#activate!
  *
  *   activate!()
  *
- * Apply the item to Alex. Doing so will destroy the moon in
+ * Apply the item to Alex. Doing so will destroy the cookie in
  * any case, but note that applying it does not necessarily cause
  * it to have an effect on Alex. If Alex already has 99 lifes,
  * it will just cause points.
@@ -78,11 +78,11 @@ static mrb_value Activate(mrb_state* p_state, mrb_value self)
     return mrb_nil_value();
 }
 
-void TSC::Scripting::Init_Moon(mrb_state* p_state)
+void TSC::Scripting::Init_Cookie(mrb_state* p_state)
 {
-    struct RClass* p_rcMoon = mrb_define_class(p_state, "Moon", mrb_class_get(p_state, "Powerup"));
-    MRB_SET_INSTANCE_TT(p_rcMoon, MRB_TT_DATA);
+    struct RClass* p_rcCookie = mrb_define_class(p_state, "Cookie", mrb_class_get(p_state, "Powerup"));
+    MRB_SET_INSTANCE_TT(p_rcCookie, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcMoon, "initialize", Initialize, MRB_ARGS_NONE());
-    mrb_define_method(p_state, p_rcMoon, "activate!", Activate, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcCookie, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcCookie, "activate!", Activate, MRB_ARGS_NONE());
 }

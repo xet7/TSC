@@ -21,7 +21,7 @@ module Std
     # Restore the sprite and optionally set its massivity to +mass+;
     # if that is unset, it remains at whatever massivity it was before.
     def enable(mass = nil)
-      start_at(*@old_pos)
+      start_at(*@old_pos) if @old_pos
       self.massive_type = mass if mass
     end
 

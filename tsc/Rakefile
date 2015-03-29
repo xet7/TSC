@@ -271,12 +271,31 @@ desc "Run optipng on all PNG graphics to cut size down."
 task :optipng do
   pngs = Dir["data/pixmaps/**/*.png"].sort
 
+  # Ensure we have optipng available
+  optipng = `which optipng`.strip
+  fail "optipng not available" if optipng.empty?
+
   total_size = pngs.reduce(0){|sum, path| sum + File.size(path)}
   puts "Current total size of all PNGs: #{bytesize(total_size)}"
 
-  pngs.each do |path|
-    sh "optipng -q -o4 '#{path}'"
+  # Ensure we use all the CPU cores available. This takes far
+  # too long otherwise.
+  mutex = Mutex.new
+  commands = pngs.map{|path| [optipng, "-q", "-o4", "--", path]}
+  threads = []
+  `nproc`.to_i.times do |i|
+    threads << Thread.new do
+      loop do
+        cmd = mutex.synchronize{commands.pop}
+        break if cmd.nil?
+
+        print "[#{i}] "
+        puts cmd.join(" ")
+        system(*cmd)
+      end
+    end
   end
+  threads.each(&:join)
 
   new_total_size = pngs.reduce(0){|sum, path| sum + File.size(path)}
   puts "Old total size of all PNGs: #{bytesize(total_size)}"

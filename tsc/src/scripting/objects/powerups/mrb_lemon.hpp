@@ -12,13 +12,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TSC_SCRIPTING_STAR_HPP
-#define TSC_SCRIPTING_STAR_HPP
+#ifndef TSC_SCRIPTING_LEMON_HPP
+#define TSC_SCRIPTING_LEMON_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {
     namespace Scripting {
-        void Init_Star(mrb_state* p_state);
+        void Init_Lemon(mrb_state* p_state);
     }
 }
 #endif

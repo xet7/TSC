@@ -19,7 +19,7 @@
 
 #include "../core/global_basic.hpp"
 #include "../objects/powerup.hpp"
-#include "../scripting/objects/powerups/mrb_star.hpp"
+#include "../scripting/objects/powerups/mrb_lemon.hpp"
 
 namespace TSC {
 
@@ -43,7 +43,7 @@ namespace TSC {
         // Create the MRuby object for this
         virtual mrb_value Create_MRuby_Object(mrb_state* p_state)
         {
-            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Star"), &Scripting::rtTSC_Scriptable, this));
+            return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "Lemon"), &Scripting::rtTSC_Scriptable, this));
         }
 
         // Activate the star

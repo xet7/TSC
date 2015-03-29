@@ -12,13 +12,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TSC_SCRIPTING_MOON_HPP
-#define TSC_SCRIPTING_MOON_HPP
+#ifndef TSC_SCRIPTING_COOKIE_HPP
+#define TSC_SCRIPTING_COOKIE_HPP
 #include "../../scripting.hpp"
 
 namespace TSC {
     namespace Scripting {
-        void Init_Moon(mrb_state* p_state);
+        void Init_Cookie(mrb_state* p_state);
     }
 }
 #endif
