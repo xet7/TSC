@@ -55,6 +55,9 @@ if(${CMAKE_BUILD_TYPE} MATCHES Debug)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DEBUG=1")
 endif()
 
+# Enable C++11
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 execute_process(COMMAND git rev-parse --short HEAD
   WORKING_DIRECTORY ${TSC_SOURCE_DIR}
   OUTPUT_VARIABLE TSC_VERSION_GIT
