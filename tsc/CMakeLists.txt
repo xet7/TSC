@@ -167,10 +167,11 @@ endif()
 
 # Several libraries we depend on
 find_package(PkgConfig REQUIRED)
-find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
+find_package(SFML COMPONENTS audio graphics window system REQUIRED)
+find_package(OpenGL REQUIRED) # for CEGUI
+find_package(GLEW REQUIRED) # for CEGUI
 find_package(Gettext)
-find_package(BISON REQUIRED)
+find_package(BISON REQUIRED) # for mruby
 find_package(Freetype REQUIRED)
 
 if (WIN32)
@@ -202,10 +203,6 @@ else()
 endif()
 
 pkg_check_modules(PNG REQUIRED libpng)
-pkg_check_modules(SDL REQUIRED sdl)
-pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
-pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
-pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
 pkg_check_modules(PCRE REQUIRED libpcre)
 pkg_check_modules(LibXmlPP REQUIRED libxml++-2.6)
 
@@ -221,15 +218,12 @@ add_definitions(
 # Add all our libraries to our -I-nclude path
 include_directories(
   ${MRuby_INCLUDE_DIR}
+  ${SFML_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
   ${GLEW_INCLUDE_DIRS}
   ${CEGUI_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${PNG_INCLUDE_DIRS}
-  ${SDL_INCLUDE_DIRS}
-  ${SDL_IMAGE_INCLUDE_DIRS}
-  ${SDL_MIXER_INCLUDE_DIRS}
-  ${SDL_TTF_INCLUDE_DIRS}
 #  ${IL_INCLUDE_DIR}
   ${PCRE_INCLUDE_DIRS}
   ${LibXmlPP_INCLUDE_DIRS}
@@ -313,13 +307,10 @@ endif()
 if (WIN32)
   target_link_libraries(tsc
     ${CEGUI_LIBRARY}
+    ${SFML_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${FreeImage_LIBRARIES}
-    ${SDL_STATIC_LIBRARIES}
-    ${SDL_IMAGE_STATIC_LIBRARIES}
-    ${SDL_MIXER_STATIC_LIBRARIES}
-    ${SDL_TTF_STATIC_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
     ${PCRE_STATIC_LIBRARIES}
@@ -337,14 +328,11 @@ else()
   add_dependencies(tsc cegui07)
   target_link_libraries(tsc
     ${CEGUI_LIBRARY}
+    ${SFML_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${IL_LIBRARIES}
     ${ILU_LIBRARIES}
-    ${SDL_LIBRARIES}
-    ${SDL_IMAGE_LIBRARIES}
-    ${SDL_MIXER_LIBRARIES}
-    ${SDL_TTF_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
     ${PCRE_LIBRARIES}
