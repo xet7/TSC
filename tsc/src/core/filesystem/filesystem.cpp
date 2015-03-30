@@ -14,9 +14,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "../global_basic.hpp"
+#include "../property_helper.hpp"
 #include "../../core/filesystem/filesystem.hpp"
-#include "../../core/game_core.hpp"
-#include "../../core/global_basic.hpp"
 
 using namespace std;
 

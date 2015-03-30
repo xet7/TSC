@@ -19,8 +19,8 @@ using namespace TSC;
 
 cMenuScene::cMenuScene()
 {
-    sf::Texture& menu_start_texture = gp_app->Get_Image_Manager().Get_Texture(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/start.png"));
-    sf::Texture& menu_quit_texture  = gp_app->Get_Image_Manager().Get_Texture(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/quit.png"));
+    sf::Texture& menu_start_texture = gp_app->Get_ImageManager().Get_Texture(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/start.png"));
+    sf::Texture& menu_quit_texture  = gp_app->Get_ImageManager().Get_Texture(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/quit.png"));
 
     m_menuitem_start.setTexture(menu_start_texture);
     m_menuitem_quit.setTexture(menu_quit_texture);

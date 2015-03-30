@@ -14,6 +14,22 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "../core/global_basic.hpp"
+#include "../core/errors.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "../core/scene_manager.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
+#include "../user/preferences.hpp"
+#include "../core/tsc_app.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "img_manager.hpp"
+
 using namespace TSC;
 namespace fs = boost::filesystem;
 
@@ -32,6 +48,12 @@ cImage_Manager::~cImage_Manager()
 /**
  * Load a texture from the given file if it hasn’t been loaded
  * yet. If it has been loaded already, return it from the cache.
+ *
+ * \param[in] path
+ * Path to load the texture from. This should be an absolute path name,
+ * as it is not touched and directly handed to SFML.
+ *
+ * \returns The corresponding SFML texture object.
  */
 sf::Texture& cImage_Manager::Get_Texture(const fs::path& path)
 {
@@ -51,6 +73,9 @@ sf::Texture& cImage_Manager::Get_Texture(const fs::path& path)
  * The function accepts a callback that receives the number of files
  * already processed and the total number of files intended to
  * be processed.
+ *
+ * Requires the global `gp_app` pointer, so don’t call this before
+ * it isn’t set up.
  */
 void cImage_Manager::Preload_Textures(std::function<void (unsigned int files_done, unsigned int files_total)> cb)
 {
@@ -58,11 +83,11 @@ void cImage_Manager::Preload_Textures(std::function<void (unsigned int files_don
     vector<fs::path> image_files;
 
     // player
-    vector<fs::path> player_small_images    = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/small"), ".png", false, false);
-    vector<fs::path> player_big_images      = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/big"), ".png", false, false);
-    vector<fs::path> player_fire_images     = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/fire"), ".png", false, false);
-    vector<fs::path> player_ice_images      = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ice"), ".png", false, false);
-    vector<fs::path> player_ghost_images    = Get_Directory_Files(pResource_Manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ghost"), ".png", false, false);
+    vector<fs::path> player_small_images    = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/small"), ".png", false, false);
+    vector<fs::path> player_big_images      = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/big"), ".png", false, false);
+    vector<fs::path> player_fire_images     = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/fire"), ".png", false, false);
+    vector<fs::path> player_ice_images      = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ice"), ".png", false, false);
+    vector<fs::path> player_ghost_images    = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ghost"), ".png", false, false);
 
     image_files.insert(image_files.end(), player_small_images.begin(), player_small_images.end());
     image_files.insert(image_files.end(), player_big_images.begin(), player_big_images.end());
@@ -164,7 +189,7 @@ void cImage_Manager::Preload_Textures(std::function<void (unsigned int files_don
         fs::path filename = (*itr);
 
         // preload (cache) image
-        get_texture(filename);
+        Get_Texture(filename);
 
         // count files
         loaded_files++;

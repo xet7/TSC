@@ -13,6 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/filesystem.hpp>
 #include "boost_relative.hpp"
 
 namespace boost {

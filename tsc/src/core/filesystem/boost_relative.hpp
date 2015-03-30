@@ -21,7 +21,6 @@
 
 #ifndef TSC_BOOST_RELATIVE_HPP
 #define TSC_BOOST_RELATIVE_HPP
-#include <boost/filesystem.hpp>
 
 namespace boost {
 

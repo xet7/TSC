@@ -33,9 +33,6 @@ cApp::cApp()
     Init_CEGUI();
 
     mp_package_manager->Set_Current_Package(mp_preferences->m_package);
-    mp_image_manager->Preload_Textures(
-        [](unsigned int files_done, unsigned int files_total){ /* Nothing right now */ }
-    );
 }
 
 cApp::~cApp()
@@ -94,6 +91,11 @@ void cApp::Init_CEGUI()
  */
 int cApp::Run()
 {
+    // Preload often used textures
+    mp_image_manager->Preload_Textures(
+        [](unsigned int files_done, unsigned int files_total){ /* Nothing right now */ }
+    );
+
     // Always start with the start menu scene
     cMenuScene* p_menuscene = new cMenuScene();
     mp_scene_manager->Push_Scene(p_menuscene);

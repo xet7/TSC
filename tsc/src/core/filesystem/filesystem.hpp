@@ -17,8 +17,6 @@
 #ifndef TSC_FILESYSTEM_HPP
 #define TSC_FILESYSTEM_HPP
 
-#include "../../core/global_basic.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** filesystem functions *** *** *** *** *** *** *** *** *** *** *** *** */
