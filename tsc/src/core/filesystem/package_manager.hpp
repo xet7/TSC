@@ -64,7 +64,7 @@ namespace TSC {
 
     class cPackage_Manager {
     public:
-        cPackage_Manager(void);
+        cPackage_Manager(const cResource_Manager& resource_manager);
         ~cPackage_Manager(void);
 
         // Get the list of known packages

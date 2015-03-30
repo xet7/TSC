@@ -14,17 +14,28 @@
 */
 
 #include "global_basic.hpp"
-#include "property_helper.hpp"
+#include "global_game.hpp"
 #include "errors.hpp"
-#include "filesystem/resource_manager.hpp"
+#include "property_helper.hpp"
 #include "xml_attributes.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "../scenes/menu_scene.hpp"
+#include "scene_manager.hpp"
+#include "filesystem/resource_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "filesystem/package_manager.hpp"
+#include "i18n.hpp"
+#include "../user/preferences.hpp"
+#include "tsc_app.hpp"
 
 using namespace TSC;
 
 void XmlAttributes::relocate_image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name /* = "image" */)
 {
     std::string current_value = (*this)[attribute_name];
-    std::string filename_old_full = path_to_utf8(pResource_Manager->Get_Game_Pixmaps_Directory() / filename_old);
+    std::string filename_old_full = path_to_utf8(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / filename_old);
 
     if (current_value == filename_old || current_value == filename_old_full)
         (*this)[attribute_name] = filename_new;

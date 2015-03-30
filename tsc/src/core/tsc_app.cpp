@@ -13,7 +13,6 @@
 #include "filesystem/package_manager.hpp"
 #include "i18n.hpp"
 #include "../user/preferences.hpp"
-
 #include "tsc_app.hpp"
 
 TSC::cApp* TSC::gp_app = NULL;
@@ -32,8 +31,6 @@ cApp::cApp()
     Init_User_Preferences();
     Init_I18N();
     Init_CEGUI();
-
-    mp_package_manager->Set_Current_Package(mp_preferences->m_package);
 }
 
 cApp::~cApp()
@@ -60,7 +57,7 @@ void cApp::Init_Managers()
     mp_resource_manager->Init_User_Directory();
 
     mp_image_manager = new cImage_Manager();
-    mp_package_manager = new cPackage_Manager();
+    mp_package_manager = new cPackage_Manager(*mp_resource_manager);
     mp_scene_manager = new cSceneManager();
 }
 
@@ -92,6 +89,9 @@ void cApp::Init_CEGUI()
  */
 int cApp::Run()
 {
+    // Set default package
+    mp_package_manager->Set_Current_Package(mp_preferences->m_package);
+
     // Preload often used textures
     mp_image_manager->Preload_Textures(
         [](unsigned int files_done, unsigned int files_total){ /* Nothing right now */ }

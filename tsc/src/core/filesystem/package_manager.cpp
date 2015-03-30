@@ -116,19 +116,14 @@ void cPackage_Loader :: on_end_element(const Glib::ustring& name)
 
 /* *** *** *** *** *** *** cPackage_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cPackage_Manager :: cPackage_Manager(void)
+cPackage_Manager :: cPackage_Manager(const cResource_Manager& resource_manager)
 {
     cout << "Initializing Package Manager" << endl;
 
     // Scan user data dir first so any user "packages.xml" will override the same in the game data dire
-    Scan_Packages(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), fs::path(), true);
-    Scan_Packages(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), fs::path(), false);
+    Scan_Packages(resource_manager.Get_User_Data_Directory() / utf8_to_path("packages"), fs::path(), true);
+    Scan_Packages(resource_manager.Get_Game_Data_Directory() / utf8_to_path("packages"), fs::path(), false);
     Fix_Package_Paths();
-
-    // Preferences isn't loaded yet so skin will not be set here, but
-    // Set_Package is called from main after settings are created and that
-    // will set up the skin as well.
-    Build_Search_Path();
 }
 
 cPackage_Manager :: ~cPackage_Manager(void)
@@ -239,11 +234,11 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
         if (fs::exists(result))
             return result;
 
-        result = pResource_Manager->Get_User_Level_Directory() / level;
+        result = gp_app->Get_ResourceManager().Get_User_Level_Directory() / level;
         if (fs::exists(result))
             return result;
 
-        result = pResource_Manager->Get_Game_Level_Directory() / level;
+        result = gp_app->Get_ResourceManager().Get_Game_Level_Directory() / level;
         if (fs::exists(result))
             return result;
     }
@@ -267,11 +262,11 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     // Default menu level
     level = gp_app->Get_Preferences().m_menu_level_default + ".tsclvl";
 
-    result = pResource_Manager->Get_User_Level_Directory() / level;
+    result = gp_app->Get_ResourceManager().Get_User_Level_Directory() / level;
     if (fs::exists(result))
         return result;
 
-    return pResource_Manager->Get_Game_Level_Directory() / level;
+    return gp_app->Get_ResourceManager().Get_Game_Level_Directory() / level;
 }
 
 fs::path cPackage_Manager :: Get_User_Campaign_Path(void)
@@ -298,7 +293,7 @@ fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, cons
 {
     if (package.empty()) {
         // For core scripts, only check game directory
-        return pResource_Manager->Get_Game_Scripting(script);
+        return gp_app->Get_ResourceManager().Get_Game_Scripting(script);
     }
     else if (m_packages.find(package) != m_packages.end()) {
         fs::path result;
@@ -317,7 +312,7 @@ fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, cons
 
 fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
 {
-    fs::path result = pResource_Manager->Get_User_Savegame_Directory();
+    fs::path result = gp_app->Get_ResourceManager().Get_User_Savegame_Directory();
     if (m_current_package.empty())
         return result;
 
@@ -328,7 +323,7 @@ fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
 
 fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
 {
-    fs::path result = pResource_Manager->Get_User_Screenshot_Directory();
+    fs::path result = gp_app->Get_ResourceManager().Get_User_Screenshot_Directory();
     if (m_current_package.empty())
         return result;
 
@@ -471,24 +466,29 @@ void cPackage_Manager :: Fix_Package_Paths( void )
 
         if(i.user_data_dir.empty()) {
             // No user package path found, map from game package path
-            fs::path rel = fs::relative(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), i.game_data_dir);
-            i.user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / rel;
+            fs::path rel = fs::relative(gp_app->Get_ResourceManager().Get_Game_Data_Directory() / utf8_to_path("packages"), i.game_data_dir);
+            i.user_data_dir = gp_app->Get_ResourceManager().Get_User_Data_Directory() / utf8_to_path("packages") / rel;
         }
         else if(i.game_data_dir.empty()) {
             // No game package path found, map from user package path
-            fs::path rel = fs::relative(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), i.user_data_dir);
-            i.game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / rel;
+            fs::path rel = fs::relative(gp_app->Get_ResourceManager().Get_User_Data_Directory() / utf8_to_path("packages"), i.user_data_dir);
+            i.game_data_dir = gp_app->Get_ResourceManager().Get_Game_Data_Directory() / utf8_to_path("packages") / rel;
         }
     }
 }
 
+/**
+ * Set the search path depending on all found packages.
+ * Requires the global `gp_app` pointer, so don’t call this
+ * before it has been set.
+ */
 void cPackage_Manager :: Build_Search_Path ( void )
 {
     m_search_path.clear();
     m_package_start = 0;
 
     // First add skin package if any
-    if(gp_app && !gp_app->Get_Preferences().m_skin.empty()) {
+    if(!gp_app->Get_Preferences().m_skin.empty()) {
         std::vector<std::string> processed;
         Build_Search_Path_Helper( gp_app->Get_Preferences().m_skin, processed );
 
@@ -503,8 +503,8 @@ void cPackage_Manager :: Build_Search_Path ( void )
     }
 
     // Add default data directories to search path
-    m_search_path.push_back(pResource_Manager->Get_User_Data_Directory());
-    m_search_path.push_back(pResource_Manager->Get_Game_Data_Directory());
+    m_search_path.push_back(gp_app->Get_ResourceManager().Get_User_Data_Directory());
+    m_search_path.push_back(gp_app->Get_ResourceManager().Get_Game_Data_Directory());
 }
 
 void cPackage_Manager :: Build_Search_Path_Helper(const std::string& package, std::vector<std::string>& processed)

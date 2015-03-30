@@ -46,59 +46,59 @@ namespace TSC {
         void Init_User_Directory(void);
 
         // Game data directory (files included with TSC)
-        boost::filesystem::path Get_Game_Data_Directory();
+        boost::filesystem::path Get_Game_Data_Directory() const;
 
         // The user’s data directory we can write to.
         //boost::filesystem::path Get_User_Data_Directory();
 
         // The path to the preferences file.
-        boost::filesystem::path Get_Preferences_File();
+        boost::filesystem::path Get_Preferences_File() const;
 
         // Get the various uncached unwritable game directories.
-        boost::filesystem::path Get_Game_Pixmaps_Directory();
-        boost::filesystem::path Get_Game_Schema_Directory();
-        boost::filesystem::path Get_Game_Level_Directory();
-        boost::filesystem::path Get_Game_Translation_Directory();
-        boost::filesystem::path Get_Game_Sounds_Directory();
-        boost::filesystem::path Get_Game_Campaign_Directory();
-        boost::filesystem::path Get_Game_Overworld_Directory();
-        boost::filesystem::path Get_Game_Music_Directory();
-        boost::filesystem::path Get_Game_Editor_Directory();
-        boost::filesystem::path Get_Game_Scripting_Directory();
-        boost::filesystem::path Get_Game_Icon_Directory();
+        boost::filesystem::path Get_Game_Pixmaps_Directory() const;
+        boost::filesystem::path Get_Game_Schema_Directory() const;
+        boost::filesystem::path Get_Game_Level_Directory() const;
+        boost::filesystem::path Get_Game_Translation_Directory() const;
+        boost::filesystem::path Get_Game_Sounds_Directory() const;
+        boost::filesystem::path Get_Game_Campaign_Directory() const;
+        boost::filesystem::path Get_Game_Overworld_Directory() const;
+        boost::filesystem::path Get_Game_Music_Directory() const;
+        boost::filesystem::path Get_Game_Editor_Directory() const;
+        boost::filesystem::path Get_Game_Scripting_Directory() const;
+        boost::filesystem::path Get_Game_Icon_Directory() const;
 
         // CEGUI data paths
-        boost::filesystem::path Get_Gui_Scheme_Directory();
-        boost::filesystem::path Get_Gui_Imageset_Directory();
-        boost::filesystem::path Get_Gui_Font_Directory();
-        boost::filesystem::path Get_Gui_LookNFeel_Directory();
-        boost::filesystem::path Get_Gui_Layout_Directory();
+        boost::filesystem::path Get_Gui_Scheme_Directory() const;
+        boost::filesystem::path Get_Gui_Imageset_Directory() const;
+        boost::filesystem::path Get_Gui_Font_Directory() const;
+        boost::filesystem::path Get_Gui_LookNFeel_Directory() const;
+        boost::filesystem::path Get_Gui_Layout_Directory() const;
 
         // Get files from the various uncached unwritable game directories
-        boost::filesystem::path Get_Game_Pixmap(std::string pixmap);
-        boost::filesystem::path Get_Game_Schema(std::string schema);
-        boost::filesystem::path Get_Game_Level(std::string level);
-        boost::filesystem::path Get_Game_Translation(std::string transname);
-        boost::filesystem::path Get_Game_Sound(std::string sound);
-        boost::filesystem::path Get_Game_Campaign(std::string campaign);
-        boost::filesystem::path Get_Game_Overworld(std::string overworld);
-        boost::filesystem::path Get_Game_Music(std::string music);
-        boost::filesystem::path Get_Game_Editor(std::string editor);
-        boost::filesystem::path Get_Game_Scripting(std::string script);
-        boost::filesystem::path Get_Game_Icon(std::string icon);
+        boost::filesystem::path Get_Game_Pixmap(std::string pixmap) const;
+        boost::filesystem::path Get_Game_Schema(std::string schema) const;
+        boost::filesystem::path Get_Game_Level(std::string level) const;
+        boost::filesystem::path Get_Game_Translation(std::string transname) const;
+        boost::filesystem::path Get_Game_Sound(std::string sound) const;
+        boost::filesystem::path Get_Game_Campaign(std::string campaign) const;
+        boost::filesystem::path Get_Game_Overworld(std::string overworld) const;
+        boost::filesystem::path Get_Game_Music(std::string music) const;
+        boost::filesystem::path Get_Game_Editor(std::string editor) const;
+        boost::filesystem::path Get_Game_Scripting(std::string script) const;
+        boost::filesystem::path Get_Game_Icon(std::string icon) const;
 
         // Get the various directories in the user’s data directory
-        boost::filesystem::path Get_User_Data_Directory();
-        boost::filesystem::path Get_User_Level_Directory();
-        boost::filesystem::path Get_User_Savegame_Directory();
-        boost::filesystem::path Get_User_Screenshot_Directory();
-        boost::filesystem::path Get_User_World_Directory();
-        boost::filesystem::path Get_User_Campaign_Directory();
-        boost::filesystem::path Get_User_Imgcache_Directory();
-        boost::filesystem::path Get_User_CEGUI_Logfile();
+        boost::filesystem::path Get_User_Data_Directory() const;
+        boost::filesystem::path Get_User_Level_Directory() const;
+        boost::filesystem::path Get_User_Savegame_Directory() const;
+        boost::filesystem::path Get_User_Screenshot_Directory() const;
+        boost::filesystem::path Get_User_World_Directory() const;
+        boost::filesystem::path Get_User_Campaign_Directory() const;
+        boost::filesystem::path Get_User_Imgcache_Directory() const;
+        boost::filesystem::path Get_User_CEGUI_Logfile() const;
 
         // Get files from the various directories in the user’s data directory
-        boost::filesystem::path Get_User_Level(std::string level);
+        boost::filesystem::path Get_User_Level(std::string level) const;
 
     private:
         // Main directory information
@@ -110,14 +110,9 @@ namespace TSC {
 #ifdef __unix__
         // Retrieve the path from the given XDG env variable or
         // return the default path relative to $HOME.
-        boost::filesystem::path xdg_get_directory(const std::string& envvarname, const boost::filesystem::path defaultpath);
+        boost::filesystem::path xdg_get_directory(const std::string& envvarname, const boost::filesystem::path defaultpath) const;
 #endif
     };
-
-    /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-    // Resource Manager
-    extern cResource_Manager* pResource_Manager;
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
