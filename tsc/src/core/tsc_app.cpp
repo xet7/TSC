@@ -1,10 +1,27 @@
-using namespace TSC;
+#include "global_basic.hpp"
+#include "errors.hpp"
+#include "property_helper.hpp"
+#include "xml_attributes.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "../scenes/menu_scene.hpp"
+#include "scene_manager.hpp"
+#include "filesystem/resource_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "filesystem/package_manager.hpp"
+#include "i18n.hpp"
+#include "../user/preferences.hpp"
 
-cApp* TSC::gp_app = NULL;
+#include "tsc_app.hpp"
+
+TSC::cApp* TSC::gp_app = NULL;
+
+using namespace TSC;
 
 cApp::cApp()
 {
-    debug_printf("Initializing application.\n");
+    debug_print("Initializing application.\n");
 
     // init random number generator
     srand(static_cast<unsigned int>(time(NULL)));
@@ -33,7 +50,7 @@ cApp::~cApp()
 
 void cApp::Init_SFML()
 {
-    debug_printf("Initializing SFML.\n");
+    debug_print("Initializing SFML.\n");
     mp_renderwindow = new sf::RenderWindow(sf::VideoMode(1024, 768), CAPTION);
 }
 
@@ -59,10 +76,10 @@ void cApp::Init_User_Preferences()
 
 void cApp::Init_I18N()
 {
-    debug_printf("Initializing I18n.\n");
+    debug_print("Initializing I18n.\n");
 
     // set game language
-    I18N_Set_Language(pPreferences->m_language);
+    I18N_Set_Language(mp_preferences->m_language);
     // init translation support
     I18N_Init(mp_resource_manager->Get_Game_Translation_Directory());
 }

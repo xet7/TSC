@@ -134,7 +134,7 @@ if (NOT(WIN32))
 
     ExternalProject_Add(cegui07
       PREFIX "${CEGUI_ROOT_DIR}"
-      URL "http://sourceforge.net/projects/crayzedsgui/files/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
+      URL "http://mirrorservice.org/sites/dl.sourceforge.net/pub/sourceforge/c/cr/crayzedsgui/CEGUI%20Mk-2/0.7.9/CEGUI-0.7.9.tar.gz"
       URL_MD5 a8b682daf82e383edc169c2e6eb2b321
       BUILD_IN_SOURCE 1
       CONFIGURE_COMMAND ./configure --disable-samples --disable-python-module --disable-lua-module --enable-static --disable-shared --prefix=${CEGUI_ROOT_DIR}
@@ -291,6 +291,7 @@ endif()
 set(tsc_sources
   "src/core/i18n.cpp"
   "src/core/main.cpp"
+  "src/core/property_helper.cpp"
   "src/core/scene_manager.cpp"
   "src/core/tsc_app.cpp"
 
@@ -298,6 +299,8 @@ set(tsc_sources
 
   "src/scenes/scene.cpp"
   "src/scenes/menu_scene.cpp"
+
+  "src/scripting/scriptable_object.cpp"
 
   "src/user/preferences_loader.cpp"
   "src/user/preferences.cpp"
