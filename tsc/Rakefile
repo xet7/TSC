@@ -32,8 +32,7 @@ rule %r{credits.cpp} => ["docs/authors.txt", "docs/specialthanks.txt"] do |t|
 
   File.open(t.name, "w") do |f|
     # Write first part
-    f.puts(%Q!#include "#{Dir.pwd}/src/core/global_game.hpp"
-#include "#{Dir.pwd}/src/core/main.hpp"
+    f.puts(%Q!#include <string>
 
 namespace TSC {
 
