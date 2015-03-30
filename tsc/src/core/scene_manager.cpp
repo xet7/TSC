@@ -1,3 +1,11 @@
+#include "global_basic.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "scene_manager.hpp"
+
+using namespace TSC;
+
 cSceneManager::cSceneManager()
 {
     m_end_play = false;
