@@ -289,6 +289,7 @@ endif()
 #  "src/*.cpp"
 #  "src/*.hpp")
 set(tsc_sources
+  "src/core/errors.cpp"
   "src/core/i18n.cpp"
   "src/core/main.cpp"
   "src/core/property_helper.cpp"

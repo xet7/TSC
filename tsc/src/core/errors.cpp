@@ -13,6 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "global_basic.hpp"
 #include "errors.hpp"
 
 using namespace TSC;
@@ -123,22 +124,22 @@ const char* RestartedXmlParserError::what() const throw()
     return "Restarted a one-time XML parser!";
 }
 
-InvalidMovingStateError::InvalidMovingStateError(Moving_state state)
-{
-    m_state = state;
-}
-
-InvalidMovingStateError::~InvalidMovingStateError() throw()
-{
-    //
-}
-
-const char* InvalidMovingStateError::what() const throw()
-{
-    std::stringstream ss;
-    ss << "Invalid moving state '" << m_state << "' for this object!\n";
-    return ss.str().c_str();
-}
+//InvalidMovingStateError::InvalidMovingStateError(Moving_state state)
+//{
+//    m_state = state;
+//}
+//
+//InvalidMovingStateError::~InvalidMovingStateError() throw()
+//{
+//    //
+//}
+//
+//const char* InvalidMovingStateError::what() const throw()
+//{
+//    std::stringstream ss;
+//    ss << "Invalid moving state '" << m_state << "' for this object!\n";
+//    return ss.str().c_str();
+//}
 
 EditorError::EditorError(std::string msg)
     : TSCError(msg)
@@ -151,18 +152,18 @@ EditorError::~EditorError() throw()
     //
 }
 
-EditorSpriteCopyFailedError::EditorSpriteCopyFailedError(cSprite* p_sprite)
-    : EditorError(std::string("Editor sprite '") + p_sprite->Create_Name() + "' copy failed!")
-{
-    mp_sprite = p_sprite;
-}
-
-EditorSpriteCopyFailedError::~EditorSpriteCopyFailedError() throw()
-{
-    //
-}
-
-cSprite* EditorSpriteCopyFailedError::Get_Sprite()
-{
-    return mp_sprite;
-}
+//EditorSpriteCopyFailedError::EditorSpriteCopyFailedError(cSprite* p_sprite)
+//    : EditorError(std::string("Editor sprite '") + p_sprite->Create_Name() + "' copy failed!")
+//{
+//    mp_sprite = p_sprite;
+//}
+//
+//EditorSpriteCopyFailedError::~EditorSpriteCopyFailedError() throw()
+//{
+//    //
+//}
+//
+//cSprite* EditorSpriteCopyFailedError::Get_Sprite()
+//{
+//    return mp_sprite;
+//}
