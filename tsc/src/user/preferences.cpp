@@ -68,6 +68,7 @@ const unsigned int cPreferences::m_audio_hz_default = 44100;
 const Uint8 cPreferences::m_sound_volume_default = 100;
 const Uint8 cPreferences::m_music_volume_default = 80;
 // Keyboard
+    /*
 const SDLKey cPreferences::m_key_up_default = SDLK_UP;
 const SDLKey cPreferences::m_key_down_default = SDLK_DOWN;
 const SDLKey cPreferences::m_key_left_default = SDLK_LEFT;
@@ -86,6 +87,7 @@ const SDLKey cPreferences::m_key_editor_pixel_move_down_default = SDLK_KP2;
 const SDLKey cPreferences::m_key_editor_pixel_move_left_default = SDLK_KP4;
 const SDLKey cPreferences::m_key_editor_pixel_move_right_default = SDLK_KP6;
 const float cPreferences::m_scroll_speed_default = 1.0f;
+*/
 // Joystick
 const bool cPreferences::m_joy_enabled_default = 1;
 const bool cPreferences::m_joy_analog_jump_default = 0;
@@ -130,10 +132,10 @@ cPreferences* cPreferences::Load_From_File(fs::path filename)
     // variables, which from the outside is totally unexpected.
     // This must be done in main.cpp instead, where the preferences
     // are loaded!
-    pVideo->m_geometry_quality = loader.Get_Video_Geometry_Detail();
-    pVideo->m_texture_quality  = loader.Get_Video_Texture_Detail();
-    pAudio->m_music_volume     = loader.Get_Audio_Music_Volume();
-    pAudio->m_sound_volume     = loader.Get_Audio_Sound_Volume();
+    //pVideo->m_geometry_quality = loader.Get_Video_Geometry_Detail();
+    //pVideo->m_texture_quality  = loader.Get_Video_Texture_Detail();
+    //pAudio->m_music_volume     = loader.Get_Audio_Music_Volume();
+    //pAudio->m_sound_volume     = loader.Get_Audio_Sound_Volume();
 
     return loader.Get_Preferences();
 }
@@ -162,15 +164,16 @@ void cPreferences::Save(void)
     Add_Property(p_root, "video_screen_bpp", static_cast<int>(m_video_screen_bpp));
     Add_Property(p_root, "video_vsync", m_video_vsync);
     Add_Property(p_root, "video_fps_limit", m_video_fps_limit);
-    Add_Property(p_root, "video_geometry_quality", pVideo->m_geometry_quality);
-    Add_Property(p_root, "video_texture_quality", pVideo->m_texture_quality);
+    //Add_Property(p_root, "video_geometry_quality", pVideo->m_geometry_quality);
+    //Add_Property(p_root, "video_texture_quality", pVideo->m_texture_quality);
     // Audio
     Add_Property(p_root, "audio_music", m_audio_music);
     Add_Property(p_root, "audio_sound", m_audio_sound);
-    Add_Property(p_root, "audio_sound_volume", static_cast<int>(pAudio->m_sound_volume));
-    Add_Property(p_root, "audio_music_volume", static_cast<int>(pAudio->m_music_volume));
+    //Add_Property(p_root, "audio_sound_volume", static_cast<int>(pAudio->m_sound_volume));
+    //Add_Property(p_root, "audio_music_volume", static_cast<int>(pAudio->m_music_volume));
     Add_Property(p_root, "audio_hz", m_audio_hz);
     // Keyboard
+    /*
     Add_Property(p_root, "keyboard_key_up", m_key_up);
     Add_Property(p_root, "keyboard_key_down", m_key_down);
     Add_Property(p_root, "keyboard_key_left", m_key_left);
@@ -189,6 +192,7 @@ void cPreferences::Save(void)
     Add_Property(p_root, "keyboard_key_editor_pixel_move_down", m_key_editor_pixel_move_down);
     Add_Property(p_root, "keyboard_key_editor_pixel_move_left", m_key_editor_pixel_move_left);
     Add_Property(p_root, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right);
+    */
     // Joystick/Gamepad
     Add_Property(p_root, "joy_enabled", m_joy_enabled);
     Add_Property(p_root, "joy_name", m_joy_name);
@@ -249,8 +253,8 @@ void cPreferences::Reset_Video(void)
     m_video_vsync = m_video_vsync_default;
     m_video_fps_limit = m_video_fps_limit_default;
     m_video_fullscreen = m_video_fullscreen_default;
-    pVideo->m_geometry_quality = m_geometry_quality_default;
-    pVideo->m_texture_quality = m_texture_quality_default;
+    //pVideo->m_geometry_quality = m_geometry_quality_default;
+    //pVideo->m_texture_quality = m_texture_quality_default;
 }
 
 void cPreferences::Reset_Audio(void)
@@ -259,12 +263,13 @@ void cPreferences::Reset_Audio(void)
     m_audio_music = m_audio_music_default;
     m_audio_sound = m_audio_sound_default;
     m_audio_hz = m_audio_hz_default;
-    pAudio->m_sound_volume = m_sound_volume_default;
-    pAudio->m_music_volume = m_music_volume_default;
+    //pAudio->m_sound_volume = m_sound_volume_default;
+    //pAudio->m_music_volume = m_music_volume_default;
 }
 
 void cPreferences::Reset_Keyboard(void)
 {
+    /*
     m_key_up = m_key_up_default;
     m_key_down = m_key_down_default;
     m_key_left = m_key_left_default;
@@ -283,6 +288,7 @@ void cPreferences::Reset_Keyboard(void)
     m_key_editor_pixel_move_down = m_key_editor_pixel_move_down_default;
     m_key_editor_pixel_move_left = m_key_editor_pixel_move_left_default;
     m_key_editor_pixel_move_right = m_key_editor_pixel_move_right_default;
+    */
 }
 
 void cPreferences::Reset_Joystick(void)
@@ -315,8 +321,8 @@ void cPreferences::Update(void)
     m_camera_hor_speed = pLevel_Manager->m_camera->m_hor_offset_speed;
     m_camera_ver_speed = pLevel_Manager->m_camera->m_ver_offset_speed;
 
-    m_audio_music = pAudio->m_music_enabled;
-    m_audio_sound = pAudio->m_sound_enabled;
+    //m_audio_music = pAudio->m_music_enabled;
+    //m_audio_sound = pAudio->m_sound_enabled;
 
     // if not default joy used
     if (pJoystick->m_current_joystick > 0) {
@@ -328,71 +334,66 @@ void cPreferences::Update(void)
     }
 }
 
-void cPreferences::Apply(void)
-{
-    pLevel_Manager->m_camera->m_hor_offset_speed = m_camera_hor_speed;
-    pLevel_Manager->m_camera->m_ver_offset_speed = m_camera_ver_speed;
-
-    // disable joystick if the joystick initialization failed
-    if (pVideo->m_joy_init_failed) {
-        m_joy_enabled = 0;
-    }
-}
-
-void cPreferences::Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail)
-{
-    /* if resolution, bpp, vsync or texture detail changed
-     * a texture reload is necessary
-    */
-    if (m_video_screen_w != screen_w || m_video_screen_h != screen_h || m_video_screen_bpp != screen_bpp || m_video_vsync != vsync || !Is_Float_Equal(pVideo->m_texture_quality, texture_detail)) {
-        // new settings
-        m_video_screen_w = screen_w;
-        m_video_screen_h = screen_h;
-        m_video_screen_bpp = screen_bpp;
-        m_video_vsync = vsync;
-        m_video_fullscreen = fullscreen;
-        pVideo->m_texture_quality = texture_detail;
-        pVideo->m_geometry_quality = geometry_detail;
-
-        // reinitialize video and reload textures from file
-        pVideo->Init_Video(1);
-    }
-    // no texture reload necessary
-    else {
-        // geometry detail changed
-        if (!Is_Float_Equal(pVideo->m_geometry_quality, geometry_detail)) {
-            pVideo->m_geometry_quality = geometry_detail;
-            pVideo->Init_Geometry();
-        }
-
-        // fullscreen changed
-        if (m_video_fullscreen != fullscreen) {
-            // toggle fullscreen and switches video_fullscreen itself
-            pVideo->Toggle_Fullscreen();
-        }
-    }
-}
-
-void cPreferences::Apply_Audio(bool sound, bool music)
-{
-    // disable sound and music if the audio initialization failed
-    if (pVideo->m_audio_init_failed) {
-        m_audio_sound = 0;
-        m_audio_music = 0;
-        return;
-    }
-
-    m_audio_sound = sound;
-    m_audio_music = music;
-
-    // init audio settings
-    pAudio->Init();
-}
-
-/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-/// User preferences, i.e. the content from the TSC configuration file.
-cPreferences* pPreferences = NULL;
+//void cPreferences::Apply(void)
+//{
+//    pLevel_Manager->m_camera->m_hor_offset_speed = m_camera_hor_speed;
+//    pLevel_Manager->m_camera->m_ver_offset_speed = m_camera_ver_speed;
+//
+//    // disable joystick if the joystick initialization failed
+//    if (pVideo->m_joy_init_failed) {
+//        m_joy_enabled = 0;
+//    }
+//}
+//
+//void cPreferences::Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail)
+//{
+//    /* if resolution, bpp, vsync or texture detail changed
+//     * a texture reload is necessary
+//    */
+//    if (m_video_screen_w != screen_w || m_video_screen_h != screen_h || m_video_screen_bpp != screen_bpp || m_video_vsync != vsync || !Is_Float_Equal(pVideo->m_texture_quality, texture_detail)) {
+//        // new settings
+//        m_video_screen_w = screen_w;
+//        m_video_screen_h = screen_h;
+//        m_video_screen_bpp = screen_bpp;
+//        m_video_vsync = vsync;
+//        m_video_fullscreen = fullscreen;
+//        pVideo->m_texture_quality = texture_detail;
+//        pVideo->m_geometry_quality = geometry_detail;
+//
+//        // reinitialize video and reload textures from file
+//        pVideo->Init_Video(1);
+//    }
+//    // no texture reload necessary
+//    else {
+//        // geometry detail changed
+//        if (!Is_Float_Equal(pVideo->m_geometry_quality, geometry_detail)) {
+//            pVideo->m_geometry_quality = geometry_detail;
+//            pVideo->Init_Geometry();
+//        }
+//
+//        // fullscreen changed
+//        if (m_video_fullscreen != fullscreen) {
+//            // toggle fullscreen and switches video_fullscreen itself
+//            pVideo->Toggle_Fullscreen();
+//        }
+//    }
+//}
+//
+//void cPreferences::Apply_Audio(bool sound, bool music)
+//{
+//    // disable sound and music if the audio initialization failed
+//    if (pVideo->m_audio_init_failed) {
+//        m_audio_sound = 0;
+//        m_audio_music = 0;
+//        return;
+//    }
+//
+//    m_audio_sound = sound;
+//    m_audio_music = music;
+//
+//    // init audio settings
+//    pAudio->Init();
+//}
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

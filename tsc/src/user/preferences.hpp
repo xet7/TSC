@@ -49,11 +49,11 @@ namespace TSC {
         // Get settings from current game settings
         void Update(void);
         // Set settings to current game settings
-        void Apply(void);
+        //void Apply(void);
         // Set new video settings
-        void Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail);
+        //void Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail);
         // Set new audio settings
-        void Apply_Audio(bool sound, bool music);
+        //void Apply_Audio(bool sound, bool music);
 
         /* *** *** *** Settings *** *** *** *** */
 
@@ -88,6 +88,7 @@ namespace TSC {
 
         // Keyboard
         // key definitions
+        /*
         SDLKey m_key_up;
         SDLKey m_key_down;
         SDLKey m_key_left;
@@ -105,6 +106,7 @@ namespace TSC {
         SDLKey m_key_editor_pixel_move_down;
         SDLKey m_key_editor_pixel_move_left;
         SDLKey m_key_editor_pixel_move_right;
+        */
         // scroll speed
         float m_scroll_speed;
         // Joystick
@@ -174,6 +176,7 @@ namespace TSC {
         static const float m_geometry_quality_default;
         static const float m_texture_quality_default;
         // Keyboard
+        /*
         static const SDLKey m_key_up_default;
         static const SDLKey m_key_down_default;
         static const SDLKey m_key_left_default;
@@ -192,6 +195,7 @@ namespace TSC {
         static const SDLKey m_key_editor_pixel_move_left_default;
         static const SDLKey m_key_editor_pixel_move_right_default;
         static const float m_scroll_speed_default;
+        */
         // Joystick
         static const bool m_joy_enabled_default;
         static const bool m_joy_analog_jump_default;
