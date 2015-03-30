@@ -1,6 +1,3 @@
-#include "global_basic.hpp"
-#include "scene_manager.hpp"
-
 cSceneManager::cSceneManager()
 {
     m_end_play = false;

@@ -1,6 +1,3 @@
-#include "global_basic.hpp"
-#include "actor.hpp"
-
 cActor::cActor()
 {
 }

@@ -1,6 +1,3 @@
-#include "global_basic.hpp"
-#include "scene.hpp"
-
 using namespace TSC;
 
 cScene::~cScene()

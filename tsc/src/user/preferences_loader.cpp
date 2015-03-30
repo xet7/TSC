@@ -13,9 +13,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "preferences_loader.hpp"
-#include "../core/global_basic.hpp"
-
 namespace fs = boost::filesystem;
 using namespace TSC;
 using namespace std;

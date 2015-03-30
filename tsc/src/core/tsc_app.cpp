@@ -1,5 +1,3 @@
-#include "global_basic.hpp"
-
 using namespace TSC;
 
 cApp* TSC::gp_app = NULL;

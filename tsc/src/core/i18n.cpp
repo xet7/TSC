@@ -14,11 +14,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/global_basic.hpp"
-#include "../core/property_helper.hpp"
-#include "../core/filesystem/resource_manager.hpp"
-#include "../core/i18n.hpp"
-
 using namespace std;
 
 namespace TSC {

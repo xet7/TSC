@@ -17,8 +17,6 @@
 #ifndef TSC_I18N_HPP
 #define TSC_I18N_HPP
 
-#include "../core/global_game.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

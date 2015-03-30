@@ -16,9 +16,6 @@
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-#include "global_basic.hpp"
-#include "tsc_app.hpp"
-
 /**
  * C/C++ entry point.
  */

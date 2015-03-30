@@ -1,5 +1,3 @@
-#include "menu_scene.hpp"
-
 using namespace TSC;
 
 cMenuScene::cMenuScene()

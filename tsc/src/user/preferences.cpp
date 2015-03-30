@@ -14,19 +14,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../user/preferences.hpp"
-#include "../audio/audio.hpp"
-#include "../video/video.hpp"
-#include "../core/game_core.hpp"
-#include "../input/joystick.hpp"
-#include "../gui/hud.hpp"
-#include "../level/level_manager.hpp"
-#include "../core/i18n.hpp"
-#include "../core/filesystem/resource_manager.hpp"
-#include "../core/filesystem/filesystem.hpp"
-#include "preferences_loader.hpp"
-#include "../core/global_basic.hpp"
-
 namespace fs = boost::filesystem;
 
 using namespace std;

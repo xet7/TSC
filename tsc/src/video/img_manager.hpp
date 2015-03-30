@@ -17,11 +17,6 @@
 #ifndef TSC_IMG_MANAGER_HPP
 #define TSC_IMG_MANAGER_HPP
 
-#include "../core/global_basic.hpp"
-#include "../video/video.hpp"
-#include "../core/obj_manager.hpp"
-#include "../video/gl_surface.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** *** cImage_Manager *** *** *** *** *** *** *** *** *** *** *** */
