@@ -11,6 +11,7 @@ namespace TSC {
      */
     class cActor: public Scripting::cScriptable_Object, public sf::Sprite
     {
+    public:
         cActor();
         virtual ~cActor();
 
@@ -24,6 +25,7 @@ namespace TSC {
      */
     class cStaticActor: public cActor
     {
+    public:
         cStaticActor();
         virtual ~cStaticActor();
     };

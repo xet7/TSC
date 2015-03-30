@@ -1,3 +1,9 @@
+#include "../core/global_basic.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "actor.hpp"
+
+using namespace TSC;
+
 cActor::cActor()
 {
 }
