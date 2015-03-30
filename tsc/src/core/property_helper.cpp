@@ -14,11 +14,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/property_helper.hpp"
-#include "../core/i18n.hpp"
-#include "../video/color.hpp"
-#include "../objects/sprite.hpp"
-
 namespace TSC {
 
 void string_replace_all(std::string& str, const std::string& search, const std::string& format)
@@ -69,7 +64,7 @@ std::string uint_to_string(const unsigned int number)
     return os.str();
 }
 
-std::string int64_to_string(const Uint64 number)
+std::string int64_to_string(const uint64_t number)
 {
     std::ostringstream os;
     os << number;
@@ -261,11 +256,11 @@ unsigned int string_to_uint(const std::string& str)
     return num;
 }
 
-Uint64 string_to_int64(const std::string& str)
+uint64_t string_to_int64(const std::string& str)
 {
-    Uint64 num = 0;
+    uint64_t num = 0;
     // use helper
-    from_string<Uint64>(num, str, std::dec);
+    from_string<uint64_t>(num, str, std::dec);
     return num;
 }
 

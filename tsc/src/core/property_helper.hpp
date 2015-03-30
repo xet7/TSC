@@ -17,9 +17,6 @@
 #ifndef TSC_PROPERTY_HELPER_HPP
 #define TSC_PROPERTY_HELPER_HPP
 
-#include "../core/global_basic.hpp"
-#include "../core/global_game.hpp"
-
 using namespace std;
 
 namespace TSC {
@@ -60,7 +57,7 @@ namespace TSC {
 
 // Return the number as a string
     std::string int_to_string(const int number);
-    std::string int64_to_string(const Uint64 number);
+    std::string int64_to_string(const uint64_t number);
     std::string long_to_string(const long number);
     std::string bool_to_string(const bool val);
     std::string uint_to_string(const unsigned int number);
@@ -71,7 +68,7 @@ namespace TSC {
     std::string float_to_string(double value, int prec = 6, bool keep_zeros = 1);
 // Return the string as a number
     int string_to_int(const std::string& str);
-    Uint64 string_to_int64(const std::string& str);
+    uint64_t string_to_int64(const std::string& str);
     long string_to_long(const std::string& str);
     unsigned int string_to_uint(const std::string& str);
 // Return the string as a float

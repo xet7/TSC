@@ -27,6 +27,9 @@
 */
 //#define TSC_RENDER_THREAD_TEST
 
+// Name of the PO file directory and project marker for GNU Gettext.
+#define TSC_GETTEXT_DOMAIN "Secretchronicles"
+
 /* *** *** *** *** *** *** *** Debugging *** *** *** *** *** *** *** *** *** *** */
 
 #if defined(_MSC_VER) && defined(_DEBUG)
@@ -49,6 +52,7 @@
 #include <cstdlib>
 #include <climits>
 #include <cctype>
+#include <cstdint>
 #include <sys/stat.h>
 #include <sys/types.h>
 
