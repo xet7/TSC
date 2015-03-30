@@ -34,7 +34,7 @@ namespace TSC {
 #define C_(Context, String) pgettext(Context, String)
 
 // init internationalization
-    void I18N_Init(void);
+    void I18N_Init(const boost::filesystem::path& translations_directory);
 // set language
     void I18N_Set_Language(const std::string& default_language);
 

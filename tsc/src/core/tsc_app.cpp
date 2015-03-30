@@ -34,7 +34,7 @@ cApp::~cApp()
 void cApp::Init_SFML()
 {
     debug_printf("Initializing SFML.\n");
-    mp_renderwindow = new sf::RenderWindow(sf::VideoMode(1024, 768), "The Secret Chronicles of Dr. M.");
+    mp_renderwindow = new sf::RenderWindow(sf::VideoMode(1024, 768), CAPTION);
 }
 
 void cApp::Init_Managers()
@@ -64,7 +64,7 @@ void cApp::Init_I18N()
     // set game language
     I18N_Set_Language(pPreferences->m_language);
     // init translation support
-    I18N_Init();
+    I18N_Init(mp_resource_manager->Get_Game_Translation_Directory());
 }
 
 void cApp::Init_CEGUI()

@@ -16,7 +16,6 @@
 
 #ifndef TSC_GLOBAL_GAME_HPP
 #define TSC_GLOBAL_GAME_HPP
-#include "global_basic.hpp"
 
 namespace TSC {
 
@@ -28,7 +27,6 @@ namespace TSC {
 
 // Caption
 #define CAPTION "The Secret Chronicles of Dr. M."
-#define TSC_GETTEXT_DOMAIN "Secretchronicles"
 
     static const unsigned int tsc_version = TSC_VERSION_NUM(TSC_VERSION_MAJOR, TSC_VERSION_MINOR, TSC_VERSION_PATCH);
 

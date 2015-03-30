@@ -889,7 +889,7 @@ DefaultColor Get_Color_Id(const std::string& str_color)
     return COL_DEFAULT;
 }
 
-std::string Get_Difficulty_Name(Uint8 difficulty)
+std::string Get_Difficulty_Name(uint8_t difficulty)
 {
     if (difficulty == 0) {
         return "Undefined";

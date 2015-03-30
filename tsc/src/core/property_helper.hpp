@@ -192,7 +192,7 @@ namespace TSC {
     DefaultColor Get_Color_Id(const std::string& str_color);
 
 // Return the Difficulty name
-    std::string Get_Difficulty_Name(Uint8 difficulty);
+    std::string Get_Difficulty_Name(uint8_t difficulty);
 
 // Returns the entire content of the nonbinary file `file'.
 // This function does not call close() on `file'.

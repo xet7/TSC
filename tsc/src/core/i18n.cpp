@@ -14,13 +14,17 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "global_basic.hpp"
+#include "global_game.hpp"
+#include "property_helper.hpp"
+
 using namespace std;
 
 namespace TSC {
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-void I18N_Init(void)
+void I18N_Init(const boost::filesystem::path& translations_directory)
 {
     const char* sys_locale = setlocale(LC_ALL, ""); // TODO: Replace with std::locale()
 
@@ -31,10 +35,10 @@ void I18N_Init(void)
         debug_print("Translation locale is %s\n", sys_locale);
     }
 
-    const char* textdomain_directory = bindtextdomain(TSC_GETTEXT_DOMAIN, path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()).c_str());
+    const char* textdomain_directory = bindtextdomain(TSC_GETTEXT_DOMAIN, path_to_utf8(translations_directory).c_str());
 
     if (!textdomain_directory) {
-        cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(pResource_Manager->Get_Game_Translation_Directory()) << "'" << endl;
+        cerr << "Warning: bindtextdomain() failed for '" << path_to_utf8(translations_directory) << "'" << endl;
     }
 
     const char* textdomain_codeset = bind_textdomain_codeset(TSC_GETTEXT_DOMAIN, "UTF-8");
