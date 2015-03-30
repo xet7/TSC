@@ -14,17 +14,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if defined(_WIN32)
-#include <windows.h>
-#elif defined(__linux)
-#include <limits.h>
-#endif
-
-#include "resource_manager.hpp"
-#include "filesystem.hpp"
+#include "../global_basic.hpp"
+#include "../global_game.hpp"
 #include "../property_helper.hpp"
 #include "../errors.hpp"
-#include "../global_basic.hpp"
+#include "filesystem.hpp"
+#include "resource_manager.hpp"
 
 using namespace std;
 

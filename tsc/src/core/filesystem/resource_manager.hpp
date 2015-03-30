@@ -17,9 +17,6 @@
 #ifndef TSC_RESOURCE_MANAGER_HPP
 #define TSC_RESOURCE_MANAGER_HPP
 
-#include "../../core/global_basic.hpp"
-#include "../../core/global_game.hpp"
-
 namespace TSC {
 
     struct PathInfo {

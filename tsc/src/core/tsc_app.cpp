@@ -1,4 +1,5 @@
 #include "global_basic.hpp"
+#include "global_game.hpp"
 #include "errors.hpp"
 #include "property_helper.hpp"
 #include "xml_attributes.hpp"
