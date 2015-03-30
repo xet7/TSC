@@ -12,9 +12,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../core/global_basic.hpp"
+#include "../core/property_helper.hpp"
 #include "scriptable_object.hpp"
 //#include "../level/level.hpp"
-#include "../core/property_helper.hpp"
 
 using namespace TSC;
 using namespace TSC::Scripting;
@@ -126,5 +127,6 @@ std::vector<mrb_value>::iterator cScriptable_Object::event_handlers_end(const st
 std::string cScriptable_Object::get_active_level_name()
 {
     std::cerr << "FIXME: get_active_level_name() NOT IMPLEMENTED!" << std::endl;
+    return "FIXME NOT IMPLEMENTED";
     //return path_to_utf8(pActive_Level->m_level_filename.stem());
 }
