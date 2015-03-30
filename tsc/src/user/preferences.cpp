@@ -2,7 +2,7 @@
  * preferences.cpp  -  Game settings handler
  *
  * Copyright © 2003 - 2011 Florian Richter
- * Copyright © 2013 - 2014 The TSC Contributors
+ * Copyright © 2013 - 2015 The TSC Contributors
  ***************************************************************************/
 /*
    This program is free software; you can redistribute it and/or modify
@@ -13,6 +13,14 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../core/errors.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/xml_attributes.hpp"
+#include "preferences.hpp"
+#include "preferences_loader.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -104,7 +112,7 @@ cPreferences::~cPreferences(void)
 cPreferences* cPreferences::Load_From_File(fs::path filename)
 {
     // If the preferences file doesn’t exist, use default values.
-    if (!File_Exists(filename)) {
+    if (!fs::exists(filename)) {
         cerr << "Warning: Preferences file '" << path_to_utf8(filename) << "' does not exist. Using default values." << endl;
         cPreferences* p_pref = new cPreferences();
         p_pref->m_config_filename = filename;
@@ -305,20 +313,20 @@ void cPreferences::Reset_Editor(void)
 
 void cPreferences::Update(void)
 {
-    m_camera_hor_speed = pLevel_Manager->m_camera->m_hor_offset_speed;
-    m_camera_ver_speed = pLevel_Manager->m_camera->m_ver_offset_speed;
+    //m_camera_hor_speed = pLevel_Manager->m_camera->m_hor_offset_speed;
+    //m_camera_ver_speed = pLevel_Manager->m_camera->m_ver_offset_speed;
 
     //m_audio_music = pAudio->m_music_enabled;
     //m_audio_sound = pAudio->m_sound_enabled;
 
     // if not default joy used
-    if (pJoystick->m_current_joystick > 0) {
-        m_joy_name = pJoystick->Get_Name();
-    }
-    // using default joy
-    else {
-        m_joy_name.clear();
-    }
+    //if (pJoystick->m_current_joystick > 0) {
+    //    m_joy_name = pJoystick->Get_Name();
+    //}
+    //// using default joy
+    //else {
+    //    m_joy_name.clear();
+    //}
 }
 
 //void cPreferences::Apply(void)

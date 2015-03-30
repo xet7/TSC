@@ -17,7 +17,7 @@
 #include "filesystem/resource_manager.hpp"
 #include "property_helper.hpp"
 
-namespace TSC {
+using namespace TSC;
 
 void XmlAttributes::relocate_image(const std::string& filename_old, const std::string& filename_new, const std::string& attribute_name /* = "image" */)
 {
@@ -35,4 +35,29 @@ bool XmlAttributes::exists(const std::string& key)
     else
         return false;
 }
+
+void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
+{
+    xmlpp::Element* p_propnode = p_element->add_child("property");
+    p_propnode->set_attribute("name", name);
+    p_propnode->set_attribute("value", value);
 }
+
+void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
+{
+    // Determine if the property exists first
+    xmlpp::Node::NodeList children = p_element->get_children("property");
+
+    for(xmlpp::Node::NodeList::iterator it = children.begin(); it != children.end(); ++it) {
+        xmlpp::Element* element = dynamic_cast<xmlpp::Element*>(*it);
+
+        if(element && element->get_attribute_value("name") == name) {
+            element->set_attribute("value", value);
+            return;
+        }
+    }
+
+    // No match found
+    Add_Property(p_element, name, value);
+}
+
