@@ -285,9 +285,25 @@ endif()
 
 # For now, just assume ALL cpp files to be requisites
 # of TSC.
-file(GLOB_RECURSE tsc_sources
-  "src/*.cpp"
-  "src/*.hpp")
+#file(GLOB_RECURSE tsc_sources
+#  "src/*.cpp"
+#  "src/*.hpp")
+set(tsc_sources
+  "src/core/i18n.cpp"
+  "src/core/main.cpp"
+  "src/core/scene_manager.cpp"
+  "src/core/tsc_app.cpp"
+
+  "src/objects/actor.cpp"
+
+  "src/scenes/scene.cpp"
+  "src/scenes/menu_scene.cpp"
+
+  "src/user/preferences_loader.cpp"
+  "src/user/preferences.cpp"
+
+  "src/video/img_manager.cpp"
+)
 
 ###############################################
 # Targets
