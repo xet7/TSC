@@ -39,6 +39,7 @@ namespace TSC {
         cImage_Manager(void);
         virtual ~cImage_Manager(void);
 
+        void Preload_Textures(std::function<void (unsigned int files_done, unsigned int files_total)> cb);
         sf::Texture& get_texture(const boost::filesystem::path& path);
     private:
         std::map<boost::filesystem::path, sf::Texture*> m_textures;

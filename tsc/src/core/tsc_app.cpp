@@ -18,6 +18,9 @@ cApp::cApp()
     Init_CEGUI();
 
     mp_package_manager->Set_Current_Package(mp_preferences->m_package);
+    mp_image_manager->Preload_Textures(
+        [](unsigned int files_done, unsigned int files_total){ /* Nothing right now */ }
+    );
 }
 
 cApp::~cApp()
