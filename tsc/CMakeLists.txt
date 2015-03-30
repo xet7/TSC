@@ -295,6 +295,7 @@ set(tsc_sources
   "src/core/property_helper.cpp"
   "src/core/scene_manager.cpp"
   "src/core/tsc_app.cpp"
+  "src/core/xml_attributes.cpp"
   "src/core/filesystem/filesystem.cpp"
   "src/core/filesystem/boost_relative.cpp"
   "src/core/filesystem/package_manager.cpp"

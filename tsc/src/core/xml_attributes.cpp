@@ -13,9 +13,11 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "xml_attributes.hpp"
-#include "filesystem/resource_manager.hpp"
+#include "global_basic.hpp"
 #include "property_helper.hpp"
+#include "errors.hpp"
+#include "filesystem/resource_manager.hpp"
+#include "xml_attributes.hpp"
 
 using namespace TSC;
 
@@ -36,14 +38,14 @@ bool XmlAttributes::exists(const std::string& key)
         return false;
 }
 
-void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
+void TSC::Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
 {
     xmlpp::Element* p_propnode = p_element->add_child("property");
     p_propnode->set_attribute("name", name);
     p_propnode->set_attribute("value", value);
 }
 
-void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
+void TSC::Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, const Glib::ustring& value)
 {
     // Determine if the property exists first
     xmlpp::Node::NodeList children = p_element->get_children("property");
@@ -58,6 +60,6 @@ void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, cons
     }
 
     // No match found
-    Add_Property(p_element, name, value);
+    TSC::Add_Property(p_element, name, value);
 }
 
