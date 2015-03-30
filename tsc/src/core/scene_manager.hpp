@@ -20,16 +20,16 @@ namespace TSC {
         cSceneManager();
 
         void Push_Scene(cScene* p_scene);
-        Scene* Pop_Scene();
+        cScene* Pop_Scene();
 
         void Play(sf::RenderWindow& stage);
-        inline Scene& Current_Scene(){return *m_scenes_stack.top();}
+        inline cScene& Current_Scene(){return *m_scenes_stack.top();}
         inline void End_Play(){m_end_play = true;}
     private:
         bool Handle_Global_Event(sf::Event& evt);
 
         std::stack<cScene*> m_scenes_stack;
-        bool end_play;
+        bool m_end_play;
     };
 
 }

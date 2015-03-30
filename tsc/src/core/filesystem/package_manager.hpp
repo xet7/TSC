@@ -16,10 +16,6 @@
 #ifndef TSC_PACKAGE_MANAGER_HPP
 #define TSC_PACKAGE_MANAGER_HPP
 
-#include "../../core/global_basic.hpp"
-#include "../../core/global_game.hpp"
-#include "../../core/xml_attributes.hpp"
-
 namespace TSC {
 
     struct PackageInfo {

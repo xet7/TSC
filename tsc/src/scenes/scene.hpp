@@ -23,8 +23,8 @@ namespace TSC {
         virtual void Update();
         virtual void Draw(sf::RenderWindow& stage);
 
-        inline std::vector<Actor*>::iterator begin_actors(){return m_actors.begin();}
-        inline std::vector<Actor*>::iterator end_actors(){return m_actors.end();}
+        inline std::vector<cActor*>::iterator begin_actors(){return m_actors.begin();}
+        inline std::vector<cActor*>::iterator end_actors(){return m_actors.end();}
 
     protected:
         std::vector<cActor*> m_actors;

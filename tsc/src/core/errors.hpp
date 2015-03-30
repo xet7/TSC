@@ -15,8 +15,6 @@
 
 #ifndef TSC_ERRORS_HPP
 #define TSC_ERRORS_HPP
-#include "global_game.hpp"
-#include "../objects/movingsprite.hpp"
 
 namespace TSC {
 
@@ -86,14 +84,14 @@ namespace TSC {
         virtual const char* what() const throw();
     };
 
-    class InvalidMovingStateError: public TSCError {
-    public:
-        InvalidMovingStateError(Moving_state state);
-        virtual ~InvalidMovingStateError() throw();
-        virtual const char* what() const throw();
-    protected:
-        Moving_state m_state;
-    };
+    //class InvalidMovingStateError: public TSCError {
+    //public:
+    //    InvalidMovingStateError(Moving_state state);
+    //    virtual ~InvalidMovingStateError() throw();
+    //    virtual const char* what() const throw();
+    //protected:
+    //    Moving_state m_state;
+    //};
 
     class EditorError: public TSCError {
     public:
@@ -101,14 +99,14 @@ namespace TSC {
         virtual ~EditorError() throw();
     };
 
-    class EditorSpriteCopyFailedError: public EditorError {
-    public:
-        EditorSpriteCopyFailedError(cSprite* p_sprite);
-        virtual ~EditorSpriteCopyFailedError() throw();
-        cSprite* Get_Sprite();
-    protected:
-        cSprite* mp_sprite;
-    };
+    //class EditorSpriteCopyFailedError: public EditorError {
+    //public:
+    //    EditorSpriteCopyFailedError(cSprite* p_sprite);
+    //    virtual ~EditorSpriteCopyFailedError() throw();
+    //    cSprite* Get_Sprite();
+    //protected:
+    //    cSprite* mp_sprite;
+    //};
 
 }
 

@@ -14,7 +14,6 @@
 
 #ifndef TSC_SCRIPTING_SCRIPTABLE_OBJECT_HPP
 #define TSC_SCRIPTING_SCRIPTABLE_OBJECT_HPP
-#include "../core/global_basic.hpp"
 
 namespace TSC {
     namespace Scripting {

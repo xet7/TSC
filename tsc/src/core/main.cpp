@@ -16,14 +16,28 @@
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
+#include "global_basic.hpp"
+#include "errors.hpp"
+#include "property_helper.hpp"
+#include "xml_attributes.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "scene_manager.hpp"
+#include "filesystem/resource_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "filesystem/package_manager.hpp"
+#include "../user/preferences.hpp"
+#include "tsc_app.hpp"
+
 /**
  * C/C++ entry point.
  */
 int main(int argc, char** argv)
 {
     TSC::gp_app = new TSC::cApp();
-    int result = gp_app->Run();
-    delete gp_app;
+    int result = TSC::gp_app->Run();
+    delete TSC::gp_app;
 
     return result;
 }
