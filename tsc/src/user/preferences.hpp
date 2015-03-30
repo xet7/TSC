@@ -211,11 +211,6 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-// The Preferences
-    extern cPreferences* pPreferences;
-
-    /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
 } // namespace TSC
 
 #endif

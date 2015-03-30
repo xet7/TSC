@@ -1,0 +1,82 @@
+#include "global_basic.hpp"
+
+using namespace TSC;
+
+cApp* TSC::gp_app = NULL;
+
+cApp::cApp()
+{
+    debug_printf("Initializing application.\n");
+
+    // init random number generator
+    srand(static_cast<unsigned int>(time(NULL));
+
+    Init_SFML();
+    Init_Managers();
+    Init_User_Preferences();
+    Init_I18N();
+    Init_CEGUI();
+}
+
+cApp::~cApp()
+{
+    delete mp_scene_manager;
+    delete mp_resource_manager;
+    delete mp_preferences;
+    delete mp_renderwindow;
+}
+
+void cApp::Init_SFML()
+{
+    debug_printf("Initializing SFML.\n");
+    mp_renderwindow = new sf::RenderWindow(sf::VideoMode(1024, 768), "The Secret Chronicles of Dr. M.");
+}
+
+void cApp::Init_Managers()
+{
+    debug_print("Initializing manager classes.\n");
+
+    mp_resource_manager = new cResource_Manager();
+    mp_resource_manager->Init_User_Directory();
+
+    mp_scene_manager = new cSceneManager();
+}
+
+void cApp::Init_User_Preferences()
+{
+    mp_preferences = cPreferences::Load_From_File(mp_resource_manager->Get_Preferences_File());
+    debug_print("Configuration file is '%s'.\n", path_to_utf8(mp_preferences->m_config_filename).c_str());
+
+    // mp_preferences->Apply();
+}
+
+void cApp::Init_I18N()
+{
+    debug_printf("Initializing I18n.\n");
+
+    // set game language
+    I18N_Set_Language(pPreferences->m_language);
+    // init translation support
+    I18N_Init();
+}
+
+void cApp::Init_CEGUI()
+{
+
+}
+
+/**
+ * Initiate the main loop.
+ */
+int cApp::Run()
+{
+    // Always start with the start menu scene
+    Scenes::StartmenuScene* p_menuscene = new Scenes::StartmenuScene();
+    mp_scene_manager->Push_Scene(p_menuscene);
+
+    // Start the main loop
+    mp_scene_manager->Play(*mp_renderwindow);
+
+    // TODO: Proper return value
+    return 0;
+}

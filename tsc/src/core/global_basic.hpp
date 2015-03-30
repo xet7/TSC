@@ -67,6 +67,7 @@
 #include <map>
 #include <utility>
 #include <iomanip>
+#include <stack>
 
 // TSC build configuration header
 #include "config.hpp"
@@ -91,16 +92,10 @@
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
 
-// SDL
-#ifdef __unix__
-#define NO_SDL_GLEXT
-#endif
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
-#include <SDL_syswm.h>
+// SFML
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 // Other libs
 #include <png.h>

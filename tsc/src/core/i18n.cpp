@@ -27,7 +27,7 @@ namespace TSC {
 
 void I18N_Init(void)
 {
-    const char* sys_locale = setlocale(LC_ALL, "");
+    const char* sys_locale = setlocale(LC_ALL, ""); // TODO: Replace with std::locale()
 
     if (sys_locale == NULL) {
         debug_print("Failed to set translation locale\n");
