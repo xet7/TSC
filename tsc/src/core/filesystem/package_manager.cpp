@@ -13,18 +13,25 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if defined(_WIN32)
-#include <windows.h>
-#elif defined(__linux)
-#include <limits.h>
-#endif
-
-#include "package_manager.hpp"
-#include "resource_manager.hpp"
-#include "filesystem.hpp"
-#include "../../user/preferences.hpp"
+#include "../global_basic.hpp"
 #include "../property_helper.hpp"
 #include "../errors.hpp"
+#include "../global_basic.hpp"
+#include "../global_game.hpp"
+#include "../errors.hpp"
+#include "../property_helper.hpp"
+#include "../xml_attributes.hpp"
+#include "../../user/preferences.hpp"
+#include "../../scripting/scriptable_object.hpp"
+#include "../../objects/actor.hpp"
+#include "../../scenes/scene.hpp"
+#include "../scene_manager.hpp"
+#include "../../video/img_manager.hpp"
+#include "resource_manager.hpp"
+#include "package_manager.hpp"
+#include "../tsc_app.hpp"
+#include "filesystem.hpp"
+#include "package_manager.hpp"
 
 namespace fs = boost::filesystem;
 namespace errc = boost::system::errc;
@@ -220,7 +227,7 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     std::string level;
 
     // User specified menu level
-    level = pPreferences->m_menu_level;
+    level = gp_app->Get_Preferences().m_menu_level;
     if (!level.empty()) {
         level = level + ".tsclvl";
 
@@ -258,7 +265,7 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     }
 
     // Default menu level
-    level = pPreferences->m_menu_level_default + ".tsclvl";
+    level = gp_app->Get_Preferences().m_menu_level_default + ".tsclvl";
 
     result = pResource_Manager->Get_User_Level_Directory() / level;
     if (fs::exists(result))
@@ -481,9 +488,9 @@ void cPackage_Manager :: Build_Search_Path ( void )
     m_package_start = 0;
 
     // First add skin package if any
-    if(pPreferences && !pPreferences->m_skin.empty()) {
+    if(gp_app && !gp_app->Get_Preferences().m_skin.empty()) {
         std::vector<std::string> processed;
-        Build_Search_Path_Helper( pPreferences->m_skin, processed );
+        Build_Search_Path_Helper( gp_app->Get_Preferences().m_skin, processed );
 
         // The starting position in the search path for packages and not skin items
         m_package_start = m_search_path.size();
