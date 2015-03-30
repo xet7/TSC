@@ -17,6 +17,7 @@ namespace TSC {
      */
     class cScene
     {
+    public:
         virtual ~cScene();
         virtual void Handle_Event(sf::Event& evt);
         virtual void Update();

@@ -33,7 +33,7 @@ cImage_Manager::~cImage_Manager()
  * Load a texture from the given file if it hasn’t been loaded
  * yet. If it has been loaded already, return it from the cache.
  */
-sf::Texture& cImage_Manager::get_texture(const fs::path& path)
+sf::Texture& cImage_Manager::Get_Texture(const fs::path& path)
 {
     if (m_textures.count(path)) {
         return *m_textures[path];

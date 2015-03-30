@@ -80,7 +80,7 @@ void cApp::Init_CEGUI()
 int cApp::Run()
 {
     // Always start with the start menu scene
-    Scenes::StartmenuScene* p_menuscene = new Scenes::StartmenuScene();
+    cMenuScene* p_menuscene = new cMenuScene();
     mp_scene_manager->Push_Scene(p_menuscene);
 
     // Start the main loop
