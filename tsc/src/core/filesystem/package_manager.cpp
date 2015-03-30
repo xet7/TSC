@@ -568,12 +568,6 @@ fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)
     return fs::path();
 }
 
-//
-
-/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-cPackage_Manager* pPackage_Manager = NULL;
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace TSC

@@ -35,9 +35,11 @@ namespace TSC {
 
         int Run();
 
-        inline sf::RenderWindow& Get_RenderWindow(){return *mp_renderwindow;}
-        inline cSceneManager& Get_SceneManager(){return *mp_scene_manager;}
+        inline sf::RenderWindow&  Get_RenderWindow(){return *mp_renderwindow;}
+        inline cSceneManager&     Get_SceneManager(){return *mp_scene_manager;}
         inline cResource_Manager& Get_ResourceManager(){return *mp_resource_manager;}
+        inline cImage_Manager&    Get_Image_Manager(){return *mp_image_manager;}
+        inline cPackage_Manager&  Get_Package_Manager(){return *mp_package_manager;}
 
         inline cPreferences& Get_Preferences(){return *mp_preferences;}
     private:
@@ -48,7 +50,9 @@ namespace TSC {
         void Init_CEGUI();
 
         cResource_Manager* mp_resource_manager;
+        cImage_Manager* mp_image_manager;
         cSceneManager* mp_scene_manager;
+        cPackage_Manager* mp_package_manager;
 
         cPreferences* mp_preferences;
 

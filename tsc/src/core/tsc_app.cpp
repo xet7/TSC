@@ -9,18 +9,22 @@ cApp::cApp()
     debug_printf("Initializing application.\n");
 
     // init random number generator
-    srand(static_cast<unsigned int>(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
 
     Init_SFML();
     Init_Managers();
     Init_User_Preferences();
     Init_I18N();
     Init_CEGUI();
+
+    mp_package_manager->Set_Current_Package(mp_preferences->m_package);
 }
 
 cApp::~cApp()
 {
     delete mp_scene_manager;
+    delete mp_package_manager;
+    delete mp_image_manager;
     delete mp_resource_manager;
     delete mp_preferences;
     delete mp_renderwindow;
@@ -39,6 +43,8 @@ void cApp::Init_Managers()
     mp_resource_manager = new cResource_Manager();
     mp_resource_manager->Init_User_Directory();
 
+    mp_image_manager = new cImage_Manager();
+    mp_package_manager = new cPackage_Manager();
     mp_scene_manager = new cSceneManager();
 }
 
@@ -76,6 +82,8 @@ int cApp::Run()
 
     // Start the main loop
     mp_scene_manager->Play(*mp_renderwindow);
+
+    mp_preferences->Save();
 
     // TODO: Proper return value
     return 0;

@@ -133,11 +133,6 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-    // Package Manager
-    extern cPackage_Manager* pPackage_Manager;
-
-    /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
 } // namespace TSC
 
 #endif
