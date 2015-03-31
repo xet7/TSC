@@ -17,9 +17,6 @@
 #ifndef TSC_UTILITIES_HPP
 #define TSC_UTILITIES_HPP
 
-#include "../../core/global_basic.hpp"
-#include "../../core/global_game.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** *** *** *** Math utility functions *** *** *** *** *** *** *** *** *** */

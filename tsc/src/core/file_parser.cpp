@@ -14,12 +14,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
 
-#include "../core/global_basic.hpp"
-#include "../core/file_parser.hpp"
-#include "../core/game_core.hpp"
+#include "global_basic.hpp"
+#include "property_helper.hpp"
+#include "file_parser.hpp"
 
 using namespace std;
 

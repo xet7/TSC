@@ -545,9 +545,8 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, 
         }
     }
 
-    // If the file is not found, then return the last item.
-    // This should be the last extension in the core game directory
-    return path;
+    // Not found
+    return fs::path();
 }
 
 fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)

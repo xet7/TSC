@@ -17,11 +17,6 @@
 #ifndef TSC_IMG_SETTINGS_HPP
 #define TSC_IMG_SETTINGS_HPP
 
-#include "../core/global_basic.hpp"
-#include "../core/file_parser.hpp"
-#include "../video/gl_surface.hpp"
-#include "../core/math/rect.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** *** cImage_Settings_Data *** *** *** *** *** *** *** *** *** *** *** */
@@ -31,10 +26,8 @@ namespace TSC {
         cImage_Settings_Data(void);
         ~cImage_Settings_Data(void);
 
-        // returns the best surface size for the current resolution
-        cSize_Int Get_Surface_Size(const SDL_Surface* sdl_surface) const;
         // Apply settings to an image
-        void Apply(cGL_Surface* image) const;
+        void Apply(cActor& actor) const;
         // Apply base settings
         void Apply_Base(const cImage_Settings_Data* base_settings_data);
 
@@ -43,11 +36,8 @@ namespace TSC {
         // inherit base settings
         bool m_base_settings;
 
-        // internal drawing offset
-        int m_int_x;
-        int m_int_y;
         // collision rect
-        GL_rect m_col_rect;
+        sf::IntRect m_col_rect;
         // width
         int m_width;
         // height
@@ -62,9 +52,9 @@ namespace TSC {
         // name
         std::string m_name;
         // sprite massivity
-        MassiveType m_massive_type;
+        //MassiveType m_massive_type;
         // ground type
-        GroundType m_ground_type;
+        //GroundType m_ground_type;
         // author
         std::string m_author;
         // obsolete
@@ -92,11 +82,6 @@ namespace TSC {
         // load base settings
         bool m_load_base;
     };
-
-    /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-// Image settings parser
-    extern cImage_Settings_Parser* pSettingsParser;
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

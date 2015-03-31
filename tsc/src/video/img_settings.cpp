@@ -14,38 +14,35 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../video/img_settings.hpp"
-#include "../core/game_core.hpp"
-#include "../core/math/utilities.hpp"
-#include "../core/math/size.hpp"
-#include "../core/filesystem/filesystem.hpp"
 #include "../core/global_basic.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/filesystem/filesystem.hpp"
+#include "../core/math/utilities.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../core/file_parser.hpp"
+#include "img_settings.hpp"
 
 using namespace std;
-
+using namespace TSC;
 namespace fs = boost::filesystem;
-
-namespace TSC {
 
 /* *** *** *** *** *** *** cImage_Settings_Data *** *** *** *** *** *** *** *** *** *** *** */
 
 cImage_Settings_Data::cImage_Settings_Data(void)
 {
-    m_base_settings = 0;
+    m_base_settings = false;
 
-    m_int_x = 0;
-    m_int_y = 0;
-    m_col_rect.clear();
     m_width = 0;
     m_height = 0;
     m_rotation_x = 0;
     m_rotation_y = 0;
     m_rotation_z = 0;
-    m_mipmap = 0;
+    m_mipmap = false;
 
-    m_massive_type = MASS_PASSIVE;
-    m_ground_type = GROUND_NORMAL;
-    m_obsolete = 0;
+    //m_massive_type = MASS_PASSIVE;
+    //m_ground_type = GROUND_NORMAL;
+    m_obsolete = false;
 }
 
 cImage_Settings_Data::~cImage_Settings_Data(void)
@@ -53,159 +50,42 @@ cImage_Settings_Data::~cImage_Settings_Data(void)
 
 }
 
-cSize_Int cImage_Settings_Data::Get_Surface_Size(const SDL_Surface* sdl_surface) const
+void cImage_Settings_Data::Apply(cActor& actor) const
 {
-    if (!sdl_surface) {
-        return cSize_Int();
-    }
-
-    // check if texture needs to get downscaled
-    float new_w = static_cast<float>(Get_Power_of_2(sdl_surface->w));
-    float new_h = static_cast<float>(Get_Power_of_2(sdl_surface->h));
-
-    // if image settings dimension
     if (m_width > 0 && m_height > 0) {
-        /* downscale to fit best for the current resolution
-         * uses the first dimension which is not smaller as the default scale
-        */
-        while (new_w * 0.5f > m_width * global_upscalex && new_h * 0.5f > m_height * global_upscaley) {
-            new_w *= 0.5f;
-            new_h *= 0.5f;
-        }
-
-        // if texture detail below low
-        if (pVideo->m_texture_quality < 0.25f) {
-            // half size only if texture size is high
-            if (new_w * 0.8f > m_width * global_upscalex && new_h * 0.8f > m_height * global_upscaley) {
-                new_w *= 0.5f;
-                new_h *= 0.5f;
-            }
-        }
+        actor.Set_Dimensions(m_width, m_height);
     }
 
-    return cSize_Int(new_w, new_h);
-}
-
-void cImage_Settings_Data::Apply(cGL_Surface* image) const
-{
-    // empty image
-    if (!image) {
-        cerr << "Error : surface for base " << path_to_utf8(m_base) << " does not exist" << endl;
-        return;
-    }
-
-    image->m_int_x = static_cast<float>(m_int_x);
-    image->m_int_y = static_cast<float>(m_int_y);
-
-    if (m_width > 0) {
-        image->m_start_w = static_cast<float>(m_width);
-        image->m_w = image->m_start_w;
-        image->m_col_w = image->m_w;
-    }
-
-    if (m_height > 0) {
-        image->m_start_h = static_cast<float>(m_height);
-        image->m_h = image->m_start_h;
-        image->m_col_h = image->m_h;
-    }
-
-    if (m_col_rect.m_w > 0.0f && m_col_rect.m_h > 0.0f) {
-        // position
-        image->m_col_pos.m_x = m_col_rect.m_x;
-        image->m_col_pos.m_y = m_col_rect.m_y;
-        // dimension
-        image->m_col_w = m_col_rect.m_w;
-        image->m_col_h = m_col_rect.m_h;
+    if (m_col_rect.width > 0.0f && m_col_rect.height > 0.0f) {
+        actor.Set_Collision_Rect(sf::FloatRect(m_col_rect.left, m_col_rect.top, m_col_rect.width, m_col_rect.height));
     }
 
     if (m_rotation_x != 0) {
-        image->m_base_rot_x = static_cast<float>(m_rotation_x);
-
-        //image->m_col_pos = image->m_col_pos.rotate3d( image->base_rotx, 1, 0, 0 );
-        // mirror
-        if (image->m_base_rot_x == 180.0f) {
-            image->m_col_pos.m_y = image->m_h - (image->m_col_h + image->m_col_pos.m_y);
-        }
+        std::cerr << "X mirror not implemented" << std::endl;
     }
 
     if (m_rotation_y != 0) {
-        image->m_base_rot_y = static_cast<float>(m_rotation_y);
-
-        //image->m_col_pos = image->m_col_pos.rotate3d( image->base_roty, 0, 1, 0 );
-        // mirror
-        if (image->m_base_rot_y == 180.0f) {
-            image->m_col_pos.m_x = image->m_w - (image->m_col_w + image->m_col_pos.m_x);
-        }
+        std::cerr << "Y mirror not implemented" << std::endl;
     }
 
     if (m_rotation_z != 0) {
-        image->m_base_rot_z = static_cast<float>(m_rotation_z);
-
-        //image->m_col_pos = image->m_col_pos.rotate3d( image->m_base_rot_z, 0, 0, 1 );
-
-        if (image->m_base_rot_z == 90.0f) {
-            // rotate position
-            GL_point pos(image->m_int_x, image->m_int_y);
-            pos = pos.rotate(GL_point(image->m_w * 0.5f, image->m_h * 0.5f), image->m_base_rot_z);
-            image->m_int_x = pos.m_y;
-            image->m_int_y = pos.m_x - image->m_h;
-            // rotate collision position
-            float orig_x = image->m_col_pos.m_x;
-            image->m_col_pos.m_x = image->m_h - (image->m_col_h + image->m_col_pos.m_y);
-            image->m_col_pos.m_y = orig_x;
-
-            // switch width and height
-            float orig_w = image->m_w;
-            image->m_w = image->m_h;
-            image->m_h = orig_w;
-            // switch collision width and height
-            float orig_col_w = image->m_col_w;
-            image->m_col_w = image->m_col_h;
-            image->m_col_h = orig_col_w;
-        }
-        // mirror
-        else if (image->m_base_rot_z == 180.0f) {
-            image->m_col_pos.m_x = image->m_w - (image->m_col_w + image->m_col_pos.m_x);
-            image->m_col_pos.m_y = image->m_h - (image->m_col_h + image->m_col_pos.m_y);
-        }
-        else if (image->m_base_rot_z == 270.0f) {
-            // rotate position
-            GL_point pos(image->m_int_x, image->m_int_y);
-            pos = pos.rotate(GL_point(image->m_w * 0.5f, image->m_h * 0.5f), image->m_base_rot_z);
-            image->m_int_x = pos.m_y - image->m_w;
-            image->m_int_y = pos.m_x;
-            // rotate collision position
-            float orig_x = image->m_col_pos.m_x;
-            image->m_col_pos.m_x = image->m_col_pos.m_y;
-            image->m_col_pos.m_y = orig_x;
-
-            // switch width and height
-            float orig_w = image->m_w;
-            image->m_w = image->m_h;
-            image->m_h = orig_w;
-            // switch collision width and height
-            float orig_col_w = image->m_col_w;
-            image->m_col_w = image->m_col_h;
-            image->m_col_h = orig_col_w;
-        }
-    }
-
-    if (!m_editor_tags.empty()) {
-        image->m_editor_tags = m_editor_tags;
+        actor.Get_Sprite().setRotation(m_rotation_z);
+        std::cerr << "Warning: Rotating the collision rectangle not yet implemented." << std::endl;
     }
 
     if (!m_name.empty()) {
-        image->m_name = m_name;
+        std::string name(m_name);
         // replace "_" with " "
-        string_replace_all(image->m_name, "_", " ");
+        string_replace_all(name, "_", " ");
+        actor.Set_Name(name);
     }
 
-    if (m_massive_type > 0) {
-        image->m_massive_type = m_massive_type;
-    }
+    //if (m_massive_type > 0) {
+    //    std::cerr << "Massive type not implemented" << std::endl;
+    //}
 
-    image->m_ground_type = m_ground_type;
-    image->m_obsolete = m_obsolete;
+    //image->m_ground_type = m_ground_type;
+    //image->m_obsolete = m_obsolete;
 }
 
 void cImage_Settings_Data::Apply_Base(const cImage_Settings_Data* base_settings_data)
@@ -215,8 +95,6 @@ void cImage_Settings_Data::Apply_Base(const cImage_Settings_Data* base_settings_
         m_base_settings = base_settings_data->m_base_settings;
     }
 
-    m_int_x = base_settings_data->m_int_x;
-    m_int_y = base_settings_data->m_int_y;
     m_col_rect = base_settings_data->m_col_rect;
     m_width = base_settings_data->m_width;
     m_height = base_settings_data->m_height;
@@ -226,8 +104,8 @@ void cImage_Settings_Data::Apply_Base(const cImage_Settings_Data* base_settings_
     m_mipmap = base_settings_data->m_mipmap;
     m_editor_tags = base_settings_data->m_editor_tags;
     m_name = base_settings_data->m_name;
-    m_massive_type = base_settings_data->m_massive_type;
-    m_ground_type = base_settings_data->m_ground_type;
+    //m_massive_type = base_settings_data->m_massive_type;
+    //m_ground_type = base_settings_data->m_ground_type;
     m_author = base_settings_data->m_author;
 
     // only set if this isn't obsolete
@@ -320,36 +198,6 @@ bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned in
             }
         }
     }
-    else if (parts[0].compare("int_x") == 0) {
-        if (count != 2) {
-            cerr << path_to_utf8(Trim_Filename(data_file, 0, 0)) << " : line " << line << " Error :" << endl;
-            cerr << "Error : " << parts[0] << " needs 2 parameters" << endl;
-            return 0;
-        }
-
-        if (!Is_Valid_Number(parts[1])) {
-            cerr << path_to_utf8(Trim_Filename(data_file, 0, 0)) << " : line " << line << " Error : ";
-            cerr << parts[1] << " is not a valid integer value" << endl;
-            return 0;
-        }
-
-        m_settings_temp->m_int_x = string_to_int(parts[1]);
-    }
-    else if (parts[0].compare("int_y") == 0) {
-        if (count != 2) {
-            cerr << path_to_utf8(Trim_Filename(data_file, 0, 0)) << " : line " << line << " Error :" << endl;
-            cerr << "Error : " << parts[0] << " needs 2 parameters"  << endl;
-            return 0;
-        }
-
-        if (!Is_Valid_Number(parts[1])) {
-            cerr << path_to_utf8(Trim_Filename(data_file, 0, 0)) << " : line " << line << " Error : ";
-            cerr << parts[1] << " is not a valid integer value" << endl;
-            return 0;
-        }
-
-        m_settings_temp->m_int_y = string_to_int(parts[1]);
-    }
     else if (parts[0].compare("col_rect") == 0) {
         if (count != 5) {
             cerr << path_to_utf8(Trim_Filename(data_file, 0, 0)) << " : line " << line << " Error :" << endl;
@@ -366,7 +214,7 @@ bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned in
         }
 
         // position and dimension
-        m_settings_temp->m_col_rect = GL_rect(static_cast<float>(string_to_int(parts[1])), static_cast<float>(string_to_int(parts[2])), static_cast<float>(string_to_int(parts[3])), static_cast<float>(string_to_int(parts[4])));
+        m_settings_temp->m_col_rect = sf::IntRect(string_to_int(parts[1]), string_to_int(parts[2]), string_to_int(parts[3]), string_to_int(parts[4]));
     }
     else if (parts[0].compare("width") == 0) {
         if (count != 2) {
@@ -478,7 +326,8 @@ bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned in
             return 0;
         }
 
-        m_settings_temp->m_massive_type = Get_Massive_Type_Id(parts[1]);
+        std::cerr << "type not implemented" << std::endl;
+        //m_settings_temp->m_massive_type = Get_Massive_Type_Id(parts[1]);
     }
     else if (parts[0].compare("ground_type") == 0) {
         if (count != 2) {
@@ -487,7 +336,8 @@ bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned in
             return 0;
         }
 
-        m_settings_temp->m_ground_type = Get_Ground_Type_Id(parts[1]);
+        std::cerr << "ground_type not implemented" << std::endl;
+        //m_settings_temp->m_ground_type = Get_Ground_Type_Id(parts[1]);
     }
     else if (parts[0].compare("author") == 0) {
         if (count != 2) {
@@ -529,9 +379,3 @@ bool cImage_Settings_Parser::HandleMessage(const std::string* parts, unsigned in
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-cImage_Settings_Parser* pSettingsParser = NULL;
-
-/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-} // namespace TSC

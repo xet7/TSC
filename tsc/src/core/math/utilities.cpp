@@ -14,7 +14,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../../core/math/utilities.hpp"
+#include "../global_basic.hpp"
+#include "utilities.hpp"
 
 /* non digit class
  * returns true if not a number was found

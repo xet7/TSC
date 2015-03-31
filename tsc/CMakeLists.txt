@@ -290,6 +290,7 @@ endif()
 #  "src/*.hpp")
 set(tsc_sources
   "src/core/errors.cpp"
+  "src/core/file_parser.cpp"
   "src/core/i18n.cpp"
   "src/core/main.cpp"
   "src/core/property_helper.cpp"
@@ -300,6 +301,7 @@ set(tsc_sources
   "src/core/filesystem/boost_relative.cpp"
   "src/core/filesystem/package_manager.cpp"
   "src/core/filesystem/resource_manager.cpp"
+  "src/core/math/utilities.cpp"
 
   "src/objects/actor.cpp"
 
@@ -312,6 +314,7 @@ set(tsc_sources
   "src/user/preferences.cpp"
 
   "src/video/img_manager.cpp"
+  "src/video/img_settings.cpp"
 )
 
 ###############################################

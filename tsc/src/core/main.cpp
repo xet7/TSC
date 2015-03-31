@@ -25,7 +25,6 @@
 #include "../scenes/scene.hpp"
 #include "scene_manager.hpp"
 #include "filesystem/resource_manager.hpp"
-#include "../video/img_manager.hpp"
 #include "filesystem/package_manager.hpp"
 #include "../user/preferences.hpp"
 #include "tsc_app.hpp"

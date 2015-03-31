@@ -23,11 +23,12 @@
 #include "../scenes/scene.hpp"
 #include "../core/scene_manager.hpp"
 #include "../core/filesystem/resource_manager.hpp"
-#include "../video/img_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
 #include "../core/filesystem/filesystem.hpp"
+#include "../core/file_parser.hpp"
+#include "../video/img_settings.hpp"
 #include "img_manager.hpp"
 
 using namespace TSC;
@@ -35,14 +36,29 @@ namespace fs = boost::filesystem;
 
 cImage_Manager::cImage_Manager()
 {
-    //
+    Determine_Cache_Dir();
 }
 
 cImage_Manager::~cImage_Manager()
 {
-    std::map<fs::path, sf::Texture*>::iterator iter;
-    for(iter=m_textures.begin(); iter != m_textures.end(); iter++)
+    std::map<fs::path, struct ConfiguredTexture*>::iterator iter;
+    for(iter=m_textures.begin(); iter != m_textures.end(); iter++) {
+        delete iter->second->m_settings;
+        delete iter->second->m_texture;
         delete iter->second;
+    }
+}
+
+/**
+ * Shortcut for calling:
+ *
+ * ~~~~~~~~~~~{.cpp}
+ * Get_Texture(utf8_to_path("your/path"));
+ * ~~~~~~~~~~~
+ */
+const struct cImage_Manager::ConfiguredTexture& cImage_Manager::Get_Texture_UTF8(const std::string& relpath)
+{
+    return Get_Texture(utf8_to_path(relpath));
 }
 
 /**
@@ -50,22 +66,139 @@ cImage_Manager::~cImage_Manager()
  * yet. If it has been loaded already, return it from the cache.
  *
  * \param[in] path
- * Path to load the texture from. This should be an absolute path name,
- * as it is not touched and directly handed to SFML.
+ * Path to load the texture from. This filename should be relative
+ * to the pixmaps/ directory. It will first be tried to load the
+ * image from the user’s directory (cache), then from the game’s
+ * master directory.
  *
  * \returns The corresponding SFML texture object.
  */
-sf::Texture& cImage_Manager::Get_Texture(const fs::path& path)
+const cImage_Manager::ConfiguredTexture& cImage_Manager::Get_Texture(const fs::path& relpath)
 {
-    if (m_textures.count(path)) {
-        return *m_textures[path];
+    if (m_textures.count(relpath)) {
+        return *(m_textures[relpath]);
     }
     else {
+        fs::path masterpath;
+        fs::path finalpath;
+
+        if (relpath.is_absolute()) {
+            std::cerr << "Warning: cImage_Manager::Get_Texture() received absolute path: " << path_to_utf8(relpath) << std::endl;
+            masterpath = relpath;
+            finalpath = relpath;
+        }
+        else { // Recommended usage
+            Find_Image_Pathes(relpath, masterpath, finalpath);
+        }
+
+        // TODO: Handle the cases where Find_Image_Pathes() returns a .settings file!
+
         sf::Texture* p_texture = new sf::Texture;
-        p_texture->loadFromFile(path_to_utf8(path.c_str())); // FIXME: Which encoding does SFML want here?
-        m_textures[path] = p_texture;
-        return *p_texture;
+        if (!p_texture->loadFromFile(path_to_utf8(finalpath))) { // FIXME: Which encoding does SFML want here?
+            // This can only happen if we don’t have read rights for
+            // the file or a similar problem, or if the user passed an
+            // absolute path into this method.
+            throw(std::runtime_error("Failed to load texture from file -- do you have the file access rights set correctly?"));
+        }
+
+        cImage_Settings_Data* p_settings        = Parse_Image_Settings(masterpath);
+        struct ConfiguredTexture* p_conftexture = new ConfiguredTexture;
+        p_conftexture->m_texture                = p_texture;
+        p_conftexture->m_settings               = p_settings;
+
+        m_textures[relpath] = p_conftexture;
+        return *p_conftexture;
     }
+}
+
+/**
+ * Digs out the master path for the given relative image path,
+ * which is either a user or a game file. If it’s a game file,
+ * also digs out the path to the cached variant of that file.
+ * If no cached variant is found, both `masterpath` and `cachepath`
+ * are set to the same path (the master file). User files never
+ * get cached, hence `masterpath` and `cachepath` are equal for
+ * those always.
+ *
+ * Either of the two returned pathes may be a `.settings` file, but
+ * if the `masterpath` isn’t, then the `cachepath` is neither.
+ */
+void cImage_Manager::Find_Image_Pathes(const fs::path& relpath, fs::path& masterpath, fs::path& cachepath)
+{
+    // Ask the package manager for the master path. This even
+    // works if no package is active, because it then searches
+    // the main game and the user directories anyway.
+    masterpath = gp_app->Get_PackageManager().Get_Pixmap_Reading_Path(path_to_utf8(relpath));
+
+    // Ok, file found. Don’t try to load it directly, but use the scaled
+    // version from the image cache if possible.
+    if (!masterpath.empty()) {
+        /* The package manager may find both game-supplied files or user-supplied files.
+         * User-supplied files are never cached, so don’t attempt to look in the cache
+         * for them. Game files MAY be cached, but don’t have to be. As the package
+         * manager always returns absolute pathes, determining the relative path of
+         * a user file relative to the game pixmaps directory is going to have a result
+         * starting with several "../" elements at the beginning, whereas for real game
+         * files this will not be the case. By checking for "..", we can thus find out
+         * whether the package manager gave us a user or a game file. For the game file,
+         * we then can check for the cached version. */
+        // FIXME: This fails in the unlikely case the user installs TSC into the
+        // user data directory, e.g. as ~/.local/share/tsc. But then you’ve got
+        // other problems probably.
+        // FIXME: relpath is given as an argument to this method already. The Package
+        // Manager should be rewritten to allow user/game file checking separately.
+        fs::path gamedir       = gp_app->Get_ResourceManager().Get_Game_Data_Directory();
+        fs::path relativepath = fs::relative(gamedir, masterpath);
+
+        // User file?
+        if ((*relativepath.begin()) == fs::path("..")) {
+            // Will never be cached, so don’t look in the cache.
+            cachepath = masterpath;
+        }
+        else {
+            // Game file. May have a cached version.
+            cachepath = m_cache_dir / relativepath;
+
+            // If we have a cached version: Use that. Otherwise use the unscaled master file.
+            if (!fs::exists(cachepath)) {
+                cachepath = masterpath;
+            }
+        }
+    }
+    else {
+        // Maybe use a dummy texture instead of crashing?
+        throw(std::runtime_error("Requested texture not found!")); // TODO: Proper exception
+    }
+}
+
+/**
+ * Takes an absolute path to a PNG file, and reads and parses the
+ * corresponding SETTINGS file, which is assumed to reside in
+ * the same directory with the same name with the extension `.settings`
+ * instead of `.png`. Returns the parsed result, which must be `delete`d
+ * by the caller.
+ */
+cImage_Settings_Data* cImage_Manager::Parse_Image_Settings(fs::path masterfile)
+{
+    cImage_Settings_Parser parser;
+    return parser.Get(masterfile.replace_extension(utf8_to_path(".settings")));
+}
+
+/**
+ * Using the current preferences, determine the location of the image
+ * cache. Call this after changing resolutions, because the image cache
+ * directory contains the current resolution in its directory name.
+ *
+ * This is automatically called when constructing the object as well, so
+ * you don’t have to manually do that then.
+ */
+void cImage_Manager::Determine_Cache_Dir()
+{
+    std::stringstream ss;
+    cPreferences& prefs = gp_app->Get_Preferences();
+
+    ss << prefs.m_video_screen_w << "x" << prefs.m_video_screen_h;
+    m_cache_dir = gp_app->Get_ResourceManager().Get_User_Imgcache_Directory() / utf8_to_path(ss.str());
 }
 
 /**
@@ -76,6 +209,8 @@ sf::Texture& cImage_Manager::Get_Texture(const fs::path& path)
  *
  * Requires the global `gp_app` pointer, so don’t call this before
  * it isn’t set up.
+ *
+ * TODO: Currently unused.
  */
 void cImage_Manager::Preload_Textures(std::function<void (unsigned int files_done, unsigned int files_total)> cb)
 {

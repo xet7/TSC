@@ -16,8 +16,6 @@
 #ifndef TSC_FILE_PARSER_HPP
 #define TSC_FILE_PARSER_HPP
 
-#include "../core/global_game.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** *** *** *** cFile_parser *** *** *** *** *** *** *** *** *** */

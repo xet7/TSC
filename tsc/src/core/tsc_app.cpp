@@ -37,7 +37,6 @@ cApp::~cApp()
 {
     delete mp_scene_manager;
     delete mp_package_manager;
-    delete mp_image_manager;
     delete mp_resource_manager;
     delete mp_preferences;
     delete mp_renderwindow;
@@ -56,7 +55,6 @@ void cApp::Init_Managers()
     mp_resource_manager = new cResource_Manager();
     mp_resource_manager->Init_User_Directory();
 
-    mp_image_manager = new cImage_Manager();
     mp_package_manager = new cPackage_Manager(*mp_resource_manager);
     mp_scene_manager = new cSceneManager();
 }
@@ -91,11 +89,6 @@ int cApp::Run()
 {
     // Set default package
     mp_package_manager->Set_Current_Package(mp_preferences->m_package);
-
-    // Preload often used textures
-    mp_image_manager->Preload_Textures(
-        [](unsigned int files_done, unsigned int files_total){ /* Nothing right now */ }
-    );
 
     // Always start with the start menu scene
     cMenuScene* p_menuscene = new cMenuScene();
