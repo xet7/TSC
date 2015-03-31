@@ -21,6 +21,7 @@ namespace TSC {
         const char* TITLE_MUSIC = "game/menu.ogg";
 
         void on_handle_key_released(sf::Event& evt);
+        void on_handle_return_released(sf::Event& evt);
 
         std::vector<sf::Sprite> m_menu_items;
         sf::Texture m_menuitem_start_texture;

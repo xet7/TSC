@@ -130,6 +130,8 @@ void cMenuScene::on_handle_key_released(sf::Event& evt)
         if (m_selected_item_id < 0)
             m_selected_item_id = 0;
         break;
+    case sf::Keyboard::Return:
+        on_handle_return_released(evt);
     default:
         break;
     }
@@ -137,4 +139,24 @@ void cMenuScene::on_handle_key_released(sf::Event& evt)
     std::vector<sf::Sprite>::iterator iter;
     for(iter=m_menu_items.begin(); iter != m_menu_items.end(); iter++)
         iter->setScale(MIN_SCALE, MIN_SCALE);
+}
+
+void cMenuScene::on_handle_return_released(sf::Event& evt)
+{
+    switch (m_selected_item_id) {
+    case 0:
+        break;
+    case 1:
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    case 4:
+        gp_app->Get_SceneManager().End_Play();
+        break;
+    default:
+        std::cerr << "Warning: Invalid menu index " << m_selected_item_id << "." << std::endl;
+        break;
+    }
 }
