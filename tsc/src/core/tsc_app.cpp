@@ -45,7 +45,7 @@ cApp::~cApp()
 void cApp::Init_SFML()
 {
     debug_print("Initializing SFML.\n");
-    mp_renderwindow = new sf::RenderWindow(sf::VideoMode(1024, 768), CAPTION);
+    mp_renderwindow = new sf::RenderWindow(sf::VideoMode(mp_preferences->m_video_screen_w, mp_preferences->m_video_screen_h), CAPTION);
 }
 
 void cApp::Init_Managers()
