@@ -26,9 +26,9 @@ cApp::cApp()
     // init random number generator
     srand(static_cast<unsigned int>(time(NULL)));
 
-    Init_SFML();
     Init_Managers();
     Init_User_Preferences();
+    Init_SFML();
     Init_I18N();
     Init_CEGUI();
 }
