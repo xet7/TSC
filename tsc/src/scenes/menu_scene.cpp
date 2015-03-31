@@ -37,7 +37,13 @@ cMenuScene::cMenuScene()
     m_menu_items[3].setTexture(m_menuitem_save_texture);
     m_menu_items[4].setTexture(m_menuitem_quit_texture);
 
-    int x = calc_center_startx(100);
+    m_menu_items[0].setOrigin(m_menu_items[0].getLocalBounds().width / 2.0f, m_menu_items[0].getLocalBounds().height / 2.0f);
+    m_menu_items[1].setOrigin(m_menu_items[1].getLocalBounds().width / 2.0f, m_menu_items[1].getLocalBounds().height / 2.0f);
+    m_menu_items[2].setOrigin(m_menu_items[2].getLocalBounds().width / 2.0f, m_menu_items[2].getLocalBounds().height / 2.0f);
+    m_menu_items[3].setOrigin(m_menu_items[3].getLocalBounds().width / 2.0f, m_menu_items[3].getLocalBounds().height / 2.0f);
+    m_menu_items[4].setOrigin(m_menu_items[4].getLocalBounds().width / 2.0f, m_menu_items[4].getLocalBounds().height / 2.0f);
+
+    int x = gp_app->Get_Preferences().m_video_screen_w / 2;
     m_menu_items[0].setPosition(sf::Vector2f(x, 100));
     m_menu_items[1].setPosition(sf::Vector2f(x, 200));
     m_menu_items[2].setPosition(sf::Vector2f(x, 300));
@@ -131,14 +137,4 @@ void cMenuScene::on_handle_key_released(sf::Event& evt)
     std::vector<sf::Sprite>::iterator iter;
     for(iter=m_menu_items.begin(); iter != m_menu_items.end(); iter++)
         iter->setScale(MIN_SCALE, MIN_SCALE);
-}
-
-/**
- * Returns the start X position for centering an object of the given
- * width on the current window.
- */
-int cMenuScene::calc_center_startx(int width)
-{
-    int screenwidth = gp_app->Get_Preferences().m_video_screen_w;
-    return (screenwidth - width) / 2;
 }

@@ -20,7 +20,6 @@ namespace TSC {
         const float MIN_SCALE = 0.1953f;
         const char* TITLE_MUSIC = "game/menu.ogg";
 
-        int calc_center_startx(int width);
         void on_handle_key_released(sf::Event& evt);
 
         std::vector<sf::Sprite> m_menu_items;
