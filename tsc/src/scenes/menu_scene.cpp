@@ -18,43 +18,24 @@ using namespace TSC;
 
 cMenuScene::cMenuScene()
 {
-    m_menuitem_start_texture.loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/start.png").native());
-    m_menuitem_options_texture.loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/options.png").native());
-    m_menuitem_load_texture.loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/load.png").native());
-    m_menuitem_save_texture.loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/save.png").native());
-    m_menuitem_quit_texture.loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/quit.png").native());
-    m_menuitem_start_texture.setSmooth(true);
-    m_menuitem_options_texture.setSmooth(true);
-    m_menuitem_load_texture.setSmooth(true);
-    m_menuitem_save_texture.setSmooth(true);
-    m_menuitem_quit_texture.setSmooth(true);
-
+    m_menu_textures.resize(MENUITEM_COUNT);
     m_menu_items.resize(MENUITEM_COUNT);
 
-    m_menu_items[0].setTexture(m_menuitem_start_texture);
-    m_menu_items[1].setTexture(m_menuitem_options_texture);
-    m_menu_items[2].setTexture(m_menuitem_load_texture);
-    m_menu_items[3].setTexture(m_menuitem_save_texture);
-    m_menu_items[4].setTexture(m_menuitem_quit_texture);
-
-    m_menu_items[0].setOrigin(m_menu_items[0].getLocalBounds().width / 2.0f, m_menu_items[0].getLocalBounds().height / 2.0f);
-    m_menu_items[1].setOrigin(m_menu_items[1].getLocalBounds().width / 2.0f, m_menu_items[1].getLocalBounds().height / 2.0f);
-    m_menu_items[2].setOrigin(m_menu_items[2].getLocalBounds().width / 2.0f, m_menu_items[2].getLocalBounds().height / 2.0f);
-    m_menu_items[3].setOrigin(m_menu_items[3].getLocalBounds().width / 2.0f, m_menu_items[3].getLocalBounds().height / 2.0f);
-    m_menu_items[4].setOrigin(m_menu_items[4].getLocalBounds().width / 2.0f, m_menu_items[4].getLocalBounds().height / 2.0f);
+    m_menu_textures[0].loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/start.png").native());
+    m_menu_textures[1].loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/options.png").native());
+    m_menu_textures[2].loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/load.png").native());
+    m_menu_textures[3].loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/save.png").native());
+    m_menu_textures[4].loadFromFile(gp_app->Get_ResourceManager().Get_Game_Pixmap("menu/quit.png").native());
 
     int x = gp_app->Get_Preferences().m_video_screen_w / 2;
-    m_menu_items[0].setPosition(sf::Vector2f(x, 100));
-    m_menu_items[1].setPosition(sf::Vector2f(x, 200));
-    m_menu_items[2].setPosition(sf::Vector2f(x, 300));
-    m_menu_items[3].setPosition(sf::Vector2f(x, 400));
-    m_menu_items[4].setPosition(sf::Vector2f(x, 500));
+    for(int i=0; i < 5; i++) {
+        m_menu_textures[i].setSmooth(true);
 
-    m_menu_items[0].setScale(MIN_SCALE, MIN_SCALE);
-    m_menu_items[1].setScale(MIN_SCALE, MIN_SCALE);
-    m_menu_items[2].setScale(MIN_SCALE, MIN_SCALE);
-    m_menu_items[3].setScale(MIN_SCALE, MIN_SCALE);
-    m_menu_items[4].setScale(MIN_SCALE, MIN_SCALE);
+        m_menu_items[i].setTexture(m_menu_textures[i]);
+        m_menu_items[i].setOrigin(m_menu_items[i].getLocalBounds().width / 2.0f, m_menu_items[i].getLocalBounds().height / 2.0f);
+        m_menu_items[i].setPosition(sf::Vector2f(x, 100 * (i + 1)));
+        m_menu_items[i].setScale(MIN_SCALE, MIN_SCALE);
+    }
 
     m_titlemusic.openFromFile(gp_app->Get_ResourceManager().Get_Game_Music(TITLE_MUSIC).native());
     m_titlemusic.setLoop(true);

@@ -24,11 +24,7 @@ namespace TSC {
         void on_handle_return_released(sf::Event& evt);
 
         std::vector<sf::Sprite> m_menu_items;
-        sf::Texture m_menuitem_start_texture;
-        sf::Texture m_menuitem_options_texture;
-        sf::Texture m_menuitem_load_texture;
-        sf::Texture m_menuitem_save_texture;
-        sf::Texture m_menuitem_quit_texture;
+        std::vector<sf::Texture> m_menu_textures;
         sf::Music m_titlemusic;
         int m_selected_item_id;
         float m_scale_factor;
