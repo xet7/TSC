@@ -21,7 +21,6 @@
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
 #include "../scenes/scene.hpp"
-#include "../scenes/menu_scene.hpp"
 #include "scene_manager.hpp"
 #include "filesystem/resource_manager.hpp"
 #include "../video/img_manager.hpp"
