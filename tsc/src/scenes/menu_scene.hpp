@@ -15,8 +15,10 @@ namespace TSC {
         virtual void Update();
         virtual void Draw(sf::RenderWindow& stage);
     protected:
-        //sf::Sprite m_menuitem_start;
-        //sf::Sprite m_menuitem_quit;
+        sf::Sprite m_menuitem_start;
+        sf::Sprite m_menuitem_quit;
+        sf::Texture m_menuitem_start_texture;
+        sf::Texture m_menuitem_quit_texture;
     };
 
 }
