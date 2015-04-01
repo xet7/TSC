@@ -94,12 +94,14 @@ void cApp::Init_CEGUI()
     std::string fonts_path      = path_to_utf8(mp_resource_manager->Get_Gui_Font_Directory());
     std::string looknfeels_path = path_to_utf8(mp_resource_manager->Get_Gui_LookNFeel_Directory());
     std::string layouts_path    = path_to_utf8(mp_resource_manager->Get_Gui_Layout_Directory());
+    std::string logfile_path    = path_to_utf8(mp_resource_manager->Get_User_CEGUI_Logfile());
 
     std::cout << "CEGUI schemes path:    " << schemes_path << std::endl;
     std::cout << "CEGUI imagesets path:  " << imagesets_path << std::endl;
     std::cout << "CEGUI fonts path:      " << fonts_path << std::endl;
     std::cout << "CEGUI looknfeels path: " << looknfeels_path << std::endl;
     std::cout << "CEGUI layouts path:    " << layouts_path << std::endl;
+    std::cout << "CEGUI logfile path:    " << logfile_path << std::endl;
 
     // Define some groups (names are freeform) that map to certain directories.
     CEGUI::DefaultResourceProvider* p_provider = new CEGUI::DefaultResourceProvider(); // Memory is going to be managed by CEGUI::System below
@@ -110,7 +112,12 @@ void cApp::Init_CEGUI()
     p_provider->setResourceGroupDirectory("layouts", layouts_path);
 
     // Central CEGUI System singleton
-    mp_cegui_system = &CEGUI::System::create(*mp_cegui_renderer, p_provider); // TODO: Logfile; it’s currently created in the current working directory.
+#ifdef _WIN32
+    // Fails on Win32 with Unicode pathnames (user name!) if CEGUI is not explicitely told the path is UTF-8.
+    mp_cegui_system = &CEGUI::System::create(*mp_cegui_renderer, p_provider, NULL, NULL, NULL, "", (const CEGUI::utf8*)logfile_path.c_str());
+#else
+    mp_cegui_system = &CEGUI::System::create(*mp_cegui_renderer, p_provider, NULL, NULL, NULL, "", logfile_path);
+#endif
 
     // Tell CEGUI which groups to use from those we defined above.
     CEGUI::Scheme::setDefaultResourceGroup("schemes");
