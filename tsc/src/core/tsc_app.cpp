@@ -84,9 +84,11 @@ void cApp::Init_CEGUI()
 {
     debug_print("Initializing CEGUI.\n");
 
+    // CEGUI Renderer. We always use OpenGL on any platform.
     mp_cegui_renderer = &CEGUI::OpenGLRenderer::create(CEGUI::Size(mp_preferences->m_video_screen_w, mp_preferences->m_video_screen_h));
     mp_cegui_renderer->enableExtraStateSettings(true);
 
+    // CEGUI resource pathes.
     std::string schemes_path    = path_to_utf8(mp_resource_manager->Get_Gui_Scheme_Directory());
     std::string imagesets_path  = path_to_utf8(mp_resource_manager->Get_Gui_Imageset_Directory());
     std::string fonts_path      = path_to_utf8(mp_resource_manager->Get_Gui_Font_Directory());
@@ -99,21 +101,18 @@ void cApp::Init_CEGUI()
     std::cout << "CEGUI looknfeels path: " << looknfeels_path << std::endl;
     std::cout << "CEGUI layouts path:    " << layouts_path << std::endl;
 
-    CEGUI::DefaultResourceProvider* p_provider = new CEGUI::DefaultResourceProvider();
+    // Define some groups (names are freeform) that map to certain directories.
+    CEGUI::DefaultResourceProvider* p_provider = new CEGUI::DefaultResourceProvider(); // Memory is going to be managed by CEGUI::System below
     p_provider->setResourceGroupDirectory("schemes", schemes_path);
     p_provider->setResourceGroupDirectory("imagesets", imagesets_path);
     p_provider->setResourceGroupDirectory("fonts", fonts_path);
     p_provider->setResourceGroupDirectory("looknfeels", looknfeels_path);
     p_provider->setResourceGroupDirectory("layouts", layouts_path);
 
-    sf::Vector2i mousepos = sf::Mouse::getPosition(*mp_renderwindow);
-    CEGUI::MouseCursor::setInitialMousePosition(CEGUI::Point(mousepos.x, mousepos.y));
+    // Central CEGUI System singleton
+    mp_cegui_system = &CEGUI::System::create(*mp_cegui_renderer, p_provider); // TODO: Logfile; it’s currently created in the current working directory.
 
-    // add custom widgets
-    // CEGUI::WindowFactoryManager::addFactor<CEGUI::TSC_SpinnerFactory>();
-    mp_cegui_system = &CEGUI::System::create(*mp_cegui_renderer, p_provider); // TODO: Logfile
-
-    // Tell CEGUI which groups to use from those we defined above
+    // Tell CEGUI which groups to use from those we defined above.
     CEGUI::Scheme::setDefaultResourceGroup("schemes");
     CEGUI::Imageset::setDefaultResourceGroup("imagesets");
     CEGUI::Font::setDefaultResourceGroup("fonts");
@@ -125,15 +124,24 @@ void cApp::Init_CEGUI()
 
     // default mouse cursor
     mp_cegui_system->setDefaultMouseCursor("TaharezLook", "MouseArrow");
-    // force new mouse image
-    CEGUI::MouseCursor::getSingleton().setImage(&CEGUI::ImagesetManager::getSingleton().get("TaharezLook").getImage("MouseArrow"));
+    // force new mouse image. Without this, the mouse cursor does not appear
+    // right at program startup (though it immediately appears when you move
+    // the mouse). I don’t think this is a problem, and the API used is unofficial,
+    // so I (Quintus) commented this out from the original SMC code.
+    //CEGUI::MouseCursor::getSingleton().setImage(&CEGUI::ImagesetManager::getSingleton().get("TaharezLook").getImage("MouseArrow"));
     // default tooltip
     mp_cegui_system->setDefaultTooltip("TaharezLook/Tooltip");
+
+    // add custom widgets
+    // CEGUI::WindowFactoryManager::addFactor<CEGUI::TSC_SpinnerFactory>();
 
     // create default root window
     CEGUI::Window* p_rootwindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("default.layout");
     mp_cegui_system->setGUISheet(p_rootwindow);
     p_rootwindow->activate();
+
+    sf::Vector2i mousepos = sf::Mouse::getPosition(*mp_renderwindow);
+    CEGUI::MouseCursor::setInitialMousePosition(CEGUI::Point(mousepos.x, mousepos.y));
 }
 
 /**
