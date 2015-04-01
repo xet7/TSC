@@ -94,6 +94,12 @@ void cSceneManager::Play(sf::RenderWindow& stage)
 /**
  * Global events that apply to any scene. Returns true if this
  * method handled the event, false otherwise.
+ *
+ * Note that this handler especially forwards all relevant events
+ * to CEGUI. If CEGUI reacts on an event, this method will return
+ * true, otherwise false.
+ *
+ *  It does react on some other things as well, though.
  */
 bool cSceneManager::Handle_Global_Event(sf::Event& evt)
 {
@@ -101,6 +107,30 @@ bool cSceneManager::Handle_Global_Event(sf::Event& evt)
     case sf::Event::Closed: // Window received QUIT event
         m_end_play = true;
         return true;
+    case sf::Event::MouseMoved:
+        return CEGUI::System::getSingleton().injectMousePosition(evt.mouseMove.x, evt.mouseMove.y);
+    case sf::Event::MouseButtonPressed:
+        switch(evt.mouseButton.button) {
+        case sf::Mouse::Left:
+            return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
+        case sf::Mouse::Middle:
+            return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
+        case sf::Mouse::Right:
+            return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+        default:
+            return false;
+        }
+    case sf::Event::MouseButtonReleased:
+        switch(evt.mouseButton.button) {
+        case sf::Mouse::Left:
+            return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
+        case sf::Mouse::Middle:
+            return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
+        case sf::Mouse::Right:
+            return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
+        default:
+            return false;
+        }
     default:
         return false;
     }

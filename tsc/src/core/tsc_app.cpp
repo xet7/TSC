@@ -46,6 +46,9 @@ void cApp::Init_SFML()
 {
     debug_print("Initializing SFML.\n");
     mp_renderwindow = new sf::RenderWindow(sf::VideoMode(mp_preferences->m_video_screen_w, mp_preferences->m_video_screen_h), CAPTION);
+
+    // Hide the system mouse cursor. CEGUI draws a custom one for us.
+    mp_renderwindow->setMouseCursorVisible(false);
 }
 
 void cApp::Init_Managers()
