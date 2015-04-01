@@ -49,6 +49,11 @@ void cSceneManager::Play(sf::RenderWindow& stage)
 {
     // Main loop
     while (!m_end_play) {
+        // Measure time needed per mainloop iteration (= per frame)
+        m_mainloop_elapsed_time = m_game_clock.restart();
+        CEGUI::System::getSingleton().injectTimePulse(m_mainloop_elapsed_time.asSeconds());
+
+        // Get scene on top of the stack.
         cScene* p_current_scene = m_scenes_stack.top();
 
         /* Event handling. Poll all events from SFML, and then ask
@@ -70,6 +75,9 @@ void cSceneManager::Play(sf::RenderWindow& stage)
 
         // Draw the current scene into the back buffer
         p_current_scene->Draw(stage);
+
+        // Render CEGUI on top of it
+        CEGUI::System::getSingleton().renderGUI();
 
         // Show it
         stage.display();

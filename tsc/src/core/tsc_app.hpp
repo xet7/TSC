@@ -55,6 +55,8 @@ namespace TSC {
         cPreferences* mp_preferences;
 
         sf::RenderWindow* mp_renderwindow;
+        CEGUI::OpenGLRenderer* mp_cegui_renderer;
+        CEGUI::System* mp_cegui_system;
     };
 
     /**
