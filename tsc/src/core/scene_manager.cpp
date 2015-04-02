@@ -106,35 +106,83 @@ void cSceneManager::Play(sf::RenderWindow& stage)
  */
 bool cSceneManager::Handle_Global_Event(sf::Event& evt)
 {
+    CEGUI::System& cegui = CEGUI::System::getSingleton();
+
     switch (evt.type) {
     case sf::Event::Closed: // Window received QUIT event
         m_end_play = true;
         return true;
     case sf::Event::MouseMoved:
-        return CEGUI::System::getSingleton().injectMousePosition(evt.mouseMove.x, evt.mouseMove.y);
+        return cegui.injectMousePosition(evt.mouseMove.x, evt.mouseMove.y);
     case sf::Event::MouseButtonPressed:
         switch(evt.mouseButton.button) {
         case sf::Mouse::Left:
-            return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
+            return cegui.injectMouseButtonDown(CEGUI::LeftButton);
         case sf::Mouse::Middle:
-            return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
+            return cegui.injectMouseButtonDown(CEGUI::MiddleButton);
         case sf::Mouse::Right:
-            return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+            return cegui.injectMouseButtonDown(CEGUI::RightButton);
         default:
             return false;
         }
     case sf::Event::MouseButtonReleased:
         switch(evt.mouseButton.button) {
         case sf::Mouse::Left:
-            return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
+            return cegui.injectMouseButtonUp(CEGUI::LeftButton);
         case sf::Mouse::Middle:
-            return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
+            return cegui.injectMouseButtonUp(CEGUI::MiddleButton);
         case sf::Mouse::Right:
-            return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
+            return cegui.injectMouseButtonUp(CEGUI::RightButton);
         default:
             return false;
         }
+    case sf::Event::TextEntered:
+        return cegui.injectChar(evt.text.unicode);
+    case sf::Event::KeyPressed:
+        return cegui.injectKeyDown(SFMLKey2CEGUIKey(evt.key.code));
+    case sf::Event::KeyReleased:
+        return cegui.injectKeyUp(SFMLKey2CEGUIKey(evt.key.code));
     default:
         return false;
+    }
+}
+
+unsigned int cSceneManager::SFMLKey2CEGUIKey(const sf::Keyboard::Key& key)
+{
+    switch(key) {
+    case sf::Keyboard::Return:
+        return CEGUI::Key::Return;
+    case sf::Keyboard::BackSpace:
+        return CEGUI::Key::Backspace;
+    case sf::Keyboard::Tab:
+        return CEGUI::Key::Tab;
+    case sf::Keyboard::Escape:
+        return CEGUI::Key::Escape;
+    case sf::Keyboard::LControl:
+        return CEGUI::Key::LeftControl;
+    case sf::Keyboard::RControl:
+        return CEGUI::Key::RightControl;
+    case sf::Keyboard::LAlt:
+        return CEGUI::Key::LeftAlt;
+    case sf::Keyboard::RAlt:
+        return CEGUI::Key::RightAlt;
+    case sf::Keyboard::LShift:
+        return CEGUI::Key::LeftShift;
+    case sf::Keyboard::RShift:
+        return CEGUI::Key::RightShift;
+    case sf::Keyboard::Up:
+        return CEGUI::Key::ArrowUp;
+    case sf::Keyboard::Down:
+        return CEGUI::Key::ArrowDown;
+    case sf::Keyboard::Right:
+        return CEGUI::Key::ArrowRight;
+    case sf::Keyboard::Left:
+        return CEGUI::Key::ArrowLeft;
+    case sf::Keyboard::PageUp:
+        return CEGUI::Key::PageUp;
+    case sf::Keyboard::PageDown:
+        return CEGUI::Key::PageDown;
+    default:
+        return 0; // Ignore
     }
 }

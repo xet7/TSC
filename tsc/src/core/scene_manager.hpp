@@ -30,6 +30,7 @@ namespace TSC {
         inline const sf::Time& Get_Mainloop_Elapsed_Time(){return m_mainloop_elapsed_time;}
     private:
         bool Handle_Global_Event(sf::Event& evt);
+        unsigned int SFMLKey2CEGUIKey(const sf::Keyboard::Key& key);
 
         std::stack<cScene*> m_scenes_stack;
         sf::Clock m_game_clock;
