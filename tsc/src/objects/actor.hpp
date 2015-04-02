@@ -8,6 +8,19 @@ namespace TSC {
      * elements such as the HUD.
      *
      * This is an abstract class that is intended to be subclassed.
+     * Actors are invisible by default, thus only defined by their
+     * collision rectangle. If you want a visible actor, you have
+     * to use some drawable entity inside your class, e.g. an sf::Sprite.
+     * See the implementation of cStaticActor for an example of this.
+     *
+     * Each actor has a collision rectangle that gets transformed when
+     * you make use of SFML’s sf::Transformable interface. Use
+     * Get_Transformed_Collision_Rect() to obtain the resulting
+     * collision rectangle; to retrieve the unmodified rectangle,
+     * use Get_Collision_Rect(). Note that setting the collision
+     * rectangle with Set_Collision_Rect() always sets the collision
+     * rectangle prior to any transformation, so you can’t e.g. manually
+     * set the collision rectangle of a rotated sprite.
      *
      * Note this class inherits from [sf::Transformable](http://www.sfml-dev.org/documentation/2.2/classsf_1_1Transformable.php).
      */

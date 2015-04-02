@@ -16,3 +16,10 @@ cStaticActor::~cStaticActor()
 {
     //
 }
+
+void cStaticActor::Draw(sf::RenderWindow& stage) const
+{
+    cActor::Draw(stage);
+
+    stage.draw(m_sprite, getTransform());
+}
