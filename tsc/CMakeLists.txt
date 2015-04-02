@@ -305,10 +305,13 @@ set(tsc_sources
 
   "src/gui/spinner.cpp"
 
+  "src/level/level.cpp"
+
   "src/objects/actor.cpp"
   "src/objects/static_actor.cpp"
 
   "src/scenes/scene.cpp"
+  "src/scenes/level_scene.cpp"
   "src/scenes/menu_scene.cpp"
 
   "src/scripting/scriptable_object.cpp"
