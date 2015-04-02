@@ -78,6 +78,9 @@ namespace TSC {
         // Create user paths
         void Init_User_Paths(void);
 
+        // Find a level in the current package.
+        boost::filesystem::path Find_Level(const std::string& name);
+
         // Return the path of the current package's data
         boost::filesystem::path Get_User_Data_Path(void);
         boost::filesystem::path Get_Game_Data_Path(void);

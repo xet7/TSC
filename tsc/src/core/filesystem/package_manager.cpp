@@ -215,6 +215,55 @@ fs::path cPackage_Manager :: Get_Game_Level_Path(void)
     return Get_Game_Data_Path() / utf8_to_path("levels");
 }
 
+/**
+ * Searches for a level with the given name in the following directories:
+ *
+ * 1. User level directory in package
+ * 2. Game level directory in package
+ * 3. General User level directory
+ * 4. General Game level directory
+ *
+ * If a level of the given filename is found, returns an absolute boost
+ * filesystem path to it. If such a level is not found, returns an
+ * empty boost::filesystem::path.
+ *
+ * \param[in] name
+ * Level file stem, e.g. "lvl_1". Note this does *not* include any
+ * directory path nor a file extension.
+ *
+ * \returns boost::filesystem::path pointing to the level file or empty
+ * path.
+ *
+ * TODO: Compatibility code for file extensions other than .tsclvl.
+ */
+fs::path cPackage_Manager :: Find_Level(const std::string& name)
+{
+    // 1. User level directory in package (err, what’s that?)
+    fs::path result = Get_User_Level_Path() / utf8_to_path(name + ".tsclvl");
+    if (fs::exists(result))
+        return result;
+
+    // 2. Game level directory in package
+    result = Get_Game_Level_Path() / utf8_to_path(name + ".tsclvl");
+    if (fs::exists(result))
+        return result;
+
+    // 3. General User level directory
+    // Should not be required as Build_Search_Path() has it anyway?
+    result = gp_app->Get_ResourceManager().Get_User_Level_Directory() / utf8_to_path(name + ".tsclvl");
+    if (fs::exists(result))
+        return result;
+
+    // 4. General Game level directory
+    // Should not be required as Build_Search_Path() has it anyway?
+    result = gp_app->Get_ResourceManager().Get_Game_Level_Directory() / utf8_to_path(name + ".tsclvl");
+    if (fs::exists(result))
+        return result;
+
+    // Not found
+    return fs::path();
+}
+
 fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
 {
     // determine level for the menu
