@@ -76,7 +76,10 @@ void cSceneManager::Play(sf::RenderWindow& stage)
         // Draw the current scene into the back buffer
         p_current_scene->Draw(stage);
 
-        // Render CEGUI on top of it
+        // Render CEGUI on top of it. CEGUI must always use the default view
+        // without any zooming or other things applied! It’s directly tied
+        // to the window, and has nothing to do with a level or so.
+        stage.setView(stage.getDefaultView());
         CEGUI::System::getSingleton().renderGUI();
 
         // Show it
