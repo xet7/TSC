@@ -20,6 +20,7 @@ namespace TSC {
         void Draw(sf::RenderWindow& stage) const;
 
         inline std::string Name() const {return path_to_utf8(m_levelfile.stem());}
+        void Sort_Z_Elements();
 
     private:
         cLevel(); // Private constructor

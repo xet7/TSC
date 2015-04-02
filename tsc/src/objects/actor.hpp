@@ -27,6 +27,22 @@ namespace TSC {
     class cActor: public Scripting::cScriptable_Object, public sf::Transformable
     {
     public:
+
+        /**
+         * Type defining the main Z layer positions. The `m_pos_z` of an
+         * actor is added to this. You should only access representatives
+         * of this type via the `ZLAYER_*` constants.
+         */
+        typedef float ZLayer;
+
+        const ZLayer ZLAYER_PASSIVE      = 0.01f;     //< Minimum Z position for passive objects.
+        const ZLayer ZLAYER_HALFMASSIVE  = 0.04f;     //< Minimum Z position for half-massive objects.
+        const ZLayer ZLAYER_CLIMBABLE    = 0.05f;     //< Minimum Z position for climbable objects.
+        const ZLayer ZLAYER_MASSIVE      = 0.08f;     //< Minimum Z position for massive objects.
+        const ZLayer ZLAYER_PLAYER       = 0.0999f;   //< Z position of the level player.
+        const ZLayer ZLAYER_FRONTPASSIVE = 0.10f;     //< Minimum Z position for front-passive objects.
+        const ZLayer ZLAYER_POS_DELTA    = 0.000001f; //< Minimum Z step.
+
         cActor();
         virtual ~cActor();
 
@@ -41,12 +57,16 @@ namespace TSC {
         bool Does_Collide(const sf::Vector2f& other_point) const;
         bool Does_Collide(const cActor& other_actor) const;
 
+        float Z() const;
+
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
     protected:
 
         sf::FloatRect m_collision_rect;
         std::string m_name;
+        float m_pos_z;
+        ZLayer m_z_layer;
     };
 
 }

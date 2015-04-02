@@ -33,6 +33,7 @@ cLevel* cLevel::Construct_Debugging_Level()
     cLevel* p_level = new cLevel();
     p_level->m_levelfile = utf8_to_path("/tmp/debugging.tsclvl");
 
+    p_level->Sort_Z_Elements();
     return p_level;
 }
 #endif
@@ -106,4 +107,20 @@ void cLevel::Draw(sf::RenderWindow& stage) const
     std::vector<cActor*>::const_iterator actiter;
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         (*actiter)->Draw(stage);
+}
+
+/**
+ * Sort the actors and the backgrounds by their Z coordinates.
+ *
+ * \notice This is a very performance-intense operation that may
+ * completely reorder the two arrays. Do not call this more often
+ * than necessary, especially not once per frame!.
+ *
+ * TODO: Background are not yet sorted by this.
+ */
+void cLevel::Sort_Z_Elements()
+{
+    std::sort(m_actors.begin(), m_actors.end(), [] (const cActor* p_a, const cActor* p_b) {
+            return p_a->Z() < p_b->Z();
+        });
 }
