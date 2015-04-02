@@ -9,6 +9,10 @@ namespace TSC {
     public:
         static cLevel* Load_From_File(boost::filesystem::path levelfile);
 
+#ifdef _DEBUG
+        static cLevel* Construct_Debugging_Level();
+#endif
+
         cLevel(boost::filesystem::path levelfile);
         ~cLevel();
 

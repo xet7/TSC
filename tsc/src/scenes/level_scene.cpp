@@ -18,7 +18,7 @@ namespace fs = boost::filesystem;
 
 cLevelScene::cLevelScene(const std::string& startlevel)
 {
-    Add_Level(new cLevel(utf8_to_path("/tmp/testlevel.tsclvl")));
+    Add_Level(cLevel::Construct_Debugging_Level());
 }
 
 cLevelScene::~cLevelScene()

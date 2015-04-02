@@ -27,6 +27,16 @@ cLevel* cLevel::Load_From_File(fs::path levelfile)
     return NULL;
 }
 
+#ifdef _DEBUG
+cLevel* cLevel::Construct_Debugging_Level()
+{
+    cLevel* p_level = new cLevel();
+    p_level->m_levelfile = utf8_to_path("/tmp/debugging.tsclvl");
+
+    return p_level;
+}
+#endif
+
 /**
  * Create a new and empty level. Does NOT load levels from level files,
  * use the Load_From_File() static member function for that. Use
