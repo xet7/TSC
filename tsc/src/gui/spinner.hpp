@@ -17,8 +17,6 @@
 #ifndef TSC_SPINNER_HPP
 #define TSC_SPINNER_HPP
 
-#include "../core/global_basic.hpp"
-
 namespace CEGUI {
 
     /* *** *** *** *** *** *** *** *** TSC_Spinner *** *** *** *** *** *** *** *** *** */

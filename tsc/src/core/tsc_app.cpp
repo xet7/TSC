@@ -13,6 +13,7 @@
 #include "filesystem/package_manager.hpp"
 #include "i18n.hpp"
 #include "../user/preferences.hpp"
+#include "../gui/spinner.hpp"
 #include "tsc_app.hpp"
 
 TSC::cApp* TSC::gp_app = NULL;
@@ -140,7 +141,7 @@ void cApp::Init_CEGUI()
     mp_cegui_system->setDefaultTooltip("TaharezLook/Tooltip");
 
     // add custom widgets
-    // CEGUI::WindowFactoryManager::addFactor<CEGUI::TSC_SpinnerFactory>();
+    CEGUI::WindowFactoryManager::addFactory<CEGUI::TSC_SpinnerFactory>();
 
     // create default root window
     CEGUI::Window* p_rootwindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("default.layout");

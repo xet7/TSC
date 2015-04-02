@@ -303,6 +303,8 @@ set(tsc_sources
   "src/core/filesystem/resource_manager.cpp"
   "src/core/math/utilities.cpp"
 
+  "src/gui/spinner.cpp"
+
   "src/objects/actor.cpp"
 
   "src/scenes/scene.cpp"

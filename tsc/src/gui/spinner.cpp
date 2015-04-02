@@ -14,8 +14,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../gui/spinner.hpp"
-#include "../core/game_core.hpp"
+#include "../core/global_basic.hpp"
+#include "../core/property_helper.hpp"
+#include "spinner.hpp"
 
 namespace CEGUI {
 
