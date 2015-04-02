@@ -14,6 +14,7 @@ namespace TSC {
         virtual void Handle_Event(sf::Event& evt);
         virtual void Update();
         virtual void Draw(sf::RenderWindow& stage);
+        virtual std::string Name() const;
     protected:
         const int MENUITEM_COUNT = 5;
         const float MAX_SCALE = 0.25f;

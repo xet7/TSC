@@ -18,7 +18,7 @@ namespace fs = boost::filesystem;
 
 cLevelScene::cLevelScene(const std::string& startlevel)
 {
-    Add_Level(startlevel);
+    Add_Level(new cLevel(utf8_to_path("/tmp/testlevel.tsclvl")));
 }
 
 cLevelScene::~cLevelScene()
@@ -48,6 +48,11 @@ void cLevelScene::Draw(sf::RenderWindow& stage)
 
     // Draw the HUD
     // TODO
+}
+
+std::string cLevelScene::Name() const
+{
+    return "LevelScene";
 }
 
 /**

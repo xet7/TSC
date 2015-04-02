@@ -17,6 +17,7 @@ cSceneManager::cSceneManager()
  */
 void cSceneManager::Push_Scene(cScene* p_scene)
 {
+    debug_print("Pushing scene: %s\n", p_scene->Name().c_str());
     m_scenes_stack.push(p_scene);
 }
 
@@ -31,6 +32,8 @@ cScene* cSceneManager::Pop_Scene()
 {
     cScene* p_scene = m_scenes_stack.top();
     m_scenes_stack.pop();
+
+    debug_print("Popping scene: %s\n", p_scene->Name().c_str());
 
     if (m_scenes_stack.empty())
         m_end_play = true;

@@ -11,7 +11,9 @@
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
 #include "../objects/actor.hpp"
+#include "../level/level.hpp"
 #include "scene.hpp"
+#include "level_scene.hpp"
 #include "menu_scene.hpp"
 
 using namespace TSC;
@@ -95,6 +97,11 @@ void cMenuScene::Draw(sf::RenderWindow& stage)
         stage.draw(*iter);
 }
 
+std::string cMenuScene::Name() const
+{
+    return "MenuScene";
+}
+
 void cMenuScene::on_handle_key_released(sf::Event& evt)
 {
     switch (evt.key.code) {
@@ -126,6 +133,7 @@ void cMenuScene::on_handle_return_released(sf::Event& evt)
 {
     switch (m_selected_item_id) {
     case 0:
+        gp_app->Get_SceneManager().Push_Scene(new cLevelScene("testlevel"));
         break;
     case 1:
         break;
