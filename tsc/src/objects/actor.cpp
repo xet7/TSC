@@ -32,7 +32,7 @@ void cActor::Update()
 /**
  * Draw this actor onto the given window.
  */
-void cActor::Draw(RenderTarget& stage)
+void cActor::Draw(sf::RenderWindow& stage) const
 {
     // Virtual
 }
@@ -58,7 +58,7 @@ sf::FloatRect cActor::Get_Transformed_Collision_Rect() const
  */
 bool cActor::Does_Collide(const sf::FloatRect& other_rect) const
 {
-    return Get_Transformed_CollisionRect().intersects(other_rect);
+    return Get_Transformed_Collision_Rect().intersects(other_rect);
 }
 
 /**
