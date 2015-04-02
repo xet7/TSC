@@ -20,6 +20,7 @@
 #include "../core/math/utilities.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
+#include "../objects/static_actor.hpp"
 #include "../core/file_parser.hpp"
 #include "img_settings.hpp"
 
@@ -50,10 +51,13 @@ cImage_Settings_Data::~cImage_Settings_Data(void)
 
 }
 
-void cImage_Settings_Data::Apply(cActor& actor) const
+// TODO: Do not use cStaticActor, define an intermediate class for sf::Sprite-based
+// actors.
+void cImage_Settings_Data::Apply(cStaticActor& actor) const
 {
     if (m_width > 0 && m_height > 0) {
-        actor.Set_Dimensions(m_width, m_height);
+        std::cerr << "Width/Height not implemented" << std::endl;
+        //actor.Set_Dimensions(m_width, m_height); // TODO
     }
 
     if (m_col_rect.width > 0.0f && m_col_rect.height > 0.0f) {
@@ -69,7 +73,7 @@ void cImage_Settings_Data::Apply(cActor& actor) const
     }
 
     if (m_rotation_z != 0) {
-        actor.Get_Sprite().setRotation(m_rotation_z);
+        actor.setRotation(m_rotation_z);
         std::cerr << "Warning: Rotating the collision rectangle not yet implemented." << std::endl;
     }
 

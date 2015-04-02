@@ -27,7 +27,7 @@ namespace TSC {
         ~cImage_Settings_Data(void);
 
         // Apply settings to an image
-        void Apply(cActor& actor) const;
+        void Apply(cStaticActor& actor) const;
         // Apply base settings
         void Apply_Base(const cImage_Settings_Data* base_settings_data);
 

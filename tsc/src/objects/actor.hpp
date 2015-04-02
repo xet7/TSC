@@ -24,7 +24,7 @@ namespace TSC {
      *
      * Note this class inherits from [sf::Transformable](http://www.sfml-dev.org/documentation/2.2/classsf_1_1Transformable.php).
      */
-    class cActor: public Scripting::cScriptable_Object, sf::Transformable
+    class cActor: public Scripting::cScriptable_Object, public sf::Transformable
     {
     public:
         cActor();

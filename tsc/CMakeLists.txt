@@ -306,6 +306,7 @@ set(tsc_sources
   "src/gui/spinner.cpp"
 
   "src/objects/actor.cpp"
+  "src/objects/static_actor.cpp"
 
   "src/scenes/scene.cpp"
   "src/scenes/menu_scene.cpp"

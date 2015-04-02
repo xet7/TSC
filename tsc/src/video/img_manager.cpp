@@ -20,6 +20,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
+#include "../objects/static_actor.hpp"
 #include "../scenes/scene.hpp"
 #include "../core/scene_manager.hpp"
 #include "../core/filesystem/resource_manager.hpp"

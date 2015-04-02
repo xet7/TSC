@@ -6,7 +6,7 @@
 using namespace TSC;
 namespace fs = boost::filesystem;
 
-cStaticActor::cStaticActor(std::string texture_path)
+cStaticActor::cStaticActor(fs::path texture_path)
 {
     // Get Level manager, retrieve its Image manager, get the texture and
     // the settings, apply.
