@@ -31,7 +31,11 @@ namespace TSC {
         sf::Vector2f m_player_startpos;
         sf::FloatRect m_camera_limits;
 
-        std::vector<cActor*> m_actors;
+        /// Invisible actors that do not need drawing execpt in editor mode.
+        std::vector<cActor*> m_nodraw_actors;
+        /// Normal actors drawn during regular gameplay.
+        std::vector<cSpriteActor*> m_normal_actors;
+        /// Level backgrounds.
         std::vector<sf::Sprite*> m_backgrounds;
     };
 

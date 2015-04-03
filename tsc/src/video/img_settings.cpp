@@ -20,7 +20,7 @@
 #include "../core/math/utilities.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
-#include "../objects/static_actor.hpp"
+#include "../objects/sprite_actor.hpp"
 #include "../core/file_parser.hpp"
 #include "img_settings.hpp"
 
@@ -51,9 +51,7 @@ cImage_Settings_Data::~cImage_Settings_Data(void)
 
 }
 
-// TODO: Do not use cStaticActor, define an intermediate class for sf::Sprite-based
-// actors.
-void cImage_Settings_Data::Apply(cStaticActor& actor) const
+void cImage_Settings_Data::Apply(cSpriteActor& actor) const
 {
     if (m_width > 0 && m_height > 0) {
         std::cerr << "Width/Height not implemented" << std::endl;

@@ -4,6 +4,7 @@
 #include "../core/xml_attributes.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
+#include "../objects/sprite_actor.hpp"
 #include "../level/level.hpp"
 #include "scene.hpp"
 #include "../core/scene_manager.hpp"

@@ -11,6 +11,7 @@
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
 #include "../objects/actor.hpp"
+#include "../objects/sprite_actor.hpp"
 #include "../level/level.hpp"
 #include "scene.hpp"
 #include "level_scene.hpp"

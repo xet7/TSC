@@ -2,6 +2,7 @@
 #include "../core/property_helper.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
+#include "../objects/sprite_actor.hpp"
 #include "level.hpp"
 
 using namespace TSC;
@@ -70,8 +71,12 @@ cLevel::~cLevel()
         delete *bgiter;
 
     std::vector<cActor*>::iterator actiter;
-    for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
+    for(actiter=m_nodraw_actors.begin(); actiter != m_nodraw_actors.end(); actiter++)
         delete *actiter;
+
+    std::vector<cSpriteActor*>::iterator spactiter;
+    for(spactiter=m_normal_actors.begin(); spactiter != m_normal_actors.end(); spactiter++)
+        delete *spactiter;
 }
 
 /**
@@ -91,9 +96,15 @@ void cLevel::Init()
 
 void cLevel::Update()
 {
-    std::vector<cActor*>::iterator iter;
-    for(iter=m_actors.begin(); iter != m_actors.end(); iter++)
-        (*iter)->Update();
+    // Update the invisible actors
+    std::vector<cActor*>::iterator actiter;
+    for(actiter=m_nodraw_actors.begin(); actiter != m_nodraw_actors.end(); actiter++)
+        (*actiter)->Update();
+
+    // Update the visible actors
+    std::vector<cSpriteActor*>::iterator spactiter;
+    for(spactiter=m_normal_actors.begin(); spactiter != m_normal_actors.end(); spactiter++)
+        (*spactiter)->Update();
 }
 
 void cLevel::Draw(sf::RenderWindow& stage) const
@@ -103,10 +114,12 @@ void cLevel::Draw(sf::RenderWindow& stage) const
     for(bgiter=m_backgrounds.begin(); bgiter != m_backgrounds.end(); bgiter++)
         stage.draw(**bgiter);
 
-    // 2. Draw the actors in the level
-    std::vector<cActor*>::const_iterator actiter;
-    for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
-        (*actiter)->Draw(stage);
+    // 2. Draw the actors in the level. Note that invisible actors
+    // obviously don’t need drawing, so we only iterate m_normal_actors
+    // here and not m_nodraw_actors.
+    std::vector<cSpriteActor*>::const_iterator spactiter;
+    for(spactiter=m_normal_actors.begin(); spactiter != m_normal_actors.end(); spactiter++)
+        (*spactiter)->Draw(stage);
 }
 
 /**
@@ -120,7 +133,9 @@ void cLevel::Draw(sf::RenderWindow& stage) const
  */
 void cLevel::Sort_Z_Elements()
 {
-    std::sort(m_actors.begin(), m_actors.end(), [] (const cActor* p_a, const cActor* p_b) {
+    std::sort(m_normal_actors.begin(), m_normal_actors.end(), [] (const cSpriteActor* p_a, const cSpriteActor* p_b) {
             return p_a->Z() < p_b->Z();
         });
+    // Invisible elements do not have a Z coordinate and are only drawn in the editor
+    // (and therein after all other actors, so no problem).
 }
