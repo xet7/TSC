@@ -262,18 +262,6 @@ namespace TSC {
         TYPE_HUD_INFOMESSAGE = 66
     };
 
-    /* *** Massive Types *** */
-// Massive types primaryly define the Z coordinate of a sprite.
-// Collision checking is done with the array types below.
-
-    enum MassiveType {
-        MASS_PASSIVE = 0,
-        MASS_MASSIVE = 1,
-        MASS_HALFMASSIVE = 2,
-        MASS_CLIMBABLE = 3,
-        MASS_FRONT_PASSIVE = 4
-    };
-
     /* *** Ground Types *** */
 
     enum GroundType {
