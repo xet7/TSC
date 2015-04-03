@@ -1,5 +1,18 @@
 #include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../core/errors.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../core/math/utilities.hpp"
 #include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "../core/scene_manager.hpp"
+#include "../core/filesystem/resource_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "../core/filesystem/package_manager.hpp"
+#include "../user/preferences.hpp"
+#include "../core/tsc_app.hpp"
 #include "actor.hpp"
 
 using namespace TSC;
@@ -76,7 +89,7 @@ void cActor::Update()
 void cActor::Update_Gravity()
 {
     // Shortcut if this object is not subject to gravity at all
-    if (Is_Float_Equal(m_gravity_Factor, 0.0f))
+    if (Is_Float_Equal(m_gravity_factor, 0.0f))
         return;
     // Shortcut if we stand on a ground object and can’t even fall.
     if (mp_ground_object)
@@ -117,43 +130,43 @@ void cActor::Draw(sf::RenderWindow& stage) const
 /**
  * Accelerate in → direction.
  */
-void Accelerate_X(const float deltax, bool real = false)
+void cActor::Accelerate_X(const float& deltax, bool real /* = false */)
 {
     if (real) {
         m_velocity.x += deltax;
     }
     else {
-        m_velocity.x += deltax * TODO_SPEEDFACTOR;
+        m_velocity.x += deltax * gp_app->Get_SceneManager().Get_Framerate();
     }
 }
 
 /**
  * Accelerate in Y direction.
  */
-void Accelerate_Y(const float deltay, bool real = false)
+void cActor::Accelerate_Y(const float& deltay, bool real /* = false */)
 {
     if (real) {
         m_velocity.y += deltay;
     }
     else {
-        m_velocity.y += deltay * TODO_SPEEDFACTOR;
+        m_velocity.y += deltay * gp_app->Get_SceneManager().Get_Framerate();
     }
 }
 
 /**
  * Accelerate in → and ↓ direction. If `real` is true, does not multiply
- * these values with the current speed factor (which is done otherwise
+ * these values with the current framerate (which is done otherwise
  * to have it look more realistic).
  */
-void Accelerate_XY(const float deltax, deltay, bool real = false)
+void cActor::Accelerate_XY(const float& deltax, const float& deltay, bool real /* = false */)
 {
     if (real) {
         m_velocity.x += deltax;
         m_velocity.y += deltay;
     }
     else {
-        m_velocity.x += deltax * TODO_SPEEDFACTOR;
-        m_velocity.y += deltay * TODO_SPEEDFACTOR;
+        m_velocity.x += deltax * gp_app->Get_SceneManager().Get_Framerate();
+        m_velocity.y += deltay * gp_app->Get_SceneManager().Get_Framerate();
     }
 }
 

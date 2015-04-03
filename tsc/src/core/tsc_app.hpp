@@ -43,14 +43,14 @@ namespace TSC {
          * g’s value is 1.5 px/frame², which means that for each frame,
          * an object falling down accelerates by 1.5px/frame.
          */
-        const float G = 1.5f;
+        static const float G;
 
         /**
          * Maximum velocity any falling object can reach in TSC.
          * This simulates air resistance. See the G constant for
          * a more thorough explanation.
          */
-        const float VMAXFALLING = 25.0f;
+        static const float VMAXFALLING;
 
         cApp();
         ~cApp();

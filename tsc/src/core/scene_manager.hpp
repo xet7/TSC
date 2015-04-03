@@ -26,15 +26,16 @@ namespace TSC {
         inline cScene& Current_Scene(){return *m_scenes_stack.top();}
         inline void End_Play(){m_end_play = true;}
 
-        inline const sf::Clock& Get_Game_Clock(){return m_game_clock;}
-        inline const sf::Time& Get_Mainloop_Elapsed_Time(){return m_mainloop_elapsed_time;}
+        inline float Get_Framerate() const {return m_framerate;}
+        inline unsigned int Get_FPS() const {return m_frames_counted;}
     private:
         bool Handle_Global_Event(sf::Event& evt);
         unsigned int SFMLKey2CEGUIKey(const sf::Keyboard::Key& key);
 
         std::stack<cScene*> m_scenes_stack;
         sf::Clock m_game_clock;
-        sf::Time m_mainloop_elapsed_time;
+        float m_framerate;
+        unsigned int m_frames_counted;
         bool m_end_play;
     };
 

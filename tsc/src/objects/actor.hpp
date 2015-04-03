@@ -77,14 +77,15 @@ namespace TSC {
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
 
-        void Accelerate_X(const float deltax, bool real = false);
-        void Accelerate_Y(const float deltay, bool real = false);
-        void Accelerate_XY(const float deltax, deltay, bool real = false);
+        void Accelerate_X(const float& deltax, bool real = false);
+        void Accelerate_Y(const float& deltay, bool real = false);
+        void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
         float Z() const;
     protected:
         virtual void Update();
         void Update_Gravity();
+        void Update_Position();
 
         sf::FloatRect m_collision_rect;
         std::string m_name;

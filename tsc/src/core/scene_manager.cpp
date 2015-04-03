@@ -9,6 +9,7 @@ using namespace TSC;
 cSceneManager::cSceneManager()
 {
     m_end_play = false;
+    m_frames_counted = 0;
 }
 
 /**
@@ -51,10 +52,22 @@ cScene* cSceneManager::Pop_Scene()
 void cSceneManager::Play(sf::RenderWindow& stage)
 {
     // Main loop
+    float total_elapsed_time = 0.0f;
+    float elapsed_time       = 0.0f;
     while (!m_end_play) {
-        // Measure time needed per mainloop iteration (= per frame)
-        m_mainloop_elapsed_time = m_game_clock.restart();
-        CEGUI::System::getSingleton().injectTimePulse(m_mainloop_elapsed_time.asSeconds());
+        // Measure time we needed for this frame
+        elapsed_time = m_game_clock.restart().asSeconds();
+
+        // Calculate the framerate, i.e. the amount of frames we can do per second.
+        total_elapsed_time += elapsed_time;
+        if (total_elapsed_time >= 1.0f) {
+            m_framerate = m_frames_counted / total_elapsed_time;
+            m_frames_counted = 0;
+            total_elapsed_time = 0.0f;
+        }
+        m_frames_counted++;
+
+        CEGUI::System::getSingleton().injectTimePulse(elapsed_time);
 
         // Get scene on top of the stack.
         cScene* p_current_scene = m_scenes_stack.top();
