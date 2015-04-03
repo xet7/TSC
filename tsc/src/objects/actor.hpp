@@ -30,7 +30,8 @@ namespace TSC {
         /**
          * Type defining the main Z layer positions. The `m_pos_z` of an
          * actor is added to this. You should only access representatives
-         * of this type via the `ZLAYER_*` constants.
+         * of this type via the `ZLAYER_*` constants. See cActor::Z() for
+         * a thorough explanation of Z coordinate handling.
          */
         typedef float ZLayer;
 
