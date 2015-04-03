@@ -43,6 +43,20 @@ namespace TSC {
         const ZLayer ZLAYER_FRONTPASSIVE = 0.10f;     //< Minimum Z position for front-passive objects.
         const ZLayer ZLAYER_POS_DELTA    = 0.000001f; //< Minimum Z step.
 
+        /**
+         * Determines how the actor behaves in the collision detection
+         * mechanism.
+         **/
+        enum CollisionType {
+            COLTYPE_MASSIVE = 1,
+            COLTYPE_PASSIVE,
+            COLTYPE_ENEMY,
+            COLTYPE_ACTIVE,
+            COLTYPE_ANIM,
+            COLTYPE_PLAYER,
+            COLTYPE_LAVA
+        };
+
         cActor();
         virtual ~cActor();
 
@@ -57,6 +71,9 @@ namespace TSC {
         bool Does_Collide(const sf::Vector2f& other_point) const;
         bool Does_Collide(const cActor& other_actor) const;
 
+        inline void Set_Collision_Type(enum CollisionType coltype){m_coltype = coltype;}
+        inline enum CollisionType Get_Collision_Type() const {return m_coltype;}
+
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
 
@@ -66,6 +83,7 @@ namespace TSC {
         sf::FloatRect m_collision_rect;
         std::string m_name;
 
+        enum CollisionType m_coltype;
         float m_pos_z;
         ZLayer m_z_layer;
     };

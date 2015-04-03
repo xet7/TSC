@@ -22,6 +22,10 @@ cActor::cActor()
      * visible, you want to obviously adjust these values. */
     m_pos_z = 999.99;
     m_z_layer = ZLAYER_FRONTPASSIVE;
+
+    // Invisible objects should not hinder gameplay by default, subclasses
+    // of invisible objecta can of course behave different (e.g. cEnemyStopper).
+    m_coltype = COLTYPE_PASSIVE;
 }
 
 cActor::~cActor()
