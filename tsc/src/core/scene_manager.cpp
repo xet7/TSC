@@ -1,7 +1,20 @@
 #include "global_basic.hpp"
+#include "global_game.hpp"
+#include "errors.hpp"
+#include "property_helper.hpp"
+#include "xml_attributes.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
 #include "../scenes/scene.hpp"
+#include "../scenes/menu_scene.hpp"
+#include "scene_manager.hpp"
+#include "filesystem/resource_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "filesystem/package_manager.hpp"
+#include "i18n.hpp"
+#include "../user/preferences.hpp"
+#include "../gui/spinner.hpp"
+#include "tsc_app.hpp"
 #include "scene_manager.hpp"
 
 using namespace TSC;
@@ -51,9 +64,17 @@ cScene* cSceneManager::Pop_Scene()
  */
 void cSceneManager::Play(sf::RenderWindow& stage)
 {
+    // TODO: Move framerate into HUD
+    m_framerate_textfont.loadFromFile(path_to_utf8(gp_app->Get_ResourceManager().Get_Gui_Font("default.ttf")));
+    m_framerate_text.setFont(m_framerate_textfont);
+    m_framerate_text.setCharacterSize(24);
+    m_framerate_text.setColor(sf::Color::Yellow);
+    m_framerate_text.setString("FPS: 0");
+
     // Main loop
     float total_elapsed_time = 0.0f;
     float elapsed_time       = 0.0f;
+    char fps_text[16];
     while (!m_end_play) {
         // Measure time we needed for this frame
         elapsed_time = m_game_clock.restart().asSeconds();
@@ -61,6 +82,9 @@ void cSceneManager::Play(sf::RenderWindow& stage)
         // Calculate the framerate, i.e. the amount of frames we can do per second.
         total_elapsed_time += elapsed_time;
         if (total_elapsed_time >= 1.0f) {
+            sprintf(fps_text, "FPS: %d", m_frames_counted);
+            m_framerate_text.setString(fps_text);
+
             m_framerate = m_frames_counted / total_elapsed_time;
             m_frames_counted = 0;
             total_elapsed_time = 0.0f;
@@ -91,6 +115,9 @@ void cSceneManager::Play(sf::RenderWindow& stage)
 
         // Draw the current scene into the back buffer
         p_current_scene->Draw(stage);
+
+        // Show framerate
+        stage.draw(m_framerate_text);
 
         // Render CEGUI on top of it. CEGUI must always use the default view
         // without any zooming or other things applied! It’s directly tied

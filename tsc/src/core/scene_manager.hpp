@@ -37,6 +37,9 @@ namespace TSC {
         float m_framerate;
         unsigned int m_frames_counted;
         bool m_end_play;
+
+        sf::Text m_framerate_text;
+        sf::Font m_framerate_textfont;
     };
 
 }

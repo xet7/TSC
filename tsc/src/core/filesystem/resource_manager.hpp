@@ -73,6 +73,7 @@ namespace TSC {
         boost::filesystem::path Get_Gui_Font_Directory() const;
         boost::filesystem::path Get_Gui_LookNFeel_Directory() const;
         boost::filesystem::path Get_Gui_Layout_Directory() const;
+        boost::filesystem::path Get_Gui_Font(std::string fontname) const;
 
         // Get files from the various uncached unwritable game directories
         boost::filesystem::path Get_Game_Pixmap(std::string pixmap) const;
