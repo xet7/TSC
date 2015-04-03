@@ -16,8 +16,12 @@ cActor::cActor()
 
     m_name = "(Unnamed actor)";
 
-    m_pos_z = 0;
-    m_z_layer = ZLAYER_PASSIVE;
+    /* Invisible actors must be drawn at the very front in editor
+     * mode. In ordinary gameplay, the Draw() function does nothing,
+     * so these high values don’t hurt. In subclasses that are
+     * visible, you want to obviously adjust these values. */
+    m_pos_z = 999.99;
+    m_z_layer = ZLAYER_FRONTPASSIVE;
 }
 
 cActor::~cActor()
