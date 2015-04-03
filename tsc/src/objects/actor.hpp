@@ -60,7 +60,7 @@ namespace TSC {
         cActor();
         virtual ~cActor();
 
-        virtual void Update();
+        void Do_Update();
         virtual void Draw(sf::RenderWindow& stage) const;
 
         inline void Set_Collision_Rect(sf::FloatRect rect){m_collision_rect = rect;}
@@ -77,11 +77,21 @@ namespace TSC {
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
 
+        void Accelerate_X(const float deltax, bool real = false);
+        void Accelerate_Y(const float deltay, bool real = false);
+        void Accelerate_XY(const float deltax, deltay, bool real = false);
+
         float Z() const;
     protected:
+        virtual void Update();
+        void Update_Gravity();
 
         sf::FloatRect m_collision_rect;
         std::string m_name;
+
+        float m_gravity_factor;   //< Mass simulation factor.
+        cActor* mp_ground_object; //< Do we stand on something, and if so, on what?
+        sf::Vector2f m_velocity;  //< Velocity in → and ↓ direction.
 
         enum CollisionType m_coltype;
         float m_pos_z;

@@ -26,6 +26,10 @@ cActor::cActor()
     // Invisible objects should not hinder gameplay by default, subclasses
     // of invisible objecta can of course behave different (e.g. cEnemyStopper).
     m_coltype = COLTYPE_PASSIVE;
+
+    // By default, invisible objects are not subject to gravity.
+    m_gravity_factor = 0;
+    mp_ground_object = NULL;
 }
 
 cActor::~cActor()
@@ -33,11 +37,73 @@ cActor::~cActor()
 }
 
 /**
- * Update this actor for the upcoming frame drawing.
+ * Method for initiating the actor’s update. This method does the following
+ * things:
+ *
+ * 1. Call Update_Gravity()
+ * 2. Call Update(), the virtual function you override in your subclasses.
+ * 3. Call Update_Position()
+ *
+ * This method is not intended to be overridden, override Update() instead.
+ */
+void cActor::Do_Update()
+{
+    Update_Gravity();
+    Update();
+    Update_Position();
+}
+
+/**
+ * Update this actor for the upcoming frame drawing. By default, this
+ * does nothing. Override it in your subclasses. Note the position
+ * in the update chain where this is called. This position is explained
+ * in Do_Update(), but note especially that the actor’s velocity is set
+ * according to the gravity for this frame, but not applied yet so that
+ * you can modify it to your likening. *After* this method returns,
+ * position updating happens.
  */
 void cActor::Update()
 {
     // Virtual
+}
+
+/**
+ * Calculate and apply the gravity effect on this object, increasing
+ * its vertical downwards velocity if it doesn’t stand on a colliding
+ * object. This method does not change the object’s actual positioning,
+ * this is left to Update_Position().
+ */
+void cActor::Update_Gravity()
+{
+    // Shortcut if this object is not subject to gravity at all
+    if (Is_Float_Equal(m_gravity_Factor, 0.0f))
+        return;
+    // Shortcut if we stand on a ground object and can’t even fall.
+    if (mp_ground_object)
+        return;
+
+    // Calculate the objects velocity by multiplying it’s "mass" with the
+    // global gravity acceleration, then increment the Y velocity accordingly.
+    float a = cApp::G * m_gravity_factor;
+    Accelerate_Y(a);
+
+    // "Aerial resistance" stops incrementing of the falling velocity some time.
+    if (m_velocity.y > cApp::VMAXFALLING)
+        m_velocity.y = cApp::VMAXFALLING;
+}
+
+/**
+ * Apply the velocity found in `m_velocity` without any restrictions, moving
+ * the actor visibily on the screen (when it’s drawn next time).
+ */
+void cActor::Update_Position()
+{
+    // Shortcut if nothing to do
+    if (m_velocity.x == 0 && m_velocity.y == 0)
+        return;
+
+    // SFML transformation
+    move(m_velocity);
 }
 
 /**
@@ -48,6 +114,48 @@ void cActor::Draw(sf::RenderWindow& stage) const
     // Virtual
 }
 
+/**
+ * Accelerate in → direction.
+ */
+void Accelerate_X(const float deltax, bool real = false)
+{
+    if (real) {
+        m_velocity.x += deltax;
+    }
+    else {
+        m_velocity.x += deltax * TODO_SPEEDFACTOR;
+    }
+}
+
+/**
+ * Accelerate in Y direction.
+ */
+void Accelerate_Y(const float deltay, bool real = false)
+{
+    if (real) {
+        m_velocity.y += deltay;
+    }
+    else {
+        m_velocity.y += deltay * TODO_SPEEDFACTOR;
+    }
+}
+
+/**
+ * Accelerate in → and ↓ direction. If `real` is true, does not multiply
+ * these values with the current speed factor (which is done otherwise
+ * to have it look more realistic).
+ */
+void Accelerate_XY(const float deltax, deltay, bool real = false)
+{
+    if (real) {
+        m_velocity.x += deltax;
+        m_velocity.y += deltay;
+    }
+    else {
+        m_velocity.x += deltax * TODO_SPEEDFACTOR;
+        m_velocity.y += deltay * TODO_SPEEDFACTOR;
+    }
+}
 
 /**
  * Retrieves the collision rect how it looks after being transformed.
