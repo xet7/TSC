@@ -388,41 +388,11 @@ namespace TSC {
 
     /* *** Classes *** */
 
-    class cCamera;
-    class cCircle_Request;
-    class cEditor_Object_Settings_Item;
-    class cGL_Surface;
-    class cGradient_Request;
-    class cImage_Settings_Data;
-    class cLayer_Line_Point_Start;
     class cLevel;
-    class cLine_collision;
-    class cLine_Request;
-    class cLevel_Settings;
-    class cMenu_Base;
-    class cObjectCollisionType;
-    class cObjectCollision;
-    class cOverworld;
-    class cOverworld_Player;
-    class cParticle_Emitter;
-    class cPath;
-    class cPath_State;
-    class cRect_Request;
-    class cSave_Level_Object;
-    class cSaved_Texture;
-    class cSize_Float;
-    class cSize_Int;
-    class cSprite_Manager;
-    class cSurface_Request;
-    class cSprite;
-    class cBackground_Manager;
-    class cWorld_Sprite_Manager;
-    class Color;
-    class GL_rect;
-    class GL_line;
-    class GL_point;
-    class cLevelLoader;
-    class XmlAttributes;
+    class cSceneManager;
+    class cResource_Manager;
+    class cPackage_Manager;
+    class cPreferences;
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

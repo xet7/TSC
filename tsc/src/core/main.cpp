@@ -17,16 +17,7 @@
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 #include "global_basic.hpp"
-#include "errors.hpp"
-#include "property_helper.hpp"
-#include "xml_attributes.hpp"
-#include "../scripting/scriptable_object.hpp"
-#include "../objects/actor.hpp"
-#include "../scenes/scene.hpp"
-#include "scene_manager.hpp"
-#include "filesystem/resource_manager.hpp"
-#include "filesystem/package_manager.hpp"
-#include "../user/preferences.hpp"
+#include "global_game.hpp"
 #include "tsc_app.hpp"
 
 /**
