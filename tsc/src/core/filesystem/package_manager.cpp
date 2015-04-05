@@ -38,43 +38,43 @@ namespace errc = boost::system::errc;
 
 namespace TSC {
 /* *** *** *** *** *** *** PackageInfo *** *** *** *** *** *** *** *** *** *** *** */
-PackageInfo :: PackageInfo()
+PackageInfo::PackageInfo()
     : found_user(false), found_game(false), hidden(false)
 {
 }
 
 /* *** *** *** *** *** *** cPackage_Loader *** *** *** *** *** *** *** *** *** *** *** */
 
-cPackage_Loader :: cPackage_Loader()
+cPackage_Loader::cPackage_Loader()
     : xmlpp::SaxParser()
 {
 }
 
-cPackage_Loader :: ~cPackage_Loader()
+cPackage_Loader::~cPackage_Loader()
 {
 }
 
-PackageInfo cPackage_Loader :: Get_Package_Info(void)
+PackageInfo cPackage_Loader::Get_Package_Info(void)
 {
     return m_package;
 }
 
-void cPackage_Loader :: parse_file(fs::path filename)
+void cPackage_Loader::parse_file(fs::path filename)
 {
     xmlpp::SaxParser::parse_file(path_to_utf8(filename));
 }
 
-void cPackage_Loader :: on_start_document()
+void cPackage_Loader::on_start_document()
 {
     // reset to defaults
     m_package = PackageInfo();
 }
 
-void cPackage_Loader :: on_end_document()
+void cPackage_Loader::on_end_document()
 {
 }
 
-void cPackage_Loader :: on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
+void cPackage_Loader::on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& properties)
 {
     if (name == "property" || name == "Property") {
         std::string key;
@@ -94,7 +94,7 @@ void cPackage_Loader :: on_start_element(const Glib::ustring& name, const xmlpp:
     }
 }
 
-void cPackage_Loader :: on_end_element(const Glib::ustring& name)
+void cPackage_Loader::on_end_element(const Glib::ustring& name)
 {
     if (name == "property" || name == "Property")
         return;
@@ -116,7 +116,7 @@ void cPackage_Loader :: on_end_element(const Glib::ustring& name)
 
 /* *** *** *** *** *** *** cPackage_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
-cPackage_Manager :: cPackage_Manager(const cResource_Manager& resource_manager)
+cPackage_Manager::cPackage_Manager(const cResource_Manager& resource_manager)
 {
     cout << "Initializing Package Manager" << endl;
 
@@ -126,7 +126,7 @@ cPackage_Manager :: cPackage_Manager(const cResource_Manager& resource_manager)
     Fix_Package_Paths();
 }
 
-cPackage_Manager :: ~cPackage_Manager(void)
+cPackage_Manager::~cPackage_Manager(void)
 {
 }
 
@@ -135,7 +135,7 @@ static bool operator< (const PackageInfo& p1, const PackageInfo& p2)
     return p1.name < p2.name;
 }
 
-std::vector<PackageInfo> cPackage_Manager :: Get_Packages(void)
+std::vector<PackageInfo> cPackage_Manager::Get_Packages(void)
 {
     std::vector<PackageInfo> packages;
     std::map<std::string, PackageInfo>::const_iterator it;
@@ -147,7 +147,7 @@ std::vector<PackageInfo> cPackage_Manager :: Get_Packages(void)
     return packages;
 }
 
-PackageInfo cPackage_Manager :: Get_Package(const std::string& name)
+PackageInfo cPackage_Manager::Get_Package(const std::string& name)
 {
     if (m_packages.find(name) != m_packages.end()) {
         return m_packages[name];
@@ -156,7 +156,7 @@ PackageInfo cPackage_Manager :: Get_Package(const std::string& name)
     return PackageInfo();
 }
 
-void cPackage_Manager :: Set_Current_Package(const std::string& name)
+void cPackage_Manager::Set_Current_Package(const std::string& name)
 {
     if (m_packages.find(name) == m_packages.end())
         m_current_package = std::string();
@@ -167,12 +167,12 @@ void cPackage_Manager :: Set_Current_Package(const std::string& name)
     Init_User_Paths();
 }
 
-std::string cPackage_Manager :: Get_Current_Package(void)
+std::string cPackage_Manager::Get_Current_Package(void)
 {
     return m_current_package;
 }
 
-void cPackage_Manager :: Init_User_Paths(void)
+void cPackage_Manager::Init_User_Paths(void)
 {
     // Levels
     if (!Dir_Exists(Get_User_Level_Path()))
@@ -195,22 +195,22 @@ void cPackage_Manager :: Init_User_Paths(void)
         fs::create_directories(Get_User_Screenshot_Path());
 }
 
-fs::path cPackage_Manager :: Get_User_Data_Path(void)
+fs::path cPackage_Manager::Get_User_Data_Path(void)
 {
     return m_search_path[m_package_start];
 }
 
-fs::path cPackage_Manager :: Get_Game_Data_Path(void)
+fs::path cPackage_Manager::Get_Game_Data_Path(void)
 {
     return m_search_path[m_package_start + 1];
 }
 
-fs::path cPackage_Manager :: Get_User_Level_Path(void)
+fs::path cPackage_Manager::Get_User_Level_Path(void)
 {
     return Get_User_Data_Path() / utf8_to_path("levels");
 }
 
-fs::path cPackage_Manager :: Get_Game_Level_Path(void)
+fs::path cPackage_Manager::Get_Game_Level_Path(void)
 {
     return Get_Game_Data_Path() / utf8_to_path("levels");
 }
@@ -236,7 +236,7 @@ fs::path cPackage_Manager :: Get_Game_Level_Path(void)
  *
  * TODO: Compatibility code for file extensions other than .tsclvl.
  */
-fs::path cPackage_Manager :: Find_Level(const std::string& name)
+fs::path cPackage_Manager::Find_Level(const std::string& name)
 {
     // 1. User level directory in package (err, what’s that?)
     fs::path result = Get_User_Level_Path() / utf8_to_path(name + ".tsclvl");
@@ -264,7 +264,7 @@ fs::path cPackage_Manager :: Find_Level(const std::string& name)
     return fs::path();
 }
 
-fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
+fs::path cPackage_Manager::Get_Menu_Level_Path(void)
 {
     // determine level for the menu
     fs::path result;
@@ -318,27 +318,27 @@ fs::path cPackage_Manager :: Get_Menu_Level_Path(void)
     return gp_app->Get_ResourceManager().Get_Game_Level_Directory() / level;
 }
 
-fs::path cPackage_Manager :: Get_User_Campaign_Path(void)
+fs::path cPackage_Manager::Get_User_Campaign_Path(void)
 {
     return Get_User_Data_Path() / utf8_to_path("campaigns");
 }
 
-fs::path cPackage_Manager :: Get_Game_Campaign_Path(void)
+fs::path cPackage_Manager::Get_Game_Campaign_Path(void)
 {
     return Get_Game_Data_Path() / utf8_to_path("campaigns");
 }
 
-fs::path cPackage_Manager :: Get_User_World_Path(void)
+fs::path cPackage_Manager::Get_User_World_Path(void)
 {
     return Get_User_Data_Path() / utf8_to_path("worlds");
 }
 
-fs::path cPackage_Manager :: Get_Game_World_Path(void)
+fs::path cPackage_Manager::Get_Game_World_Path(void)
 {
     return Get_Game_Data_Path() / utf8_to_path("worlds");
 }
 
-fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, const std::string& script)
+fs::path cPackage_Manager::Get_Scripting_Path(const std::string& package, const std::string& script)
 {
     if (package.empty()) {
         // For core scripts, only check game directory
@@ -359,7 +359,7 @@ fs::path cPackage_Manager :: Get_Scripting_Path(const std::string& package, cons
     return fs::path();
 }
 
-fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
+fs::path cPackage_Manager::Get_User_Savegame_Path(void)
 {
     fs::path result = gp_app->Get_ResourceManager().Get_User_Savegame_Directory();
     if (m_current_package.empty())
@@ -370,7 +370,7 @@ fs::path cPackage_Manager :: Get_User_Savegame_Path(void)
     return result;
 }
 
-fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
+fs::path cPackage_Manager::Get_User_Screenshot_Path(void)
 {
     fs::path result = gp_app->Get_ResourceManager().Get_User_Screenshot_Directory();
     if (m_current_package.empty())
@@ -381,7 +381,7 @@ fs::path cPackage_Manager :: Get_User_Screenshot_Path(void)
     return result;
 }
 
-fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings /* = false */)
+fs::path cPackage_Manager::Get_Pixmap_Reading_Path(const std::string& pixmap, bool use_settings /* = false */)
 {
     std::vector<std::string> ext;
     if (use_settings)
@@ -390,34 +390,34 @@ fs::path cPackage_Manager :: Get_Pixmap_Reading_Path(const std::string& pixmap, 
     return Find_Reading_Path("pixmaps", utf8_to_path(pixmap), ext);
 }
 
-fs::path cPackage_Manager :: Get_Sound_Reading_Path(const std::string& sound)
+fs::path cPackage_Manager::Get_Sound_Reading_Path(const std::string& sound)
 {
     std::vector<std::string> ext;
     return Find_Reading_Path("sounds", utf8_to_path(sound), ext);
 }
 
-fs::path cPackage_Manager :: Get_Music_Reading_Path(const std::string& music)
+fs::path cPackage_Manager::Get_Music_Reading_Path(const std::string& music)
 {
     std::vector<std::string> ext;
     return Find_Reading_Path("music", utf8_to_path(music), ext);
 }
 
-fs::path cPackage_Manager :: Get_Relative_Pixmap_Path(fs::path path)
+fs::path cPackage_Manager::Get_Relative_Pixmap_Path(fs::path path)
 {
     return Find_Relative_Path("pixmaps", path);
 }
 
-fs::path cPackage_Manager :: Get_Relative_Sound_Path(fs::path path)
+fs::path cPackage_Manager::Get_Relative_Sound_Path(fs::path path)
 {
     return Find_Relative_Path("sounds", path);
 }
 
-fs::path cPackage_Manager :: Get_Relative_Music_Path(fs::path path)
+fs::path cPackage_Manager::Get_Relative_Music_Path(fs::path path)
 {
     return Find_Relative_Path("music", path);
 }
 
-void cPackage_Manager :: Scan_Packages( fs::path base, fs::path path, bool user_packages )
+void cPackage_Manager::Scan_Packages( fs::path base, fs::path path, bool user_packages )
 {
     fs::path subdir(base / path);
     fs::directory_iterator end_iter;
@@ -436,7 +436,7 @@ void cPackage_Manager :: Scan_Packages( fs::path base, fs::path path, bool user_
     }
 }
 
-void cPackage_Manager :: Load_Package_Info( const fs::path& dir, bool user_package )
+void cPackage_Manager::Load_Package_Info( const fs::path& dir, bool user_package )
 {
     // Read package information
     fs::path file = dir / "package.xml";
@@ -508,7 +508,7 @@ void cPackage_Manager :: Load_Package_Info( const fs::path& dir, bool user_packa
     the_package.dependencies.insert(the_package.dependencies.end(), info.dependencies.begin(), info.dependencies.end());
 }
 
-void cPackage_Manager :: Fix_Package_Paths( void )
+void cPackage_Manager::Fix_Package_Paths( void )
 {
     for(std::map<std::string, PackageInfo>::iterator it = m_packages.begin(); it != m_packages.end(); it++) {
         PackageInfo& i = it->second;
@@ -531,7 +531,7 @@ void cPackage_Manager :: Fix_Package_Paths( void )
  * Requires the global `gp_app` pointer, so don’t call this
  * before it has been set.
  */
-void cPackage_Manager :: Build_Search_Path ( void )
+void cPackage_Manager::Build_Search_Path ( void )
 {
     m_search_path.clear();
     m_package_start = 0;
@@ -556,7 +556,7 @@ void cPackage_Manager :: Build_Search_Path ( void )
     m_search_path.push_back(gp_app->Get_ResourceManager().Get_Game_Data_Directory());
 }
 
-void cPackage_Manager :: Build_Search_Path_Helper(const std::string& package, std::vector<std::string>& processed)
+void cPackage_Manager::Build_Search_Path_Helper(const std::string& package, std::vector<std::string>& processed)
 {
     // Avoid search loops
     if (std::find(processed.begin(), processed.end(), package) != processed.end())
@@ -576,7 +576,7 @@ void cPackage_Manager :: Build_Search_Path_Helper(const std::string& package, st
         Build_Search_Path_Helper(*dep_it, processed);
 }
 
-fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, std::vector<std::string> extra_ext)
+fs::path cPackage_Manager::Find_Reading_Path(fs::path dir, fs::path resource, std::vector<std::string> extra_ext)
 {
     fs::path path;
     for (std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it) {
@@ -598,7 +598,7 @@ fs::path cPackage_Manager :: Find_Reading_Path(fs::path dir, fs::path resource, 
     return fs::path();
 }
 
-fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)
+fs::path cPackage_Manager::Find_Relative_Path(fs::path dir, fs::path path)
 {
     for (std::vector<fs::path>::const_iterator it = m_search_path.begin(); it != m_search_path.end(); ++it) {
         fs::path subdir(*it / dir);
