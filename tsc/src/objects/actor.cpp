@@ -1,5 +1,6 @@
 #include "../core/global_basic.hpp"
 #include "../core/global_game.hpp"
+#include "../core/bintree.hpp"
 #include "../core/errors.hpp"
 #include "../core/property_helper.hpp"
 #include "../core/xml_attributes.hpp"
@@ -13,12 +14,26 @@
 #include "../core/filesystem/package_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
+#include "../level/level.hpp"
 #include "actor.hpp"
 
 using namespace TSC;
 
-cActor::cActor()
-    : cScriptable_Object()
+/**
+ * Construct a new actor with the default values.
+ *
+ * \param[in] level
+ * The level this actor plays in.
+ *
+ * \param uid
+ * (0) Directly assign an UID to this actor. If you ommit this
+ * or set it to 0, the actor will ask the `level` for the next
+ * free UID using cLevel::Get_Next_UID().
+ *
+ * \returns New cActor instance.
+ */
+cActor::cActor(cLevel& level, unsigned long uid)
+    : cScriptable_Object(), m_level(level)
 {
     // Some sensible defaults for a collision rectangle so it’s not invisible
     // on debugging if unset.
@@ -43,6 +58,17 @@ cActor::cActor()
     // By default, invisible objects are not subject to gravity.
     m_gravity_factor = 0;
     mp_ground_object = NULL;
+
+    // UID 0 is reserved. If we get that, ask the level for the next
+    // free UID. Otherwise, assign the given UID and tell the level
+    // that it’s used now.
+    if (uid == 0) {
+        m_uid = level.Get_Next_UID();
+    }
+    else {
+        m_uid = uid;
+        level.Adjust_UID_Mantissa(m_uid);
+    }
 }
 
 cActor::~cActor()
@@ -117,6 +143,20 @@ void cActor::Update_Position()
 
     // SFML transformation
     move(m_velocity);
+
+    Check_Collisions();
+}
+
+/**
+ * Checks if this actor collides with any other actor or the level edges.
+ * If the actor collides with another actor, the collision is added to
+ * the list of collisions that are evaluated at the end of the update
+ * process of the level. If it collides with a level edge, the corresponding
+ * handler is invoked immediately.
+ */
+void cActor::Check_Collisions()
+{
+    // TODO
 }
 
 /**

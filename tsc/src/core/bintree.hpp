@@ -40,8 +40,8 @@ namespace TSC {
          * (`data` argument) for this node as the object cannot know what it
          * is.
          */
-        Bintree(unsigned long value, T& data)
-            : m_value(value), mp_left(NULL), mp_right(NULL), m_data(data)
+        Bintree(unsigned long value, T* data)
+            : mp_left(NULL), mp_right(NULL), m_value(value), mp_data(data)
         {
             //
         }
@@ -59,8 +59,8 @@ namespace TSC {
         inline const Bintree* Get_Right() const {return mp_right;}
         inline bool Is_Empty() const {return !mp_left && !mp_right;}
 
-        inline T& Get_Data() const {return m_data;}
-        inline void Set_Data(T& data){m_data = data;}
+        inline T* Get_Data() const {return mp_data;}
+        inline void Set_Data(T* data){mp_data = data;}
 
         inline const unsigned long& Get_Value() const {return m_value;}
 
@@ -135,7 +135,7 @@ namespace TSC {
         {
             // Are we the target?
             if (value == m_value) {
-                return &m_data;
+                return mp_data;
             }
 
             if (value > m_value) { // Must be on right side
@@ -160,7 +160,7 @@ namespace TSC {
         Bintree<T>* mp_right;
 
         unsigned long m_value;
-        T& m_data;
+        T* mp_data;
     };
 
 }

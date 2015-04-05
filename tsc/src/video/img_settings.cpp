@@ -15,13 +15,14 @@
 */
 
 #include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/math/utilities.hpp"
+#include "../core/file_parser.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
-#include "../core/file_parser.hpp"
 #include "img_settings.hpp"
 
 using namespace std;

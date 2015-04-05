@@ -57,7 +57,7 @@ namespace TSC {
             COLTYPE_LAVA
         };
 
-        cActor();
+        cActor(cLevel& level, unsigned long uid = 0);
         virtual ~cActor();
 
         void Do_Update();
@@ -77,6 +77,8 @@ namespace TSC {
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
 
+        inline const unsigned long& Get_UID() const {return m_uid;}
+
         void Accelerate_X(const float& deltax, bool real = false);
         void Accelerate_Y(const float& deltay, bool real = false);
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
@@ -86,9 +88,13 @@ namespace TSC {
         virtual void Update();
         void Update_Gravity();
         void Update_Position();
+        void Check_Collisions();
+
+        cLevel& m_level; //< The level this actor belongs to.
 
         sf::FloatRect m_collision_rect;
         std::string m_name;
+        unsigned long m_uid;
 
         float m_gravity_factor;   //< Mass simulation factor.
         cActor* mp_ground_object; //< Do we stand on something, and if so, on what?

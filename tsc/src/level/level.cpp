@@ -1,7 +1,10 @@
+#include "../core/bintree.hpp"
 #include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
 #include "../core/property_helper.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
+#include "../core/collision.hpp"
 #include "level.hpp"
 
 using namespace TSC;
@@ -49,6 +52,7 @@ cLevel* cLevel::Construct_Debugging_Level()
  * \returns The new cLevel instance.
  */
 cLevel::cLevel(fs::path levelfile)
+    : m_collisions(0, NULL) // 0 is reserved and guaranteed to not be taken
 {
     Init();
 }
@@ -59,6 +63,7 @@ cLevel::cLevel(fs::path levelfile)
  * with a file (the public constructor overwrites files).
  */
 cLevel::cLevel()
+    : m_collisions(0, NULL) // 0 is reserved and guaranteed to not be taken
 {
     Init();
 }
@@ -87,6 +92,8 @@ void cLevel::Init()
     m_camera_limits.top = 0;
     m_camera_limits.width = 4000;
     m_camera_limits.height = 1000;
+
+    m_last_max_uid = 0;
 }
 
 void cLevel::Update()
@@ -124,4 +131,53 @@ void cLevel::Sort_Z_Elements()
     std::sort(m_actors.begin(), m_actors.end(), [] (const cActor* p_a, const cActor* p_b) {
             return p_a->Z() < p_b->Z();
         });
+}
+
+/**
+ * Add the given collision to the list of collisions for this frame, if required.
+ * For performance reasons, collision checking only happens when an actor moves;
+ * thus, the collision object will always be created with the `causer` property
+ * of the collision set to the moving actor and the `sufferer` property set to
+ * the standing actor. If the standing actor really doesn’t move, this means
+ * that only one collision is generated, and this will be added directly to
+ * the list of collisions by this method.
+ *
+ * However, problems arise when both actors move. Then each of the two moving
+ * actors will receive one collision object, with the actors being exactly
+ * inverse. These technically two collisions however are logically only a
+ * single one and should not be evaluated twice (this would for example cause
+ * a Krush to be immediately killed rather than downgraded when you jump on it).
+ * That’s what this method enforces:
+ *
+ * 1. It checks if the sufferer of the collision you want to add is already
+ *    in the list of collisions. That’s not enough (could be a collision
+ *    with another object), but it’s required.
+ * 2. Check if the collision sufferer of the found collision is the same
+ *    actor as the collision causer of the collision you’re about to add.
+ *    If this is the case, you’re trying to add the described inversely
+ *    mirrored collision that should not be counted. In that case, this
+ *    method will do nothing, especially not add the collision to the
+ *    list of collisions to evaluate.
+ *
+ * The equality check is done by utilising the UIDs of the actors, and
+ * the collision list is a binary tree using the UIDs as keys, thus
+ * these actions should be rather performant.
+ *
+ * \param[in]
+ * The cCollision instance to add to the list of collisions to evaluate.
+ *
+ * \remark This method assumes you’re only adding collisions from
+ * the causer’s view of things. If you don’t, the algorithm described
+ * above will fail.
+ */
+void cLevel::Add_Collision_If_Required(cCollision& collision)
+{
+    const unsigned long& myuid    = collision.Get_Collision_Causer().Get_UID();
+    const unsigned long& otheruid = collision.Get_Collision_Sufferer().Get_UID();
+
+    cCollision* p_coll = m_collisions.Fetch(otheruid);
+    if (p_coll && p_coll->Get_Collision_Sufferer().Get_UID() == myuid)
+        return;
+
+    m_collisions.Insert(new Bintree<cCollision>(myuid, &collision));
 }

@@ -22,6 +22,18 @@ namespace TSC {
         inline std::string Name() const {return path_to_utf8(m_levelfile.stem());}
         void Sort_Z_Elements();
 
+        /// Grab the next free UID, adjusting the level’s internal mantissa.
+        inline unsigned long Get_Next_UID(){return ++m_last_max_uid;}
+        void Add_Collision_If_Required(cCollision& collision);
+
+        /**
+         * Reset the level’s internal UID mantissa. You need this when
+         * you assigned an UID directly rather than used Get_Next_UID().
+         * This method only allows to raise the mantissa, it cannot be
+         * lowered to prevent UID clashes.
+         */
+        inline void Adjust_UID_Mantissa(const unsigned long& new_max){if (new_max > m_last_max_uid) m_last_max_uid = new_max;}
+
     private:
         cLevel(); // Private constructor
         void Init();
@@ -30,6 +42,9 @@ namespace TSC {
         int m_engine_version;
         sf::Vector2f m_player_startpos;
         sf::FloatRect m_camera_limits;
+
+        Bintree<cCollision> m_collisions; //< Detected collisions from the current frame.
+        unsigned long m_last_max_uid;
 
         std::vector<cActor*> m_actors;
         /// Level backgrounds.

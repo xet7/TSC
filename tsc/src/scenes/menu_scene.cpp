@@ -1,4 +1,6 @@
 #include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../core/bintree.hpp"
 #include "../core/errors.hpp"
 #include "../core/property_helper.hpp"
 #include "../core/xml_attributes.hpp"
