@@ -2,19 +2,6 @@
 
 using namespace TSC;
 
-/**
- * Construct a binary tree node with the given value.
- *
- * \param value
- * The value to encapsulate.
- */
-Bintree::Bintree(unsigned long value)
-{
-    m_value = value;
-    mp_left = NULL;
-    mp_right = NULL;
-}
-
 Bintree::~Bintree()
 {
     if (mp_left)
