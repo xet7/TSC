@@ -1,5 +1,7 @@
 #ifndef TSC_BINTREE_HPP
 #define TSC_BINTREE_HPP
+#include <cstdlib>
+
 namespace TSC {
 
     /**
@@ -35,34 +37,131 @@ namespace TSC {
          *
          * \remark When you delete the instance constructed by this method,
          * sub-nodes will also be deleted. *Not* deleted is the data pointer
-         * (`ptr` argument) for this node as the object cannot know what it
+         * (`data` argument) for this node as the object cannot know what it
          * is.
          */
         Bintree(unsigned long value, T& data)
-            : m_value(value), mp_left(NULL), mp_right(NULL), m_data(data);
+            : m_value(value), mp_left(NULL), mp_right(NULL), m_data(data)
         {
             //
         }
-        ~Bintree();
 
-        inline Bintree* Get_Left() const {return mp_left;}
-        inline Bintree* Get_Right() const {return mp_right;}
+        ~Bintree()
+        {
+            if (mp_left)
+                delete mp_left;
+            if (mp_right)
+                delete mp_right;
+        }
+
+
+        inline const Bintree* Get_Left() const {return mp_left;}
+        inline const Bintree* Get_Right() const {return mp_right;}
         inline bool Is_Empty() const {return !mp_left && !mp_right;}
 
         inline T& Get_Data() const {return m_data;}
         inline void Set_Data(T& data){m_data = data;}
 
-        const inline unsigned long& Get_Value() const {return m_value;}
+        inline const unsigned long& Get_Value() const {return m_value;}
 
-        void Insert(Bintree* p_bintree);
-        bool Contains(const unsigned long& value);
+        /**
+         * Insert a node into the binary tree. This method does the following:
+         *
+         * * If the given node’s value is greater than this node’s value:
+         *   Insert on the right side.
+         * * If the given node’s value is smaller than/equal to this node’s
+         *   value: Insert on the left side.
+         * * If the target side is occupied already: repeat until it isn’t.
+         */
+        void Insert(Bintree<T>* p_bintree)
+        {
+            if (p_bintree->Get_Value() > m_value) { // Must go on the right side
+                if (mp_right) { // There’s a tree already
+                    mp_right->Insert(p_bintree);
+                }
+                else { // We’re a leaf node.
+                    mp_right = p_bintree;
+                }
+            }
+            else { // Must go on the left side
+                if (mp_left) { // There’s a tree already
+                    mp_left->Insert(p_bintree);
+                }
+                else { // We’re a leaf node.
+                    mp_left = p_bintree;
+                }
+            }
+        }
+
+        /**
+         * Checks whether the given value is contained in this node or any
+         * of its sub-nodes.
+         *
+         * \param[in] value
+         * The value to check for.
+         */
+        bool Contains(const unsigned long& value)
+        {
+            // Are we the target?
+            if (value == m_value)
+                return true;
+
+            if (value > m_value) { // Must be on right side
+                if (mp_right) {
+                    return mp_right->Contains(value);
+                }
+                else { // No right side, we’re a leaf node.
+                    return false;
+                }
+            }
+            else { // Must be on left side
+                if (mp_left) {
+                    return mp_left->Contains(value);
+                }
+                else { // No left side, we’re a leaf node.
+                    return false;
+                }
+            }
+        }
+
+        /**
+         * Returns the data associated with the given value.
+         * If the value is not in the tree, returns NULL.
+         *
+         * \param[in] value
+         * The value to check for.
+         */
+        T* Fetch(const unsigned long& value)
+        {
+            // Are we the target?
+            if (value == m_value) {
+                return &m_data;
+            }
+
+            if (value > m_value) { // Must be on right side
+                if (mp_right) {
+                    return mp_right->Fetch(value);
+                }
+                else { // No right side, we’re a leaf node.
+                    return NULL;
+                }
+            }
+            else { // Must be on left side
+                if (mp_left) {
+                    return mp_left->Fetch(value);
+                }
+                else { // No left side, we’re a leaf node.
+                    return NULL;
+                }
+            }
+        }
     private:
-        Bintree* mp_left;
-        Bintree* mp_right;
+        Bintree<T>* mp_left;
+        Bintree<T>* mp_right;
 
         unsigned long m_value;
         T& m_data;
-    }
+    };
 
 }
 #endif

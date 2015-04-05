@@ -289,7 +289,6 @@ endif()
 #  "src/*.cpp"
 #  "src/*.hpp")
 set(tsc_sources
-  "src/core/bintree.cpp"
   "src/core/errors.cpp"
   "src/core/file_parser.cpp"
   "src/core/i18n.cpp"
