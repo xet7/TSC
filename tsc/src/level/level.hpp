@@ -24,7 +24,8 @@ namespace TSC {
 
         /// Grab the next free UID, adjusting the level’s internal mantissa.
         inline unsigned long Get_Next_UID(){return ++m_last_max_uid;}
-        void Add_Collision_If_Required(cCollision& collision);
+
+        void Check_Collisions_For_Actor(cActor& actor);
 
         /**
          * Reset the level’s internal UID mantissa. You need this when
@@ -37,6 +38,7 @@ namespace TSC {
     private:
         cLevel(); // Private constructor
         void Init();
+        void Add_Collision_If_Required(cCollision* p_collision);
 
         boost::filesystem::path m_levelfile;
         int m_engine_version;

@@ -144,19 +144,11 @@ void cActor::Update_Position()
     // SFML transformation
     move(m_velocity);
 
-    Check_Collisions();
-}
+    // Check for collisions if this is an object that can collide.
+    if (m_coltype != COLTYPE_PASSIVE)
+        m_level.Check_Collisions_For_Actor(*this);
 
-/**
- * Checks if this actor collides with any other actor or the level edges.
- * If the actor collides with another actor, the collision is added to
- * the list of collisions that are evaluated at the end of the update
- * process of the level. If it collides with a level edge, the corresponding
- * handler is invoked immediately.
- */
-void cActor::Check_Collisions()
-{
-    // TODO
+    // TODO: Check level edges
 }
 
 /**

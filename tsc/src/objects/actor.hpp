@@ -88,7 +88,6 @@ namespace TSC {
         virtual void Update();
         void Update_Gravity();
         void Update_Position();
-        void Check_Collisions();
 
         cLevel& m_level; //< The level this actor belongs to.
 

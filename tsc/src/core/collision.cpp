@@ -1,4 +1,7 @@
 #include "global_basic.hpp"
+#include "global_game.hpp"
+#include "../scripting/scriptable_object.hpp"
+#include "../objects/actor.hpp"
 #include "collision.hpp"
 
 using namespace TSC;
@@ -66,7 +69,7 @@ bool cCollision::Is_Collision_Left() const
     if (m_causer_colrect.top < m_sufferer_colrect.top + m_sufferer_colrect.height
         && m_causer_colrect.top + m_causer_colrect.height > m_sufferer_colrect.top) {
 
-        if (m_causer_colrect.left + m_causr_colrect.width > m_sufferer_colrect.left
+        if (m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left
             && m_causer_colrect.left < m_sufferer_colrect.left) {
             return true;
         }

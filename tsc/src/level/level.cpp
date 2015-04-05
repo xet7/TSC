@@ -163,21 +163,53 @@ void cLevel::Sort_Z_Elements()
  * the collision list is a binary tree using the UIDs as keys, thus
  * these actions should be rather performant.
  *
- * \param[in]
+ * \param[in] p_collision
  * The cCollision instance to add to the list of collisions to evaluate.
+ * This will be memory-managed by this class afterwards, so don’t delete it;
+ * this is true even if the collision is not needed (then it’s deleted
+ * immediately).
  *
  * \remark This method assumes you’re only adding collisions from
  * the causer’s view of things. If you don’t, the algorithm described
  * above will fail.
  */
-void cLevel::Add_Collision_If_Required(cCollision& collision)
+void cLevel::Add_Collision_If_Required(cCollision* p_collision)
 {
-    const unsigned long& myuid    = collision.Get_Collision_Causer().Get_UID();
-    const unsigned long& otheruid = collision.Get_Collision_Sufferer().Get_UID();
+    const unsigned long& myuid    = p_collision->Get_Collision_Causer().Get_UID();
+    const unsigned long& otheruid = p_collision->Get_Collision_Sufferer().Get_UID();
 
-    cCollision* p_coll = m_collisions.Fetch(otheruid);
-    if (p_coll && p_coll->Get_Collision_Sufferer().Get_UID() == myuid)
+    const cCollision* p_coll = m_collisions.Fetch(otheruid);
+    if (p_coll && p_coll->Get_Collision_Sufferer().Get_UID() == myuid) {
+        delete p_collision;
         return;
+    }
 
-    m_collisions.Insert(new Bintree<cCollision>(myuid, &collision));
+    m_collisions.Insert(new Bintree<cCollision>(myuid, p_collision));
+}
+
+/**
+ * Check all possible collisions on the given actor. This is
+ * an expensive operation as it iterates the entire actor list.
+ * When a collision is found, it is added via Add_Collision_If_Required()
+ * to the list of collisions that are to be handled.
+ *
+ * This method does not honour the type of the actor you pass in. It
+ * is assumed that you check if it is something like COLTYPE_PASSIVE
+ * before calling this method (to prevent the extra calling overhead).
+ *
+ * \param[in] actor
+ * The actor to check for collisions on. It is assumed to be the
+ * collision causer (i.e. the moving object, not the standing one).
+ */
+void cLevel::Check_Collisions_For_Actor(cActor& actor)
+{
+    std::vector<cActor*>::const_iterator iter;
+    for(iter=m_actors.begin(); iter != m_actors.end(); iter++) {
+        cActor& other = **iter;
+
+        if (other.Get_Collision_Type() != cActor::COLTYPE_PASSIVE && actor.Does_Collide(other)) {
+            Add_Collision_If_Required(new cCollision(actor, other));
+            // MRuby Touch event is not fired here, that’s fired when the collisions are handled.
+        }
+    }
 }
