@@ -302,6 +302,46 @@ task :optipng do
   puts "Reduction in size thus is:  #{bytesize(total_size - new_total_size)}"
 end
 
+desc "Generate the list of forward class declarations in global_game.hpp"
+task :genforwards do
+  results = []
+  Dir["src/**/*.cpp"].sort.each do |path|
+    puts "Scanning #{path}..."
+    #next if File.basename(path) == "global_game.hpp" # Target file
+
+    str = File.read(path)
+    str.lines.each do |line|
+      if line =~ /(c[A-Z][a-zA-Z_]+)::((c[A-Z][a-zA-Z_]+)::)?/
+        if $2
+          results << $3
+        else
+          results << $1
+        end
+      end
+    #str.scan(/^\s+ class (c[a-zA-Z]+)/){|name| results << name }
+    end
+  end
+  results.uniq!
+  results.sort!
+
+  str = File.read("src/core/global_game.hpp")
+  target_regexp = %r{/\*\*\sCLASS\sFORWARD\sDECLRATIONS\sSTART\s\*\*/  .*?  /\*\*\sCLASS\sFORWARD\sDECLRATIONS\sEND\s\*\*/}mx
+  unless str =~ target_regexp
+    fail "Failed to find **CLASS FORWARD DECLRATIONS** markers!"
+  end
+
+  puts "Writing out to src/core/global_game.hpp #{results.count} classes found."
+  File.open("src/core/global_game.hpp", "w") do |f|
+    f.write($`)
+    f.puts "/** CLASS FORWARD DECLRATIONS START **/"
+    f.puts
+    f.puts results.map{|klass| "    class #{klass};"}
+    f.puts
+    f.write "    /** CLASS FORWARD DECLRATIONS END **/"
+    f.write($')
+  end
+end
+
 ########################################
 # Helper methods
 
