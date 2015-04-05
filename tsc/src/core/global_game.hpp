@@ -568,6 +568,12 @@ namespace TSC {
 
     /** CLASS FORWARD DECLRATIONS END **/
 
+    /* *** Things the rake task fails to detect *** */
+
+    namespace Scripting {
+        class cScriptable_Object;
+    }
+
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace TSC
