@@ -507,6 +507,8 @@ namespace TSC {
     class cOverworld_Manager;
     class cOverworld_Player;
     class cOverworld_description;
+    class cPackage_Loader;
+    class cPackage_Manager;
     class cParticle;
     class cParticle_Emitter;
     class cPath;
