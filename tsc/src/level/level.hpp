@@ -25,6 +25,8 @@ namespace TSC {
         void Add_Actor(cActor* p_actor, const unsigned long& uid = 0);
         void Check_Collisions_For_Actor(cActor& actor);
 
+        inline cImage_Manager* Get_ImageManager(){return mp_img_manager;}
+
     private:
         cLevel(); // Private constructor
         void Init();
@@ -50,6 +52,8 @@ namespace TSC {
         std::vector<cActor*> m_actors;
         /// Level backgrounds.
         std::vector<sf::Sprite*> m_backgrounds;
+
+        cImage_Manager* mp_img_manager; // Pointer so not everyone using levels has to include image manager files
     };
 
 }

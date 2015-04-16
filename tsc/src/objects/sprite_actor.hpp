@@ -10,13 +10,15 @@ namespace TSC {
     class cSpriteActor: public cActor
     {
     public:
-        cSpriteActor(boost::filesystem::path texture_path);
+        cSpriteActor(boost::filesystem::path relative_texture_path);
         virtual ~cSpriteActor();
 
         virtual void Draw(sf::RenderWindow& stage) const;
+        virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
 
     private:
         sf::Sprite m_sprite;
+        boost::filesystem::path m_rel_texture_path;
     };
 
 }
