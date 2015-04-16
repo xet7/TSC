@@ -26,6 +26,7 @@ Robert Williams (BowserJr) <bowserjr@users.sourceforge.net>
 
 -- Graphic Artists --
 
+Ashburry <schedafr@gmail.com>
 Fabian Bissig (Fabianius) <fabian.bissig@bluewin.ch>
 Bugsbane <user581@xymail.info>
 Johan Brodd (jobromedia) <info@m4um.net>
