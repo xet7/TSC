@@ -184,6 +184,16 @@ bool cSceneManager::Handle_Global_Event(sf::Event& evt)
     case sf::Event::KeyPressed:
         return cegui.injectKeyDown(SFMLKey2CEGUIKey(evt.key.code));
     case sf::Event::KeyReleased:
+        // Toggle debug mode
+        if (evt.key.code == sf::Keyboard::D) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
+                gp_app->Toggle_Debug_Mode();
+                cegui.injectKeyUp(SFMLKey2CEGUIKey(evt.key.code)); // Ensure CEGUI sees the up event also, not only the down event
+
+                return true;
+            }
+        }
+
         return cegui.injectKeyUp(SFMLKey2CEGUIKey(evt.key.code));
     default:
         return false;

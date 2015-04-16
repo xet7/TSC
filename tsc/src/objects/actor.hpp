@@ -64,7 +64,7 @@ namespace TSC {
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
 
-        inline void Set_Collision_Rect(sf::FloatRect rect){m_collision_rect = rect;}
+        void Set_Collision_Rect(sf::FloatRect rect);
         inline const sf::FloatRect& Get_Collision_Rect() const {return m_collision_rect;}
 
         sf::FloatRect Get_Transformed_Collision_Rect() const;
@@ -95,6 +95,8 @@ namespace TSC {
 
         sf::FloatRect m_collision_rect;
         std::string m_name;
+
+        sf::RectangleShape m_debug_colrect_shape;
 
         float m_gravity_factor;   //< Mass simulation factor.
         cActor* mp_ground_object; //< Do we stand on something, and if so, on what?

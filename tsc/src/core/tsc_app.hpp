@@ -63,12 +63,17 @@ namespace TSC {
         inline cPackage_Manager&  Get_PackageManager(){return *mp_package_manager;}
 
         inline cPreferences& Get_Preferences(){return *mp_preferences;}
+
+        inline bool Is_Debug_Mode() const {return m_debug_mode;}
+        inline void Toggle_Debug_Mode(){m_debug_mode = !m_debug_mode;}
     private:
         void Init_SFML();
         void Init_Managers();
         void Init_User_Preferences();
         void Init_I18N();
         void Init_CEGUI();
+
+        bool m_debug_mode;
 
         cResource_Manager* mp_resource_manager;
         cSceneManager* mp_scene_manager;

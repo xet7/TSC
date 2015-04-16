@@ -35,9 +35,9 @@ void cSpriteActor::Added_To_Level(cLevel* p_level, const unsigned long& uid)
 
 void cSpriteActor::Draw(sf::RenderWindow& stage) const
 {
-    cActor::Draw(stage);
-
     stage.draw(m_sprite, getTransform()); // <3 SFML. This allows us to apply the same transformations that affect the collision rectangle to also affect the sprite.
+
+    cActor::Draw(stage);
 }
 
 /**
@@ -82,5 +82,5 @@ void cSpriteActor::Set_Dimensions(int width, int height)
      * height should be settable independantly. See the large TODO
      * comment in this method’s docs. */
     m_sprite.setScale(newwidth, newheight);
-    Set_Collision_Rect(sf::FloatRect(0, 0, newwidth, newheight));
+    Set_Collision_Rect(sf::FloatRect(0, 0, width, height));
 }

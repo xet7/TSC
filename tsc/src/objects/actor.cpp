@@ -33,6 +33,12 @@ cActor::cActor()
     m_collision_rect.top = 0;
     m_collision_rect.width = 100;
     m_collision_rect.height = 100;
+    // Ensure these are set to the same defaults as the colrect above
+    m_debug_colrect_shape.setPosition(sf::Vector2f(0, 0));
+    m_debug_colrect_shape.setSize(sf::Vector2f(100, 100));
+
+    // Color for the debug colrect
+    m_debug_colrect_shape.setFillColor(sf::Color(255, 255, 0, 100));
 
     m_name = "(Unnamed actor)";
 
@@ -138,11 +144,14 @@ void cActor::Update_Position()
 }
 
 /**
- * Draw this actor onto the given window.
+ * Draw this actor onto the given window. By default, draws
+ * the collision rect in debug mode.
  */
 void cActor::Draw(sf::RenderWindow& stage) const
 {
-    // Virtual
+    if (gp_app->Is_Debug_Mode()) {
+        stage.draw(m_debug_colrect_shape, getTransform());
+    }
 }
 
 /**
@@ -269,4 +278,23 @@ bool cActor::Does_Collide(const cActor& other_actor) const
 float cActor::Z() const
 {
     return m_z_layer + m_pos_z;
+}
+
+/**
+ * Set the collision rectangle on this actor. This method circumvents
+ * the position transformation setting, so use with care: Always assume
+ * that your actor is at position (0|0) and not scaled, rotated, etc.
+ * other than the ersult of the settings file’s `width` and `height`
+ * keys! This actor usual transformations will be applied to this
+ * collision rectangle subsequently. I.e. you set the rectangle BEFORE
+ * any transformation, except the width/height keys from the settings files!
+ *
+ * \param rect
+ * The new collision rectangle.
+ */
+void cActor::Set_Collision_Rect(sf::FloatRect rect)
+{
+    m_collision_rect = rect;
+    m_debug_colrect_shape.setPosition(sf::Vector2f(rect.left, rect.top));
+    m_debug_colrect_shape.setSize(sf::Vector2f(rect.width, rect.height));
 }
