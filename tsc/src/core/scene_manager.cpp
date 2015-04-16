@@ -116,8 +116,10 @@ void cSceneManager::Play(sf::RenderWindow& stage)
         // Draw the current scene into the back buffer
         p_current_scene->Draw(stage);
 
-        // Show framerate
-        stage.draw(m_framerate_text);
+        // Show framerate if debugging
+        if (gp_app->Is_Debug_Mode()) {
+            stage.draw(m_framerate_text);
+        }
 
         // Render CEGUI on top of it. CEGUI must always use the default view
         // without any zooming or other things applied! It’s directly tied
