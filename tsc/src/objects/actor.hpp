@@ -62,6 +62,7 @@ namespace TSC {
 
         void Do_Update();
         virtual void Draw(sf::RenderWindow& stage) const;
+        virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
 
         inline void Set_Collision_Rect(sf::FloatRect rect){m_collision_rect = rect;}
         inline const sf::FloatRect& Get_Collision_Rect() const {return m_collision_rect;}
@@ -84,19 +85,6 @@ namespace TSC {
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
         float Z() const;
-
-        /*** Internal use ***/
-
-        /**
-         * \internal
-         * Specify the UID for this sprite. Internally used
-         * when an actor is added to a level. */
-        void Set_UID(const unsigned long& uid){m_uid = uid;}
-        /**
-         * \internal
-         * Specify the level for this actor. Internally used
-         * when an actor is added to a levle.. */
-        void Set_Level(cLevel* p_level){mp_level = p_level;}
     protected:
         virtual void Update();
         void Update_Gravity();

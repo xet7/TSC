@@ -146,6 +146,24 @@ void cActor::Draw(sf::RenderWindow& stage) const
 }
 
 /**
+ * “Callback” function called when this actor is added to a level.
+ * You can override this in your subclasses, but be sure to call
+ * the parent class’ method, because cActor::Added_To_Level() takes
+ * care of setting the `mp_level` and `m_uid` members correctly.
+ *
+ * \param level
+ * The level this actor have been added to.
+ *
+ * \param[uid]
+ * The UID this actor was assigned in the level.
+ */
+void cActor::Added_To_Level(cLevel* p_level, const unsigned long& uid)
+{
+    m_uid = uid;
+    mp_level = p_level;
+}
+
+/**
  * Accelerate in → direction.
  */
 void cActor::Accelerate_X(const float& deltax, bool real /* = false */)

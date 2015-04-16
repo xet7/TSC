@@ -244,10 +244,10 @@ void cLevel::Add_Actor(cActor* p_actor, const unsigned long& uid /* = 0 */)
      * its UID at all (as the UID is merely a key to find a cActor
      * instance), but somehow I don’t like that. */
     if (uid == 0) {
-        p_actor->Set_UID(Get_Next_UID());
+        p_actor->Added_To_Level(this, Get_Next_UID());
     }
     else {
-        p_actor->Set_UID(uid);
+        p_actor->Added_To_Level(this, uid);
     }
 
     /* Insert the new actor at the proper position in the actors array
