@@ -98,7 +98,7 @@ void cLevel::Init()
 
 void cLevel::Update()
 {
-    // Update the invisible actors
+    // Update all the actors.
     std::vector<cActor*>::iterator actiter;
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         (*actiter)->Do_Update();
