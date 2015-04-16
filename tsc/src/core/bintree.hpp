@@ -1,6 +1,7 @@
 #ifndef TSC_BINTREE_HPP
 #define TSC_BINTREE_HPP
 #include <cstdlib>
+#include <functional>
 
 namespace TSC {
 
@@ -153,6 +154,29 @@ namespace TSC {
                 else { // No left side, we’re a leaf node.
                     return NULL;
                 }
+            }
+        }
+
+        /**
+         * Iterate the entire binary tree. The elements are handed to
+         * the callback in sorted order, i.e. `value` keeps incrementing
+         * for each execution.
+         *
+         * \param cb
+         * Callback function with signature `void cb(const unsigned long& value, T* p_data)`,
+         * which receives the key value as its first argument, and the referenced
+         * data as its second.
+         */
+        void Traverse(std::function<void (const unsigned long& value, T* p_data)> cb)
+        {
+            if (mp_left) {
+                mp_left->Traverse(cb);
+            }
+
+            cb(m_value, mp_data);
+
+            if (mp_right) {
+                mp_right->Traverse(cb);
             }
         }
     private:
