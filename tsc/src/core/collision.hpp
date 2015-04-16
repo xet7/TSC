@@ -38,18 +38,20 @@ namespace TSC {
     class cCollision
     {
     public:
-        cCollision(cActor& collision_causer, cActor& collision_sufferer);
+        cCollision(cActor* p_collision_causer, cActor* p_collision_sufferer);
 
-        inline cActor& Get_Collision_Causer() const {return m_collision_causer;}
-        inline cActor& Get_Collision_Sufferer() const {return m_collision_sufferer;}
+        inline cActor* Get_Collision_Causer() const {return mp_collision_causer;}
+        inline cActor* Get_Collision_Sufferer() const {return mp_collision_sufferer;}
+
+        void Invert();
 
         bool Is_Collision_Top() const;
         bool Is_Collision_Bottom() const;
         bool Is_Collision_Left() const;
         bool Is_Collision_Right() const;
     private:
-        cActor& m_collision_causer;
-        cActor& m_collision_sufferer;
+        cActor* mp_collision_causer;
+        cActor* mp_collision_sufferer;
         sf::FloatRect m_causer_colrect;
         sf::FloatRect m_sufferer_colrect;
     };

@@ -63,6 +63,7 @@ namespace TSC {
         void Do_Update();
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
+        virtual bool Handle_Collision(cCollision* p_collision);
 
         void Set_Collision_Rect(sf::FloatRect rect);
         inline const sf::FloatRect& Get_Collision_Rect() const {return m_collision_rect;}

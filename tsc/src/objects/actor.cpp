@@ -298,3 +298,29 @@ void cActor::Set_Collision_Rect(sf::FloatRect rect)
     m_debug_colrect_shape.setPosition(sf::Vector2f(rect.left, rect.top));
     m_debug_colrect_shape.setSize(sf::Vector2f(rect.width, rect.height));
 }
+
+/**
+ * Handle a collision with another actor. This method is intended to
+ * be overridden in subclasses. The actor that this method is called
+ * on always is the *causer* member of the collision object passed
+ * as a parameter, i.e. you use cCollision::Get_Collision_Sufferer()
+ * to get the other collision partner. Even if you return false
+ * from this method (see below), the collision is *inversed* so that
+ * the collision partner now receives the collision with himself
+ * set to be the causer.
+ *
+ * By default, this method does nothing and returns true, i.e. it
+ * “swallows” the collision.
+ *
+ * \param[in] p_collision
+ * The collision object.
+ *
+ * \returns Return true from this method if you have handled the
+ * collision. If you return false, the collision will be inverted
+ * and then passed to Handle_Collision() on the collision partner
+ * (if that partner returns false also, nothing happens).
+ */
+bool cActor::Handle_Collision(cCollision* p_collision)
+{
+    return true;
+}

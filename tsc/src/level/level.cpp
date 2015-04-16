@@ -115,6 +115,22 @@ void cLevel::Update()
     std::vector<cActor*>::iterator actiter;
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         (*actiter)->Do_Update();
+
+    // Go through the detected collisions and act accordingly.
+    m_collisions.Traverse([] (const unsigned long& uid, cCollision* p_coll) {
+            //std::cout << "Collision bintree traverse: " << uid << std::endl;
+
+            // The first element is 0→NULL, which we need to ignore.
+            if (!p_coll)
+                return;
+
+            if (!p_coll->Get_Collision_Causer()->Handle_Collision(p_coll)) {
+                // Causer doesn't want to deal with this collision. Swap things
+                // round and fire on the sufferer instead.
+                p_coll->Invert();
+                p_coll->Get_Collision_Causer()->Handle_Collision(p_coll);
+            }
+        });
 }
 
 void cLevel::Draw(sf::RenderWindow& stage) const
@@ -188,11 +204,11 @@ void cLevel::Sort_Z_Elements()
  */
 void cLevel::Add_Collision_If_Required(cCollision* p_collision)
 {
-    const unsigned long& myuid    = p_collision->Get_Collision_Causer().Get_UID();
-    const unsigned long& otheruid = p_collision->Get_Collision_Sufferer().Get_UID();
+    const unsigned long& myuid    = p_collision->Get_Collision_Causer()->Get_UID();
+    const unsigned long& otheruid = p_collision->Get_Collision_Sufferer()->Get_UID();
 
     const cCollision* p_coll = m_collisions.Fetch(otheruid);
-    if (p_coll && p_coll->Get_Collision_Sufferer().Get_UID() == myuid) {
+    if (p_coll && p_coll->Get_Collision_Sufferer()->Get_UID() == myuid) {
         delete p_collision;
         return;
     }
@@ -221,7 +237,7 @@ void cLevel::Check_Collisions_For_Actor(cActor& actor)
         cActor& other = **iter;
 
         if (other.Get_Collision_Type() != cActor::COLTYPE_PASSIVE && actor.Does_Collide(other)) {
-            Add_Collision_If_Required(new cCollision(actor, other));
+            Add_Collision_If_Required(new cCollision(&actor, &other));
             // MRuby Touch event is not fired here, that’s fired when the collisions are handled.
         }
     }

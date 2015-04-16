@@ -6,13 +6,27 @@
 
 using namespace TSC;
 
-cCollision::cCollision(cActor& collision_causer, cActor& collision_sufferer)
-    : m_collision_causer(collision_causer), m_collision_sufferer(collision_sufferer)
+cCollision::cCollision(cActor* p_collision_causer, cActor* p_collision_sufferer)
+    : mp_collision_causer(p_collision_causer), mp_collision_sufferer(p_collision_sufferer)
 {
     // Ensure we only compute the collision rectangles once so we can use them
     // for this objects methods. Performance.
-    m_causer_colrect = m_collision_causer.Get_Transformed_Collision_Rect();
-    m_sufferer_colrect = m_collision_sufferer.Get_Transformed_Collision_Rect();
+    m_causer_colrect = mp_collision_causer->Get_Transformed_Collision_Rect();
+    m_sufferer_colrect = mp_collision_sufferer->Get_Transformed_Collision_Rect();
+}
+
+/**
+ * Invert the collision causer and suffer of this collision.
+ */
+void cCollision::Invert()
+{
+    cActor* p_temp = mp_collision_causer;
+    mp_collision_causer = mp_collision_sufferer;
+    mp_collision_sufferer = p_temp;
+
+    sf::FloatRect temprect = m_causer_colrect;
+    m_causer_colrect = m_sufferer_colrect;
+    m_sufferer_colrect = temprect;
 }
 
 /**
