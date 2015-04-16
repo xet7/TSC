@@ -213,3 +213,52 @@ void cLevel::Check_Collisions_For_Actor(cActor& actor)
         }
     }
 }
+
+/**
+ * Add a new actor to the level. This method takes care of inserting it at
+ * the correct position in the actors list by looking at its Z coordinate
+ * (cActor::Z()). The cActor instance is memory-managed by this class
+ * after you added it with this method.
+ *
+ * \param[in] p_actor
+ * The cActor instance to add to the level.
+ * \param[in] uid
+ * (0) You can specify a UID to assign to this actor in this level.
+ * If you don’t (or pass 0 here), then the next available UID will
+ * be automatically used.
+ *
+ * \remark If the actor has already an UID set it will be ignored and
+ * overwritten by this method. Use the `uid` element to assign a
+ * UID you want; this is because UIDs are level-specific and if you
+ * transplanted the same actor into another level, you’d have to
+ * assign a new UID also.
+ *
+ * \remark If the actor has already a level set, it will be ignored
+ * and overwritten by the level you’re adding it to.
+ */
+void cLevel::Add_Actor(cActor* p_actor, const unsigned long& uid /* = 0 */)
+{
+    /* UID 0 is reserved. If we get that, compute the next free
+     * UID. Otherwise, assign the given UID and adjust the mantissa
+     * accordingly. It could be considered to have the actor not know
+     * its UID at all (as the UID is merely a key to find a cActor
+     * instance), but somehow I don’t like that. */
+    if (uid == 0) {
+        p_actor->Set_UID(Get_Next_UID());
+    }
+    else {
+        p_actor->Set_UID(uid);
+    }
+
+    /* Insert the new actor at the proper position in the actors array
+     * depending on its Z position. This way we don’t have to re-sort
+     * the entire array (using Sort_Z_Elements()). */
+    float newz = p_actor->Z();
+    std::vector<cActor*>::iterator iter;
+    for(iter=m_actors.begin(); iter != m_actors.end(); iter++) {
+        if ((*iter)->Z() >= newz) {
+            break;
+        }
+    }
+    m_actors.insert(iter, p_actor); // iter points to the past-the-end element, thus this is append operation if the new Z is high enough.
+}

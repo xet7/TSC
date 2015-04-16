@@ -22,18 +22,10 @@ using namespace TSC;
 /**
  * Construct a new actor with the default values.
  *
- * \param[in] level
- * The level this actor plays in.
- *
- * \param uid
- * (0) Directly assign an UID to this actor. If you ommit this
- * or set it to 0, the actor will ask the `level` for the next
- * free UID using cLevel::Get_Next_UID().
- *
  * \returns New cActor instance.
  */
-cActor::cActor(cLevel& level, unsigned long uid)
-    : cScriptable_Object(), m_level(level)
+cActor::cActor()
+    : cScriptable_Object()
 {
     // Some sensible defaults for a collision rectangle so it’s not invisible
     // on debugging if unset.
@@ -59,16 +51,8 @@ cActor::cActor(cLevel& level, unsigned long uid)
     m_gravity_factor = 0;
     mp_ground_object = NULL;
 
-    // UID 0 is reserved. If we get that, ask the level for the next
-    // free UID. Otherwise, assign the given UID and tell the level
-    // that it’s used now.
-    if (uid == 0) {
-        m_uid = level.Get_Next_UID();
-    }
-    else {
-        m_uid = uid;
-        level.Adjust_UID_Mantissa(m_uid);
-    }
+    m_uid = 0;
+    mp_level = NULL;
 }
 
 cActor::~cActor()
@@ -134,6 +118,8 @@ void cActor::Update_Gravity()
 /**
  * Apply the velocity found in `m_velocity` without any restrictions, moving
  * the actor visibily on the screen (when it’s drawn next time).
+ *
+ * Issues a check for collisions with this object.
  */
 void cActor::Update_Position()
 {
@@ -146,7 +132,7 @@ void cActor::Update_Position()
 
     // Check for collisions if this is an object that can collide.
     if (m_coltype != COLTYPE_PASSIVE)
-        m_level.Check_Collisions_For_Actor(*this);
+        mp_level->Check_Collisions_For_Actor(*this);
 
     // TODO: Check level edges
 }

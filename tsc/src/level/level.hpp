@@ -22,11 +22,15 @@ namespace TSC {
         inline std::string Name() const {return path_to_utf8(m_levelfile.stem());}
         void Sort_Z_Elements();
 
-        /// Grab the next free UID, adjusting the level’s internal mantissa.
-        inline unsigned long Get_Next_UID(){return ++m_last_max_uid;}
-
+        void Add_Actor(cActor* p_actor, const unsigned long& uid = 0);
         void Check_Collisions_For_Actor(cActor& actor);
 
+    private:
+        cLevel(); // Private constructor
+        void Init();
+        void Add_Collision_If_Required(cCollision* p_collision);
+        /// Grab the next free UID, adjusting the level’s internal mantissa.
+        inline unsigned long Get_Next_UID(){return ++m_last_max_uid;}
         /**
          * Reset the level’s internal UID mantissa. You need this when
          * you assigned an UID directly rather than used Get_Next_UID().
@@ -34,11 +38,6 @@ namespace TSC {
          * lowered to prevent UID clashes.
          */
         inline void Adjust_UID_Mantissa(const unsigned long& new_max){if (new_max > m_last_max_uid) m_last_max_uid = new_max;}
-
-    private:
-        cLevel(); // Private constructor
-        void Init();
-        void Add_Collision_If_Required(cCollision* p_collision);
 
         boost::filesystem::path m_levelfile;
         int m_engine_version;

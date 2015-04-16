@@ -10,8 +10,8 @@
 using namespace TSC;
 namespace fs = boost::filesystem;
 
-cSpriteActor::cSpriteActor(fs::path texture_path, cLevel& level, unsigned long uid)
-    : cActor(level, uid)
+cSpriteActor::cSpriteActor(fs::path texture_path)
+    : cActor()
 {
     // Get Level manager, retrieve its Image manager, get the texture and
     // the settings, apply.

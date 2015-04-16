@@ -57,7 +57,7 @@ namespace TSC {
             COLTYPE_LAVA
         };
 
-        cActor(cLevel& level, unsigned long uid = 0);
+        cActor();
         virtual ~cActor();
 
         void Do_Update();
@@ -84,16 +84,29 @@ namespace TSC {
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
         float Z() const;
+
+        /*** Internal use ***/
+
+        /**
+         * \internal
+         * Specify the UID for this sprite. Internally used
+         * when an actor is added to a level. */
+        void Set_UID(const unsigned long& uid){m_uid = uid;}
+        /**
+         * \internal
+         * Specify the level for this actor. Internally used
+         * when an actor is added to a levle.. */
+        void Set_Level(cLevel* p_level){mp_level = p_level;}
     protected:
         virtual void Update();
         void Update_Gravity();
         void Update_Position();
 
-        cLevel& m_level; //< The level this actor belongs to.
+        cLevel* mp_level;
+        unsigned long m_uid;
 
         sf::FloatRect m_collision_rect;
         std::string m_name;
-        unsigned long m_uid;
 
         float m_gravity_factor;   //< Mass simulation factor.
         cActor* mp_ground_object; //< Do we stand on something, and if so, on what?
