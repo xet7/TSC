@@ -10,6 +10,9 @@
 #include "../video/img_manager.hpp"
 #include "level.hpp"
 
+#include "../objects/actor.hpp"
+#include "../objects/sprite_actor.hpp"
+
 using namespace TSC;
 namespace fs = boost::filesystem;
 
@@ -38,6 +41,10 @@ cLevel* cLevel::Construct_Debugging_Level()
 {
     cLevel* p_level = new cLevel();
     p_level->m_levelfile = utf8_to_path("/tmp/debugging.tsclvl");
+
+    cSpriteActor* p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
+    p_actor->setPosition(0, 300); // TODO: Weird TSC coordinate system
+    p_level->Add_Actor(p_actor);
 
     p_level->Sort_Z_Elements();
     return p_level;
