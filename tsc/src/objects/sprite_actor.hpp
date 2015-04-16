@@ -16,6 +16,8 @@ namespace TSC {
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
 
+        void Set_Dimensions(int width, int height);
+
     private:
         sf::Sprite m_sprite;
         boost::filesystem::path m_rel_texture_path;

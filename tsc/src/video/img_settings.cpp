@@ -55,8 +55,7 @@ cImage_Settings_Data::~cImage_Settings_Data(void)
 void cImage_Settings_Data::Apply(cSpriteActor& actor) const
 {
     if (m_width > 0 && m_height > 0) {
-        std::cerr << "Width/Height not implemented" << std::endl;
-        //actor.Set_Dimensions(m_width, m_height); // TODO
+        actor.Set_Dimensions(m_width, m_height);
     }
 
     if (m_col_rect.width > 0.0f && m_col_rect.height > 0.0f) {
