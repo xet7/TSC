@@ -37,19 +37,21 @@ namespace TSC {
          * the node again with Get_Data() and reset it with Set_Data().
          *
          * \remark When you delete the instance constructed by this method,
-         * sub-nodes will also be deleted. *Not* deleted is the data pointer
+         * sub-nodes will also be deleted. *Not* deleted is the wrapped data
          * (`data` argument) for this node as the object cannot know what it
          * is.
          */
-        Bintree(unsigned long value, T* data)
-            : mp_left(NULL), mp_right(NULL), m_value(value), mp_data(data)
+        Bintree(unsigned long value, T data)
+            : mp_left(NULL), mp_right(NULL), m_value(value), m_data(data)
         {
             //
         }
 
         /**
          * Default constructor. The constructed binary tree node has the
-         * value 0 and its mapped data is a NULL pointer.
+         * value 0 and its mapped data is determined by the data type’s
+         * default constructor. The default value returned by Fetch() is
+         * constructed witht he wrapped data types default constructor as well.
          *
          * This should not be used if possible. Instanciate by using the
          * other constructor which takes both the value and the data.
@@ -57,17 +59,17 @@ namespace TSC {
          * change the value of a binary tree node after its construction.
          */
         Bintree()
-            : mp_left(NULL), mp_right(NULL), m_value(0), mp_data(NULL)
+            : mp_left(NULL), mp_right(NULL), m_value(0)
         {
             //
         }
 
         /**
          * Copy constructor. This is a *recursive* (!) copy. The data object
-         * of course is not copied, only the tree structure itself.
+         * is copied by use of its copy constructor.
          */
         Bintree(const Bintree<T>& other)
-            : mp_left(NULL), mp_right(NULL), m_value(other.m_value), mp_data(other.mp_data)
+            : mp_left(NULL), mp_right(NULL), m_value(other.m_value), m_data(other.m_data)
         {
             if (other.mp_left)
                 mp_left = new Bintree<T>(*other.mp_left);
@@ -88,7 +90,8 @@ namespace TSC {
          * into this binary tree instance.
          *
          * It should be obvious that it is a bad idea to call this on
-         * a binary tree node that is not a toplevel node.
+         * a binary tree node that is not a toplevel node. Best way to
+         * get your binary tree mixed up out of order.
          */
         Bintree<T>& operator=(const Bintree<T>& rhs)
         {
@@ -102,7 +105,7 @@ namespace TSC {
                 mp_right = NULL;
 
                 m_value = rhs.m_value;
-                mp_data = rhs.mp_data;
+                m_data  = rhs.m_data;
 
                 if (rhs.mp_left) {
                     mp_left = new Bintree<T>(*rhs.mp_left); // copy constructor for recursive copy
@@ -119,8 +122,9 @@ namespace TSC {
         inline const Bintree* Get_Right() const {return mp_right;}
         inline bool Is_Empty() const {return !mp_left && !mp_right;}
 
-        inline T* Get_Data() const {return mp_data;}
-        inline void Set_Data(T* data){mp_data = data;}
+        inline T& Get_Data() {return m_data;}
+        inline const T& Get_Data() const {return m_data;} // Can't hand out non-const ref into const object
+        inline void Set_Data(T& data){m_data = data;}
 
         inline const unsigned long& Get_Value() const {return m_value;}
 
@@ -160,7 +164,7 @@ namespace TSC {
          * \param[in] value
          * The value to check for.
          */
-        bool Contains(const unsigned long& value)
+        bool Contains(const unsigned long& value) const
         {
             // Are we the target?
             if (value == m_value)
@@ -185,17 +189,32 @@ namespace TSC {
         }
 
         /**
-         * Returns the data associated with the given value.
-         * If the value is not in the tree, returns NULL.
+         * Returns a pointer to the data associated with the given
+         * value.  If the value is not in the tree, returns the
+         * default value passed as an argument.
          *
          * \param[in] value
          * The value to check for.
+         *
+         * \param[in] defaultvalue
+         * This is returned if no match is found. If you wrap a pointer,
+         * you will usually want to set this to NULL to get a NULL pointer
+         * back when nothing is found.
+         *
+         * \returns Reference to the data object. The reference is not
+         * `const`, which means you can modify it (which is intended),
+         * and which means it’s impossible to make this function
+         * `const`.
+         *
+         * \remark There is an overload of this function that guarantees
+         * a const `this` by returning a `const` reference instead of
+         * an ordinary reference.
          */
-        T* Fetch(const unsigned long& value) const
+        T& Fetch(const unsigned long& value, T& defaultvalue)
         {
             // Are we the target?
             if (value == m_value) {
-                return mp_data;
+                return m_data;
             }
 
             if (value > m_value) { // Must be on right side
@@ -203,7 +222,7 @@ namespace TSC {
                     return mp_right->Fetch(value);
                 }
                 else { // No right side, we’re a leaf node.
-                    return NULL;
+                    return defaultvalue;
                 }
             }
             else { // Must be on left side
@@ -211,9 +230,26 @@ namespace TSC {
                     return mp_left->Fetch(value);
                 }
                 else { // No left side, we’re a leaf node.
-                    return NULL;
+                    return defaultvalue;
                 }
             }
+        }
+
+        /**
+         * The Fetch() method doesn’t do anything to the actual `this`
+         * object, but technical restrictions forbid to hand out a
+         * non-const reference to something inside the object from a
+         * const function (the caller could modify the reference,
+         * which would cause `this` to indirectly change). If you have
+         * no intention to modify the returned reference, use this
+         * overload instead.
+         *
+         * The returned reference is `const`. You can’t modify it, and hence
+         * we can guarantee that `this` is also `const` when calling this function.
+         */
+        inline const T& Fetch(const unsigned long& value, const T& defaultvalue) const
+        {
+            return Fetch(value, defaultvalue);
         }
 
         /**
@@ -226,13 +262,13 @@ namespace TSC {
          * which receives the key value as its first argument, and the referenced
          * data as its second.
          */
-        void Traverse(std::function<void (const unsigned long& value, T* p_data)> cb)
+        void Traverse(std::function<void (const unsigned long& value, T& data)> cb)
         {
             if (mp_left) {
                 mp_left->Traverse(cb);
             }
 
-            cb(m_value, mp_data);
+            cb(m_value, m_data);
 
             if (mp_right) {
                 mp_right->Traverse(cb);
@@ -263,7 +299,7 @@ namespace TSC {
         Bintree<T>* mp_right;
 
         unsigned long m_value;
-        T* mp_data;
+        T m_data;
     };
 
 }

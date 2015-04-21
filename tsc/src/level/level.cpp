@@ -133,11 +133,11 @@ void cLevel::Update()
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         (*actiter)->Do_Update();
 
-    std::unordered_map<unsigned long, Bintree<cCollision> >::iterator iter;
+    std::unordered_map<unsigned long, Bintree<cCollision*> >::iterator iter;
 
     // Go through the detected collisions and act accordingly.
     for(iter=m_collisions.begin(); iter != m_collisions.end(); iter++) {
-        iter->second.Traverse([] (const unsigned long& uid, cCollision* p_coll) {
+        iter->second.Traverse([] (const unsigned long& uid, cCollision*& p_coll) {
                 //std::cout << "Collision bintree traverse: " << uid << std::endl;
 
                 // Ignore NULL pointers (these shouldn't exit, but you never know.)
@@ -250,7 +250,7 @@ void cLevel::Add_Collision_If_Required(cCollision* p_collision)
      *    is always equal to the sufferer member of the cCollision instance
      *    stored inside that same binary tree node. */
 
-    std::unordered_map<unsigned long, Bintree<cCollision> >::iterator iter;
+    std::unordered_map<unsigned long, Bintree<cCollision*> >::iterator iter;
     iter = m_collisions.find(otheruid);
 
     // If the other UID hasn't even been seen yet, the can't be another collision.
@@ -261,19 +261,19 @@ void cLevel::Add_Collision_If_Required(cCollision* p_collision)
          * an object may collide with multiple objects, which would cause
          * all items in the collision list to have the same key, which is
          * nonsense and not useful. */
-        Bintree<cCollision> newlist(otheruid, p_collision);
+        Bintree<cCollision*> newlist(otheruid, p_collision);
         m_collisions[myuid] = newlist;
     }
     else {
         // Okay, it *has* been seen. Let's see if there is an inverse collision.
 
         // First, get the list of collisions on the partner.
-        const Bintree<cCollision>& collist = iter->second;
+        const Bintree<cCollision*>& collist = iter->second;
 
         /* The collision list contains the sufferer's UID as keys. If our
          * UID is in there, the collision already exists (invertedly).
          * Prevent the dup and free the unneeded pointer. */
-        const cCollision* p_coll = collist.Fetch(myuid);
+        const cCollision* p_coll = collist.Fetch(myuid, NULL);
         if (p_coll) {
             delete p_collision; // Not needed anymore
             return;
@@ -284,11 +284,11 @@ void cLevel::Add_Collision_If_Required(cCollision* p_collision)
          * conditions documented at the top of this method. */
         iter = m_collisions.find(myuid);
         if (iter == m_collisions.end()) { // No list, construct new one
-            Bintree<cCollision> newlist(otheruid, p_collision);
+            Bintree<cCollision*> newlist(otheruid, p_collision);
             m_collisions[myuid] = newlist;
         }
         else { // Append to existing list
-            iter->second.Insert(new Bintree<cCollision>(otheruid, p_collision));
+            iter->second.Insert(new Bintree<cCollision*>(otheruid, p_collision));
         }
     }
 }
