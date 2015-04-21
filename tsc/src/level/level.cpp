@@ -133,7 +133,7 @@ void cLevel::Update()
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         (*actiter)->Do_Update();
 
-    std::map<unsigned long, Bintree<cCollision> >::iterator iter;
+    std::unordered_map<unsigned long, Bintree<cCollision> >::iterator iter;
 
     // Go through the detected collisions and act accordingly.
     for(iter=m_collisions.begin(); iter != m_collisions.end(); iter++) {
@@ -250,7 +250,7 @@ void cLevel::Add_Collision_If_Required(cCollision* p_collision)
      *    is always equal to the sufferer member of the cCollision instance
      *    stored inside that same binary tree node. */
 
-    std::map<unsigned long, Bintree<cCollision> >::iterator iter;
+    std::unordered_map<unsigned long, Bintree<cCollision> >::iterator iter;
     iter = m_collisions.find(otheruid);
 
     // If the other UID hasn't even been seen yet, the can't be another collision.
