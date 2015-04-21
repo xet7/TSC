@@ -17,6 +17,7 @@ cSpriteActor::cSpriteActor(fs::path relative_texture_path)
     : cActor()
 {
     m_rel_texture_path = relative_texture_path;
+    m_coltype = COLTYPE_MASSIVE;
 }
 
 cSpriteActor::~cSpriteActor()

@@ -179,6 +179,26 @@ namespace TSC {
                 mp_right->Traverse(cb);
             }
         }
+
+        /**
+         * Clear this tree. Clearing means to recursively delete
+         * the left and right nodes of this tree, the referenced
+         * data pointers are of course not deleted as the Bintree
+         * cannot know who manages their memory.
+         *
+         * After this method has been called, Is_Empty() returns
+         * true.
+         */
+        void Clear()
+        {
+            if (mp_left)
+                delete mp_left;
+            if (mp_right)
+                delete mp_right;
+
+            mp_left = NULL;
+            mp_right = NULL;
+        }
     private:
         Bintree<T>* mp_left;
         Bintree<T>* mp_right;

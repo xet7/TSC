@@ -146,6 +146,8 @@ void cLevel::Update()
                 p_coll->Get_Collision_Causer()->Handle_Collision(p_coll);
             }
         });
+
+    m_collisions.Clear();
 }
 
 void cLevel::Draw(sf::RenderWindow& stage) const
