@@ -88,6 +88,9 @@ namespace TSC {
         void Accelerate_Y(const float& deltay, bool real = false);
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
+        void Set_On_Ground(cActor* p_ground_object);
+        cActor* Reset_On_Ground();
+
         float Z() const;
         //protected:
         virtual void Update();

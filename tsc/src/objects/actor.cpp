@@ -349,3 +349,34 @@ bool cActor::operator!=(const cActor& other) const
 {
     return !(*this == other);
 }
+
+/**
+ * Set this actor onto an object below so it stands on it.
+ * Gravity will not affect the actor while he stands on that
+ * object. Calling this method will also immediately reset
+ * the Y velocity to zero, i.e. stop any falling.
+ *
+ * \param[in] p_ground_object
+ * Object to stand on.
+ */
+void cActor::Set_On_Ground(cActor* p_ground_object)
+{
+    mp_ground_object = p_ground_object;
+    m_velocity.y = 0; // Imagine a big crater here…
+}
+
+/**
+ * Take away the ground object from the actor’s feet. The
+ * actor will be subject to gravity again after this method
+ * has been called. Has no effet if the actor is not standing
+ * on anything.
+ *
+ * \returns The previous ground object. NULL if there was none,
+ * i.e. the actor was falling already.
+ */
+cActor* cActor::Reset_On_Ground()
+{
+    cActor* ptr = mp_ground_object;
+    mp_ground_object = NULL;
+    return ptr;
+}

@@ -90,7 +90,8 @@ void cSpriteActor::Set_Dimensions(int width, int height)
 bool cSpriteActor::Handle_Collision(cCollision* p_collision)
 {
     cActor::Handle_Collision(p_collision);
-    std::cout << "COLLISION ON: " << m_name << std::endl;
-    std::cout << "COLLISION IS ON BOTTOM?" << p_collision->Is_Collision_Bottom() << std::endl;
+    if (p_collision->Is_Collision_Bottom()) {
+        Set_On_Ground(p_collision->Get_Collision_Sufferer());
+    }
     return true;
 }
