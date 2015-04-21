@@ -44,19 +44,23 @@ cLevel* cLevel::Construct_Debugging_Level()
 
     cSpriteActor* p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(0, 500); // TODO: Weird TSC coordinate system
+    p_actor->m_name = "Ground 1";
     p_level->Add_Actor(p_actor);
 
     p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(64, 500); // TODO: Weird TSC coordinate system
+    p_actor->m_name = "Ground 2";
     p_level->Add_Actor(p_actor);
 
     p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(128, 500); // TODO: Weird TSC coordinate system
+    p_actor->m_name = "Ground 3";
     p_level->Add_Actor(p_actor);
 
     p_actor = new cSpriteActor(utf8_to_path("alex/small/fall_right.png"));
     p_actor->setPosition(50, 25);
     p_actor->m_gravity_factor = 0.01f;
+    p_actor->m_name = "Player";
     p_level->Add_Actor(p_actor);
 
     // HIER! Spieler einsetzen und fallen lassen! Kollision prüfen!
@@ -147,6 +151,7 @@ void cLevel::Update()
             }
         });
 
+    // FIXME: data pointer not freed!
     m_collisions.Clear();
 }
 
@@ -253,6 +258,10 @@ void cLevel::Check_Collisions_For_Actor(cActor& actor)
     for(iter=m_actors.begin(); iter != m_actors.end(); iter++) {
         cActor& other = **iter;
 
+        // Cannot collide with itself.
+        if (actor == other)
+            continue;
+
         if (other.Get_Collision_Type() != cActor::COLTYPE_PASSIVE && actor.Does_Collide(other)) {
             Add_Collision_If_Required(new cCollision(&actor, &other));
             // MRuby Touch event is not fired here, that’s fired when the collisions are handled.
@@ -307,4 +316,21 @@ void cLevel::Add_Actor(cActor* p_actor, const unsigned long& uid /* = 0 */)
         }
     }
     m_actors.insert(iter, p_actor); // iter points to the past-the-end element, thus this is append operation if the new Z is high enough.
+}
+
+/**
+ * Compare two levels. Two levels are equal if they belong to
+ * the same level file.
+ */
+bool cLevel::operator==(const cLevel& other) const
+{
+    return m_levelfile == other.m_levelfile;
+}
+
+/**
+ * Inverse of operator==().
+ */
+bool cLevel::operator!=(const cLevel& other) const
+{
+    return !(*this == other);
 }

@@ -60,6 +60,9 @@ namespace TSC {
         cActor();
         virtual ~cActor();
 
+        bool operator==(const cActor& other) const;
+        bool operator!=(const cActor& other) const;
+
         void Do_Update();
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);

@@ -324,3 +324,28 @@ bool cActor::Handle_Collision(cCollision* p_collision)
 {
     return true;
 }
+
+/**
+ * Compare two actors. Two actors are equal if:
+ *
+ * 1. They have the same UID.
+ * 2. They belong to the same level.
+ */
+bool cActor::operator==(const cActor& other) const
+{
+    if (other.m_uid != m_uid)
+        return false;
+
+    if (*other.mp_level == *mp_level)
+        return true;
+    else
+        return false;
+}
+
+/**
+ * Inverse of operator==().
+ */
+bool cActor::operator!=(const cActor& other) const
+{
+    return !(*this == other);
+}

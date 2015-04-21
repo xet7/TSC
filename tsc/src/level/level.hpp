@@ -16,6 +16,9 @@ namespace TSC {
         cLevel(boost::filesystem::path levelfile);
         ~cLevel();
 
+        bool operator==(const cLevel& other) const;
+        bool operator!=(const cLevel& other) const;
+
         void Update();
         void Draw(sf::RenderWindow& stage) const;
 
