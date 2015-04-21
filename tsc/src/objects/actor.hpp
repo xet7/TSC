@@ -86,7 +86,7 @@ namespace TSC {
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
         float Z() const;
-    protected:
+        //protected:
         virtual void Update();
         void Update_Gravity();
         void Update_Position();

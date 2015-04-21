@@ -84,3 +84,10 @@ void cSpriteActor::Set_Dimensions(int width, int height)
     m_sprite.setScale(newwidth, newheight);
     Set_Collision_Rect(sf::FloatRect(0, 0, width, height));
 }
+
+bool cSpriteActor::Handle_Collision(cCollision* p_collision)
+{
+    cActor::Handle_Collision(p_collision);
+    std::cout << "COLLISION ON CSPRITEACTOR!" << std::endl;
+    return true;
+}

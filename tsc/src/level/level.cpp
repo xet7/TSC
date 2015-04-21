@@ -54,6 +54,13 @@ cLevel* cLevel::Construct_Debugging_Level()
     p_actor->setPosition(128, 500); // TODO: Weird TSC coordinate system
     p_level->Add_Actor(p_actor);
 
+    p_actor = new cSpriteActor(utf8_to_path("alex/small/fall_right.png"));
+    p_actor->setPosition(50, 25);
+    p_actor->m_gravity_factor = 0.01f;
+    p_level->Add_Actor(p_actor);
+
+    // HIER! Spieler einsetzen und fallen lassen! Kollision prüfen!
+
     p_level->Sort_Z_Elements();
     return p_level;
 }
