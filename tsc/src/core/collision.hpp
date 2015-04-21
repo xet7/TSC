@@ -11,8 +11,9 @@ namespace TSC {
      * will get a collision; which one receives it first, is not determinable.
      * The moving object is referred to as the "collision causer" in this class,
      * whereas the standing object is the "collison sufferer". The collision
-     * side detection methods by this class always ask the question on which
-     * side the suffering rectangle has been hit by the causing rectangle.
+     * side detection methods by this class always ask the question which
+     * side of the causing rectangle collided with the suffering rectangle (i.e.
+     * they act from the point of view of the moving rectangle).
      *
      * If the collision rectangles are not on the same line, but set off,
      * more than one of the collision edge methods may return true. By
@@ -32,8 +33,8 @@ namespace TSC {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~
      *
      * Where _R1_ is the causing (i.e. moving) rectangle, and _R2_ is the suffering,
-     * (i.e. standing) rectangle. In that case, both Is_Collision_Bottom() and
-     * Is_Collision_Left() will return true.
+     * (i.e. standing) rectangle. In that case, both Is_Collision_Top() and
+     * Is_Collision_Right() will return true.
      */
     class cCollision
     {

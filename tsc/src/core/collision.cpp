@@ -30,31 +30,14 @@ void cCollision::Invert()
 }
 
 /**
- * Determine top collision. This method returns true if the suffering collision
+ * Determine top collision. This method returns true if
+ * the moving rectangle’s top edge hit the suffering
+ * rectangle’s bottom edge.
+ *
+ * the suffering collision
  * rectangle was hit at the top by the causing rectangle.
  */
 bool cCollision::Is_Collision_Top() const
-{
-    // Ensure X is in range and not the rectangles far apart.
-    if (m_causer_colrect.left < m_sufferer_colrect.left + m_sufferer_colrect.width
-        && m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left) {
-
-        // The bottom of the causer colrect must be below the top of the sufferer colrect
-        // and the top of the causer colrect must be above the top of the sufferer colrect.
-        if (m_causer_colrect.top + m_causer_colrect.height > m_sufferer_colrect.top
-            && m_causer_colrect.top < m_sufferer_colrect.top) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
- * Determine bottom collision. This method returns true if the suffering collision
- * rectangle was hit at the bottom by the causing rectangle.
- */
-bool cCollision::Is_Collision_Bottom() const
 {
     // Ensure X is in range and not the rectangles far apart.
     if (m_causer_colrect.left < m_sufferer_colrect.left + m_sufferer_colrect.width
@@ -72,19 +55,41 @@ bool cCollision::Is_Collision_Bottom() const
 }
 
 /**
+ * Determine bottom collision. This method returns true if
+ * the causing rectangle’s bottom edge hit the suffering
+ * rectangle’s top edge.
+ */
+bool cCollision::Is_Collision_Bottom() const
+{
+    // Ensure X is in range and not the rectangles far apart.
+    if (m_causer_colrect.left < m_sufferer_colrect.left + m_sufferer_colrect.width
+        && m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left) {
+
+        // The bottom of the causer colrect must be below the top of the sufferer colrect
+        // and the top of the causer colrect must be above the top of the sufferer colrect.
+        if (m_causer_colrect.top + m_causer_colrect.height > m_sufferer_colrect.top
+            && m_causer_colrect.top < m_sufferer_colrect.top) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
  * Determine left collision. This method returns true if the
- * suffering collision rectangle was hit at the left side by
- * the causing rectangle.
+ * causing rectangle’s left edge has hit the suffering
+ * rectangle’s right edge.
  */
 bool cCollision::Is_Collision_Left() const
 {
-    // See Is_Collision_Top() for analogous explanations for top collision.
+    // See Is_Collision_Bottom for analogous explanations for bottom collision.
 
     if (m_causer_colrect.top < m_sufferer_colrect.top + m_sufferer_colrect.height
         && m_causer_colrect.top + m_causer_colrect.height > m_sufferer_colrect.top) {
 
-        if (m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left
-            && m_causer_colrect.left < m_sufferer_colrect.left) {
+        if (m_causer_colrect.left < m_sufferer_colrect.left +  m_sufferer_colrect.width
+            && m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left + m_sufferer_colrect.width) {
             return true;
         }
     }
@@ -94,18 +99,18 @@ bool cCollision::Is_Collision_Left() const
 
 /**
  * Determine right collision. This method returns true if
- * the suffering collision rectangle was hit at the right
- * side by the causing rectangle.
+ * the causing rectangle’s right edge has hit the suffering
+ * rectangle’s left side.
  */
 bool cCollision::Is_Collision_Right() const
 {
-    // See Is_Collision_Bottom for analogous explanations for bottom collision.
+    // See Is_Collision_Top() for analogous explanations for top collision.
 
     if (m_causer_colrect.top < m_sufferer_colrect.top + m_sufferer_colrect.height
         && m_causer_colrect.top + m_causer_colrect.height > m_sufferer_colrect.top) {
 
-        if (m_causer_colrect.left < m_sufferer_colrect.left +  m_sufferer_colrect.width
-            && m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left + m_sufferer_colrect.width) {
+        if (m_causer_colrect.left + m_causer_colrect.width > m_sufferer_colrect.left
+            && m_causer_colrect.left < m_sufferer_colrect.left) {
             return true;
         }
     }

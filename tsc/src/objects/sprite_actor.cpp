@@ -8,6 +8,7 @@
 #include "../video/img_manager.hpp"
 #include "../level/level.hpp"
 #include "actor.hpp"
+#include "../core/collision.hpp"
 #include "sprite_actor.hpp"
 
 using namespace TSC;
@@ -89,6 +90,7 @@ void cSpriteActor::Set_Dimensions(int width, int height)
 bool cSpriteActor::Handle_Collision(cCollision* p_collision)
 {
     cActor::Handle_Collision(p_collision);
-    std::cout << "COLLISION ON CSPRITEACTOR!" << std::endl;
+    std::cout << "COLLISION ON: " << m_name << std::endl;
+    std::cout << "COLLISION IS ON BOTTOM?" << p_collision->Is_Collision_Bottom() << std::endl;
     return true;
 }
