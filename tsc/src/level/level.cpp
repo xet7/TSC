@@ -81,7 +81,6 @@ cLevel* cLevel::Construct_Debugging_Level()
  * \returns The new cLevel instance.
  */
 cLevel::cLevel(fs::path levelfile)
-    : m_collisions(0, NULL) // 0 is reserved and guaranteed to not be taken
 {
     Init();
 }
@@ -92,7 +91,6 @@ cLevel::cLevel(fs::path levelfile)
  * with a file (the public constructor overwrites files).
  */
 cLevel::cLevel()
-    : m_collisions(0, NULL) // 0 is reserved and guaranteed to not be taken
 {
     Init();
 }
@@ -135,24 +133,35 @@ void cLevel::Update()
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         (*actiter)->Do_Update();
 
+    std::map<unsigned long, Bintree<cCollision> >::iterator iter;
+
     // Go through the detected collisions and act accordingly.
-    m_collisions.Traverse([] (const unsigned long& uid, cCollision* p_coll) {
-            //std::cout << "Collision bintree traverse: " << uid << std::endl;
+    for(iter=m_collisions.begin(); iter != m_collisions.end(); iter++) {
+        iter->second.Traverse([] (const unsigned long& uid, cCollision* p_coll) {
+                //std::cout << "Collision bintree traverse: " << uid << std::endl;
 
-            // The first element is 0→NULL, which we need to ignore.
-            if (!p_coll)
-                return;
+                // Ignore NULL pointers (these shouldn't exit, but you never know.)
+                if (!p_coll) {
+                    std::cout << "Warning: Ignoring NULL pointer in collision." << std::endl;
+                    return;
+                }
 
-            if (!p_coll->Get_Collision_Causer()->Handle_Collision(p_coll)) {
-                // Causer doesn't want to deal with this collision. Swap things
-                // round and fire on the sufferer instead.
-                p_coll->Invert();
-                p_coll->Get_Collision_Causer()->Handle_Collision(p_coll);
-            }
-        });
+                if (!p_coll->Get_Collision_Causer()->Handle_Collision(p_coll)) {
+                    // Causer doesn't want to deal with this collision. Swap things
+                    // round and fire on the sufferer instead.
+                    p_coll->Invert();
+                    p_coll->Get_Collision_Causer()->Handle_Collision(p_coll);
+                }
 
-    // FIXME: data pointer not freed!
-    m_collisions.Clear();
+                /* Collision data used, we don't need it anymore.
+                 * As the entire collision list is deleted further below,
+                 * I don’t bother setting the binary tree’s data member
+                 * to a NULL pointer. */
+                delete p_coll;
+            });
+    }
+
+    m_collisions.clear();
 }
 
 void cLevel::Draw(sf::RenderWindow& stage) const
@@ -207,12 +216,13 @@ void cLevel::Sort_Z_Elements()
  *    actor as the collision causer of the collision you’re about to add.
  *    If this is the case, you’re trying to add the described inversely
  *    mirrored collision that should not be counted. In that case, this
- *    method will do nothing, especially not add the collision to the
- *    list of collisions to evaluate.
+ *    method will not add the collision to the list of collisions to evaluate,
+ *    but instead will *delete* the collision instance. You can't use it
+ *    afterwards then!
  *
  * The equality check is done by utilising the UIDs of the actors, and
- * the collision list is a binary tree using the UIDs as keys, thus
- * these actions should be rather performant.
+ * the collision list is a hashmap containing binary trees using the
+ * UIDs as keys, thus these actions should be rather performant.
  *
  * \param[in] p_collision
  * The cCollision instance to add to the list of collisions to evaluate.
@@ -222,20 +232,65 @@ void cLevel::Sort_Z_Elements()
  *
  * \remark This method assumes you’re only adding collisions from
  * the causer’s view of things. If you don’t, the algorithm described
- * above will fail.
+ * above will fail. In other words: The causer member of `p_collision'
+ * must be the moving actor.
  */
 void cLevel::Add_Collision_If_Required(cCollision* p_collision)
 {
     const unsigned long& myuid    = p_collision->Get_Collision_Causer()->Get_UID();
     const unsigned long& otheruid = p_collision->Get_Collision_Sufferer()->Get_UID();
 
-    const cCollision* p_coll = m_collisions.Fetch(otheruid);
-    if (p_coll && p_coll->Get_Collision_Sufferer()->Get_UID() == myuid) {
-        delete p_collision;
-        return;
-    }
+    /* Important for understanding of this method is that it requires
+     * and enforces the following to conditions on the `m_collisions'
+     * member variable:
+     * 1. A key in the toplevel `m_collisions' hashmap is always equal
+     *    to the causer member of a collision saved inside the value
+     *    of that key.
+     * 2. A key in one of the binary trees stored inside the hashmap
+     *    is always equal to the sufferer member of the cCollision instance
+     *    stored inside that same binary tree node. */
 
-    m_collisions.Insert(new Bintree<cCollision>(myuid, p_collision));
+    std::map<unsigned long, Bintree<cCollision> >::iterator iter;
+    iter = m_collisions.find(otheruid);
+
+    // If the other UID hasn't even been seen yet, the can't be another collision.
+    if (iter == m_collisions.end()) {
+        /* Not yet seen. There cannot be another collision.
+         * Construct new collision list with us as the only collision.
+         * Use the sufferer's UID as the list key, because in one frame
+         * an object may collide with multiple objects, which would cause
+         * all items in the collision list to have the same key, which is
+         * nonsense and not useful. */
+        Bintree<cCollision> newlist(otheruid, p_collision);
+        m_collisions[myuid] = newlist;
+    }
+    else {
+        // Okay, it *has* been seen. Let's see if there is an inverse collision.
+
+        // First, get the list of collisions on the partner.
+        const Bintree<cCollision>& collist = iter->second;
+
+        /* The collision list contains the sufferer's UID as keys. If our
+         * UID is in there, the collision already exists (invertedly).
+         * Prevent the dup and free the unneeded pointer. */
+        const cCollision* p_coll = collist.Fetch(myuid);
+        if (p_coll) {
+            delete p_collision; // Not needed anymore
+            return;
+        }
+
+        /* We are not in the collision list as a sufferer. No duplicate.
+         * Add us. Note that what follows is important to ensure the
+         * conditions documented at the top of this method. */
+        iter = m_collisions.find(myuid);
+        if (iter == m_collisions.end()) { // No list, construct new one
+            Bintree<cCollision> newlist(otheruid, p_collision);
+            m_collisions[myuid] = newlist;
+        }
+        else { // Append to existing list
+            iter->second.Insert(new Bintree<cCollision>(otheruid, p_collision));
+        }
+    }
 }
 
 /**

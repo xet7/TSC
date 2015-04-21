@@ -49,7 +49,7 @@ namespace TSC {
         sf::Vector2f m_player_startpos;
         sf::FloatRect m_camera_limits;
 
-        Bintree<cCollision> m_collisions; //< Detected collisions from the current frame.
+        std::map<unsigned long, TSC::Bintree<TSC::cCollision> > m_collisions; //< Detected collisions from the current frame.
         unsigned long m_last_max_uid;
 
         std::vector<cActor*> m_actors;

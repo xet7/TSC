@@ -47,6 +47,34 @@ namespace TSC {
             //
         }
 
+        /**
+         * Default constructor. The constructed binary tree node has the
+         * value 0 and its mapped data is a NULL pointer.
+         *
+         * This should not be used if possible. Instanciate by using the
+         * other constructor which takes both the value and the data.
+         * Reason is that apart from the assignment operator=() you can't
+         * change the value of a binary tree node after its construction.
+         */
+        Bintree()
+            : mp_left(NULL), mp_right(NULL), m_value(0), mp_data(NULL)
+        {
+            //
+        }
+
+        /**
+         * Copy constructor. This is a *recursive* (!) copy. The data object
+         * of course is not copied, only the tree structure itself.
+         */
+        Bintree(const Bintree<T>& other)
+            : mp_left(NULL), mp_right(NULL), m_value(other.m_value), mp_data(other.mp_data)
+        {
+            if (other.mp_left)
+                mp_left = new Bintree<T>(*other.mp_left);
+            if (other.mp_right)
+                mp_right = new Bintree<T>(*other.mp_right);
+        }
+
         ~Bintree()
         {
             if (mp_left)
@@ -55,6 +83,37 @@ namespace TSC {
                 delete mp_right;
         }
 
+        /**
+         * Assignment operator. Copies the contents of `rhs` *recursively*
+         * into this binary tree instance.
+         *
+         * It should be obvious that it is a bad idea to call this on
+         * a binary tree node that is not a toplevel node.
+         */
+        Bintree<T>& operator=(const Bintree<T>& rhs)
+        {
+            if (this != &rhs) { // Skip self-assignment.
+                if (mp_left)
+                    delete mp_left;
+                if (mp_right)
+                    delete mp_right;
+
+                mp_left  = NULL;
+                mp_right = NULL;
+
+                m_value = rhs.m_value;
+                mp_data = rhs.mp_data;
+
+                if (rhs.mp_left) {
+                    mp_left = new Bintree<T>(*rhs.mp_left); // copy constructor for recursive copy
+                }
+                if (rhs.mp_right) {
+                    mp_right = new Bintree<T>(*rhs.mp_right); // copy constructor for recursive copy
+                }
+            }
+
+            return *this;
+        }
 
         inline const Bintree* Get_Left() const {return mp_left;}
         inline const Bintree* Get_Right() const {return mp_right;}
@@ -132,7 +191,7 @@ namespace TSC {
          * \param[in] value
          * The value to check for.
          */
-        T* Fetch(const unsigned long& value)
+        T* Fetch(const unsigned long& value) const
         {
             // Are we the target?
             if (value == m_value) {
