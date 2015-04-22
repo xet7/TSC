@@ -85,7 +85,7 @@ void cSceneManager::Play(sf::RenderWindow& stage)
             sprintf(fps_text, "FPS: %d", m_frames_counted);
             m_framerate_text.setString(fps_text);
 
-            m_framerate = m_frames_counted / total_elapsed_time;
+            m_speedfactor = total_elapsed_time / m_frames_counted;
             m_frames_counted = 0;
             total_elapsed_time = 0.0f;
         }

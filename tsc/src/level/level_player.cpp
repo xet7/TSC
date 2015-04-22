@@ -13,9 +13,10 @@ namespace fs = boost::filesystem;
 cLevel_Player::cLevel_Player()
     : cSpriteActor(utf8_to_path("alex/small/fall_right.png"))
 {
-    m_coltype = COLTYPE_MASSIVE;
-    m_gravity_factor = 0.01f;
     m_name = "Alex";
+    m_coltype = COLTYPE_MASSIVE;
+    m_gravity_accel = 2.8f;
+    m_gravity_max = 25.0f;
 }
 
 cLevel_Player::~cLevel_Player()

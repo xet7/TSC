@@ -26,7 +26,7 @@ namespace TSC {
         inline cScene& Current_Scene(){return *m_scenes_stack.top();}
         inline void End_Play(){m_end_play = true;}
 
-        inline float Get_Framerate() const {return m_framerate;}
+        inline float Get_Speedfactor() const {return m_speedfactor;}
         inline unsigned int Get_FPS() const {return m_frames_counted;}
     private:
         bool Handle_Global_Event(sf::Event& evt);
@@ -34,7 +34,7 @@ namespace TSC {
 
         std::stack<cScene*> m_scenes_stack;
         sf::Clock m_game_clock;
-        float m_framerate;
+        float m_speedfactor;
         unsigned int m_frames_counted;
         bool m_end_play;
 

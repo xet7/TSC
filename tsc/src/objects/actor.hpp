@@ -105,7 +105,8 @@ namespace TSC {
 
         sf::RectangleShape m_debug_colrect_shape;
 
-        float m_gravity_factor;   //< Mass simulation factor.
+        float m_gravity_max;      //< Maximum velocity that can be reached by gravity effect.
+        float m_gravity_accel;    //< How quickly this object falls in gravity effect.
         cActor* mp_ground_object; //< Do we stand on something, and if so, on what?
         sf::Vector2f m_velocity;  //< Velocity in → and ↓ direction.
 

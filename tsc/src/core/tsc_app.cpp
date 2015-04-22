@@ -17,8 +17,6 @@
 #include "tsc_app.hpp"
 
 TSC::cApp* TSC::gp_app = NULL;
-const float TSC::cApp::G = 1.5f;
-const float TSC::cApp::VMAXFALLING = 25.0f;
 
 using namespace TSC;
 

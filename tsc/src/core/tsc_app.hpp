@@ -30,28 +30,6 @@ namespace TSC {
     class cApp
     {
     public:
-        /**
-         * Global gravity acceleration factor, in px/frame².
-         * This factor is multiplied with each actor’s own
-         * gravity factor (simulating its mass). If you want
-         * to exempt an object from gravity, set its `m_gravity_factor`
-         * to 0. You can use an actor’s Update() method to have
-         * it move up/down still. Note that regardless of the
-         * actor’s gravity factor, an object will never fall faster
-         * than VMAXFALLING.
-         *
-         * g’s value is 1.5 px/frame², which means that for each frame,
-         * an object falling down accelerates by 1.5px/frame.
-         */
-        static const float G;
-
-        /**
-         * Maximum velocity any falling object can reach in TSC.
-         * This simulates air resistance. See the G constant for
-         * a more thorough explanation.
-         */
-        static const float VMAXFALLING;
-
         cApp();
         ~cApp();
 

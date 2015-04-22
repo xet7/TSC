@@ -54,7 +54,8 @@ cActor::cActor()
     m_coltype = COLTYPE_PASSIVE;
 
     // By default, invisible objects are not subject to gravity.
-    m_gravity_factor = 0;
+    m_gravity_max = 0;
+    m_gravity_accel = 0;
     mp_ground_object = NULL;
 
     m_uid = 0;
@@ -105,20 +106,18 @@ void cActor::Update()
 void cActor::Update_Gravity()
 {
     // Shortcut if this object is not subject to gravity at all
-    if (Is_Float_Equal(m_gravity_factor, 0.0f))
+    if (Is_Float_Equal(m_gravity_accel, 0.0f))
         return;
     // Shortcut if we stand on a ground object and can’t even fall.
     if (mp_ground_object)
         return;
 
-    // Calculate the objects velocity by multiplying it’s "mass" with the
-    // global gravity acceleration, then increment the Y velocity accordingly.
-    float a = cApp::G * m_gravity_factor;
-    Accelerate_Y(a);
+    // Accelerate falling by the gravity factor.
+    Accelerate_Y(m_gravity_accel);
 
     // "Aerial resistance" stops incrementing of the falling velocity some time.
-    if (m_velocity.y > cApp::VMAXFALLING)
-        m_velocity.y = cApp::VMAXFALLING;
+    if (m_velocity.y > m_gravity_max)
+        m_velocity.y = m_gravity_max;
 }
 
 /**
@@ -181,7 +180,7 @@ void cActor::Accelerate_X(const float& deltax, bool real /* = false */)
         m_velocity.x += deltax;
     }
     else {
-        m_velocity.x += deltax * gp_app->Get_SceneManager().Get_Framerate();
+        m_velocity.x += deltax * gp_app->Get_SceneManager().Get_Speedfactor();
     }
 }
 
@@ -194,7 +193,7 @@ void cActor::Accelerate_Y(const float& deltay, bool real /* = false */)
         m_velocity.y += deltay;
     }
     else {
-        m_velocity.y += deltay * gp_app->Get_SceneManager().Get_Framerate();
+        m_velocity.y += deltay * gp_app->Get_SceneManager().Get_Speedfactor();
     }
 }
 
@@ -210,8 +209,8 @@ void cActor::Accelerate_XY(const float& deltax, const float& deltay, bool real /
         m_velocity.y += deltay;
     }
     else {
-        m_velocity.x += deltax * gp_app->Get_SceneManager().Get_Framerate();
-        m_velocity.y += deltay * gp_app->Get_SceneManager().Get_Framerate();
+        m_velocity.x += deltax * gp_app->Get_SceneManager().Get_Speedfactor();
+        m_velocity.y += deltay * gp_app->Get_SceneManager().Get_Speedfactor();
     }
 }
 
