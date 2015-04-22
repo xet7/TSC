@@ -34,13 +34,24 @@ cLevelScene::~cLevelScene()
 
 void cLevelScene::Handle_Event(sf::Event& evt)
 {
+    if (evt.type != sf::Event::KeyPressed)
+        return;
+
+    cLevel_Player* p_player = mp_current_level->Get_Player();
+
+    switch (evt.key.code) {
+    case sf::Keyboard::Space:
+        p_player->Action_Jump();
+    default:
+        return;
+    }
 }
 
 void cLevelScene::Update()
 {
     cScene::Update();
 
-    m_current_level->Update();
+    mp_current_level->Update();
 }
 
 void cLevelScene::Draw(sf::RenderWindow& stage)
@@ -48,7 +59,7 @@ void cLevelScene::Draw(sf::RenderWindow& stage)
     cScene::Draw(stage);
 
     // Draw the level elements themselves
-    m_current_level->Draw(stage);
+    mp_current_level->Draw(stage);
 
     // Draw the HUD
     // TODO
@@ -67,7 +78,7 @@ std::string cLevelScene::Name() const
 void cLevelScene::Add_Level(cLevel* p_level)
 {
     m_active_levels.push_back(p_level);
-    m_current_level = p_level;
+    mp_current_level = p_level;
 }
 
 /**
@@ -97,5 +108,5 @@ void cLevelScene::Add_Level(const std::string& levelname)
  */
 void cLevelScene::Set_Current_Level(size_t i)
 {
-    m_current_level = m_active_levels[i];
+    mp_current_level = m_active_levels[i];
 }
