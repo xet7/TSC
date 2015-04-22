@@ -307,6 +307,7 @@ set(tsc_sources
   "src/gui/spinner.cpp"
 
   "src/level/level.cpp"
+  "src/level/level_player.cpp"
 
   "src/objects/actor.cpp"
   "src/objects/sprite_actor.cpp"

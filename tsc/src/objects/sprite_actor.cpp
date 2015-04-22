@@ -30,9 +30,7 @@ void cSpriteActor::Added_To_Level(cLevel* p_level, const unsigned long& uid)
 {
     cActor::Added_To_Level(p_level, uid);
 
-    const cImage_Manager::ConfiguredTexture& txtinfo = p_level->Get_ImageManager()->Get_Texture(m_rel_texture_path);
-    m_sprite.setTexture(*txtinfo.m_texture);
-    txtinfo.m_settings->Apply(*this);
+    Set_Texture(m_rel_texture_path);
 }
 
 void cSpriteActor::Draw(sf::RenderWindow& stage) const
@@ -87,11 +85,14 @@ void cSpriteActor::Set_Dimensions(int width, int height)
     Set_Collision_Rect(sf::FloatRect(0, 0, width, height));
 }
 
-bool cSpriteActor::Handle_Collision(cCollision* p_collision)
+/**
+ * Set this sprite’s texture to a different one.
+ */
+void cSpriteActor::Set_Texture(fs::path relative_texture_path)
 {
-    cActor::Handle_Collision(p_collision);
-    if (p_collision->Is_Collision_Bottom()) {
-        Set_On_Ground(p_collision->Get_Collision_Sufferer());
-    }
-    return true;
+    m_rel_texture_path = relative_texture_path;
+
+    const cImage_Manager::ConfiguredTexture& txtinfo = mp_level->Get_ImageManager()->Get_Texture(m_rel_texture_path);
+    m_sprite.setTexture(*txtinfo.m_texture);
+    txtinfo.m_settings->Apply(*this);
 }

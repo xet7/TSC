@@ -15,9 +15,9 @@ namespace TSC {
 
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
-        virtual bool Handle_Collision(cCollision* p_collision);
 
         void Set_Dimensions(int width, int height);
+        void Set_Texture(boost::filesystem::path relative_texture_path);
 
     private:
         sf::Sprite m_sprite;
