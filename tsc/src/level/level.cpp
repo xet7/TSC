@@ -4,15 +4,13 @@
 #include "../core/property_helper.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
+#include "../objects/sprite_actor.hpp"
+#include "../level/level_player.hpp"
 #include "../core/collision.hpp"
 #include "../core/file_parser.hpp"
 #include "../video/img_settings.hpp"
 #include "../video/img_manager.hpp"
 #include "level.hpp"
-
-#include "../objects/actor.hpp"
-#include "../objects/sprite_actor.hpp"
-#include "../level/level_player.hpp"
 
 using namespace TSC;
 namespace fs = boost::filesystem;
@@ -45,7 +43,7 @@ cLevel* cLevel::Construct_Debugging_Level()
 
     cLevel_Player* p_player = new cLevel_Player();
     p_player->setPosition(50, 25);
-    p_level->Add_Actor(p_player);
+    p_level->Add_Player(p_player);
 
     cSpriteActor* p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(0, 500); // TODO: Weird TSC coordinate system
@@ -123,6 +121,7 @@ void cLevel::Init()
 
     m_last_max_uid = 0;
     mp_img_manager = new cImage_Manager();
+    mp_level_player = NULL;
 }
 
 void cLevel::Update()
@@ -370,6 +369,22 @@ void cLevel::Add_Actor(cActor* p_actor, const unsigned long& uid /* = 0 */)
         }
     }
     m_actors.insert(iter, p_actor); // iter points to the past-the-end element, thus this is append operation if the new Z is high enough.
+}
+
+/**
+ * Add Alex to the level. You can only call this once;
+ * if you try otherwise, you’ll get an exception.
+ */
+void cLevel::Add_Player(cLevel_Player* p_levelplayer)
+{
+    if (mp_level_player) {
+        throw(std::runtime_error("Tried to add multiple level players!"));
+    }
+
+    mp_level_player = p_levelplayer;
+
+    mp_level_player->Added_To_Level(this, 0); // Reserved UID 0 for the level player
+    m_actors.push_back(mp_level_player);
 }
 
 /**

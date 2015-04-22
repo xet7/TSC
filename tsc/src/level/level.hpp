@@ -25,10 +25,14 @@ namespace TSC {
         inline std::string Name() const {return path_to_utf8(m_levelfile.stem());}
         void Sort_Z_Elements();
 
+        void Add_Player(cLevel_Player* p_player);
         void Add_Actor(cActor* p_actor, const unsigned long& uid = 0);
         void Check_Collisions_For_Actor(cActor& actor);
 
         inline cImage_Manager* Get_ImageManager(){return mp_img_manager;}
+
+        inline cLevel_Player* Get_Player(){return mp_level_player;}
+        inline const cLevel_Player* Get_Player() const {return mp_level_player;}
 
     private:
         cLevel(); // Private constructor
@@ -55,6 +59,9 @@ namespace TSC {
         std::vector<cActor*> m_actors;
         /// Level backgrounds.
         std::vector<sf::Sprite*> m_backgrounds;
+
+        /// The one and only Alex.
+        cLevel_Player* mp_level_player;
 
         cImage_Manager* mp_img_manager; // Pointer so not everyone using levels has to include image manager files
     };
