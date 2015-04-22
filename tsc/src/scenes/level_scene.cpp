@@ -40,24 +40,22 @@ void cLevelScene::Handle_Event(sf::Event& evt)
     cLevel_Player* p_player = mp_current_level->Get_Player();
 
     switch (evt.key.code) {
-    case sf::Keyboard::Space:
-        p_player->Action_Jump();
     default:
         return;
     }
 }
 
-void cLevelScene::Update()
+void cLevelScene::Update(sf::RenderWindow& stage)
 {
-    cScene::Update();
+    cScene::Update(stage);
 
     mp_current_level->Update();
+    stage.setView(mp_current_level->Get_View());
 }
 
 void cLevelScene::Draw(sf::RenderWindow& stage)
 {
     cScene::Draw(stage);
-
     // Draw the level elements themselves
     mp_current_level->Draw(stage);
 

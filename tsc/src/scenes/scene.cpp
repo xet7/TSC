@@ -13,7 +13,7 @@ void cScene::Handle_Event(sf::Event& evt)
     //
 }
 
-void cScene::Update()
+void cScene::Update(sf::RenderWindow& stage)
 {
     //
 }

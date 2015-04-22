@@ -68,9 +68,9 @@ void cMenuScene::Handle_Event(sf::Event& evt)
     }
 }
 
-void cMenuScene::Update()
+void cMenuScene::Update(sf::RenderWindow& stage)
 {
-    cScene::Update();
+    cScene::Update(stage);
 
     if (m_is_growing) {
         m_scale_factor += 0.003f;

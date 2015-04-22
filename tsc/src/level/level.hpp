@@ -34,6 +34,7 @@ namespace TSC {
         inline cLevel_Player* Get_Player(){return mp_level_player;}
         inline const cLevel_Player* Get_Player() const {return mp_level_player;}
 
+        inline const sf::View& Get_View() const {return m_camera_view;}
     private:
         cLevel(); // Private constructor
         void Init();
@@ -62,6 +63,8 @@ namespace TSC {
 
         /// The one and only Alex.
         cLevel_Player* mp_level_player;
+
+        sf::View m_camera_view;
 
         cImage_Manager* mp_img_manager; // Pointer so not everyone using levels has to include image manager files
     };

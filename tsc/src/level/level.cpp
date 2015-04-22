@@ -10,6 +10,8 @@
 #include "../core/file_parser.hpp"
 #include "../video/img_settings.hpp"
 #include "../video/img_manager.hpp"
+#include "../user/preferences.hpp"
+#include "../core/tsc_app.hpp"
 #include "level.hpp"
 
 using namespace TSC;
@@ -42,7 +44,7 @@ cLevel* cLevel::Construct_Debugging_Level()
     p_level->m_levelfile = utf8_to_path("/tmp/debugging.tsclvl");
 
     cLevel_Player* p_player = new cLevel_Player();
-    p_player->setPosition(50, 25);
+    p_player->setPosition(50, -100);
     p_level->Add_Player(p_player);
 
     cSpriteActor* p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
@@ -122,6 +124,9 @@ void cLevel::Init()
     m_last_max_uid = 0;
     mp_img_manager = new cImage_Manager();
     mp_level_player = NULL;
+
+    cPreferences& prefs = gp_app->Get_Preferences();
+    m_camera_view.reset(sf::FloatRect(0, 0, prefs.m_video_screen_w, prefs.m_video_screen_h));
 }
 
 void cLevel::Update()
@@ -160,6 +165,10 @@ void cLevel::Update()
     }
 
     m_collisions.clear();
+
+    // Center camera view on player.
+    // TODO: This centers on the player's upper-left corner...
+    m_camera_view.setCenter(mp_level_player->getPosition());
 }
 
 void cLevel::Draw(sf::RenderWindow& stage) const

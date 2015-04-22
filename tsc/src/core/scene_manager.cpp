@@ -111,20 +111,23 @@ void cSceneManager::Play(sf::RenderWindow& stage)
         stage.clear();
 
         // Moving and other updates
-        p_current_scene->Update();
+        p_current_scene->Update(stage);
 
         // Draw the current scene into the back buffer
         p_current_scene->Draw(stage);
+
+        // What follows are elements directly tied to the window,
+        // and not to any level. Thus, the view must be reset to
+        // the default view.
+        stage.setView(stage.getDefaultView());
 
         // Show framerate if debugging
         if (gp_app->Is_Debug_Mode()) {
             stage.draw(m_framerate_text);
         }
 
-        // Render CEGUI on top of it. CEGUI must always use the default view
-        // without any zooming or other things applied! It’s directly tied
-        // to the window, and has nothing to do with a level or so.
-        stage.setView(stage.getDefaultView());
+        // Draw CEGUI on top of everything. Always render CEGUI
+        // *last* to prevent any OpenGL mixup problems.
         CEGUI::System::getSingleton().renderGUI();
 
         // Show it
