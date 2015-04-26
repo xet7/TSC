@@ -17,6 +17,9 @@
 using namespace TSC;
 namespace fs = boost::filesystem;
 
+// Extern from global_game.hpp
+cLevel* gp_current_level = NULL;
+
 /**
  * Load a level from a file rather than creating a new one. The
  * level is not active; you have to add it to the cLevelScene
