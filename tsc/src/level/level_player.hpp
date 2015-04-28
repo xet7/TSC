@@ -10,8 +10,6 @@ namespace TSC {
         virtual ~cLevel_Player();
 
         virtual bool Handle_Collision(cCollision* p_collision);
-    private:
-        sf::Sprite m_sprite;
     };
 }
 
