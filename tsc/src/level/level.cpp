@@ -3,6 +3,8 @@
 #include "../core/global_game.hpp"
 #include "../core/property_helper.hpp"
 #include "../scripting/scriptable_object.hpp"
+#include "../core/file_parser.hpp"
+#include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
 #include "../level/level_player.hpp"
@@ -18,7 +20,7 @@ using namespace TSC;
 namespace fs = boost::filesystem;
 
 // Extern from global_game.hpp
-cLevel* gp_current_level = NULL;
+cLevel* TSC::gp_current_level = NULL;
 
 /**
  * Load a level from a file rather than creating a new one. The
