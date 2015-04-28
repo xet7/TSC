@@ -16,12 +16,6 @@
 #ifndef TSC_IMG_SET_HPP
 #define TSC_IMG_SET_HPP
 
-#include "../core/global_game.hpp"
-#include "../core/global_basic.hpp"
-#include "../core/math/rect.hpp"
-#include "../core/file_parser.hpp"
-#include "../video/video.hpp"
-
 namespace TSC {
 
     /* *** *** *** *** *** *** *** cImageSet *** *** *** *** *** *** *** *** *** *** */
@@ -66,11 +60,11 @@ namespace TSC {
 
             // enter the frame
             void Enter(void);
-            // leave a frame, return next frame for branching or -1 
+            // leave a frame, return next frame for branching or -1
             int Leave(void);
 
             // the image
-            cGL_Surface* m_image;
+            const struct ConfiguredTexture* m_image;
             // time to display in milliseconds
             uint32_t m_time;
             // information
@@ -89,7 +83,7 @@ namespace TSC {
          * NULL image is allowed
          * time: if not set uses the default display time
         */
-        void Add_Image(cGL_Surface* image, uint32_t time = 0);
+        void Add_Image(const struct ConfiguredTexture* image, uint32_t time = 0);
 
         // Add an image set
         bool Add_Image_Set(const std::string& name, boost::filesystem::path path, uint32_t time = 0, int* start_num = NULL, int* end_num = NULL);
@@ -107,7 +101,7 @@ namespace TSC {
         */
         void Set_Image_Num(const int num, bool new_startimage = 0);
         // Get an array image
-        cGL_Surface* Get_Image(const unsigned int num) const;
+        const struct ConfiguredTexture* Get_Image(const unsigned int num) const;
         // Clear the image list
         void Clear_Images(bool reset_image=false, bool reset_startimage=false);
 
@@ -149,7 +143,7 @@ namespace TSC {
         };
 
         /* Fetch a single image from another image set. */
-        static cGL_Surface* Fetch_Single_Image(const boost::filesystem::path& path, int idx = 0);
+        static const struct ConfiguredTexture* Fetch_Single_Image(const boost::filesystem::path& path, int idx = 0);
 
         // currently set image array number
         int m_curr_img;
@@ -163,13 +157,13 @@ namespace TSC {
         uint32_t m_anim_time_default;
         // animation counter
         uint32_t m_anim_counter;
-        uint32_t m_anim_last_ticks;
+        //uint32_t m_anim_last_ticks;
         // animation speed modifier
         float m_anim_mod;
-    
+
         // Required overrides
         virtual std::string Get_Identity(void) { return std::string(); }
-        virtual void Set_Image_Set_Image(cGL_Surface* new_image, bool new_startimage = 0) = 0;
+        virtual void Set_Image_Set_Image(const struct ConfiguredTexture* new_image, bool new_startimage = false){}
 
 
         // Surface list
@@ -199,12 +193,12 @@ namespace TSC {
         // return identity
         virtual std::string Get_Identity(void);
         // set the current imageset image
-        virtual void Set_Image_Set_Image(cGL_Surface* new_image, bool new_startimage = 0);
+        virtual void Set_Image_Set_Image(const struct ConfiguredTexture* new_image, bool new_startimage = false);
 
         // identity
         std::string m_identity;
         // image
-        cGL_Surface* m_image;
+        const struct ConfiguredTexture* m_image;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

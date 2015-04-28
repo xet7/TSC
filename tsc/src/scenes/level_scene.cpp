@@ -7,6 +7,8 @@
 #include "../scripting/scriptable_object.hpp"
 #include "../core/collision.hpp"
 #include "../level/level.hpp"
+#include "../core/file_parser.hpp"
+#include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
 #include "scene.hpp"
