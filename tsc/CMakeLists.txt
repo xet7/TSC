@@ -323,6 +323,7 @@ set(tsc_sources
 
   "src/video/img_manager.cpp"
   "src/video/img_settings.cpp"
+  "src/video/img_set.cpp"
 )
 
 ###############################################
