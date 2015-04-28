@@ -23,6 +23,7 @@ cSceneManager::cSceneManager()
 {
     m_end_play = false;
     m_frames_counted = 0;
+    m_elapsed_time = 0;
 }
 
 /**
@@ -73,14 +74,13 @@ void cSceneManager::Play(sf::RenderWindow& stage)
 
     // Main loop
     float total_elapsed_time = 0.0f;
-    float elapsed_time       = 0.0f;
     char fps_text[16];
     while (!m_end_play) {
         // Measure time we needed for this frame
-        elapsed_time = m_game_clock.restart().asSeconds();
+        m_elapsed_time = m_game_clock.restart().asSeconds();
 
         // Calculate the framerate, i.e. the amount of frames we can do per second.
-        total_elapsed_time += elapsed_time;
+        total_elapsed_time += m_elapsed_time;
         if (total_elapsed_time >= 1.0f) {
             sprintf(fps_text, "FPS: %d", m_frames_counted);
             m_framerate_text.setString(fps_text);
@@ -91,7 +91,7 @@ void cSceneManager::Play(sf::RenderWindow& stage)
         }
         m_frames_counted++;
 
-        CEGUI::System::getSingleton().injectTimePulse(elapsed_time);
+        CEGUI::System::getSingleton().injectTimePulse(m_elapsed_time);
 
         // Get scene on top of the stack.
         cScene* p_current_scene = m_scenes_stack.top();

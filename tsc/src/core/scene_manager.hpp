@@ -28,6 +28,10 @@ namespace TSC {
 
         inline float Get_Speedfactor() const {return m_speedfactor;}
         inline unsigned int Get_FPS() const {return m_frames_counted;}
+
+        // Returns the time that was needed to handle the entire last
+        // frame.
+        inline float Get_Elapsed_Time() const {return m_elapsed_time;}
     private:
         bool Handle_Global_Event(sf::Event& evt);
         unsigned int SFMLKey2CEGUIKey(const sf::Keyboard::Key& key);
@@ -35,6 +39,7 @@ namespace TSC {
         std::stack<cScene*> m_scenes_stack;
         sf::Clock m_game_clock;
         float m_speedfactor;
+        float m_elapsed_time;
         unsigned int m_frames_counted;
         bool m_end_play;
 
