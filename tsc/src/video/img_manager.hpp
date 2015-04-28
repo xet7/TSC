@@ -19,6 +19,16 @@
 
 namespace TSC {
 
+    /**
+     * Struct that contains the information of the texture’s `.settings` file
+     * next to the texture itself.
+     */
+    struct ConfiguredTexture
+    {
+        sf::Texture* m_texture;
+        cImage_Settings_Data* m_settings;
+    };
+
     /* *** *** *** *** *** *** cImage_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
     /**
@@ -31,16 +41,6 @@ namespace TSC {
     class cImage_Manager
     {
     public:
-        /**
-         * Struct that contains the information of the texture’s `.settings` file
-         * next to the texture itself.
-         */
-        struct ConfiguredTexture
-        {
-            sf::Texture* m_texture;
-            cImage_Settings_Data* m_settings;
-        };
-
         cImage_Manager(void);
         virtual ~cImage_Manager(void);
 

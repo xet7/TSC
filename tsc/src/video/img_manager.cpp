@@ -22,7 +22,6 @@
 #include "../core/xml_attributes.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
-#include "../objects/sprite_actor.hpp"
 #include "../scenes/scene.hpp"
 #include "../core/scene_manager.hpp"
 #include "../core/filesystem/resource_manager.hpp"
@@ -59,7 +58,7 @@ cImage_Manager::~cImage_Manager()
  * Get_Texture(utf8_to_path("your/path"));
  * ~~~~~~~~~~~
  */
-const struct cImage_Manager::ConfiguredTexture& cImage_Manager::Get_Texture_UTF8(const std::string& relpath)
+const struct ConfiguredTexture& cImage_Manager::Get_Texture_UTF8(const std::string& relpath)
 {
     return Get_Texture(utf8_to_path(relpath));
 }
@@ -72,11 +71,12 @@ const struct cImage_Manager::ConfiguredTexture& cImage_Manager::Get_Texture_UTF8
  * Path to load the texture from. This filename should be relative
  * to the pixmaps/ directory. It will first be tried to load the
  * image from the user’s directory (cache), then from the game’s
- * master directory.
+ * master directory. When a relative path is passed, the active
+ * package will be searched first.
  *
  * \returns The corresponding SFML texture object.
  */
-const cImage_Manager::ConfiguredTexture& cImage_Manager::Get_Texture(const fs::path& relpath)
+const ConfiguredTexture& cImage_Manager::Get_Texture(const fs::path& relpath)
 {
     if (m_textures.count(relpath)) {
         return *(m_textures[relpath]);

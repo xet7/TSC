@@ -569,6 +569,7 @@ namespace TSC {
     /** CLASS FORWARD DECLRATIONS END **/
 
     /* *** Things the rake task fails to detect *** */
+    struct ConfiguredTexture;
 
     namespace Scripting {
         class cScriptable_Object;
