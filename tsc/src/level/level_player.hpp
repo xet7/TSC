@@ -3,7 +3,7 @@
 
 namespace TSC {
 
-    class cLevel_Player: public cSpriteActor
+    class cLevel_Player: public cAnimatedActor
     {
     public:
         cLevel_Player();

@@ -7,6 +7,7 @@
 #include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
+#include "../objects/animated_actor.hpp"
 #include "../level/level_player.hpp"
 #include "../core/collision.hpp"
 #include "../core/file_parser.hpp"

@@ -91,12 +91,8 @@ void cSpriteActor::Set_Dimensions(int width, int height)
  *
  * This method ignores imagesets and thus should only be
  * used by sprites that never change their image.
- * Use the methods in cImage_Set for changing an animation’s
- * sprites.
- *
- * TODO: Reorder class hierarchy so that we get a class
- * cStatic_Actor or so that does not even know about
- * image sets. cMoving_Actor than takes in the image sets.
+ * Use instances of cMovingActor instead, and on those,
+ * use the Set_Image_Num() methods inherited from ImageSet.
  */
 void cSpriteActor::Set_Texture(fs::path relative_texture_path)
 {
@@ -105,23 +101,4 @@ void cSpriteActor::Set_Texture(fs::path relative_texture_path)
     const struct ConfiguredTexture& txtinfo = mp_level->Get_ImageManager()->Get_Texture(m_rel_texture_path);
     m_sprite.setTexture(*txtinfo.m_texture);
     txtinfo.m_settings->Apply(*this);
-}
-
-/**
- * Callback function for cImage_Set::Set_Image_Num().
- */
-void cSpriteActor::Set_Image_Set_Image(const struct ConfiguredTexture* p_new_image, bool new_startimage /* = false */)
-{
-    m_sprite.setTexture(*(p_new_image->m_texture));
-    p_new_image->m_settings->Apply(*this);
-}
-
-/**
- * Override of cImage_Set::Get_Identity().
- */
-std::string cSpriteActor::Get_Identity(void)
-{
-    std::stringstream ss;
-    ss << "sprite type " << "(TODO: m_type)" << ", name " << m_name;
-    return ss.str();
 }

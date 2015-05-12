@@ -6,6 +6,7 @@
 #include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
+#include "../objects/animated_actor.hpp"
 #include "../core/collision.hpp"
 #include "level_player.hpp"
 
@@ -13,7 +14,7 @@ using namespace TSC;
 namespace fs = boost::filesystem;
 
 cLevel_Player::cLevel_Player()
-    : cSpriteActor(utf8_to_path("alex/small/fall_right.png"))
+    : cAnimatedActor(utf8_to_path("alex/small/fall_right.png"))
 {
     m_name = "Alex";
     m_coltype = COLTYPE_MASSIVE;

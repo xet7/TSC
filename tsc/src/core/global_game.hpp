@@ -551,6 +551,7 @@ namespace TSC {
     class cSpinBox;
     class cSprite;
     class cSpriteActor;
+    class cAnimatedActor;
     class cSprite_List;
     class cSprite_Manager;
     class cStaticEnemy;
