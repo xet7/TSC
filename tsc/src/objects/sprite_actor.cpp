@@ -15,10 +15,12 @@
 using namespace TSC;
 namespace fs = boost::filesystem;
 
-cSpriteActor::cSpriteActor(fs::path relative_texture_path)
+/**
+ * Default constructor. Sets the collision type to COLTYPE_MASSIVE.
+ */
+cSpriteActor::cSpriteActor()
     : cActor()
 {
-    m_rel_texture_path = relative_texture_path;
     m_coltype = COLTYPE_MASSIVE;
 }
 
@@ -30,8 +32,6 @@ cSpriteActor::~cSpriteActor()
 void cSpriteActor::Added_To_Level(cLevel* p_level, const unsigned long& uid)
 {
     cActor::Added_To_Level(p_level, uid);
-
-    Set_Texture(m_rel_texture_path);
 }
 
 void cSpriteActor::Draw(sf::RenderWindow& stage) const
@@ -84,21 +84,4 @@ void cSpriteActor::Set_Dimensions(int width, int height)
      * comment in this method’s docs. */
     m_sprite.setScale(newwidth, newheight);
     Set_Collision_Rect(sf::FloatRect(0, 0, width, height));
-}
-
-/**
- * Set this sprite’s texture to a different one.
- *
- * This method ignores imagesets and thus should only be
- * used by sprites that never change their image.
- * Use instances of cMovingActor instead, and on those,
- * use the Set_Image_Num() methods inherited from ImageSet.
- */
-void cSpriteActor::Set_Texture(fs::path relative_texture_path)
-{
-    m_rel_texture_path = relative_texture_path;
-
-    const struct ConfiguredTexture& txtinfo = mp_level->Get_ImageManager()->Get_Texture(m_rel_texture_path);
-    m_sprite.setTexture(*txtinfo.m_texture);
-    txtinfo.m_settings->Apply(*this);
 }

@@ -10,17 +10,18 @@ namespace TSC {
      * an instance comes from the cImageSet class — note this
      * class does multiple inheritance for this.
      *
-     * Do not use the inherited Set_Texture() method with instances
-     * of this class and its subclasses. Use Set_Image_Num() as
-     * inherited from cImageSet(), as only that method allows you
-     * to refer to what was defined in the image sets. Set_Image_Num()
-     * recurs to Set_Texture() under the hood, but that’s an implementation
-     * detail.
+     * Use Set_Image_Num() as inherited from cImageSet() to specify
+     * which image of the sequence to show, as only that method allows
+     * you to refer to what was defined in the image
+     * sets.
      */
     class cAnimatedActor: public cSpriteActor, public cImageSet
     {
     public:
-        cAnimatedActor(boost::filesystem::path relative_texture_path);
+        cAnimatedActor();
+        virtual ~cAnimatedActor();
+
+        virtual void Draw(sf::RenderWindow& stage) const;
 
         virtual void Set_Image_Set_Image(const struct ConfiguredTexture* p_new_image, bool new_startimage = false);
         virtual std::string Get_Identity(void);

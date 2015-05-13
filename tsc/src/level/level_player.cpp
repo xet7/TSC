@@ -14,12 +14,14 @@ using namespace TSC;
 namespace fs = boost::filesystem;
 
 cLevel_Player::cLevel_Player()
-    : cAnimatedActor(utf8_to_path("alex/small/fall_right.png"))
+    : cAnimatedActor()
 {
     m_name = "Alex";
     m_coltype = COLTYPE_MASSIVE;
     m_gravity_accel = 2.8f;
     m_gravity_max = 25.0f;
+
+    //utf8_to_path("alex/small/fall_right.png")
 }
 
 cLevel_Player::~cLevel_Player()
@@ -29,7 +31,7 @@ cLevel_Player::~cLevel_Player()
 
 bool cLevel_Player::Handle_Collision(cCollision* p_collision)
 {
-    cSpriteActor::Handle_Collision(p_collision);
+    cAnimatedActor::Handle_Collision(p_collision);
 
     if (p_collision->Is_Collision_Bottom()) {
         Set_On_Ground(p_collision->Get_Collision_Sufferer());

@@ -16,9 +16,14 @@ namespace fs = boost::filesystem;
  * Construct new animated actor. The given texture is used as the initial
  * image.
  */
-cAnimatedActor::cAnimatedActor(fs::path relative_texture_path)
-    : cSpriteActor(relative_texture_path), cImageSet()
+cAnimatedActor::cAnimatedActor()
+    : cSpriteActor(), cImageSet()
 {
+}
+
+cAnimatedActor::~cAnimatedActor()
+{
+    //
 }
 
 /**
@@ -38,4 +43,9 @@ std::string cAnimatedActor::Get_Identity(void)
     std::stringstream ss;
     ss << "sprite type " << "(TODO: m_type)" << ", name " << m_name;
     return ss.str();
+}
+
+void cAnimatedActor::Draw(sf::RenderWindow& stage) const
+{
+    cSpriteActor::Draw(stage);
 }
