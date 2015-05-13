@@ -21,6 +21,7 @@
 #include "../core/math/utilities.hpp"
 #include "../core/file_parser.hpp"
 #include "../scripting/scriptable_object.hpp"
+#include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
 #include "img_settings.hpp"

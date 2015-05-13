@@ -1,27 +1,26 @@
-#ifndef TSC_STATIC_ACTOR_HPP
-#define TSC_STATIC_ACTOR_HPP
+#ifndef TSC_SPRITE_ACTOR_HPP
+#define TSC_SPRITE_ACTOR_HPP
 
 namespace TSC {
 
     /**
-     * Visible actors that don’t move and don’t do much
-     * interaction. This is notably the case for ground tiles.
+     * Abstract class for actors wrapping an SFML sprite.
+     * You should not use this class bare. Use the cStaticActor
+     * and cAnimatedActor subclasses instead.
      */
     class cSpriteActor: public cActor
     {
     public:
-        cSpriteActor(boost::filesystem::path relative_texture_path);
+        cSpriteActor();
         virtual ~cSpriteActor();
 
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
 
         void Set_Dimensions(int width, int height);
-        void Set_Texture(boost::filesystem::path relative_texture_path);
 
-    private:
+    protected:
         sf::Sprite m_sprite;
-        boost::filesystem::path m_rel_texture_path;
     };
 
 }

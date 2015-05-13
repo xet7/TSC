@@ -3,8 +3,12 @@
 #include "../core/global_game.hpp"
 #include "../core/property_helper.hpp"
 #include "../scripting/scriptable_object.hpp"
+#include "../core/file_parser.hpp"
+#include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
+#include "../objects/static_actor.hpp"
+#include "../objects/animated_actor.hpp"
 #include "../level/level_player.hpp"
 #include "../core/collision.hpp"
 #include "../core/file_parser.hpp"
@@ -16,6 +20,9 @@
 
 using namespace TSC;
 namespace fs = boost::filesystem;
+
+// Extern from global_game.hpp
+cLevel* TSC::gp_current_level = NULL;
 
 /**
  * Load a level from a file rather than creating a new one. The
@@ -47,17 +54,17 @@ cLevel* cLevel::Construct_Debugging_Level()
     p_player->setPosition(50, -100);
     p_level->Add_Player(p_player);
 
-    cSpriteActor* p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
+    cStaticActor* p_actor = new cStaticActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(0, 500); // TODO: Weird TSC coordinate system
     p_actor->m_name = "Ground 1";
     p_level->Add_Actor(p_actor);
 
-    p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
+    p_actor = new cStaticActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(64, 500); // TODO: Weird TSC coordinate system
     p_actor->m_name = "Ground 2";
     p_level->Add_Actor(p_actor);
 
-    p_actor = new cSpriteActor(utf8_to_path("ground/green_3/ground/top/1.png"));
+    p_actor = new cStaticActor(utf8_to_path("ground/green_3/ground/top/1.png"));
     p_actor->setPosition(128, 500); // TODO: Weird TSC coordinate system
     p_actor->m_name = "Ground 3";
     p_level->Add_Actor(p_actor);
@@ -103,8 +110,6 @@ cLevel::~cLevel()
     std::vector<cActor*>::iterator actiter;
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         delete *actiter;
-
-    delete mp_img_manager;
 }
 
 /**
@@ -122,7 +127,6 @@ void cLevel::Init()
     m_camera_limits.height = 1000;
 
     m_last_max_uid = 0;
-    mp_img_manager = new cImage_Manager();
     mp_level_player = NULL;
 
     cPreferences& prefs = gp_app->Get_Preferences();

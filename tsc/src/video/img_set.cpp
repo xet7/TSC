@@ -13,16 +13,19 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../core/game_core.hpp"
-#include "../core/framerate.hpp"
-#include "../video/gl_surface.hpp"
-#include "../video/renderer.hpp"
-#include "../core/i18n.hpp"
-#include "../core/file_parser.hpp"
-#include "../core/filesystem/resource_manager.hpp"
-#include "../core/filesystem/package_manager.hpp"
-#include "../core/math/utilities.hpp"
 #include "../core/global_basic.hpp"
+#include "../core/global_game.hpp"
+#include "../core/property_helper.hpp"
+#include "../core/bintree.hpp"
+#include "../core/file_parser.hpp"
+#include "../core/errors.hpp"
+#include "../core/xml_attributes.hpp"
+#include "../core/filesystem/package_manager.hpp"
+#include "../core/scene_manager.hpp"
+#include "../video/img_manager.hpp"
+#include "../level/level.hpp"
+#include "../core/tsc_app.hpp"
+#include "img_set.hpp"
 
 using namespace std;
 
@@ -38,7 +41,7 @@ cImageSet::FrameInfo::FrameInfo()
 }
 
 /* *** *** *** *** *** *** *** cImageSet::Parser *** *** *** *** *** *** *** *** *** *** */
-cImageSet::Parser::Parser(Uint32 time)
+cImageSet::Parser::Parser(uint32_t time)
     : m_time_min(time), m_time_max(time)
 {
 }
@@ -48,7 +51,7 @@ bool cImageSet::Parser::Parse(const fs::path& filename)
     // We want to store a relative data path, so that the image filenames are treated
     // as relative.  This way, an image set can reference images anywhere along the
     // package search path and not be fixed relative to the location of the image set file.
-    relative_data_file = pPackage_Manager->Get_Relative_Pixmap_Path(filename);
+    relative_data_file = gp_app->Get_PackageManager().Get_Relative_Pixmap_Path(filename);
 
     return cFile_parser::Parse(filename);
 }
@@ -177,7 +180,7 @@ cImageSet::cImageSet()
     m_anim_img_end = 0;
     m_anim_time_default = 1000;
     m_anim_counter = 0;
-    m_anim_last_ticks = pFramerate->m_last_ticks - 1;
+    //m_anim_last_ticks = pFramerate->m_last_ticks - 1;
     m_anim_mod = 1.0f;
 }
 
@@ -185,7 +188,7 @@ cImageSet::~cImageSet()
 {
 }
 
-void cImageSet::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
+void cImageSet::Add_Image(const struct ConfiguredTexture* image, uint32_t time /* = 0 */)
 {
     // set to default time
     if (time == 0) {
@@ -203,7 +206,7 @@ void cImageSet::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     m_images.push_back(obj);
 }
 
-bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */, int* start_num /* = NULL */, int* end_num /* = NULL */)
+bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path path, uint32_t time /* = 0 */, int* start_num /* = NULL */, int* end_num /* = NULL */)
 {
     int start, end;
     boost::filesystem::path filename;
@@ -219,14 +222,13 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
     if(path.extension() == utf8_to_path(".png")) {
         // Adding a single image
         filename = path;
-        cGL_Surface* surface = pVideo->Get_Package_Surface(path);
-        if(surface) {
-            Add_Image(surface, time);
-        }
+        // TODO: Check for not-found exception?
+        const struct ConfiguredTexture& surface = gp_app->Get_ImageManager().Get_Texture(path);
+        Add_Image(&surface, time);
     }
     else {
         // Parse the animation file
-        filename = pPackage_Manager->Get_Pixmap_Reading_Path(path_to_utf8(path));
+        filename = gp_app->Get_PackageManager().Get_Pixmap_Reading_Path(path_to_utf8(path));
         if(filename == boost::filesystem::path()) {
             cerr << "Warning: Unable to load image set: " << name << " " << Get_Identity() << endl;
             return false;
@@ -245,13 +247,12 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
 
         // Add images
         for(Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
-            cGL_Surface* surface = pVideo->Get_Package_Surface(itr->m_filename);
-            if(surface) {
-                Add_Image(surface, itr->m_time_min);
+            // TODO: Check for not-found exception?
+            const struct ConfiguredTexture& surface = gp_app->Get_ImageManager().Get_Texture(itr->m_filename);
+            Add_Image(&surface, itr->m_time_min);
 
-                // update info
-                m_images.back().m_info = *itr;
-            }
+            // update info
+            m_images.back().m_info = *itr;
         }
     }
     end = m_images.size() - 1;
@@ -325,7 +326,7 @@ void cImageSet::Set_Image_Num(const int num, bool new_startimage /* = 0 */)
     }
 }
 
-cGL_Surface* cImageSet::Get_Image(const unsigned int num) const
+const struct ConfiguredTexture* cImageSet::Get_Image(const unsigned int num) const
 {
     if (num >= m_images.size()) {
         return NULL;
@@ -348,17 +349,19 @@ void cImageSet::Clear_Images(bool reset_image/*=false*/, bool reset_startimage/*
 void cImageSet::Update_Animation(void)
 {
     // prevent calling twice within the same update cycle
-    if (m_anim_last_ticks == pFramerate->m_last_ticks) {
-        return;
-    }
-    m_anim_last_ticks = pFramerate->m_last_ticks;
+    //if (m_anim_last_ticks == pFramerate->m_last_ticks) {
+    //    return;
+    //}
+    cSceneManager& scene_manager = gp_app->Get_SceneManager();
+    //m_anim_last_ticks = pFramerate->m_last_ticks;
 
     // if not valid
     if (!m_anim_enabled || m_anim_img_end == 0) {
         return;
     }
 
-    m_anim_counter += pFramerate->m_elapsed_ticks;
+    // Get_Elapsed_Time() is in seconds, m_anim_counter is in milliseconds.
+    m_anim_counter += static_cast<uint32_t>(ceil(scene_manager.Get_Elapsed_Time() * 1000.0));
 
     // out of range
     if (m_curr_img < 0 || m_curr_img >= static_cast<int>(m_images.size())) {
@@ -369,7 +372,7 @@ void cImageSet::Update_Animation(void)
 
     Surface& image = m_images[m_curr_img];
 
-    if (static_cast<Uint32>(m_anim_counter * m_anim_mod) >= image.m_time) {
+    if (static_cast<uint32_t>(m_anim_counter * m_anim_mod) >= image.m_time) {
         // leave old image
         int branch_target = image.Leave();
         if (branch_target >= 0) {
@@ -389,14 +392,14 @@ void cImageSet::Update_Animation(void)
         }
 
         // enter new image after updating animation counter
-        m_anim_counter = static_cast<Uint32>(m_anim_counter * m_anim_mod) - image.m_time;
+        m_anim_counter = static_cast<uint32_t>(m_anim_counter * m_anim_mod) - image.m_time;
         m_images[m_curr_img].Enter();
     }
 
     return;
 }
 
-void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 */)
+void cImageSet::Set_Time_All(const uint32_t time, const bool default_time /* = 0 */)
 {
     for (Surface_List::iterator itr = m_images.begin(); itr != m_images.end(); ++itr) {
         Surface& obj = (*itr);
@@ -411,7 +414,7 @@ void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 *
 }
 
 /* static */
-cGL_Surface* cImageSet::Fetch_Single_Image(const fs::path& path, int idx /*= 0*/)
+const struct ConfiguredTexture* cImageSet::Fetch_Single_Image(const fs::path& path, int idx /*= 0*/)
 {
     cSimpleImageSet images;
 
@@ -440,7 +443,7 @@ std::string cSimpleImageSet::Get_Identity(void)
     return m_identity;
 }
 
-void cSimpleImageSet::Set_Image_Set_Image(cGL_Surface* new_image, bool new_startimage /*=0*/)
+void cSimpleImageSet::Set_Image_Set_Image(const struct ConfiguredTexture* new_image, bool new_startimage /*=0*/)
 {
     m_image = new_image;
 }

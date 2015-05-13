@@ -7,12 +7,15 @@
 #include "../scripting/scriptable_object.hpp"
 #include "../core/collision.hpp"
 #include "../level/level.hpp"
+#include "../core/file_parser.hpp"
+#include "../video/img_set.hpp"
 #include "../objects/actor.hpp"
 #include "../objects/sprite_actor.hpp"
 #include "scene.hpp"
 #include "../core/scene_manager.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../video/img_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
 #include "level_scene.hpp"
@@ -30,6 +33,8 @@ cLevelScene::~cLevelScene()
     std::vector<cLevel*>::iterator iter;
     for(iter=m_active_levels.begin(); iter != m_active_levels.end(); iter++)
         delete *iter;
+
+    gp_app->Get_ImageManager().Clear();
 }
 
 void cLevelScene::Handle_Event(sf::Event& evt)
@@ -37,7 +42,7 @@ void cLevelScene::Handle_Event(sf::Event& evt)
     if (evt.type != sf::Event::KeyPressed)
         return;
 
-    cLevel_Player* p_player = mp_current_level->Get_Player();
+    cLevel_Player* p_player = gp_current_level->Get_Player();
 
     switch (evt.key.code) {
     default:
@@ -49,15 +54,15 @@ void cLevelScene::Update(sf::RenderWindow& stage)
 {
     cScene::Update(stage);
 
-    mp_current_level->Update();
-    stage.setView(mp_current_level->Get_View());
+    gp_current_level->Update();
+    stage.setView(gp_current_level->Get_View());
 }
 
 void cLevelScene::Draw(sf::RenderWindow& stage)
 {
     cScene::Draw(stage);
     // Draw the level elements themselves
-    mp_current_level->Draw(stage);
+    gp_current_level->Draw(stage);
 
     // Draw the HUD
     // TODO
@@ -76,7 +81,7 @@ std::string cLevelScene::Name() const
 void cLevelScene::Add_Level(cLevel* p_level)
 {
     m_active_levels.push_back(p_level);
-    mp_current_level = p_level;
+    gp_current_level = p_level;
 }
 
 /**
@@ -106,5 +111,5 @@ void cLevelScene::Add_Level(const std::string& levelname)
  */
 void cLevelScene::Set_Current_Level(size_t i)
 {
-    mp_current_level = m_active_levels[i];
+    gp_current_level = m_active_levels[i];
 }

@@ -311,6 +311,8 @@ set(tsc_sources
 
   "src/objects/actor.cpp"
   "src/objects/sprite_actor.cpp"
+  "src/objects/static_actor.cpp"
+  "src/objects/animated_actor.cpp"
 
   "src/scenes/scene.cpp"
   "src/scenes/level_scene.cpp"
@@ -323,6 +325,7 @@ set(tsc_sources
 
   "src/video/img_manager.cpp"
   "src/video/img_settings.cpp"
+  "src/video/img_set.cpp"
 )
 
 ###############################################

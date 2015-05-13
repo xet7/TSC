@@ -19,6 +19,16 @@
 
 namespace TSC {
 
+    /**
+     * Struct that contains the information of the texture’s `.settings` file
+     * next to the texture itself.
+     */
+    struct ConfiguredTexture
+    {
+        sf::Texture* m_texture;
+        cImage_Settings_Data* m_settings;
+    };
+
     /* *** *** *** *** *** *** cImage_Manager *** *** *** *** *** *** *** *** *** *** *** */
 
     /**
@@ -31,23 +41,14 @@ namespace TSC {
     class cImage_Manager
     {
     public:
-        /**
-         * Struct that contains the information of the texture’s `.settings` file
-         * next to the texture itself.
-         */
-        struct ConfiguredTexture
-        {
-            sf::Texture* m_texture;
-            cImage_Settings_Data* m_settings;
-        };
-
-        cImage_Manager(void);
+        cImage_Manager(const cPreferences* p_prefs, const cResource_Manager* p_resource_manager);
         virtual ~cImage_Manager(void);
 
         void Preload_Textures(std::function<void (unsigned int files_done, unsigned int files_total)> cb);
         const struct ConfiguredTexture& Get_Texture(const boost::filesystem::path& relpath);
         const struct ConfiguredTexture& Get_Texture_UTF8(const std::string& relpath);
 
+        void Clear();
         void Determine_Cache_Dir();
     private:
         void Find_Image_Pathes(const boost::filesystem::path& relpath, boost::filesystem::path& masterpath, boost::filesystem::path& cachepath);
@@ -55,6 +56,9 @@ namespace TSC {
 
         std::map<boost::filesystem::path, struct ConfiguredTexture*> m_textures;
         boost::filesystem::path m_cache_dir;
+
+        const cPreferences* mp_preferences;
+        const cResource_Manager* mp_resource_manager;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

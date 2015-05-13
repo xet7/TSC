@@ -551,6 +551,7 @@ namespace TSC {
     class cSpinBox;
     class cSprite;
     class cSpriteActor;
+    class cAnimatedActor;
     class cSprite_List;
     class cSprite_Manager;
     class cStaticEnemy;
@@ -569,10 +570,22 @@ namespace TSC {
     /** CLASS FORWARD DECLRATIONS END **/
 
     /* *** Things the rake task fails to detect *** */
+    struct ConfiguredTexture;
 
     namespace Scripting {
         class cScriptable_Object;
     }
+
+    /* *** Shortcuts *** */
+
+    /* Semantically, this should be a member variable of cLevel_Scene,
+     * however, as it is needed at several places it’d be rather difficult
+     * and cumbersome to always obtain the entire chain from the global
+     * TSC app pointer down to the current level. This variable allows
+     * to shortcut that. It is managed by cLevel_Scene as if it was
+     * a member variable, though.
+     */
+    extern cLevel* gp_current_level;
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

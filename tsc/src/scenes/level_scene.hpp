@@ -16,11 +16,11 @@ namespace TSC {
         void Add_Level(const std::string& levelname);
         void Add_Level(cLevel* p_level);
         void Set_Current_Level(size_t i);
-        inline cLevel* Get_Current_Level(){return mp_current_level;}
+        inline cLevel* Get_Current_Level(){return gp_current_level;}
 
     private:
         std::vector<cLevel*> m_active_levels;
-        cLevel* mp_current_level;
+        // Current level is in gp_current_level.
     };
 }
 #endif
