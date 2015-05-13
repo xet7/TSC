@@ -27,7 +27,11 @@ cApp::cApp()
     // init random number generator
     srand(static_cast<unsigned int>(time(NULL)));
 
-    m_debug_mode = false;
+    m_debug_mode        = false;
+    mp_resource_manager = NULL;
+    mp_scene_manager    = NULL;
+    mp_package_manager  = NULL;
+    mp_image_manager    = NULL;
 
     Init_Managers();
     Init_User_Preferences();
@@ -39,6 +43,7 @@ cApp::cApp()
 cApp::~cApp()
 {
     delete mp_scene_manager;
+    delete mp_image_manager;
     delete mp_package_manager;
     delete mp_resource_manager;
     delete mp_preferences;
@@ -62,6 +67,7 @@ void cApp::Init_Managers()
     mp_resource_manager->Init_User_Directory();
 
     mp_package_manager = new cPackage_Manager(*mp_resource_manager);
+    mp_image_manager = new cImage_Manager();
     mp_scene_manager = new cSceneManager();
 }
 

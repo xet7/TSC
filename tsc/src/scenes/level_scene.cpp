@@ -15,6 +15,7 @@
 #include "../core/scene_manager.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../video/img_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
 #include "level_scene.hpp"
@@ -32,6 +33,8 @@ cLevelScene::~cLevelScene()
     std::vector<cLevel*>::iterator iter;
     for(iter=m_active_levels.begin(); iter != m_active_levels.end(); iter++)
         delete *iter;
+
+    gp_app->Get_ImageManager().Clear();
 }
 
 void cLevelScene::Handle_Event(sf::Event& evt)

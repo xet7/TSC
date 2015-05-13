@@ -14,7 +14,6 @@ namespace TSC {
         virtual ~cStaticActor();
 
         virtual void Draw(sf::RenderWindow& stage) const;
-        virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
 
         void Set_Texture(boost::filesystem::path relative_texture_path);
     protected:

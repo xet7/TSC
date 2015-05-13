@@ -223,7 +223,7 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
         // Adding a single image
         filename = path;
         // TODO: Check for not-found exception?
-        const struct ConfiguredTexture& surface = gp_current_level->Get_ImageManager()->Get_Texture(path);
+        const struct ConfiguredTexture& surface = gp_app->Get_ImageManager().Get_Texture(path);
         Add_Image(&surface, time);
     }
     else {
@@ -248,7 +248,7 @@ bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path p
         // Add images
         for(Parser::List_Type::iterator itr = parser.m_images.begin(); itr != parser.m_images.end(); ++itr) {
             // TODO: Check for not-found exception?
-            const struct ConfiguredTexture& surface = gp_current_level->Get_ImageManager()->Get_Texture(itr->m_filename);
+            const struct ConfiguredTexture& surface = gp_app->Get_ImageManager().Get_Texture(itr->m_filename);
             Add_Image(&surface, itr->m_time_min);
 
             // update info

@@ -43,12 +43,7 @@ cImage_Manager::cImage_Manager()
 
 cImage_Manager::~cImage_Manager()
 {
-    std::map<fs::path, struct ConfiguredTexture*>::iterator iter;
-    for(iter=m_textures.begin(); iter != m_textures.end(); iter++) {
-        delete iter->second->m_settings;
-        delete iter->second->m_texture;
-        delete iter->second;
-    }
+    Clear();
 }
 
 /**
@@ -202,6 +197,21 @@ void cImage_Manager::Determine_Cache_Dir()
 
     ss << prefs.m_video_screen_w << "x" << prefs.m_video_screen_h;
     m_cache_dir = gp_app->Get_ResourceManager().Get_User_Imgcache_Directory() / utf8_to_path(ss.str());
+}
+
+/**
+ * Clear the texture cache. This deletes all textures currently
+ * in the cache and *frees* their memory. Any sprite using these
+ * textures will be invalid after this method has been called.
+ */
+void cImage_Manager::Clear()
+{
+    std::map<fs::path, struct ConfiguredTexture*>::iterator iter;
+    for(iter=m_textures.begin(); iter != m_textures.end(); iter++) {
+        delete iter->second->m_settings;
+        delete iter->second->m_texture;
+        delete iter->second;
+    }
 }
 
 /**

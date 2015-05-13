@@ -110,8 +110,6 @@ cLevel::~cLevel()
     std::vector<cActor*>::iterator actiter;
     for(actiter=m_actors.begin(); actiter != m_actors.end(); actiter++)
         delete *actiter;
-
-    delete mp_img_manager;
 }
 
 /**
@@ -129,7 +127,6 @@ void cLevel::Init()
     m_camera_limits.height = 1000;
 
     m_last_max_uid = 0;
-    mp_img_manager = new cImage_Manager();
     mp_level_player = NULL;
 
     cPreferences& prefs = gp_app->Get_Preferences();

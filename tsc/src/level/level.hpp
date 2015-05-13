@@ -29,8 +29,6 @@ namespace TSC {
         void Add_Actor(cActor* p_actor, const unsigned long& uid = 0);
         void Check_Collisions_For_Actor(cActor& actor);
 
-        inline cImage_Manager* Get_ImageManager(){return mp_img_manager;}
-
         inline cLevel_Player* Get_Player(){return mp_level_player;}
         inline const cLevel_Player* Get_Player() const {return mp_level_player;}
 
@@ -65,8 +63,6 @@ namespace TSC {
         cLevel_Player* mp_level_player;
 
         sf::View m_camera_view;
-
-        cImage_Manager* mp_img_manager; // Pointer so not everyone using levels has to include image manager files
     };
 
 }

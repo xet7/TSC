@@ -48,6 +48,7 @@ namespace TSC {
         const struct ConfiguredTexture& Get_Texture(const boost::filesystem::path& relpath);
         const struct ConfiguredTexture& Get_Texture_UTF8(const std::string& relpath);
 
+        void Clear();
         void Determine_Cache_Dir();
     private:
         void Find_Image_Pathes(const boost::filesystem::path& relpath, boost::filesystem::path& masterpath, boost::filesystem::path& cachepath);
