@@ -21,7 +21,10 @@ cLevel_Player::cLevel_Player()
     m_gravity_accel = 2.8f;
     m_gravity_max = 25.0f;
 
-    //utf8_to_path("alex/small/fall_right.png")
+    Add_Image_Set("small", "alex/small/walk.imgset");
+
+    Set_Image_Set("small");
+    Set_Image_Num(0, true);
 }
 
 cLevel_Player::~cLevel_Player()

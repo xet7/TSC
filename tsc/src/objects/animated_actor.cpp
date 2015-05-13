@@ -31,6 +31,7 @@ cAnimatedActor::~cAnimatedActor()
  */
 void cAnimatedActor::Set_Image_Set_Image(const struct ConfiguredTexture* p_new_image, bool new_startimage /* = false */)
 {
+    // TODO: Handle `new_startimage'
     m_sprite.setTexture(*(p_new_image->m_texture));
     p_new_image->m_settings->Apply(*this);
 }
