@@ -32,9 +32,12 @@ cApp::cApp()
     mp_scene_manager    = NULL;
     mp_package_manager  = NULL;
     mp_image_manager    = NULL;
+    mp_preferences      = NULL;
+    mp_renderwindow     = NULL;
+    mp_cegui_renderer   = NULL;
+    mp_cegui_system     = NULL;
 
     Init_Managers();
-    Init_User_Preferences();
     Init_SFML();
     Init_I18N();
     Init_CEGUI();
@@ -61,13 +64,15 @@ void cApp::Init_SFML()
 
 void cApp::Init_Managers()
 {
-    debug_print("Initializing manager classes.\n");
-
+    debug_print("Initializing manager classes, part 1/2.\n");
     mp_resource_manager = new cResource_Manager();
     mp_resource_manager->Init_User_Directory();
 
+    Init_User_Preferences();
+
+    debug_print("Initializing manager classes, part 2/2.\n");
     mp_package_manager = new cPackage_Manager(*mp_resource_manager);
-    mp_image_manager = new cImage_Manager();
+    mp_image_manager = new cImage_Manager(mp_preferences, mp_resource_manager);
     mp_scene_manager = new cSceneManager();
 }
 

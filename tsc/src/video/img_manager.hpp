@@ -41,7 +41,7 @@ namespace TSC {
     class cImage_Manager
     {
     public:
-        cImage_Manager(void);
+        cImage_Manager(const cPreferences* p_prefs, const cResource_Manager* p_resource_manager);
         virtual ~cImage_Manager(void);
 
         void Preload_Textures(std::function<void (unsigned int files_done, unsigned int files_total)> cb);
@@ -56,6 +56,9 @@ namespace TSC {
 
         std::map<boost::filesystem::path, struct ConfiguredTexture*> m_textures;
         boost::filesystem::path m_cache_dir;
+
+        const cPreferences* mp_preferences;
+        const cResource_Manager* mp_resource_manager;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -36,7 +36,8 @@
 using namespace TSC;
 namespace fs = boost::filesystem;
 
-cImage_Manager::cImage_Manager()
+cImage_Manager::cImage_Manager(const cPreferences* p_prefs, const cResource_Manager* p_resource_manager)
+    : mp_preferences(p_prefs), mp_resource_manager(p_resource_manager)
 {
     Determine_Cache_Dir();
 }
@@ -145,7 +146,7 @@ void cImage_Manager::Find_Image_Pathes(const fs::path& relpath, fs::path& master
         // other problems probably.
         // FIXME: relpath is given as an argument to this method already. The Package
         // Manager should be rewritten to allow user/game file checking separately.
-        fs::path gamedir       = gp_app->Get_ResourceManager().Get_Game_Data_Directory();
+        fs::path gamedir       = mp_resource_manager->Get_Game_Data_Directory();
         fs::path relativepath = fs::relative(gamedir, masterpath);
 
         // User file?
@@ -193,10 +194,9 @@ cImage_Settings_Data* cImage_Manager::Parse_Image_Settings(fs::path masterfile)
 void cImage_Manager::Determine_Cache_Dir()
 {
     std::stringstream ss;
-    cPreferences& prefs = gp_app->Get_Preferences();
 
-    ss << prefs.m_video_screen_w << "x" << prefs.m_video_screen_h;
-    m_cache_dir = gp_app->Get_ResourceManager().Get_User_Imgcache_Directory() / utf8_to_path(ss.str());
+    ss << mp_preferences->m_video_screen_w << "x" << mp_preferences->m_video_screen_h;
+    m_cache_dir = mp_resource_manager->Get_User_Imgcache_Directory() / utf8_to_path(ss.str());
 }
 
 /**
@@ -212,6 +212,8 @@ void cImage_Manager::Clear()
         delete iter->second->m_texture;
         delete iter->second;
     }
+
+    m_textures.clear();
 }
 
 /**
@@ -231,11 +233,11 @@ void cImage_Manager::Preload_Textures(std::function<void (unsigned int files_don
     vector<fs::path> image_files;
 
     // player
-    vector<fs::path> player_small_images    = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/small"), ".png", false, false);
-    vector<fs::path> player_big_images      = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/big"), ".png", false, false);
-    vector<fs::path> player_fire_images     = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/fire"), ".png", false, false);
-    vector<fs::path> player_ice_images      = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ice"), ".png", false, false);
-    vector<fs::path> player_ghost_images    = Get_Directory_Files(gp_app->Get_ResourceManager().Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ghost"), ".png", false, false);
+    vector<fs::path> player_small_images    = Get_Directory_Files(mp_resource_manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/small"), ".png", false, false);
+    vector<fs::path> player_big_images      = Get_Directory_Files(mp_resource_manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/big"), ".png", false, false);
+    vector<fs::path> player_fire_images     = Get_Directory_Files(mp_resource_manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/fire"), ".png", false, false);
+    vector<fs::path> player_ice_images      = Get_Directory_Files(mp_resource_manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ice"), ".png", false, false);
+    vector<fs::path> player_ghost_images    = Get_Directory_Files(mp_resource_manager->Get_Game_Pixmaps_Directory() / utf8_to_path("alex/ghost"), ".png", false, false);
 
     image_files.insert(image_files.end(), player_small_images.begin(), player_small_images.end());
     image_files.insert(image_files.end(), player_big_images.begin(), player_big_images.end());
