@@ -8,7 +8,7 @@
   <settings>
     <property name="lvl_author" value=""/>
     <property name="lvl_version" value=""/>
-    <property name="lvl_music" value="land/planet_plant.ogg"/>
+    <property name="lvl_music" value="land/jungle_1.ogg"/>
     <property name="lvl_description" value="&#10;"/>
     <property name="lvl_difficulty" value="0"/>
     <property name="lvl_land_type" value="undefined"/>
