@@ -2,8 +2,8 @@
 <level>
   <information>
     <property name="game_version" value="2.0.0"/>
-    <property name="engine_version" value="40"/>
-    <property name="save_time" value="1412246004"/>
+    <property name="engine_version" value="46"/>
+    <property name="save_time" value="1432576059"/>
   </information>
   <settings>
     <property name="lvl_author" value=""/>
@@ -2226,6 +2226,13 @@
     <property name="force_best_item" value="0"/>
     <property name="gold_color" value="yellow"/>
   </box>
+  <sprite>
+    <property name="posx" value="2189"/>
+    <property name="posy" value="-129"/>
+    <property name="uid" value="305"/>
+    <property name="image" value="signs/default_1/1_ending.png"/>
+    <property name="type" value="passive"/>
+  </sprite>
   <script>
 </script>
 </level>
