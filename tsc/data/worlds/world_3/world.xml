@@ -2,8 +2,8 @@
 <overworld>
   <information>
     <property name="game_version" value="2.0.0"/>
-    <property name="engine_version" value="4"/>
-    <property name="save_time" value="1427148478"/>
+    <property name="engine_version" value="5"/>
+    <property name="save_time" value="1432807294"/>
   </information>
   <settings>
     <property name="music" value="overworld/land_2.ogg"/>
@@ -18,9 +18,20 @@
     <property name="moving_state" value="1"/>
   </player>
   <waypoint>
+    <property name="posx" value="250"/>
+    <property name="posy" value="-251"/>
+    <property name="uid" value="14"/>
+    <property name="image" value="world/waypoint/default_1.png"/>
+    <property name="type" value="2"/>
+    <property name="destination" value="world_2"/>
+    <property name="direction_backward" value="first"/>
+    <property name="direction_forward" value="right"/>
+    <property name="access" value="1"/>
+  </waypoint>
+  <waypoint>
     <property name="posx" value="399"/>
     <property name="posy" value="-465"/>
-    <property name="uid" value="39"/>
+    <property name="uid" value="1"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="mountain_trials"/>
@@ -31,102 +42,91 @@
   <sprite>
     <property name="posx" value="432"/>
     <property name="posy" value="-163"/>
-    <property name="uid" value="3"/>
+    <property name="uid" value="2"/>
     <property name="image" value="world/way/yellow_1/updown.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="405"/>
     <property name="posy" value="-274"/>
-    <property name="uid" value="4"/>
+    <property name="uid" value="3"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="347"/>
     <property name="posy" value="-280"/>
-    <property name="uid" value="5"/>
+    <property name="uid" value="4"/>
     <property name="image" value="world/objects/hedge/green_1.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="502"/>
     <property name="posy" value="-216"/>
-    <property name="uid" value="6"/>
+    <property name="uid" value="5"/>
     <property name="image" value="world/objects/hill/blue_2.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="522"/>
     <property name="posy" value="-184"/>
-    <property name="uid" value="7"/>
+    <property name="uid" value="6"/>
     <property name="image" value="world/objects/hill/blue_1.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="745"/>
     <property name="posy" value="-217"/>
-    <property name="uid" value="8"/>
+    <property name="uid" value="7"/>
     <property name="image" value="world/objects/pyramid/medium_orange.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="631"/>
     <property name="posy" value="-177"/>
-    <property name="uid" value="9"/>
+    <property name="uid" value="8"/>
     <property name="image" value="world/objects/cactus/desert_cactus.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="730"/>
     <property name="posy" value="-310"/>
-    <property name="uid" value="10"/>
+    <property name="uid" value="9"/>
     <property name="image" value="world/objects/grass/small_yellow.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="752"/>
     <property name="posy" value="-429"/>
-    <property name="uid" value="11"/>
-    <property name="image" value="world/objects/pipe/green_big.png"/>
+    <property name="uid" value="10"/>
+    <property name="image" value="world/objects/pipe/red_big.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="653"/>
     <property name="posy" value="-369"/>
-    <property name="uid" value="12"/>
+    <property name="uid" value="11"/>
     <property name="image" value="world/objects/pipe/blue_big.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="581"/>
     <property name="posy" value="-431"/>
-    <property name="uid" value="13"/>
+    <property name="uid" value="12"/>
     <property name="image" value="world/objects/hedge/green_1.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="277"/>
     <property name="posy" value="-274"/>
-    <property name="uid" value="14"/>
+    <property name="uid" value="13"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <waypoint>
-    <property name="posx" value="250"/>
-    <property name="posy" value="-251"/>
-    <property name="uid" value="15"/>
-    <property name="image" value="world/waypoint/default_1.png"/>
-    <property name="type" value="2"/>
-    <property name="destination" value="world_2"/>
-    <property name="direction_backward" value="first"/>
-    <property name="direction_forward" value="right"/>
-    <property name="access" value="1"/>
-  </waypoint>
-  <waypoint>
     <property name="posx" value="451"/>
     <property name="posy" value="-250"/>
-    <property name="uid" value="16"/>
+    <property name="uid" value="15"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="wn_01"/>
@@ -137,7 +137,7 @@
   <waypoint>
     <property name="posx" value="449"/>
     <property name="posy" value="-100"/>
-    <property name="uid" value="17"/>
+    <property name="uid" value="16"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="wn_02"/>
@@ -148,7 +148,7 @@
   <waypoint>
     <property name="posx" value="697"/>
     <property name="posy" value="-99"/>
-    <property name="uid" value="18"/>
+    <property name="uid" value="17"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="wn_03"/>
@@ -159,7 +159,7 @@
   <waypoint>
     <property name="posx" value="699"/>
     <property name="posy" value="-255"/>
-    <property name="uid" value="19"/>
+    <property name="uid" value="18"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="wn_04"/>
@@ -170,7 +170,7 @@
   <waypoint>
     <property name="posx" value="697"/>
     <property name="posy" value="-399"/>
-    <property name="uid" value="20"/>
+    <property name="uid" value="19"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="wn_05"/>
@@ -181,7 +181,7 @@
   <waypoint>
     <property name="posx" value="400"/>
     <property name="posy" value="-400"/>
-    <property name="uid" value="21"/>
+    <property name="uid" value="20"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="1"/>
     <property name="destination" value="wn_06"/>
@@ -192,7 +192,7 @@
   <waypoint>
     <property name="posx" value="249"/>
     <property name="posy" value="-471"/>
-    <property name="uid" value="23"/>
+    <property name="uid" value="21"/>
     <property name="image" value="world/waypoint/default_1.png"/>
     <property name="type" value="2"/>
     <property name="destination" value="world_4"/>
@@ -203,203 +203,203 @@
   <sprite>
     <property name="posx" value="443"/>
     <property name="posy" value="-420"/>
-    <property name="uid" value="24"/>
+    <property name="uid" value="22"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="507"/>
     <property name="posy" value="-420"/>
-    <property name="uid" value="25"/>
+    <property name="uid" value="23"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="571"/>
     <property name="posy" value="-420"/>
-    <property name="uid" value="26"/>
+    <property name="uid" value="24"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="635"/>
     <property name="posy" value="-420"/>
-    <property name="uid" value="27"/>
+    <property name="uid" value="25"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="680"/>
     <property name="posy" value="-366"/>
-    <property name="uid" value="28"/>
+    <property name="uid" value="26"/>
     <property name="image" value="world/way/yellow_1/updown.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="680"/>
     <property name="posy" value="-302"/>
-    <property name="uid" value="29"/>
+    <property name="uid" value="27"/>
     <property name="image" value="world/way/yellow_1/updown.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="680"/>
     <property name="posy" value="-238"/>
-    <property name="uid" value="30"/>
+    <property name="uid" value="28"/>
     <property name="image" value="world/way/yellow_1/updown.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="680"/>
     <property name="posy" value="-174"/>
-    <property name="uid" value="31"/>
+    <property name="uid" value="29"/>
     <property name="image" value="world/way/yellow_1/updown.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="432"/>
     <property name="posy" value="-227"/>
-    <property name="uid" value="32"/>
+    <property name="uid" value="30"/>
     <property name="image" value="world/way/yellow_1/updown.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="341"/>
     <property name="posy" value="-274"/>
-    <property name="uid" value="33"/>
+    <property name="uid" value="31"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="493"/>
     <property name="posy" value="-120"/>
-    <property name="uid" value="34"/>
+    <property name="uid" value="32"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="557"/>
     <property name="posy" value="-120"/>
-    <property name="uid" value="35"/>
+    <property name="uid" value="33"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="621"/>
     <property name="posy" value="-120"/>
-    <property name="uid" value="36"/>
+    <property name="uid" value="34"/>
     <property name="image" value="world/way/yellow_1/leftright.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="392"/>
     <property name="posy" value="-482"/>
-    <property name="uid" value="71"/>
+    <property name="uid" value="35"/>
     <property name="image" value="world/objects/hill/bluegreen_big.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="212"/>
     <property name="posy" value="-555"/>
-    <property name="uid" value="40"/>
+    <property name="uid" value="36"/>
     <property name="image" value="world/objects/cloud/light_blue/medium_1.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="512"/>
     <property name="posy" value="-585"/>
-    <property name="uid" value="41"/>
+    <property name="uid" value="37"/>
     <property name="image" value="world/objects/cloud/light_blue/medium_2.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="328"/>
     <property name="posy" value="-633"/>
-    <property name="uid" value="42"/>
+    <property name="uid" value="38"/>
     <property name="image" value="world/objects/cloud/light_blue/small_1.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="300"/>
     <property name="posy" value="-222"/>
-    <property name="uid" value="43"/>
+    <property name="uid" value="39"/>
     <property name="image" value="world/objects/lake/oasis.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="404"/>
     <property name="posy" value="-166"/>
-    <property name="uid" value="44"/>
+    <property name="uid" value="40"/>
     <property name="image" value="world/objects/plants/medium_plant.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="761"/>
-    <property name="posy" value="-332"/>
-    <property name="uid" value="45"/>
-    <property name="image" value="world/objects/pipe/green_small.png"/>
+    <property name="posy" value="-333"/>
+    <property name="uid" value="41"/>
+    <property name="image" value="world/objects/pipe/red_small.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="511"/>
     <property name="posy" value="-447"/>
-    <property name="uid" value="46"/>
+    <property name="uid" value="42"/>
     <property name="image" value="world/objects/pipe/yellow_big.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="681"/>
     <property name="posy" value="-421"/>
-    <property name="uid" value="47"/>
+    <property name="uid" value="43"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="682"/>
     <property name="posy" value="-277"/>
-    <property name="uid" value="48"/>
+    <property name="uid" value="44"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="681"/>
     <property name="posy" value="-122"/>
-    <property name="uid" value="49"/>
+    <property name="uid" value="45"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="434"/>
     <property name="posy" value="-122"/>
-    <property name="uid" value="50"/>
+    <property name="uid" value="46"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="434"/>
     <property name="posy" value="-272"/>
-    <property name="uid" value="51"/>
+    <property name="uid" value="47"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="235"/>
     <property name="posy" value="-275"/>
-    <property name="uid" value="52"/>
+    <property name="uid" value="48"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="386"/>
     <property name="posy" value="-421"/>
-    <property name="uid" value="53"/>
+    <property name="uid" value="49"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
   <sprite>
     <property name="posx" value="232"/>
     <property name="posy" value="-492"/>
-    <property name="uid" value="54"/>
+    <property name="uid" value="50"/>
     <property name="image" value="world/way/yellow_1/point.png"/>
     <property name="type" value="passive"/>
   </sprite>
