@@ -57,6 +57,7 @@ cActor::cActor()
     m_gravity_max = 0;
     m_gravity_accel = 0;
     mp_ground_object = NULL;
+    m_ground_type = GROUND_NORMAL;
 
     m_uid = 0;
     mp_level = NULL;

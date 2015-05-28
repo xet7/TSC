@@ -97,6 +97,49 @@ namespace TSC {
         void Update_Gravity();
         void Update_Position();
 
+        inline void Add_Velocity_X(const float x, const bool real = 0) { Accelerate_X(x, real); } // Legacy code...
+        inline void Add_Velocity_Y(const float y, const bool real = 0) { Accelerate_Y(y, real); } // ...compatibility
+        /* Add Velocity
+        * max : the maximum velocity
+        * real : if set the speedfactor isn't used
+        */
+        inline void Add_Velocity_X_Max(const float x, const float max_x, const bool real = 0)
+        {
+            Add_Velocity_X(x, real);
+
+            if (m_velocity.x > max_x) {
+                m_velocity.x = max_x;
+            }
+        }
+        inline void Add_Velocity_Y_Max(const float y, const float max_y, const bool real = 0)
+        {
+            Add_Velocity_Y(y, real);
+
+            if (m_velocity.y > max_y) {
+                m_velocity.y = max_y;
+            }
+        }
+        /* Add Velocity
+        * min : the minimum velocity
+        * real : if set the speedfactor isn't used
+        */
+        inline void Add_Velocity_X_Min(const float x, const float min_x, const bool real = 0)
+        {
+            Add_Velocity_X(x, real);
+
+            if (m_velocity.x < min_x) {
+                m_velocity.x = min_x;
+            }
+        }
+        inline void Add_Velocity_Y_Min(const float y, const float min_y, const bool real = 0)
+        {
+            Add_Velocity_Y(y, real);
+
+            if (m_velocity.y < min_y) {
+                m_velocity.y = min_y;
+            }
+        }
+
         cLevel* mp_level;
         unsigned long m_uid;
 
@@ -108,6 +151,7 @@ namespace TSC {
         float m_gravity_max;      //< Maximum velocity that can be reached by gravity effect.
         float m_gravity_accel;    //< How quickly this object falls in gravity effect.
         cActor* mp_ground_object; //< Do we stand on something, and if so, on what?
+        GroundType m_ground_type; //< In case we are ground, what type (ice, plastic, etc.)
         sf::Vector2f m_velocity;  //< Velocity in → and ↓ direction.
 
         enum CollisionType m_coltype;
