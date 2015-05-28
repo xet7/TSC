@@ -148,6 +148,21 @@ namespace TSC {
         LLT_LAST = 16
     };
 
+    /* *** *** *** *** *** *** *** Movement states *** *** *** *** *** *** *** *** *** *** */
+
+    enum Moving_state {
+        STA_STAY    = 0,
+        STA_WALK    = 1,
+        // This one is abused special movements
+        STA_RUN     = 2,
+        STA_FALL    = 3,
+        STA_FLY     = 4,
+        STA_JUMP    = 5,
+        STA_CLIMB   = 6,
+        // another object controls this object ( object doesn't update itself )
+        STA_OBJ_LINKED = 7
+    };
+
     /* *** *** *** *** *** *** *** Paths *** *** *** *** *** *** *** *** *** *** */
 
 // Core
