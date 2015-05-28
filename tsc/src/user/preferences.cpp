@@ -63,26 +63,26 @@ const unsigned int cPreferences::m_audio_hz_default = 44100;
 const uint8_t cPreferences::m_sound_volume_default = 100;
 const uint8_t cPreferences::m_music_volume_default = 80;
 // Keyboard
-    /*
-const SDLKey cPreferences::m_key_up_default = SDLK_UP;
-const SDLKey cPreferences::m_key_down_default = SDLK_DOWN;
-const SDLKey cPreferences::m_key_left_default = SDLK_LEFT;
-const SDLKey cPreferences::m_key_right_default = SDLK_RIGHT;
-const SDLKey cPreferences::m_key_jump_default = SDLK_s;
-const SDLKey cPreferences::m_key_shoot_default = SDLK_SPACE;
-const SDLKey cPreferences::m_key_item_default = SDLK_RETURN;
-const SDLKey cPreferences::m_key_action_default = SDLK_a;
-const SDLKey cPreferences::m_key_screenshot_default = SDLK_PRINT;
-const SDLKey cPreferences::m_key_editor_fast_copy_up_default = SDLK_KP8;
-const SDLKey cPreferences::m_key_editor_fast_copy_down_default = SDLK_KP2;
-const SDLKey cPreferences::m_key_editor_fast_copy_left_default = SDLK_KP4;
-const SDLKey cPreferences::m_key_editor_fast_copy_right_default = SDLK_KP6;
-const SDLKey cPreferences::m_key_editor_pixel_move_up_default = SDLK_KP8;
-const SDLKey cPreferences::m_key_editor_pixel_move_down_default = SDLK_KP2;
-const SDLKey cPreferences::m_key_editor_pixel_move_left_default = SDLK_KP4;
-const SDLKey cPreferences::m_key_editor_pixel_move_right_default = SDLK_KP6;
+
+const sf::Keyboard::Key cPreferences::m_key_up_default                      = sf::Keyboard::Up;
+const sf::Keyboard::Key cPreferences::m_key_down_default                    = sf::Keyboard::Down;
+const sf::Keyboard::Key cPreferences::m_key_left_default                    = sf::Keyboard::Left;
+const sf::Keyboard::Key cPreferences::m_key_right_default                   = sf::Keyboard::Right;
+const sf::Keyboard::Key cPreferences::m_key_jump_default                    = sf::Keyboard::S;
+const sf::Keyboard::Key cPreferences::m_key_shoot_default                   = sf::Keyboard::Space;
+const sf::Keyboard::Key cPreferences::m_key_item_default                    = sf::Keyboard::Return;
+const sf::Keyboard::Key cPreferences::m_key_action_default                  = sf::Keyboard::A;
+const sf::Keyboard::Key cPreferences::m_key_screenshot_default              = sf::Keyboard::L; // FIXME: There is no sf::Keyboard::Print ?!
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_up_default     = sf::Keyboard::Numpad8;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_down_default   = sf::Keyboard::Numpad2;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_left_default   = sf::Keyboard::Numpad4;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_right_default  = sf::Keyboard::Numpad6;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_up_default    = sf::Keyboard::Numpad8;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_down_default  = sf::Keyboard::Numpad2;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_left_default  = sf::Keyboard::Numpad4;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_right_default = sf::Keyboard::Numpad6;
 const float cPreferences::m_scroll_speed_default = 1.0f;
-*/
+
 // Joystick
 const bool cPreferences::m_joy_enabled_default = 1;
 const bool cPreferences::m_joy_analog_jump_default = 0;
@@ -168,7 +168,7 @@ void cPreferences::Save(void)
     //Add_Property(p_root, "audio_music_volume", static_cast<int>(pAudio->m_music_volume));
     Add_Property(p_root, "audio_hz", m_audio_hz);
     // Keyboard
-    /*
+
     Add_Property(p_root, "keyboard_key_up", m_key_up);
     Add_Property(p_root, "keyboard_key_down", m_key_down);
     Add_Property(p_root, "keyboard_key_left", m_key_left);
@@ -187,7 +187,7 @@ void cPreferences::Save(void)
     Add_Property(p_root, "keyboard_key_editor_pixel_move_down", m_key_editor_pixel_move_down);
     Add_Property(p_root, "keyboard_key_editor_pixel_move_left", m_key_editor_pixel_move_left);
     Add_Property(p_root, "keyboard_key_editor_pixel_move_right", m_key_editor_pixel_move_right);
-    */
+
     // Joystick/Gamepad
     Add_Property(p_root, "joy_enabled", m_joy_enabled);
     Add_Property(p_root, "joy_name", m_joy_name);
@@ -264,7 +264,7 @@ void cPreferences::Reset_Audio(void)
 
 void cPreferences::Reset_Keyboard(void)
 {
-    /*
+
     m_key_up = m_key_up_default;
     m_key_down = m_key_down_default;
     m_key_left = m_key_left_default;
@@ -283,7 +283,6 @@ void cPreferences::Reset_Keyboard(void)
     m_key_editor_pixel_move_down = m_key_editor_pixel_move_down_default;
     m_key_editor_pixel_move_left = m_key_editor_pixel_move_left_default;
     m_key_editor_pixel_move_right = m_key_editor_pixel_move_right_default;
-    */
 }
 
 void cPreferences::Reset_Joystick(void)
