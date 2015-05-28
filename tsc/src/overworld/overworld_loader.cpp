@@ -201,6 +201,12 @@ cSprite* cOverworldLoader::Create_Sprite_From_XML_Tag(XmlAttributes& attributes,
     if (engine_version < 3)
         attributes.relocate_image("world/objects/bridge/bridge_1.png", "world/objects/bridge/bridge_1_ver_start.png");
 
+    // If V.1.9 and lower: green pipe has been removed in favour for red pipe
+    if (engine_version < 5) {
+        attributes.relocate_image("world/objects/pipe/green_big.png", "world/objects/pipe/red_big.png");
+        attributes.relocate_image("world/objects/pipe/green_small.png", "world/objects/pipe/red_small.png");
+    }
+
     // Create sprite
     cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
     // Set sprite type

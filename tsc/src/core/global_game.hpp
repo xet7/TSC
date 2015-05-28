@@ -188,7 +188,7 @@ namespace TSC {
     /* *** level engine version *** */
     static const int level_engine_version = 46;
     /* *** world engine version *** */
-    static const int world_engine_version = 4;
+    static const int world_engine_version = 5;
 
     /* *** Sprite Types *** */
 
