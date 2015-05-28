@@ -87,7 +87,8 @@ void cLevel_Player::Update_Walking(void)
     // OLD     Reset_On_Ground();
     // OLD }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right) /* || TODO: joystick */) {
+    cPreferences& preferences = gp_app->Get_Preferences();
+    if (sf::Keyboard::isKeyPressed(preferences.m_key_left) || sf::Keyboard::isKeyPressed(preferences.m_key_right) /* || TODO: joystick */) {
         float ground_mod = 1.0f;
 
         if (mp_ground_object) {
