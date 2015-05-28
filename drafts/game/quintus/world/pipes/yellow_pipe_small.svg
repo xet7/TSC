@@ -17,7 +17,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="yellow_pipe_small.svg"
-   inkscape:export-filename="/home/quintus/repos/privat/projekte/c++/TSC-alt/tsc/data/pixmaps/world/objects/pipe/yellow_big.png"
+   inkscape:export-filename="/home/quintus/repos/privat/projekte/c++/TSC-alt/tsc/data/pixmaps/world/objects/pipe/yellow_small.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -1086,7 +1086,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="-12.366945"
+     inkscape:cx="-16.849497"
      inkscape:cy="17.619564"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
