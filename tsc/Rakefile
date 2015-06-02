@@ -195,7 +195,7 @@ task :release do
     # this ensures the code compiles.
     mkdir "native"
     cd "native" do
-      sh "tar -xvJf '#{source_tarball}'"
+      sh "tar -xJf '#{source_tarball}'"
       cd "TSC-#{version}/tsc" do
         mkdir "build"
         cd "build" do
@@ -214,7 +214,7 @@ task :release do
     # Now create the Windows setup installer
     mkdir "win32"
     cd "win32" do
-      sh "tar -xvJf '#{source_tarball}'"
+      sh "tar -xJf '#{source_tarball}'"
       cd "TSC-#{version}/tsc" do
         mkdir "crossbuild"
         cd "crossbuild" do
