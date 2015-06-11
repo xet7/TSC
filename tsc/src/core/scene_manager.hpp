@@ -13,6 +13,31 @@ namespace TSC {
      * on top of the stack, the game switches to it; by removing the
      * top scene from the stack, the game returns to the previous
      * scene.
+     *
+     * You can retrieve two interesting values from the global instance
+     * of this class via Get_FPS() and Get_Speedfactor(). The former
+     * returns how many frames have elapsed during the last mainloop
+     * iteration. The latter is constructed by the time the last
+     * iteration of the mainloop needed divided by the FPS, which
+     * results in a variable factor that:
+     *
+     * 1. Grows if the FPS are lower, i.e. it is larger if the game
+     *    has a slower overall experience, and
+     * 2. Shrinks if the FPS are higher, i.e. it is smaller if the
+     *    game has a faster overall experience.
+     *
+     * The reasoning behind that factor is that objects moving on
+     * the screen do not move super-fast with a high FPS, and super-slow
+     * with a low FPS. To move over the same amount of pixels in the
+     * same time you need to do smaller movement steps with a higher
+     * FPS and smaller movement steps with a smaller FPS. To ease
+     * this calculation, you can just multiply your desired distance
+     * with the speedfactor which you can retrieve from this class,
+     * and the object will behave roughly the same relative to the
+     * user’s screen and time regardless of the FPS.
+     *
+     * The calculation breaks if a frame needs longer than a second
+     * to be processed. But than you can’t play the game anyway.
      */
     class cSceneManager
     {

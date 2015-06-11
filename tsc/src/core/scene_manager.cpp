@@ -74,7 +74,7 @@ void cSceneManager::Play(sf::RenderWindow& stage)
 
     // Main loop
     float total_elapsed_time = 0.0f;
-    char fps_text[16];
+    char fps_text[256];
     while (!m_end_play) {
         // Measure time we needed for this frame
         m_elapsed_time = m_game_clock.restart().asSeconds();
@@ -82,14 +82,24 @@ void cSceneManager::Play(sf::RenderWindow& stage)
         // Calculate the framerate, i.e. the amount of frames we can do per second.
         total_elapsed_time += m_elapsed_time;
         if (total_elapsed_time >= 1.0f) {
-            sprintf(fps_text, "FPS: %d", m_frames_counted);
+            m_speedfactor = total_elapsed_time / m_frames_counted;
+
+            sprintf(fps_text, "FPS: %d Speedfactor: %f", m_frames_counted, m_speedfactor);
             m_framerate_text.setString(fps_text);
 
-            m_speedfactor = total_elapsed_time / m_frames_counted;
             m_frames_counted = 0;
             total_elapsed_time = 0.0f;
         }
         m_frames_counted++;
+
+        /*
+          // Debugging the speedfactor. The below code forces a pause to
+          // decrease the speedfactor for debugging purposes.
+        struct timespec t;
+        t.tv_sec = 0;
+        t.tv_nsec = 1000000;
+        nanosleep(&t, NULL);
+        */
 
         CEGUI::System::getSingleton().injectTimePulse(m_elapsed_time);
 
