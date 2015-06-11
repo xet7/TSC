@@ -58,6 +58,10 @@ endif()
 # Enable C++11
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+# GCC >= 5.1.0 spams dozens of warnings in libraries if this particular
+# warning is enabled.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+
 execute_process(COMMAND git rev-parse --short HEAD
   WORKING_DIRECTORY ${TSC_SOURCE_DIR}
   OUTPUT_VARIABLE TSC_VERSION_GIT
