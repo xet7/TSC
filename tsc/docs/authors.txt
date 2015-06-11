@@ -26,16 +26,13 @@ Robert Williams (BowserJr) <bowserjr@users.sourceforge.net>
 
 -- Graphic Artists --
 
-Ashburry <schedafr@gmail.com>
 Fabian Bissig (Fabianius) <fabian.bissig@bluewin.ch>
 Bugsbane <user581@xymail.info>
-Johan Brodd (jobromedia) <info@m4um.net>
 Bodhi Crandall-Rus (Bodhi) <bodhi.biz@gmail.com>
 Crabmaster <crabmaster84@hotmail.com>
 John Daly (Johnlein)
 Sydney Dykstra (sydneyjd) <sydneyjd@openmailbox.org>
 Mario Fink (maYO) <losfinkos@web.de>
-Patrick Friel <patrickfriel@hotmail.com>
 Grant (youngheart80) <youngheart80@gmail.com>
 Gustavo Gutierrez (Enzakun)
 Markus Hiebl (Frostbringer) <quandia@gmx.net>
@@ -48,6 +45,9 @@ Yoshis_Fan <yoshis_fan@gmx.de>
 
 -- Music Artists --
 
+Ashburry <schedafr@gmail.com>
+Johan Brodd (jobromedia) <info@m4um.net>
+Patrick Friel <patrickfriel@hotmail.com>
 Justin (LoXodonte)
 Ryan Gonzalez (kirbyfan64sos) <rymg19@gmail.com>
 David Hernandez (vencabot_teppoo)
@@ -63,3 +63,4 @@ sauer2
 
 Rafael Ferreira (josephbgr) <rafael.f.f1@gmail.com>
 Lauri Ojansivu (xet7) <x@xet7.org>
+Benjamin Leduc (giby) <ultimategiby@hotmail.com>

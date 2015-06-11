@@ -125,13 +125,16 @@ desc "Create source tarball."
 task :tarball => :clobber do
   version = ENV["VERSION"] || "#{TSC_VERSION_MAJOR}.#{TSC_VERSION_MINOR}.#{TSC_VERSION_PATCH}"
   puts "Packaging TSC version #{version}"
+  sleep 1
 
   sh "git submodule init"
   sh "git submodule update"
 
+  project_dir = File.expand_path(File.join(File.dirname(__FILE__), ".."))
   cd "../.." do
-    ln_s "TSC", "TSC-#{version}" unless File.exist?("TSC-#{version}")
+    ln_s project_dir, "TSC-#{version}" unless File.exist?("TSC-#{version}")
     sh "tar --exclude .git --exclude drafts -cvJhf TSC-#{version}.tar.xz TSC-#{version}"
+    rm "TSC-#{version}"
   end
 end
 
@@ -182,7 +185,7 @@ task :release do
   source_tarball = File.join(Dir.pwd, "..", "..", "TSC-#{version}.tar.xz")
 
   unless File.file?(source_tarball)
-    raise "Something went wrong. There is no source tarball at '#{source_tarball}'."
+    raise "Something went wrong. There is no source tarball at '#{source_tarball}'. You should run `$ rake tarball' probably?"
   end
 
   mkdir targetpath
@@ -191,7 +194,7 @@ task :release do
     # this ensures the code compiles.
     mkdir "native"
     cd "native" do
-      sh "tar -xvJf '#{source_tarball}'"
+      sh "tar -xJf '#{source_tarball}'"
       cd "TSC-#{version}/tsc" do
         mkdir "build"
         cd "build" do
@@ -210,7 +213,7 @@ task :release do
     # Now create the Windows setup installer
     mkdir "win32"
     cd "win32" do
-      sh "tar -xvJf '#{source_tarball}'"
+      sh "tar -xJf '#{source_tarball}'"
       cd "TSC-#{version}/tsc" do
         mkdir "crossbuild"
         cd "crossbuild" do
