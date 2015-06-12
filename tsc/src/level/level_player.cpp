@@ -317,6 +317,61 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
 {
     // TODO
     // This method mainly checks for level exits and warps
+    // There’s MUCH to do here still!
+    if (key_type == INP_UP) {
+        // OLD <missing>
+    }
+    else if (key_type == INP_DOWN) {
+        // OLD <missing>
+    }
+    else if (key_type == INP_LEFT) {
+        // Search for colliding level exit objects
+        // OLD <missing>
+
+        // direction
+        if (m_state != STA_FLY) {
+            if (m_direction != DIR_LEFT) {
+                // play stop sound if already running
+                // OLD if (m_velx > 12.0f && m_ground_object) {
+                // OLD     pAudio->Play_Sound("player/run_stop.ogg", RID_ALEX_STOP);
+                // OLD }
+
+                m_direction = DIR_LEFT;
+            }
+        }
+    }
+    else if (key_type == INP_RIGHT) {
+        // Search for colliding level exit objects
+        // OLD <missing>
+
+        // direction
+        if (m_state != STA_FLY) {
+            if (m_direction != DIR_RIGHT) {
+                // play stop sound if already running
+                // OLD if (m_velx < -12.0f && m_ground_object) {
+                // OLD     pAudio->Play_Sound("player/run_stop.ogg", RID_ALEX_STOP);
+                // OLD }
+
+                m_direction = DIR_RIGHT;
+            }
+        }
+
+    }
+    else if (key_type == INP_SHOOT) {
+        // FIXME: This one is appearently superflous, because
+        // the shoot key is handled one layer up at cLevel_Scene::Handle_Keydown_Event().
+        // OLD Action_Shoot();
+    }
+    else if (key_type == INP_JUMP) {
+        // FIXME: Same here
+        // OLD Action_Jump();
+    }
+    else if (key_type == INP_ITEM) {
+        // OLD pHud_Itembox->Request_Item();
+    }
+    else if (key_type == INP_EXIT) {
+        // OLD <missing>
+    }
 }
 
 void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
