@@ -73,7 +73,27 @@ cLevel_Player::~cLevel_Player()
 
 void cLevel_Player::Update()
 {
+    // OLD if (editor_enabled) {
+    // OLD   return;
+    // OLD }
+
+    // check if got stuck
+    if (!m_ducked_counter) {
+        // OLD Update_Anti_Stuck();
+    }
+
+    // check if starting a jump is possible
+    // OLD Update_Jump_Keytime();
+
+    // update states
+    // OLD Update_Jump();
+    // OLD Update_Climbing();
+    // OLD Update_Falling();
     Update_Walking();
+    // OLD Update_Running();
+    // OLD Update_Ducking();
+    // OLD Update_Staying();
+    // OLD Update_Flying();
 }
 
 void cLevel_Player::Update_Walking(void)
