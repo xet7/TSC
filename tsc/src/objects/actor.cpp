@@ -174,6 +174,15 @@ void cActor::Added_To_Level(cLevel* p_level, const unsigned long& uid)
 
 /**
  * Accelerate in → direction.
+ *
+ * \param deltax
+ * Difference to move.
+ *
+ * \param real
+ * (false) Normally, the global speedfactor is applied to the `deltax`,
+ * which is the (highly) recommended behaviour to cause the same effect
+ * regardless of the framerate. If you set this parameter to true,
+ * `deltax` is interpreted as an absolute pixel value instead.
  */
 void cActor::Accelerate_X(const float& deltax, bool real /* = false */)
 {
@@ -186,7 +195,16 @@ void cActor::Accelerate_X(const float& deltax, bool real /* = false */)
 }
 
 /**
- * Accelerate in Y direction.
+ * Accelerate in ↓ direction.
+ *
+ * \param deltay
+ * Difference to move.
+ *
+ * \param real
+ * (false) Normally, the global speedfactor is applied to the `deltay`,
+ * which is the (highly) recommended behaviour to cause the same effect
+ * regardless of the framerate. If you set this parameter to true,
+ * `deltay` is interpreted as an absolute pixel value instead.
  */
 void cActor::Accelerate_Y(const float& deltay, bool real /* = false */)
 {
@@ -199,9 +217,20 @@ void cActor::Accelerate_Y(const float& deltay, bool real /* = false */)
 }
 
 /**
- * Accelerate in → and ↓ direction. If `real` is true, does not multiply
- * these values with the current framerate (which is done otherwise
- * to have it look more realistic).
+ * Accelerate in → and ↓ direction.
+ *
+ * \param deltax
+ * Difference in X direction.
+ *
+ * \param deltay
+ * Difference in Y direction.
+ *
+ * \param real
+ * (false) Normally, the global speedfactor is applied to
+ * `deltax` and `deltay`, which is the (highly) recommended behaviour
+ * to cause the same effect regardless of the framerate. If you set
+ * this parameter to true, `deltax` and `deltay` are interpreted as an
+ * absolute pixel value instead.
  */
 void cActor::Accelerate_XY(const float& deltax, const float& deltay, bool real /* = false */)
 {
