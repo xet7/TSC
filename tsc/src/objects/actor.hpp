@@ -97,6 +97,9 @@ namespace TSC {
         void Update_Gravity();
         void Update_Position();
 
+        // automatically slows down until not moving anymore
+        void Auto_Slow_Down(float x_speed, float y_speed = 0);
+
         inline void Add_Velocity_X(const float x, const bool real = 0) { Accelerate_X(x, real); } // Legacy code...
         inline void Add_Velocity_Y(const float y, const bool real = 0) { Accelerate_Y(y, real); } // ...compatibility
         /* Add Velocity

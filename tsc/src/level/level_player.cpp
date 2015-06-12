@@ -11,6 +11,7 @@
 #include "../user/preferences.hpp"
 #include "../core/scene_manager.hpp"
 #include "../core/tsc_app.hpp"
+#include "../core/math/utilities.hpp"
 #include "level_player.hpp"
 
 using namespace TSC;
@@ -92,7 +93,7 @@ void cLevel_Player::Update()
     Update_Walking();
     // OLD Update_Running();
     // OLD Update_Ducking();
-    // OLD Update_Staying();
+    Update_Staying();
     // OLD Update_Flying();
 }
 
@@ -147,6 +148,55 @@ void cLevel_Player::Update_Walking(void)
         else if (m_walk_time) {
             m_walk_time = 0.0f;
         }
+    }
+}
+
+void cLevel_Player::Update_Staying(void)
+{
+    // only if player is onground
+    if (!mp_ground_object || m_ducked_counter || m_state == STA_JUMP || m_state == STA_CLIMB) {
+        return;
+    }
+
+    cPreferences& preferences = gp_app->Get_Preferences();
+
+    // if left and right is not pressed
+    if (!sf::Keyboard::isKeyPressed(preferences.m_key_left) && !sf::Keyboard::isKeyPressed(preferences.m_key_right) /* && !pJoystick->m_left && !pJoystick->m_right */) {
+        // walking
+        if (m_velocity.x) {
+            /* OLD if (m_ground_object->m_image && m_ground_object->m_image->m_ground_type == GROUND_ICE) {
+                Auto_Slow_Down(1.1f / 5.0f);
+            }
+            else { */
+                Auto_Slow_Down(1.1f);
+            /* } */
+
+            // stopped walking
+            if (!m_velocity.x) {
+                Set_Moving_State(STA_STAY);
+            }
+        }
+
+        // walk on spika
+        // OLD if (m_ground_object->m_type == TYPE_SPIKA) {
+        // OLD     cMovingSprite* moving_ground_object = static_cast<cMovingSprite*>(m_ground_object);
+        // OLD 
+        // OLD     if (moving_ground_object->m_velx < 0.0f) {
+        // OLD         m_walk_count -= moving_ground_object->m_velx * pFramerate->m_speed_factor * 0.1f;
+        // OLD     }
+        // OLD     else if (moving_ground_object->m_velx > 0.0f) {
+        // OLD         m_walk_count += moving_ground_object->m_velx * pFramerate->m_speed_factor * 0.1f;
+        // OLD     }
+        // OLD }
+        // if not moving anymore
+        else if (Is_Float_Equal(m_velocity.x, 0.0f)) {
+            m_walk_count = 0.0f;
+        }
+    }
+
+    // if staying don't move vertical
+    if (m_velocity.y > 0.0f) {
+        m_velocity.y = 0.0f;
     }
 }
 

@@ -36,6 +36,7 @@ namespace TSC {
         virtual void Update();
 
         void Update_Walking(void);
+        void Update_Staying(void);
         float Get_Vel_Modifier(void) const;
     private:
         Moving_state m_state;

@@ -397,7 +397,7 @@ void cActor::Set_On_Ground(cActor* p_ground_object)
 /**
  * Take away the ground object from the actor’s feet. The
  * actor will be subject to gravity again after this method
- * has been called. Has no effet if the actor is not standing
+ * has been called. Has no effect if the actor is not standing
  * on anything.
  *
  * \returns The previous ground object. NULL if there was none,
@@ -408,4 +408,27 @@ cActor* cActor::Reset_On_Ground()
     cActor* ptr = mp_ground_object;
     mp_ground_object = NULL;
     return ptr;
+}
+
+void cActor::Auto_Slow_Down(float x_speed, float y_speed /* = 0 */)
+{
+    // horizontal slow down
+    if (x_speed > 0.0f) {
+        if (m_velocity.x > 0.0f) {
+            Add_Velocity_X_Min(-x_speed, 0.0f);
+        }
+        else if (m_velocity.x < 0.0f) {
+            Add_Velocity_X_Max(x_speed, 0.0f);
+        }
+    }
+
+    // vertical slow down
+    if (y_speed > 0.0f) {
+        if (m_velocity.y > 0.0f) {
+            Add_Velocity_Y_Min(-y_speed, 0.0f);
+        }
+        else if (m_velocity.y < 0.0f) {
+            Add_Velocity_Y_Max(y_speed, 0.0f);
+        }
+    }
 }
