@@ -18,6 +18,8 @@
 #include "../video/img_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
+#include "../objects/animated_actor.hpp"
+#include "../level/level_player.hpp"
 #include "level_scene.hpp"
 
 using namespace TSC;
@@ -39,15 +41,126 @@ cLevelScene::~cLevelScene()
 
 void cLevelScene::Handle_Event(sf::Event& evt)
 {
-    if (evt.type != sf::Event::KeyPressed)
-        return;
+    if (evt.type == sf::Event::KeyPressed)
+        Handle_Keydown_Event(evt);
+    else if (evt.type == sf::Event::KeyReleased)
+        Handle_Keyup_Event(evt);
+}
 
+void cLevelScene::Handle_Keydown_Event(sf::Event& evt)
+{
     cLevel_Player* p_player = gp_current_level->Get_Player();
+    cPreferences& preferences = gp_app->Get_Preferences();
 
-    switch (evt.key.code) {
-    default:
+    // (this is the old cLevel::KeyDown() method)
+    // TODO: It is not completely converted yet!
+    if (evt.key.code == sf::Keyboard::F8) {
+        // open level editor
+    }
+    else if (evt.key.code == preferences.m_key_shoot) {
+        /*
+        Scripting::cKeyDown_Event evt("shoot");
+        evt.Fire(m_mruby, pKeyboard);
+        p_player->Action_Shoot();
+        */
+    }
+    else if (evt.key.code == preferences.m_key_jump) {
+        /*
+        Scripting::cKeyDown_Event evt("jump");
+        evt.Fire(m_mruby, pKeyboard);
+        p_player->Action_Jump();
+        */
+    }
+    else if (evt.key.code == preferences.m_key_action) {
+        /*
+        Scripting::cKeyDown_Event evt("action");
+        evt.Fire(m_mruby, pKeyboard);
+        */
+        p_player->Action_Interact(INP_ACTION);
+    }
+    else if (evt.key.code == preferences.m_key_up) {
+        /*
+        Scripting::cKeyDown_Event evt("up");
+        evt.Fire(m_mruby, pKeyboard);
+        */
+        p_player->Action_Interact(INP_UP);
+    }
+    else if (evt.key.code == preferences.m_key_down) {
+        /*
+        Scripting::cKeyDown_Event evt("down");
+        evt.Fire(m_mruby, pKeyboard);
+        */
+        p_player->Action_Interact(INP_DOWN);
+    }
+    else if (evt.key.code == preferences.m_key_left) {
+        /*
+        Scripting::cKeyDown_Event evt("left");
+        evt.Fire(m_mruby, pKeyboard);
+        */
+        p_player->Action_Interact(INP_LEFT);
+    }
+    else if (evt.key.code == preferences.m_key_right) {
+        /*
+        Scripting::cKeyDown_Event evt("right");
+        evt.Fire(m_mruby, pKeyboard);
+        */
+        p_player->Action_Interact(INP_RIGHT);
+    }
+    else if (evt.key.code == preferences.m_key_item) {
+        /*
+        Scripting::cKeyDown_Event evt("item");
+        evt.Fire(m_mruby, pKeyboard);
+        */
+        p_player->Action_Interact(INP_ITEM);
+    }
+    // The following key combinations should belong
+    // in the level player class directly as
+    // they query the keyboard state as a whole.
+    else if (evt.key.code == sf::Keyboard::G) {
+        // God mode
+    }
+    else if (evt.key.code == sf::Keyboard::K) {
+        // Kid cheat
+    }
+        /////////////
+    else if (evt.key.code == sf::Keyboard::Escape) {
+        p_player->Action_Interact(INP_EXIT);
+    }
+    else {
         return;
     }
+
+    // Editor forward
+}
+
+void cLevelScene::Handle_Keyup_Event(sf::Event& evt)
+{
+    cLevel_Player* p_player = gp_current_level->Get_Player();
+    cPreferences& preferences = gp_app->Get_Preferences();
+
+    // (this is the old cLevel::Key_Up method)
+
+    //// only if not in Editor
+    //if (editor_level_enabled) {
+    //    return 0;
+    //}
+
+    if (evt.key.code == preferences.m_key_right)
+        p_player->Action_Stop_Interact(INP_RIGHT);
+    else if (evt.key.code == preferences.m_key_left)
+        p_player->Action_Stop_Interact(INP_LEFT);
+    else if (evt.key.code == preferences.m_key_down)
+        p_player->Action_Stop_Interact(INP_DOWN);
+    else if (evt.key.code == preferences.m_key_jump)
+        p_player->Action_Stop_Interact(INP_JUMP);
+    else if (evt.key.code == preferences.m_key_shoot)
+        p_player->Action_Stop_Interact(INP_SHOOT);
+    else if (evt.key.code == preferences.m_key_action)
+        p_player->Action_Stop_Interact(INP_ACTION);
+    else // not processed
+        return;
+
+    // key got processed
 }
 
 void cLevelScene::Update(sf::RenderWindow& stage)

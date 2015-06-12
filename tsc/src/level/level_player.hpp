@@ -11,9 +11,27 @@ namespace TSC {
 
         virtual bool Handle_Collision(cCollision* p_collision);
 
+        // lets the Player halt
+        void Hold(void);
+
         // moves in the current direction
         void Move_Player(float velocity, float vel_wrongway);
         void Set_Moving_State(Moving_state new_state);
+
+        // Start a jump
+        void Action_Jump(bool enemy_jump = 0);
+        // General input interact event
+        void Action_Interact(input_identifier key_type);
+        // Shoot if available
+        void Action_Shoot(void);
+
+        // Stop jump
+        void Action_Stop_Jump(void);
+        // Stop Interacting event
+        void Action_Stop_Interact(input_identifier key_type);
+        // Stop Shoot action
+        void Action_Stop_Shoot(void);
+
     protected:
         virtual void Update();
 

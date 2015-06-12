@@ -312,3 +312,65 @@ void cLevel_Player::Set_Moving_State(Moving_state new_state)
         // OLD Release_Item(1);
     }
 }
+
+void cLevel_Player::Action_Interact(input_identifier key_type)
+{
+    // TODO
+    // This method mainly checks for level exits and warps
+}
+
+void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
+{
+    cPreferences& preferences = gp_app->Get_Preferences();
+
+    // Action
+    if (key_type == INP_ACTION) {
+        // OLD Release_Item();
+    }
+    // Down
+    else if (key_type == INP_DOWN) {
+        // OLD Stop_Ducking();
+    }
+    // Left
+    else if (key_type == INP_LEFT) {
+        // if key in opposite direction is still pressed only change direction
+        if (sf::Keyboard::isKeyPressed(preferences.m_key_right) /* || pJoystick->m_right */) {
+            m_direction = DIR_RIGHT;
+        }
+        else {
+            Hold();
+        }
+    }
+    // Right
+    else if (key_type == INP_RIGHT) {
+        // if key in opposite direction is still pressed only change direction
+        if (sf::Keyboard::isKeyPressed(preferences.m_key_left) /* || pJoystick->m_left */) {
+            m_direction = DIR_LEFT;
+        }
+        else {
+            Hold();
+        }
+    }
+    // Jump
+    else if (key_type == INP_JUMP) {
+        // OLD Action_Stop_Jump();
+    }
+    // Shoot
+    else if (key_type == INP_SHOOT) {
+        Action_Stop_Shoot();
+    }
+}
+
+void cLevel_Player::Action_Stop_Shoot(void)
+{
+    // nothing
+}
+
+ void cLevel_Player::Hold(void)
+{
+    if (!mp_ground_object || (m_state != STA_WALK && m_state != STA_RUN)) {
+        return;
+    }
+
+    Set_Moving_State(STA_STAY);
+}

@@ -21,6 +21,9 @@ namespace TSC {
     private:
         std::vector<cLevel*> m_active_levels;
         // Current level is in gp_current_level.
+
+        void Handle_Keydown_Event(sf::Event& evt);
+        void Handle_Keyup_Event(sf::Event& evt);
     };
 }
 #endif
