@@ -54,3 +54,9 @@ void cAnimatedActor::Draw(sf::RenderWindow& stage) const
 
     cSpriteActor::Draw(stage);
 }
+
+void cAnimatedActor::Update()
+{
+    cSpriteActor::Update();
+    cImageSet::Update_Animation();
+}

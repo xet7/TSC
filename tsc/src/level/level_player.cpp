@@ -178,6 +178,8 @@ void cLevel_Player::Load_Images(void)
 
 void cLevel_Player::Update()
 {
+    cAnimatedActor::Update();
+
     // OLD if (editor_enabled) {
     // OLD   return;
     // OLD }

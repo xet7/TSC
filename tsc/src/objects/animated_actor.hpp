@@ -14,12 +14,6 @@ namespace TSC {
      * which image of the sequence to show, as only that method allows
      * you to refer to what was defined in the image
      * sets.
-     *
-     * Note that this class does not already call cImageSet::Update_Animation()
-     * as you might expect. This allows you to pause animating.
-     * TODO: Change that, because from an inheritance perspective that
-     * behaviour is bad style. Build a stop_animation flag into
-     * cImageSet instead.
      */
     class cAnimatedActor: public cSpriteActor, public cImageSet
     {
@@ -28,6 +22,7 @@ namespace TSC {
         virtual ~cAnimatedActor();
 
         virtual void Draw(sf::RenderWindow& stage) const;
+        virtual void Update();
 
         virtual void Set_Image_Set_Image(const struct ConfiguredTexture* p_new_image, bool new_startimage = false);
         virtual std::string Get_Identity(void);
