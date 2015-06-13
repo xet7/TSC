@@ -28,6 +28,8 @@ cLevel_Player::cLevel_Player()
     m_state = STA_FALL;
     m_direction = DIR_RIGHT;
 
+    m_alex_type = ALEX_SMALL;
+
     m_god_mode = 0;
 
     m_walk_time = 0.0f;
