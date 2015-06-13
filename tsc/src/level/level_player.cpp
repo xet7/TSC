@@ -62,31 +62,27 @@ cLevel_Player::cLevel_Player()
     m_is_warping = false;
     mp_active_object = NULL;
 
-    // TODO:
-    // Image sets do not handle .settings files yet, and the level
-    // player is the only sprite that does not use internal rotation
-    // currently. Thus, left images are currently not possible.
     Add_Image_Set("small_stand_left"          , "alex/small/stand_left.imgset");
     Add_Image_Set("small_stand_right"         , "alex/small/stand_right.imgset");
-    //Add_Image_Set("small_stand_left_holding"  , "alex/small/stand_left_holding.imgset");
+    Add_Image_Set("small_stand_left_holding"  , "alex/small/stand_left_holding.imgset");
     Add_Image_Set("small_stand_right_holding" , "alex/small/stand_right_holding.imgset");
-    //Add_Image_Set("small_walk_left"           , "alex/small/walk_left.imgset");
+    Add_Image_Set("small_walk_left"           , "alex/small/walk_left.imgset");
     Add_Image_Set("small_walk_right"          , "alex/small/walk_right.imgset");
-    //Add_Image_Set("small_walk_left"           , "alex/small/walk_left_holding.imgset");
+    Add_Image_Set("small_walk_left"           , "alex/small/walk_left_holding.imgset");
     Add_Image_Set("small_walk_right"          , "alex/small/walk_right_holding.imgset");
-    //Add_Image_Set("small_fall_left"           , "alex/small/fall_left.imgset");
+    Add_Image_Set("small_fall_left"           , "alex/small/fall_left.imgset");
     Add_Image_Set("small_fall_right"          , "alex/small/fall_right.imgset");
-    //Add_Image_Set("small_fall_left_holding"   , "alex/small/fall_left_holding.imgset");
+    Add_Image_Set("small_fall_left_holding"   , "alex/small/fall_left_holding.imgset");
     Add_Image_Set("small_fall_right_holding"  , "alex/small/fall_right_holding.imgset");
-    //Add_Image_Set("small_jump_left"           , "alex/small/jump_left.imgset");
+    Add_Image_Set("small_jump_left"           , "alex/small/jump_left.imgset");
     Add_Image_Set("small_jump_right"          , "alex/small/jump_right.imgset");
-    //Add_Image_Set("small_jump_left_holding"   , "alex/small/jump_left_holding.imgset");
+    Add_Image_Set("small_jump_left_holding"   , "alex/small/jump_left_holding.imgset");
     Add_Image_Set("small_jump_right_holding"  , "alex/small/jump_right_holding.imgset");
-    //Add_Image_Set("small_dead_left"           , "alex/small/dead_left.imgset");
+    Add_Image_Set("small_dead_left"           , "alex/small/dead_left.imgset");
     Add_Image_Set("small_dead_right"          , "alex/small/dead_right.imgset");
-    //Add_Image_Set("small_duck_left"           , "alex/small/duck_left.imgset");
+    Add_Image_Set("small_duck_left"           , "alex/small/duck_left.imgset");
     Add_Image_Set("small_duck_right"          , "alex/small/duck_right.imgset");
-    //Add_Image_Set("small_climb_left"          , "alex/small/climb_left.imgset");
+    Add_Image_Set("small_climb_left"          , "alex/small/climb_left.imgset");
     Add_Image_Set("small_climb_right"         , "alex/small/climb_right.imgset");
 
     Load_Images();
