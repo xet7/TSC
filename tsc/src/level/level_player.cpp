@@ -60,16 +60,124 @@ cLevel_Player::cLevel_Player()
     m_duck_direction = DIR_UNDEFINED;
 
     m_is_warping = false;
+    mp_active_object = NULL;
 
-    Add_Image_Set("small", "alex/small/walk_right.imgset");
+    // TODO:
+    // Image sets do not handle .settings files yet, and the level
+    // player is the only sprite that does not use internal rotation
+    // currently. Thus, left images are currently not possible.
+    //Add_Image_Set("small_stand_left"          , "alex/small/stand_left.imgset");
+    Add_Image_Set("small_stand_right"         , "alex/small/stand_right.imgset");
+    //Add_Image_Set("small_stand_left_holding"  , "alex/small/stand_left_holding.imgset");
+    Add_Image_Set("small_stand_right_holding" , "alex/small/stand_right_holding.imgset");
+    //Add_Image_Set("small_walk_left"           , "alex/small/walk_left.imgset");
+    Add_Image_Set("small_walk_right"          , "alex/small/walk_right.imgset");
+    //Add_Image_Set("small_walk_left"           , "alex/small/walk_left_holding.imgset");
+    Add_Image_Set("small_walk_right"          , "alex/small/walk_right_holding.imgset");
+    //Add_Image_Set("small_fall_left"           , "alex/small/fall_left.imgset");
+    Add_Image_Set("small_fall_right"          , "alex/small/fall_right.imgset");
+    //Add_Image_Set("small_fall_left_holding"   , "alex/small/fall_left_holding.imgset");
+    Add_Image_Set("small_fall_right_holding"  , "alex/small/fall_right_holding.imgset");
+    //Add_Image_Set("small_jump_left"           , "alex/small/jump_left.imgset");
+    Add_Image_Set("small_jump_right"          , "alex/small/jump_right.imgset");
+    //Add_Image_Set("small_jump_left_holding"   , "alex/small/jump_left_holding.imgset");
+    Add_Image_Set("small_jump_right_holding"  , "alex/small/jump_right_holding.imgset");
+    //Add_Image_Set("small_dead_left"           , "alex/small/dead_left.imgset");
+    Add_Image_Set("small_dead_right"          , "alex/small/dead_right.imgset");
+    //Add_Image_Set("small_duck_left"           , "alex/small/duck_left.imgset");
+    Add_Image_Set("small_duck_right"          , "alex/small/duck_right.imgset");
+    //Add_Image_Set("small_climb_left"          , "alex/small/climb_left.imgset");
+    Add_Image_Set("small_climb_right"         , "alex/small/climb_right.imgset");
 
-    Set_Image_Set("small");
+    Load_Images();
     Set_Image_Num(0, true);
 }
 
 cLevel_Player::~cLevel_Player()
 {
     //
+}
+
+void cLevel_Player::Load_Images(void)
+{
+    // not valid
+    if (m_alex_type == ALEX_DEAD) {
+        return;
+    }
+
+    Clear_Images();
+
+    // special alex images state
+    std::string imgsetstring;
+
+    // powerup type
+    switch (m_alex_type) {
+    case ALEX_SMALL:
+        imgsetstring += "small";
+        break;
+    case ALEX_BIG:
+        imgsetstring += "big";
+        break;
+    case ALEX_FIRE:
+        imgsetstring += "fire";
+        break;
+    case ALEX_ICE:
+        imgsetstring += "ice";
+        break;
+    case ALEX_CAPE:
+        imgsetstring += "flying";
+        break;
+    case ALEX_GHOST:
+        imgsetstring += "ghost";
+        break;
+    default:
+        std::cerr << "Warning: Unhandled powerup type on player when setting image set." << std::endl;
+        imgsetstring += "small";
+        break;
+    }
+
+    // moving type
+    switch(m_state) {
+    case STA_STAY:
+        imgsetstring += "_stand";
+        break;
+    case STA_WALK:
+        imgsetstring += "_walk";
+        break;
+    case STA_FALL:
+        imgsetstring += "_fall";
+        break;
+    case STA_JUMP:
+        imgsetstring += "_jump";
+        break;
+    case STA_CLIMB:
+        imgsetstring += "_climb";
+        break;
+    default:
+        std::cerr << "Warning: Unhandled moving state on player when setting image set." << std::endl;
+        imgsetstring += "_walk";
+        break;
+    }
+
+    // direction prefix
+    if (m_direction == DIR_LEFT)
+        imgsetstring += "_left";
+    else if (m_direction == DIR_RIGHT)
+        imgsetstring += "_right";
+    else {
+        std::cerr << "Warning: Unhandled direction on player when setting image set." << std::endl;
+        imgsetstring += "right";
+    }
+
+    // if holding item
+    if (mp_active_object) {
+        imgsetstring += "_holding";
+    }
+
+    debug_print("Load_Images() constructed image set name: '%s'\n", imgsetstring.c_str());
+
+    Set_Image_Set(imgsetstring);
+    Set_Image_Num(0);
 }
 
 void cLevel_Player::Update()

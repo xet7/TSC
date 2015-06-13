@@ -3,6 +3,19 @@
 
 namespace TSC {
 
+    /* *** *** *** *** *** *** *** *** Alex states *** *** *** *** *** *** *** *** *** */
+
+    enum Alex_type {
+        // normal
+        ALEX_DEAD = 0,
+        ALEX_SMALL = 1,
+        ALEX_BIG = 2,
+        ALEX_FIRE = 3,
+        ALEX_ICE = 4,
+        ALEX_CAPE = 5,
+        ALEX_GHOST = 6
+    };
+
     class cLevel_Player: public cAnimatedActor
     {
     public:
@@ -35,6 +48,7 @@ namespace TSC {
     protected:
         virtual void Update();
 
+        void Load_Images(void);
         void Update_Walking(void);
         void Update_Staying(void);
         float Get_Vel_Modifier(void) const;
@@ -43,6 +57,9 @@ namespace TSC {
         ObjectDirection m_direction;
 
     public: // FIXME: Legacy code. Remove this for secrecy principle!
+
+        // current Alex type
+        Alex_type m_alex_type;
 
         // true if player god mode is active
         bool m_god_mode;
