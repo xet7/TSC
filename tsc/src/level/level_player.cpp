@@ -66,7 +66,7 @@ cLevel_Player::cLevel_Player()
     // Image sets do not handle .settings files yet, and the level
     // player is the only sprite that does not use internal rotation
     // currently. Thus, left images are currently not possible.
-    //Add_Image_Set("small_stand_left"          , "alex/small/stand_left.imgset");
+    Add_Image_Set("small_stand_left"          , "alex/small/stand_left.imgset");
     Add_Image_Set("small_stand_right"         , "alex/small/stand_right.imgset");
     //Add_Image_Set("small_stand_left_holding"  , "alex/small/stand_left_holding.imgset");
     Add_Image_Set("small_stand_right_holding" , "alex/small/stand_right_holding.imgset");

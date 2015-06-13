@@ -90,9 +90,24 @@ const ConfiguredTexture& cImage_Manager::Get_Texture(const fs::path& relpath)
             Find_Image_Pathes(relpath, masterpath, finalpath);
         }
 
-        // TODO: Handle the cases where Find_Image_Pathes() returns a .settings file!
-
+        cImage_Settings_Data* p_settings = Parse_Image_Settings(masterpath);
         sf::Texture* p_texture = new sf::Texture;
+
+        /* Find_Image_Pathes() might return .PNG or .SETTINGS files.
+         * The former can directly be loaded, the latter must have
+         * a "base" key pointing to a .PNG file to be valid.
+         * TODO: Support stacked .SETTINGS file, i.e. settings files
+         * whose "base" key refers to another .SETTINGS file.
+         * Or does the settings parser code already handle that case? */
+        if (finalpath.extension() == utf8_to_path(".settings")) {
+            if (!p_settings->m_base.empty()) {
+                finalpath = finalpath.parent_path() / path_to_utf8(p_settings->m_base);
+            }
+            else {
+                throw(std::runtime_error("Failed to load texture from file -- requested .settings file has no 'base' key!"));
+            }
+        }
+
         if (!p_texture->loadFromFile(path_to_utf8(finalpath))) { // FIXME: Which encoding does SFML want here?
             // This can only happen if we don’t have read rights for
             // the file or a similar problem, or if the user passed an
@@ -100,7 +115,6 @@ const ConfiguredTexture& cImage_Manager::Get_Texture(const fs::path& relpath)
             throw(std::runtime_error("Failed to load texture from file -- do you have the file access rights set correctly?"));
         }
 
-        cImage_Settings_Data* p_settings        = Parse_Image_Settings(masterpath);
         struct ConfiguredTexture* p_conftexture = new ConfiguredTexture;
         p_conftexture->m_texture                = p_texture;
         p_conftexture->m_settings               = p_settings;
@@ -127,7 +141,7 @@ void cImage_Manager::Find_Image_Pathes(const fs::path& relpath, fs::path& master
     // Ask the package manager for the master path. This even
     // works if no package is active, because it then searches
     // the main game and the user directories anyway.
-    masterpath = gp_app->Get_PackageManager().Get_Pixmap_Reading_Path(path_to_utf8(relpath));
+    masterpath = gp_app->Get_PackageManager().Get_Pixmap_Reading_Path(path_to_utf8(relpath), true);
 
     // Ok, file found. Don’t try to load it directly, but use the scaled
     // version from the image cache if possible.
