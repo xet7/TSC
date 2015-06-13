@@ -61,7 +61,7 @@ cLevel_Player::cLevel_Player()
 
     m_is_warping = false;
 
-    Add_Image_Set("small", "alex/small/walk.imgset");
+    Add_Image_Set("small", "alex/small/walk_right.imgset");
 
     Set_Image_Set("small");
     Set_Image_Num(0, true);
