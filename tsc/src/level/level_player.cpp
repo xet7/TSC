@@ -101,8 +101,6 @@ void cLevel_Player::Load_Images(void)
         return;
     }
 
-    Clear_Images();
-
     // special alex images state
     std::string imgsetstring;
 
