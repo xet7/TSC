@@ -108,12 +108,26 @@ const ConfiguredTexture& cImage_Manager::Get_Texture(const fs::path& relpath)
             }
         }
 
-        if (!p_texture->loadFromFile(path_to_utf8(finalpath))) { // FIXME: Which encoding does SFML want here?
+        // Load sf::Image which can be edited easily
+        sf::Image img;
+        if (!img.loadFromFile(path_to_utf8(finalpath))) { // FIXME: Which encoding does SFML want here?
             // This can only happen if we don’t have read rights for
             // the file or a similar problem, or if the user passed an
             // absolute path into this method.
             throw(std::runtime_error("Failed to load texture from file -- do you have the file access rights set correctly?"));
         }
+
+        // Apply X and Y mirrors to the image.
+        // TODO: This should be in cImage_Settings_Data::Apply(),
+        // but that function has no access to the image.
+        if (p_settings->m_rotation_x)
+            img.flipVertically();
+        if (p_settings->m_rotation_y)
+            img.flipHorizontally();
+
+        // Upload to Graphics Card
+        if (!p_texture->loadFromImage(img))
+            throw(std::runtime_error("Failed to upload image to graphics card!"));
 
         struct ConfiguredTexture* p_conftexture = new ConfiguredTexture;
         p_conftexture->m_texture                = p_texture;

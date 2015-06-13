@@ -63,13 +63,14 @@ void cImage_Settings_Data::Apply(cSpriteActor& actor) const
         actor.Set_Collision_Rect(sf::FloatRect(m_col_rect.left, m_col_rect.top, m_col_rect.width, m_col_rect.height));
     }
 
-    if (m_rotation_x != 0) {
-        std::cerr << "X mirror not implemented" << std::endl;
-    }
-
-    if (m_rotation_y != 0) {
-        std::cerr << "Y mirror not implemented" << std::endl;
-    }
+    /* The X and Y mirror (m_rotation_x and m_rotation_y)
+     * cannot be applied here because we have no access
+     * to the file this .settings file is for. That’d
+     * require a major structural rewrite of the .imgset
+     * loading code. So instead, these values are applied
+     * inside cImage_Manager::Get_Texture() which is the
+     * central method that has access to both the texture
+     * and the settings data (`this') at once. */
 
     if (m_rotation_z != 0) {
         actor.setRotation(m_rotation_z);
