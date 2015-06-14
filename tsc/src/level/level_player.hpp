@@ -48,7 +48,7 @@ namespace TSC {
     protected:
         virtual void Update();
 
-        void Load_Images(void);
+        void Load_Images(bool new_startimage = false);
         void Update_Walking(void);
         void Update_Staying(void);
         float Get_Vel_Modifier(void) const;

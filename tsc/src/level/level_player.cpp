@@ -70,8 +70,8 @@ cLevel_Player::cLevel_Player()
     Add_Image_Set("small_stand_right_holding" , "alex/small/stand_right_holding.imgset");
     Add_Image_Set("small_walk_left"           , "alex/small/walk_left.imgset");
     Add_Image_Set("small_walk_right"          , "alex/small/walk_right.imgset");
-    Add_Image_Set("small_walk_left"           , "alex/small/walk_left_holding.imgset");
-    Add_Image_Set("small_walk_right"          , "alex/small/walk_right_holding.imgset");
+    Add_Image_Set("small_walk_left_holding"   , "alex/small/walk_left_holding.imgset");
+    Add_Image_Set("small_walk_right_holding"  , "alex/small/walk_right_holding.imgset");
     Add_Image_Set("small_fall_left"           , "alex/small/fall_left.imgset");
     Add_Image_Set("small_fall_right"          , "alex/small/fall_right.imgset");
     Add_Image_Set("small_fall_left_holding"   , "alex/small/fall_left_holding.imgset");
@@ -87,8 +87,7 @@ cLevel_Player::cLevel_Player()
     Add_Image_Set("small_climb_left"          , "alex/small/climb_left.imgset");
     Add_Image_Set("small_climb_right"         , "alex/small/climb_right.imgset");
 
-    Load_Images();
-    Set_Image_Num(0, true);
+    Load_Images(true);
 }
 
 cLevel_Player::~cLevel_Player()
@@ -96,7 +95,7 @@ cLevel_Player::~cLevel_Player()
     //
 }
 
-void cLevel_Player::Load_Images(void)
+void cLevel_Player::Load_Images(bool new_startimage /* = false */)
 {
     // not valid
     if (m_alex_type == ALEX_DEAD) {
@@ -172,8 +171,7 @@ void cLevel_Player::Load_Images(void)
 
     debug_print("Load_Images() constructed image set name: '%s'\n", imgsetstring.c_str());
 
-    Set_Image_Set(imgsetstring);
-    Set_Image_Num(0);
+    Set_Image_Set(imgsetstring, new_startimage);
 }
 
 void cLevel_Player::Update()
