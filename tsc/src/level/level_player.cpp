@@ -169,7 +169,7 @@ void cLevel_Player::Load_Images(bool new_startimage /* = false */)
         imgsetstring += "_holding";
     }
 
-    debug_print("Load_Images() constructed image set name: '%s'\n", imgsetstring.c_str());
+    //debug_print("Load_Images() constructed image set name: '%s'\n", imgsetstring.c_str());
 
     Set_Image_Set(imgsetstring, new_startimage);
 }
@@ -480,6 +480,7 @@ void cLevel_Player::Set_Moving_State(Moving_state new_state)
     }
 
     m_state = new_state;
+    Load_Images();
 
     // # after new state is set
     if (m_state == STA_FLY) {
@@ -511,6 +512,7 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
                 // OLD }
 
                 m_direction = DIR_LEFT;
+                Load_Images();
             }
         }
     }
@@ -527,6 +529,7 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
                 // OLD }
 
                 m_direction = DIR_RIGHT;
+                Load_Images();
             }
         }
 
