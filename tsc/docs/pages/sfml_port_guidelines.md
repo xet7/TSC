@@ -15,3 +15,8 @@ guidelines:
    intrudocution to the system.
 4. Follow the general coding guidelines as outlined in the
    `conventions` documentation page.
+
+Press CTRL+D to enable/disable drawing of the collision
+rectangles. Note that you do not have to implement drawing of the
+collision rectangles yourself when you implement an actor, this is
+automatically done for you directly in the cActor class.
