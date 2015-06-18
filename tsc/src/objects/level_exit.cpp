@@ -330,6 +330,8 @@ void cLevel_Exit::Activate(void)
         if (m_direction == DIR_RIGHT || m_direction == DIR_LEFT) {
             pLevel_Player->Set_Rotation_Z(0);
         }
+
+        pLevel_Player->Set_Warping(false);
     }
 
     pLevel_Player->Clear_Collisions();
