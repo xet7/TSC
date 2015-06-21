@@ -69,8 +69,6 @@ cLevel* cLevel::Construct_Debugging_Level()
     p_actor->m_name = "Ground 3";
     p_level->Add_Actor(p_actor);
 
-    // HIER! Spieler einsetzen und fallen lassen! Kollision prüfen!
-
     p_level->Sort_Z_Elements();
     return p_level;
 }
