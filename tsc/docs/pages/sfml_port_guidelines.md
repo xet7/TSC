@@ -20,3 +20,11 @@ Press CTRL+D to enable/disable drawing of the collision
 rectangles. Note that you do not have to implement drawing of the
 collision rectangles yourself when you implement an actor, this is
 automatically done for you directly in the cActor class.
+
+You’ll find I (Quintus) leave a lot of comments in the code that start
+with “// OLD”. These are copies of code from the pre-SFML
+implementation that cannot run yet because of missing functions and/or
+other not yet ported things. The goal is to not have any such comments
+anymore, but I need them as a visual marker for functions that are
+only partly implemented yet. Otherwise I’d think I have fully ported
+the function in question to SFML already.
