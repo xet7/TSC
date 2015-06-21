@@ -152,6 +152,10 @@ namespace TSC {
         cAnimatedActor* mp_active_object;
         // direction when ducking started ( for the anti stuck under a block test )
         ObjectDirection m_duck_direction;
+
+        // default position
+        static const float m_default_pos_x;
+        static const float m_default_pos_y;
     };
 }
 

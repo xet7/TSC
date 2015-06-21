@@ -9,6 +9,8 @@
 #include "../video/img_manager.hpp"
 #include "../level/level.hpp"
 #include "actor.hpp"
+#include "../core/errors.hpp"
+#include "../core/xml_attributes.hpp"
 #include "../core/collision.hpp"
 #include "sprite_actor.hpp"
 #include "static_actor.hpp"
@@ -37,6 +39,12 @@ cStaticActor::cStaticActor(boost::filesystem::path relative_texture_path)
     Set_Texture(relative_texture_path);
 }
 
+cStaticActor::cStaticActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
+{
+    // TODO
+}
+
+
 cStaticActor::~cStaticActor()
 {
     //
@@ -57,6 +65,10 @@ void cStaticActor::Set_Texture(fs::path relative_texture_path)
     const struct ConfiguredTexture& txtinfo = gp_app->Get_ImageManager().Get_Texture(m_rel_texture_path);
     m_sprite.setTexture(*txtinfo.m_texture);
     txtinfo.m_settings->Apply(*this);
+
+    // TODO: Do we only need mp_texture for the backward compatbility
+    // code in level_loader.cpp?
+    mp_texture = &txtinfo;
 }
 
 void cStaticActor::Draw(sf::RenderWindow& stage) const

@@ -200,7 +200,7 @@ namespace TSC {
     static const int speedfactor_fps = 32;
 
     /* *** level engine version *** */
-    static const int level_engine_version = 46;
+    static const int level_engine_version = 47;
     /* *** world engine version *** */
     static const int world_engine_version = 5;
 
@@ -554,7 +554,6 @@ namespace TSC {
     class cSavegameLoader;
     class cScene;
     class cSceneManager;
-    class cScriptable_Object;
     class cSelectedObject;
     class cShell;
     class cShoot_Event;
@@ -581,6 +580,7 @@ namespace TSC {
     class cVideo;
     class cWaypoint;
     class cWorld_Sprite_Manager;
+    class XmlAttributes;
 
     /** CLASS FORWARD DECLRATIONS END **/
 

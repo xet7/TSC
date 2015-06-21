@@ -58,7 +58,11 @@ namespace TSC {
         };
 
         cActor();
+        cActor(XmlAttributes& attributes, cLevel& level, const std::string type_name = "sprite");
         virtual ~cActor();
+
+        // copy this sprite
+        virtual cActor* Copy(void) const;
 
         bool operator==(const cActor& other) const;
         bool operator!=(const cActor& other) const;
@@ -90,6 +94,11 @@ namespace TSC {
 
         void Set_On_Ground(cActor* p_ground_object);
         cActor* Reset_On_Ground();
+
+        /* late initialization
+         * this needs linked objects to be already loaded
+        */
+        virtual void Init_Links(void) {};
 
         float Z() const;
         //protected:
@@ -142,9 +151,32 @@ namespace TSC {
                 m_velocity.y = min_y;
             }
         }
+        /* Change position. This is mostly a forwarding
+         * to the SFML-inherited setPosition() method,
+         * except for new_startpos, which, if true, will
+         * also set the `m_start_pos' attribute to the
+         * same value. */
+        inline void Set_Pos(float x, float y, bool new_startpos = false)
+        {
+            if (new_startpos) {
+                m_start_pos.x = x;
+                m_start_pos.y = y;
+            }
+            setPosition(x, y);
+        }
+        inline void Set_Pos_X(float x, bool new_startpos = false)
+        {
+            Set_Pos(x, getPosition().y, new_startpos);
+        }
+        inline void Set_Pos_Y(float y, bool new_startpos = false)
+        {
+            Set_Pos(getPosition().x, y, new_startpos);
+        }
 
         cLevel* mp_level;
         unsigned long m_uid;
+
+        sf::Vector2f m_start_pos;
 
         sf::FloatRect m_collision_rect;
         std::string m_name;

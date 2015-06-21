@@ -10,6 +10,8 @@
 #include "../level/level.hpp"
 #include "actor.hpp"
 #include "../core/collision.hpp"
+#include "../core/errors.hpp"
+#include "../core/xml_attributes.hpp"
 #include "sprite_actor.hpp"
 
 using namespace TSC;
@@ -23,6 +25,12 @@ cSpriteActor::cSpriteActor()
 {
     m_coltype = COLTYPE_MASSIVE;
 }
+
+cSpriteActor::cSpriteActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
+{
+    // TODO
+}
+
 
 cSpriteActor::~cSpriteActor()
 {

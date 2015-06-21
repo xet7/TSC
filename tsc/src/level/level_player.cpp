@@ -20,6 +20,9 @@ namespace fs = boost::filesystem;
 // Milliseconds to enable power jump when ducking
 static const int POWER_JUMP_DELTA = 1000;
 
+const float cLevel_Player::m_default_pos_x = 200.0f;
+const float cLevel_Player::m_default_pos_y = -300.0f;
+
 cLevel_Player::cLevel_Player()
     : cAnimatedActor()
 {

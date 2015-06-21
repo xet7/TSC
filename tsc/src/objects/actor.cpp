@@ -15,6 +15,8 @@
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
 #include "../level/level.hpp"
+#include "../core/errors.hpp"
+#include "../core/xml_attributes.hpp"
 #include "actor.hpp"
 
 using namespace TSC;
@@ -63,8 +65,23 @@ cActor::cActor()
     mp_level = NULL;
 }
 
+cActor::cActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
+{
+    // TODO
+}
+
+
 cActor::~cActor()
 {
+}
+
+cActor* cActor::Copy(void) const
+{
+    cActor* actor = new cActor();
+    actor->Set_Pos(m_start_pos.x, m_start_pos.y, true);
+    actor->m_uid = 0; // Do not copy UID, must be unique
+
+    return actor;
 }
 
 /**

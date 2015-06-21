@@ -12,6 +12,7 @@ namespace TSC {
     {
     public:
         cSpriteActor();
+        cSpriteActor(XmlAttributes& attributes, cLevel& level, const std::string type_name = "sprite");
         virtual ~cSpriteActor();
 
         virtual void Draw(sf::RenderWindow& stage) const;
