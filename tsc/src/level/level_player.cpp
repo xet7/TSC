@@ -17,6 +17,9 @@
 using namespace TSC;
 namespace fs = boost::filesystem;
 
+// Milliseconds to enable power jump when ducking
+static const int power_jump_delta = 1000;
+
 cLevel_Player::cLevel_Player()
     : cAnimatedActor()
 {
@@ -188,10 +191,10 @@ void cLevel_Player::Update()
     }
 
     // check if starting a jump is possible
-    // OLD Update_Jump_Keytime();
+    Update_Jump_Keytime();
 
     // update states
-    // OLD Update_Jump();
+    Update_Jump();
     // OLD Update_Climbing();
     // OLD Update_Falling();
     Update_Walking();
@@ -541,7 +544,7 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
     }
     else if (key_type == INP_JUMP) {
         // FIXME: Same here
-        // OLD Action_Jump();
+        Action_Jump();
     }
     else if (key_type == INP_ITEM) {
         // OLD pHud_Itembox->Request_Item();
@@ -549,6 +552,33 @@ void cLevel_Player::Action_Interact(input_identifier key_type)
     else if (key_type == INP_EXIT) {
         // OLD <missing>
     }
+}
+
+void cLevel_Player::Action_Jump(bool enemy_jump /* = 0 */)
+{
+    if (m_ducked_counter) {
+        // power jump
+        if (m_ducked_counter > power_jump_delta) {
+            m_force_jump = 1;
+            m_next_jump_power += 2.0f;
+            m_next_jump_accel += 0.2f;
+        }
+        // stop ducking after setting power jump
+        Stop_Ducking();
+    }
+
+    // enemy jump
+    if (enemy_jump) {
+        m_force_jump = 1;
+        m_next_jump_sound = 0;
+        m_next_jump_power += 1.0f;
+        m_next_jump_accel += 0.1f;
+    }
+
+    // start keytime
+    Start_Jump_Keytime();
+    // check if starting a jump is possible
+    Update_Jump_Keytime();
 }
 
 void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
@@ -585,12 +615,18 @@ void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
     }
     // Jump
     else if (key_type == INP_JUMP) {
-        // OLD Action_Stop_Jump();
+        Action_Stop_Jump();
     }
     // Shoot
     else if (key_type == INP_SHOOT) {
         Action_Stop_Shoot();
     }
+}
+
+void cLevel_Player::Action_Stop_Jump(void)
+{
+    Stop_Flying();
+    m_up_key_time = 0;
 }
 
 void cLevel_Player::Action_Stop_Shoot(void)
@@ -605,4 +641,233 @@ void cLevel_Player::Action_Stop_Shoot(void)
     }
 
     Set_Moving_State(STA_STAY);
+}
+
+void cLevel_Player::Stop_Ducking(void)
+{
+    if (!m_ducked_counter) {
+        return;
+    }
+
+    // OLD // get space needed to stand up
+    // OLD const float move_y = -(m_images[ALEX_IMG_STAND].m_image->m_col_h - m_image->m_col_h);
+    // OLD 
+    // OLD cObjectCollisionType* col_list = Collision_Check_Relative(0.0f, move_y, 0.0f, 0.0f, COLLIDE_ONLY_BLOCKING);
+    // OLD 
+    // OLD // failed to stand up because something is blocking
+    // OLD if (col_list->size()) {
+    // OLD     // set ducked time again to stop possible power jump while in air
+    // OLD     m_ducked_counter = 1;
+    // OLD     delete col_list;
+    // OLD     return;
+    // OLD }
+    // OLD 
+    // OLD delete col_list;
+    // OLD 
+    // OLD // unset ducking image ( without Check_out_of_Level from cMovingSprite )
+    // OLD cSprite::Move(0.0f, move_y, 1);
+    // OLD Set_Image_Num(ALEX_IMG_STAND + m_direction);
+    // OLD 
+    // OLD m_ducked_counter = 0;
+    // OLD m_ducked_animation_counter = 0.0f;
+    // OLD Set_Moving_State(STA_STAY);
+}
+
+void cLevel_Player::Start_Jump_Keytime(void)
+{
+    cPreferences& preferences = gp_app->Get_Preferences();
+
+    if (m_god_mode || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_FALL || m_state == STA_FLY || m_state == STA_JUMP || (m_state == STA_CLIMB && !sf::Keyboard::isKeyPressed(preferences.m_key_up))) {
+        m_up_key_time = speedfactor_fps / 4;
+    }
+}
+
+void cLevel_Player::Update_Jump_Keytime(void)
+{
+    // handle jumping start
+    if (m_force_jump || (m_up_key_time && (mp_ground_object || m_god_mode || m_state == STA_CLIMB))) {
+        Start_Jump();
+    }
+}
+
+void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
+{
+    // play sound
+    if (m_next_jump_sound) {
+        // small
+        if (m_alex_type == ALEX_SMALL) {
+            if (m_force_jump) {
+                // OLD pAudio->Play_Sound("player/jump_small_power.ogg", RID_ALEX_JUMP);
+            }
+            else {
+                // OLD pAudio->Play_Sound("player/jump_small.ogg", RID_ALEX_JUMP);
+            }
+        }
+        // ghost
+        else if (m_alex_type == ALEX_GHOST) {
+            // OLD pAudio->Play_Sound("player/jump_ghost.ogg", RID_ALEX_JUMP);
+        }
+        // big
+        else {
+            if (m_force_jump) {
+                // OLD pAudio->Play_Sound("player/jump_big_power.ogg", RID_ALEX_JUMP);
+            }
+            else {
+                // OLD pAudio->Play_Sound("player/jump_big.ogg", RID_ALEX_JUMP);
+            }
+        }
+    }
+
+    bool jump_key = 0;
+    cPreferences& preferences = gp_app->Get_Preferences();
+
+    // if jump key pressed
+    if (sf::Keyboard::isKeyPressed(preferences.m_key_jump) /* || (pPreferences->m_joy_analog_jump && pJoystick->m_up) || pJoystick->Button(pPreferences->m_joy_button_jump) */ ) {
+        jump_key = 1;
+    }
+
+    // todo : is this needed ?
+    // avoid that we are set on the ground again
+    // OLD Col_Move(0.0f, -1.0f, 1, 1);
+
+    // fly
+    if (m_alex_type == ALEX_CAPE && !m_force_jump && m_state == STA_RUN && jump_key && ((m_direction == DIR_RIGHT && m_velocity.x > 14) || (m_direction == DIR_LEFT && m_velocity.x < -14))) {
+        m_velocity.y = -m_next_jump_power * 0.5f;
+        Set_Moving_State(STA_FLY);
+    }
+    // jump
+    else {
+        m_jump_accel_up = m_next_jump_accel;
+        m_jump_vel_deaccel = deaccel;
+
+        if (jump_key) {
+            m_jump_power = m_next_jump_power * 0.59f;
+        }
+        else {
+            m_jump_power = m_next_jump_power * 0.12f;
+        }
+
+        // Issue jump event
+        // OLD Scripting::cJump_Event evt;
+        // OLD evt.Fire(pActive_Level->m_mruby, this);
+
+        m_velocity.y = -m_next_jump_power;
+        Set_Moving_State(STA_JUMP);
+    }
+
+    // jump higher when running
+    if (m_velocity.x < 0.0f) {
+        m_velocity.y += m_velocity.x / 9.5f;
+    }
+    else if (m_velocity.x > 0.0f) {
+        m_velocity.y -= m_velocity.x / 9.5f;
+    }
+
+    // slow down if running
+    m_velocity.x = m_velocity.x * 0.9f;
+
+    // jump with velx if ducking but only into the opposite start duck direction to get out of a hole
+    if (m_ducked_counter) {
+        if (m_direction == DIR_RIGHT && m_duck_direction != m_direction) {
+            if (m_velocity.x < 5.0f) {
+                m_velocity.x += 2.0f;
+            }
+        }
+        else if (m_direction == DIR_LEFT && m_duck_direction != m_direction) {
+            if (m_velocity.x > -5.0f) {
+                m_velocity.x -= 2.0f;
+            }
+        }
+    }
+
+    // reset variables
+    m_up_key_time = 0.0f;
+    m_force_jump = 0;
+    m_next_jump_sound = 1;
+    m_next_jump_power = 17.0f;
+    m_next_jump_accel = 4.0f;
+}
+
+void cLevel_Player::Update_Jump(void)
+{
+    // jumping keytime
+    if (m_up_key_time) {
+        m_up_key_time -= gp_app->Get_SceneManager().Get_Speedfactor();
+
+        if (m_up_key_time < 0.0f) {
+            m_up_key_time = 0.0f;
+        }
+    }
+
+    // only if jumping
+    if (m_state != STA_JUMP) {
+        return;
+    }
+
+    cPreferences& preferences = gp_app->Get_Preferences();
+
+    // jumping physics
+    if (sf::Keyboard::isKeyPressed(preferences.m_key_jump) /* || (pPreferences->m_joy_analog_jump && pJoystick->m_up) || pJoystick->Button(pPreferences->m_joy_button_jump) */ ) {
+        Add_Velocity_Y(-(m_jump_accel_up + (m_velocity.y * m_jump_vel_deaccel) / Get_Vel_Modifier()));
+        m_jump_power -= gp_app->Get_SceneManager().Get_Speedfactor();
+    }
+    else {
+        Add_Velocity_Y(0.5f);
+        m_jump_power -= 6.0f * gp_app->Get_SceneManager().Get_Speedfactor();
+    }
+
+    // left right physics
+    if ((sf::Keyboard::isKeyPressed(preferences.m_key_left) /* || pJoystick->m_left */) && !m_ducked_counter) {
+        const float max_vel = -10.0f * Get_Vel_Modifier();
+
+        if (m_velocity.x > max_vel) {
+            Add_Velocity_X_Min((-1.1f * Get_Vel_Modifier()) - (m_velocity.x / 100), max_vel);
+        }
+
+    }
+    else if ((sf::Keyboard::isKeyPressed(preferences.m_key_right) /* || pJoystick->m_right */) && !m_ducked_counter) {
+        const float max_vel = 10.0f * Get_Vel_Modifier();
+
+        if (m_velocity.x < max_vel) {
+            Add_Velocity_X_Max((1.1f * Get_Vel_Modifier()) + (m_velocity.x / 100), max_vel);
+        }
+    }
+    // slow down
+    else {
+        Auto_Slow_Down(0.2f);
+    }
+
+    // if no more jump power set to falling
+    if (m_jump_power <= 0.0f) {
+        Set_Moving_State(STA_FALL);
+    }
+}
+
+void cLevel_Player::Stop_Flying(bool parachute /* = 1 */)
+{
+    if (m_state != STA_FLY) {
+        return;
+    }
+
+    if (parachute) {
+        Parachute(1);
+    }
+
+    Set_Moving_State(STA_FALL);
+}
+
+void cLevel_Player::Parachute(bool enable)
+{
+    if (m_parachute == enable) {
+        return;
+    }
+
+    m_parachute = enable;
+
+    if (m_parachute) {
+        m_gravity_max = 10.0f;
+    }
+    else {
+        m_gravity_max = 25.0f;
+    }
 }

@@ -65,11 +65,9 @@ void cLevelScene::Handle_Keydown_Event(sf::Event& evt)
         */
     }
     else if (evt.key.code == preferences.m_key_jump) {
-        /*
-        Scripting::cKeyDown_Event evt("jump");
-        evt.Fire(m_mruby, pKeyboard);
+        // OLD Scripting::cKeyDown_Event evt("jump");
+        // OLD evt.Fire(m_mruby, pKeyboard);
         p_player->Action_Jump();
-        */
     }
     else if (evt.key.code == preferences.m_key_action) {
         /*

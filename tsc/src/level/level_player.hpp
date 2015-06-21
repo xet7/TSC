@@ -45,6 +45,25 @@ namespace TSC {
         // Stop Shoot action
         void Action_Stop_Shoot(void);
 
+        // Stop ducking
+        void Stop_Ducking(void);
+        // Set up the m_up_key_time for better jumping detection
+        void Start_Jump_Keytime(void);
+        // Update the m_up_key_time and start a jump if possible
+        void Update_Jump_Keytime(void);
+        // Start a jump with the given de-acceleration
+        void Start_Jump(float deaccel = 0.08f);
+        // Update jump
+        void Update_Jump(void);
+
+        void Stop_Flying(bool parachute = 1);
+        /* Set the parachute for flying
+         * doesn't reload images
+        */
+        void Parachute(bool enable);
+
+
+
     protected:
         virtual void Update();
 
