@@ -312,6 +312,7 @@ set(tsc_sources
 
   "src/level/level.cpp"
   "src/level/level_player.cpp"
+  "src/level/level_loader.cpp"
 
   "src/objects/actor.cpp"
   "src/objects/sprite_actor.cpp"
