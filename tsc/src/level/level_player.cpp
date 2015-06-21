@@ -18,7 +18,7 @@ using namespace TSC;
 namespace fs = boost::filesystem;
 
 // Milliseconds to enable power jump when ducking
-static const int power_jump_delta = 1000;
+static const int POWER_JUMP_DELTA = 1000;
 
 cLevel_Player::cLevel_Player()
     : cAnimatedActor()
@@ -558,7 +558,7 @@ void cLevel_Player::Action_Jump(bool enemy_jump /* = 0 */)
 {
     if (m_ducked_counter) {
         // power jump
-        if (m_ducked_counter > power_jump_delta) {
+        if (m_ducked_counter > POWER_JUMP_DELTA) {
             m_force_jump = 1;
             m_next_jump_power += 2.0f;
             m_next_jump_accel += 0.2f;
