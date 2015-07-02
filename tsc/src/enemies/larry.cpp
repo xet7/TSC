@@ -325,7 +325,8 @@ void cLarry::Kill_Objects_in_Explosion_Range()
     cSprite_List objects;
     pActive_Level->m_sprite_manager->Get_Colliding_Objects(objects, explosion_radius, true, this);
 
-    // DESTROY ’EM ALL. No normal downgrades, only forced ones.
+    // DESTROY ’EM ALL.
+    // Alex will be downgraded if hit and not killed instantly.
     cSprite_List::iterator iter;
     for (iter=objects.begin(); iter != objects.end(); iter++) {
         cSprite* p_obj = *iter;
@@ -333,7 +334,7 @@ void cLarry::Kill_Objects_in_Explosion_Range()
         cBaseBox* p_box = NULL;
 
         if (p_obj->m_type == TYPE_PLAYER) // This means p_obj == pLevel_Player
-            pLevel_Player->DownGrade_Player(true, true);
+            pLevel_Player->DownGrade_Player(true, false);
         else if ((p_enemy = dynamic_cast<cEnemy*>(p_obj)))
             p_enemy->DownGrade(true);
         else if ((p_box = dynamic_cast<cBaseBox*>(p_obj)))
