@@ -192,6 +192,9 @@ namespace TSC {
         enum CollisionType m_coltype;
         float m_pos_z;
         ZLayer m_z_layer;
+
+    private:
+        void Init();
     };
 
 }

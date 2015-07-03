@@ -21,6 +21,8 @@ namespace TSC {
     protected:
         boost::filesystem::path m_rel_texture_path;
         const struct ConfiguredTexture* mp_texture;
+    private:
+        void Init();
     };
 
 }

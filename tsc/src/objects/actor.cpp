@@ -29,6 +29,25 @@ using namespace TSC;
 cActor::cActor()
     : cScriptable_Object()
 {
+    Init();
+}
+
+cActor::cActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
+{
+    Init();
+}
+
+/**
+ * Seperate all these variable initialisation out of the constructors,
+ * that’d be too much code duplication.
+ *
+ * Note that you can’t call virtual functions in C++ constructors
+ * (subclass not fully constructed yet), so don’t even try to override
+ * Init() in subclasses — which is why this is private and not
+ * protected virtual.
+ */
+void cActor::Init()
+{
     // Some sensible defaults for a collision rectangle so it’s not invisible
     // on debugging if unset.
     m_collision_rect.left = 0;
@@ -64,12 +83,6 @@ cActor::cActor()
     m_uid = 0;
     mp_level = NULL;
 }
-
-cActor::cActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
-{
-    // TODO
-}
-
 
 cActor::~cActor()
 {

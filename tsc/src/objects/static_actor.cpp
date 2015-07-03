@@ -26,7 +26,8 @@ namespace fs = boost::filesystem;
 cStaticActor::cStaticActor()
     : cSpriteActor()
 {
-    Set_Texture(utf8_to_path("game/dummy_1.png"));
+    Init();
+    Set_Texture(utf8_to_path("game/dummy_1.png")); // FIXME: Put into Init();
 }
 
 /**
@@ -36,14 +37,22 @@ cStaticActor::cStaticActor()
 cStaticActor::cStaticActor(boost::filesystem::path relative_texture_path)
     : cSpriteActor()
 {
+    Init();
     Set_Texture(relative_texture_path);
 }
 
 cStaticActor::cStaticActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
+    : cSpriteActor(attributes, level, type_name)
 {
+    Init();
     // TODO
 }
 
+void cStaticActor::Init()
+{
+    // FIXME: Set_Texture() applied again causes weird zooming!
+    //Set_Texture(utf8_to_path("game/dummy_1.png"));
+}
 
 cStaticActor::~cStaticActor()
 {

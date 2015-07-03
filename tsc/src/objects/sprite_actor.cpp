@@ -23,14 +23,20 @@ namespace fs = boost::filesystem;
 cSpriteActor::cSpriteActor()
     : cActor()
 {
-    m_coltype = COLTYPE_MASSIVE;
+    Init();
 }
 
 cSpriteActor::cSpriteActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
+    : cActor(attributes, level, type_name)
 {
+    Init();
     // TODO
 }
 
+void cSpriteActor::Init()
+{
+    m_coltype = COLTYPE_MASSIVE;
+}
 
 cSpriteActor::~cSpriteActor()
 {

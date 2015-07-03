@@ -22,6 +22,9 @@ namespace TSC {
 
     protected:
         sf::Sprite m_sprite;
+
+    private:
+        void Init();
     };
 
 }
