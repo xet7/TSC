@@ -45,7 +45,8 @@ cStaticActor::cStaticActor(XmlAttributes& attributes, cLevel& level, const std::
     : cSpriteActor(attributes, level, type_name)
 {
     Init();
-    // TODO
+
+    Set_Texture(utf8_to_path(attributes["image"]));
 }
 
 void cStaticActor::Init()
