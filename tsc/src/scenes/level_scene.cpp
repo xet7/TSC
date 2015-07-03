@@ -27,7 +27,14 @@ namespace fs = boost::filesystem;
 
 cLevelScene::cLevelScene(const std::string& startlevel)
 {
-    Add_Level(cLevel::Construct_Debugging_Level());
+#ifdef _DEBUG
+    if (startlevel == "testlevel")
+        Add_Level(cLevel::Construct_Debugging_Level());
+    else
+        Add_Level(startlevel);
+#else
+    Add_Level(startlevel);
+#endif
 }
 
 cLevelScene::~cLevelScene()
@@ -191,6 +198,8 @@ std::string cLevelScene::Name() const
  */
 void cLevelScene::Add_Level(cLevel* p_level)
 {
+    debug_print("Adding level to current level scene: %s\n", p_level->Name().c_str());
+
     m_active_levels.push_back(p_level);
     gp_current_level = p_level;
 }
