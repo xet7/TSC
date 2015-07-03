@@ -35,6 +35,13 @@ cActor::cActor()
 cActor::cActor(XmlAttributes& attributes, cLevel& level, const std::string type_name)
 {
     Init();
+
+    // position
+    Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
+
+    // Massivity.
+    // TODO!
+    // Set_Massive_Type(Get_Massive_Type_Id(attributes["type"]));
 }
 
 /**
