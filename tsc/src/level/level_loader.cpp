@@ -232,6 +232,18 @@ void cLevelLoader::Parse_Tag_Player()
     mp_level->m_player_start_direction = Get_Direction_Id(m_current_properties["direction"]);
     if (mp_level->m_player_start_direction != DIR_LEFT && mp_level->m_player_start_direction != DIR_RIGHT)
         mp_level->m_player_start_direction = DIR_RIGHT;
+
+    /* TODO: Maybe move this directly in on_start_document()?
+     * Currently, if the <player> tag is not the first tag,
+     * the player may not be the first actor added, which is
+     * bad. Then only do the configuration here. */
+    cLevel_Player* p_player = new cLevel_Player();
+    p_player->Set_Pos(mp_level->m_player_start_pos_x,
+                      mp_level->m_player_start_pos_y,
+                      true);
+    // p_player->SetDir(mp_level->m_player_start_direction) NOT YET RE-IMPLEMENTED
+
+    mp_level->Add_Player(p_player);
 }
 
 void cLevelLoader::Parse_Level_Object_Tag(const std::string& name)
