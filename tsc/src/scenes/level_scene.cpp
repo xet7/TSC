@@ -35,6 +35,13 @@ cLevelScene::cLevelScene(const std::string& startlevel)
 #else
     Add_Level(startlevel);
 #endif
+
+    // TODO: Move this into HUD
+    m_debug_playerpos_font.loadFromFile(path_to_utf8(gp_app->Get_ResourceManager().Get_Gui_Font("default.ttf")));
+    m_debug_playerpos_text.setFont(m_debug_playerpos_font);
+    m_debug_playerpos_text.setCharacterSize(12);
+    m_debug_playerpos_text.setColor(sf::Color::Yellow);
+    m_debug_playerpos_text.setString("(0|0)");
 }
 
 cLevelScene::~cLevelScene()
@@ -174,6 +181,23 @@ void cLevelScene::Update(sf::RenderWindow& stage)
 
     gp_current_level->Update();
     stage.setView(gp_current_level->Get_View());
+
+    if (gp_app->Is_Debug_Mode()) {
+        cLevel_Player* p_player = Get_Current_Level()->Get_Player();
+        sf::Vector2f pos = p_player->getPosition();
+        std::stringstream posstr;
+
+        posstr << "("
+               << pos.x
+               << "|"
+               << pos.y
+               << ")";
+
+        pos.x += 48; // Position the text right to the player
+
+        m_debug_playerpos_text.setString(posstr.str());
+        m_debug_playerpos_text.setPosition(pos);
+    }
 }
 
 void cLevelScene::Draw(sf::RenderWindow& stage)
@@ -181,6 +205,12 @@ void cLevelScene::Draw(sf::RenderWindow& stage)
     cScene::Draw(stage);
     // Draw the level elements themselves
     gp_current_level->Draw(stage);
+
+    if (gp_app->Is_Debug_Mode()) {
+        // Text is relative to the level player, so no
+        // need to reset to the default SFML view.
+        stage.draw(m_debug_playerpos_text);
+    }
 
     // Draw the HUD
     // TODO
