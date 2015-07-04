@@ -48,6 +48,10 @@ cDoomLarry::~cDoomLarry()
 
 void cDoomLarry::Init()
 {
+    //The Doom_Larry constructor will have called the Larry constructor, creating an image set full of grey Larry images that we do not want
+    //Remove them so that they can be replaced with Doom Larry images.  If Init() is called again, this clear will also be needed again.
+    Clear_Images(true, true);
+
     m_type = TYPE_DOOM_LARRY;
     m_name = "Doom Larry";
     m_pos_z = 0.09f;
@@ -66,6 +70,7 @@ void cDoomLarry::Init()
     Add_Image_Set("run_turn", "enemy/larry/red/run_turn.imgset", 0, &m_run_turn_start, &m_run_turn_end);
     Add_Image_Set("action", "enemy/larry/red/action.imgset", 0, &m_action_start, &m_action_end);
 
+    m_state = STA_STAY;         //This triggers logic in method Set_Moving_State to reset the start image after having called method Clear_Images above
     Set_Moving_State(STA_WALK);
     Set_Direction(DIR_RIGHT);
 }
