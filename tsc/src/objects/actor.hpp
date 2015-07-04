@@ -43,20 +43,6 @@ namespace TSC {
         const ZLayer ZLAYER_FRONTPASSIVE = 0.10f;     //< Minimum Z position for front-passive objects.
         const ZLayer ZLAYER_POS_DELTA    = 0.000001f; //< Minimum Z step.
 
-        /**
-         * Determines how the actor behaves in the collision detection
-         * mechanism.
-         **/
-        enum CollisionType {
-            COLTYPE_MASSIVE = 1,
-            COLTYPE_PASSIVE,
-            COLTYPE_ENEMY,
-            COLTYPE_ACTIVE,
-            COLTYPE_ANIM,
-            COLTYPE_PLAYER,
-            COLTYPE_LAVA
-        };
-
         cActor();
         cActor(XmlAttributes& attributes, cLevel& level, const std::string type_name = "sprite");
         virtual ~cActor();
@@ -80,8 +66,9 @@ namespace TSC {
         bool Does_Collide(const sf::Vector2f& other_point) const;
         bool Does_Collide(const cActor& other_actor) const;
 
-        inline void Set_Collision_Type(enum CollisionType coltype){m_coltype = coltype;}
+        virtual void Set_Collision_Type(enum CollisionType coltype);
         inline enum CollisionType Get_Collision_Type() const {return m_coltype;}
+        inline void Set_Massive_Type(enum CollisionType coltype){ Set_Collision_Type(coltype); } // For backward compatbility
 
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
@@ -186,6 +173,7 @@ namespace TSC {
         float m_gravity_max;      //< Maximum velocity that can be reached by gravity effect.
         float m_gravity_accel;    //< How quickly this object falls in gravity effect.
         cActor* mp_ground_object; //< Do we stand on something, and if so, on what?
+        bool m_can_be_ground;     //< Can other objects stand on us?
         GroundType m_ground_type; //< In case we are ground, what type (ice, plastic, etc.)
         sf::Vector2f m_velocity;  //< Velocity in → and ↓ direction.
 

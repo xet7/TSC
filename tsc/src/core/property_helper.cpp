@@ -621,48 +621,48 @@ ObjectDirection Get_Direction_Id(const std::string& str_direction)
 //
 //    return lightgreyalpha64;
 //}
-//
-//std::string Get_Massive_Type_Name(const MassiveType mtype)
-//{
-//    switch (mtype) {
-//    case MASS_PASSIVE:
-//        return "passive";
-//    case MASS_MASSIVE:
-//        return "massive";
-//    case MASS_HALFMASSIVE:
-//        return "halfmassive";
-//    case MASS_CLIMBABLE:
-//        return "climbable";
-//    case MASS_FRONT_PASSIVE:
-//        return "front_passive";
-//    default:
-//        break;
-//    }
-//
-//    return "";
-//}
-//
-//MassiveType Get_Massive_Type_Id(const std::string& str_massivetype)
-//{
-//    if (str_massivetype.compare("passive") == 0) {
-//        return MASS_PASSIVE;
-//    }
-//    else if (str_massivetype.compare("front_passive") == 0) {
-//        return MASS_FRONT_PASSIVE;
-//    }
-//    else if (str_massivetype.compare("massive") == 0) {
-//        return MASS_MASSIVE;
-//    }
-//    else if (str_massivetype.compare("halfmassive") == 0) {
-//        return MASS_HALFMASSIVE;
-//    }
-//    else if (str_massivetype.compare("climbable") == 0) {
-//        return MASS_CLIMBABLE;
-//    }
-//
-//    return MASS_PASSIVE;
-//}
-//
+
+std::string Get_Collision_Type_Name(const CollisionType mtype)
+{
+    switch (mtype) {
+    case COLTYPE_PASSIVE:
+        return "passive";
+    case COLTYPE_MASSIVE:
+        return "massive";
+    case COLTYPE_HALFMASSIVE:
+        return "halfmassive";
+    case COLTYPE_CLIMBABLE:
+        return "climbable";
+    case COLTYPE_FRONTPASSIVE:
+        return "front_passive";
+    default:
+        break;
+    }
+
+    return "";
+}
+
+CollisionType Get_Collision_Type_Id(const std::string& str_massivetype)
+{
+    if (str_massivetype.compare("passive") == 0) {
+        return COLTYPE_PASSIVE;
+    }
+    else if (str_massivetype.compare("front_passive") == 0) {
+        return COLTYPE_FRONTPASSIVE;
+    }
+    else if (str_massivetype.compare("massive") == 0) {
+        return COLTYPE_MASSIVE;
+    }
+    else if (str_massivetype.compare("halfmassive") == 0) {
+        return COLTYPE_HALFMASSIVE;
+    }
+    else if (str_massivetype.compare("climbable") == 0) {
+        return COLTYPE_CLIMBABLE;
+    }
+
+    return COLTYPE_PASSIVE;
+}
+
 //Color Get_Massive_Type_Color(MassiveType mtype)
 //{
 //    switch (mtype) {

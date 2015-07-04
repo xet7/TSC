@@ -40,8 +40,7 @@ cActor::cActor(XmlAttributes& attributes, cLevel& level, const std::string type_
     Set_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]), true);
 
     // Massivity.
-    // TODO!
-    // Set_Massive_Type(Get_Massive_Type_Id(attributes["type"]));
+    Set_Collision_Type(Get_Collision_Type_Id(attributes["type"]));
 }
 
 /**
@@ -70,22 +69,21 @@ void cActor::Init()
 
     m_name = "(Unnamed actor)";
 
-    /* Invisible actors must be drawn at the very front in editor
-     * mode. In ordinary gameplay, the Draw() function does nothing,
-     * so these high values don’t hurt. In subclasses that are
-     * visible, you want to obviously adjust these values. */
-    m_pos_z = 999.99;
-    m_z_layer = ZLAYER_FRONTPASSIVE;
-
-    // Invisible objects should not hinder gameplay by default, subclasses
-    // of invisible objecta can of course behave different (e.g. cEnemyStopper).
-    m_coltype = COLTYPE_PASSIVE;
-
     // By default, invisible objects are not subject to gravity.
     m_gravity_max = 0;
     m_gravity_accel = 0;
     mp_ground_object = NULL;
     m_ground_type = GROUND_NORMAL;
+
+    /* Invisible actors must be drawn at the very front in editor
+     * mode. In ordinary gameplay, the Draw() function does nothing,
+     * so these high values don’t hurt. Invisible object may also
+     * not hinder gameplay by default.
+     *
+     * In subclasses that are visible, you want to obviously adjust
+     * these values. */
+    Set_Collision_Type(COLTYPE_FRONTPASSIVE);
+    m_pos_z = 999.99;
 
     m_uid = 0;
     mp_level = NULL;
@@ -174,6 +172,7 @@ void cActor::Update_Position()
     move(m_velocity);
 
     // Check for collisions if this is an object that can collide.
+    // TODO: Check m_can_be_ground!
     if (m_coltype != COLTYPE_PASSIVE)
         mp_level->Check_Collisions_For_Actor(*this);
 
@@ -467,5 +466,54 @@ void cActor::Auto_Slow_Down(float x_speed, float y_speed /* = 0 */)
         else if (m_velocity.y < 0.0f) {
             Add_Velocity_Y_Max(y_speed, 0.0f);
         }
+    }
+}
+
+/**
+ * Specifies the behaviour to expose when this object collides with
+ * another object, or if the player (or another object) tries to stand
+ * on this. According to this information, this method also sets the Z
+ * layer (see cActor::Z()) to the corresponding ZLayer constant.
+ *
+ * This method completely replaces the old Set_Massive_Type().
+ */
+void cActor::Set_Collision_Type(enum CollisionType coltype)
+{
+    m_coltype = coltype;
+
+    // set massive-type z position
+    switch(m_coltype) {
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ENEMY: // fallthrough
+    case COLTYPE_LAVA:  // fallthrough
+        m_z_layer = ZLAYER_MASSIVE;
+        m_can_be_ground = true;
+        break;
+    case COLTYPE_PASSIVE:
+        m_z_layer = ZLAYER_PASSIVE;
+        m_can_be_ground = false;
+        break;
+    case COLTYPE_FRONTPASSIVE:
+        m_z_layer = ZLAYER_FRONTPASSIVE;
+        m_can_be_ground = false;
+        break;
+    case COLTYPE_HALFMASSIVE:
+        m_z_layer = ZLAYER_HALFMASSIVE;
+        m_can_be_ground = true;
+        break;
+    case COLTYPE_CLIMBABLE:
+        m_z_layer = ZLAYER_CLIMBABLE;
+        m_can_be_ground = false;
+        break;
+    case COLTYPE_PLAYER:
+        m_z_layer = ZLAYER_PLAYER;
+        m_can_be_ground = true;
+        break;
+    case COLTYPE_ANIM:
+    case COLTYPE_ACTIVE: // fallthrough
+        /* Ignore. These are only here to allow the compiler
+         * to issue a warning if a new collision type is added
+         * and forgotten here, which a "default" would prevent. */
+        break;
     }
 }

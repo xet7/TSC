@@ -170,9 +170,9 @@ namespace TSC {
 //    Color Get_Sprite_Color(const cSprite* sprite);
 //
     // Return the massive type Name
-    //std::string Get_Massive_Type_Name(const MassiveType mtype);
+    std::string Get_Collision_Type_Name(const CollisionType mtype);
     //// Return the massive type identifier
-    //MassiveType Get_Massive_Type_Id(const std::string& str_massivetype);
+    CollisionType Get_Collision_Type_Id(const std::string& str_massivetype);
     //// Return the Color of the given Massivetype
     //Color Get_Massive_Type_Color(const MassiveType mtype);
 

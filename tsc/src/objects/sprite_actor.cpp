@@ -30,12 +30,15 @@ cSpriteActor::cSpriteActor(XmlAttributes& attributes, cLevel& level, const std::
     : cActor(attributes, level, type_name)
 {
     Init();
-    // TODO
+
+    // Because our default value for m_coltype is different, re-evaluate
+    // this attribute.
+    Set_Collision_Type(Get_Collision_Type_Id(attributes["type"]));
 }
 
 void cSpriteActor::Init()
 {
-    m_coltype = COLTYPE_MASSIVE;
+    Set_Collision_Type(COLTYPE_MASSIVE);
 }
 
 cSpriteActor::~cSpriteActor()

@@ -27,7 +27,8 @@ cLevel_Player::cLevel_Player()
     : cAnimatedActor()
 {
     m_name = "Alex";
-    m_coltype = COLTYPE_MASSIVE;
+
+    Set_Collision_Type(COLTYPE_PLAYER);
     m_gravity_accel = 2.8f;
     m_gravity_max = 25.0f;
 
