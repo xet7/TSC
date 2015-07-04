@@ -1,5 +1,6 @@
+//#ifdef STOP
 /***************************************************************************
- * larry.cpp - Run or pay the price.
+ * larry.cpp - Run or die.
  *
  * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
@@ -13,7 +14,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "larry.hpp"
+#include "doom_larry.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
 #include "../core/sprite_manager.hpp"
@@ -25,14 +26,14 @@
 
 using namespace TSC;
 
-cLarry::cLarry(cSprite_Manager* p_sprite_manager)
-    : cEnemy(p_sprite_manager)
+cDoomLarry::cDoomLarry(cSprite_Manager* p_sprite_manager)
+    : cLarry(p_sprite_manager)
 {
     Init();
 }
 
-cLarry::cLarry(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
-    : cEnemy(p_sprite_manager)
+cDoomLarry::cDoomLarry(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
+    : cLarry(p_sprite_manager)
 {
     Init();
 
@@ -40,48 +41,49 @@ cLarry::cLarry(XmlAttributes& attributes, cSprite_Manager* p_sprite_manager)
     Set_Direction(Get_Direction_Id(attributes.fetch("direction", Get_Direction_Name(m_start_direction))));
 }
 
-cLarry::~cLarry()
+cDoomLarry::~cDoomLarry()
 {
     //
 }
 
-void cLarry::Init()
+void cDoomLarry::Init()
 {
-    m_type = TYPE_LARRY;
-    m_name = "Larry";
+    m_type = TYPE_DOOM_LARRY;
+    m_name = "Doom Larry";
     m_pos_z = 0.09f;
     m_gravity_max = 29.0f;
 
-    m_kill_points = 250;
+    m_kill_points = 300;
     m_fire_resistant = false;
     m_ice_resistance = 1.0f;
     m_can_be_hit_from_shell = true;
     m_explosion_counter = 0.0f;
     m_kill_sound = "ambient/thunder_1.ogg";
 
-    Add_Image_Set("walk", "enemy/larry/grey/walk.imgset");
-    Add_Image_Set("walk_turn", "enemy/larry/grey/walk_turn.imgset", 0, &m_walk_turn_start, &m_walk_turn_end);
-    Add_Image_Set("run", "enemy/larry/grey/run.imgset");
-    Add_Image_Set("run_turn", "enemy/larry/grey/run_turn.imgset", 0, &m_run_turn_start, &m_run_turn_end);
-    Add_Image_Set("action", "enemy/larry/grey/action.imgset", 0, &m_action_start, &m_action_end);
+    Add_Image_Set("walk", "enemy/larry/red/walk.imgset");
+    Add_Image_Set("walk_turn", "enemy/larry/red/walk_turn.imgset", 0, &m_walk_turn_start, &m_walk_turn_end);
+    Add_Image_Set("run", "enemy/larry/red/run.imgset");
+    Add_Image_Set("run_turn", "enemy/larry/red/run_turn.imgset", 0, &m_run_turn_start, &m_run_turn_end);
+    Add_Image_Set("action", "enemy/larry/red/action.imgset", 0, &m_action_start, &m_action_end);
 
     Set_Moving_State(STA_WALK);
     Set_Direction(DIR_RIGHT);
 }
 
-cLarry* cLarry::Copy() const
+cDoomLarry* cDoomLarry::Copy() const
 {
-    cLarry* p_larry = new cLarry(m_sprite_manager);
-    p_larry->Set_Pos(m_start_pos_x, m_start_pos_y);
-    p_larry->Set_Direction(m_start_direction);
-    return p_larry;
+    cDoomLarry* p_dl = new cDoomLarry(m_sprite_manager);
+    p_dl->Set_Pos(m_start_pos_x, m_start_pos_y);
+    p_dl->Set_Direction(m_start_direction);
+    return p_dl;
 }
 
-std::string cLarry::Get_XML_Type_Name()
+std::string cDoomLarry::Get_XML_Type_Name()
 {
-    return "larry";
+    return "doom_larry";
 }
 
+#ifdef JUNK
 xmlpp::Element* cLarry::Save_To_XML_Node(xmlpp::Element* p_element)
 {
     xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
@@ -90,7 +92,9 @@ xmlpp::Element* cLarry::Save_To_XML_Node(xmlpp::Element* p_element)
 
     return p_node;
 }
+#endif
 
+#ifdef JUNK
 void cLarry::DownGrade(bool force /* = false */)
 {
     if (m_state == STA_RUN || force) {
@@ -105,8 +109,9 @@ void cLarry::DownGrade(bool force /* = false */)
     else if (m_state == STA_WALK)
         Fuse();
 }
+#endif
 
-void cLarry::Update()
+void cDoomLarry::Update()
 {
     cEnemy::Update();
     if (!m_valid_update || !Is_In_Range())
@@ -157,6 +162,7 @@ void cLarry::Update()
     }
 }
 
+#ifdef JUNK
 void cLarry::Update_Normal_Dying()
 {
     // Hide larry behind the explosion clouds
@@ -170,7 +176,9 @@ void cLarry::Update_Normal_Dying()
         Kill_Objects_in_Explosion_Range();
     }
 }
+#endif
 
+#ifdef JUNK
 void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
 {
     if (m_start_direction == dir)
@@ -179,7 +187,9 @@ void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
     cEnemy::Set_Direction(dir, initial);
     Update_Rotation_Hor(true);
 }
+#endif
 
+#ifdef JUNK
 Col_Valid_Type cLarry::Validate_Collision(cSprite* p_sprite)
 {
     Col_Valid_Type basic_valid = Validate_Collision_Ghost(p_sprite);
@@ -210,7 +220,9 @@ Col_Valid_Type cLarry::Validate_Collision(cSprite* p_sprite)
 
     return COL_VTYPE_NOT_VALID;
 }
+#endif
 
+#ifdef JUNK
 void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
 {
     cEnemy::Handle_Collision_Massive(p_collision);
@@ -231,7 +243,9 @@ void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
     if (p_collision->m_direction == DIR_RIGHT || p_collision->m_direction == DIR_LEFT)
         Turn_Around(p_collision->m_direction);
 }
+#endif
 
+#ifdef JUNK
 void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
 {
     if (p_collision->m_direction == DIR_UNDEFINED)
@@ -247,13 +261,17 @@ void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
     if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
         Turn_Around();
 }
+#endif
 
+#ifdef JUNK
 void cLarry::Handle_Collision_Enemy(cObjectCollision* p_collision)
 {
     if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
         Turn_Around();
 }
+#endif
 
+#ifdef JUNK
 void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision)
 {
     if (ball.m_ball_type != FIREBALL_DEFAULT)
@@ -265,7 +283,9 @@ void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collis
     DownGrade(true);
     pLevel_Player->Add_Kill_Multiplier();
 }
+#endif
 
+#ifdef JUNK
 void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
 {
     cEnemy::Turn_Around(col_dir);
@@ -280,8 +300,9 @@ void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
     m_velx_max = 0.0f;
     Update_Rotation_Hor();
 }
+#endif
 
-void cLarry::Set_Moving_State(Moving_state new_state)
+void cDoomLarry::Set_Moving_State(Moving_state new_state)
 {
     if (new_state == m_state)
         return;
@@ -302,6 +323,7 @@ void cLarry::Set_Moving_State(Moving_state new_state)
     Update_Rotation_Hor(); // In case of change in turning animation
 }
 
+#ifdef JUNK
 void cLarry::Fuse()
 {
     Set_Moving_State(STA_RUN);
@@ -312,8 +334,9 @@ void cLarry::Fuse()
     m_velx_max = 0.0f;
     Update_Rotation_Hor();
 }
+#endif
 
-void cLarry::Kill_Objects_in_Explosion_Range()
+void cDoomLarry::Kill_Objects_in_Explosion_Range()
 {
     GL_Circle explosion_radius(m_pos_x + m_rect.m_w / 2.0,
                                m_pos_y + m_rect.m_h / 2.0,
@@ -326,7 +349,7 @@ void cLarry::Kill_Objects_in_Explosion_Range()
     pActive_Level->m_sprite_manager->Get_Colliding_Objects(objects, explosion_radius, true, this);
 
     // DESTROY ’EM ALL.
-    // Alex will be downgraded if hit and not killed instantly.
+    // Alex WILL be killed instantly.
     cSprite_List::iterator iter;
     for (iter=objects.begin(); iter != objects.end(); iter++) {
         cSprite* p_obj = *iter;
@@ -334,7 +357,7 @@ void cLarry::Kill_Objects_in_Explosion_Range()
         cBaseBox* p_box = NULL;
 
         if (p_obj->m_type == TYPE_PLAYER) // This means p_obj == pLevel_Player
-            pLevel_Player->DownGrade_Player(true, false);
+            pLevel_Player->DownGrade_Player(true, true);
         else if ((p_enemy = dynamic_cast<cEnemy*>(p_obj)))
             p_enemy->DownGrade(true);
         else if ((p_box = dynamic_cast<cBaseBox*>(p_obj)))
@@ -342,6 +365,7 @@ void cLarry::Kill_Objects_in_Explosion_Range()
     }
 }
 
+#ifdef JUNK
 void cLarry::Explosion_Animation()
 {
     cParticle_Emitter* p_em = new cParticle_Emitter(m_sprite_manager);
@@ -374,8 +398,10 @@ void cLarry::Explosion_Animation()
     p_em->Set_Emitter_Time_to_Live(2.0f);
     pActive_Animation_Manager->Add(p_em);
 }
+#endif
 
-void cLarry::Editor_Activate()
+#ifdef JUNK
+void cDoomLarry::Editor_Activate()
 {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -386,11 +412,13 @@ void cLarry::Editor_Activate()
     p_combobox->addItem(new CEGUI::ListboxTextItem("left"));
     p_combobox->addItem(new CEGUI::ListboxTextItem("right"));
     p_combobox->setText(Get_Direction_Name(m_start_direction));
-    p_combobox->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&cLarry::On_Editor_Direction_Select, this));
+    p_combobox->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&cDoomLarry::On_Editor_Direction_Select, this));
 
     Editor_Init();
 }
+#endif
 
+#ifdef JUNK
 bool cLarry::On_Editor_Direction_Select(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& args = static_cast<const CEGUI::WindowEventArgs&>(event);
@@ -400,3 +428,6 @@ bool cLarry::On_Editor_Direction_Select(const CEGUI::EventArgs& event)
 
     return true;
 }
+#endif
+
+//#endif
