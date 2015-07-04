@@ -173,8 +173,8 @@ namespace TSC {
     std::string Get_Collision_Type_Name(const CollisionType mtype);
     //// Return the massive type identifier
     CollisionType Get_Collision_Type_Id(const std::string& str_massivetype);
-    //// Return the Color of the given Massivetype
-    //Color Get_Massive_Type_Color(const MassiveType mtype);
+    // Return the Color of the given Massivetype
+    sf::Color Get_Collision_Type_Color(const CollisionType mtype);
 
     // Return the ground type name
     std::string Get_Ground_Type_Name(const GroundType gtype);

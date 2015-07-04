@@ -17,6 +17,7 @@
 #include "global_basic.hpp"
 #include "global_game.hpp"
 #include "i18n.hpp"
+#include "../video/color.hpp"
 
 namespace TSC {
 
@@ -663,25 +664,25 @@ CollisionType Get_Collision_Type_Id(const std::string& str_massivetype)
     return COLTYPE_PASSIVE;
 }
 
-//Color Get_Massive_Type_Color(MassiveType mtype)
-//{
-//    switch (mtype) {
-//    case MASS_MASSIVE:
-//        return lightred;
-//    case MASS_HALFMASSIVE:
-//        return orange;
-//    case MASS_PASSIVE:
-//        return lightgreen;
-//    case MASS_CLIMBABLE:
-//        return lila;
-//    case MASS_FRONT_PASSIVE:
-//        return greenyellow;
-//    default:
-//        break;
-//    }
-//
-//    return white;
-//}
+sf::Color Get_Collision_Type_Color(CollisionType mtype)
+{
+    switch (mtype) {
+    case COLTYPE_MASSIVE:
+        return lightred;
+    case COLTYPE_HALFMASSIVE:
+        return orange;
+    case COLTYPE_PASSIVE:
+        return lightgreen;
+    case COLTYPE_CLIMBABLE:
+        return lila;
+    case COLTYPE_FRONTPASSIVE:
+        return greenyellow;
+    default:
+        break;
+    }
+
+    return white;
+}
 
 std::string Get_Ground_Type_Name(const GroundType gtype)
 {

@@ -11,6 +11,7 @@
 #include "../core/scene_manager.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../video/img_manager.hpp"
+#include "../video/color.hpp"
 #include "../core/filesystem/package_manager.hpp"
 #include "../user/preferences.hpp"
 #include "../core/tsc_app.hpp"
@@ -65,7 +66,7 @@ void cActor::Init()
     m_debug_colrect_shape.setSize(sf::Vector2f(100, 100));
 
     // Color for the debug colrect
-    m_debug_colrect_shape.setFillColor(sf::Color(255, 255, 0, 100));
+    m_debug_colrect_shape.setFillColor(white);
 
     m_name = "(Unnamed actor)";
 
@@ -516,4 +517,9 @@ void cActor::Set_Collision_Type(enum CollisionType coltype)
          * and forgotten here, which a "default" would prevent. */
         break;
     }
+
+    // Nice shape color in debug mode
+    sf::Color colcolor = Get_Collision_Type_Color(m_coltype);
+    colcolor.a = 100; // Ensure object is not painted over entirely
+    m_debug_colrect_shape.setFillColor(colcolor);
 }
