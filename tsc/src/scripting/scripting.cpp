@@ -51,6 +51,7 @@
 #include "objects/enemies/mrb_turtle_boss.hpp"
 #include "objects/enemies/mrb_pip.hpp"
 #include "objects/enemies/mrb_larry.hpp"
+#include "objects/enemies/mrb_doom_larry.hpp"
 #include "objects/powerups/mrb_powerup.hpp"
 #include "objects/powerups/mrb_berry.hpp"
 #include "objects/powerups/mrb_fireberry.hpp"
@@ -327,6 +328,7 @@ void cMRuby_Interpreter::Load_Wrappers()
     Init_Armadillo(mp_mruby);
     Init_TurtleBoss(mp_mruby);
     Init_Larry(mp_mruby);
+    Init_DoomLarry(mp_mruby);
     Init_Powerup(mp_mruby);
     Init_Berry(mp_mruby);
     Init_Fireberry(mp_mruby);

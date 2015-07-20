@@ -1,5 +1,5 @@
 /***************************************************************************
- * mrb_larry.cpp
+ * mrb_doom_larry.cpp
  *
  * Copyright © 2013-2014 The TSC Contributors
  ***************************************************************************
@@ -12,21 +12,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../../enemies/larry.hpp"
+#include "../../../enemies/doom_larry.hpp"
 #include "../../../core/sprite_manager.hpp"
 #include "../../../level/level.hpp"
+#include "mrb_doom_larry.hpp"
 #include "mrb_enemy.hpp"
 
 /**
- * Class: Larry
+ * Class: Doom_Larry
  *
- * Parent: [Enemy](enemy.html)
+ * Parent: [Larry](larry.html)
  * {: .superclass}
  *
- * If you just heard some loud "BOOOM!", then you have met _Larry_.
- * On exploding, he destroys all enemies (and injures Alex) nearby. Really
- * dangerous is a situation with multiple larrys, which can result
- * in a giant chain explosion.
+ * While you may not be too worried about Larry, you do need to take care with _Doom_Larry_.  When he
+ * explodes, he will instantly kill both Alex and all enemies nearby.
  */
 
 using namespace TSC;
@@ -34,30 +33,30 @@ using namespace TSC::Scripting;
 
 
 /**
- * Method: Larry::new
+ * Method: Doom_Larry::new
  *
- *   new() → a_larry
+ *   new() → a_doom_larry
  *
- * Creates a new larry.
+ * Creates a new doom larry.
  */
 static mrb_value Initialize(mrb_state* p_state, mrb_value self)
 {
-    cLarry* p_larry = new cLarry(pActive_Level->m_sprite_manager);
-    DATA_PTR(self) = p_larry;
+    cDoomLarry* p_dl = new cDoomLarry(pActive_Level->m_sprite_manager);
+    DATA_PTR(self) = p_dl;
     DATA_TYPE(self) = &rtTSC_Scriptable;
 
     // This is a generated object
-    p_larry->Set_Spawned(true);
+    p_dl->Set_Spawned(true);
 
     // Let TSC manage the memory
-    pActive_Level->m_sprite_manager->Add(p_larry);
+    pActive_Level->m_sprite_manager->Add(p_dl);
     return self;
 }
 
-void TSC::Scripting::Init_Larry(mrb_state* p_state)
+void TSC::Scripting::Init_DoomLarry(mrb_state* p_state)
 {
-    struct RClass* p_rcLarry = mrb_define_class(p_state, "Larry", mrb_class_get(p_state, "Enemy"));
-    MRB_SET_INSTANCE_TT(p_rcLarry, MRB_TT_DATA);
+    struct RClass* p_rcDoomLarry = mrb_define_class(p_state, "DoomLarry", mrb_class_get(p_state, "Enemy"));
+    MRB_SET_INSTANCE_TT(p_rcDoomLarry, MRB_TT_DATA);
 
-    mrb_define_method(p_state, p_rcLarry, "initialize", Initialize, MRB_ARGS_NONE());
+    mrb_define_method(p_state, p_rcDoomLarry, "initialize", Initialize, MRB_ARGS_NONE());
 }
