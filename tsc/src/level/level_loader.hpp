@@ -66,7 +66,7 @@ namespace TSC {
 
     private:
         static std::vector<cActor*> Create_Sprites_From_XML_Tag(const std::string& name, XmlAttributes& attributes, cLevel& level, int engine_version);
-        // OLD static std::vector<cActor*> Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
+        static std::vector<cActor*> Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, cLevel& level, int engine_version);
         // OLD static std::vector<cActor*> Create_Level_Exits_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
         // OLD static std::vector<cActor*> Create_Level_Entries_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
         // OLD static std::vector<cActor*> Create_Boxes_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager);
