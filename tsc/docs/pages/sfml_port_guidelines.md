@@ -15,6 +15,12 @@ guidelines:
    intrudocution to the system.
 4. Follow the general coding guidelines as outlined in the
    `conventions` documentation page.
+5. Collision rectangle size must be set via
+   cActor::Set_Collision_Rect(). That method takes care of keeping
+   debug rect, editor rect, and collision rect in sync. Do not
+   mess with m_collision_rect and m_debug_colrect_shape directly
+   for setting (when converting from old code, these direct settings
+   need to be changed to a call to Set_Collision_Rect() thus).
 
 Press CTRL+D to enable/disable drawing of the collision
 rectangles. Note that you do not have to implement drawing of the
