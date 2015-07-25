@@ -169,12 +169,17 @@ void cActor::Update_Position()
     if (m_velocity.x == 0 && m_velocity.y == 0)
         return;
 
+    /* Moving first and then checking for collisions will result in
+     * the object being inside the wall before the collision detection
+     * algorithm actually yields true... Maybe this should be
+     * reconsidered. */
+
     // SFML transformation
     move(m_velocity);
 
     // Check for collisions if this is an object that can collide.
     // TODO: Check m_can_be_ground!
-    if (m_coltype != COLTYPE_PASSIVE)
+    if (Is_Collidable())
         mp_level->Check_Collisions_For_Actor(*this);
 
     // TODO: Check level edges
@@ -522,4 +527,57 @@ void cActor::Set_Collision_Type(enum CollisionType coltype)
     sf::Color colcolor = Get_Collision_Type_Color(m_coltype);
     colcolor.a = 100; // Ensure object is not painted over entirely
     m_debug_colrect_shape.setFillColor(colcolor);
+}
+
+/**
+ * Returns true if this object is a blocking actor. An
+ * actor is blocking if another actor cannot go through
+ * him.
+ */
+bool cActor::Is_Blocking() const {
+    switch(m_coltype) {
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ENEMY:   // fall-through
+    case COLTYPE_PLAYER:  // fall-through
+    case COLTYPE_LAVA:    // fall-through
+        return true;
+    case COLTYPE_PASSIVE:
+    case COLTYPE_ACTIVE:       // fall-through
+    case COLTYPE_HALFMASSIVE:  // fall-through
+    case COLTYPE_FRONTPASSIVE: // fall-through
+    case COLTYPE_CLIMBABLE:    // fall-through
+    case COLTYPE_ANIM:         // fall-through
+        return false;
+    } // no default clause so the compiler issues a warning if we forget to add a new value of the enum
+
+    // should never go here
+    std::cerr << "Warning: cActor::Is_Blocking() reached undefined point." << std::endl;
+    return false;
+}
+
+/**
+ * Returns true if it is even possible that this objects
+ * collides with another object. Most notably passive and
+ * front-passive actors cannot collide with any other actor,
+ * so for those this method returns false.
+ */
+bool cActor::Is_Collidable() const {
+    switch (m_coltype) {
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ENEMY:        // fall-through
+    case COLTYPE_PLAYER:       // fall-through
+    case COLTYPE_LAVA:         // fall-through
+    case COLTYPE_HALFMASSIVE:  // fall-through
+        return true;
+    case COLTYPE_PASSIVE:      // fall-through
+    case COLTYPE_ACTIVE:       // fall-through
+    case COLTYPE_ANIM:         // fall-through
+    case COLTYPE_FRONTPASSIVE: // fall-through
+    case COLTYPE_CLIMBABLE:    // fall-through
+        return false;
+    } // no default clause so the compiler issues a warning if we forget to add a new value of the enum
+
+    // should never go here
+    std::cerr << "Warning: cActor::Is_Collidable() reached undefined point." << std::endl;
+    return false;
 }

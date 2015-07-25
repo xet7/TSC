@@ -69,6 +69,8 @@ namespace TSC {
         virtual void Set_Collision_Type(enum CollisionType coltype);
         inline enum CollisionType Get_Collision_Type() const {return m_coltype;}
         inline void Set_Massive_Type(enum CollisionType coltype){ Set_Collision_Type(coltype); } // For backward compatbility
+        bool Is_Blocking() const;
+        bool Is_Collidable() const;
 
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
