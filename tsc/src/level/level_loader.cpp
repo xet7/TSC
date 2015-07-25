@@ -26,6 +26,7 @@
 #include "../objects/sprite_actor.hpp"
 #include "../objects/static_actor.hpp"
 #include "../objects/animated_actor.hpp"
+#include "../objects/enemystopper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/tsc_app.hpp"
 #include "../video/img_manager.hpp"
@@ -287,8 +288,8 @@ std::vector<cActor*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std::
 {
     if (name == "sprite")
         return Create_Sprites_From_XML_Tag(name, attributes, level, engine_version);
-    // OLD else if (name == "enemystopper")
-    // OLD     return Create_Enemy_Stoppers_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+    else if (name == "enemystopper")
+        return Create_Enemy_Stoppers_From_XML_Tag(name, attributes, level, engine_version);
     // OLD else if (name == "levelexit")
     // OLD     return Create_Level_Exits_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
     // OLD else if (name == "level_entry")
@@ -589,18 +590,18 @@ std::vector<cActor*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::string
     return result;
 }
 
-// OLD std::vector<cSprite*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
-// OLD {
-// OLD     std::vector<cSprite*> result;
-// OLD 
-// OLD     // If V1.9 and lower: Move Y coordinate bottom to 0
-// OLD     if (engine_version < 35 && attributes.count("posy") > 0)
-// OLD         attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
-// OLD 
-// OLD     result.push_back(new cEnemyStopper(attributes, p_sprite_manager));
-// OLD     return result;
-// OLD }
-// OLD 
+std::vector<cActor*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const std::string& name, XmlAttributes& attributes, cLevel& level, int engine_version)
+{
+    std::vector<cActor*> result;
+
+    // If V1.9 and lower: Move Y coordinate bottom to 0
+    if (engine_version < 35 && attributes.count("posy") > 0)
+        attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+    result.push_back(new cEnemyStopper(attributes, level));
+    return result;
+}
+
 // OLD std::vector<cSprite*> cLevelLoader::Create_Level_Exits_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 // OLD {
 // OLD     std::vector<cSprite*> result;

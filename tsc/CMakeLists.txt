@@ -318,6 +318,7 @@ set(tsc_sources
   "src/objects/sprite_actor.cpp"
   "src/objects/static_actor.cpp"
   "src/objects/animated_actor.cpp"
+  "src/objects/enemystopper.cpp"
 
   "src/scenes/scene.cpp"
   "src/scenes/level_scene.cpp"
