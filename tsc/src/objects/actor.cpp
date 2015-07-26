@@ -5,6 +5,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/math/utilities.hpp"
+#include "../core/collision.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
 #include "../scenes/scene.hpp"
@@ -371,17 +372,25 @@ void cActor::Set_Collision_Rect(sf::FloatRect rect)
 }
 
 /**
- * Handle a collision with another actor. This method is intended to
- * be overridden in subclasses. The actor that this method is called
- * on always is the *causer* member of the collision object passed
- * as a parameter, i.e. you use cCollision::Get_Collision_Sufferer()
- * to get the other collision partner. Even if you return false
- * from this method (see below), the collision is *inversed* so that
- * the collision partner now receives the collision with himself
- * set to be the causer.
+ * Handle a collision with another actor. This method “distributes”
+ * the collision to the respective Handle_Collision_*() method
+ * depending on the massivity of the object collided with (sufferer).
  *
- * By default, this method does nothing and returns true, i.e. it
- * “swallows” the collision.
+ * The return value of this method is the return value of the method
+ * delegated to, so if this actor collides with a massive actor,
+ * the return value of Handle_Collision_Massive() will be the return
+ * value of this method. This is important, because the return value
+ * of this method instructs the collision system further, see below.
+ *
+ * The actor that this method is called on always is the *causer*
+ * member of the collision object passed as a parameter, i.e. you use
+ * cCollision::Get_Collision_Sufferer() to get the other collision
+ * partner. Even if you return false from this method (see below), the
+ * collision is *inversed* so that the collision partner now receives
+ * the collision with himself set to be the causer.
+ *
+ * This method is not virtual and can’t be overridden thus. Override
+ * the appropriate Handle_Collision_*() method in subclasses.
  *
  * \param[in] p_collision
  * The collision object.
@@ -393,8 +402,85 @@ void cActor::Set_Collision_Rect(sf::FloatRect rect)
  */
 bool cActor::Handle_Collision(cCollision* p_collision)
 {
+    // TODO: Do not handle collisions when level editor is active
+
+    switch(p_collision->Get_Collision_Sufferer()->Get_Collision_Type()) {
+    case COLTYPE_PLAYER:
+        return Handle_Collision_Player(p_collision);
+    case COLTYPE_ENEMY:
+        return Handle_Collision_Enemy(p_collision);
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ACTIVE: // fall-through
+        return Handle_Collision_Massive(p_collision);
+    case COLTYPE_PASSIVE:
+    case COLTYPE_FRONTPASSIVE: // fall-through
+    case COLTYPE_HALFMASSIVE:  // fall-through
+    case COLTYPE_CLIMBABLE:    // fall-through
+        return Handle_Collision_Passive(p_collision);
+    case COLTYPE_LAVA:
+        return Handle_Collision_Lava(p_collision);
+    case COLTYPE_ANIM: // Ignore
+        return true;
+    } // no default clause so the compiler can issue a warning if we forget to add a new enum value
+
+    // Shouldn’t be reached
+    std::cerr << "Warning: cActor::Handle_Collision() reached undefined point." << std::endl;
+    return true; // Swallow
+}
+
+/**
+ * This actor collided with the player. Does nothing by
+ * default and returns true, i.e. swallows the collision.
+ * Override in subclasses.
+ */
+bool cActor::Handle_Collision_Player(cCollision* p_collision)
+{
     return true;
 }
+
+/**
+ * This actor collided with an enemy. Does nothing by
+ * default and returns true, i.e. swallows the collision.
+ * Override in subclasses.
+ */
+bool cActor::Handle_Collision_Enemy(cCollision* p_collision)
+{
+    return true;
+}
+
+/**
+ * This actor collided with a massive object. Does nothing by
+ * default and returns true, i.e. swallows the collision.
+ * Override in subclasses.
+ */
+bool cActor::Handle_Collision_Massive(cCollision* p_collision)
+{
+    return true;
+}
+
+/**
+ * This actor collided with a passive object; passive objects
+ * are passive, front-passive, climbable and a few others. This
+ * method can’t really be called during regular gameplay, because
+ * these objects do not send collisions...
+ *
+ * Does nothing by default and returns true, i.e. swallows the
+ * collision. Override in subclasses.
+ */
+bool cActor::Handle_Collision_Passive(cCollision* p_collision)
+{
+    return true;
+}
+
+/**
+ * This actor collided with lava. Does nothing by default and returns
+ * true, i.e. swallows the collision. Override in subclasses.
+ */
+bool cActor::Handle_Collision_Lava(cCollision* p_collision)
+{
+    return true;
+}
+
 
 /**
  * Compare two actors. Two actors are equal if:

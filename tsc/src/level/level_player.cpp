@@ -311,9 +311,9 @@ void cLevel_Player::Update_Staying(void)
     }
 }
 
-bool cLevel_Player::Handle_Collision(cCollision* p_collision)
+bool cLevel_Player::Handle_Collision_Massive(cCollision* p_collision)
 {
-    cAnimatedActor::Handle_Collision(p_collision);
+    cAnimatedActor::Handle_Collision_Massive(p_collision);
 
     if (p_collision->Is_Collision_Bottom()) {
         Set_On_Ground(p_collision->Get_Collision_Sufferer());
