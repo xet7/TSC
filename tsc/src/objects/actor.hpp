@@ -87,8 +87,12 @@ namespace TSC {
         void Accelerate_Y(const float& deltay, bool real = false);
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
-        void Set_On_Ground(cActor* p_ground_object);
+        inline bool Can_Be_Ground() const { return m_can_be_ground; }
+        virtual bool Set_On_Ground(cActor* p_ground_object, bool set_on_top = true);
         cActor* Reset_On_Ground();
+
+        // Set this sprite on top of the given one
+        void Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos = true);
 
         /* late initialization
          * this needs linked objects to be already loaded

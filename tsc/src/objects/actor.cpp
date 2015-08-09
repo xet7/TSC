@@ -179,7 +179,6 @@ void cActor::Update_Position()
     move(m_velocity);
 
     // Check for collisions if this is an object that can collide.
-    // TODO: Check m_can_be_ground!
     if (Is_Collidable())
         mp_level->Check_Collisions_For_Actor(*this);
 
@@ -513,13 +512,34 @@ bool cActor::operator!=(const cActor& other) const
  * object. Calling this method will also immediately reset
  * the Y velocity to zero, i.e. stop any falling.
  *
+ * If the requested ground object can’t be a ground object
+ * (`m_can_be_ground` is false), this method fails and does
+ * nothing.
+ *
  * \param[in] p_ground_object
  * Object to stand on.
+ *
+ * \param set_on_top (true) If true, this actor is positioned
+ * directly on top of the ground object in case of success (i.e.
+ * the ground object can be ground).
+ *
+ * \returns true if the ground object can be ground (success),
+ * false otherwise.
  */
-void cActor::Set_On_Ground(cActor* p_ground_object)
+bool cActor::Set_On_Ground(cActor* p_ground_object, bool set_on_top /* = true */)
 {
-    mp_ground_object = p_ground_object;
-    m_velocity.y = 0; // Imagine a big crater here…
+    if (p_ground_object->Can_Be_Ground()) {
+        mp_ground_object = p_ground_object;
+        m_velocity.y = 0; // Imagine a big crater here…
+
+        if (set_on_top) {
+            Set_On_Top(*p_ground_object, false);
+        }
+
+        return true;
+    }
+    else
+        return false;
 }
 
 /**
@@ -536,6 +556,32 @@ cActor* cActor::Reset_On_Ground()
     cActor* ptr = mp_ground_object;
     mp_ground_object = NULL;
     return ptr;
+}
+
+/**
+ * Place this actor on top of the other actor. Makes probably
+ * only sense if called from Set_On_Ground(), because otherwise
+ * the actor would just start falling again...
+ *
+ * \param[in] ground_actor
+ *   Where to put this actor on top of.
+ *
+ * \param optimize_hor_pos
+ * (true) If true, slightly move this actor horizontally so it
+ * opticially stands nicer on the ground object.
+ */
+void cActor::Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos /* = true */)
+{
+    // set ground position 0.1f over it
+    const sf::FloatRect& groundcolrect = ground_actor.Get_Collision_Rect();
+    Set_Pos_Y(groundcolrect.top - m_collision_rect.top - m_collision_rect.height - 0.1f);
+
+    // optimize the horizontal position if given
+    const sf::Vector2f groundpos = ground_actor.getPosition();
+    const sf::Vector2f mypos     = getPosition();
+    if (optimize_hor_pos && (mypos.x < groundpos.x || mypos.x > groundpos.x + groundcolrect.width)) {
+        Set_Pos_X(mypos.x + groundcolrect.width / 3);
+    }
 }
 
 void cActor::Auto_Slow_Down(float x_speed, float y_speed /* = 0 */)
