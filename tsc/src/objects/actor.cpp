@@ -588,11 +588,10 @@ void cActor::Check_On_Ground()
      * (see Set_On_Top()), we need to check a little below our real
      * collision rectangle if the ground object’s colrect is still
      * there. */
-    sf::FloatRect belowrect(m_collision_rect);
+    sf::FloatRect belowrect(Get_Transformed_Collision_Rect());
     belowrect.top += 2 * GROUND_HOVER_DISTANCE;
 
-    if (!belowrect.intersects(mp_ground_object->Get_Collision_Rect())) {
-        std::cout << "GONE!" << std::endl;
+    if (!belowrect.intersects(mp_ground_object->Get_Transformed_Collision_Rect())) {
         // Oooh, it is gone!
         Reset_On_Ground();
 
