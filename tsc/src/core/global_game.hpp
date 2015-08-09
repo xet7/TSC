@@ -296,7 +296,7 @@ namespace TSC {
      * to enter it (e.g. a player can jump through an halfmassive
      * object).
      *
-     * Z positioning is managed by use of the ZLayer constants above.
+     * Z positioning is managed by use of the ZLayer constants in actor.hpp.
      **/
     enum CollisionType {
         COLTYPE_MASSIVE = 1,

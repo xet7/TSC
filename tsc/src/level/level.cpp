@@ -364,16 +364,9 @@ void cLevel::Check_Collisions_For_Actor(cActor& actor)
         if (actor == other)
             continue;
 
-        CollisionType coltype = other.Get_Collision_Type();
-
         // If the other object is of a collidable type and
         // the rectangles intersect, consider a collision.
-        if (coltype != COLTYPE_PASSIVE &&
-            coltype != COLTYPE_FRONTPASSIVE &&
-            coltype != COLTYPE_CLIMBABLE &&
-            coltype != COLTYPE_ACTIVE &&
-            coltype != COLTYPE_ANIM &&
-            actor.Does_Collide(other)) {
+        if (other.Is_Collidable() && actor.Does_Collide(other)) {
             Add_Collision_If_Required(new cCollision(&actor, &other));
             // MRuby Touch event is not fired here, that’s fired when the collisions are handled.
         }

@@ -34,3 +34,19 @@ other not yet ported things. The goal is to not have any such comments
 anymore, but I need them as a visual marker for functions that are
 only partly implemented yet. Otherwise I’d think I have fully ported
 the function in question to SFML already.
+
+Other notes
+-----------
+
+The collision system is slightly different. In comparison to original
+TSC, the ARRAY_* types are gone and collision handling is now entirely
+dependant on the massivity of an actor rather than on a hardly
+predictable extra attribute. cActor::Handle_Collision() is not virtual
+anymore, but has been degraded to a bare delegation method for the
+other Handle_Collision_*() methods which you should override instead
+(as it was already recommended with original TSC). Beware that the
+more exotic massive types may not show up where you expect them; most
+notably, climbable objects do not send any collisions and will not
+show up in any collision handler thus, they’re just treated the same
+way as passive/frontpassive objects. Halfmassive objects will trigger
+Handle_Collision_Passive(). Things may change later.

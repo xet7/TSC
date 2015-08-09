@@ -214,7 +214,7 @@ void cLevel_Player::Update_Walking(void)
     // OLD    return;
     // OLD}
 
-    // OLD // validate ground object
+    // OLD // validate ground object in special cases (otherwise done by cActor::Update_Position() anyway).
     // OLD if ((m_ground_object->m_type == TYPE_EATO || m_ground_object->m_type == TYPE_SPIKA || m_ground_object->m_type == TYPE_ROKKO || m_ground_object->m_type == TYPE_STATIC_ENEMY) && m_invincible <= 0 && !m_god_mode) {
     // OLD     Reset_On_Ground();
     // OLD }
@@ -311,14 +311,138 @@ void cLevel_Player::Update_Staying(void)
     }
 }
 
-bool cLevel_Player::Handle_Collision(cCollision* p_collision)
+bool cLevel_Player::Handle_Collision_Massive(cCollision* p_collision)
 {
-    cAnimatedActor::Handle_Collision(p_collision);
+    cAnimatedActor::Handle_Collision_Massive(p_collision);
 
-    if (p_collision->Is_Collision_Bottom()) {
-        Set_On_Ground(p_collision->Get_Collision_Sufferer());
-        Set_Moving_State(STA_STAY);
+    /* fixme: the collision direction is sometimes wrong as left/right if landing on a moving platform which moves upwards
+    * this seems to cause alex to hang or to get stuck in it
+    * easily reproducible with a low framerate and fast moving platform
+    */
+    //printf( "direction is %s\n", Get_Direction_Name( collision->m_direction ).c_str() );
+
+    if (p_collision->Is_Collision_Top()) {
+        m_velocity.y = 0; // Player hit the ceiling
+
+        if (m_state != STA_FLY) {
+            if (m_state != STA_CLIMB) {
+                Set_Moving_State(STA_FALL);
+
+                // If the object on top is moving downwards (like a massive moving
+                // platform coming down to squash Alex) increase Alex’ downwards
+                // velocity accordingly.
+                cActor* p_moving_object = p_collision->Get_Collision_Sufferer();
+
+                // add its velocity
+                if (p_moving_object->m_velocity.y > 0) {
+                    m_velocity.y += p_moving_object->m_velocity.y;
+                }
+
+                if (p_moving_object->Get_Collision_Type() == COLTYPE_MASSIVE) {
+                    // OLD pAudio->Play_Sound("wall_hit.wav", RID_ALEX_WALL_HIT);
+                    // OLD 
+                    // OLD // create animation
+                    // OLD cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
+                    // OLD anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + 6, m_col_rect.m_w);
+                    // OLD anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
+                    // OLD anim->Set_Quota(4);
+                    // OLD anim->Set_Pos_Z(m_pos_z - 0.000001f);
+                    // OLD anim->Set_Time_to_Live(0.3f);
+                    // OLD anim->Set_Color(Color(static_cast<Uint8>(150), 150, 150, 200), Color(static_cast<Uint8>(rand() % 55), rand() % 55, rand() % 55, 0));
+                    // OLD anim->Set_Speed(2, 0.6f);
+                    // OLD anim->Set_Scale(0.6f);
+                    // OLD anim->Set_Direction_Range(0, 180);
+                    // OLD anim->Set_Fading_Alpha(1);
+                    // OLD anim->Set_Fading_Size(1);
+                    // OLD anim->Emit();
+                    // OLD pActive_Animation_Manager->Add(anim);
+                }
+            }
+        }
+        // flying
+        else {
+            m_velocity.x -= m_velocity.x * 0.05f * gp_app->Get_SceneManager().Get_Speedfactor();
+
+            // too slow
+            if (m_velocity.x > -5.0f && m_velocity.x < 5.0f) {
+                Stop_Flying();
+            }
+        }
+
     }
+    else if (p_collision->Is_Collision_Bottom()) {
+        // flying
+        if (m_state == STA_FLY) {
+            m_velocity.y = 0.0f;
+            m_velocity.x -= m_velocity.x * 0.05f * gp_app->Get_SceneManager().Get_Speedfactor();
+
+            // too slow
+            if (m_velocity.x > -5.0f && m_velocity.x < 5.0f) {
+                Stop_Flying();
+            }
+        }
+        // not flying
+        else {
+            // jumping
+            if (m_state == STA_JUMP) {
+                /* hack : only pick up after some time of jumping because moving objects collide move before the player
+                 * also see cMovingSprite::Validate_Collision_Object_On_Top
+                 *
+                 * FIXME: Is this out of date with the SFML changes? -- Quintus, 2015-08-09
+                */
+                if (m_jump_power < 6.0f) {
+                    m_velocity.y = 0.0f;
+                }
+            }
+            // all other states
+            else {
+                m_velocity.y = 0.0f;
+                Set_Moving_State(STA_STAY);
+            }
+        }
+    }
+    else if (p_collision->Is_Collision_Left()) {
+        m_velocity.x = 0.0f;
+        m_velocity.y -= m_velocity.y * 0.01f * gp_app->Get_SceneManager().Get_Speedfactor();
+
+        if (m_state == STA_WALK || m_state == STA_RUN) {
+            m_walk_count = 0.0f;
+        }
+        // flying
+        else if (m_state == STA_FLY) {
+            // box collision
+            // OLD if (col_obj->m_type == TYPE_BONUS_BOX || col_obj->m_type == TYPE_SPIN_BOX) {
+            // OLD     cBaseBox* box = static_cast<cBaseBox*>(col_obj);
+            // OLD     box->Activate_Collision(collision->m_direction);
+            // OLD }
+
+            Stop_Flying();
+        }
+    }
+    else if (p_collision->Is_Collision_Right()) {
+        m_velocity.x = 0.0f;
+        m_velocity.y -= m_velocity.y * 0.01f * gp_app->Get_SceneManager().Get_Speedfactor();
+
+        if (m_state == STA_WALK || m_state == STA_RUN) {
+            m_walk_count = 0.0f;
+        }
+        // flying
+        else if (m_state == STA_FLY) {
+            // box collision
+            // OLD if (col_obj->m_type == TYPE_BONUS_BOX || col_obj->m_type == TYPE_SPIN_BOX) {
+            // OLD     cBaseBox* box = static_cast<cBaseBox*>(col_obj);
+            // OLD     box->Activate_Collision(collision->m_direction);
+            // OLD }
+
+            Stop_Flying();
+        }
+    }
+
+    // OLD if (collision->m_array == ARRAY_ACTIVE) {
+    // OLD     // send collision
+    // OLD     Send_Collision(collision);
+    // OLD }
+
 
     return true;
 }

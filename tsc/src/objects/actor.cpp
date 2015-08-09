@@ -5,6 +5,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/math/utilities.hpp"
+#include "../core/collision.hpp"
 #include "../scripting/scriptable_object.hpp"
 #include "../objects/actor.hpp"
 #include "../scenes/scene.hpp"
@@ -137,8 +138,11 @@ void cActor::Update()
 /**
  * Calculate and apply the gravity effect on this object, increasing
  * its vertical downwards velocity if it doesn’t stand on a colliding
- * object. This method does not change the object’s actual positioning,
- * this is left to Update_Position().
+ * object. This method does not change the object’s actual
+ * positioning, this is left to Update_Position(), neither does it set
+ * the object’s mp_ground_object pointer, which is done if a bottom
+ * collision was detected (which can very well in turn be the result
+ * of this method’s changes).
  */
 void cActor::Update_Gravity()
 {
@@ -169,13 +173,20 @@ void cActor::Update_Position()
     if (m_velocity.x == 0 && m_velocity.y == 0)
         return;
 
+    /* Moving first and then checking for collisions will result in
+     * the object being inside the wall before the collision detection
+     * algorithm actually yields true... Maybe this should be
+     * reconsidered. */
+
     // SFML transformation
     move(m_velocity);
 
     // Check for collisions if this is an object that can collide.
-    // TODO: Check m_can_be_ground!
-    if (m_coltype != COLTYPE_PASSIVE)
+    if (Is_Collidable())
         mp_level->Check_Collisions_For_Actor(*this);
+
+    // Check if we left the ground object
+    Check_On_Ground();
 
     // TODO: Check level edges
 }
@@ -366,17 +377,25 @@ void cActor::Set_Collision_Rect(sf::FloatRect rect)
 }
 
 /**
- * Handle a collision with another actor. This method is intended to
- * be overridden in subclasses. The actor that this method is called
- * on always is the *causer* member of the collision object passed
- * as a parameter, i.e. you use cCollision::Get_Collision_Sufferer()
- * to get the other collision partner. Even if you return false
- * from this method (see below), the collision is *inversed* so that
- * the collision partner now receives the collision with himself
- * set to be the causer.
+ * Handle a collision with another actor. This method “distributes”
+ * the collision to the respective Handle_Collision_*() method
+ * depending on the massivity of the object collided with (sufferer).
  *
- * By default, this method does nothing and returns true, i.e. it
- * “swallows” the collision.
+ * The return value of this method is the return value of the method
+ * delegated to, so if this actor collides with a massive actor,
+ * the return value of Handle_Collision_Massive() will be the return
+ * value of this method. This is important, because the return value
+ * of this method instructs the collision system further, see below.
+ *
+ * The actor that this method is called on always is the *causer*
+ * member of the collision object passed as a parameter, i.e. you use
+ * cCollision::Get_Collision_Sufferer() to get the other collision
+ * partner. Even if you return false from this method (see below), the
+ * collision is *inversed* so that the collision partner now receives
+ * the collision with himself set to be the causer.
+ *
+ * This method is not virtual and can’t be overridden thus. Override
+ * the appropriate Handle_Collision_*() method in subclasses.
  *
  * \param[in] p_collision
  * The collision object.
@@ -388,8 +407,88 @@ void cActor::Set_Collision_Rect(sf::FloatRect rect)
  */
 bool cActor::Handle_Collision(cCollision* p_collision)
 {
+    // TODO: Do not handle collisions when level editor is active
+
+    switch(p_collision->Get_Collision_Sufferer()->Get_Collision_Type()) {
+    case COLTYPE_PLAYER:
+        return Handle_Collision_Player(p_collision);
+    case COLTYPE_ENEMY:
+        return Handle_Collision_Enemy(p_collision);
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ACTIVE: // fall-through
+        return Handle_Collision_Massive(p_collision);
+    case COLTYPE_PASSIVE:
+    case COLTYPE_FRONTPASSIVE: // fall-through
+    case COLTYPE_HALFMASSIVE:  // fall-through
+    case COLTYPE_CLIMBABLE:    // fall-through
+        return Handle_Collision_Passive(p_collision);
+    case COLTYPE_LAVA:
+        return Handle_Collision_Lava(p_collision);
+    case COLTYPE_ANIM: // Ignore
+        return true;
+    } // no default clause so the compiler can issue a warning if we forget to add a new enum value
+
+    // Shouldn’t be reached
+    std::cerr << "Warning: cActor::Handle_Collision() reached undefined point." << std::endl;
+    return true; // Swallow
+}
+
+/**
+ * This actor collided with the player. Does nothing by
+ * default and returns true, i.e. swallows the collision.
+ * Override in subclasses.
+ */
+bool cActor::Handle_Collision_Player(cCollision* p_collision)
+{
     return true;
 }
+
+/**
+ * This actor collided with an enemy. Does nothing by
+ * default and returns true, i.e. swallows the collision.
+ * Override in subclasses.
+ */
+bool cActor::Handle_Collision_Enemy(cCollision* p_collision)
+{
+    return true;
+}
+
+/**
+ * This actor collided with a massive object. By default, this
+ * only sets this actor on ground (Set_On_Ground()) if the collision
+ * was below.
+ */
+bool cActor::Handle_Collision_Massive(cCollision* p_collision)
+{
+    if (p_collision->Is_Collision_Bottom())
+        Set_On_Ground(p_collision->Get_Collision_Sufferer());
+
+    return true;
+}
+
+/**
+ * This actor collided with a passive object; passive objects
+ * are passive, front-passive, climbable and a few others. This
+ * method can’t really be called during regular gameplay, because
+ * these objects do not send collisions...
+ *
+ * Does nothing by default and returns true, i.e. swallows the
+ * collision. Override in subclasses.
+ */
+bool cActor::Handle_Collision_Passive(cCollision* p_collision)
+{
+    return true;
+}
+
+/**
+ * This actor collided with lava. Does nothing by default and returns
+ * true, i.e. swallows the collision. Override in subclasses.
+ */
+bool cActor::Handle_Collision_Lava(cCollision* p_collision)
+{
+    return true;
+}
+
 
 /**
  * Compare two actors. Two actors are equal if:
@@ -422,13 +521,34 @@ bool cActor::operator!=(const cActor& other) const
  * object. Calling this method will also immediately reset
  * the Y velocity to zero, i.e. stop any falling.
  *
+ * If the requested ground object can’t be a ground object
+ * (`m_can_be_ground` is false), this method fails and does
+ * nothing.
+ *
  * \param[in] p_ground_object
  * Object to stand on.
+ *
+ * \param set_on_top (true) If true, this actor is positioned
+ * directly on top of the ground object in case of success (i.e.
+ * the ground object can be ground).
+ *
+ * \returns true if the ground object can be ground (success),
+ * false otherwise.
  */
-void cActor::Set_On_Ground(cActor* p_ground_object)
+bool cActor::Set_On_Ground(cActor* p_ground_object, bool set_on_top /* = true */)
 {
-    mp_ground_object = p_ground_object;
-    m_velocity.y = 0; // Imagine a big crater here…
+    if (p_ground_object->Can_Be_Ground()) {
+        mp_ground_object = p_ground_object;
+        m_velocity.y = 0; // Imagine a big crater here…
+
+        if (set_on_top) {
+            Set_On_Top(*p_ground_object, false);
+        }
+
+        return true;
+    }
+    else
+        return false;
 }
 
 /**
@@ -445,6 +565,71 @@ cActor* cActor::Reset_On_Ground()
     cActor* ptr = mp_ground_object;
     mp_ground_object = NULL;
     return ptr;
+}
+
+/**
+ * Checks if this actor is still on its ground object.
+ * If it isn’t, reset it to falling state. This is called
+ * everytime the actor moves (in Update_Position() if the
+ * velocity is not zero).
+ */
+void cActor::Check_On_Ground()
+{
+    // Shortcut if this object is not subject to gravity at all
+    if (Is_Float_Equal(m_gravity_accel, 0.0f))
+        return;
+
+    // If no ground object, there’s nothing to do. Update_Gravity()
+    // will cause a ground object check.
+    if (!mp_ground_object)
+        return;
+
+    /* Because we hover slightly over the ground to prevent collisions
+     * (see Set_On_Top()), we need to check a little below our real
+     * collision rectangle if the ground object’s colrect is still
+     * there. */
+    sf::FloatRect belowrect(Get_Transformed_Collision_Rect());
+    belowrect.top += 2 * GROUND_HOVER_DISTANCE;
+
+    if (!belowrect.intersects(mp_ground_object->Get_Transformed_Collision_Rect())) {
+        // Oooh, it is gone!
+        Reset_On_Ground();
+
+        /* Old OpenGL TSC had a duplicate of the gravity set-on-ground code
+         * here that prevented Alex from being 1 frame in STA_FALL. I don’t
+         * think this is necessary. Removes code duplication if we just let
+         * Handle_Collision_*() handle this. */
+    }
+}
+
+/**
+ * Place this actor on top of the other actor. Makes probably
+ * only sense if called from Set_On_Ground(), because otherwise
+ * the actor would just start falling again...
+ *
+ * \param[in] ground_actor
+ *   Where to put this actor on top of.
+ *
+ * \param optimize_hor_pos
+ * (true) If true, slightly move this actor horizontally so it
+ * opticially stands nicer on the ground object.
+ */
+void cActor::Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos /* = true */)
+{
+    // set ground position slightly above it to prevent collisions from being spawned.
+    // Note we use the transformed collision rectangles to include SFML transformations
+    // (especially movement, but also things like zoom).
+    const sf::FloatRect groundcolrect = ground_actor.Get_Transformed_Collision_Rect();
+    const sf::FloatRect mycolrect     = Get_Transformed_Collision_Rect();
+    const sf::Vector2f  mypos         = getPosition(); // Image rect, not collision rect! Otherwise we get an according offset for the Y position below!
+
+    Set_Pos_Y(mypos.y - (mycolrect.height - (groundcolrect.top - mycolrect.top)) - GROUND_HOVER_DISTANCE);
+
+    // optimize the horizontal position if given
+    const sf::Vector2f groundpos = ground_actor.getPosition();
+    if (optimize_hor_pos && (mypos.x < groundpos.x || mypos.x > groundpos.x + groundcolrect.width)) {
+        Set_Pos_X(mypos.x + groundcolrect.width / 3);
+    }
 }
 
 void cActor::Auto_Slow_Down(float x_speed, float y_speed /* = 0 */)
@@ -522,4 +707,57 @@ void cActor::Set_Collision_Type(enum CollisionType coltype)
     sf::Color colcolor = Get_Collision_Type_Color(m_coltype);
     colcolor.a = 100; // Ensure object is not painted over entirely
     m_debug_colrect_shape.setFillColor(colcolor);
+}
+
+/**
+ * Returns true if this object is a blocking actor. An
+ * actor is blocking if another actor cannot go through
+ * him.
+ */
+bool cActor::Is_Blocking() const {
+    switch(m_coltype) {
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ENEMY:   // fall-through
+    case COLTYPE_PLAYER:  // fall-through
+    case COLTYPE_LAVA:    // fall-through
+        return true;
+    case COLTYPE_PASSIVE:
+    case COLTYPE_ACTIVE:       // fall-through
+    case COLTYPE_HALFMASSIVE:  // fall-through
+    case COLTYPE_FRONTPASSIVE: // fall-through
+    case COLTYPE_CLIMBABLE:    // fall-through
+    case COLTYPE_ANIM:         // fall-through
+        return false;
+    } // no default clause so the compiler issues a warning if we forget to add a new value of the enum
+
+    // should never go here
+    std::cerr << "Warning: cActor::Is_Blocking() reached undefined point." << std::endl;
+    return false;
+}
+
+/**
+ * Returns true if it is even possible that this objects
+ * collides with another object. Most notably passive and
+ * front-passive actors cannot collide with any other actor,
+ * so for those this method returns false.
+ */
+bool cActor::Is_Collidable() const {
+    switch (m_coltype) {
+    case COLTYPE_MASSIVE:
+    case COLTYPE_ENEMY:        // fall-through
+    case COLTYPE_PLAYER:       // fall-through
+    case COLTYPE_LAVA:         // fall-through
+    case COLTYPE_HALFMASSIVE:  // fall-through
+        return true;
+    case COLTYPE_PASSIVE:      // fall-through
+    case COLTYPE_ACTIVE:       // fall-through
+    case COLTYPE_ANIM:         // fall-through
+    case COLTYPE_FRONTPASSIVE: // fall-through
+    case COLTYPE_CLIMBABLE:    // fall-through
+        return false;
+    } // no default clause so the compiler issues a warning if we forget to add a new value of the enum
+
+    // should never go here
+    std::cerr << "Warning: cActor::Is_Collidable() reached undefined point." << std::endl;
+    return false;
 }

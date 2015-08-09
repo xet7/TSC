@@ -56,7 +56,13 @@ namespace TSC {
         void Do_Update();
         virtual void Draw(sf::RenderWindow& stage) const;
         virtual void Added_To_Level(cLevel* p_level, const unsigned long& uid);
-        virtual bool Handle_Collision(cCollision* p_collision);
+
+        bool Handle_Collision(cCollision* p_collision);
+        virtual bool Handle_Collision_Player(cCollision* p_collision);
+        virtual bool Handle_Collision_Enemy(cCollision* p_collision);
+        virtual bool Handle_Collision_Massive(cCollision* p_collision);
+        virtual bool Handle_Collision_Passive(cCollision* p_collision);
+        virtual bool Handle_Collision_Lava(cCollision* p_collision);
 
         void Set_Collision_Rect(sf::FloatRect rect);
         inline const sf::FloatRect& Get_Collision_Rect() const {return m_collision_rect;}
@@ -69,6 +75,8 @@ namespace TSC {
         virtual void Set_Collision_Type(enum CollisionType coltype);
         inline enum CollisionType Get_Collision_Type() const {return m_coltype;}
         inline void Set_Massive_Type(enum CollisionType coltype){ Set_Collision_Type(coltype); } // For backward compatbility
+        bool Is_Blocking() const;
+        bool Is_Collidable() const;
 
         inline void Set_Name(std::string name){m_name = name;}
         inline std::string Get_Name() const {return m_name;}
@@ -79,8 +87,12 @@ namespace TSC {
         void Accelerate_Y(const float& deltay, bool real = false);
         void Accelerate_XY(const float& deltax, const float& deltay, bool real = false);
 
-        void Set_On_Ground(cActor* p_ground_object);
+        inline bool Can_Be_Ground() const { return m_can_be_ground; }
+        virtual bool Set_On_Ground(cActor* p_ground_object, bool set_on_top = true);
         cActor* Reset_On_Ground();
+
+        // Set this sprite on top of the given one
+        void Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos = true);
 
         /* late initialization
          * this needs linked objects to be already loaded
@@ -183,6 +195,11 @@ namespace TSC {
 
     private:
         void Init();
+        void Check_On_Ground();
+
+        // Actors who are subject to gravity are set to this distance
+        // from the ground when they stand on ground (by Set_On_Top()).
+        const float GROUND_HOVER_DISTANCE = 0.1f;
     };
 
 }
