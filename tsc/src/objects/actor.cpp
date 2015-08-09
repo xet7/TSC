@@ -138,8 +138,11 @@ void cActor::Update()
 /**
  * Calculate and apply the gravity effect on this object, increasing
  * its vertical downwards velocity if it doesn’t stand on a colliding
- * object. This method does not change the object’s actual positioning,
- * this is left to Update_Position().
+ * object. This method does not change the object’s actual
+ * positioning, this is left to Update_Position(), neither does it set
+ * the object’s mp_ground_object pointer, which is done if a bottom
+ * collision was detected (which can very well in turn be the result
+ * of this method’s changes).
  */
 void cActor::Update_Gravity()
 {
@@ -181,6 +184,9 @@ void cActor::Update_Position()
     // Check for collisions if this is an object that can collide.
     if (Is_Collidable())
         mp_level->Check_Collisions_For_Actor(*this);
+
+    // Check if we left the ground object
+    Check_On_Ground();
 
     // TODO: Check level edges
 }
@@ -448,12 +454,15 @@ bool cActor::Handle_Collision_Enemy(cCollision* p_collision)
 }
 
 /**
- * This actor collided with a massive object. Does nothing by
- * default and returns true, i.e. swallows the collision.
- * Override in subclasses.
+ * This actor collided with a massive object. By default, this
+ * only sets this actor on ground (Set_On_Ground()) if the collision
+ * was below.
  */
 bool cActor::Handle_Collision_Massive(cCollision* p_collision)
 {
+    if (p_collision->Is_Collision_Bottom())
+        Set_On_Ground(p_collision->Get_Collision_Sufferer());
+
     return true;
 }
 
@@ -559,6 +568,42 @@ cActor* cActor::Reset_On_Ground()
 }
 
 /**
+ * Checks if this actor is still on its ground object.
+ * If it isn’t, reset it to falling state. This is called
+ * everytime the actor moves (in Update_Position() if the
+ * velocity is not zero).
+ */
+void cActor::Check_On_Ground()
+{
+    // Shortcut if this object is not subject to gravity at all
+    if (Is_Float_Equal(m_gravity_accel, 0.0f))
+        return;
+
+    // If no ground object, there’s nothing to do. Update_Gravity()
+    // will cause a ground object check.
+    if (!mp_ground_object)
+        return;
+
+    /* Because we hover slightly over the ground to prevent collisions
+     * (see Set_On_Top()), we need to check a little below our real
+     * collision rectangle if the ground object’s colrect is still
+     * there. */
+    sf::FloatRect belowrect(m_collision_rect);
+    belowrect.top += 2 * GROUND_HOVER_DISTANCE;
+
+    if (!belowrect.intersects(mp_ground_object->Get_Collision_Rect())) {
+        std::cout << "GONE!" << std::endl;
+        // Oooh, it is gone!
+        Reset_On_Ground();
+
+        /* Old OpenGL TSC had a duplicate of the gravity set-on-ground code
+         * here that prevented Alex from being 1 frame in STA_FALL. I don’t
+         * think this is necessary. Removes code duplication if we just let
+         * Handle_Collision_*() handle this. */
+    }
+}
+
+/**
  * Place this actor on top of the other actor. Makes probably
  * only sense if called from Set_On_Ground(), because otherwise
  * the actor would just start falling again...
@@ -572,13 +617,17 @@ cActor* cActor::Reset_On_Ground()
  */
 void cActor::Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos /* = true */)
 {
-    // set ground position 0.1f over it
-    const sf::FloatRect& groundcolrect = ground_actor.Get_Collision_Rect();
-    Set_Pos_Y(groundcolrect.top - m_collision_rect.top - m_collision_rect.height - 0.1f);
+    // set ground position slightly above it to prevent collisions from being spawned.
+    // Note we use the transformed collision rectangles to include SFML transformations
+    // (especially movement, but also things like zoom).
+    const sf::FloatRect groundcolrect = ground_actor.Get_Transformed_Collision_Rect();
+    const sf::FloatRect mycolrect     = Get_Transformed_Collision_Rect();
+    const sf::Vector2f  mypos         = getPosition(); // Image rect, not collision rect! Otherwise we get an according offset for the Y position below!
+
+    Set_Pos_Y(mypos.y - (mycolrect.height - (groundcolrect.top - mycolrect.top)) - GROUND_HOVER_DISTANCE);
 
     // optimize the horizontal position if given
     const sf::Vector2f groundpos = ground_actor.getPosition();
-    const sf::Vector2f mypos     = getPosition();
     if (optimize_hor_pos && (mypos.x < groundpos.x || mypos.x > groundpos.x + groundcolrect.width)) {
         Set_Pos_X(mypos.x + groundcolrect.width / 3);
     }

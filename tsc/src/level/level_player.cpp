@@ -214,7 +214,7 @@ void cLevel_Player::Update_Walking(void)
     // OLD    return;
     // OLD}
 
-    // OLD // validate ground object
+    // OLD // validate ground object in special cases (otherwise done by cActor::Update_Position() anyway).
     // OLD if ((m_ground_object->m_type == TYPE_EATO || m_ground_object->m_type == TYPE_SPIKA || m_ground_object->m_type == TYPE_ROKKO || m_ground_object->m_type == TYPE_STATIC_ENEMY) && m_invincible <= 0 && !m_god_mode) {
     // OLD     Reset_On_Ground();
     // OLD }
@@ -397,6 +397,7 @@ bool cLevel_Player::Handle_Collision_Massive(cCollision* p_collision)
             // all other states
             else {
                 m_velocity.y = 0.0f;
+                Set_Moving_State(STA_STAY);
             }
         }
     }

@@ -195,6 +195,11 @@ namespace TSC {
 
     private:
         void Init();
+        void Check_On_Ground();
+
+        // Actors who are subject to gravity are set to this distance
+        // from the ground when they stand on ground (by Set_On_Top()).
+        const float GROUND_HOVER_DISTANCE = 0.1f;
     };
 
 }
