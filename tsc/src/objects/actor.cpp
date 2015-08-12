@@ -632,6 +632,41 @@ void cActor::Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos /* = t
     }
 }
 
+/**
+ * Place this actor on the given side of the given other actor.
+ * The collision rectangles will be very near to each other after
+ * this method returns, but slightly not overlapping.
+ *
+ * \param[in] other
+ * The actor to place this actor side-by-side to.
+ *
+ * \param side
+ * Either DIR_LEFT to place this actor on the left side of +other+,
+ * or DIR_RIGHT to place this actor on the right side of +other+.
+ * Beware this might be inverse from what you expected.
+ */
+void cActor::Set_On_Side(const cActor& other, ObjectDirection side)
+{
+    const sf::FloatRect othercolrect = other.Get_Transformed_Collision_Rect();
+    const sf::FloatRect mycolrect    = Get_Transformed_Collision_Rect();
+    const sf::Vector2f  otherpos     = other.getPosition();
+    const sf::Vector2f  mypos        = getPosition();
+    const float         myposdiff    = mycolrect.left - mypos.x;
+
+    float result = 0;
+    if (side == DIR_LEFT) {
+        result = othercolrect.left - mycolrect.width - myposdiff - GROUND_HOVER_DISTANCE;
+    }
+    else if (side == DIR_RIGHT) {
+        result = othercolrect.left + othercolrect.width - myposdiff + GROUND_HOVER_DISTANCE;
+    }
+    else {
+        throw(std::runtime_error("Unsupported side passed."));
+    }
+
+    Set_Pos_X(result);
+}
+
 void cActor::Auto_Slow_Down(float x_speed, float y_speed /* = 0 */)
 {
     // horizontal slow down

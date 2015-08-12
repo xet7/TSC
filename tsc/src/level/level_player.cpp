@@ -404,6 +404,7 @@ bool cLevel_Player::Handle_Collision_Massive(cCollision* p_collision)
     else if (p_collision->Is_Collision_Left()) {
         m_velocity.x = 0.0f;
         m_velocity.y -= m_velocity.y * 0.01f * gp_app->Get_SceneManager().Get_Speedfactor();
+        Set_On_Side(*p_collision->Get_Collision_Sufferer(), DIR_RIGHT);
 
         if (m_state == STA_WALK || m_state == STA_RUN) {
             m_walk_count = 0.0f;
@@ -422,6 +423,7 @@ bool cLevel_Player::Handle_Collision_Massive(cCollision* p_collision)
     else if (p_collision->Is_Collision_Right()) {
         m_velocity.x = 0.0f;
         m_velocity.y -= m_velocity.y * 0.01f * gp_app->Get_SceneManager().Get_Speedfactor();
+        Set_On_Side(*p_collision->Get_Collision_Sufferer(), DIR_LEFT);
 
         if (m_state == STA_WALK || m_state == STA_RUN) {
             m_walk_count = 0.0f;

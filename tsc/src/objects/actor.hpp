@@ -93,6 +93,7 @@ namespace TSC {
 
         // Set this sprite on top of the given one
         void Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos = true);
+        void Set_On_Side(const cActor& other, ObjectDirection side);
 
         /* late initialization
          * this needs linked objects to be already loaded
