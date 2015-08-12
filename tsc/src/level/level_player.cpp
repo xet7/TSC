@@ -19,6 +19,9 @@ namespace fs = boost::filesystem;
 
 // Milliseconds to enable power jump when ducking
 static const int POWER_JUMP_DELTA = 1000;
+// Jump physics factors default values
+static const float JUMP_POWER = 17.0f;
+static const float JUMP_ACCEL = 4.0f;
 
 const float cLevel_Player::m_default_pos_x = 200.0f;
 const float cLevel_Player::m_default_pos_y = -300.0f;

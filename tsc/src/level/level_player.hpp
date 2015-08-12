@@ -156,10 +156,6 @@ namespace TSC {
         // default position
         static const float m_default_pos_x;
         static const float m_default_pos_y;
-
-        // jump power
-        const float JUMP_POWER = 17.0f;
-        const float JUMP_ACCEL = 4.0f;
     };
 }
 
