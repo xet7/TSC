@@ -159,6 +159,7 @@ namespace TSC {
 
         // jump power
         const float JUMP_POWER = 17.0f;
+        const float JUMP_ACCEL = 4.0f;
     };
 }
 

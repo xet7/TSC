@@ -55,7 +55,7 @@ cLevel_Player::cLevel_Player()
     m_force_jump = 0;
     m_next_jump_sound = 1;
     m_next_jump_power = JUMP_POWER;
-    m_next_jump_accel = 4.0f;
+    m_next_jump_accel = JUMP_ACCEL;
     m_jump_power = 0.0f;
     m_jump_accel_up = 4.5f;
     m_jump_vel_deaccel = 0.06f;
@@ -581,7 +581,7 @@ void cLevel_Player::Set_Moving_State(Moving_state new_state)
         m_force_jump = 0;
         m_next_jump_sound = 1;
         m_next_jump_power = JUMP_POWER;
-        m_next_jump_accel = 4.0f;
+        m_next_jump_accel = JUMP_ACCEL;
     }
     // was running
     else if (m_state == STA_RUN) {
@@ -915,7 +915,7 @@ void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
     m_force_jump = 0;
     m_next_jump_sound = 1;
     m_next_jump_power = JUMP_POWER;
-    m_next_jump_accel = 4.0f;
+    m_next_jump_accel = JUMP_ACCEL;
 }
 
 void cLevel_Player::Update_Jump(void)
