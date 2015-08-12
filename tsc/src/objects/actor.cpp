@@ -589,7 +589,7 @@ void cActor::Check_On_Ground()
      * collision rectangle if the ground object’s colrect is still
      * there. */
     sf::FloatRect belowrect(Get_Transformed_Collision_Rect());
-    belowrect.top += 2 * GROUND_HOVER_DISTANCE;
+    belowrect.top += 2 * COLLISION_PREVENT_DISTANCE;
 
     if (!belowrect.intersects(mp_ground_object->Get_Transformed_Collision_Rect())) {
         // Oooh, it is gone!
@@ -623,7 +623,7 @@ void cActor::Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos /* = t
     const sf::FloatRect mycolrect     = Get_Transformed_Collision_Rect();
     const sf::Vector2f  mypos         = getPosition(); // Image rect, not collision rect! Otherwise we get an according offset for the Y position below!
 
-    Set_Pos_Y(mypos.y - (mycolrect.height - (groundcolrect.top - mycolrect.top)) - GROUND_HOVER_DISTANCE);
+    Set_Pos_Y(mypos.y - (mycolrect.height - (groundcolrect.top - mycolrect.top)) - COLLISION_PREVENT_DISTANCE);
 
     // optimize the horizontal position if given
     const sf::Vector2f groundpos = ground_actor.getPosition();
@@ -655,10 +655,10 @@ void cActor::Set_On_Side(const cActor& other, ObjectDirection side)
 
     float result = 0;
     if (side == DIR_LEFT) {
-        result = othercolrect.left - mycolrect.width - myposdiff - GROUND_HOVER_DISTANCE;
+        result = othercolrect.left - mycolrect.width - myposdiff - COLLISION_PREVENT_DISTANCE;
     }
     else if (side == DIR_RIGHT) {
-        result = othercolrect.left + othercolrect.width - myposdiff + GROUND_HOVER_DISTANCE;
+        result = othercolrect.left + othercolrect.width - myposdiff + COLLISION_PREVENT_DISTANCE;
     }
     else {
         throw(std::runtime_error("Unsupported side passed."));

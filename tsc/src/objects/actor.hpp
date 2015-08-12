@@ -198,9 +198,12 @@ namespace TSC {
         void Init();
         void Check_On_Ground();
 
-        // Actors who are subject to gravity are set to this distance
-        // from the ground when they stand on ground (by Set_On_Top()).
-        const float GROUND_HOVER_DISTANCE = 0.1f;
+        /** When setting an object to the side of another object using
+         * Set_On_Ground() and Set_On_Side() this distance is used to
+         * prevent collisions from being sent after the adjustment, i.e.
+         * it’s the distance between the collision rectangles after the
+         * adjustment. */
+        const float COLLISION_PREVENT_DISTANCE = 0.1f;
     };
 
 }
