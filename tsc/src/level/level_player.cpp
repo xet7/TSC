@@ -54,7 +54,7 @@ cLevel_Player::cLevel_Player()
     m_up_key_time = 0.0f;
     m_force_jump = 0;
     m_next_jump_sound = 1;
-    m_next_jump_power = 17.0f;
+    m_next_jump_power = JUMP_POWER;
     m_next_jump_accel = 4.0f;
     m_jump_power = 0.0f;
     m_jump_accel_up = 4.5f;
@@ -580,7 +580,7 @@ void cLevel_Player::Set_Moving_State(Moving_state new_state)
         m_jump_power = 0.0f;
         m_force_jump = 0;
         m_next_jump_sound = 1;
-        m_next_jump_power = 17.0f;
+        m_next_jump_power = JUMP_POWER;
         m_next_jump_accel = 4.0f;
     }
     // was running
@@ -914,7 +914,7 @@ void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
     m_up_key_time = 0.0f;
     m_force_jump = 0;
     m_next_jump_sound = 1;
-    m_next_jump_power = 17.0f;
+    m_next_jump_power = JUMP_POWER;
     m_next_jump_accel = 4.0f;
 }
 
