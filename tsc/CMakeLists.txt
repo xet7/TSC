@@ -321,6 +321,7 @@ set(tsc_sources
   "src/objects/enemystopper.cpp"
   "src/objects/box.cpp"
   "src/objects/bonusbox.cpp"
+  "src/objects/spinbox.cpp"
 
   "src/scenes/scene.cpp"
   "src/scenes/level_scene.cpp"
