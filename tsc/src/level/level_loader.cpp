@@ -30,6 +30,7 @@
 #include "../objects/box.hpp"
 #include "../objects/bonusbox.hpp"
 #include "../objects/spinbox.hpp"
+#include "../objects/text_box.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/tsc_app.hpp"
 #include "../video/img_manager.hpp"
@@ -661,8 +662,8 @@ std::vector<cActor*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string& 
     }
     else if (attributes["type"] == "spin")
         result.push_back(new cSpinBox(attributes, level));
-    // OLD else if (attributes["type"] == "text")
-    // OLD     result.push_back(new cText_Box(attributes, p_sprite_manager));
+    else if (attributes["type"] == "text")
+        result.push_back(new cText_Box(attributes, level));
     // OLD else if (attributes["type"] == "empty") { // pre V0.99.4
     // OLD     // Update old values
     // OLD     attributes["type"] = "bonus";
