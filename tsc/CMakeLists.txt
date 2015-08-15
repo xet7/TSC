@@ -319,6 +319,10 @@ set(tsc_sources
   "src/objects/static_actor.cpp"
   "src/objects/animated_actor.cpp"
   "src/objects/enemystopper.cpp"
+  "src/objects/box.cpp"
+  "src/objects/bonusbox.cpp"
+  "src/objects/spinbox.cpp"
+  "src/objects/text_box.cpp"
 
   "src/scenes/scene.cpp"
   "src/scenes/level_scene.cpp"

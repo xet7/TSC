@@ -72,10 +72,10 @@ namespace TSC {
         void Update_Staying(void);
         float Get_Vel_Modifier(void) const;
     private:
-        Moving_state m_state;
         ObjectDirection m_direction;
 
     public: // FIXME: Legacy code. Remove this for secrecy principle!
+        Moving_state m_state;
 
         // current Alex type
         Alex_type m_alex_type;

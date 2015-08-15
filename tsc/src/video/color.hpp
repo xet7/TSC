@@ -19,6 +19,8 @@
 
 namespace TSC {
 
+    typedef sf::Color Color;
+
     // Generic Colors
     static const sf::Color blue = sf::Color(static_cast<uint8_t>(150), 200, 225);
     static const sf::Color darkblue = sf::Color(static_cast<uint8_t>(0), 0, 128);

@@ -20,8 +20,17 @@ namespace TSC {
 
         void Set_Dimensions(int width, int height);
 
+        /* Make this actor temporaryly invisible. For permanently
+         * invisible actors (that do not have an assocated sf::Sprite,
+         * for example enemy stoppers), inherit directly from cActor
+         * rather than from this class and do not define an sf::Sprite
+         * member. Invisibility is off by default. */
+        inline bool Is_Invisible(){ return m_invisible; } const
+        inline void Set_Invisible(bool invis){ m_invisible = invis; }
+
     protected:
         sf::Sprite m_sprite;
+        bool m_invisible;
 
     private:
         void Init();

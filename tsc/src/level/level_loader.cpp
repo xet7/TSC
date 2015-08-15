@@ -27,6 +27,10 @@
 #include "../objects/static_actor.hpp"
 #include "../objects/animated_actor.hpp"
 #include "../objects/enemystopper.hpp"
+#include "../objects/box.hpp"
+#include "../objects/bonusbox.hpp"
+#include "../objects/spinbox.hpp"
+#include "../objects/text_box.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/tsc_app.hpp"
 #include "../video/img_manager.hpp"
@@ -294,8 +298,8 @@ std::vector<cActor*> cLevelLoader::Create_Level_Objects_From_XML_Tag(const std::
     // OLD     return Create_Level_Exits_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
     // OLD else if (name == "level_entry")
     // OLD     return Create_Level_Entries_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
-    // OLD else if (name == "box")
-    // OLD     return Create_Boxes_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
+    else if (name == "box")
+        return Create_Boxes_From_XML_Tag(name, attributes, level, engine_version);
     // OLD else if (name == "item" || name == "powerup") // powerup is pre V.0.99.5
     // OLD     return Create_Items_From_XML_Tag(name, attributes, engine_version, p_sprite_manager);
     // OLD else if (name == "moving_platform")
@@ -632,55 +636,55 @@ std::vector<cActor*> cLevelLoader::Create_Enemy_Stoppers_From_XML_Tag(const std:
 // OLD     return result;
 // OLD }
 // OLD 
-// OLD std::vector<cSprite*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
-// OLD {
-// OLD     std::vector<cSprite*> result;
-// OLD 
-// OLD     // If V1.9 and lower: Move Y coordinate bottom to 0
-// OLD     if (engine_version < 35 && attributes.exists("posy"))
-// OLD         attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
-// OLD 
-// OLD     if (attributes["type"] == "bonus")
-// OLD         result.push_back(new cBonusBox(attributes, p_sprite_manager));
-// OLD     else if (attributes["type"] == "gold") { // `gold' is somewhere pre V0.99.5
-// OLD         // Update old values
-// OLD         attributes["type"]      = "bonus";
-// OLD         attributes["animation"] = "Default";
-// OLD         attributes["item"]      = int_to_string(TYPE_GOLDPIECE);
-// OLD 
-// OLD         // Renamed old values
-// OLD         if (attributes.exists("color")) {
-// OLD             attributes["gold_color"] = attributes["color"];
-// OLD             attributes.erase("color");
-// OLD         }
-// OLD 
-// OLD         result.push_back(new cBonusBox(attributes, p_sprite_manager));
-// OLD     }
-// OLD     else if (attributes["type"] == "spin")
-// OLD         result.push_back(new cSpinBox(attributes, p_sprite_manager));
-// OLD     else if (attributes["type"] == "text")
-// OLD         result.push_back(new cText_Box(attributes, p_sprite_manager));
-// OLD     else if (attributes["type"] == "empty") { // pre V0.99.4
-// OLD         // Update old values
-// OLD         attributes["type"] = "bonus";
-// OLD         attributes["item"] = "0";
-// OLD 
-// OLD         result.push_back(new cBonusBox(attributes, p_sprite_manager));
-// OLD     }
-// OLD     else if (attributes["type"] == "invisible") { // pre V0.99.4
-// OLD         // Update old values
-// OLD         attributes["type"] = "bonus";
-// OLD         attributes["item"] = "0";
-// OLD         attributes["invisible"] = "1";
-// OLD 
-// OLD         result.push_back(new cBonusBox(attributes, p_sprite_manager));
-// OLD     }
-// OLD     else // if attributes["type"] == X
-// OLD         cerr << "Warning: Unknown level box type: " << attributes["type"] << endl;
-// OLD 
-// OLD     return result;
-// OLD }
-// OLD 
+std::vector<cActor*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string& name, XmlAttributes& attributes, cLevel& level, int engine_version)
+{
+    std::vector<cActor*> result;
+
+    // If V1.9 and lower: Move Y coordinate bottom to 0
+    if (engine_version < 35 && attributes.exists("posy"))
+        attributes["posy"] = float_to_string(string_to_float(attributes["posy"]) - 600.0f);
+
+    if (attributes["type"] == "bonus")
+        result.push_back(new cBonusBox(attributes, level));
+    else if (attributes["type"] == "gold") { // `gold' is somewhere pre V0.99.5
+        // Update old values
+        attributes["type"]      = "bonus";
+        attributes["animation"] = "Default";
+        attributes["item"]      = int_to_string(TYPE_GOLDPIECE);
+
+        // Renamed old values
+        if (attributes.exists("color")) {
+            attributes["gold_color"] = attributes["color"];
+            attributes.erase("color");
+        }
+
+        result.push_back(new cBonusBox(attributes, level));
+    }
+    else if (attributes["type"] == "spin")
+        result.push_back(new cSpinBox(attributes, level));
+    else if (attributes["type"] == "text")
+        result.push_back(new cText_Box(attributes, level));
+    else if (attributes["type"] == "empty") { // pre V0.99.4
+        // Update old values
+        attributes["type"] = "bonus";
+        attributes["item"] = "0";
+
+        result.push_back(new cBonusBox(attributes, level));
+    }
+    else if (attributes["type"] == "invisible") { // pre V0.99.4
+        // Update old values
+        attributes["type"] = "bonus";
+        attributes["item"] = "0";
+        attributes["invisible"] = "1";
+
+        result.push_back(new cBonusBox(attributes, level));
+    }
+    else // if attributes["type"] == X
+        cerr << "Warning: Unknown level box type: " << attributes["type"] << endl;
+
+    return result;
+}
+
 // OLD std::vector<cSprite*> cLevelLoader::Create_Items_From_XML_Tag(const std::string& name, XmlAttributes& attributes, int engine_version, cSprite_Manager* p_sprite_manager)
 // OLD {
 // OLD     std::vector<cSprite*> result;
