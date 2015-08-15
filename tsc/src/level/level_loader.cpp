@@ -664,13 +664,13 @@ std::vector<cActor*> cLevelLoader::Create_Boxes_From_XML_Tag(const std::string& 
         result.push_back(new cSpinBox(attributes, level));
     else if (attributes["type"] == "text")
         result.push_back(new cText_Box(attributes, level));
-    // OLD else if (attributes["type"] == "empty") { // pre V0.99.4
-    // OLD     // Update old values
-    // OLD     attributes["type"] = "bonus";
-    // OLD     attributes["item"] = "0";
-    // OLD 
-    // OLD     result.push_back(new cBonusBox(attributes, p_sprite_manager));
-    // OLD }
+    else if (attributes["type"] == "empty") { // pre V0.99.4
+        // Update old values
+        attributes["type"] = "bonus";
+        attributes["item"] = "0";
+
+        result.push_back(new cBonusBox(attributes, level));
+    }
     else if (attributes["type"] == "invisible") { // pre V0.99.4
         // Update old values
         attributes["type"] = "bonus";
