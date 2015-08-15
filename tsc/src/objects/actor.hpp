@@ -95,6 +95,9 @@ namespace TSC {
         void Set_On_Top(const cActor& ground_actor, bool optimize_hor_pos = true);
         void Set_On_Side(const cActor& other, ObjectDirection side);
 
+        inline bool Is_Spawned(){ return m_spawned; } const
+        inline void Set_Spawned(bool spawned){ m_spawned = spawned; }
+
         /* late initialization
          * this needs linked objects to be already loaded
         */
@@ -196,6 +199,8 @@ namespace TSC {
         float m_pos_z;
         ZLayer m_z_layer;
         bool m_update_is_valid;
+        /// Is this object generated later and not loaded from the level XML?
+        bool m_spawned;
 
     private:
         void Init();
