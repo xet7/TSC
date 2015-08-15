@@ -113,6 +113,7 @@ cActor* cActor::Copy(void) const
  * 3. Call Update_Position()
  *
  * This method is not intended to be overridden, override Update() instead.
+ * TODO: Check m_valid_update
  */
 void cActor::Do_Update()
 {
@@ -795,4 +796,13 @@ bool cActor::Is_Collidable() const {
     // should never go here
     std::cerr << "Warning: cActor::Is_Collidable() reached undefined point." << std::endl;
     return false;
+}
+
+/**
+ * Determines whether this actor should be updated and drawn or not.
+ * TODO: Should check camera range here, but currently does nothing.
+ */
+void cActor::Update_Valid_Update()
+{
+    m_update_is_valid = true;
 }

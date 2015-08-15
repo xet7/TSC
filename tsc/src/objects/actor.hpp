@@ -173,6 +173,8 @@ namespace TSC {
             Set_Pos(getPosition().x, y, new_startpos);
         }
 
+        virtual void Update_Valid_Update();
+
         cLevel* mp_level;
         unsigned long m_uid;
 
@@ -193,6 +195,7 @@ namespace TSC {
         enum CollisionType m_coltype;
         float m_pos_z;
         ZLayer m_z_layer;
+        bool m_update_is_valid;
 
     private:
         void Init();
