@@ -449,7 +449,7 @@ bool cLevel_Player::Handle_Collision_Massive(cCollision* p_collision)
     // OLD }
 
 
-    return true;
+    return false;
 }
 
 void cLevel_Player::Move_Player(float velocity, float vel_wrongway)
