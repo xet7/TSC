@@ -46,4 +46,4 @@ before_script:
   - sed 's|pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)|find_package(SDL_ttf REQUIRED)|' -i tsc/CMakeLists.txt
 
 script:
-  - make
+  - mkdir tsc/build && cd tsc/build && cmake .. && make
