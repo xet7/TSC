@@ -28,7 +28,7 @@ before_script:
     # pull all sub modules recursively
   - git submodule update --init --recursive
     # ubuntu precise does not ship a pkg-config file, fall back to FindXXX.cmake module
-  - sed 's|pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)|find_package(SDL_ttf REQUIRED)|' -i smc/CMakeLists.txt
+  - sed 's|pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)|find_package(SDL_ttf REQUIRED)|' -i tsc/CMakeLists.txt
 
 script:
   - mkdir tsc/build && cd tsc/build && cmake .. && make && sudo make install
