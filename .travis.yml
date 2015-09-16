@@ -2,7 +2,22 @@ language: cpp
 
 compiler:
   - gcc
-  - clang
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "PG9n+7UclLmOvxCCzQc7IuIY+cwzn07jvP7jRi3yi/vHs0rKX3v8Zl7EicfL2q3e9zQC7d8zfQ+95fEADbqBsvDkHM5kP8n60iBBgI9ZqWT/lMCkxJpVE5n0fvK1iBFKnvaYtL+lAcIQMXQXCDnQjTa919Yb/SesN7vcYA7L0kyfVUskoAq/9wgQzqTmQKG2hSEmkw5CFZHN1BnUp+nr176o7Qb8kUM9cca7XSSP91fAAu5j89G10HzeI8RqSFSV0dQaIufnTStUiwzeSltyMn2PtPsM30BMKO/iYE/oBs+HXamVyND7IsWBPvda+1llyfjZ3pnuAdLTjCqZpJUrNURlunIQNhbQbM6e+G2h+0JyX4C248HO/fVyyO4VHfXuLxgU1UMXp6oo5BXtOfuCfk6xAdR/b0oDuyG/SPzd6vxpqxtWQzdM4ymYVyFytHTi/g4RTTjlcDJ36hfHeRnsbAYQbit7FhgPb955VdZuisnxxl0ccl/JtftWRnpEIoUK3Vm0/ELxV/0zywxSTRiPiSWCzBJm94fkyxwtXwClphFRWTvqQSyuV6du7/EQFs9uUtgTmpFKGUrLFDTciBM7pR0dOGfr3G3SdIIG1imEJPEIOxjW92tZQ5wALbY57Zmnho6etAmupltVMNfz0jXngF2XQKLaYqt2xgDzS0CrWiM="
+
+addons:
+  coverity_scan:
+    project:
+      name: "xet7/TSC"
+      description: "Build submitted via Travis CI"
+    notification_email: x@xet7.org
+    build_command_prepend: "mkdir tsc/build && cd tsc/build && cmake .."
+    build_command:   "make"
+    branch_pattern: coverity_scan
 
 notifications:
   email:
@@ -31,4 +46,20 @@ before_script:
   - sed 's|pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)|find_package(SDL_ttf REQUIRED)|' -i tsc/CMakeLists.txt
 
 script:
-  - mkdir tsc/build && cd tsc/build && cmake .. && make && sudo make install
+  # Clean from previous Travis build
+  - git clean -f
+  # Then build:
+  - mkdir tsc/build && cd tsc/build && cmake .. && make
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#secretchronicles"
+    skip_join: false
+    use_notice: true
+    template:
+      #- "[%{commit}: %{author}] %{message}"
+      #- "%{build_url}"
+      - "[%{repository}#%{branch} @%{commit}] %{author}): %{message}"
+      - "Diff: %{compare_url}"
+      - "Build: %{build_url}"
