@@ -46,4 +46,20 @@ before_script:
   - sed 's|pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)|find_package(SDL_ttf REQUIRED)|' -i tsc/CMakeLists.txt
 
 script:
+  # Clean from previous Travis build
+  - git clean -f
+  # Then build:
   - mkdir tsc/build && cd tsc/build && cmake .. && make
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#secretchronicles"
+    skip_join: false
+    use_notice: true
+    template:
+      #- "[%{commit}: %{author}] %{message}"
+      #- "%{build_url}"
+      - "[%{repository}#%{branch} @%{commit}] %{author}): %{message}"
+      - "Diff: %{compare_url}"
+      - "Build: %{build_url}"
