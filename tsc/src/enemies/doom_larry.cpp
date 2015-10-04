@@ -62,7 +62,7 @@ void cDoomLarry::Init()
     m_ice_resistance = 1.0f;
     m_can_be_hit_from_shell = true;
     m_explosion_counter = 0.0f;
-    m_kill_sound = "ambient/thunder_1.ogg";
+    m_kill_sound = "enemy/larry/red/die.ogg";
 
     Add_Image_Set("walk", "enemy/larry/red/walk.imgset");
     Add_Image_Set("walk_turn", "enemy/larry/red/walk_turn.imgset", 0, &m_walk_turn_start, &m_walk_turn_end);
