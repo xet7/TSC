@@ -28,7 +28,6 @@ namespace TSC {
         ~cDoomLarry();
         virtual cDoomLarry* Copy() const;
         virtual void Update();
-        virtual void Set_Moving_State(Moving_state new_state);
 
     protected:
         virtual std::string Get_XML_Type_Name();

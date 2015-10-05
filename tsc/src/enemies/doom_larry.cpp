@@ -1,6 +1,5 @@
-//#ifdef STOP
 /***************************************************************************
- * larry.cpp - Run or die.
+ * doom_larry.cpp - Run or die.
  *
  * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
@@ -88,34 +87,6 @@ std::string cDoomLarry::Get_XML_Type_Name()
     return "doom_larry";
 }
 
-#ifdef JUNK
-xmlpp::Element* cLarry::Save_To_XML_Node(xmlpp::Element* p_element)
-{
-    xmlpp::Element* p_node = cEnemy::Save_To_XML_Node(p_element);
-
-    Add_Property(p_node, "direction", Get_Direction_Name(m_start_direction));
-
-    return p_node;
-}
-#endif
-
-#ifdef JUNK
-void cLarry::DownGrade(bool force /* = false */)
-{
-    if (m_state == STA_RUN || force) {
-        Set_Dead(true);
-        m_massive_type = MASS_PASSIVE;
-        m_velx = 0.0f;
-        m_vely = 0.0f;
-
-        pAudio->Play_Sound(m_kill_sound);
-        Explosion_Animation();
-    }
-    else if (m_state == STA_WALK)
-        Fuse();
-}
-#endif
-
 void cDoomLarry::Update()
 {
     cEnemy::Update();
@@ -148,7 +119,7 @@ void cDoomLarry::Update()
                 m_velx_max = 3.0f;
             }
             else {
-                throw (TSCError("Invalid larry walking state!"));
+                throw (TSCError("Invalid doom larry walking state!"));
             }
 
             Update_Rotation_Hor();
@@ -166,180 +137,6 @@ void cDoomLarry::Update()
         }
     }
 }
-
-#ifdef JUNK
-void cLarry::Update_Normal_Dying()
-{
-    // Hide larry behind the explosion clouds
-    if (m_dying_counter > 12.0f) {
-        m_valid_draw = false;
-    }
-    // After a little more time, kill everything in range and completely
-    // remove larry from the game.
-    if (m_dying_counter > 24.0f) {
-        Set_Active(false);
-        Kill_Objects_in_Explosion_Range();
-    }
-}
-#endif
-
-#ifdef JUNK
-void cLarry::Set_Direction(const ObjectDirection dir, bool initial /* = true */)
-{
-    if (m_start_direction == dir)
-        return;
-
-    cEnemy::Set_Direction(dir, initial);
-    Update_Rotation_Hor(true);
-}
-#endif
-
-#ifdef JUNK
-Col_Valid_Type cLarry::Validate_Collision(cSprite* p_sprite)
-{
-    Col_Valid_Type basic_valid = Validate_Collision_Ghost(p_sprite);
-    if (basic_valid != COL_VTYPE_NOT_POSSIBLE)
-        return basic_valid;
-
-    if (p_sprite->m_massive_type == MASS_MASSIVE) {
-        switch (p_sprite->m_type) {
-        case TYPE_FLYON: // fallthrough
-        case TYPE_ROKKO:
-        case TYPE_GEE:
-        case TYPE_SPIKA:
-        case TYPE_STATIC_ENEMY:
-        case TYPE_TURTLE_BOSS:
-            return COL_VTYPE_NOT_VALID;
-        default:
-            return COL_VTYPE_BLOCKING;
-        }
-    }
-    else if (p_sprite->m_massive_type == MASS_HALFMASSIVE) {
-        if (m_vely >= 0.0f && Is_On_Top(p_sprite))
-            return COL_VTYPE_BLOCKING;
-    }
-    else if (p_sprite->m_massive_type == MASS_PASSIVE) {
-        if (p_sprite->m_type == TYPE_ENEMY_STOPPER)
-            return COL_VTYPE_BLOCKING;
-    }
-
-    return COL_VTYPE_NOT_VALID;
-}
-#endif
-
-#ifdef JUNK
-void cLarry::Handle_Collision_Massive(cObjectCollision* p_collision)
-{
-    cEnemy::Handle_Collision_Massive(p_collision);
-
-    //Send_Collision(p_collision);
-
-    // get colliding object
-    cSprite* p_collidor = m_sprite_manager->Get_Pointer(p_collision->m_number);
-
-    if (p_collidor->m_type == TYPE_BALL) {
-        cBall* p_ball = static_cast<cBall*>(p_collidor);
-
-        // Immediately explode if hit by a fireball
-        if (p_ball->m_ball_type == FIREBALL_DEFAULT)
-            DownGrade(true);
-    }
-
-    if (p_collision->m_direction == DIR_RIGHT || p_collision->m_direction == DIR_LEFT)
-        Turn_Around(p_collision->m_direction);
-}
-#endif
-
-#ifdef JUNK
-void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
-{
-    if (p_collision->m_direction == DIR_UNDEFINED)
-        return;
-
-    if (p_collision->m_direction == DIR_TOP) {
-        DownGrade();
-        pLevel_Player->Action_Jump(true);
-    }
-    else
-        pLevel_Player->DownGrade_Player();
-
-    if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
-        Turn_Around();
-}
-#endif
-
-#ifdef JUNK
-void cLarry::Handle_Collision_Enemy(cObjectCollision* p_collision)
-{
-    if (p_collision->m_direction == DIR_LEFT || p_collision->m_direction == DIR_RIGHT)
-        Turn_Around();
-}
-#endif
-
-#ifdef JUNK
-void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collision)
-{
-    if (ball.m_ball_type != FIREBALL_DEFAULT)
-        return;
-
-    // Do NOT set larry to inactive here! This must be done in Update_Normal_Dying()
-    // in order to ensure he disappears in the smoke of the explosion and not beforehand.
-    Ball_Destroy_Animation(ball);
-    DownGrade(true);
-    pLevel_Player->Add_Kill_Multiplier();
-}
-#endif
-
-#ifdef JUNK
-void cLarry::Turn_Around(ObjectDirection col_dir /* = DIR_UNDEFINED */)
-{
-    cEnemy::Turn_Around(col_dir);
-
-    if (m_state == STA_WALK)
-        Set_Image_Set("walk_turn");
-    else
-        Set_Image_Set("run_turn");
-
-    // Stop walking while turning (reset to normal in Update())
-    m_velx = 0.0f;
-    m_velx_max = 0.0f;
-    Update_Rotation_Hor();
-}
-#endif
-
-void cDoomLarry::Set_Moving_State(Moving_state new_state)
-{
-    if (new_state == m_state)
-        return;
-
-    m_state = new_state;
-
-    if (m_state == STA_WALK) {
-        Set_Image_Set("walk", true);
-
-        m_velx_gain = 0.3f;
-        m_velx_max = 1.5f;
-    }
-    else if (m_state == STA_RUN) {
-        Set_Image_Set("run");
-    }
-
-    Reset_Animation();
-    Update_Rotation_Hor(); // In case of change in turning animation
-}
-
-#ifdef JUNK
-void cLarry::Fuse()
-{
-    Set_Moving_State(STA_RUN);
-
-    // Stop walking for a moment (reset to normal in Update())
-    Set_Image_Set("action");
-    m_velx = 0.0f;
-    m_velx_max = 0.0f;
-    Update_Rotation_Hor();
-}
-#endif
 
 void cDoomLarry::Kill_Objects_in_Explosion_Range()
 {
@@ -369,70 +166,3 @@ void cDoomLarry::Kill_Objects_in_Explosion_Range()
             p_box->Activate();
     }
 }
-
-#ifdef JUNK
-void cLarry::Explosion_Animation()
-{
-    cParticle_Emitter* p_em = new cParticle_Emitter(m_sprite_manager);
-    p_em->Set_Emitter_Rect(m_col_rect);
-    p_em->Set_Quota(10);
-    p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.01f);
-    p_em->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke.png"));
-    p_em->Set_Time_to_Live(3.5f);
-    p_em->Set_Scale(1.5f);
-    p_em->Set_Emitter_Time_to_Live(2.0f);
-    pActive_Animation_Manager->Add(p_em);
-
-    p_em = new cParticle_Emitter(m_sprite_manager);
-    p_em->Set_Emitter_Rect(m_col_rect);
-    p_em->Set_Quota(5);
-    p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.01f);
-    p_em->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_grey_big.png"));
-    p_em->Set_Time_to_Live(5.0f);
-    p_em->Set_Scale(1.5f);
-    p_em->Set_Emitter_Time_to_Live(2.0f);
-    pActive_Animation_Manager->Add(p_em);
-
-    p_em = new cParticle_Emitter(m_sprite_manager);
-    p_em->Set_Emitter_Rect(m_col_rect);
-    p_em->Set_Quota(5);
-    p_em->Set_Pos_Z(cSprite::m_pos_z_front_passive_start + 0.02f);
-    p_em->Set_Image(pVideo->Get_Package_Surface("animation/particles/cloud.png"));
-    p_em->Set_Time_to_Live(7.0f);
-    p_em->Set_Scale(1.0f);
-    p_em->Set_Emitter_Time_to_Live(2.0f);
-    pActive_Animation_Manager->Add(p_em);
-}
-#endif
-
-#ifdef JUNK
-void cDoomLarry::Editor_Activate()
-{
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-
-    // direction
-    CEGUI::Combobox* p_combobox = static_cast<CEGUI::Combobox*>(wmgr.createWindow("TaharezLook/Combobox", "editor_larry_direction"));
-    Editor_Add(UTF8_("Direction"), UTF8_("Starting direction."), p_combobox, 100, 75);
-
-    p_combobox->addItem(new CEGUI::ListboxTextItem("left"));
-    p_combobox->addItem(new CEGUI::ListboxTextItem("right"));
-    p_combobox->setText(Get_Direction_Name(m_start_direction));
-    p_combobox->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&cDoomLarry::On_Editor_Direction_Select, this));
-
-    Editor_Init();
-}
-#endif
-
-#ifdef JUNK
-bool cLarry::On_Editor_Direction_Select(const CEGUI::EventArgs& event)
-{
-    const CEGUI::WindowEventArgs& args = static_cast<const CEGUI::WindowEventArgs&>(event);
-    CEGUI::ListboxItem* p_item = static_cast<CEGUI::Combobox*>(args.window)->getSelectedItem();
-
-    Set_Direction(Get_Direction_Id(p_item->getText().c_str()));
-
-    return true;
-}
-#endif
-
-//#endif
