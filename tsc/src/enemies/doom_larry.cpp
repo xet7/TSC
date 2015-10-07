@@ -47,8 +47,10 @@ cDoomLarry::~cDoomLarry()
 
 void cDoomLarry::Init()
 {
-    //The Doom_Larry constructor will have called the Larry constructor, creating an image set full of grey Larry images that we do not want
-    //Remove them so that they can be replaced with Doom Larry images.  If Init() is called again, this clear will also be needed again.
+    //The Doom_Larry constructor will have called the Larry constructor, creating an image set full of grey Larry
+    //images that we do not want
+    //Remove them so that they can be replaced with Doom Larry images.  If Init() is called again, this clear will
+    //also be needed again.
     Clear_Images(true, true);
 
     m_type = TYPE_DOOM_LARRY;

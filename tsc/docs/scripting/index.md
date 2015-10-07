@@ -320,11 +320,13 @@ the MRuby scripting API, grouped by topic:
 | [Armadillo](armadillo.html)           |                                             |
 | [Beetle](beetle.html)                 |                                             |
 | [BeetleBarrage](beetlebarrage.html)   |                                             |
+| [DoomLarry](doom_larry.html)          |                                             |
 | [Eato](eato.html)                     |                                             |
 | [Flyon](flyon.html)                   |                                             |
 | [Furball](furball.html)               |                                             |
 | [Gee](gee.html)                       |                                             |
 | [Krush](krush.html)                   |                                             |
+| [Larry](larry.html)                   |                                             |
 | [Pip](pip.html)                       |                                             |
 | [Rokko](rokko.html)                   |                                             |
 | [Spika](spika.html)                   |                                             |
