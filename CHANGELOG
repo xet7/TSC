@@ -2,6 +2,10 @@
 
 	* Version unreleased.
 	* Feature: Added a working `PKGBUILD' file for ArchLinux.
+	* Featire: Add new world hill graphics `Dune_2', `Dune_3',
+	`Dune_big_1', `Dune_big_2', `Green_hill_1', `Green_hill_2',
+	`Green_hill_big_1', `Green_hill_big_2' (forum contribution by
+	David F. Fernández)
 	* Fix: Fix some issues found by coverity (PR #455 by Tobias Markus)
 	* Misc: Added Travis CI config (PR #453 by Lauri Ojansivu)
 
