@@ -168,46 +168,68 @@ executable that will run on Windows, and indeed this is how we produce
 the Windows releases. Regardless whether you compile
 from Git or from a release tarball, you will need a crosscompilation
 toolchain for that. We recommend you to use [MXE][2] for that, which
-includes all dependencies necessary for building TSC. Even more, I
-(Quintus) have set up an MXE fork that contains versions that I know
-to work with TSC.
+includes all dependencies necessary for building TSC.
 
-The following commands download and built the MXE environment I have
-prepared, including all dependencies needed for TSC.
+MXE is an ever-evolving distribution, so it’s better to use a version
+that is known to work. You can determine this from the following
+table:
+
+TSC Version | Known good MXE commit
+------------|----------------------
+2.0.0       | 6ed153df20cf401914615b44f9cf100229aaa7ad
+
+The following commands download MXE, checks out an example commit from
+the above table.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % mkdir ~/tsc-building
 % cd ~/tsc-building
-% git clone git://github.com/Quintus/mxe.git
+% git clone git://github.com/MXE/mxe.git
 % cd mxe
-% git checkout tsc-building
+% git checkout 6ed153df20cf401914615b44f9cf100229aaa7ad
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MXE by default doesn’t built CEGUI with the TinyXML parser, which for
+unknown reasons is the only XML parser that can be successfully linked
+in (others fail with “undefined reference” errors on the linking
+stage). If you find a way to use CEGUI’s Libxml XML parser instead,
+please let us know, but until that you need to enable the TinyXML
+parser in MXE’s built script. Open the file `src/cegui.mk` and change
+the line that says
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        --disable-tinyxml \
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+to:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        --enable-tinyxml \
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After that you can build MXE with all dependencies required for
+buildint TSC:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % make boost libxml++ glew cegui libpng freeimage sdl sdl_image sdl_mixer sdl_ttf nsis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This will take a long time.
 
 Now we have to work around bugs in CMake and CPack that don’t find
-`i686-pc-mingw32-pkg-config` and `i686-pc-mingw32-makensis`, but will
+`i686-w64-mingw32.static-pkg-config` and `i686-w64-mingw32.static-makensis`, but will
 only look for `pkg-config` and `makensis`. Do this:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % cd usr/bin
-% ln -s i686-pc-mingw32-makensis makensis
-% ln -s i686-pc-mingw32-pkg-config pkg-config
+% ln -s i686-w64-mingw32.static-makensis makensis
+% ln -s i686-w64-mingw32.static-pkg-config pkg-config
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-And then edit `i686-pc-mingw32-pkg-config` with your favourite
-editor. Replace the part that says
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-... exec pkg-config --static "$@"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-with this:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-... exec /usr/bin/pkg-config --static "$@"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Older versions of MXE shelled out to the system’s `pkg-config`, but
+now they ship their own version that is referenced in the script we
+symlinked above. The old followup workaround that used to be described
+here has thus become unnecessary.
 
 ### Crosscompiling from a released tarball ###
 
