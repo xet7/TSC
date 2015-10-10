@@ -16,6 +16,7 @@
 #include "larry.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
+#include "../gui/hud.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/i18n.hpp"
 #include "../level/level_player.hpp"
@@ -238,6 +239,10 @@ void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
         return;
 
     if (p_collision->m_direction == DIR_TOP) {
+        if (m_state == STA_WALK) { //Only add points for the first jump that lights the fuse
+            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+            pLevel_Player->Add_Kill_Multiplier();
+        }
         DownGrade();
         pLevel_Player->Action_Jump(true);
     }
@@ -263,6 +268,7 @@ void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collis
     // in order to ensure he disappears in the smoke of the explosion and not beforehand.
     Ball_Destroy_Animation(ball);
     DownGrade(true);
+    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
     pLevel_Player->Add_Kill_Multiplier();
 }
 
