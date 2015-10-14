@@ -486,6 +486,18 @@
 	<item>
 		<property name="object_name" value="enemy" />
 		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="doom_larry" />
+		<property name="direction" value="left" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
+		<property name="type" value="doom_larry" />
+		<property name="direction" value="right" />
+	</item>
+	<item>
+		<property name="object_name" value="enemy" />
+		<property name="object_tags" value="level;enemy" />
 		<property name="type" value="gee" />
 		<property name="color" value="yellow" />
 	</item>
