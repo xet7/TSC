@@ -48,6 +48,14 @@ if(CMAKE_COMPILER_IS_GNUCC)
   add_definitions("-Wall")
 endif()
 
+# On current Linux distros dependencies start to use C++11 features,
+# so we need to compile with C++11 standard also (because otherwise
+# the compilation fails due to the dependencies wanting C++11,
+# although TSC itself currently doesn’t need it). However, we do not
+# want to see warnings from other not yet C++-11 dependencies using
+# deprecated declarations (glibmm!). Thus those warnings are disabled.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated-declarations")
+
 # Extra flags for debugging TSC, additional to those
 # already added by CMake itself when doing a debug
 # build (e.g. -g is added for GCC by CMake).
