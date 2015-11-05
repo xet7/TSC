@@ -1,0 +1,8 @@
+base blue_3.png 0
+width 64
+height 64
+editor_tags world;hill
+name Blue_hill_1_big
+type passive
+author skarfester
+license CC-BY_4.0
