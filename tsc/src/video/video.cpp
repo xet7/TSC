@@ -408,7 +408,8 @@ void cVideo::Init_OpenGL(void)
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    mp_window->pushGLStates(); // Notify SFML of our custom OpenGL
+    // Swap buffers
+    mp_window->display();
 }
 
 void cVideo::Init_Geometry(void)

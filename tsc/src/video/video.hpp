@@ -232,7 +232,7 @@ namespace TSC {
         // texture quality level 0.0 - 1.0
         float m_texture_quality;
 
-        sf::RenderWindow* mp_window;
+        sf::Window* mp_window;
 
 #ifdef __unix__
         // current opengl context
