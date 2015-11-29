@@ -172,6 +172,7 @@ endif()
 
 # Several libraries we depend on
 find_package(PkgConfig REQUIRED)
+find_package(SFML COMPONENTS audio graphics window system REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Gettext)
@@ -226,6 +227,7 @@ add_definitions(
 # Add all our libraries to our -I-nclude path
 include_directories(
   ${MRuby_INCLUDE_DIR}
+  ${SFML_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
   ${GLEW_INCLUDE_DIRS}
   ${CEGUI_INCLUDE_DIR}
@@ -318,6 +320,7 @@ endif()
 if (WIN32)
   target_link_libraries(tsc
     ${CEGUI_LIBRARY}
+    ${SFML_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${FreeImage_LIBRARIES}
@@ -342,6 +345,7 @@ else()
   add_dependencies(tsc cegui07)
   target_link_libraries(tsc
     ${CEGUI_LIBRARY}
+    ${SFML_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${IL_LIBRARIES}
