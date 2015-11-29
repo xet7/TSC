@@ -120,11 +120,11 @@ namespace TSC {
         public:
             cSoftware_Image(void)
             {
-                m_sdl_surface = NULL;
+                m_sf_image = NULL;
                 m_settings = NULL;
             };
 
-            SDL_Surface* m_sdl_surface;
+            sf::Image* m_sf_image;
             cImage_Settings_Data* m_settings;
         };
 
@@ -149,9 +149,11 @@ namespace TSC {
         /* Convert to a scaled software image with a power of 2 size and 32 bits per pixel.
          * Conversion only happens if needed.
          * surface : the source image which gets converted if needed
-         * only use the returned image after this conversion
+         * Do not use p_sf_image after calling this function anymore,
+         * use the returned new image instead. p_sf_image is freed by
+         * this function automatically.
         */
-        SDL_Surface* Convert_To_Final_Software_Image(SDL_Surface* surface) const;
+        sf::Image* Convert_To_Final_Software_Image(sf::Image* p_sf_image) const;
 
         /* Convert a SDL_Surface to a GL image
          * surface : the source SDL_surface which will be auto-deleted.

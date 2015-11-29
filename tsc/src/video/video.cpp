@@ -567,11 +567,11 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
 
         // load software image
         cSoftware_Image software_image = Load_Image(filename);
-        SDL_Surface* sdl_surface = software_image.m_sdl_surface;
+        sf::Image* p_sf_image = software_image.m_sf_image;
         cImage_Settings_Data* settings = software_image.m_settings;
 
         // failed to load image
-        if (!sdl_surface) {
+        if (!p_sf_image) {
             continue;
         }
 
@@ -586,15 +586,15 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
             else {
                 debug_print("Info : %s has no image settings and will not get cached\n", cache_filename.c_str());
             }
-            SDL_FreeSurface(sdl_surface);
+            delete p_sf_image;
             continue;
         }
 
         // create final image
-        sdl_surface = Convert_To_Final_Software_Image(sdl_surface);
+        p_sf_image = Convert_To_Final_Software_Image(p_sf_image);
 
         // get final size for this resolution
-        cSize_Int size = settings->Get_Surface_Size(sdl_surface);
+        cSize_Int size = settings->Get_Surface_Size(p_sf_image);
         delete settings;
         int new_width = size.m_width;
         int new_height = size.m_height;
@@ -603,21 +603,23 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
         Apply_Max_Texture_Size(new_width, new_height);
 
         // does not need to be downsampled
-        if (new_width >= sdl_surface->w && new_height >= sdl_surface->h) {
-            SDL_FreeSurface(sdl_surface);
+        if (new_width >= p_sf_image->getSize().x && new_height >= p_sf_image->getSize().y) {
+            delete p_sf_image;
+            p_sf_image = NULL;
             continue;
         }
 
         // calculate block reduction
-        int reduce_block_x = sdl_surface->w / new_width;
-        int reduce_block_y = sdl_surface->h / new_height;
+        int reduce_block_x = p_sf_image->getSize().x / new_width;
+        int reduce_block_y = p_sf_image->getSize().y / new_height;
 
         // create downsampled image
-        unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
+        // unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
+        unsigned int image_bpp = 8; // HACK: SFML has no possibility to retrieve the BPP of an image. However, TSC's images appear all to have 8 BPP (quick test using file(1)). The docs of sf::Image::getPixelsPtr() guarantee 8 bit anyway.
         unsigned char* image_downsampled = new unsigned char[new_width * new_height * image_bpp];
-        bool downsampled = Downscale_Image(static_cast<unsigned char*>(sdl_surface->pixels), sdl_surface->w, sdl_surface->h, image_bpp, image_downsampled, reduce_block_x, reduce_block_y);
+        bool downsampled = Downscale_Image(static_cast<unsigned char*>(p_sf_image->getPixelsPtr()), p_sf_image->getSize().x, p_sf_image->getSize().y, image_bpp, image_downsampled, reduce_block_x, reduce_block_y);
 
-        SDL_FreeSurface(sdl_surface);
+        delete p_sf_image;
 
         // if image is available
         if (downsampled) {
@@ -640,12 +642,12 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
             // update progress
             progress_bar->setProgress(static_cast<float>(loaded_files) / static_cast<float>(file_count));
 
-#ifdef _DEBUG
-            // update filename
-            cGL_Surface* surface_filename = pFont->Render_Text(pFont->m_font_small, path_to_utf8(filename), white);
-            // draw filename
-            surface_filename->Blit(game_res_w * 0.2f, game_res_h * 0.8f, 0.1f);
-#endif
+// OLD #ifdef _DEBUG
+// OLD             // update filename
+// OLD             cGL_Surface* surface_filename = pFont->Render_Text(pFont->m_font_small, path_to_utf8(filename), white);
+// OLD             // draw filename
+// OLD             surface_filename->Blit(game_res_w * 0.2f, game_res_h * 0.8f, 0.1f);
+// OLD #endif
             Loading_Screen_Draw();
 #ifdef _DEBUG
             // delete
@@ -918,7 +920,8 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
     }
 
     cSoftware_Image software_image = cSoftware_Image();
-    SDL_Surface* sdl_surface = NULL;
+    sf::Image* p_sf_image = NULL;
+    bool successfully_loaded = false;
     cImage_Settings_Data* settings = NULL;
 
     // load settings if available
@@ -945,7 +948,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
 
             // check if image cache file exists
             if (!img_filename_cache.empty() && fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
-                sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
+                successfully_loaded = p_sf_image->loadFromFile(path_to_utf8(img_filename_cache));
             // image given in base settings
             else if (!settings->m_base.empty()) {
                 // use current directory
@@ -962,30 +965,30 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
                         img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
                 }
 
-                sdl_surface = IMG_Load(path_to_utf8(img_filename).c_str());
+                successfully_loaded = p_sf_image->loadFromFile(path_to_utf8(img_filename));
             }
         }
     }
 
     // if not set in image settings and file exists
-    if (!sdl_surface && exists(filename) && (!settings || settings->m_base.empty())) {
-        sdl_surface = IMG_Load(path_to_utf8(filename).c_str());
+    if (!successfully_loaded && exists(filename) && (!settings || settings->m_base.empty())) {
+        successfully_loaded = p_sf_image->loadFromFile(path_to_utf8(filename));
     }
 
-    if (!sdl_surface) {
+    if (!successfully_loaded) {
         if (settings) {
             delete settings;
             settings = NULL;
         }
 
         if (print_errors) {
-            cerr << "Error loading image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
+            cerr << "Error loading image : " << path_to_utf8(filename) << endl << endl;
         }
 
         return software_image;
     }
 
-    software_image.m_sdl_surface = sdl_surface;
+    software_image.m_sf_image = p_sf_image;
     software_image.m_settings = settings;
     return software_image;
 }
@@ -1051,33 +1054,33 @@ cGL_Surface* cVideo :: Load_GL_Surface_Helper(boost::filesystem::path filename, 
     return image;
 }
 
-SDL_Surface* cVideo::Convert_To_Final_Software_Image(SDL_Surface* surface) const
+/**
+ * OpenGL only understands textures whose edges each have a length
+ * that is a power of 2. This function ensures that our images fulfill
+ * this requirement; if they don’t already have such edges, `p_sf_image'
+ * is expanded to a size that fits the power-of-2 rule; the newly created
+ * pixels are set to transparency.
+ */
+sf::Image* cVideo::Convert_To_Final_Software_Image(sf::Image* p_sf_image) const
 {
     // get power of two size
-    const unsigned int width = Get_Power_of_2(surface->w);
-    const unsigned int height = Get_Power_of_2(surface->h);
+    Vector2u cursize = p_sf_image->getSize();
+    const unsigned int width = Get_Power_of_2(cursize.x);
+    const unsigned int height = Get_Power_of_2(cursize.y);
 
     // if it needs to be changed
-    if (width != surface->w || height != surface->h || surface->format->BitsPerPixel != 32) {
-        // create power of 2 and 32 bits per pixel surface
-        SDL_Surface* final = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-                             0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-#else
-                             0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-#endif
-
-        // set the entire surface alpha to 0
-        SDL_SetAlpha(surface, 0, SDL_ALPHA_TRANSPARENT);
-        // blit to 32 bit surface
-        SDL_BlitSurface(surface, NULL, final, NULL);
+    if (width != cursize.x || height != cursize.y) {
+        // create power of 2 surface
+        sf::Image* new_image = new sf::Image(width, height, sf::Color::Transparent);
+        // copy over the old image into the new one (i.e., blit it onto it)
+        new_image->copy(*p_sf_image, 0, 0);
         // delete original surface
-        SDL_FreeSurface(surface);
+        delete p_sf_image;
         // set new surface
-        surface = final;
+        p_sf_image = new_image;
     }
 
-    return surface;
+    return p_sf_image;
 }
 
 cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */, unsigned int force_width /* = 0 */, unsigned int force_height /* = 0 */) const
@@ -2134,7 +2137,7 @@ void Loading_Screen_Draw(void)
     // Render
     pRenderer->Render();
     pGuiSystem->renderGUI();
-    SDL_GL_SwapBuffers();
+    pVideo->mp_window->display();
 }
 
 void Loading_Screen_Exit(void)
