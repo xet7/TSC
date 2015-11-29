@@ -60,7 +60,7 @@ namespace TSC {
         // Initialize the basic CEGUI data and configuration
         void Init_CEGUI_Data(void) const;
         // Initialize all the SDL systems
-        void Init_SDL(void);
+        //void Init_SDL(void);
         /* Initialize the screen surface
          * reload_textures_from_file: if set reloads all textures from the original file
          * use_preferences: if set use user preferences settings
@@ -232,8 +232,8 @@ namespace TSC {
         // texture quality level 0.0 - 1.0
         float m_texture_quality;
 
-        // window manager information
-        SDL_SysWMinfo wm_info;
+        sf::RenderWindow* mp_window;
+
 #ifdef __unix__
         // current opengl context
         GLXContext glx_context;

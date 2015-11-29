@@ -43,6 +43,7 @@ namespace TSC {
 
 cVideo::cVideo(void)
 {
+    mp_window = NULL;
     m_opengl_version = 0;
 
     m_double_buffer = 0;
@@ -70,7 +71,10 @@ cVideo::cVideo(void)
 
 cVideo::~cVideo(void)
 {
-
+    if (mp_window) {
+        delete mp_window;
+        mp_window = NULL;
+    }
 }
 
 void cVideo::Init_CEGUI(void) const
@@ -200,122 +204,52 @@ void cVideo::Init_SDL(void)
     SDL_ShowCursor(SDL_DISABLE);
 }
 
-void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */)
+void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_preferences /* = true */)
 {
     Render_Finish();
 
-    // set the video flags
-    int flags = SDL_OPENGL | SDL_SWSURFACE;
-
-    // only enter fullscreen if set in preferences
-    if (use_preferences && pPreferences->m_video_fullscreen) {
-        flags |= SDL_FULLSCREEN;
-    }
-
-    int screen_w, screen_h, screen_bpp;
-
-    // full initialization
+    sf::VideoMode videomode(800, 600, 16); // defaults
+    sf::VideoMode desktopmode(sf::VideoMode::getDesktopMode());
     if (use_preferences) {
-        screen_w = pPreferences->m_video_screen_w;
-        screen_h = pPreferences->m_video_screen_h;
-        screen_bpp = pPreferences->m_video_screen_bpp;
-    }
-    // initialization with SDL defaults
-    else {
-        screen_w = 800;
-        screen_h = 600;
-        screen_bpp = 16;
-    }
+        videomode.width        = pPreferences->m_video_screen_w;
+        videomode.height       = pPreferences->m_video_screen_h;
+        videomode.bitsPerPixel = pPreferences->m_video_screen_bpp;
 
-    // first initialization
-    if (!m_initialised) {
-        // Set Caption
-        SDL_WM_SetCaption(CAPTION, NULL);
-        // Set Icon
-        boost::filesystem::path filename_icon = pResource_Manager->Get_Game_Icon("window_icon.png");
-        if (File_Exists(filename_icon)) {
-            SDL_Surface* icon = IMG_Load(path_to_utf8(filename_icon).c_str());
-            SDL_WM_SetIcon(icon, NULL);
-            SDL_FreeSurface(icon);
-        }
-        else {
-            cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << endl;
-        }
+        // Emulate old SDL behaviour for user preferences of value 0
+        if (videomode.width == 0)
+            videomode.width = desktopmode.width;
+        if (videmode.height == 0)
+            videomode.height = desktopmode.height;
     }
 
     // test screen mode
-    int screen_test = Test_Video(screen_w, screen_h, screen_bpp, flags);
-
-    // failed
-    if (screen_test == 0) {
-        cerr << "Warning : Video Resolution " << screen_w << "x" << screen_h << " is not supported" << endl;
+    if (!videomode.isValid()) {
+        cerr << "Warning : Video Resolution " << videomode.width << "x" << videomode.height << " is not supported" << endl;
+        cerr << "Falling back to lowest available settings." << endl;
 
         // set lowest available settings
-        screen_w = 640;
-        screen_h = 480;
-        screen_bpp = 0;
+        videomode.width = 640;
+        videomode.height = 480;
+        videomode.bits_per_pixel = 16;
 
         // overwrite user settings
         if (use_preferences) {
-            pPreferences->m_video_screen_w = screen_w;
-            pPreferences->m_video_screen_h = screen_h;
-        }
-    }
-    // can not handle bits per pixel
-    else if (screen_test > 1 && screen_bpp > 0 && screen_test < screen_bpp) {
-        cerr << "Warning : Video Bpp " << screen_bpp << " is not supported but " << screen_test << " is" << endl;
-        // set closest supported bpp
-        screen_bpp = screen_test;
-
-        // overwrite user settings
-        if (use_preferences) {
-            pPreferences->m_video_screen_bpp = screen_bpp;
+            pPreferences->m_video_screen_w = videomode.width;
+            pPreferences->m_video_screen_h = videomode.height;
         }
     }
 
-    int screen_rgb_size[3];
+    // TODO: Fullscreen?
 
-    // set bit per pixel sizes
-    if (screen_bpp == 8) {
-        screen_rgb_size[0] = 3;
-        screen_rgb_size[1] = 3;
-        screen_rgb_size[2] = 2;
-    }
-    else if (screen_bpp == 15) {
-        screen_rgb_size[0] = 5;
-        screen_rgb_size[1] = 5;
-        screen_rgb_size[2] = 5;
-    }
-    else if (screen_bpp == 24) {
-        screen_rgb_size[0] = 8;
-        screen_rgb_size[1] = 8;
-        screen_rgb_size[2] = 8;
-    }
-    // same as 24...
-    else if (screen_bpp == 32) {
-        screen_rgb_size[0] = 8;
-        screen_rgb_size[1] = 8;
-        screen_rgb_size[2] = 8;
-    }
-    else { // 16 and default
-        screen_rgb_size[0] = 5;
-        screen_rgb_size[1] = 6;
-        screen_rgb_size[2] = 5;
-    }
+    mp_window = new sf::RenderWindow(videomode);
+    mp_window->setMouseCursorVisible(false);
+    mp_window->setTitle(CAPTION);
 
-    // request settings
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, screen_rgb_size[0]);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, screen_rgb_size[1]);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, screen_rgb_size[2]);
-    // hangs on 16 bit
-    //SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
-    // not yet needed
-    //SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    // if vertical synchronization is enabled
     if (use_preferences && pPreferences->m_video_vsync) {
-        SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+        mp_window->setVerticalSyncEnabled(true);
     }
+
+    // TODO: Icon? Icon is available as pResource_Manager->Get_Game_Icon("window_icon.png");
 
     // if reinitialization
     if (m_initialised) {
@@ -339,80 +273,15 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_prefe
         }
     }
 
-    // Note: As of SDL 1.2.10, if width and height are both 0, SDL_SetVideoMode will use the desktop resolution.
-    screen = SDL_SetVideoMode(screen_w, screen_h, screen_bpp, flags);
-
-    if (!screen) {
-        cerr << "Error : Screen mode creation failed" << endl << "Reason : " << SDL_GetError() << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // check if fullscreen got set
-    if (use_preferences && pPreferences->m_video_fullscreen) {
-        bool is_fullscreen = ((screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN);
-
-        if (!is_fullscreen) {
-            cerr << "Warning : Fullscreen mode could not be set" << endl;
-        }
-    }
-
-    // check if double buffering got set
-    int is_double_buffer;
-    SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &is_double_buffer);
-    m_double_buffer = is_double_buffer > 0;
-
-    if (!m_double_buffer) {
-        // only important on full initialization
-        if (use_preferences) {
-            cerr << "Warning : Double Buffering could not be set" << endl;
-        }
-    }
-
-    // check if vertical synchronization got set
-    if (use_preferences && pPreferences->m_video_vsync) {
-        int is_vsync;
-        // seems to return always true even if not available
-        SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &is_vsync);
-
-        if (!is_vsync) {
-            cerr << "Warning : VSync could not be set" << endl;
-        }
-    }
-
-    // get color bit size
-    SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &m_rgb_size[0]);
-    SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &m_rgb_size[1]);
-    SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &m_rgb_size[2]);
-
-    // check if color bit size is set as wanted
-    if (use_preferences) {
-        if (m_rgb_size[0] < screen_rgb_size[0]) {
-            cerr << "Warning : smaller red bit size " << m_rgb_size[0] << " as requested " << screen_rgb_size[0] << endl;
-        }
-
-        if (m_rgb_size[1] < screen_rgb_size[1]) {
-            cerr << "Warning : smaller green bit size " << m_rgb_size[1] << " as requested " << screen_rgb_size[1] << endl;
-        }
-
-        if (m_rgb_size[2] < screen_rgb_size[2]) {
-            cerr << "Warning : smaller blue bit size " << m_rgb_size[2] << " as requested " << screen_rgb_size[2] << endl;
-        }
-    }
+    // For backward compatibility with old SDL. SFML is always
+    // double-buffered.
+    m_double_buffer = true;
 
     // remember default buffer
     glGetIntegerv(GL_DRAW_BUFFER, &m_default_buffer);
     // get maximum texture size
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_max_texture_size);
 
-    /* check if accelerated visual
-    int accelerated = 0;
-    SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL, &accelerated );
-    printf( "accel %d\n", accelerated );*/
-
-    // get window manager information
-    if (!SDL_GetWMInfo(&wm_info)) {
-        cerr << "Error: SDL_GetWMInfo not implemented" << endl;
-    }
 #ifdef __unix__
     // get context
     glx_context = glXGetCurrentContext();
@@ -433,7 +302,7 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_prefe
         pFont->Restore_Textures();
 
         // send new size to CEGUI
-        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(screen_w), static_cast<float>(screen_h)));
+        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(videomode.width), static_cast<float>(videomode.height)));
 
         // check if CEGUI is initialized
         bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
@@ -539,7 +408,7 @@ void cVideo::Init_OpenGL(void)
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    SDL_GL_SwapBuffers();
+    mp_window->pushGLStates(); // Notify SFML of our custom OpenGL
 }
 
 void cVideo::Init_Geometry(void)

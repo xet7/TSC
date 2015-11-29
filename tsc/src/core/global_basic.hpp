@@ -91,6 +91,11 @@
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
 
+// SFML
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+
 // SDL
 #ifdef __unix__
 #define NO_SDL_GLEXT
