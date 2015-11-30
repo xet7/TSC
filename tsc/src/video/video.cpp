@@ -81,7 +81,7 @@ void cVideo::Init_CEGUI(void) const
 {
     // create renderer
     try {
-        pGuiRenderer = &CEGUI::OpenGLRenderer::create(CEGUI::Size(screen->w, screen->h));
+        pGuiRenderer = &CEGUI::OpenGLRenderer::create(CEGUI::Size(mp_window->getSize().x, mp_window->getSize().y));
     }
     // catch CEGUI Exceptions
     catch (CEGUI::Exception& ex) {

@@ -276,9 +276,6 @@ namespace TSC {
     extern CEGUI::OpenGLRenderer* pGuiRenderer;
     extern CEGUI::System* pGuiSystem;
 
-// Screen
-    extern SDL_Surface* screen;
-
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace TSC
