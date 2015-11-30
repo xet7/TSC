@@ -60,7 +60,7 @@ namespace TSC {
         // Initialize the basic CEGUI data and configuration
         void Init_CEGUI_Data(void) const;
         // Initialize all the SDL systems
-        //void Init_SDL(void);
+        void Init_SDL(void);
         /* Initialize the screen surface
          * reload_textures_from_file: if set reloads all textures from the original file
          * use_preferences: if set use user preferences settings
@@ -160,7 +160,7 @@ namespace TSC {
          * mipmap : create texture mipmaps
          * force_width/height : force the given width and height
         */
-        cGL_Surface* Create_Texture(SDL_Surface* surface, bool mipmap = 0, unsigned int force_width = 0, unsigned int force_height = 0) const;
+        cGL_Surface* Create_Texture(sf::Image* p_sf_image, bool mipmap = 0, unsigned int force_width = 0, unsigned int force_height = 0) const;
 
         /* Copy pixels to the bound GL texture
          * mipmap : create texture mipmaps
