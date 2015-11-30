@@ -76,6 +76,9 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** Functions *** *** *** *** *** *** *** *** *** *** */
 
+    /// Return the number of milliseconds since the start of TSC.
+    uint32_t TSC_GetTicks();
+
 // Handle game events
     void Handle_Game_Events(void);
 // Handle generic game events
