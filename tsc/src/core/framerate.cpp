@@ -15,6 +15,7 @@
 */
 
 #include "../core/global_basic.hpp"
+#include "game_core.hpp"
 #include "../core/framerate.hpp"
 #include "../core/math/utilities.hpp"
 
