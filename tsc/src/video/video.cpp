@@ -173,20 +173,22 @@ void cVideo::Init_CEGUI_Data(void) const
 
 void cVideo::Init_SDL(void)
 {
+    /*
     if (SDL_Init(SDL_INIT_VIDEO) == -1) {
         cerr << "Error : SDL initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         exit(EXIT_FAILURE);
-    }
+        } */
 
     atexit(SDL_Quit);
 
+    /*
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) == -1) {
         cerr << "Warning : SDL Joystick initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         m_joy_init_failed = 1;
     }
     else {
         m_joy_init_failed = 0;
-    }
+        }*/
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) {
         cerr << "Warning : SDL Audio initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
@@ -197,11 +199,11 @@ void cVideo::Init_SDL(void)
     }
 
     // preload the sdl_image png library
-    IMG_Init(IMG_INIT_PNG);
+    //IMG_Init(IMG_INIT_PNG);
 
-    SDL_EnableUNICODE(1);
+    //SDL_EnableUNICODE(1);
     // hide by default
-    SDL_ShowCursor(SDL_DISABLE);
+    //SDL_ShowCursor(SDL_DISABLE);
 }
 
 void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_preferences /* = true */)

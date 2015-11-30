@@ -269,7 +269,7 @@ void Init_Game(void)
     else
         pPackage_Manager->Set_Current_Package(pPreferences->m_package);
     // video init
-    //pVideo->Init_SDL();
+    pVideo->Init_SDL();
     pVideo->Init_Video();
     pVideo->Init_CEGUI();
     pVideo->Init_CEGUI_Data();
@@ -484,7 +484,7 @@ void Exit_Game(void)
     }
 
     // unload the sdl_image preloaded libraries
-    IMG_Quit();
+    //IMG_Quit();
 
     SDL_Quit();
 }
