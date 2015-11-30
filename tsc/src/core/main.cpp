@@ -624,7 +624,7 @@ void Update_Game(void)
     pAudio->Update();
 
     // performance measuring
-    pFramerate->m_perf_last_ticks = SDL_GetTicks();
+    pFramerate->m_perf_last_ticks = TSC_GetTicks();
 
     // ## update
     if (Game_Mode == MODE_LEVEL) {
@@ -652,7 +652,7 @@ void Draw_Game(void)
     }
 
     // performance measuring
-    pFramerate->m_perf_last_ticks = SDL_GetTicks();
+    pFramerate->m_perf_last_ticks = TSC_GetTicks();
 
     if (Game_Mode == MODE_LEVEL) {
         pLevel_Manager->Draw();
