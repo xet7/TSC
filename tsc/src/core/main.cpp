@@ -612,10 +612,10 @@ void Update_Game(void)
     Handle_Game_Events();
 
     // ## input
-    while (SDL_PollEvent(&input_event)) {
-        // handle
-        Handle_Input_Global(&input_event);
-    }
+    // OLD while (SDL_PollEvent(&input_event)) {
+    // OLD     // handle
+    // OLD     Handle_Input_Global(&input_event);
+    // OLD }
 
     pMouseCursor->Update();
 
