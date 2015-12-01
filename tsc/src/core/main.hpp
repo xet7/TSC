@@ -32,7 +32,7 @@ namespace TSC {
      * Calls either KeyDown, KeyUp, or passes control to pMouseCursor or pJoystick
      * Returns true if the event was handled.
     */
-    bool Handle_Input_Global(SDL_Event* ev);
+    bool Handle_Input_Global(sf::Event* ev);
 
     /* Update current game state
      * Should be called continuously from Game Loop.

@@ -59,7 +59,7 @@ int game_res_h = 600;
 bool game_debug = 0;
 bool game_debug_performance = 0;
 
-SDL_Event input_event;
+sf::Event input_event;
 
 float global_upscalex = 1.0f;
 float global_upscaley = 1.0f;

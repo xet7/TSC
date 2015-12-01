@@ -489,7 +489,7 @@ void Exit_Game(void)
     SDL_Quit();
 }
 
-bool Handle_Input_Global(SDL_Event* ev)
+bool Handle_Input_Global(sf::Event* ev)
 {
     switch (ev->type) {
     case SDL_QUIT: {
@@ -612,10 +612,10 @@ void Update_Game(void)
     Handle_Game_Events();
 
     // ## input
-    // OLD while (SDL_PollEvent(&input_event)) {
-    // OLD     // handle
-    // OLD     Handle_Input_Global(&input_event);
-    // OLD }
+    while (pVideo->mp_window->pollEvent(input_event)) {
+        // handle
+        Handle_Input_Global(&input_event);
+    }
 
     pMouseCursor->Update();
 
