@@ -15,6 +15,7 @@
 */
 
 #include "../core/global_basic.hpp"
+#include "game_core.hpp"
 #include "../core/framerate.hpp"
 #include "../core/math/utilities.hpp"
 
@@ -45,7 +46,7 @@ void cPerformance_Timer::Update(void)
     frame_counter++;
 
     // add milliseconds
-    Uint32 new_ticks = SDL_GetTicks();
+    Uint32 new_ticks = TSC_GetTicks();
     ms_counter += new_ticks - pFramerate->m_perf_last_ticks;
     pFramerate->m_perf_last_ticks = new_ticks;
 
@@ -103,7 +104,7 @@ void cFramerate::Init(const float target_fps /* = speedfactor_fps */)
 
 void cFramerate::Update(void)
 {
-    const Uint32 current_ticks = SDL_GetTicks();
+    const Uint32 current_ticks = TSC_GetTicks();
 
     // if speed factor is forced
     if (!Is_Float_Equal(m_force_speed_factor, 0.0f)) {
@@ -162,7 +163,7 @@ void cFramerate::Update(void)
 
 void cFramerate::Reset(void)
 {
-    m_last_ticks = SDL_GetTicks();
+    m_last_ticks = TSC_GetTicks();
     m_elapsed_ticks = 1;
     m_speed_factor = 0.001f;
     m_fps_best = 0;
@@ -200,11 +201,11 @@ bool Is_Frame_Time(const unsigned int fps)
 {
     static Uint32 static_time = 0;
 
-    if (SDL_GetTicks() - static_time < 1000 / fps) {
+    if (TSC_GetTicks() - static_time < 1000 / fps) {
         return 0;
     }
 
-    static_time = SDL_GetTicks();
+    static_time = TSC_GetTicks();
     return 1;
 }
 

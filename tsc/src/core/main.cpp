@@ -484,7 +484,7 @@ void Exit_Game(void)
     }
 
     // unload the sdl_image preloaded libraries
-    IMG_Quit();
+    //IMG_Quit();
 
     SDL_Quit();
 }
@@ -612,10 +612,10 @@ void Update_Game(void)
     Handle_Game_Events();
 
     // ## input
-    while (SDL_PollEvent(&input_event)) {
-        // handle
-        Handle_Input_Global(&input_event);
-    }
+    // OLD while (SDL_PollEvent(&input_event)) {
+    // OLD     // handle
+    // OLD     Handle_Input_Global(&input_event);
+    // OLD }
 
     pMouseCursor->Update();
 
@@ -624,7 +624,7 @@ void Update_Game(void)
     pAudio->Update();
 
     // performance measuring
-    pFramerate->m_perf_last_ticks = SDL_GetTicks();
+    pFramerate->m_perf_last_ticks = TSC_GetTicks();
 
     // ## update
     if (Game_Mode == MODE_LEVEL) {
@@ -652,7 +652,7 @@ void Draw_Game(void)
     }
 
     // performance measuring
-    pFramerate->m_perf_last_ticks = SDL_GetTicks();
+    pFramerate->m_perf_last_ticks = TSC_GetTicks();
 
     if (Game_Mode == MODE_LEVEL) {
         pLevel_Manager->Draw();

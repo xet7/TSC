@@ -74,8 +74,23 @@ bool editor_world_enabled = 0;
 cCamera* pActive_Camera = NULL;
 cSprite* pActive_Player = NULL;
 
+// Exact point in time when we started this program (used in TSC_GetTicks()).
+static const std::chrono::steady_clock::time_point s_initial_time = std::chrono::steady_clock::now();
 
 /* *** *** *** *** *** *** *** Functions *** *** *** *** *** *** *** *** *** *** */
+
+/**
+ * Returns the number of milliseconds that have passed since TSC
+ * was started.
+ * This emulates the behaviour of SDL_GetTicks() for legacy code
+ * reasons; see SDL_GetTicks documentation at https://wiki.libsdl.org/SDL_GetTicks.
+ */
+uint32_t TSC_GetTicks()
+{
+    std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
+    std::chrono::milliseconds result = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - s_initial_time);
+    return static_cast<uint32_t>(result.count()); // heaven knows what type duration::count() actually returns... Let’s hope this works.
+}
 
 void Handle_Game_Events(void)
 {

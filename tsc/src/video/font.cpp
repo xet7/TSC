@@ -115,23 +115,28 @@ void cFont_Manager::Delete_Ref(cGL_Surface* surface)
 
 cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
 {
-    // get SDL Color
-    SDL_Color sdlcolor = color.Get_SDL_Color();
-    // create text surface
-    cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
+    std::cerr << "WARNING: cFont_Manager::Render_Text() not yet ported to SFML." << std::endl;
 
-    if (!surface) {
-        return NULL;
-    }
+    // HACK to satisfy return value
+    return pVideo->Load_GL_Surface("game/arrow/small/blue/right.png");
 
-    surface->m_path = utf8_to_path(text);
-
-    // set function if font gets deleted
-    surface->Set_Destruction_Function(&Font_Delete_Ref);
-    // add font to active fonts
-    Add_Ref(surface);
-
-    return surface;
+    // OLD // get SDL Color
+    // OLD SDL_Color sdlcolor = color.Get_SDL_Color();
+    // OLD // create text surface
+    // OLD cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
+    // OLD 
+    // OLD if (!surface) {
+    // OLD     return NULL;
+    // OLD }
+    // OLD 
+    // OLD surface->m_path = utf8_to_path(text);
+    // OLD 
+    // OLD // set function if font gets deleted
+    // OLD surface->Set_Destruction_Function(&Font_Delete_Ref);
+    // OLD // add font to active fonts
+    // OLD Add_Ref(surface);
+    // OLD 
+    // OLD return surface;
 }
 
 void cFont_Manager::Grab_Textures(void)

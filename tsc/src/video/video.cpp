@@ -43,6 +43,7 @@ namespace TSC {
 
 cVideo::cVideo(void)
 {
+    mp_window = NULL;
     m_opengl_version = 0;
 
     m_double_buffer = 0;
@@ -59,7 +60,7 @@ cVideo::cVideo(void)
     m_geometry_quality = cPreferences::m_geometry_quality_default;
     m_texture_quality = cPreferences::m_texture_quality_default;
 
-    SDL_VERSION(&wm_info.version);
+    //SDL_VERSION(&wm_info.version);
 #ifdef __unix__
     glx_context = NULL;
 #endif
@@ -70,14 +71,17 @@ cVideo::cVideo(void)
 
 cVideo::~cVideo(void)
 {
-
+    if (mp_window) {
+        delete mp_window;
+        mp_window = NULL;
+    }
 }
 
 void cVideo::Init_CEGUI(void) const
 {
     // create renderer
     try {
-        pGuiRenderer = &CEGUI::OpenGLRenderer::create(CEGUI::Size(screen->w, screen->h));
+        pGuiRenderer = &CEGUI::OpenGLRenderer::create(CEGUI::Size(mp_window->getSize().x, mp_window->getSize().y));
     }
     // catch CEGUI Exceptions
     catch (CEGUI::Exception& ex) {
@@ -112,9 +116,8 @@ void cVideo::Init_CEGUI(void) const
 #endif
 
     // set initial mouse position
-    int mouse_x, mouse_y;
-    SDL_GetMouseState(&mouse_x, &mouse_y);
-    CEGUI::MouseCursor::setInitialMousePosition(CEGUI::Point(mouse_x, mouse_y));
+    sf::Vector2i mousepos = sf::Mouse::getPosition();
+    CEGUI::MouseCursor::setInitialMousePosition(CEGUI::Point(mousepos.x, mousepos.y));
     // add custom widgets
     CEGUI::WindowFactoryManager::addFactory<CEGUI::TSC_SpinnerFactory>();
 
@@ -169,20 +172,22 @@ void cVideo::Init_CEGUI_Data(void) const
 
 void cVideo::Init_SDL(void)
 {
+    /*
     if (SDL_Init(SDL_INIT_VIDEO) == -1) {
         cerr << "Error : SDL initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         exit(EXIT_FAILURE);
-    }
+        } */
 
     atexit(SDL_Quit);
 
+    /*
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) == -1) {
         cerr << "Warning : SDL Joystick initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
         m_joy_init_failed = 1;
     }
     else {
         m_joy_init_failed = 0;
-    }
+        }*/
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) {
         cerr << "Warning : SDL Audio initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
@@ -193,129 +198,58 @@ void cVideo::Init_SDL(void)
     }
 
     // preload the sdl_image png library
-    IMG_Init(IMG_INIT_PNG);
+    //IMG_Init(IMG_INIT_PNG);
 
-    SDL_EnableUNICODE(1);
+    //SDL_EnableUNICODE(1);
     // hide by default
-    SDL_ShowCursor(SDL_DISABLE);
+    //SDL_ShowCursor(SDL_DISABLE);
 }
 
-void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_preferences /* = 1 */)
+void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_preferences /* = true */)
 {
     Render_Finish();
 
-    // set the video flags
-    int flags = SDL_OPENGL | SDL_SWSURFACE;
-
-    // only enter fullscreen if set in preferences
-    if (use_preferences && pPreferences->m_video_fullscreen) {
-        flags |= SDL_FULLSCREEN;
-    }
-
-    int screen_w, screen_h, screen_bpp;
-
-    // full initialization
+    sf::VideoMode videomode(800, 600, 16); // defaults
+    sf::VideoMode desktopmode(sf::VideoMode::getDesktopMode());
     if (use_preferences) {
-        screen_w = pPreferences->m_video_screen_w;
-        screen_h = pPreferences->m_video_screen_h;
-        screen_bpp = pPreferences->m_video_screen_bpp;
-    }
-    // initialization with SDL defaults
-    else {
-        screen_w = 800;
-        screen_h = 600;
-        screen_bpp = 16;
-    }
+        videomode.width        = pPreferences->m_video_screen_w;
+        videomode.height       = pPreferences->m_video_screen_h;
+        videomode.bitsPerPixel = pPreferences->m_video_screen_bpp;
 
-    // first initialization
-    if (!m_initialised) {
-        // Set Caption
-        SDL_WM_SetCaption(CAPTION, NULL);
-        // Set Icon
-        boost::filesystem::path filename_icon = pResource_Manager->Get_Game_Icon("window_icon.png");
-        if (File_Exists(filename_icon)) {
-            SDL_Surface* icon = IMG_Load(path_to_utf8(filename_icon).c_str());
-            SDL_WM_SetIcon(icon, NULL);
-            SDL_FreeSurface(icon);
-        }
-        else {
-            cerr << "Warning: Window icon '" << path_to_utf8(filename_icon) << "' does not exist" << endl;
-        }
+        // Emulate old SDL behaviour for user preferences of value 0
+        if (videomode.width == 0)
+            videomode.width = desktopmode.width;
+        if (videomode.height == 0)
+            videomode.height = desktopmode.height;
     }
 
     // test screen mode
-    int screen_test = Test_Video(screen_w, screen_h, screen_bpp, flags);
-
-    // failed
-    if (screen_test == 0) {
-        cerr << "Warning : Video Resolution " << screen_w << "x" << screen_h << " is not supported" << endl;
+    if (!videomode.isValid()) {
+        cerr << "Warning : Video Resolution " << videomode.width << "x" << videomode.height << " is not supported" << endl;
+        cerr << "Falling back to lowest available settings." << endl;
 
         // set lowest available settings
-        screen_w = 640;
-        screen_h = 480;
-        screen_bpp = 0;
+        videomode.width = 640;
+        videomode.height = 480;
+        videomode.bitsPerPixel = 16;
 
         // overwrite user settings
         if (use_preferences) {
-            pPreferences->m_video_screen_w = screen_w;
-            pPreferences->m_video_screen_h = screen_h;
-        }
-    }
-    // can not handle bits per pixel
-    else if (screen_test > 1 && screen_bpp > 0 && screen_test < screen_bpp) {
-        cerr << "Warning : Video Bpp " << screen_bpp << " is not supported but " << screen_test << " is" << endl;
-        // set closest supported bpp
-        screen_bpp = screen_test;
-
-        // overwrite user settings
-        if (use_preferences) {
-            pPreferences->m_video_screen_bpp = screen_bpp;
+            pPreferences->m_video_screen_w = videomode.width;
+            pPreferences->m_video_screen_h = videomode.height;
         }
     }
 
-    int screen_rgb_size[3];
+    // TODO: Fullscreen?
 
-    // set bit per pixel sizes
-    if (screen_bpp == 8) {
-        screen_rgb_size[0] = 3;
-        screen_rgb_size[1] = 3;
-        screen_rgb_size[2] = 2;
-    }
-    else if (screen_bpp == 15) {
-        screen_rgb_size[0] = 5;
-        screen_rgb_size[1] = 5;
-        screen_rgb_size[2] = 5;
-    }
-    else if (screen_bpp == 24) {
-        screen_rgb_size[0] = 8;
-        screen_rgb_size[1] = 8;
-        screen_rgb_size[2] = 8;
-    }
-    // same as 24...
-    else if (screen_bpp == 32) {
-        screen_rgb_size[0] = 8;
-        screen_rgb_size[1] = 8;
-        screen_rgb_size[2] = 8;
-    }
-    else { // 16 and default
-        screen_rgb_size[0] = 5;
-        screen_rgb_size[1] = 6;
-        screen_rgb_size[2] = 5;
-    }
+    mp_window = new sf::Window(videomode, CAPTION);
+    mp_window->setMouseCursorVisible(false);
 
-    // request settings
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, screen_rgb_size[0]);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, screen_rgb_size[1]);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, screen_rgb_size[2]);
-    // hangs on 16 bit
-    //SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
-    // not yet needed
-    //SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    // if vertical synchronization is enabled
     if (use_preferences && pPreferences->m_video_vsync) {
-        SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+        mp_window->setVerticalSyncEnabled(true);
     }
+
+    // TODO: Icon? Icon is available as pResource_Manager->Get_Game_Icon("window_icon.png");
 
     // if reinitialization
     if (m_initialised) {
@@ -339,80 +273,15 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_prefe
         }
     }
 
-    // Note: As of SDL 1.2.10, if width and height are both 0, SDL_SetVideoMode will use the desktop resolution.
-    screen = SDL_SetVideoMode(screen_w, screen_h, screen_bpp, flags);
-
-    if (!screen) {
-        cerr << "Error : Screen mode creation failed" << endl << "Reason : " << SDL_GetError() << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // check if fullscreen got set
-    if (use_preferences && pPreferences->m_video_fullscreen) {
-        bool is_fullscreen = ((screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN);
-
-        if (!is_fullscreen) {
-            cerr << "Warning : Fullscreen mode could not be set" << endl;
-        }
-    }
-
-    // check if double buffering got set
-    int is_double_buffer;
-    SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &is_double_buffer);
-    m_double_buffer = is_double_buffer > 0;
-
-    if (!m_double_buffer) {
-        // only important on full initialization
-        if (use_preferences) {
-            cerr << "Warning : Double Buffering could not be set" << endl;
-        }
-    }
-
-    // check if vertical synchronization got set
-    if (use_preferences && pPreferences->m_video_vsync) {
-        int is_vsync;
-        // seems to return always true even if not available
-        SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &is_vsync);
-
-        if (!is_vsync) {
-            cerr << "Warning : VSync could not be set" << endl;
-        }
-    }
-
-    // get color bit size
-    SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &m_rgb_size[0]);
-    SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &m_rgb_size[1]);
-    SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &m_rgb_size[2]);
-
-    // check if color bit size is set as wanted
-    if (use_preferences) {
-        if (m_rgb_size[0] < screen_rgb_size[0]) {
-            cerr << "Warning : smaller red bit size " << m_rgb_size[0] << " as requested " << screen_rgb_size[0] << endl;
-        }
-
-        if (m_rgb_size[1] < screen_rgb_size[1]) {
-            cerr << "Warning : smaller green bit size " << m_rgb_size[1] << " as requested " << screen_rgb_size[1] << endl;
-        }
-
-        if (m_rgb_size[2] < screen_rgb_size[2]) {
-            cerr << "Warning : smaller blue bit size " << m_rgb_size[2] << " as requested " << screen_rgb_size[2] << endl;
-        }
-    }
+    // For backward compatibility with old SDL. SFML is always
+    // double-buffered.
+    m_double_buffer = true;
 
     // remember default buffer
     glGetIntegerv(GL_DRAW_BUFFER, &m_default_buffer);
     // get maximum texture size
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_max_texture_size);
 
-    /* check if accelerated visual
-    int accelerated = 0;
-    SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL, &accelerated );
-    printf( "accel %d\n", accelerated );*/
-
-    // get window manager information
-    if (!SDL_GetWMInfo(&wm_info)) {
-        cerr << "Error: SDL_GetWMInfo not implemented" << endl;
-    }
 #ifdef __unix__
     // get context
     glx_context = glXGetCurrentContext();
@@ -433,7 +302,7 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = 0 */, bool use_prefe
         pFont->Restore_Textures();
 
         // send new size to CEGUI
-        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(screen_w), static_cast<float>(screen_h)));
+        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(videomode.width), static_cast<float>(videomode.height)));
 
         // check if CEGUI is initialized
         bool cegui_initialized = pGuiSystem->getGUISheet() != NULL;
@@ -539,7 +408,8 @@ void cVideo::Init_OpenGL(void)
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    SDL_GL_SwapBuffers();
+    // Swap buffers
+    mp_window->display();
 }
 
 void cVideo::Init_Geometry(void)
@@ -632,7 +502,7 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
                 if (draw_gui) {
                     // caching failed
                     Loading_Screen_Draw_Text(_("Caching Images failed : Could not remove old images"));
-                    SDL_Delay(2000);
+                    sleep(2);
                 }
             }
         }
@@ -697,11 +567,11 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
 
         // load software image
         cSoftware_Image software_image = Load_Image(filename);
-        SDL_Surface* sdl_surface = software_image.m_sdl_surface;
+        sf::Image* p_sf_image = software_image.m_sf_image;
         cImage_Settings_Data* settings = software_image.m_settings;
 
         // failed to load image
-        if (!sdl_surface) {
+        if (!p_sf_image) {
             continue;
         }
 
@@ -716,15 +586,15 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
             else {
                 debug_print("Info : %s has no image settings and will not get cached\n", cache_filename.c_str());
             }
-            SDL_FreeSurface(sdl_surface);
+            delete p_sf_image;
             continue;
         }
 
         // create final image
-        sdl_surface = Convert_To_Final_Software_Image(sdl_surface);
+        p_sf_image = Convert_To_Final_Software_Image(p_sf_image);
 
         // get final size for this resolution
-        cSize_Int size = settings->Get_Surface_Size(sdl_surface);
+        cSize_Int size = settings->Get_Surface_Size(p_sf_image);
         delete settings;
         int new_width = size.m_width;
         int new_height = size.m_height;
@@ -733,21 +603,23 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
         Apply_Max_Texture_Size(new_width, new_height);
 
         // does not need to be downsampled
-        if (new_width >= sdl_surface->w && new_height >= sdl_surface->h) {
-            SDL_FreeSurface(sdl_surface);
+        if (new_width >= p_sf_image->getSize().x && new_height >= p_sf_image->getSize().y) {
+            delete p_sf_image;
+            p_sf_image = NULL;
             continue;
         }
 
         // calculate block reduction
-        int reduce_block_x = sdl_surface->w / new_width;
-        int reduce_block_y = sdl_surface->h / new_height;
+        int reduce_block_x = p_sf_image->getSize().x / new_width;
+        int reduce_block_y = p_sf_image->getSize().y / new_height;
 
         // create downsampled image
-        unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
+        // unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
+        unsigned int image_bpp = 8; // HACK: SFML has no possibility to retrieve the BPP of an image. However, TSC's images appear all to have 8 BPP (quick test using file(1)). The docs of sf::Image::getPixelsPtr() guarantee 8 bit anyway.
         unsigned char* image_downsampled = new unsigned char[new_width * new_height * image_bpp];
-        bool downsampled = Downscale_Image(static_cast<unsigned char*>(sdl_surface->pixels), sdl_surface->w, sdl_surface->h, image_bpp, image_downsampled, reduce_block_x, reduce_block_y);
+        bool downsampled = Downscale_Image(static_cast<const unsigned char*>(p_sf_image->getPixelsPtr()), p_sf_image->getSize().x, p_sf_image->getSize().y, image_bpp, image_downsampled, reduce_block_x, reduce_block_y);
 
-        SDL_FreeSurface(sdl_surface);
+        delete p_sf_image;
 
         // if image is available
         if (downsampled) {
@@ -770,17 +642,17 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
             // update progress
             progress_bar->setProgress(static_cast<float>(loaded_files) / static_cast<float>(file_count));
 
-#ifdef _DEBUG
-            // update filename
-            cGL_Surface* surface_filename = pFont->Render_Text(pFont->m_font_small, path_to_utf8(filename), white);
-            // draw filename
-            surface_filename->Blit(game_res_w * 0.2f, game_res_h * 0.8f, 0.1f);
-#endif
+// OLD #ifdef _DEBUG
+// OLD             // update filename
+// OLD             cGL_Surface* surface_filename = pFont->Render_Text(pFont->m_font_small, path_to_utf8(filename), white);
+// OLD             // draw filename
+// OLD             surface_filename->Blit(game_res_w * 0.2f, game_res_h * 0.8f, 0.1f);
+// OLD #endif
             Loading_Screen_Draw();
-#ifdef _DEBUG
-            // delete
-            delete surface_filename;
-#endif
+// OLD #ifdef _DEBUG
+// OLD             // delete
+// OLD             delete surface_filename;
+// OLD #endif
         }
     }
 
@@ -792,53 +664,46 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
 
 int cVideo::Test_Video(int width, int height, int bpp, int flags /* = 0 */) const
 {
-    // auto set the video flags
-    if (!flags) {
-        flags = SDL_OPENGL | SDL_SWSURFACE;
+    // flags are not supported by SFML
+    // OLD // auto set the video flags
+    // OLD if (!flags) {
+    // OLD     flags = SDL_OPENGL | SDL_SWSURFACE;
+    // OLD 
+    // OLD     // if fullscreen is set
+    // OLD     if (pPreferences->m_video_fullscreen) {
+    // OLD         flags |= SDL_FULLSCREEN;
+    // OLD     }
+    // OLD }
 
-        // if fullscreen is set
-        if (pPreferences->m_video_fullscreen) {
-            flags |= SDL_FULLSCREEN;
-        }
-    }
-
-    return SDL_VideoModeOK(width, height, bpp, flags);
+    return sf::VideoMode(width, height, bpp).isValid();
 }
 
 vector<cSize_Int> cVideo::Get_Supported_Resolutions(int flags /* = 0 */) const
 {
     vector<cSize_Int> valid_resolutions;
 
-    // auto set the video flags
-    if (!flags) {
-        // always set fullscreen
-        flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
-    }
+    // flags are not supported by SFML
+    // OLD // auto set the video flags
+    // OLD if (!flags) {
+    // OLD     // always set fullscreen
+    // OLD     flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
+    // OLD }
 
-    SDL_Rect** modes = SDL_ListModes(NULL, flags);
-    bool create_default_list = 0;
+    const std::vector<sf::VideoMode>& valid_modes = sf::VideoMode::getFullscreenModes();
 
-    // no dimension is available
-    if (modes == NULL) {
-        create_default_list = 1;
-    }
-    // any dimension is allowed
-    else if (modes == (SDL_Rect**)-1) {
-        create_default_list = 1;
-    }
-    else {
-        for (int i = 0; modes[i]; ++i) {
-            valid_resolutions.push_back(cSize_Int(modes[i]->w, modes[i]->h));
-        }
-    }
-
-    if (create_default_list) {
+    if (valid_modes.empty()) {
         valid_resolutions.push_back(cSize_Int(2048, 1536));
         valid_resolutions.push_back(cSize_Int(1600, 1200));
         valid_resolutions.push_back(cSize_Int(1280, 1024));
         valid_resolutions.push_back(cSize_Int(1024, 768));
         valid_resolutions.push_back(cSize_Int(800, 600));
         valid_resolutions.push_back(cSize_Int(640, 480));
+    }
+    else {
+        std::vector<sf::VideoMode>::const_iterator iter;
+        for(iter=valid_modes.begin(); iter != valid_modes.end(); iter++) {
+            valid_resolutions.push_back(cSize_Int((*iter).width, (*iter).height));
+        }
     }
 
     return valid_resolutions;
@@ -853,14 +718,14 @@ void cVideo::Make_GL_Context_Current(void)
     }
 #elif __unix__
     if (glx_context != NULL) {
-        glXMakeCurrent(wm_info.info.x11.gfxdisplay, wm_info.info.x11.window, glx_context);
+        // OLD glXMakeCurrent(wm_info.info.x11.gfxdisplay, wm_info.info.x11.window, glx_context);
     }
 #elif __APPLE__
     // party time
 #endif
 
     // update info (needed?)
-    SDL_GetWMInfo(&wm_info);
+    //SDL_GetWMInfo(&wm_info);
 }
 
 void cVideo::Make_GL_Context_Inactive(void)
@@ -868,13 +733,13 @@ void cVideo::Make_GL_Context_Inactive(void)
 #ifdef _WIN32
     wglMakeCurrent(NULL, NULL);
 #elif __unix__
-    glXMakeCurrent(wm_info.info.x11.gfxdisplay, None, NULL);
+    // OLD glXMakeCurrent(wm_info.info.x11.gfxdisplay, None, NULL);
 #elif __APPLE__
     // party time
 #endif
 
     // update info (needed?)
-    SDL_GetWMInfo(&wm_info);
+    //SDL_GetWMInfo(&wm_info);
 }
 
 void cVideo::Render_From_Thread(void)
@@ -900,7 +765,7 @@ void cVideo::Render(bool threaded /* = 0 */)
         // update performance timer
         pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
 
-        SDL_GL_SwapBuffers();
+        mp_window->display();
 
         // update performance timer
         pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->Update();
@@ -933,7 +798,7 @@ void cVideo::Render(bool threaded /* = 0 */)
         // update performance timer
         pFramerate->m_perf_timer[PERF_RENDER_GUI]->Update();
 
-        SDL_GL_SwapBuffers();
+        mp_window->display();
 
         // update performance timer
         pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->Update();
@@ -969,7 +834,7 @@ void cVideo::Toggle_Fullscreen(void)
     Init_Video();
 #else
     // works only for X11 platforms
-    SDL_WM_ToggleFullScreen(screen);
+    // OLD SDL_WM_ToggleFullScreen(screen);
 #endif
 
     // set back clear color
@@ -1048,7 +913,8 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
     }
 
     cSoftware_Image software_image = cSoftware_Image();
-    SDL_Surface* sdl_surface = NULL;
+    sf::Image* p_sf_image = new sf::Image();
+    bool successfully_loaded = false;
     cImage_Settings_Data* settings = NULL;
 
     // load settings if available
@@ -1075,7 +941,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
 
             // check if image cache file exists
             if (!img_filename_cache.empty() && fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))
-                sdl_surface = IMG_Load(path_to_utf8(img_filename_cache).c_str());
+                successfully_loaded = p_sf_image->loadFromFile(path_to_utf8(img_filename_cache));
             // image given in base settings
             else if (!settings->m_base.empty()) {
                 // use current directory
@@ -1092,30 +958,31 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
                         img_filename = fs::absolute(img_filename, pResource_Manager->Get_Game_Pixmaps_Directory());
                 }
 
-                sdl_surface = IMG_Load(path_to_utf8(img_filename).c_str());
+                successfully_loaded = p_sf_image->loadFromFile(path_to_utf8(img_filename));
             }
         }
     }
 
     // if not set in image settings and file exists
-    if (!sdl_surface && exists(filename) && (!settings || settings->m_base.empty())) {
-        sdl_surface = IMG_Load(path_to_utf8(filename).c_str());
+    if (!successfully_loaded && exists(filename) && (!settings || settings->m_base.empty())) {
+        successfully_loaded = p_sf_image->loadFromFile(path_to_utf8(filename));
     }
 
-    if (!sdl_surface) {
+    if (!successfully_loaded) {
         if (settings) {
             delete settings;
             settings = NULL;
         }
 
         if (print_errors) {
-            cerr << "Error loading image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
+            cerr << "Error loading image : " << path_to_utf8(filename) << endl << endl;
         }
 
+        delete p_sf_image;
         return software_image;
     }
 
-    software_image.m_sdl_surface = sdl_surface;
+    software_image.m_sf_image = p_sf_image;
     software_image.m_settings = settings;
     return software_image;
 }
@@ -1148,7 +1015,7 @@ cGL_Surface* cVideo :: Load_GL_Surface_Helper(boost::filesystem::path filename, 
 
     // load software image
     cSoftware_Image software_image = Load_Image_Helper(filename, use_settings, print_errors, package);
-    SDL_Surface* sdl_surface = software_image.m_sdl_surface;
+    sf::Image* p_sf_image = software_image.m_sf_image;
     cImage_Settings_Data* settings = software_image.m_settings;
 
     // final surface
@@ -1157,17 +1024,17 @@ cGL_Surface* cVideo :: Load_GL_Surface_Helper(boost::filesystem::path filename, 
     // with settings
     if (settings) {
         // get the size
-        cSize_Int size = settings->Get_Surface_Size(sdl_surface);
+        cSize_Int size = settings->Get_Surface_Size(p_sf_image);
         Apply_Max_Texture_Size(size.m_width, size.m_height);
         // get basic settings surface
-        image = pVideo->Create_Texture(sdl_surface, settings->m_mipmap, size.m_width, size.m_height);
+        image = pVideo->Create_Texture(p_sf_image, settings->m_mipmap, size.m_width, size.m_height);
         // apply settings
         settings->Apply(image);
         delete settings;
     }
     // without settings
     else {
-        image = Create_Texture(sdl_surface);
+        image = Create_Texture(p_sf_image);
     }
     // set filename
     if (image) {
@@ -1175,49 +1042,50 @@ cGL_Surface* cVideo :: Load_GL_Surface_Helper(boost::filesystem::path filename, 
     }
     // print error
     else if (print_errors) {
-        cerr << "Error loading GL surface image : " << path_to_utf8(filename) << endl << "Reason : " << SDL_GetError() << endl;
+        cerr << "Error loading GL surface image" << endl;
     }
 
     return image;
 }
 
-SDL_Surface* cVideo::Convert_To_Final_Software_Image(SDL_Surface* surface) const
+/**
+ * OpenGL only understands textures whose edges each have a length
+ * that is a power of 2. This function ensures that our images fulfill
+ * this requirement; if they don’t already have such edges, `p_sf_image'
+ * is expanded to a size that fits the power-of-2 rule; the newly created
+ * pixels are set to transparency.
+ */
+sf::Image* cVideo::Convert_To_Final_Software_Image(sf::Image* p_sf_image) const
 {
     // get power of two size
-    const unsigned int width = Get_Power_of_2(surface->w);
-    const unsigned int height = Get_Power_of_2(surface->h);
+    sf::Vector2u cursize = p_sf_image->getSize();
+    const unsigned int width = Get_Power_of_2(cursize.x);
+    const unsigned int height = Get_Power_of_2(cursize.y);
 
     // if it needs to be changed
-    if (width != surface->w || height != surface->h || surface->format->BitsPerPixel != 32) {
-        // create power of 2 and 32 bits per pixel surface
-        SDL_Surface* final = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-                             0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-#else
-                             0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-#endif
-
-        // set the entire surface alpha to 0
-        SDL_SetAlpha(surface, 0, SDL_ALPHA_TRANSPARENT);
-        // blit to 32 bit surface
-        SDL_BlitSurface(surface, NULL, final, NULL);
+    if (width != cursize.x || height != cursize.y) {
+        // create power of 2 surface
+        sf::Image* new_image = new sf::Image();
+        new_image->create(width, height, sf::Color::Transparent);
+        // copy over the old image into the new one (i.e., blit it onto it)
+        new_image->copy(*p_sf_image, 0, 0);
         // delete original surface
-        SDL_FreeSurface(surface);
+        delete p_sf_image;
         // set new surface
-        surface = final;
+        p_sf_image = new_image;
     }
 
-    return surface;
+    return p_sf_image;
 }
 
-cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */, unsigned int force_width /* = 0 */, unsigned int force_height /* = 0 */) const
+cGL_Surface* cVideo::Create_Texture(sf::Image* p_sf_image, bool mipmap /* = 0 */, unsigned int force_width /* = 0 */, unsigned int force_height /* = 0 */) const
 {
-    if (!surface) {
+    if (!p_sf_image) {
         return NULL;
     }
 
     // create final image
-    surface = Convert_To_Final_Software_Image(surface);
+    p_sf_image = Convert_To_Final_Software_Image(p_sf_image);
 
     /* todo : Make this a render request because it forces an early thread render finish as opengl commands are used directly.
      * Reduces performance if the render thread is on. It's usually called from the text rendering in cTimeDisplay::Update.
@@ -1231,7 +1099,7 @@ cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */,
     // if image id is 0 it failed
     if (!image_num) {
         cerr << "Error : GL image generation failed" << endl;
-        SDL_FreeSurface(surface);
+        delete p_sf_image;
         return NULL;
     }
 
@@ -1240,8 +1108,8 @@ cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */,
         pImage_Manager->m_high_texture_id = image_num;
     }
 
-    int width = surface->w;
-    int height = surface->h;
+    int width = p_sf_image->getSize().x;
+    int height = p_sf_image->getSize().y;
 
     // forced size is set
     if (force_width > 0 && force_height > 0) {
@@ -1263,19 +1131,26 @@ cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */,
     Apply_Max_Texture_Size(texture_width, texture_height);
 
     // scale to new size
-    if (texture_width != surface->w || texture_height != surface->h) {
-        int reduce_block_x = surface->w / texture_width;
-        int reduce_block_y = surface->h / texture_height;
+    if (texture_width != p_sf_image->getSize().x || texture_height != p_sf_image->getSize().y) {
+        int reduce_block_x = p_sf_image->getSize().x / texture_width;
+        int reduce_block_y = p_sf_image->getSize().y / texture_height;
 
         // create scaled image
-        unsigned char* new_pixels = static_cast<unsigned char*>(SDL_malloc(texture_width * texture_height * 4));
-        Downscale_Image(static_cast<unsigned char*>(surface->pixels), surface->w, surface->h, surface->format->BytesPerPixel, new_pixels, reduce_block_x, reduce_block_y);
-        SDL_free(surface->pixels);
-        surface->pixels = new_pixels;
+        unsigned char* new_pixels = static_cast<unsigned char*>(malloc(texture_width * texture_height * 4));
+        Downscale_Image(static_cast<const unsigned char*>(p_sf_image->getPixelsPtr()), p_sf_image->getSize().x, p_sf_image->getSize().y, 8 /* getPixelsPtr() guarantees 8 BPP */, new_pixels, reduce_block_x, reduce_block_y);
+
+        sf::Image* p_new_image = new sf::Image();
+        p_new_image->create(texture_width, texture_height, static_cast<const uint8_t*>(new_pixels));
+
+        delete p_sf_image;
+        p_sf_image = p_new_image;
+
+        free(new_pixels);
     }
     // set SDL_image pixel store mode
     else {
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel);
+        std::cerr << "WARNING: Not yet to SFML ported call to glPixelStorei() skipped" << std::endl;
+        // OLD: pitch is not supported by SFML // glPixelStorei(GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel);
     }
 
     // use the generated texture
@@ -1287,12 +1162,12 @@ cGL_Surface* cVideo::Create_Texture(SDL_Surface* surface, bool mipmap /* = 0 */,
     // set texture magnification function
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // upload to OpenGL texture
-    Create_GL_Texture(texture_width, texture_height, surface->pixels, mipmap);
+    Create_GL_Texture(texture_width, texture_height, p_sf_image->getPixelsPtr(), mipmap);
 
     // unset pixel store mode
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    // OLD (see corresponding call further above) glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
-    SDL_FreeSurface(surface);
+    delete p_sf_image;
 
     // create OpenGL surface class
     cGL_Surface* image = new cGL_Surface();
@@ -2264,7 +2139,7 @@ void Loading_Screen_Draw(void)
     // Render
     pRenderer->Render();
     pGuiSystem->renderGUI();
-    SDL_GL_SwapBuffers();
+    pVideo->mp_window->display();
 }
 
 void Loading_Screen_Exit(void)
