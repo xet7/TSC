@@ -913,7 +913,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
     }
 
     cSoftware_Image software_image = cSoftware_Image();
-    sf::Image* p_sf_image = NULL;
+    sf::Image* p_sf_image = new sf::Image();
     bool successfully_loaded = false;
     cImage_Settings_Data* settings = NULL;
 
@@ -978,6 +978,7 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
             cerr << "Error loading image : " << path_to_utf8(filename) << endl << endl;
         }
 
+        delete p_sf_image;
         return software_image;
     }
 
