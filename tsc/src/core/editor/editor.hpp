@@ -132,7 +132,7 @@ namespace TSC {
         /* handle key down event
          * returns true if processed
         */
-        virtual bool Key_Down(SDLKey key);
+        virtual bool Key_Down(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */

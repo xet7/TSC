@@ -67,7 +67,7 @@ bool cKeyboard::Key_Up(const sf::Event& evt)
     // handle key in the current mode
     if (Game_Mode == MODE_LEVEL) {
         // got processed
-        if (pActive_Level->Key_Up(key)) {
+        if (pActive_Level->Key_Up(evt)) {
             return 1;
         }
     }
@@ -145,7 +145,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     // handle key in the current mode
     if (Game_Mode == MODE_LEVEL) {
         // processed by the level
-        if (pActive_Level->Key_Down(evt.key.code)) {
+        if (pActive_Level->Key_Down(evt)) {
             return 1;
         }
     }

@@ -546,26 +546,26 @@ bool cEditor::Handle_Event(SDL_Event* ev)
     return 0;
 }
 
-bool cEditor::Key_Down(SDLKey key)
+bool cEditor::Key_Down(const sf::Event& evt)
 {
     if (!m_enabled) {
         return 0;
     }
 
     // New level
-    if (key == SDLK_n && pKeyboard->Is_Ctrl_Down()) {
+    if (evt.key.code == sf::Keyboard::N && evt.control) {
         Function_New();
     }
     // Save
-    else if (key == SDLK_s && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::S && evt.control) {
         Function_Save();
     }
     // Save as
-    else if (key == SDLK_s && pKeyboard->Is_Ctrl_Down() && pKeyboard->Is_Shift_Down()) {
+    else if (evt.key.code == sf::Keyboard::S && evt.control && evt.shift) {
         Function_Save_as();
     }
     // help
-    else if (key == SDLK_F1) {
+    else if (evt.key.code == sf::Keyboard::F1) {
         if (CEGUI::WindowManager::getSingleton().isWindowPresent("editor_help_window")) {
             Window_Help_Exit_Clicked(CEGUI::EventArgs());
         }
@@ -641,26 +641,26 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // focus level start
-    else if (key == SDLK_HOME) {
+    else if (evt.key.code == sf::Keyboard::Home) {
         pActive_Camera->Reset_Pos();
     }
     // move camera one screen to the right
-    else if (key == SDLK_n) {
+    else if (evt.key.code == sf::Keyboard::N) {
         pActive_Camera->Move(static_cast<float>(game_res_w), 0);
     }
     // move camera one screen to the left
-    else if (key == SDLK_p) {
+    else if (evt.key.code == sf::Keyboard::P) {
         pActive_Camera->Move(-static_cast<float>(game_res_w), 0);
     }
     // move camera to position
-    else if (key == SDLK_g && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::G && evt.control) {
         int pos_x = string_to_int(Box_Text_Input(int_to_string(static_cast<int>(pActive_Camera->m_x)), "Position X", 1));
         int pos_y = string_to_int(Box_Text_Input(int_to_string(static_cast<int>(pActive_Camera->m_y)), "Position Y", 1));
 
         pActive_Camera->Set_Pos(static_cast<float>(pos_x), static_cast<float>(pos_y));
     }
     // push selected objects into the front
-    else if (key == SDLK_KP_PLUS) {
+    else if (evt.key.code == sf::Keyboard::Add) {
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
             cSelectedObject* sel_obj = (*itr);
 
@@ -673,7 +673,7 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // push selected objects into the back
-    else if (key == SDLK_KP_MINUS) {
+    else if (evt.key.code == sf::Keyboard::Minus) {
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
             cSelectedObject* sel_obj = (*itr);
 
@@ -686,19 +686,19 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // copy into direction
-    else if ((key == pPreferences->m_key_editor_fast_copy_up || key == pPreferences->m_key_editor_fast_copy_down || key == pPreferences->m_key_editor_fast_copy_left || key == pPreferences->m_key_editor_fast_copy_right) && pMouseCursor->m_hovering_object->m_obj && pMouseCursor->m_fastcopy_mode) {
+    else if ((evt.key.code == pPreferences->m_key_editor_fast_copy_up || evt.key.code == pPreferences->m_key_editor_fast_copy_down || evt.key.code == pPreferences->m_key_editor_fast_copy_left || evt.key.code == pPreferences->m_key_editor_fast_copy_right) && pMouseCursor->m_hovering_object->m_obj && pMouseCursor->m_fastcopy_mode) {
         ObjectDirection dir = DIR_UNDEFINED;
 
-        if (key == pPreferences->m_key_editor_fast_copy_up) {
+        if (evt.key.code == pPreferences->m_key_editor_fast_copy_up) {
             dir = DIR_UP;
         }
-        else if (key == pPreferences->m_key_editor_fast_copy_down) {
+        else if (evt.key.code == pPreferences->m_key_editor_fast_copy_down) {
             dir = DIR_DOWN;
         }
-        else if (key == pPreferences->m_key_editor_fast_copy_left) {
+        else if (evt.key.code == pPreferences->m_key_editor_fast_copy_left) {
             dir = DIR_LEFT;
         }
-        else if (key == pPreferences->m_key_editor_fast_copy_right) {
+        else if (evt.key.code == pPreferences->m_key_editor_fast_copy_right) {
             dir = DIR_RIGHT;
         }
 
@@ -722,26 +722,26 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // Precise Pixel-Positioning
-    else if ((key == pPreferences->m_key_editor_pixel_move_up || key == pPreferences->m_key_editor_pixel_move_down || key == pPreferences->m_key_editor_pixel_move_left || key == pPreferences->m_key_editor_pixel_move_right) && pMouseCursor->m_hovering_object->m_obj) {
-        if (key == pPreferences->m_key_editor_pixel_move_up) {
+    else if ((evt.key.code == pPreferences->m_key_editor_pixel_move_up || evt.key.code == pPreferences->m_key_editor_pixel_move_down || evt.key.code == pPreferences->m_key_editor_pixel_move_left || evt.key.code == pPreferences->m_key_editor_pixel_move_right) && pMouseCursor->m_hovering_object->m_obj) {
+        if (evt.key.code == pPreferences->m_key_editor_pixel_move_up) {
             pActive_Camera->Move(0, -1);
         }
-        else if (key == pPreferences->m_key_editor_pixel_move_down) {
+        else if (evt.key.code == pPreferences->m_key_editor_pixel_move_down) {
             pActive_Camera->Move(0, 1);
         }
-        else if (key == pPreferences->m_key_editor_pixel_move_left) {
+        else if (evt.key.code == pPreferences->m_key_editor_pixel_move_left) {
             pActive_Camera->Move(-1, 0);
         }
-        else if (key == pPreferences->m_key_editor_pixel_move_right) {
+        else if (evt.key.code == pPreferences->m_key_editor_pixel_move_right) {
             pActive_Camera->Move(1, 0);
         }
     }
     // deselect everything
-    else if (key == SDLK_a && pKeyboard->Is_Ctrl_Down() && pKeyboard->Is_Shift_Down()) {
+    else if (evt.key.code == sf::Keyboard::A && evt.control && evt.shift) {
         pMouseCursor->Clear_Selected_Objects();
     }
     // select everything
-    else if (key == SDLK_a && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::A && evt.control) {
         pMouseCursor->Clear_Selected_Objects();
 
         // player
@@ -754,11 +754,11 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // Paste copy buffer objects
-    else if ((key == SDLK_INSERT || key == SDLK_v) && pKeyboard->Is_Ctrl_Down()) {
+    else if ((evt.key.code == sf::Keyboard::Insert || evt.key.code == sf::Keyboard::V) && evt.control) {
         pMouseCursor->Paste_Copy_Objects(static_cast<float>(static_cast<int>(pMouseCursor->m_pos_x)), static_cast<float>(static_cast<int>(pMouseCursor->m_pos_y)));
     }
     // Cut selected Sprites to the copy buffer
-    else if (key == SDLK_x && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::X && evt.control) {
         pMouseCursor->Clear_Copy_Objects();
 
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
@@ -770,7 +770,7 @@ bool cEditor::Key_Down(SDLKey key)
         pMouseCursor->Delete_Selected_Objects();
     }
     // Add selected Sprites to the copy buffer
-    else if (key == SDLK_c && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::C && evt.control) {
         pMouseCursor->Clear_Copy_Objects();
 
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
@@ -780,23 +780,23 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // Replace sprites
-    else if (key == SDLK_r && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::R && evt.control) {
         Replace_Sprites();
     }
     // Delete mouse object
-    else if (key == SDLK_DELETE && pMouseCursor->m_hovering_object->m_obj) {
+    else if (evt.key.code == sf::Keyboard::Delete && pMouseCursor->m_hovering_object->m_obj) {
         pMouseCursor->Delete(pMouseCursor->m_hovering_object->m_obj);
     }
     // if shift got pressed remove mouse object for possible mouse selection
-    else if (pKeyboard->Is_Shift_Down() && pMouseCursor->m_hovering_object->m_obj) {
+    else if (evt.shift && pMouseCursor->m_hovering_object->m_obj) {
         pMouseCursor->Clear_Hovered_Object();
     }
     // Delete selected objects
-    else if (key == SDLK_DELETE) {
+    else if (evt.key.code == sf::Keyboard::Delete) {
         pMouseCursor->Delete_Selected_Objects();
     }
     // Snap to objects mode
-    else if (key == SDLK_o) {
+    else if (evt.key.coe == sf::Keyboard::O) {
         pMouseCursor->Toggle_Snap_Mode();
     }
     else {
