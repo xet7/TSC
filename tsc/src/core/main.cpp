@@ -492,68 +492,75 @@ void Exit_Game(void)
 bool Handle_Input_Global(sf::Event* ev)
 {
     switch (ev->type) {
-    case SDL_QUIT: {
+    case sf::Event::Closed: {
         game_exit = 1;
         Clear_Input_Events();
 
         // handle on all handlers ?
         return 0;
     }
-    case SDL_VIDEORESIZE: {
-        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev->resize.w), static_cast<float>(ev->resize.h)));
+    case sf::Event::Resized: {
+        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev->size.width), static_cast<float>(ev->size.height)));
         break;
     }
-    case SDL_KEYDOWN: {
-        if (pKeyboard->Key_Down(ev->key.keysym.sym)) {
+    case sf::Event::KeyPressed: {
+        if (pKeyboard->Key_Down(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_KEYUP: {
-        if (pKeyboard->Key_Up(ev->key.keysym.sym)) {
+    case sf::Event::KeyReleased: {
+        if (pKeyboard->Key_Up(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_JOYBUTTONDOWN: {
+    case sf::Event::JoystickButtonPressed: {
         if (pJoystick->Handle_Button_Down_Event(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_JOYBUTTONUP: {
+    case sf::Event::JoystickButtonReleased: {
         if (pJoystick->Handle_Button_Up_Event(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_JOYHATMOTION: {
-        pJoystick->Handle_Hat(ev);
-        break;
-    }
-    case SDL_JOYAXISMOTION: {
+    // Hat move not supported by SFML; SFML treats this as an axis move.
+    // OLD case SDL_JOYHATMOTION: {
+    // OLD     pJoystick->Handle_Hat(ev);
+    // OLD     break;
+    // OLD }
+    case sf::Event::JoystickMoved: {
         pJoystick->Handle_Motion(ev);
         break;
     }
-    case SDL_ACTIVEEVENT: {
+    case sf::Event::LostFocus {
         // lost visibility
-        if (ev->active.gain == 0) {
-            bool music_paused = 0;
-            // pause music
-            if (pAudio->Is_Music_Playing()) {
-                pAudio->Pause_Music();
-                music_paused = 1;
-            }
-            SDL_WaitEvent(NULL);
-            // resume if music got paused
-            if (music_paused) {
-                pAudio->Resume_Music();
-            }
-            return 1;
+        bool music_paused = false;
+        // pause music
+        if (pAudio->Is_Music_Playing()) {
+            pAudio->Pause_Music();
+            music_paused = true;
         }
-        break;
+        // Wait until we get focus again. This “freezes” the
+        // game instead of updating it further.
+        sf::Event focusin_event;
+        while (true) {
+            mp_window->waitEvent(focusin_event);
+            if (focusin_event.type == sf::Event::GainedFocus) {
+                break;
+            }
+        }
+        // resume if music got paused
+        if (music_paused) {
+            pAudio->Resume_Music();
+        }
+        return 1;
+
     }
-    default: { // other events
+    default: { // other events (event type filters in the respective subhandlers)
         // mouse
         if (pMouseCursor->Handle_Event(ev)) {
             return 1;
@@ -612,6 +619,8 @@ void Update_Game(void)
     Handle_Game_Events();
 
     // ## input
+    // Actually `input_event' is a global variable that is also queried elsewhere
+    // in the code (uaaah, poor design).
     while (pVideo->mp_window->pollEvent(input_event)) {
         // handle
         Handle_Input_Global(&input_event);
