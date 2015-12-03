@@ -66,30 +66,19 @@ namespace TSC {
         // check if the given button is pushed
         bool Button(Uint8 button);
 
-        // current joystick pointer
-        SDL_Joystick* m_joystick;
-
-        // button state array
-        typedef vector<bool> ButtonList;
-        ButtonList m_buttons;
-
         // analog directions
         bool m_left;
         bool m_right;
         bool m_up;
         bool m_down;
 
-        // current opened joystick
-        int m_current_joystick;
-        // if true the current joystick is available/loaded
-        bool m_joystick_open;
+        // SFML current opened joystick
+        unsigned int m_current_joystick;
 
+        // available joysticks
+        unsigned int m_num_joysticks;
         // available buttons
         unsigned int m_num_buttons;
-        // available axes
-        unsigned int m_num_axes;
-        // available balls
-        unsigned int m_num_balls;
 
         // if true print debug output
         bool m_debug;

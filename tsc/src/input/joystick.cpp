@@ -33,11 +33,10 @@ namespace TSC {
 
 cJoystick::cJoystick(void)
 {
-    m_joystick = NULL;
-
     m_joystick_open = 0;
 
-    m_current_joystick = 0;
+    m_current_joystick = 999; // SFML only supports 8, so this is guaranteed to be invalid input to SFML
+    m_num_joysticks = 0;
     m_num_buttons = 0;
     m_num_axes = 0;
     m_num_balls = 0;
@@ -61,17 +60,24 @@ int cJoystick::Init(void)
         return 0;
     }
 
-    int joy_count = SDL_NumJoysticks();
+    // Ensure all joysticks are found now
+    sf::Joystick::Update();
+
+    for(int i=0; i < sf::Joystick::Count; i++) {
+        if (sf::Joystick::isConnected(i)) {
+            m_num_joysticks++;
+        }
+    }
 
     // no joystick available
-    if (joy_count <= 0) {
+    if (joy_count == 0) {
         cout << "No joysticks available" << endl;
         pPreferences->m_joy_enabled = 0;
         return 0;
     }
 
     if (m_debug) {
-        cout << "Joysticks found : " << joy_count << endl << endl;
+        cout << "Joysticks found : " << m_num_joysticks << endl << endl;
     }
 
     unsigned int default_joy = 0;
@@ -90,7 +96,6 @@ int cJoystick::Init(void)
     }
 
     // setup
-    SDL_JoystickEventState(SDL_ENABLE);
     Stick_Open(default_joy);
 
     if (m_debug) {
@@ -107,71 +112,37 @@ void cJoystick::Close(void)
 
 bool cJoystick::Stick_Open(unsigned int index)
 {
-    // if a joystick is already opened close it first
-    if (m_joystick_open) {
-        Stick_Close();
-    }
+    m_num_buttons = sf::Joystick::getButtonCount(index);
 
-    m_joystick = SDL_JoystickOpen(index);
-
-    if (!m_joystick) {
-        cerr << "Couldn't open joystick " << index << endl;
-        m_joystick_open = 0;
-        return 0;
+    if (m_num_buttons == 0) {
+        cout << "Failed to retrieve button count from joystick " << index << ". Disconnected?" << endl;
+        return false;
     }
 
     m_current_joystick = index;
-
-    m_num_buttons = SDL_JoystickNumButtons(m_joystick);
-    m_num_axes = SDL_JoystickNumAxes(m_joystick);
-    m_num_balls = SDL_JoystickNumBalls(m_joystick);
-
-    // setup available buttons
-    m_buttons.assign(m_num_buttons, 0);
-
     if (m_debug) {
-        cout << "Opened Joystick " << m_current_joystick << endl;
+        cout << "Switched to Joystick " << m_current_joystick << endl;
         cout << "Name: " << Get_Name() << endl;
         cout << "Number of Buttons: " << m_num_buttons << endl;
-        cout << "Number of Axes: " << m_num_axes << endl;
-        cout << "Number of Balls: " << m_num_balls << endl << endl;
     }
 
-    m_joystick_open = 1;
-    return 1;
+    return true;
 }
 
 void cJoystick::Stick_Close(void)
 {
-    // not available
-    if (!m_joystick) {
-        return;
-    }
-
-    SDL_JoystickClose(m_joystick);
-    m_joystick = NULL;
-
     Reset_keys();
 
     m_num_buttons = 0;
-    m_num_axes = 0;
-    m_num_balls = 0;
-
-    m_buttons.clear();
-    m_joystick_open = 0;
+    m_current_joystick = 999;
 
     if (m_debug) {
-        cout << "Joystick " << m_current_joystick << " closed" << endl;
+        cout << "Joystick " << m_current_joystick << " disabled." << endl;
     }
-
-    m_current_joystick = 0;
 }
 
 void cJoystick::Reset_keys(void)
 {
-    // clear buttons
-    std::fill(m_buttons.begin(), m_buttons.end(), static_cast<bool>(0));
-
     m_left = 0;
     m_right = 0;
     m_up = 0;
@@ -475,18 +446,16 @@ bool cJoystick::Handle_Button_Up_Event(SDL_Event* ev)
 
 std::string cJoystick::Get_Name(void) const
 {
-    return SDL_JoystickName(m_current_joystick);
+    return sf::Joystick::getIdentification(m_current_joystick).name;
 }
 
 vector<std::string> cJoystick::Get_Names(void) const
 {
     vector<std::string> names;
-    // get joy count
-    int joy_count = SDL_NumJoysticks();
 
     // joystick names
-    for (int i = 0; i < joy_count; i++) {
-        names.push_back(SDL_JoystickName(i));
+    for (unsigned int i = 0; i < m_num_joysticks; i++) {
+        names.push_back(sf::Joystick::getIdentification().name);
     }
 
     return names;
