@@ -128,7 +128,7 @@ bool cEditor_Level::Key_Down(const sf::Event& evt)
 
 
     // check basic editor events
-    if (cEditor::Key_Down(key)) {
+    if (cEditor::Key_Down(evt)) {
         return 1;
     }
     // focus last levelexit
