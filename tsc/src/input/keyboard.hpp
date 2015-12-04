@@ -39,6 +39,10 @@ namespace TSC {
             return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "InputClass"), &Scripting::rtTSC_Scriptable, this));
         }
 
+        // Check the state of the Shift and Ctrl keys.
+        inline bool Is_Shift_Down(){ return sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift); }
+        inline bool Is_Ctrl_Down(){ return sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl); }
+
         /* CEGUI Key Up handler
          * returns true if CEGUI processed the given key up event
         */
