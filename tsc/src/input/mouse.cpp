@@ -137,29 +137,36 @@ void cMouseCursor::Reset(bool clear_copy_buffer /* = 1 */)
     }
 }
 
-bool cMouseCursor::Handle_Event(SDL_Event* ev)
+bool cMouseCursor::Handle_Event(const sf::Event& ev)
 {
-    switch (ev->type) {
-    case SDL_MOUSEMOTION: {
-        pGuiSystem->injectMousePosition(static_cast<float>(ev->motion.x), static_cast<float>(ev->motion.y));
+    switch (ev.type) {
+    case sf::Event::MouseMoved: {
+        pGuiSystem->injectMousePosition(static_cast<float>(ev.mouseMove.x), static_cast<float>(ev.mouseMove.y));
         Update_Position();
         break;
     }
-    case SDL_MOUSEBUTTONUP: {
-        if (Handle_Mouse_Up(ev->button.button)) {
+    case sf::Event::MouseButtonReleased: {
+        if (Handle_Mouse_Up(ev.mouseButton.button)) {
             // processed
             return 1;
         }
 
         break;
     }
-    case SDL_MOUSEBUTTONDOWN: {
-        if (Handle_Mouse_Down(ev->button.button)) {
+    case sf::Event::MouseButtonPressed: {
+        if (Handle_Mouse_Down(ev.mouseButton.button)) {
             // processed
             return 1;
         }
 
         break;
+    }
+    case sf::Event::MouseWheelScrolled: {
+        if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel &&
+            Handle_Mouse_Wheel(ev.mouseWheelScroll.delta)) {
+            // processed
+            return 1;
+        }
     }
     default: {
         break;
@@ -169,42 +176,29 @@ bool cMouseCursor::Handle_Event(SDL_Event* ev)
     return 0;
 }
 
-bool cMouseCursor::Handle_Mouse_Down(Uint8 button)
+bool cMouseCursor::Handle_Mouse_Down(sf::Mouse::Button button)
 {
     switch (button) {
     // mouse buttons
-    case SDL_BUTTON_LEFT: {
+    case sf::Mouse::Left: {
         if (CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton)) {
             return 1;
         }
         m_left = 1;
         break;
     }
-    case SDL_BUTTON_MIDDLE: {
+    case sf::Mouse::Middle: {
         if (CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton)) {
             return 1;
         }
         m_middle = 1;
         break;
     }
-    case SDL_BUTTON_RIGHT: {
+    case sf::Mouse::Right: {
         if (CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton)) {
             return 1;
         }
         m_right = 1;
-        break;
-    }
-    // mouse wheel
-    case SDL_BUTTON_WHEELDOWN: {
-        if (CEGUI::System::getSingleton().injectMouseWheelChange(-1)) {
-            return 1;
-        }
-        break;
-    }
-    case SDL_BUTTON_WHEELUP: {
-        if (CEGUI::System::getSingleton().injectMouseWheelChange(+1)) {
-            return 1;
-        }
         break;
     }
     default: {
@@ -235,24 +229,33 @@ bool cMouseCursor::Handle_Mouse_Down(Uint8 button)
     return 0;
 }
 
-bool cMouseCursor::Handle_Mouse_Up(Uint8 button)
+bool cMouseCursor::Handle_Mouse_Wheel(float delta)
+{
+    // mouse wheel
+    if (CEGUI::System::getSingleton().injectMouseWheelChange(delta))
+        return true;
+    else
+        return false;
+}
+
+bool cMouseCursor::Handle_Mouse_Up(sf::Mouse::Button button)
 {
     switch (button) {
-    case SDL_BUTTON_LEFT: {
+    case sf::Mouse::Left: {
         m_left = 0;
         if (CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton)) {
             return 1;
         }
     }
     break;
-    case SDL_BUTTON_MIDDLE: {
+    case sf::Mouse::Middle: {
         m_middle = 0;
         if (CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton)) {
             return 1;
         }
     }
     break;
-    case SDL_BUTTON_RIGHT: {
+    case sf::Mouse::Right: {
         m_right = 0;
         if (CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton)) {
             return 1;
@@ -380,10 +383,10 @@ void cMouseCursor::Draw(void)
 void cMouseCursor::Update_Position(void)
 {
     if (!m_mover_mode) {
-        SDL_GetMouseState(&m_x, &m_y);
+        sf::Vector2i curpos = sf::Mouse::getPosition();
         // scale to the virtual game size
-        m_x = static_cast<int>(static_cast<float>(m_x) * global_downscalex);
-        m_y = static_cast<int>(static_cast<float>(m_y) * global_downscaley);
+        m_x = static_cast<int>(static_cast<float>(curpos.x) * global_downscalex);
+        m_y = static_cast<int>(static_cast<float>(curpos.y) * global_downscaley);
     }
 
     if (editor_enabled) {
@@ -1428,26 +1431,29 @@ void cMouseCursor::Mover_Update(Sint16 move_x, Sint16 move_y)
     // mouse moves the camera
     pActive_Camera->Move(move_x, move_y);
     // keep mouse at it's position
-    SDL_WarpMouse(static_cast<Uint16>(m_x * global_upscalex), static_cast<Uint16>(m_y * global_upscaley));
+    sf::Mouse::setPosition(sf::Vector2i(m_x * global_upscalex, m_y * global_upscaley));
 
-    SDL_Event inEvent;
-    SDL_PeepEvents(&inEvent, 1, SDL_GETEVENT, SDL_MOUSEMOTIONMASK);
+    sf::Event inEvent;
 
-    while (SDL_PollEvent(&inEvent)) {
+    while (pVideo->mp_window->pollEvent(inEvent)) {
         switch (inEvent.type) {
-        case SDL_MOUSEBUTTONDOWN: {
-            if (inEvent.button.button == 2) {
+        case sf::Event::MouseButtonPressed: {
+            if (inEvent.mouseButton.button == sf::Mouse::Middle) {
                 m_mover_mode = 0;
             }
             break;
         }
-        case SDL_KEYDOWN: {
+        case sf::Event::KeyPressed: {
             m_mover_mode = 0;
-            pKeyboard->Key_Down(inEvent.key.keysym.sym);
+            pKeyboard->Key_Down(inEvent);
             break;
         }
-        case SDL_QUIT: {
+        case sf::Event::Closed: {
             game_exit = 1;
+            break;
+        }
+        default: {
+            // ignore
             break;
         }
         }

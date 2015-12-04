@@ -76,15 +76,19 @@ namespace TSC {
         }
 
         // Handles the Mouse events
-        bool Handle_Event(SDL_Event* ev);
+        bool Handle_Event(const sf::Event& ev);
         /* GUI handle mouse down function
          * Returns true if GUI handled the event
         */
-        bool Handle_Mouse_Down(Uint8 button);
+        bool Handle_Mouse_Down(sf::Mouse::Button button);
         /* GUI handle mouse up function
          * Returns true if GUI handled the event
         */
-        bool Handle_Mouse_Up(Uint8 button);
+        bool Handle_Mouse_Up(sf::Mouse::Button button);
+        /* GUI handle mouse wheel function
+         * Returns true if GUI handled the event
+         */
+        bool Handle_Mouse_Wheel(float delta);
 
         /* Get the first object colliding with the mouse which is valid for the editor
          * returns the collision if an object was found else NULL
