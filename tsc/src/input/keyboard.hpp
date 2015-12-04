@@ -46,7 +46,7 @@ namespace TSC {
         /* CEGUI Key Up handler
          * returns true if CEGUI processed the given key up event
         */
-        bool CEGUI_Handle_Key_Up(SDLKey key) const;
+        bool CEGUI_Handle_Key_Up(sf::Keyboard::Key key) const;
 
         /* Key Up Handler
          * returns true if the event was processed

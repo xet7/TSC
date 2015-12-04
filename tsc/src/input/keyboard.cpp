@@ -35,7 +35,7 @@ namespace TSC {
 
 cKeyboard::cKeyboard(void)
 {
-    Reset_Keys();
+
 }
 
 cKeyboard::~cKeyboard(void)
@@ -56,11 +56,8 @@ bool cKeyboard::CEGUI_Handle_Key_Up(sf::Keyboard::Key key) const
 
 bool cKeyboard::Key_Up(const sf::Event& evt)
 {
-    // set key to 0
-    m_keys[key] = 0;
-
     // input was processed by the gui system
-    if (CEGUI_Handle_Key_Up(key)) {
+    if (CEGUI_Handle_Key_Up(evt.key.code)) {
         return 1;
     }
 
@@ -73,7 +70,7 @@ bool cKeyboard::Key_Up(const sf::Event& evt)
     }
     else if (Game_Mode == MODE_MENU) {
         // got processed
-        if (pMenuCore->Key_Up(key)) {
+        if (pMenuCore->Key_Up(evt)) {
             return 1;
         }
     }
@@ -107,7 +104,7 @@ bool cKeyboard::CEGUI_Handle_Key_Down(sf::Keyboard::Key key) const
 bool cKeyboard::Key_Down(const sf::Event& evt)
 {
     // input was processed by the gui system
-    if (CEGUI_Handle_Key_Down(key)) {
+    if (CEGUI_Handle_Key_Down(evt.key.code)) {
         return 1;
     }
 
@@ -226,7 +223,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
         }
     }
     // debug mode
-    else if (evt.key.code == sf::Keyboard::D && evt.control) {
+    else if (evt.key.code == sf::Keyboard::D && evt.key.control) {
         if (game_debug) {
             pHud_Debug->Set_Text("Debug mode disabled");
         }
@@ -239,7 +236,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
         game_debug = !game_debug;
     }
     // performance mode
-    else if (evt.key.code == sf::Keyboard::P && evt.control) {
+    else if (evt.key.code == sf::Keyboard::P && evt.key.control) {
         if (game_debug_performance) {
             pHud_Debug->Set_Text("Performance debug mode disabled");
         }
@@ -255,7 +252,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     return 0;
 }
 
-unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const SDLKey key) const
+unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const sf::Keyboard::Key key) const
 {
     switch (key) {
     case sf::Keyboard::BackSpace:
@@ -272,8 +269,6 @@ unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const SDLKey key) const
         return CEGUI::Key::Space;
     case sf::Keyboard::Comma:
         return CEGUI::Key::Comma;
-    case sf::Keyboard::Minus:
-        return CEGUI::Key::Minus;
     case sf::Keyboard::Period:
         return CEGUI::Key::Period;
     case sf::Keyboard::Slash:
@@ -296,10 +291,10 @@ unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const SDLKey key) const
         return CEGUI::Key::Seven;
     case sf::Keyboard::Num8:
         return CEGUI::Key::Eight;
-    case sf::keyboard::Num9:
+    case sf::Keyboard::Num9:
         return CEGUI::Key::Nine;
-    case sf::Keyboard::Colon:
-        return CEGUI::Key::Colon;
+        //case sf::Keyboard::Colon: // no Colon in SFML?
+        //return CEGUI::Key::Colon;
     case sf::Keyboard::SemiColon:
         return CEGUI::Key::Semicolon;
     case sf::Keyboard::LBracket:
@@ -357,7 +352,7 @@ unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const SDLKey key) const
     case sf::Keyboard::Y:
         return CEGUI::Key::Y;
     case sf::Keyboard::Z:
-        return CEGUI::Key::Z:
+        return CEGUI::Key::Z;
     case sf::Keyboard::Delete:
         return CEGUI::Key::Delete;
     case sf::Keyboard::Numpad0:
