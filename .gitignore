@@ -41,10 +41,7 @@
 /tsc/Makefile
 /tsc/config.hpp
 /tsc/credits.cpp
-/tsc/docs/scripting/html/
-/tsc/docs/scripting/rdoc/
-/tsc/docs/api/
-/tsc/docs/ssl/
+/tsc/htmldocs
 Thumbs.db
 *.mo
 *.gmo

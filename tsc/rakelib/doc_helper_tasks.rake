@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require "pathname"
 require "fileutils"
@@ -317,40 +316,58 @@ class KramdownGenerator
 
 end
 
-if $0 == __FILE__
-  include FileUtils
+namespace :docs do
 
-  this_dir      = Pathname.new(__FILE__).dirname.expand_path
-  template_file = this_dir + "template.html.erb"
-  index_file    = this_dir + "index.md"
-  target_dir    = this_dir + "html"
-  source_dir    = this_dir + ".." + ".." + "src" + "scripting"
+  # Generate the C++ doxygen documentation.
+  task :doxygen do
+    puts "Generating C++ internal API documentation"
+    mkdir_p "htmldocs/cpp"
+    sh "doxygen"
+  end
 
-  print "Creating #{target_dir}/... directories... "
-  rm_rf target_dir
-  mkdir_p target_dir + "graphics"
-  puts "Done."
+  # Generate the documentation of the scripting core.
+  task :scripting_core_docs do
+    puts "Generating scripting core API documentation"
+    target_dir = "htmldocs/scripting/core/"
 
-  print "Copying graphics... "
-  cp this_dir + "../../data/pixmaps/game/items/cookie.png", target_dir + "graphics"
-  cp this_dir + "../../data/pixmaps/enemy/furball/brown/turn.png", target_dir + "graphics/furball.png"
-  cp this_dir + "../../data/pixmaps/enemy/eato/brown/3.png", target_dir + "graphics/eato.png"
-  cp this_dir + "../../data/pixmaps/enemy/flyon/orange/open_1.png", target_dir + "graphics/flyon.png"
-  cp this_dir + "../../data/pixmaps/enemy/gee/electro/5.png", target_dir + "graphics/gee.png"
-  puts "Done."
+    puts "Creating #{target_dir}/... directories... "
+    rm_rf target_dir
+    mkdir_p target_dir + "graphics"
+    puts "Done."
 
-  print "Copying stylesheets... "
-  cp this_dir + "coderay.css", target_dir
-  cp this_dir + "style.css", target_dir
-  puts "Done."
+    print "Copying graphics... "
+    cp "data/pixmaps/game/items/cookie.png", target_dir + "graphics"
+    cp "data/pixmaps/enemy/furball/brown/turn.png", target_dir + "graphics/furball.png"
+    cp "data/pixmaps/enemy/eato/brown/3.png", target_dir + "graphics/eato.png"
+    cp "data/pixmaps/enemy/flyon/orange/open_1.png", target_dir + "graphics/flyon.png"
+    cp "data/pixmaps/enemy/gee/electro/5.png", target_dir + "graphics/gee.png"
+    puts "Done."
 
-  puts "Parsing scripting source files."
-  ARGV.unshift(source_dir) if ARGV.empty?
-  parser = Parser.new(*ARGV)
-  # parser.debug = true
-  parser.parse!
-  gen = KramdownGenerator.new(target_dir, template_file, index_file, parser.classes, parser.modules, parser.methods)
-  gen.generate!
+    print "Copying stylesheets... "
+    cp "docs/scripting/coderay.css", target_dir
+    cp "docs/scripting/style.css", target_dir
+    puts "Done."
 
-  puts "Finished."
+    puts "Parsing scripting source files."
+    parser = Parser.new("src/scripting")
+    # parser.debug = true
+    parser.parse!
+    gen = KramdownGenerator.new(target_dir,
+                                "docs/scripting/template.html.erb",
+                                "docs/scripting/index.md",
+                                parser.classes,
+                                parser.modules,
+                                parser.methods)
+    gen.generate!
+
+    puts "Finished."
+  end
+
+  # Generate the RDoc of the standard scripting library (SSL).
+  task :scripting_ssl_docs do
+    puts "Generating scripting SSL documentation"
+    mkdir_p "htmldocs/scripting"
+    sh "rdoc -o htmldocs/scripting/ssl -m docs/scripting/ssl.rdoc -t 'TSC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
+  end
+
 end
