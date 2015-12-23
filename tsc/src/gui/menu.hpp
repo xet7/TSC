@@ -117,11 +117,11 @@ namespace TSC {
         /* handle key down event
          * returns true if processed
         */
-        bool Key_Down(SDLKey key);
+        bool Key_Down(const sf::Event& evt);
         /* handle key up event
          * returns true if processed
         */
-        bool Key_Up(SDLKey key);
+        bool Key_Up(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */

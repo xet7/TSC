@@ -154,7 +154,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     }
     else if (Game_Mode == MODE_MENU) {
         // processed by the menu
-        if (pMenuCore->Key_Down(evt.key.code)) {
+        if (pMenuCore->Key_Down(evt)) {
             return 1;
         }
     }

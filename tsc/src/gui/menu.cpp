@@ -320,10 +320,10 @@ bool cMenuCore::Handle_Event(SDL_Event* ev)
     return 0;
 }
 
-bool cMenuCore::Key_Down(SDLKey key)
+bool cMenuCore::Key_Down(const sf::Event& evt)
 {
     // Down (todo: detect event for joystick better)
-    if (key == SDLK_DOWN || key == pPreferences->m_key_down) {
+    if (evt.key.code == sf::Keyboard::Down || evt.key.code == pPreferences->m_key_down) {
         if (m_handler->Get_Size() <= static_cast<unsigned int>(m_handler->m_active + 1)) {
             m_handler->Set_Active(0);
         }
@@ -332,7 +332,7 @@ bool cMenuCore::Key_Down(SDLKey key)
         }
     }
     // Up (todo: detect event for joystick better)
-    else if (key == SDLK_UP || key == pPreferences->m_key_up) {
+    else if (evt.key.code == sf::Keyboard::Up || evt.key.code == pPreferences->m_key_up) {
         if (m_handler->m_active <= 0) {
             m_handler->Set_Active(m_handler->Get_Size() - 1);
         }
@@ -341,13 +341,13 @@ bool cMenuCore::Key_Down(SDLKey key)
         }
     }
     // Activate Button
-    else if (key == SDLK_RETURN || key == SDLK_KP_ENTER) {
+    else if (evt.key.code == sf::Return) {
         if (m_menu_data) {
             m_menu_data->m_action = 1;
         }
     }
     // Fast Debug Level entering
-    else if (key == SDLK_x && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::X && evt.key.control) {
         // random level name
         std::string lvl_name;
 
@@ -377,7 +377,7 @@ bool cMenuCore::Key_Down(SDLKey key)
         }
     }
     // exit
-    else if (key == SDLK_ESCAPE) {
+    else if (evt.key.code == sf::Keyboard::Escape) {
         m_menu_data->Exit();
     }
     else {
@@ -389,7 +389,7 @@ bool cMenuCore::Key_Down(SDLKey key)
     return 1;
 }
 
-bool cMenuCore::Key_Up(SDLKey key)
+bool cMenuCore::Key_Up(const sf::Event& evt)
 {
     // nothing yet
     if (0) {
