@@ -160,7 +160,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     }
     else if (Game_Mode == MODE_LEVEL_SETTINGS) {
         // processed by the level settings
-        if (pLevel_Editor->m_settings_screen->Key_Down(evt.key.code)) {
+        if (pLevel_Editor->m_settings_screen->Key_Down(evt)) {
             return 1;
         }
     }
