@@ -404,7 +404,7 @@ bool cMenuCore::Key_Up(const sf::Event& evt)
     return 1;
 }
 
-bool cMenuCore::Joy_Button_Down(Uint8 button)
+bool cMenuCore::Joy_Button_Down(unsigned int button)
 {
     // Activate button
     if (button == pPreferences->m_joy_button_action) {
@@ -425,7 +425,7 @@ bool cMenuCore::Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cMenuCore::Joy_Button_Up(Uint8 button)
+bool cMenuCore::Joy_Button_Up(unsigned int button)
 {
     // nothing yet
     if (0) {
