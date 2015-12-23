@@ -876,7 +876,7 @@ bool cLevel::Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cLevel::Joy_Button_Down(Uint8 button)
+bool cLevel::Joy_Button_Down(unsigned int button)
 {
     // Shoot
     if (button == pPreferences->m_joy_button_shoot && !editor_enabled) {
@@ -907,7 +907,7 @@ bool cLevel::Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cLevel::Joy_Button_Up(Uint8 button)
+bool cLevel::Joy_Button_Up(unsigned int button)
 {
     // only if not in Editor
     if (editor_level_enabled) {
