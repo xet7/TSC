@@ -148,7 +148,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     }
     else if (Game_Mode == MODE_OVERWORLD) {
         // processed by the overworld
-        if (pActive_Overworld->Key_Down(evt.key.code)) {
+        if (pActive_Overworld->Key_Down(evt)) {
             return 1;
         }
     }

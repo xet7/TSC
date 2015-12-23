@@ -533,63 +533,63 @@ void cOverworld::Update_Camera(void)
     }
 }
 
-bool cOverworld::Key_Down(SDLKey key)
+bool cOverworld::Key_Down(const sf::Event& evt)
 {
-    if (key == SDLK_LEFT) {
+    if (evt.key.code == sf::Keyboard::Left) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_LEFT);
         }
         return 0;
     }
-    else if (key == SDLK_RIGHT) {
+    else if (evt.key.code == sf::Keyboard::Right) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_RIGHT);
         }
         return 0;
     }
-    else if (key == SDLK_UP) {
+    else if (evt.key.code == sf::Keyboard::Up) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_UP);
         }
         return 0;
     }
-    else if (key == SDLK_DOWN) {
+    else if (evt.key.code == sf::Keyboard::Down) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_DOWN);
         }
         return 0;
     }
-    else if (key == SDLK_c && !editor_world_enabled) {
+    else if (evt.key.code == sf::Keyboard::C && !editor_world_enabled) {
         pOverworld_Manager->m_camera_mode = !pOverworld_Manager->m_camera_mode;
     }
-    else if (key == SDLK_F8) {
+    else if (evt.key.code == sf::Keyboard::F8) {
         pWorld_Editor->Toggle();
     }
-    else if (key == SDLK_d && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::D && evt.key.control) {
         pOverworld_Manager->m_debug_mode = !pOverworld_Manager->m_debug_mode;
         game_debug = pOverworld_Manager->m_debug_mode;
     }
-    else if (key == SDLK_l && pOverworld_Manager->m_debug_mode) {
+    else if (evt.key.code == sf::Keyboard::L && pOverworld_Manager->m_debug_mode) {
         // toggle layer drawing
         pOverworld_Manager->m_draw_layer = !pOverworld_Manager->m_draw_layer;
     }
-    else if (pKeyboard->m_keys[SDLK_g] && pKeyboard->m_keys[SDLK_o] && pKeyboard->m_keys[SDLK_d]) {
+    else if (sf::Keyboard::isKeyDown(sf::Keyboard::G) && sf::Keyboard::isKeyDown(sf::Keyboard::O) && sf::Keyboard::isKeyDown(sf::Keyboard::D)) {
         // all waypoint access
         Set_Progress(m_waypoints.size(), 1);
     }
-    else if (key == SDLK_F3 && pOverworld_Manager->m_debug_mode) {
+    else if (evt.key.code == sf::Keyboard::F3 && pOverworld_Manager->m_debug_mode) {
         Goto_Next_Level();
     }
     // Exit
-    else if (key == SDLK_ESCAPE || key == SDLK_BACKSPACE) {
+    else if (evt.key.code == sf::Keyboard::Escape || evt.key.code == sf::Keyboard::BackSpace) {
         pOverworld_Player->Action_Interact(INP_EXIT);
     }
     // Action
-    else if (key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+    else if (evt.key.code == sf::Keyboard::Return || evt.key.code == sf::Keyboard::Space) {
         pOverworld_Player->Action_Interact(INP_ACTION);
     }
     // ## editor
-    else if (pWorld_Editor->Key_Down(key)) {
+    else if (pWorld_Editor->Key_Down(evt)) {
         // processed by the editor
         return 1;
     }
@@ -602,7 +602,7 @@ bool cOverworld::Key_Down(SDLKey key)
     return 1;
 }
 
-bool cOverworld::Key_Up(SDLKey key)
+bool cOverworld::Key_Up(const sf::Event& evt)
 {
     // nothing yet
     if (0) {
