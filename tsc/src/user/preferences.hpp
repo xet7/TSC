@@ -114,8 +114,8 @@ namespace TSC {
         // jump with upwards
         bool m_joy_analog_jump;
         // hor/ver axis used
-        int m_joy_axis_hor;
-        int m_joy_axis_ver;
+        sf::Joystick::Axis m_joy_axis_hor;
+        sf::Joystick::Axis m_joy_axis_ver;
         // axis threshold
         Sint16 m_joy_axis_threshold;
         // button definitions
@@ -195,8 +195,8 @@ namespace TSC {
         // Joystick
         static const bool m_joy_enabled_default;
         static const bool m_joy_analog_jump_default;
-        static const int m_joy_axis_hor_default;
-        static const int m_joy_axis_ver_default;
+        static const sf::Joystick::Axis m_joy_axis_hor_default;
+        static const sf::Joystick::Axis m_joy_axis_ver_default;
         static const Sint16 m_joy_axis_threshold_default;
         static const Uint8 m_joy_button_jump_default;
         static const Uint8 m_joy_button_shoot_default;

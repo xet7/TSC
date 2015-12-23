@@ -89,8 +89,8 @@ const float cPreferences::m_scroll_speed_default = 1.0f;
 // Joystick
 const bool cPreferences::m_joy_enabled_default = 1;
 const bool cPreferences::m_joy_analog_jump_default = 0;
-const int cPreferences::m_joy_axis_hor_default = 0;
-const int cPreferences::m_joy_axis_ver_default = 1;
+const sf::Joystick::Axis cPreferences::m_joy_axis_hor_default = sf::Joystick::Axis::X;
+const sf::Joystick::Axis cPreferences::m_joy_axis_ver_default = sf::Joystick::Axis::Y;
 const Sint16 cPreferences::m_joy_axis_threshold_default = 10000;
 const Uint8 cPreferences::m_joy_button_jump_default = 0;
 const Uint8 cPreferences::m_joy_button_shoot_default = 1;
