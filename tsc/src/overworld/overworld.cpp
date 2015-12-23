@@ -649,7 +649,7 @@ bool cOverworld::Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Joy_Button_Down(Uint8 button)
+bool cOverworld::Joy_Button_Down(unsiged int button)
 {
     // Exit
     if (button == pPreferences->m_joy_button_exit) {
@@ -668,7 +668,7 @@ bool cOverworld::Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Joy_Button_Up(Uint8 button)
+bool cOverworld::Joy_Button_Up(unsigned int button)
 {
     // nothing yet
     if (0) {

@@ -133,11 +133,11 @@ namespace TSC {
         /* handle joystick button down event
          * returns true if processed
         */
-        bool Joy_Button_Down(Uint8 button);
+        bool Joy_Button_Down(unsigned int button);
         /* handle joystick button up event
          * returns true if processed
         */
-        bool Joy_Button_Up(Uint8 button);
+        bool Joy_Button_Up(unsigned int button);
 
         /* Sets the current Waypoint progress
          * if force is set already accessible waypoints will be unset
