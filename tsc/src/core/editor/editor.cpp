@@ -723,17 +723,27 @@ bool cEditor::Key_Down(SDLKey key)
     }
     // Precise Pixel-Positioning
     else if ((key == pPreferences->m_key_editor_pixel_move_up || key == pPreferences->m_key_editor_pixel_move_down || key == pPreferences->m_key_editor_pixel_move_left || key == pPreferences->m_key_editor_pixel_move_right) && pMouseCursor->m_hovering_object->m_obj) {
+        int x_offset = 0;
+        int y_offset = 0;
+
         if (key == pPreferences->m_key_editor_pixel_move_up) {
-            pActive_Camera->Move(0, -1);
+            y_offset = -1;
         }
         else if (key == pPreferences->m_key_editor_pixel_move_down) {
-            pActive_Camera->Move(0, 1);
+            y_offset = 1;
         }
         else if (key == pPreferences->m_key_editor_pixel_move_left) {
-            pActive_Camera->Move(-1, 0);
+            x_offset = -1;
         }
         else if (key == pPreferences->m_key_editor_pixel_move_right) {
-            pActive_Camera->Move(1, 0);
+            x_offset = 1;
+        }
+
+        for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
+            cSelectedObject* sel_obj = (*itr);
+            cSprite* obj = sel_obj->m_obj;
+
+            obj->Set_Pos(obj->m_pos_x + x_offset, obj->m_pos_y + y_offset, true);
         }
     }
     // deselect everything
