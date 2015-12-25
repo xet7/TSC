@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 require "pathname"
 require "fileutils"
-require "coderay"
-require "kramdown"
+
+begin
+  require "coderay"
+  require "kramdown"
+rescue LoadError => e
+  $stderr.puts "Failed to load coderay and/or kramdown: #{e.message}"
+  $stderr.puts "Will be unable to generate scripting documentation."
+end
 
 # Sourcecode parsing class that extracts scripting-related
 # comments from all sourcefiles/directories passed to ::new.
