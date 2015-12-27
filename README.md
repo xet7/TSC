@@ -43,7 +43,7 @@ please consider the following:
   recommended as we use branches all the time.
 * If you want to contribute code, please read [the coding
   conventions document](http://docs.secretchronicles.de/api/devel/md_conventions.html)
-* If you want to contribute artistic work, please read [the styleguide](http://wiki.secretchronicles.de/StyleGuide)
+* If you want to contribute artistic work, please read [the styleguide](http://wiki.secretchronicles.de/StyleGuide.html)
 * If you specifically target issues from the issue tracker, please
   use “fixes #43” for bug tickets you fix and “closes #43” for other
   tickets you resolve as part of the message in your commits. This
