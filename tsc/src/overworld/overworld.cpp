@@ -514,16 +514,16 @@ void cOverworld::Update_Camera(void)
 
     // todo : move to a Process_Input function
     if (pOverworld_Manager->m_camera_mode) {
-        if (pKeyboard->m_keys[pPreferences->m_key_right] || (pJoystick->m_right && pPreferences->m_joy_enabled)) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || (pJoystick->m_right && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(pFramerate->m_speed_factor * 15, 0);
         }
-        else if (pKeyboard->m_keys[pPreferences->m_key_left] || (pJoystick->m_left && pPreferences->m_joy_enabled)) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || (pJoystick->m_left && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(pFramerate->m_speed_factor * -15, 0);
         }
-        if (pKeyboard->m_keys[pPreferences->m_key_up] || (pJoystick->m_up && pPreferences->m_joy_enabled)) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up) || (pJoystick->m_up && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(0, pFramerate->m_speed_factor * -15);
         }
-        else if (pKeyboard->m_keys[pPreferences->m_key_down] || (pJoystick->m_down && pPreferences->m_joy_enabled)) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down) || (pJoystick->m_down && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(0, pFramerate->m_speed_factor * 15);
         }
     }
@@ -573,7 +573,7 @@ bool cOverworld::Key_Down(const sf::Event& evt)
         // toggle layer drawing
         pOverworld_Manager->m_draw_layer = !pOverworld_Manager->m_draw_layer;
     }
-    else if (sf::Keyboard::isKeyDown(sf::Keyboard::G) && sf::Keyboard::isKeyDown(sf::Keyboard::O) && sf::Keyboard::isKeyDown(sf::Keyboard::D)) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && sf::Keyboard::isKeyPressed(sf::Keyboard::O) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         // all waypoint access
         Set_Progress(m_waypoints.size(), 1);
     }
@@ -649,7 +649,7 @@ bool cOverworld::Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Joy_Button_Down(unsiged int button)
+bool cOverworld::Joy_Button_Down(unsigned int button)
 {
     // Exit
     if (button == pPreferences->m_joy_button_exit) {
