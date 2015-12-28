@@ -489,9 +489,9 @@ void Exit_Game(void)
     SDL_Quit();
 }
 
-bool Handle_Input_Global(sf::Event* ev)
+bool Handle_Input_Global(const sf::Event& ev)
 {
-    switch (ev->type) {
+    switch (ev.type) {
     case sf::Event::Closed: {
         game_exit = 1;
         Clear_Input_Events();
@@ -500,7 +500,7 @@ bool Handle_Input_Global(sf::Event* ev)
         return 0;
     }
     case sf::Event::Resized: {
-        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev->size.width), static_cast<float>(ev->size.height)));
+        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev.size.width), static_cast<float>(ev.size.height)));
         break;
     }
     case sf::Event::KeyPressed: {
@@ -536,7 +536,7 @@ bool Handle_Input_Global(sf::Event* ev)
         pJoystick->Handle_Motion(ev);
         break;
     }
-    case sf::Event::LostFocus {
+    case sf::Event::LostFocus: {
         // lost visibility
         bool music_paused = false;
         // pause music
@@ -548,7 +548,7 @@ bool Handle_Input_Global(sf::Event* ev)
         // game instead of updating it further.
         sf::Event focusin_event;
         while (true) {
-            mp_window->waitEvent(focusin_event);
+            pVideo->mp_window->waitEvent(focusin_event);
             if (focusin_event.type == sf::Event::GainedFocus) {
                 break;
             }
@@ -623,7 +623,7 @@ void Update_Game(void)
     // in the code (uaaah, poor design).
     while (pVideo->mp_window->pollEvent(input_event)) {
         // handle
-        Handle_Input_Global(&input_event);
+        Handle_Input_Global(input_event);
     }
 
     pMouseCursor->Update();
