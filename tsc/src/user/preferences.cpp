@@ -319,7 +319,7 @@ void cPreferences::Update(void)
     m_audio_sound = pAudio->m_sound_enabled;
 
     // if not default joy used
-    if (pJoystick->m_current_joystick > 0) {
+    if (pJoystick->m_current_joystick != 999) {
         m_joy_name = pJoystick->Get_Name();
     }
     // using default joy
