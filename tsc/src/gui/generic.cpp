@@ -119,30 +119,30 @@ std::string cDialogBox_Text::Enter(std::string default_text, std::string title_t
     finished = 0;
 
     while (!finished) {
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::KeyPressed) {
                 if (auto_no_text && default_text.compare(box_editbox->getText().c_str()) == 0) {
                     box_editbox->setText("");
                     // only the first time
                     auto_no_text = 0;
                 }
 
-                if (input_event.key.keysym.sym == SDLK_ESCAPE) {
+                if (input_event.key.code == sf::Keyboard::Escape) {
                     box_editbox->setText("");
                     finished = 1;
                 }
-                else if (input_event.key.keysym.sym == SDLK_RETURN || input_event.key.keysym.sym == SDLK_KP_ENTER) {
+                else if (input_event.key.code == sf::Keyboard::Return) {
                     finished = 1;
                 }
                 else {
-                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.keysym.sym);
+                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.code);
                 }
             }
-            else if (input_event.type == SDL_KEYUP) {
-                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.keysym.sym);
+            else if (input_event.type == sf::Event::KeyReleased) {
+                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.code);
             }
             else {
-                pMouseCursor->Handle_Event(&input_event);
+                pMouseCursor->Handle_Event(input_event);
             }
         }
 
@@ -236,9 +236,9 @@ int cDialogBox_Question::Enter(std::string text, bool with_cancel /* = 0 */)
     while (!finished) {
         Draw();
 
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
-                if (input_event.key.keysym.sym == SDLK_ESCAPE) {
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::KeyPressed) {
+                if (input_event.key.code == sf::Keyboard::Escape) {
                     if (with_cancel) {
                         return_value = -1;
                     }
@@ -248,19 +248,19 @@ int cDialogBox_Question::Enter(std::string text, bool with_cancel /* = 0 */)
 
                     finished = 1;
                 }
-                else if (input_event.key.keysym.sym == SDLK_RETURN || input_event.key.keysym.sym == SDLK_KP_ENTER) {
+                else if (input_event.key.code == sf::Keyboard::Return) {
                     return_value = 1;
                     finished = 1;
                 }
                 else {
-                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.keysym.sym);
+                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.code);
                 }
             }
-            else if (input_event.type == SDL_KEYUP) {
-                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.keysym.sym);
+            else if (input_event.type == sf::Event::KeyReleased) {
+                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.code);
             }
             else {
-                pMouseCursor->Handle_Event(&input_event);
+                pMouseCursor->Handle_Event(input_event);
             }
         }
 
@@ -356,8 +356,8 @@ void Draw_Static_Text(const std::string& text, const Color* color_text /* = &whi
         pVideo->Render();
 
         if (wait_for_input) {
-            while (SDL_PollEvent(&input_event)) {
-                if (input_event.type == SDL_KEYDOWN || input_event.type == SDL_JOYBUTTONDOWN || input_event.type == SDL_MOUSEBUTTONDOWN) {
+            while (pVideo->mp_window->pollEvent(input_event)) {
+                if (input_event.type == sf::Event::KeyPressed || input_event.type == sf::Event::JoystickButtonPressed || input_event.type == sf::Event::MouseButtonPressed) {
                     draw = 0;
                 }
             }

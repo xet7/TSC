@@ -136,63 +136,44 @@ void cText_Box::Activate(void)
     bool display = 1;
 
     while (display) {
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
-                pKeyboard->m_keys[input_event.key.keysym.sym] = 1;
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::KeyPressed) {
 
                 // exit keys
-                if (input_event.key.keysym.sym == pPreferences->m_key_action || input_event.key.keysym.sym == SDLK_ESCAPE || input_event.key.keysym.sym == SDLK_RETURN || input_event.key.keysym.sym == SDLK_SPACE) {
+                if (input_event.key.code == pPreferences->m_key_action || input_event.key.code == sf::Keyboard::Escape || input_event.key.code == sf::Keyboard::Return || input_event.key.code == sf::Keyboard::Space) {
                     display = 0;
                     break;
                 }
                 // handled keys
-                else if (input_event.key.keysym.sym == pPreferences->m_key_right || input_event.key.keysym.sym == pPreferences->m_key_left) {
-                    pKeyboard->Key_Down(input_event.key.keysym.sym);
+                else if (input_event.key.code == pPreferences->m_key_right || input_event.key.code == pPreferences->m_key_left) {
+                    pKeyboard->Key_Down(input_event);
                 }
             }
-            else if (input_event.type == SDL_KEYUP) {
-                pKeyboard->m_keys[input_event.key.keysym.sym] = 0;
+            else if (input_event.type == sf::Event::KeyReleased) {
 
                 // handled keys
-                if (input_event.key.keysym.sym == pPreferences->m_key_right || input_event.key.keysym.sym == pPreferences->m_key_left) {
-                    pKeyboard->Key_Up(input_event.key.keysym.sym);
+                if (input_event.key.code == pPreferences->m_key_right || input_event.key.code == pPreferences->m_key_left) {
+                    pKeyboard->Key_Up(input_event);
                 }
             }
-            else if (input_event.type == SDL_JOYBUTTONDOWN) {
-                pJoystick->Set_Button(input_event.jbutton.button, 1);
-
-                if (input_event.jbutton.button == pPreferences->m_joy_button_action || input_event.jbutton.button == pPreferences->m_joy_button_exit) {
+            else if (input_event.type == sf::Event::JoystickButtonPressed) {
+                if (input_event.joystickButton.button == pPreferences->m_joy_button_action || input_event.joystickButton.button == pPreferences->m_joy_button_exit) {
                     display = 0;
                     break;
                 }
             }
-            else if (input_event.type == SDL_JOYBUTTONUP) {
-                pJoystick->Set_Button(input_event.jbutton.button, 0);
-            }
-            else if (input_event.type == SDL_JOYHATMOTION) {
-                pJoystick->Handle_Hat(&input_event);
+            else if (input_event.type == sf::Event::JoystickMoved) {
+                pJoystick->Handle_Motion(input_event);
                 break;
             }
-            else if (input_event.type == SDL_JOYAXISMOTION) {
-                pJoystick->Handle_Motion(&input_event);
-                break;
-            }
-        }
-
-        Uint8* keys = SDL_GetKeyState(NULL);
-        Sint16 joy_ver_axis = 0;
-
-        // if joystick enabled
-        if (pPreferences->m_joy_enabled) {
-            joy_ver_axis = SDL_JoystickGetAxis(pJoystick->m_joystick, pPreferences->m_joy_axis_ver);
         }
 
         // down
-        if (keys[pPreferences->m_key_down] || joy_ver_axis > pPreferences->m_joy_axis_threshold) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down) || pJoystick->Down()) {
             editbox->getVertScrollbar()->setScrollPosition(editbox->getVertScrollbar()->getScrollPosition() + (editbox->getVertScrollbar()->getStepSize() * 0.25f * pFramerate->m_speed_factor));
         }
         // up
-        if (keys[pPreferences->m_key_up] || joy_ver_axis < -pPreferences->m_joy_axis_threshold) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up) || pJoystick->Up()) {
             editbox->getVertScrollbar()->setScrollPosition(editbox->getVertScrollbar()->getScrollPosition() - (editbox->getVertScrollbar()->getStepSize() * 0.25f * pFramerate->m_speed_factor));
         }
 

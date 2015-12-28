@@ -128,11 +128,11 @@ namespace TSC {
         // static input handler
         void Process_Input(void);
         // Handle Input event
-        virtual bool Handle_Event(SDL_Event* ev);
+        virtual bool Handle_Event(const sf::Event& evt);
         /* handle key down event
          * returns true if processed
         */
-        virtual bool Key_Down(SDLKey key);
+        virtual bool Key_Down(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */

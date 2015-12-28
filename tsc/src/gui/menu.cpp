@@ -209,7 +209,7 @@ void cMenuHandler::Update_Mouse(void)
     }
 
     // ignore mouse init
-    if (found < 0 && input_event.motion.x == pMouseCursor->m_x) {
+    if (found < 0 && input_event.mouseMove.x == pMouseCursor->m_x) {
         return;
     }
 
@@ -304,10 +304,10 @@ cMenuCore::~cMenuCore(void)
     delete m_animation_manager;
 }
 
-bool cMenuCore::Handle_Event(SDL_Event* ev)
+bool cMenuCore::Handle_Event(const sf::Event& evt)
 {
-    switch (ev->type) {
-    case SDL_MOUSEMOTION: {
+    switch (evt.type) {
+    case sf::Event::MouseMoved: {
         m_handler->Update_Mouse();
         break;
     }
@@ -320,10 +320,10 @@ bool cMenuCore::Handle_Event(SDL_Event* ev)
     return 0;
 }
 
-bool cMenuCore::Key_Down(SDLKey key)
+bool cMenuCore::Key_Down(const sf::Event& evt)
 {
     // Down (todo: detect event for joystick better)
-    if (key == SDLK_DOWN || key == pPreferences->m_key_down) {
+    if (evt.key.code == sf::Keyboard::Down || evt.key.code == pPreferences->m_key_down) {
         if (m_handler->Get_Size() <= static_cast<unsigned int>(m_handler->m_active + 1)) {
             m_handler->Set_Active(0);
         }
@@ -332,7 +332,7 @@ bool cMenuCore::Key_Down(SDLKey key)
         }
     }
     // Up (todo: detect event for joystick better)
-    else if (key == SDLK_UP || key == pPreferences->m_key_up) {
+    else if (evt.key.code == sf::Keyboard::Up || evt.key.code == pPreferences->m_key_up) {
         if (m_handler->m_active <= 0) {
             m_handler->Set_Active(m_handler->Get_Size() - 1);
         }
@@ -341,13 +341,13 @@ bool cMenuCore::Key_Down(SDLKey key)
         }
     }
     // Activate Button
-    else if (key == SDLK_RETURN || key == SDLK_KP_ENTER) {
+    else if (evt.key.code == sf::Keyboard::Return) {
         if (m_menu_data) {
             m_menu_data->m_action = 1;
         }
     }
     // Fast Debug Level entering
-    else if (key == SDLK_x && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::X && evt.key.control) {
         // random level name
         std::string lvl_name;
 
@@ -377,7 +377,7 @@ bool cMenuCore::Key_Down(SDLKey key)
         }
     }
     // exit
-    else if (key == SDLK_ESCAPE) {
+    else if (evt.key.code == sf::Keyboard::Escape) {
         m_menu_data->Exit();
     }
     else {
@@ -389,7 +389,7 @@ bool cMenuCore::Key_Down(SDLKey key)
     return 1;
 }
 
-bool cMenuCore::Key_Up(SDLKey key)
+bool cMenuCore::Key_Up(const sf::Event& evt)
 {
     // nothing yet
     if (0) {
@@ -404,7 +404,7 @@ bool cMenuCore::Key_Up(SDLKey key)
     return 1;
 }
 
-bool cMenuCore::Joy_Button_Down(Uint8 button)
+bool cMenuCore::Joy_Button_Down(unsigned int button)
 {
     // Activate button
     if (button == pPreferences->m_joy_button_action) {
@@ -425,7 +425,7 @@ bool cMenuCore::Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cMenuCore::Joy_Button_Up(Uint8 button)
+bool cMenuCore::Joy_Button_Up(unsigned int button)
 {
     // nothing yet
     if (0) {

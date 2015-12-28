@@ -113,15 +113,15 @@ namespace TSC {
         ~cMenuCore(void);
 
         // Handle Input event
-        bool Handle_Event(SDL_Event* ev);
+        bool Handle_Event(const sf::Event& ev);
         /* handle key down event
          * returns true if processed
         */
-        bool Key_Down(SDLKey key);
+        bool Key_Down(const sf::Event& evt);
         /* handle key up event
          * returns true if processed
         */
-        bool Key_Up(SDLKey key);
+        bool Key_Up(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */
@@ -133,11 +133,11 @@ namespace TSC {
         /* handle joystick button down event
          * returns true if processed
         */
-        bool Joy_Button_Down(Uint8 button);
+        bool Joy_Button_Down(unsigned int button);
         /* handle joystick button up event
          * returns true if processed
         */
-        bool Joy_Button_Up(Uint8 button);
+        bool Joy_Button_Up(unsigned int button);
 
 
         // Returns a Menu with the common image filenames

@@ -96,7 +96,7 @@ void cEditor_World::Disable(bool native_mode /* = 0 */)
     cEditor::Disable(native_mode);
 }
 
-bool cEditor_World::Key_Down(SDLKey key)
+bool cEditor_World::Key_Down(const sf::Event& evt)
 {
     if (!m_enabled) {
         return 0;
@@ -104,7 +104,7 @@ bool cEditor_World::Key_Down(SDLKey key)
 
 
     // check basic editor events
-    if (cEditor::Key_Down(key)) {
+    if (cEditor::Key_Down(evt)) {
         return 1;
     }
     else {

@@ -59,7 +59,7 @@ int game_res_h = 600;
 bool game_debug = 0;
 bool game_debug_performance = 0;
 
-SDL_Event input_event;
+sf::Event input_event;
 
 float global_upscalex = 1.0f;
 float global_upscaley = 1.0f;
@@ -314,13 +314,12 @@ void Enter_Game_Mode(const GameMode new_mode)
 
 void Clear_Input_Events(void)
 {
-    while (SDL_PollEvent(&input_event)) {
+    while (pVideo->mp_window->pollEvent(input_event)) {
         // todo : keep Windowmanager quit events ?
         // ignore all events
     }
 
     // Reset keys
-    pKeyboard->Reset_Keys();
     pMouseCursor->Reset_Keys();
     pJoystick->Reset_keys();
 }
