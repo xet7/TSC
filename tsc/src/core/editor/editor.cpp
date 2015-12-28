@@ -490,7 +490,7 @@ void cEditor::Process_Input(void)
     }
 
     // Camera Movement
-    if (pKeyboard->m_keys[SDLK_RIGHT] || pJoystick->m_right) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || pJoystick->m_right) {
         if (pKeyboard->Is_Shift_Down()) {
             pActive_Camera->Move(m_camera_speed * pFramerate->m_speed_factor * 3 * pPreferences->m_scroll_speed, 0.0f);
         }
@@ -498,7 +498,7 @@ void cEditor::Process_Input(void)
             pActive_Camera->Move(m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed, 0.0f);
         }
     }
-    else if (pKeyboard->m_keys[SDLK_LEFT] || pJoystick->m_left) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || pJoystick->m_left) {
         if (pKeyboard->Is_Shift_Down()) {
             pActive_Camera->Move(-(m_camera_speed * pFramerate->m_speed_factor * 3 * pPreferences->m_scroll_speed), 0.0f);
         }
@@ -506,7 +506,7 @@ void cEditor::Process_Input(void)
             pActive_Camera->Move(-(m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed), 0.0f);
         }
     }
-    if (pKeyboard->m_keys[SDLK_UP] || pJoystick->m_up) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || pJoystick->m_up) {
         if (pKeyboard->Is_Shift_Down()) {
             pActive_Camera->Move(0.0f, -(m_camera_speed * pFramerate->m_speed_factor * 3 * pPreferences->m_scroll_speed));
         }
@@ -514,7 +514,7 @@ void cEditor::Process_Input(void)
             pActive_Camera->Move(0.0f, -(m_camera_speed * pFramerate->m_speed_factor * pPreferences->m_scroll_speed));
         }
     }
-    else if (pKeyboard->m_keys[SDLK_DOWN] || pJoystick->m_down) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || pJoystick->m_down) {
         if (pKeyboard->Is_Shift_Down()) {
             pActive_Camera->Move(0.0f, m_camera_speed * pFramerate->m_speed_factor * 3 * pPreferences->m_scroll_speed);
         }
@@ -524,16 +524,20 @@ void cEditor::Process_Input(void)
     }
 }
 
-bool cEditor::Handle_Event(SDL_Event* ev)
+bool cEditor::Handle_Event(const sf::Event& evt)
 {
     if (!m_enabled) {
         return 0;
     }
 
-    switch (ev->type) {
-    case SDL_MOUSEMOTION: {
+    switch (evt.type) {
+    case sf::Event::MouseMoved: {
         if (pMouseCursor->m_mover_mode) {
-            pMouseCursor->Mover_Update(ev->motion.xrel, ev->motion.yrel);
+            /* FIXME: SFML does not have relative mouse motion coordinates, we'd need
+             * to store them ourselves to use them here. Ignore this for now. */
+            std::cerr << "FIXME: No relative mouse move coordinates in SFML, can't use mover mode yet!" << std::endl;
+            // Old SDL-based code was:
+            // pMouseCursor->Mover_Update(ev->motion.xrel, ev->motion.yrel);
         }
 
         break;
@@ -553,15 +557,15 @@ bool cEditor::Key_Down(const sf::Event& evt)
     }
 
     // New level
-    if (evt.key.code == sf::Keyboard::N && evt.control) {
+    if (evt.key.code == sf::Keyboard::N && evt.key.control) {
         Function_New();
     }
     // Save
-    else if (evt.key.code == sf::Keyboard::S && evt.control) {
+    else if (evt.key.code == sf::Keyboard::S && evt.key.control) {
         Function_Save();
     }
     // Save as
-    else if (evt.key.code == sf::Keyboard::S && evt.control && evt.shift) {
+    else if (evt.key.code == sf::Keyboard::S && evt.key.control && evt.key.shift) {
         Function_Save_as();
     }
     // help
@@ -653,7 +657,7 @@ bool cEditor::Key_Down(const sf::Event& evt)
         pActive_Camera->Move(-static_cast<float>(game_res_w), 0);
     }
     // move camera to position
-    else if (evt.key.code == sf::Keyboard::G && evt.control) {
+    else if (evt.key.code == sf::Keyboard::G && evt.key.control) {
         int pos_x = string_to_int(Box_Text_Input(int_to_string(static_cast<int>(pActive_Camera->m_x)), "Position X", 1));
         int pos_y = string_to_int(Box_Text_Input(int_to_string(static_cast<int>(pActive_Camera->m_y)), "Position Y", 1));
 
@@ -673,7 +677,7 @@ bool cEditor::Key_Down(const sf::Event& evt)
         }
     }
     // push selected objects into the back
-    else if (evt.key.code == sf::Keyboard::Minus) {
+    else if (evt.key.code == sf::Keyboard::Subtract) {
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
             cSelectedObject* sel_obj = (*itr);
 
@@ -737,11 +741,11 @@ bool cEditor::Key_Down(const sf::Event& evt)
         }
     }
     // deselect everything
-    else if (evt.key.code == sf::Keyboard::A && evt.control && evt.shift) {
+    else if (evt.key.code == sf::Keyboard::A && evt.key.control && evt.key.shift) {
         pMouseCursor->Clear_Selected_Objects();
     }
     // select everything
-    else if (evt.key.code == sf::Keyboard::A && evt.control) {
+    else if (evt.key.code == sf::Keyboard::A && evt.key.control) {
         pMouseCursor->Clear_Selected_Objects();
 
         // player
@@ -754,11 +758,11 @@ bool cEditor::Key_Down(const sf::Event& evt)
         }
     }
     // Paste copy buffer objects
-    else if ((evt.key.code == sf::Keyboard::Insert || evt.key.code == sf::Keyboard::V) && evt.control) {
+    else if ((evt.key.code == sf::Keyboard::Insert || evt.key.code == sf::Keyboard::V) && evt.key.control) {
         pMouseCursor->Paste_Copy_Objects(static_cast<float>(static_cast<int>(pMouseCursor->m_pos_x)), static_cast<float>(static_cast<int>(pMouseCursor->m_pos_y)));
     }
     // Cut selected Sprites to the copy buffer
-    else if (evt.key.code == sf::Keyboard::X && evt.control) {
+    else if (evt.key.code == sf::Keyboard::X && evt.key.control) {
         pMouseCursor->Clear_Copy_Objects();
 
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
@@ -770,7 +774,7 @@ bool cEditor::Key_Down(const sf::Event& evt)
         pMouseCursor->Delete_Selected_Objects();
     }
     // Add selected Sprites to the copy buffer
-    else if (evt.key.code == sf::Keyboard::C && evt.control) {
+    else if (evt.key.code == sf::Keyboard::C && evt.key.control) {
         pMouseCursor->Clear_Copy_Objects();
 
         for (SelectedObjectList::iterator itr = pMouseCursor->m_selected_objects.begin(); itr != pMouseCursor->m_selected_objects.end(); ++itr) {
@@ -780,7 +784,7 @@ bool cEditor::Key_Down(const sf::Event& evt)
         }
     }
     // Replace sprites
-    else if (evt.key.code == sf::Keyboard::R && evt.control) {
+    else if (evt.key.code == sf::Keyboard::R && evt.key.control) {
         Replace_Sprites();
     }
     // Delete mouse object
@@ -788,7 +792,7 @@ bool cEditor::Key_Down(const sf::Event& evt)
         pMouseCursor->Delete(pMouseCursor->m_hovering_object->m_obj);
     }
     // if shift got pressed remove mouse object for possible mouse selection
-    else if (evt.shift && pMouseCursor->m_hovering_object->m_obj) {
+    else if (evt.key.shift && pMouseCursor->m_hovering_object->m_obj) {
         pMouseCursor->Clear_Hovered_Object();
     }
     // Delete selected objects
@@ -796,7 +800,7 @@ bool cEditor::Key_Down(const sf::Event& evt)
         pMouseCursor->Delete_Selected_Objects();
     }
     // Snap to objects mode
-    else if (evt.key.coe == sf::Keyboard::O) {
+    else if (evt.key.code == sf::Keyboard::O) {
         pMouseCursor->Toggle_Snap_Mode();
     }
     else {
@@ -1389,7 +1393,10 @@ bool cEditor::Item_Select(const CEGUI::EventArgs& event)
 
 void cEditor::Function_Exit(void)
 {
-    pKeyboard->Key_Down(SDLK_F8);
+    sf::Event newevt;
+    newevt.type = sf::Event::KeyPressed;
+    newevt.key.code = sf::Keyboard::F8;
+    pKeyboard->Key_Down(newevt);
 }
 
 void cEditor::Replace_Sprites(void)
