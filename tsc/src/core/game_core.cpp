@@ -320,7 +320,6 @@ void Clear_Input_Events(void)
     }
 
     // Reset keys
-    pKeyboard->Reset_Keys();
     pMouseCursor->Reset_Keys();
     pJoystick->Reset_keys();
 }
