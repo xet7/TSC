@@ -209,7 +209,7 @@ void cMenuHandler::Update_Mouse(void)
     }
 
     // ignore mouse init
-    if (found < 0 && input_event.motion.x == pMouseCursor->m_x) {
+    if (found < 0 && input_event.mouseMove.x == pMouseCursor->m_x) {
         return;
     }
 
@@ -341,7 +341,7 @@ bool cMenuCore::Key_Down(const sf::Event& evt)
         }
     }
     // Activate Button
-    else if (evt.key.code == sf::Return) {
+    else if (evt.key.code == sf::Keyboard::Return) {
         if (m_menu_data) {
             m_menu_data->m_action = 1;
         }

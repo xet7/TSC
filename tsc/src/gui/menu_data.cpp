@@ -858,7 +858,7 @@ bool cMenu_Start::TabControl_Keydown(const CEGUI::EventArgs& e)
         return 1;
     }
     // Left (todo: only for joystick when CEGUI supports these events)
-    else if (ke.scancode == pKeyboard->SDLKey_to_CEGUIKey(pPreferences->m_key_left)) {
+    else if (ke.scancode == pKeyboard->SFMLKey_to_CEGUIKey(pPreferences->m_key_left)) {
         // Get Tab Control
         CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>(CEGUI::WindowManager::getSingleton().getWindow("tabcontrol_main"));
 
@@ -870,7 +870,7 @@ bool cMenu_Start::TabControl_Keydown(const CEGUI::EventArgs& e)
         return 1;
     }
     // Right (todo: only for joystick when CEGUI supports these events)
-    else if (ke.scancode == pKeyboard->SDLKey_to_CEGUIKey(pPreferences->m_key_right)) {
+    else if (ke.scancode == pKeyboard->SFMLKey_to_CEGUIKey(pPreferences->m_key_right)) {
         // Get Tab Control
         CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>(CEGUI::WindowManager::getSingleton().getWindow("tabcontrol_main"));
 
@@ -911,7 +911,7 @@ bool cMenu_Start::Listbox_Keydown(const CEGUI::EventArgs& e)
     // Down/Up (todo: detect event for joystick properly when CEGUI supports these events)
     if (ke.scancode == CEGUI::Key::ArrowDown || ke.scancode == CEGUI::Key::ArrowUp || ke.scancode == CEGUI::Key::PageDown || ke.scancode == CEGUI::Key::PageUp ||
             ke.scancode == CEGUI::Key::Home || ke.scancode == CEGUI::Key::End ||
-            ke.scancode == pKeyboard->SDLKey_to_CEGUIKey(pPreferences->m_key_up) || ke.scancode == pKeyboard->SDLKey_to_CEGUIKey(pPreferences->m_key_down)) {
+            ke.scancode == pKeyboard->SFMLKey_to_CEGUIKey(pPreferences->m_key_up) || ke.scancode == pKeyboard->SFMLKey_to_CEGUIKey(pPreferences->m_key_down)) {
         int new_selected = 0;
         int last_selected = 0;
 
@@ -924,11 +924,11 @@ bool cMenu_Start::Listbox_Keydown(const CEGUI::EventArgs& e)
         }
 
         // down (todo: detect event for joystick properly when CEGUI supports these events)
-        if (ke.scancode == CEGUI::Key::ArrowDown || ke.scancode == pKeyboard->SDLKey_to_CEGUIKey(pPreferences->m_key_down)) {
+        if (ke.scancode == CEGUI::Key::ArrowDown || ke.scancode == pKeyboard->SFMLKey_to_CEGUIKey(pPreferences->m_key_down)) {
             new_selected = last_selected + 1;
         }
         // up (todo: detect event for joystick properly when CEGUI supports these events)
-        else if (ke.scancode == CEGUI::Key::ArrowUp || ke.scancode == pKeyboard->SDLKey_to_CEGUIKey(pPreferences->m_key_up)) {
+        else if (ke.scancode == CEGUI::Key::ArrowUp || ke.scancode == pKeyboard->SFMLKey_to_CEGUIKey(pPreferences->m_key_up)) {
             new_selected = last_selected - 1;
         }
         // page down
@@ -2232,31 +2232,31 @@ void cMenu_Options::Set_Shortcut(std::string name, void* data, bool joystick /* 
 
     while (!sub_done) {
         // no event
-        if (!SDL_PollEvent(&input_event)) {
+        if (!pVideo->mp_window->pollEvent(input_event)) {
             continue;
         }
 
-        if (input_event.key.keysym.sym == SDLK_ESCAPE || input_event.key.keysym.sym == SDLK_BACKSPACE) {
+        if (input_event.key.code == sf::Keyboard::Escape || input_event.key.code == sf::Keyboard::BackSpace) {
             sub_done = 1;
             break;
         }
 
-        if (!joystick && input_event.type != SDL_KEYDOWN) {
+        if (!joystick && input_event.type != sf::Event::KeyReleased) {
             continue;
         }
-        else if (joystick && input_event.type != SDL_JOYBUTTONDOWN) {
+        else if (joystick && input_event.type != sf::Event::JoystickButtonPressed) {
             continue;
         }
 
         // Keyboard
         if (!joystick) {
-            SDLKey* key = static_cast<SDLKey*>(data);
-            *key = input_event.key.keysym.sym;
+            sf::Keyboard::Key* key = static_cast<sf::Keyboard::Key*>(data);
+            *key = input_event.key.code;
         }
         // Joystick
         else {
-            Uint8* button = static_cast<Uint8*>(data);
-            *button = input_event.jbutton.button;
+            unsigned int* button = static_cast<unsigned int*>(data);
+            *button = input_event.joystickButton.button;
         }
 
         sub_done = 1;
@@ -2795,7 +2795,7 @@ bool cMenu_Options::Joystick_Spinner_Axis_Hor_Changed(const CEGUI::EventArgs& ev
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     // set new value
-    pPreferences->m_joy_axis_hor = static_cast<int>(static_cast<CEGUI::Spinner*>(windowEventArgs.window)->getCurrentValue());
+    pPreferences->m_joy_axis_hor = static_cast<sf::Joystick::Axis>(static_cast<CEGUI::Spinner*>(windowEventArgs.window)->getCurrentValue());
 
     return 1;
 }
@@ -2804,7 +2804,7 @@ bool cMenu_Options::Joystick_Spinner_Axis_Ver_Changed(const CEGUI::EventArgs& ev
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     // set new value
-    pPreferences->m_joy_axis_ver = static_cast<int>(static_cast<CEGUI::Spinner*>(windowEventArgs.window)->getCurrentValue());
+    pPreferences->m_joy_axis_ver = static_cast<sf::Joystick::Axis>(static_cast<CEGUI::Spinner*>(windowEventArgs.window)->getCurrentValue());
 
     return 1;
 }
