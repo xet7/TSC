@@ -113,7 +113,7 @@ namespace TSC {
         ~cMenuCore(void);
 
         // Handle Input event
-        bool Handle_Event(SDL_Event* ev);
+        bool Handle_Event(const sf::Event& ev);
         /* handle key down event
          * returns true if processed
         */

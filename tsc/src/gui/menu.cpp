@@ -304,10 +304,10 @@ cMenuCore::~cMenuCore(void)
     delete m_animation_manager;
 }
 
-bool cMenuCore::Handle_Event(SDL_Event* ev)
+bool cMenuCore::Handle_Event(const sf::Event& evt)
 {
-    switch (ev->type) {
-    case SDL_MOUSEMOTION: {
+    switch (evt.type) {
+    case sf::Event::MouseMoved: {
         m_handler->Update_Mouse();
         break;
     }
