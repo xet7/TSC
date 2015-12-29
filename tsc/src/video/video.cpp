@@ -614,8 +614,25 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
         int reduce_block_y = p_sf_image->getSize().y / new_height;
 
         // create downsampled image
-        // unsigned int image_bpp = sdl_surface->format->BytesPerPixel;
-        unsigned int image_bpp = 8; // HACK: SFML has no possibility to retrieve the BPP of an image. However, TSC's images appear all to have 8 BPP (quick test using file(1)). The docs of sf::Image::getPixelsPtr() guarantee 8 bit anyway.
+        /* Old SDL TSC queried SDL for a "bytes per pixels" value, see
+         * <https://wiki.libsdl.org/SDL_PixelFormat>.  This is simply
+         * the number of bytes required to store all info about one
+         * pixel.  It can easily be calculated without SDL: If yor
+         * image has a depth of 8 *bits* per colour, then a pixel
+         * consists of 3x8 = 24 bits (RGB) or 4x8 = 32 bits
+         * (RGBA). For 24 bits you need 3 bytes to store, for 32 bits
+         * 4 bytes. SFML guarantees in the documentation of
+         * sf::Image::getPixelPtr() that RGBA data is returned with a
+         * colour depth of 8 bit (resulting in 32 bits per pixel as
+         * per the above). If SFML ever supports other colour depths,
+         * the required bytes-per-pixel storage value can easily be
+         * calculated with:
+         *   ceil(bits-per-pixel * 4 / 8.0)
+         * Where 4
+         * stands for RGBA. For plain RGB you'd need to insert 3
+         * instead. For now, relying on SFML's docs, we just hardcode
+         * 4 bytes as that is what SFML returns to us. */
+        unsigned int image_bpp = 4; // 8 bits-per-color x 4 colors (RGBA) = 32 bits. 32 bits / 8 bits = 4 bytes.
         unsigned char* image_downsampled = new unsigned char[new_width * new_height * image_bpp];
         bool downsampled = Downscale_Image(static_cast<const unsigned char*>(p_sf_image->getPixelsPtr()), p_sf_image->getSize().x, p_sf_image->getSize().y, image_bpp, image_downsampled, reduce_block_x, reduce_block_y);
 
