@@ -617,7 +617,7 @@ bool cOverworld::Key_Up(const sf::Event& evt)
     return 1;
 }
 
-bool cOverworld::Mouse_Down(Uint8 button)
+bool cOverworld::Mouse_Down(sf::Mouse::Button button)
 {
     // ## editor
     if (pWorld_Editor->Mouse_Down(button)) {
@@ -633,7 +633,7 @@ bool cOverworld::Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Mouse_Up(Uint8 button)
+bool cOverworld::Mouse_Up(sf::Mouse::Button button)
 {
     // ## editor
     if (pWorld_Editor->Mouse_Up(button)) {
