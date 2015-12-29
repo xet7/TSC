@@ -812,14 +812,14 @@ bool cEditor::Key_Down(const sf::Event& evt)
     return 1;
 }
 
-bool cEditor::Mouse_Down(Uint8 button)
+bool cEditor::Mouse_Down(sf::Mouse::Button button)
 {
     if (!m_enabled) {
         return 0;
     }
 
     // left
-    if (button == SDL_BUTTON_LEFT) {
+    if (button == sf::Mouse::Left) {
         pMouseCursor->Left_Click_Down();
 
         // auto hide if enabled
@@ -828,7 +828,7 @@ bool cEditor::Mouse_Down(Uint8 button)
         }
     }
     // middle
-    else if (button == SDL_BUTTON_MIDDLE) {
+    else if (button == sf::Mouse::Middle) {
         // Activate fast copy mode
         if (pMouseCursor->m_hovering_object->m_obj) {
             pMouseCursor->m_fastcopy_mode = 1;
@@ -841,7 +841,7 @@ bool cEditor::Mouse_Down(Uint8 button)
         }
     }
     // right
-    else if (button == SDL_BUTTON_RIGHT) {
+    else if (button == sf::Mouse::Right) {
         if (!pMouseCursor->m_left) {
             pMouseCursor->Delete(pMouseCursor->m_hovering_object->m_obj);
             return 1;
@@ -856,14 +856,14 @@ bool cEditor::Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cEditor::Mouse_Up(Uint8 button)
+bool cEditor::Mouse_Up(sf::Mouse::Button button)
 {
     if (!m_enabled) {
         return 0;
     }
 
     // left
-    if (button == SDL_BUTTON_LEFT) {
+    if (button == sf::Mouse::Left) {
         // unhide
         if (pPreferences->m_editor_mouse_auto_hide) {
             pMouseCursor->Set_Active(1);
@@ -884,7 +884,7 @@ bool cEditor::Mouse_Up(Uint8 button)
         }
     }
     // middle
-    else if (button == SDL_BUTTON_MIDDLE) {
+    else if (button == sf::Mouse::Middle) {
         pMouseCursor->m_fastcopy_mode = 0;
     }
     else {
