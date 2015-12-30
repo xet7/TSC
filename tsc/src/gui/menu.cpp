@@ -440,10 +440,10 @@ bool cMenuCore::Joy_Button_Up(unsigned int button)
     return 1;
 }
 
-bool cMenuCore::Mouse_Down(Uint8 button)
+bool cMenuCore::Mouse_Down(sf::Mouse::Button button)
 {
     // nothing yet
-    if (button == SDL_BUTTON_LEFT) {
+    if (button == sf::Mouse::Left) {
         cMenu_Item* item = m_handler->Get_Active_Item();
 
         if (item && item->m_col_rect.Intersects(static_cast<float>(pMouseCursor->m_x), static_cast<float>(pMouseCursor->m_y))) {
@@ -460,19 +460,10 @@ bool cMenuCore::Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cMenuCore::Mouse_Up(Uint8 button)
+bool cMenuCore::Mouse_Up(sf::Mouse::Button button)
 {
-    // nothing yet
-    if (0) {
-        //
-    }
-    else {
-        // not processed
-        return 0;
-    }
-
-    // button got processed
-    return 1;
+    // not processed
+    return 0;
 }
 
 cMenu_Item* cMenuCore::Auto_Menu(std::string imagename, std::string imagefilename_menu, float ypos /* = 0 */, bool is_quit /* = 0 */)

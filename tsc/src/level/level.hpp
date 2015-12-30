@@ -101,11 +101,11 @@ namespace TSC {
         /* handle mouse button down event
          * returns true if processed
         */
-        bool Mouse_Down(Uint8 button);
+        bool Mouse_Down(sf::Mouse::Button button);
         /* handle mouse button up event
          * returns true if processed
         */
-        bool Mouse_Up(Uint8 button);
+        bool Mouse_Up(sf::Mouse::Button button);
         /* handle joystick button down event
          * returns true if processed
         */
