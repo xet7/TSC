@@ -722,7 +722,7 @@ bool cEditor::Key_Down(SDLKey key)
         }
     }
     // Precise Pixel-Positioning
-    else if ((key == pPreferences->m_key_editor_pixel_move_up || key == pPreferences->m_key_editor_pixel_move_down || key == pPreferences->m_key_editor_pixel_move_left || key == pPreferences->m_key_editor_pixel_move_right) && pMouseCursor->m_hovering_object->m_obj) {
+    else if ((key == pPreferences->m_key_editor_pixel_move_up || key == pPreferences->m_key_editor_pixel_move_down || key == pPreferences->m_key_editor_pixel_move_left || key == pPreferences->m_key_editor_pixel_move_right)) {
         int x_offset = 0;
         int y_offset = 0;
 
