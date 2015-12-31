@@ -220,9 +220,9 @@ void cMenu_Main::Init(void)
         hud_sprite->Set_Image(credits, 0, 1);
         hud_sprite->Set_Pos(-200, 0);
         m_draw_list.push_back(hud_sprite);
-        // SDL logo
+        // SFML logo
         hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-        hud_sprite->Set_Image(pVideo->Get_Package_Surface("menu/logo_sdl.png"));
+        hud_sprite->Set_Image(pVideo->Get_Package_Surface("menu/logo_sfml.png"));
         hud_sprite->Set_Pos(static_cast<float>(game_res_w) * 0.04f, static_cast<float>(game_res_h) * 0.935f);
         m_draw_list.push_back(hud_sprite);
     }
