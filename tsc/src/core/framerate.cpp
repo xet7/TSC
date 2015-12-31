@@ -193,7 +193,7 @@ void cFramerate::Set_Fixed_Speedfacor(const float val)
 void Correct_Frame_Time(const unsigned int fps)
 {
     while (!Is_Frame_Time(fps)) {
-        SDL_Delay(1);
+        sf::sleep(sf::milliseconds(1));
     }
 }
 

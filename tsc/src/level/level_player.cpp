@@ -259,7 +259,7 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
     pVideo->Render();
 
     // wait
-    SDL_Delay(500);
+    sf::sleep(sf::milliseconds(500));
     pFramerate->Reset();
 
     Set_Image_Num(ALEX_IMG_DEAD);
@@ -2312,7 +2312,7 @@ void cLevel_Player::Draw_Animation(Alex_type new_mtype)
         pVideo->Render();
 
         // frame delay
-        SDL_Delay(120);
+        sf::sleep(sf::milliseconds(120));
     }
 
     pFramerate->Reset();
