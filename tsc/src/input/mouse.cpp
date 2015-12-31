@@ -1433,8 +1433,10 @@ void cMouseCursor::Mover_Update(int move_x, int move_y)
 
     // mouse moves the camera
     pActive_Camera->Move(move_x - m_mover_center_x, move_y - m_mover_center_y);
+
     // keep mouse at it's position
-    sf::Mouse::setPosition(sf::Vector2i(m_mover_center_x, m_mover_center_y));
+    sf::Vector2i center(m_mover_center_x, m_mover_center_y);
+    sf::Mouse::setPosition(center, *pVideo->mp_window);
 
     sf::Event inEvent;
 

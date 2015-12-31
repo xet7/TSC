@@ -533,7 +533,7 @@ bool cEditor::Handle_Event(const sf::Event& evt)
     switch (evt.type) {
     case sf::Event::MouseMoved: {
         if (pMouseCursor->m_mover_mode) {
-            sf::Vector2i pos = sf::Mouse::getPosition();
+            sf::Vector2i pos = sf::Mouse::getPosition(*pVideo->mp_window);
 
             pMouseCursor->Mover_Update(pos.x, pos.y);
         }
