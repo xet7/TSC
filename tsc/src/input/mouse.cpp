@@ -383,7 +383,7 @@ void cMouseCursor::Draw(void)
 void cMouseCursor::Update_Position(void)
 {
     if (!m_mover_mode) {
-        sf::Vector2i curpos = sf::Mouse::getPosition();
+        sf::Vector2i curpos = sf::Mouse::getPosition(*pVideo->mp_window);
         // scale to the virtual game size
         m_x = static_cast<int>(static_cast<float>(curpos.x) * global_downscalex);
         m_y = static_cast<int>(static_cast<float>(curpos.y) * global_downscaley);
