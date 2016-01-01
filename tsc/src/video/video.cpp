@@ -1167,7 +1167,6 @@ cGL_Surface* cVideo::Create_Texture(sf::Image* p_sf_image, bool mipmap /* = 0 */
     }
     // set SDL_image pixel store mode
     else {
-        std::cerr << "WARNING: Not yet to SFML ported call to glPixelStorei() skipped" << std::endl;
         // OLD: pitch is not supported by SFML // glPixelStorei(GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel);
     }
 
