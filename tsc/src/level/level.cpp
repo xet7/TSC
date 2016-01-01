@@ -779,10 +779,10 @@ bool cLevel::Key_Down(const SDLKey key)
     // God Mode
     else if (pKeyboard->m_keys[SDLK_g] && pKeyboard->m_keys[SDLK_o] && pKeyboard->m_keys[SDLK_d] && !editor_enabled) {
         if (pLevel_Player->m_god_mode) {
-            pHud_Debug->Set_Text("Omega Mode disabled");
+            pHud_Debug->Set_Text(_("Omega Mode disabled"));
         }
         else {
-            pHud_Debug->Set_Text("Omega Mode enabled");
+            pHud_Debug->Set_Text(_("Omega Mode enabled"));
         }
 
         pLevel_Player->m_god_mode = !pLevel_Player->m_god_mode;
