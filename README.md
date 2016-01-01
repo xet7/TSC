@@ -42,8 +42,8 @@ please consider the following:
   book](http://git-scm.com/book). Also reading chapter 3 is highly
   recommended as we use branches all the time.
 * If you want to contribute code, please read [the coding
-  conventions document](http://docs.secretchronicles.de/api/devel/md_conventions.html)
-* If you want to contribute artistic work, please read [the styleguide](http://wiki.secretchronicles.de/StyleGuide)
+  conventions document](http://www.secretchronicles.de/docs/2.0.0/cpp/md_docs_pages_conventions.html)
+* If you want to contribute artistic work, please read [the styleguide](http://wiki.secretchronicles.de/StyleGuide.html)
 * If you specifically target issues from the issue tracker, please
   use “fixes #43” for bug tickets you fix and “closes #43” for other
   tickets you resolve as part of the message in your commits. This

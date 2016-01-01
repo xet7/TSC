@@ -79,7 +79,6 @@
 #include <boost/thread/thread.hpp>
 #include <boost/chrono.hpp>
 #include <boost/system/error_code.hpp>
-#include "filesystem/boost_relative.hpp"
 
 // libxml++ (with its prerequisite glibmm)
 #include <glibmm.h>

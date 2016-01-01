@@ -62,11 +62,7 @@ namespace TSC {
 // Returns true if the floats are equal with the given tolerance
     inline bool Is_Float_Equal(float a, float b, float tolerance = 0.0001f)
     {
-        if (fabs(b - a) <= tolerance) {
-            return 1;
-        }
-
-        return 0;
+        return fabs(b - a) <= tolerance;
     }
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

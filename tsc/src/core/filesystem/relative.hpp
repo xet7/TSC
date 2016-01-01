@@ -1,5 +1,5 @@
 /***************************************************************************
- * boost_relative.hpp - Implementation of boost::filesystem::relvative()
+ * relative.hpp - Implementation of relative path detector
  *
  * Copyright © 2013 - 2014 The TSC Contributors
  ***************************************************************************/
@@ -14,20 +14,21 @@
 */
 
 /*
- * This file adds a function make_relative() to boost::filesystem that
+ * This file adds a function fs_relative() to boost::filesystem that
  * allows us to create a relative path from a given “root”, i.e. the
  * common parts of both paths are missing in the returned path object.
+ *
+ * Boost >= 1.60.0 includes such a function, but for the sake of
+ * supporting older versions as well we provide our own version
+ * here.
  */
 
-#ifndef TSC_BOOST_RELATIVE_HPP
-#define TSC_BOOST_RELATIVE_HPP
-#include <boost/filesystem.hpp>
+#ifndef TSC_RELATIVE_HPP
+#define TSC_RELATIVE_HPP
 
-namespace boost {
+namespace TSC {
 
-    namespace filesystem {
-        /// Find the relative path from start_path to target_path.
-        boost::filesystem::path relative(boost::filesystem::path start_path, boost::filesystem::path target_path);
-    }
+    /// Find the relative path from start_path to target_path.
+    boost::filesystem::path fs_relative(boost::filesystem::path start_path, boost::filesystem::path target_path);
 }
 #endif

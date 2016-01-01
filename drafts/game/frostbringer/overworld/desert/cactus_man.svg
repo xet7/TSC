@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,16 +14,27 @@
    height="128"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.91 r13725"
    version="1.0"
-   sodipodi:docbase="D:\Dateien\Desktop\Secret Maryo Chronicles\Drafts\Game\Frostbringer\overworld\desert"
    sodipodi:docname="cactus_man.svg"
-   inkscape:export-filename="N:\Dokumente und Einstellungen\FluXy\Desktop\cactus_man.png"
+   inkscape:export-filename="cactus_man.png"
    inkscape:export-xdpi="360"
    inkscape:export-ydpi="360"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4211">
+      <stop
+         style="stop-color:#86c359;stop-opacity:1"
+         offset="0"
+         id="stop4213" />
+      <stop
+         style="stop-color:#447124;stop-opacity:1"
+         offset="1"
+         id="stop4215" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3108">
       <stop
@@ -394,26 +406,36 @@
        y1="66.056824"
        x2="76.003784"
        y2="69.943184" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4211"
+       id="linearGradient4217"
+       x1="63.939453"
+       y1="0.56398714"
+       x2="66.32148"
+       y2="125.56399"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="64"
-     inkscape:cy="63.5"
+     inkscape:zoom="4"
+     inkscape:cx="48.329473"
+     inkscape:cy="60.86627"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="128px"
      height="128px"
-     inkscape:window-width="1152"
-     inkscape:window-height="788"
-     inkscape:window-x="58"
-     inkscape:window-y="68"
-     showgrid="true" />
+     inkscape:window-width="1280"
+     inkscape:window-height="754"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     showgrid="true"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -422,6 +444,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -430,7 +453,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="color:black;fill:#7bad57;fill-opacity:1;fill-rule:evenodd;stroke:black;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible"
+       style="color:black;fill:url(#linearGradient4217);fill-opacity:1;fill-rule:evenodd;stroke:#112000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible"
        d="M 80.727273,81.212118 C 80.727273,113.59612 84.99588,127.03031 74.424243,127.03031 C 69.138424,127.03031 70.992825,127.26388 59.055653,126.69106 C 49.121154,126.21434 55.582245,91.668891 49.939393,81.454542 C 46.724875,75.635814 36.713547,75.738729 29.457312,65.633709 C 25.829195,60.581199 14.344397,28.310037 16.136298,20.80403 C 17.928199,13.298022 29.360436,17.223835 32.05124,20.807693 C 34.178109,23.640451 40.202662,41.470213 42.955536,51.703543 C 44.348373,56.881174 49.045166,58.734058 53.368969,53.552966 C 58.388236,47.538519 50.295223,13.512566 51.456757,9.9459953 C 55.202302,-1.5549621 71.878797,-0.53375609 76.848485,8.7272679 C 80.509635,15.549828 74.737091,51.339632 77.028091,54.309632 C 78.173591,55.794632 77.686479,58.762981 83.917522,54.751018 C 90.148564,50.739056 92.800274,24.519675 94.752246,22.522663 C 99.740068,17.419753 106.34227,15.054693 109.93991,25.024427 C 112.75188,32.816916 105.40337,55.844147 102.00937,61.777389 C 98.491592,67.926992 80.727273,73.116118 80.727273,81.212118 z "
        id="path1872"
        sodipodi:nodetypes="csssssssssssssssc" />

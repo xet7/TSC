@@ -57,7 +57,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../overworld/world_editor.hpp"
 #include "../scripting/events/key_down_event.hpp"
 #include "../core/global_basic.hpp"
@@ -779,10 +779,10 @@ bool cLevel::Key_Down(const sf::Event& evt)
     // God Mode
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && sf::Keyboard::isKeyPressed(sf::Keyboard::O) && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !editor_enabled) {
         if (pLevel_Player->m_god_mode) {
-            pHud_Debug->Set_Text("Funky God Mode disabled");
+            pHud_Debug->Set_Text(_("Omega Mode disabled"));
         }
         else {
-            pHud_Debug->Set_Text("Funky God Mode enabled");
+            pHud_Debug->Set_Text(_("Omega Mode enabled"));
         }
 
         pLevel_Player->m_god_mode = !pLevel_Player->m_god_mode;
