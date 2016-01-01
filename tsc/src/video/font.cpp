@@ -21,156 +21,69 @@
 #include "../core/global_basic.hpp"
 
 using namespace std;
-
-namespace TSC {
-
-/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-void Font_Delete_Ref(cGL_Surface* surface)
-{
-    pFont->Delete_Ref(surface);
-}
+using namespace TSC;
 
 /* *** *** *** *** *** *** *** Font Manager class *** *** *** *** *** *** *** *** *** *** */
 
 cFont_Manager::cFont_Manager(void)
 {
-    m_font_normal = NULL;
-    m_font_small = NULL;
-    m_font_very_small = NULL;
+    //
 }
 
 cFont_Manager::~cFont_Manager(void)
 {
-    // if not initialized
-    if (!TTF_WasInit()) {
-        return;
-    }
-
-    if (m_font_normal) {
-        TTF_CloseFont(m_font_normal);
-        m_font_normal = NULL;
-    }
-
-    if (m_font_small) {
-        TTF_CloseFont(m_font_small);
-        m_font_small = NULL;
-    }
-
-    if (m_font_very_small) {
-        TTF_CloseFont(m_font_very_small);
-        m_font_very_small = NULL;
-    }
-
-    TTF_Quit();
+    //
 }
 
 void cFont_Manager::Init(void)
 {
-    // if already initialised
-    if (TTF_WasInit()) {
-        return;
-    }
-
-    // init ttf
-    if (TTF_Init() == -1) {
-        cerr << "Error : SDL_TTF initialization failed" << endl;
-        cerr << "Reason : " << SDL_GetError() << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // open fonts
-    m_font_normal           = TTF_OpenFont(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")).c_str(), 18);
-    m_font_small            = TTF_OpenFont(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")).c_str(), 11);
-    m_font_very_small = TTF_OpenFont(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")).c_str(), 9);
-
-    // if loading failed
-    if (!m_font_normal || !m_font_small || !m_font_very_small) {
+    if (!m_font_normal.loadFromFile(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")))) {
         // FIXME: Throw a proper exception
         throw "Font loading failed";
     }
 }
 
-void cFont_Manager::Add_Ref(cGL_Surface* surface)
+// OLD cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
+// OLD {
+// OLD     std::cerr << "WARNING: cFont_Manager::Render_Text() not yet ported to SFML." << std::endl;
+// OLD 
+// OLD     // HACK to satisfy return value
+// OLD     return pVideo->Load_GL_Surface("game/arrow/small/blue/right.png");
+// OLD 
+// OLD     // OLD // get SDL Color
+// OLD     // OLD SDL_Color sdlcolor = color.Get_SDL_Color();
+// OLD     // OLD // create text surface
+// OLD     // OLD cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
+// OLD     // OLD 
+// OLD     // OLD if (!surface) {
+// OLD     // OLD     return NULL;
+// OLD     // OLD }
+// OLD     // OLD 
+// OLD     // OLD surface->m_path = utf8_to_path(text);
+// OLD     // OLD 
+// OLD     // OLD // set function if font gets deleted
+// OLD     // OLD surface->Set_Destruction_Function(&Font_Delete_Ref);
+// OLD     // OLD // add font to active fonts
+// OLD     // OLD Add_Ref(surface);
+// OLD     // OLD 
+// OLD     // OLD return surface;
+// OLD }
+
+void cFont_Manager::Queue_Text(const std::string& text, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */)
 {
-    if (!surface) {
-        return;
-    }
+    sf::Text* p_text = new sf::Text();
 
-    m_active_fonts.push_back(surface);
-}
+    p_text->setFont(m_font_normal);
+    p_text->setColor(color.Get_SFML_Color());
+    p_text->setCharacterSize(fontsize);
+    p_text->setString(text);
 
-void cFont_Manager::Delete_Ref(cGL_Surface* surface)
-{
-    for (ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr) {
-        cGL_Surface* obj = (*itr);
+    cText_Request* p_req = new cText_Request();
+    p_req->mp_text = p_text;
+    p_req->m_pos.x = x;
+    p_req->m_pos.y = y;
 
-        // delete reference if found
-        if (obj == surface) {
-            m_active_fonts.erase(itr);
-            return;
-        }
-    }
-}
-
-cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
-{
-    std::cerr << "WARNING: cFont_Manager::Render_Text() not yet ported to SFML." << std::endl;
-
-    // HACK to satisfy return value
-    return pVideo->Load_GL_Surface("game/arrow/small/blue/right.png");
-
-    // OLD // get SDL Color
-    // OLD SDL_Color sdlcolor = color.Get_SDL_Color();
-    // OLD // create text surface
-    // OLD cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
-    // OLD 
-    // OLD if (!surface) {
-    // OLD     return NULL;
-    // OLD }
-    // OLD 
-    // OLD surface->m_path = utf8_to_path(text);
-    // OLD 
-    // OLD // set function if font gets deleted
-    // OLD surface->Set_Destruction_Function(&Font_Delete_Ref);
-    // OLD // add font to active fonts
-    // OLD Add_Ref(surface);
-    // OLD 
-    // OLD return surface;
-}
-
-void cFont_Manager::Grab_Textures(void)
-{
-    // save to software memory
-    for (ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr) {
-        cGL_Surface* obj = (*itr);
-
-        // get software texture and save it
-        m_software_textures.push_back(obj->Get_Software_Texture());
-        // delete hardware texture
-        if (glIsTexture(obj->m_image)) {
-            glDeleteTextures(1, &obj->m_image);
-        }
-        obj->m_image = 0;
-    }
-}
-
-void cFont_Manager::Restore_Textures(void)
-{
-    // load back into hardware textures
-    for (Saved_Texture_List::iterator itr = m_software_textures.begin(); itr != m_software_textures.end(); ++itr) {
-        // get saved texture
-        cSaved_Texture* soft_tex = (*itr);
-        // load it
-        soft_tex->m_base->Load_Software_Texture(soft_tex);
-    }
-
-    // delete software textures
-    for (Saved_Texture_List::iterator itr = m_software_textures.begin(); itr != m_software_textures.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_software_textures.clear();
+    pRenderer->Add(p_req); // manages p_text
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -178,5 +91,3 @@ void cFont_Manager::Restore_Textures(void)
 cFont_Manager* pFont = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-} // namespace TSC
