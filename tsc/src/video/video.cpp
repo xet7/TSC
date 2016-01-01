@@ -116,7 +116,7 @@ void cVideo::Init_CEGUI(void) const
 #endif
 
     // set initial mouse position
-    sf::Vector2i mousepos = sf::Mouse::getPosition();
+    sf::Vector2i mousepos = sf::Mouse::getPosition(*pVideo->mp_window);
     CEGUI::MouseCursor::setInitialMousePosition(CEGUI::Point(mousepos.x, mousepos.y));
     // add custom widgets
     CEGUI::WindowFactoryManager::addFactory<CEGUI::TSC_SpinnerFactory>();
