@@ -69,6 +69,33 @@ void cClear_Request::Draw(void)
     glLoadIdentity();
 }
 
+/* *** *** *** *** *** *** cText_Request *** *** *** *** *** *** *** *** *** *** *** */
+
+cText_Request::cText_Request(void)
+    : cRender_Request()
+{
+    m_type = REND_TEXT;
+    mp_text = NULL;
+}
+
+cText_Request::~cText_Request(void)
+{
+    if (mp_text)
+        delete mp_text;
+}
+
+/* FIXME: This is totally unperformant. This saves the entire OpenGL stack,
+ * then executes the SFML drawing, and then restores the OpenGL stack, and
+ * that for each and every text render request. This should really be optimised
+ * into having to save/restore only once for ALL SFML-related drawing.
+ */
+void cText_Request::Draw(void)
+{
+    pVideo->mp_window->pushGLStates();
+    pVideo->mp_window->draw(*mp_text);
+    pVideo->mp_window->popGLStates();
+}
+
 /* *** *** *** *** *** *** cRender_Request_Advanced *** *** *** *** *** *** *** *** *** *** *** */
 
 cRender_Request_Advanced::cRender_Request_Advanced(void)

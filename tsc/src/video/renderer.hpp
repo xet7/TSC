@@ -31,7 +31,7 @@ namespace TSC {
         REND_RECT = 2,
         REND_GRADIENT = 3,
         REND_SURFACE = 4,
-        REND_TEXT = 5, // todo
+        REND_TEXT = 5,
         REND_LINE = 6,
         REND_CIRCLE = 7
     };
@@ -66,6 +66,20 @@ namespace TSC {
         // draw
         virtual void Draw(void);
     };
+
+    /* *** *** *** *** *** *** cText_Request *** *** *** *** *** *** *** *** *** *** *** */
+
+    class cText_Request: public cRender_Request {
+    public:
+        cText_Request(void);
+        virtual ~cText_Request();
+
+        virtual void Draw(void);
+
+        sf::Text* mp_text;
+        sf::Vector2f m_pos;
+    };
+
 
     /* *** *** *** *** *** *** cRender_Request_Advanced *** *** *** *** *** *** *** *** *** *** *** */
 
