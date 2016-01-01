@@ -21,7 +21,7 @@
 #include "../core/framerate.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../core/xml_attributes.hpp"
 
 #include "../core/global_basic.hpp"

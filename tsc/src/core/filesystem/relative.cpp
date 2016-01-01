@@ -13,10 +13,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "boost_relative.hpp"
-
-namespace boost {
-namespace filesystem {
+#include <boost/filesystem.hpp>
+#include "relative.hpp"
 
 /**
  * Returns the path you need to walk in order to go from `start_path' to
@@ -30,7 +28,7 @@ namespace filesystem {
  * Only works with absolute pathes. If relative ones are passed, boost::filesystem::absolute()
  * is called on them previously.
  */
-boost::filesystem::path relative(boost::filesystem::path start_path, boost::filesystem::path target_path)
+boost::filesystem::path TSC::fs_relative(boost::filesystem::path start_path, boost::filesystem::path target_path)
 {
     start_path  = boost::filesystem::absolute(start_path);
     target_path = boost::filesystem::absolute(target_path);
@@ -75,7 +73,4 @@ boost::filesystem::path relative(boost::filesystem::path start_path, boost::file
     }
 
     return result;
-}
-
-}
 }

@@ -57,7 +57,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../overworld/world_editor.hpp"
 #include "../scripting/events/key_down_event.hpp"
 #include "../core/global_basic.hpp"
