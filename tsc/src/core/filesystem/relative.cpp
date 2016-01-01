@@ -13,6 +13,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/version.hpp>
 #include <boost/filesystem.hpp>
 #include "relative.hpp"
 
@@ -27,9 +28,20 @@
  *
  * Only works with absolute pathes. If relative ones are passed, boost::filesystem::absolute()
  * is called on them previously.
+ *
+ * With boost >= 1.60.0 this function is implemented on top of
+ * boost::filesystem::relative(). With boost versions below that
+ * we provide our own implementation.
+ *
+ * TODO: If boost 1.60.0 becomes common enough among distros, remove
+ * our custom implementation.
  */
 boost::filesystem::path TSC::fs_relative(boost::filesystem::path start_path, boost::filesystem::path target_path)
 {
+#if BOOST_VERSION >= 106000
+    // Boost 1.60.0 has fs::relative(). Beware inverted argument order.
+    return boost::filesystem::relative(target_path, start_path);
+#else
     start_path  = boost::filesystem::absolute(start_path);
     target_path = boost::filesystem::absolute(target_path);
 
@@ -73,4 +85,5 @@ boost::filesystem::path TSC::fs_relative(boost::filesystem::path start_path, boo
     }
 
     return result;
+#endif
 }
