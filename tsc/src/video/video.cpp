@@ -30,6 +30,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../gui/spinner.hpp"
 #include "../core/global_basic.hpp"
 
@@ -675,7 +676,7 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
     for (vector<fs::path>::iterator itr = image_files.begin(); itr != image_files.end(); ++itr) {
         // get filenames
         fs::path filename = (*itr);
-        fs::path cache_filename = imgcache_dir_active / fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename);
+        fs::path cache_filename = imgcache_dir_active / fs_relative(pResource_Manager->Get_Game_Data_Directory(), filename);
 
         // if directory
         if (fs::is_directory(filename)) {
@@ -1068,10 +1069,10 @@ cVideo::cSoftware_Image cVideo :: Load_Image_Helper(boost::filesystem::path file
             // Because we use the path relative to the game data directory regardless of the package,
             // normal pixmaps can be found under CACHEDIR/pixmaps/... and package pixmaps can be
             // found under CACHEDIR/packages/PACKAGE/pixmaps/...
-            fs::path rel = fs::relative(pResource_Manager->Get_Game_Data_Directory(), filename);
+            fs::path rel = fs_relative(pResource_Manager->Get_Game_Data_Directory(), filename);
             fs::path img_filename_cache;
             if (rel.begin() != rel.end() && *(rel.begin()) != fs::path(".."))
-                img_filename_cache = m_imgcache_dir / rel; // Why add .png here? Should be in the return value of fs::relative() anyway.
+                img_filename_cache = m_imgcache_dir / rel; // Why add .png here? Should be in the return value of fs_relative() anyway.
 
             // check if image cache file exists
             if (!img_filename_cache.empty() && fs::exists(img_filename_cache) && fs::is_regular_file(img_filename_cache))

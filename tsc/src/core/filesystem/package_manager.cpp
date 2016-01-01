@@ -22,6 +22,7 @@
 #include "package_manager.hpp"
 #include "resource_manager.hpp"
 #include "filesystem.hpp"
+#include "relative.hpp"
 #include "../../user/preferences.hpp"
 #include "../property_helper.hpp"
 #include "../errors.hpp"
@@ -464,12 +465,12 @@ void cPackage_Manager :: Fix_Package_Paths( void )
 
         if(i.user_data_dir.empty()) {
             // No user package path found, map from game package path
-            fs::path rel = fs::relative(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), i.game_data_dir);
+            fs::path rel = fs_relative(pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages"), i.game_data_dir);
             i.user_data_dir = pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages") / rel;
         }
         else if(i.game_data_dir.empty()) {
             // No game package path found, map from user package path
-            fs::path rel = fs::relative(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), i.user_data_dir);
+            fs::path rel = fs_relative(pResource_Manager->Get_User_Data_Directory() / utf8_to_path("packages"), i.user_data_dir);
             i.game_data_dir = pResource_Manager->Get_Game_Data_Directory() / utf8_to_path("packages") / rel;
         }
     }
@@ -562,7 +563,7 @@ fs::path cPackage_Manager :: Find_Relative_Path(fs::path dir, fs::path path)
             continue;
 
         // Found the path in the search path that it is under
-        return fs::relative(subdir, path);
+        return fs_relative(subdir, path);
     }
 
     return fs::path();
