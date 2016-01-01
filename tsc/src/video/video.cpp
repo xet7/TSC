@@ -243,7 +243,7 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_p
 
     // TODO: Fullscreen?
 
-    mp_window = new sf::Window(videomode, CAPTION);
+    mp_window = new sf::RenderWindow(videomode, CAPTION);
     mp_window->setMouseCursorVisible(false);
 
     if (use_preferences && pPreferences->m_video_vsync) {
