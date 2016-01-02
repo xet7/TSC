@@ -44,7 +44,7 @@ namespace TSC {
 
 cVideo::cVideo(void)
 {
-    mp_window = NULL;
+    mp_window = new sf::RenderWindow();
     m_opengl_version = 0;
 
     m_double_buffer = 0;
@@ -241,9 +241,14 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_p
         }
     }
 
-    // TODO: Fullscreen?
+    Uint32 style;
 
-    mp_window = new sf::RenderWindow(videomode, CAPTION);
+    if (pPreferences->m_video_fullscreen)
+        style = sf::Style::Fullscreen;
+    else
+        style = sf::Style::Default;
+
+    mp_window->create(videomode, CAPTION, style);
     mp_window->setMouseCursorVisible(false);
 
     if (use_preferences && pPreferences->m_video_vsync) {
@@ -847,13 +852,8 @@ void cVideo::Toggle_Fullscreen(void)
     GLclampf clear_color[4];
     glGetFloatv(GL_COLOR_CLEAR_VALUE, clear_color);
 
-#ifdef _WIN32
-    // windows needs reinitialization
+    // Video must be reinitialized
     Init_Video();
-#else
-    // works only for X11 platforms
-    // OLD SDL_WM_ToggleFullScreen(screen);
-#endif
 
     // set back clear color
     glClearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
