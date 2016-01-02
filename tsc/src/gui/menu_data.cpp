@@ -2533,6 +2533,7 @@ bool cMenu_Options::Video_Button_Apply_Clicked(const CEGUI::EventArgs& event)
 
     pGuiSystem->renderGUI();
     pRenderer->Render();
+    pVideo->mp_window->display();
 
     // apply new settings
     pPreferences->Apply_Video(m_vid_w, m_vid_h, m_vid_bpp, m_vid_fullscreen, m_vid_vsync, m_vid_geometry_detail, m_vid_texture_detail);
