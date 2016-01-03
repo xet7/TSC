@@ -1549,7 +1549,8 @@ void cMouseCursor::Editor_Update(void)
             info.insert(0, "Start ");
         }
 
-        pFont->Queue_Text(info, m_x + 20, m_y + 35, cFont_Manager::FONTSIZE_SMALL, white);
+        pFont->Prepare_SFML_Text(m_coords_text, info, m_x + 20, m_y + 35, cFont_Manager::FONTSIZE_SMALL, white);
+        pFont->Queue_Text(m_coords_text);
 
         // if in debug mode draw current position X, Y, Z and if available editor Z
         if (game_debug) {
@@ -1560,7 +1561,8 @@ void cMouseCursor::Editor_Update(void)
                 info.insert(info.length(), _("  Editor Z : ") + float_to_string(m_hovering_object->m_obj->m_editor_pos_z, 6));
             }
 
-            pFont->Queue_Text(info, m_x + 20, m_y + 55, cFont_Manager::FONTSIZE_SMALL, white);
+            pFont->Prepare_SFML_Text(m_extended_coords_text, info, m_x + 20, m_y + 55, cFont_Manager::FONTSIZE_SMALL, white);
+            pFont->Queue_Text(m_extended_coords_text);
         }
     }
 
