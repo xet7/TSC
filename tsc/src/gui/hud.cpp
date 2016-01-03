@@ -129,10 +129,10 @@ void cMiniPointsText::Draw()
 /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
 
 cHud_Manager::cHud_Manager(cSprite_Manager* sprite_manager)
-    : cObject_Manager<cHudSprite>()
 {
     m_sprite_manager = sprite_manager;
     m_loaded = 0;
+    mp_menu_background = NULL;
 }
 
 cHud_Manager::~cHud_Manager(void)
@@ -151,66 +151,67 @@ void cHud_Manager::Load(void)
     }
 
     // Menu Background ( Alex head and the Goldpiece image )
-    cMenuBackground* menu_background = new cMenuBackground(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(menu_background));
+    mp_menu_background = new cMenuBackground(m_sprite_manager);
     // Point Display
-    pHud_Points = new cPlayerPoints(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Points));
+    pHud_Points = new cPlayerPoints();
     // Time Display
-    pHud_Time = new cTimeDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Time));
+    pHud_Time = new cTimeDisplay();
     // Live Display
-    pHud_Lives = new cLiveDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Lives));
+    pHud_Lives = new cLiveDisplay();
     // Gold Display
-    pHud_Goldpieces = new cGoldDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Goldpieces));
+    pHud_Goldpieces = new cGoldDisplay();
     // Info Message Display
-    pHud_Infomessage = new cInfoMessage(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Infomessage));
+    pHud_Infomessage = new cInfoMessage();
     // Itembox
     pHud_Itembox = new cItemBox(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Itembox));
+    // FPS Display
+    pHud_Fps = new cFpsDisplay();
     // Debug Display
     pHud_Debug = new cDebugDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Debug));
 
     m_loaded = 1;
 }
 
 void cHud_Manager::Unload(void)
 {
-    if (objects.empty()) {
-        return;
-    }
-
-    Delete_All();
+    delete pHud_Lives;
+    delete pHud_Goldpieces;
+    delete pHud_Points;
+    delete pHud_Time;
+    delete pHud_Infomessage;
+    delete pHud_Fps;
+    delete pHud_Debug;
+    delete pHud_Itembox;
 
     pHud_Lives = NULL;
     pHud_Goldpieces = NULL;
     pHud_Points = NULL;
     pHud_Time = NULL;
     pHud_Infomessage = NULL;
+    pHud_Fps = NULL;
     pHud_Debug = NULL;
     pHud_Itembox = NULL;
 
     m_loaded = 0;
 }
 
+/**
+ * This function positions the different elements of the HUD on
+ * the screen. It is (contrary to what the name suggests) *not*
+ * called once a frame.
+ */
 void cHud_Manager::Update_Text(void)
 {
     // note : update the life display before updating the time display
 
     if (!objects.empty()) {
-        cMenuBackground* item = static_cast<cMenuBackground*>(objects[0]);
-
         if (Game_Mode != MODE_OVERWORLD) {
             // goldpiece
-            item->m_rect_goldpiece.m_y = item->m_rect_alex_head.m_y + 6.0f;
+            mp_menu_background->m_rect_goldpiece.m_y = mp_menu_background->m_rect_alex_head.m_y + 6.0f;
         }
         else {
             // goldpiece
-            item->m_rect_goldpiece.m_y = 7.0f;
+            mp_menu_background->m_rect_goldpiece.m_y = 7.0f;
         }
     }
 
@@ -257,6 +258,11 @@ void cHud_Manager::Update_Text(void)
         pHud_Infomessage->Update();
     }
 
+    if (pHud_Fps) {
+        pHud_Fps->Set_Pos(game_res_w * 0.01f, 18.0f);
+        pHud_Fps->Update();
+    }
+
     if (pHud_Debug) {
         pHud_Debug->Set_Pos(game_res_w * 0.45f, 80.0f);
         pHud_Debug->Update();
@@ -271,17 +277,31 @@ void cHud_Manager::Update_Text(void)
 void cHud_Manager::Update(void)
 {
     // update HUD objects
-    for (HudSpriteList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
-        (*itr)->Update();
-    }
+
+    mp_menu_background->Update();
+    pHudPoints->Update();
+    pHud_Time->Update();
+    pHud_Lives->Update();
+    pHud_Goldpieces->Update();
+    pHud_Infomessage->Update();
+    pHud_ItemBox->Update();
+    pHud_Fps()->Update;
+    pHud_Debug->Update();
 }
 
 void cHud_Manager::Draw(void)
 {
     // draw HUD objects
-    for (HudSpriteList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
-        (*itr)->Draw();
-    }
+
+    mp_menu_background->Draw();
+    pHudPoints->Draw();
+    pHud_Time->Draw();
+    pHud_Lives->Draw();
+    pHud_Goldpieces->Draw();
+    pHud_Infomessage->Draw();
+    pHud_ItemBox->Draw();
+    pHud_Fps()->Update;
+    pHud_Debug->Draw();
 }
 
 void cHud_Manager::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
@@ -289,9 +309,7 @@ void cHud_Manager::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
     m_sprite_manager = sprite_manager;
 
     // update HUD objects
-    for (HudSpriteList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
-        (*itr)->Set_Sprite_Manager(m_sprite_manager);
-    }
+    Update();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

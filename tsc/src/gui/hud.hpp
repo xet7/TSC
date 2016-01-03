@@ -36,7 +36,7 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
 
-    class cHud_Manager : public cObject_Manager<cHudSprite> {
+    class cHud_Manager {
     public:
         cHud_Manager(cSprite_Manager* sprite_manager);
         virtual ~cHud_Manager(void);
@@ -63,6 +63,8 @@ namespace TSC {
 
         // true if loaded
         bool m_loaded;
+    private:
+        cMenuBackground* mp_menu_background;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
