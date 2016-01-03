@@ -382,7 +382,7 @@ void cStatusText::Draw()
 
 /* *** *** *** *** *** *** cPlayerPoints *** *** *** *** *** *** *** *** *** *** *** */
 
-cPlayerPoints::cPlayerPoints(cSprite_Manager* sprite_manager)
+cPlayerPoints::cPlayerPoints()
     : cStatusText()
 {
     Set_Points(pLevel_Player->m_points);

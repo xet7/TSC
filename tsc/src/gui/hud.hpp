@@ -128,7 +128,7 @@ namespace TSC {
 
     class cPlayerPoints : public cStatusText {
     public:
-        cPlayerPoints(cSprite_Manager* sprite_manager);
+        cPlayerPoints();
         virtual ~cPlayerPoints(void);
 
         void Set_Points(long points);
