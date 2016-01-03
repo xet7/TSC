@@ -369,13 +369,30 @@ cStatusText::~cStatusText(void)
     //
 }
 
+/**
+ * Prepares the wrapped sf::Text instance (`m_text` member) so that it is suitable
+ * for drawing by SFML. Use this method instead of adjusting the sf::Text instance
+ * directly where possible, because it does some conversions.
+ *
+ * This method is a convenience wrapper around cFont_Manager::Prepare_SFML_Text()
+ * with the things we know to always be the same in all subclasses set automatically.
+ *
+ * When you subclass cStatusText(), you must call this method each time you want
+ * to change the text or its attributes. Do not call it every frame, that is
+ * unnecessary.
+ */
+void cStatusText::Prepare_Text_For_SFML(const std::string& text, int fontsize, Color color)
+{
+    pFont->Prepare_SFML_Text(m_text, text, m_x, m_y, fontsize, color);
+}
+
 void cStatusText::Draw()
 {
     if (Game_Mode == MODE_MENU) {
         return;
     }
 
-    // Subclasses are supposed to call pFont->Prepare_SFML_Text(m_text)
+    // Subclasses are supposed to call Prepare_Text_For_SFML()
     // before Draw() gets called.
     pFont->Queue_Text(m_text);
 }
@@ -428,7 +445,7 @@ void cPlayerPoints::Set_Points(long points)
     char text[70];
     sprintf(text, _("Points %08d"), static_cast<int>(pLevel_Player->m_points));
 
-    pFont->Prepare_SFML_Text(m_points_text, text, m_x, m_y, cFont_Manager::FONTSIZE_NORMAL, white);
+    Prepare_Text_For_SFML(text, cFont_Manager::FONTSIZE_NORMAL, white);
 }
 
 void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color& color /* = static_cast<Uint8>(255) */, bool allow_multiplier /* = 0 */)

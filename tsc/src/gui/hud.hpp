@@ -94,6 +94,9 @@ namespace TSC {
 
         virtual void Draw();
 
+    protected:
+        void Prepare_Text_For_SFML(const std::string&, int fontsize, Color color);
+
     private:
         sf::Text m_text;
         float m_x;
@@ -122,7 +125,6 @@ namespace TSC {
         sf::Text m_text;
         bool m_disabled;
     };
-
 
     /* *** *** *** *** *** cPlayerPoints *** *** *** *** *** *** *** *** *** *** *** *** */
 
