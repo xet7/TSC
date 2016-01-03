@@ -223,11 +223,13 @@ void cLevel_Exit::Draw(cSurface_Request* request /* = NULL */)
 
     // draw destination entry name
     if (!m_dest_entry.empty()) {
-        pFont->Queue_Text(m_dest_entry,
-                          m_col_rect.m_x + m_col_rect.m_w + 5 - pActive_Camera->m_x,
-                          m_col_rect.m_y - pActive_Camera->m_y,
-                          cFont_Manager::FONTSIZE_SMALL,
-                          white);
+        pFont->Prepare_SFML_Text(m_dest_entry_text,
+                                 m_dest_entry,
+                                 m_col_rect.m_x + m_col_rect.m_w + 5 - pActive_Camera->m_x,
+                                 m_col_rect.m_y - pActive_Camera->m_y,
+                                 cFont_Manager::FONTSIZE_SMALL,
+                                 white);
+        pFont->Queue_Text(m_dest_entry_text);
     }
 }
 

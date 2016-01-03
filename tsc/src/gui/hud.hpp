@@ -34,6 +34,22 @@ namespace TSC {
         virtual cHudSprite* Copy(void) const;
     };
 
+    /* *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** *** */
+
+    class cMenuBackground : public cHudSprite {
+    public:
+        cMenuBackground(cSprite_Manager* sprite_manager);
+        virtual ~cMenuBackground(void);
+
+        virtual void Draw(cSurface_Request* request = NULL);
+
+        cGL_Surface* m_alex_head;
+        cGL_Surface* m_goldpiece;
+
+        GL_point m_rect_alex_head;
+        GL_point m_rect_goldpiece;
+    };
+
     /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
 
     class cHud_Manager {
@@ -72,22 +88,6 @@ namespace TSC {
 // The HUD Manager
     extern cHud_Manager* pHud_Manager;
 
-    /* *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** *** */
-
-    class cMenuBackground : public cHudSprite {
-    public:
-        cMenuBackground(cSprite_Manager* sprite_manager);
-        virtual ~cMenuBackground(void);
-
-        virtual void Draw(cSurface_Request* request = NULL);
-
-        cGL_Surface* m_alex_head;
-        cGL_Surface* m_goldpiece;
-
-        GL_point m_rect_alex_head;
-        GL_point m_rect_goldpiece;
-    };
-
     /* *** *** *** *** *** cStatusText *** *** *** *** *** *** *** *** *** *** *** *** */
 
     /// Base class for text-showing HUD elements.
@@ -103,7 +103,6 @@ namespace TSC {
     protected:
         void Prepare_Text_For_SFML(const std::string&, int fontsize, Color color);
 
-    private:
         sf::Text m_text;
         float m_x;
         float m_y;
@@ -211,7 +210,7 @@ namespace TSC {
 
     private:
         char m_fps_text[5000];
-    }
+    };
 
     /* *** *** *** *** *** cInfoMessage *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -285,7 +284,9 @@ namespace TSC {
         virtual ~cDebugDisplay(void);
 
         virtual void Update(void);
-        virtual void Draw(cSurface_Rqeuest = NULL);
+        virtual void Draw(cSurface_Request* request = NULL);
+
+        void Set_Text(const std::string& ntext, float display_time = speedfactor_fps * 2.0f);
 
         std::string m_text;
         std::string m_text_old;

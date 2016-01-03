@@ -78,17 +78,17 @@ cMiniPointsText::~cMiniPointsText()
 void cMiniPointsText::Draw()
 {
     m_vely -= m_vely *  0.01f * pFramerate->m_speed_factor;
-    m_text.move(0, obj->Get_Vel_Y() * pFramerate->m_speed_factor);
+    m_text.move(0, m_vely * pFramerate->m_speed_factor);
 
     // disable
     if (m_vely > -1.0f) {
         Disable();
-        continue;
+        return;
     }
     // fade out
     else if (m_vely > -1.2f) {
         sf::Color col = m_text.getColor();
-        col.a = static_cast<uint8_t>(255 * -(obj->m_vely + 1.0f) * 5);
+        col.a = static_cast<uint8_t>(255 * -(m_vely + 1.0f) * 5);
         m_text.setColor(col);
     }
 
@@ -142,7 +142,7 @@ cHud_Manager::~cHud_Manager(void)
 
 void cHud_Manager::Load(void)
 {
-    if (!m_loaded && !objects.empty()) {
+    if (!m_loaded) {
         Unload();
     }
     else if (m_loaded) {
@@ -204,7 +204,7 @@ void cHud_Manager::Update_Text(void)
 {
     // note : update the life display before updating the time display
 
-    if (!objects.empty()) {
+    if (mp_menu_background) {
         if (Game_Mode != MODE_OVERWORLD) {
             // goldpiece
             mp_menu_background->m_rect_goldpiece.m_y = mp_menu_background->m_rect_alex_head.m_y + 6.0f;
@@ -279,13 +279,13 @@ void cHud_Manager::Update(void)
     // update HUD objects
 
     mp_menu_background->Update();
-    pHudPoints->Update();
+    pHud_Points->Update();
     pHud_Time->Update();
     pHud_Lives->Update();
     pHud_Goldpieces->Update();
     pHud_Infomessage->Update();
-    pHud_ItemBox->Update();
-    pHud_Fps()->Update;
+    pHud_Itembox->Update();
+    pHud_Fps->Update();
     pHud_Debug->Update();
 }
 
@@ -294,13 +294,13 @@ void cHud_Manager::Draw(void)
     // draw HUD objects
 
     mp_menu_background->Draw();
-    pHudPoints->Draw();
+    pHud_Points->Draw();
     pHud_Time->Draw();
     pHud_Lives->Draw();
     pHud_Goldpieces->Draw();
     pHud_Infomessage->Draw();
-    pHud_ItemBox->Draw();
-    pHud_Fps()->Update;
+    pHud_Itembox->Draw();
+    pHud_Fps->Draw();
     pHud_Debug->Draw();
 }
 
@@ -315,20 +315,6 @@ void cHud_Manager::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cHud_Manager* pHud_Manager = NULL;
-
-/* *** *** *** *** *** *** PointsText *** *** *** *** *** *** *** *** *** *** *** */
-
-PointsText::PointsText(cSprite_Manager* sprite_manager)
-    : cHudSprite(sprite_manager)
-{
-    m_points = 0;
-    m_vely = 0.0f;
-}
-
-PointsText::~PointsText(void)
-{
-    //
-}
 
 /* *** *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -491,7 +477,7 @@ void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float 
     }
 
     cMiniPointsText* new_obj = new cMiniPointsText();
-    pFont_Manager->Prepare_SFML_Text(new_obj->Get_Text(), strext, x, y, cFont_Manager::FONTSIZE_SMALL, color);
+    pFont->Prepare_SFML_Text(new_obj->Get_Text(), strtext, x, y, cFont_Manager::FONTSIZE_SMALL, color);
     new_obj->Set_Vel_Y(-1.4f);
 
     // check if it collides with an already active points text
@@ -510,7 +496,7 @@ void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float 
 
 void cPlayerPoints::Clear(void)
 {
-    for (PointsTextList::iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
+    for (std::vector<cMiniPointsText*>::iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
         delete *itr;
     }
 
@@ -530,7 +516,7 @@ cGoldDisplay::~cGoldDisplay(void)
     //
 }
 
-void cGoldDisplay::Draw(cSurface_Request* request /* = NULL */)
+void cGoldDisplay::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_MENU) {
         return;
@@ -653,10 +639,10 @@ void cTimeDisplay::Update(void)
 
     // Set new time
     sprintf(m_clocktext, _("Time %02d:%02d"), minutes, seconds - (minutes * 60));
-    Prepare_Text_For_SFML(clocktext, cFont_Manager::FONTSIZE_NORMAL, white);
+    Prepare_Text_For_SFML(m_clocktext, cFont_Manager::FONTSIZE_NORMAL, white);
 }
 
-void cTimeDisplay::Draw(cSurface_Request* request /* = NULL */)
+void cTimeDisplay::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_OVERWORLD || Game_Mode == MODE_MENU) {
         return;
@@ -695,14 +681,14 @@ void cFpsDisplay::Update(void)
 {
     cStatusText::Update();
 
-    sprintf(m_fps_text, "FPS: best %d worst %d current %d average %d speedfactor %.4f",
-            pFramerate->m_fps_best,
-            pFramerate->m_fps_worst,
-            pFramerate->m_fps,
+    sprintf(m_fps_text, "FPS: best %d worst %d current %d average %u speedfactor %.4f",
+            static_cast<int>(pFramerate->m_fps_best),
+            static_cast<int>(pFramerate->m_fps_worst),
+            static_cast<int>(pFramerate->m_fps),
             pFramerate->m_fps_average,
             pFramerate->m_speed_factor);
 
-    Prepare_Text_For_SFML(m_fpstext, cFont_Manager::FONTSIZE_VERYSMALL, white);
+    Prepare_Text_For_SFML(m_fps_text, cFont_Manager::FONTSIZE_VERYSMALL, white);
 }
 
 void cFpsDisplay::Draw()
@@ -759,7 +745,7 @@ void cInfoMessage::Update()
     // then start to fade it out. If m_alpha is <= 0, it
     // has been fade out completed.
     if (m_alpha > 0) {
-        m_background->Set_Pos(0.0f, m_pos_y - 20.0f);
+        m_background->Set_Pos(0.0f, m_y - 20.0f);
 
         if (m_display_time > 0)
             m_display_time -= pFramerate->m_speed_factor;
@@ -950,7 +936,7 @@ void cItemBox::Reset(void)
 /* *** *** *** *** *** *** cDebugDisplay *** *** *** *** *** *** *** *** *** *** *** */
 
 cDebugDisplay::cDebugDisplay(cSprite_Manager* sprite_manager)
-    : cHudSprite(sprite_manager);
+    : cHudSprite(sprite_manager)
 {
     m_type = TYPE_HUD_DEBUG;
     m_name = "HUD Debug";

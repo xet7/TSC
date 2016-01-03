@@ -132,6 +132,8 @@ namespace TSC {
         // editor type color
         Color m_editor_color;
 
+        sf::Text m_dest_entry_text;
+
         // Save to node
         virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);
         virtual std::string Create_Name(void) const;
