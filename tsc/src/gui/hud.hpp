@@ -69,17 +69,6 @@ namespace TSC {
 // The HUD Manager
     extern cHud_Manager* pHud_Manager;
 
-    /* *** *** *** *** *** *** *** *** PointsText *** *** *** *** *** *** *** *** *** */
-
-    struct PointsText : public cHudSprite {
-    public:
-        PointsText(cSprite_Manager* sprite_manager);
-        virtual ~PointsText(void);
-
-        float m_vely;
-        unsigned int m_points;
-    };
-
     /* *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** *** */
 
     class cMenuBackground : public cHudSprite {
@@ -98,13 +87,42 @@ namespace TSC {
 
     /* *** *** *** *** *** cStatusText *** *** *** *** *** *** *** *** *** *** *** *** */
 
-    class cStatusText : public cHudSprite {
+    class cStatusText {
     public:
-        cStatusText(cSprite_Manager* sprite_manager);
+        cStatusText();
         virtual ~cStatusText(void);
 
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
+
+    private:
+        sf::Text m_text;
+        float m_x;
+        float m_y;
     };
+
+    /* *** *** *** *** *** cMiniPointsText *** *** *** *** *** *** *** *** *** *** *** *** */
+
+    class cMiniPointsText {
+    public:
+        cMiniPointsText();
+        virtual ~cMiniPointsText();
+
+        virtual void Draw();
+
+        inline void Set_Vel_Y(float vely) { m_vely = vely; }
+        inline void Enable() { m_disabled = false; }
+        inline void Disable() { m_disabled = true; }
+        inline bool Is_Disabled(){ return m_disabled; }
+
+        inline sf::Text& Get_Text(){ return m_text; }
+        inline float Get_Vel_Y(){ return m_vely; }
+
+    private:
+        float m_vely;
+        sf::Text m_text;
+        bool m_disabled;
+    };
+
 
     /* *** *** *** *** *** cPlayerPoints *** *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -119,10 +137,9 @@ namespace TSC {
         // removes all point texts
         void Clear(void);
 
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
 
-        typedef vector<PointsText*> PointsTextList;
-        PointsTextList m_points_objects;
+        std::vector<cMiniPointsText*> m_points_objects;
     };
 
     /* *** *** *** *** *** cGoldDisplay *** *** *** *** *** *** *** *** *** *** *** *** */

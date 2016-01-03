@@ -63,6 +63,69 @@ cHudSprite* cHudSprite::Copy(void) const
     return hud_sprite;
 }
 
+/* *** *** *** *** *** *** *** cMiniPointsText *** *** *** *** *** *** *** *** *** *** */
+
+cMiniPointsText::cMiniPointsText()
+{
+    m_vely = 0;
+    m_disabled = false;
+}
+
+cMiniPointsText::~cMiniPointsText()
+{
+}
+
+void cMiniPointsText::Draw()
+{
+    m_vely -= m_vely *  0.01f * pFramerate->m_speed_factor;
+    m_text.move(0, obj->Get_Vel_Y() * pFramerate->m_speed_factor);
+
+    // disable
+    if (m_vely > -1.0f) {
+        Disable();
+        continue;
+    }
+    // fade out
+    else if (m_vely > -1.2f) {
+        sf::Color col = m_text.getColor();
+        col.a = static_cast<uint8_t>(255 * -(obj->m_vely + 1.0f) * 5);
+        m_text.setColor(col);
+    }
+
+    // Convert level coordinate to window coordinate
+    float x = m_text.getPosition().x - pActive_Camera->m_x;
+    float y = m_text.getPosition().y - pActive_Camera->m_y;
+
+    // out in left
+    if (x < 0.0f) {
+        x = 3.0f;
+    }
+    // out in right
+    else if (x > game_res_w) {
+        x = game_res_w - m_text.getGlobalBounds().width - 3.0f;
+    }
+
+    // out on top
+    if (y < 0.0f) {
+        y = 3.0f;
+    }
+    // out on bottom
+    else if (y > game_res_h) {
+        y = game_res_h - m_text.getGlobalBounds().height - 3.0f;
+    }
+
+    // create request
+    pFont->Queue_Text(m_text);
+
+    // OLD // shadow
+    // OLD request->m_shadow_color = black;
+    // OLD request->m_shadow_color.alpha = obj->m_color.alpha;
+    // OLD request->m_shadow_pos = 1;
+
+    // OLD // color
+    // OLD request->m_color = Color(static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 30)), obj->m_color.alpha);
+}
+
 /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
 
 cHud_Manager::cHud_Manager(cSprite_Manager* sprite_manager)
@@ -296,11 +359,9 @@ void cMenuBackground::Draw(cSurface_Request* request /* = NULL */)
 
 /* *** *** *** *** *** *** cStatusText *** *** *** *** *** *** *** *** *** *** *** */
 
-cStatusText::cStatusText(cSprite_Manager* sprite_manager)
-    : cHudSprite(sprite_manager)
+cStatusText::cStatusText()
 {
-    m_sprite_array = ARRAY_HUD;
-    Set_Shadow(black, 1.5f);
+    // OLD Set_Shadow(black, 1.5f);
 }
 
 cStatusText::~cStatusText(void)
@@ -308,23 +369,22 @@ cStatusText::~cStatusText(void)
     //
 }
 
-void cStatusText::Draw(cSurface_Request* request /* = NULL */)
+void cStatusText::Draw()
 {
     if (Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw();
+    // Subclasses are supposed to call pFont->Prepare_SFML_Text(m_text)
+    // before Draw() gets called.
+    pFont->Queue_Text(m_text);
 }
 
 /* *** *** *** *** *** *** cPlayerPoints *** *** *** *** *** *** *** *** *** *** *** */
 
 cPlayerPoints::cPlayerPoints(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+    : cStatusText()
 {
-    m_type = TYPE_HUD_POINTS;
-    m_name = "HUD Player points";
-
     Set_Points(pLevel_Player->m_points);
 
     m_points_objects.reserve(50);
@@ -335,75 +395,27 @@ cPlayerPoints::~cPlayerPoints(void)
     Clear();
 }
 
-void cPlayerPoints::Draw(cSurface_Request* request /* = NULL */)
+void cPlayerPoints::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw(request);
+    cStatusText::Draw();
 
-    // draw small points
-    for (PointsTextList::iterator itr = m_points_objects.begin(); itr != m_points_objects.end();) {
+    // draw small points (those next to enemies)
+    for (std::vector<cMiniPointsText*>::iterator itr = m_points_objects.begin(); itr != m_points_objects.end();) {
         // get object pointer
-        PointsText* obj = (*itr);
+        cMiniPointsText* obj = (*itr);
 
         // if finished
-        if (!obj->m_image) {
+        if (obj->Is_Disabled()) {
             itr = m_points_objects.erase(itr);
             delete obj;
         }
         // active
         else {
-            obj->m_vely -= obj->m_vely * 0.01f * pFramerate->m_speed_factor;
-            obj->m_pos_y += obj->m_vely * pFramerate->m_speed_factor;
-
-            // disable
-            if (obj->m_vely > -1.0f) {
-                obj->Set_Image(NULL);
-                continue;
-            }
-            // fade out
-            else if (obj->m_vely > -1.2f) {
-                obj->m_color.alpha = static_cast<Uint8>(255 * -(obj->m_vely + 1.0f) * 5);
-            }
-
-            float x = obj->m_pos_x - pActive_Camera->m_x;
-            float y = obj->m_pos_y - pActive_Camera->m_y;
-
-            // out in left
-            if (x < 0.0f) {
-                x = 3.0f;
-            }
-            // out in right
-            else if (x > game_res_w) {
-                x = game_res_w - obj->m_col_rect.m_w - 3.0f;
-            }
-
-            // out on top
-            if (y < 0.0f) {
-                y = 3.0f;
-            }
-            // out on bottom
-            else if (y > game_res_h) {
-                y = game_res_h - obj->m_col_rect.m_h - 3.0f;
-            }
-
-            // create request
-            cSurface_Request* request = new cSurface_Request();
-            obj->m_image->Blit(x, y, m_pos_z, request);
-
-            // shadow
-            request->m_shadow_color = black;
-            request->m_shadow_color.alpha = obj->m_color.alpha;
-            request->m_shadow_pos = 1;
-
-            // color
-            request->m_color = Color(static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 30)), obj->m_color.alpha);
-
-            // add request
-            pRenderer->Add(request);
-
+            obj->Draw();
             ++itr;
         }
     }
@@ -415,7 +427,8 @@ void cPlayerPoints::Set_Points(long points)
 
     char text[70];
     sprintf(text, _("Points %08d"), static_cast<int>(pLevel_Player->m_points));
-    Set_Image(pFont->Render_Text(pFont->m_font_normal, text, white), 0, 1);
+
+    pFont->Prepare_SFML_Text(m_points_text, text, m_x, m_y, cFont_Manager::FONTSIZE_NORMAL, white);
 }
 
 void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color& color /* = static_cast<Uint8>(255) */, bool allow_multiplier /* = 0 */)
@@ -435,21 +448,19 @@ void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float 
         strtext = int_to_string(points);
     }
 
-    PointsText* new_obj = new PointsText(m_sprite_manager);
-    new_obj->Set_Image(pFont->Render_Text(pFont->m_font_small, strtext, color), 1, 1);
-
-    new_obj->Set_Pos(x, y);
-    new_obj->m_vely = -1.4f;
-    new_obj->m_points = points;
+    cMiniPointsText* new_obj = new cMiniPointsText();
+    pFont_Manager->Prepare_SFML_Text(new_obj->Get_Text(), strext, x, y, cFont_Manager::FONTSIZE_SMALL, color);
+    new_obj->Set_Vel_Y(-1.4f);
 
     // check if it collides with an already active points text
-    for (PointsTextList::iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
-        // get object pointer
-        PointsText* obj = (*itr);
+    for (std::vector<cMiniPointsText*>::const_iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
+        cMiniPointsText* obj = (*itr);
 
-        if (new_obj->m_rect.Intersects(obj->m_col_rect)) {
-            new_obj->Move(obj->m_col_rect.m_w + 5, 0, 1);
+        // If they collide, move our text to the right to ensure readability.
+        if (new_obj->Get_Text().getGlobalBounds().intersects(obj->Get_Text().getGlobalBounds())) {
+            new_obj->Get_Text().move(obj->Get_Text().getGlobalBounds().width + 5, 0);
         }
+
     }
 
     m_points_objects.push_back(new_obj);
