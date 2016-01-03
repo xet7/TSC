@@ -71,17 +71,14 @@ void cClear_Request::Draw(void)
 
 /* *** *** *** *** *** *** cText_Request *** *** *** *** *** *** *** *** *** *** *** */
 
-cText_Request::cText_Request(void)
-    : cRender_Request()
+cText_Request::cText_Request(const sf::Text& text)
+    : cRender_Request(), m_text(text), m_pos(0, 0)
 {
     m_type = REND_TEXT;
-    mp_text = NULL;
 }
 
 cText_Request::~cText_Request(void)
 {
-    if (mp_text)
-        delete mp_text;
 }
 
 /* FIXME: This is totally unperformant. This saves the entire OpenGL stack,
@@ -92,7 +89,7 @@ cText_Request::~cText_Request(void)
 void cText_Request::Draw(void)
 {
     pVideo->mp_window->pushGLStates();
-    pVideo->mp_window->draw(*mp_text);
+    pVideo->mp_window->draw(m_text);
     pVideo->mp_window->popGLStates();
 }
 

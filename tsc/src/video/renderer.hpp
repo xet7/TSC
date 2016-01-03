@@ -71,12 +71,12 @@ namespace TSC {
 
     class cText_Request: public cRender_Request {
     public:
-        cText_Request(void);
+        cText_Request(const sf::Text& text);
         virtual ~cText_Request();
 
         virtual void Draw(void);
 
-        sf::Text* mp_text;
+        const sf::Text& m_text;
         sf::Vector2f m_pos;
     };
 
