@@ -2182,9 +2182,9 @@ void cMenu_Options::Build_Shortcut_List(bool joystick /* = 0 */)
 
         // Keyboard
         if (!joystick) {
-            SDLKey* key = static_cast<SDLKey*>(shortcut_item.m_key);
-            const SDLKey* key_default = static_cast<const SDLKey*>(shortcut_item.m_key_default);
-            shortcut_key = SDL_GetKeyName(*key);
+            sf::Keyboard::Key* key = static_cast<sf::Keyboard::Key*>(shortcut_item.m_key);
+            const sf::Keyboard::Key* key_default = static_cast<const sf::Keyboard::Key*>(shortcut_item.m_key_default);
+            shortcut_key = Get_SFML_Key_Name(*key);
 
             if (*key != *key_default) {
                 shortcut_not_the_default = 1;
@@ -2200,9 +2200,6 @@ void cMenu_Options::Build_Shortcut_List(bool joystick /* = 0 */)
                 shortcut_not_the_default = 1;
             }
         }
-
-        // CEGUI eats [] if not escaped
-        string_replace_all(shortcut_key, "[", "\\[");
 
         item = new CEGUI::ListboxTextItem(shortcut_key);
         // if not default

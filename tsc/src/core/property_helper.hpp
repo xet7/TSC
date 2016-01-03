@@ -197,6 +197,9 @@ namespace TSC {
 // Return the Difficulty name
     std::string Get_Difficulty_Name(Uint8 difficulty);
 
+// Return the name of a keyboard key
+    std::string Get_SFML_Key_Name(sf::Keyboard::Key key);
+
 // Returns the entire content of the nonbinary file `file'.
 // This function does not call close() on `file'.
     std::string readfile(boost::filesystem::ifstream& file);
