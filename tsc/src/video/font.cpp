@@ -69,21 +69,44 @@ void cFont_Manager::Init(void)
 // OLD     // OLD return surface;
 // OLD }
 
-void cFont_Manager::Queue_Text(const std::string& text, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */)
+/**
+ * This function wraps the given SFML text in a render request and
+ * submits that request to the render queue. If in doubt, use the
+ * other overload instead that constructs the sf::Text instance
+ * automatically for you.
+ *
+ * The `text` parameter must be prepared with Prepare_SFML_Text()
+ * before passing it to this function.
+ */
+void cFont_Manager::Queue_Text(const sf::Text& text)
 {
-    sf::Text* p_text = new sf::Text();
+    cText_Request* p_req = new cText_Request(text);
+    pRenderer->Add(p_req);
+}
 
-    p_text->setFont(m_font_normal);
-    p_text->setColor(color.Get_SFML_Color());
-    p_text->setCharacterSize(fontsize);
-    p_text->setString(text);
+/**
+ * From the given parameters, update an sf::Text instance
+ * so that it can be passed to Queue_Text(). Use this function
+ * instead of modifying the sf::Text instance directly; it
+ * converts TSC specifics to SFML's understanding:
+ *
+ * 1. Conversion of TSC camera to SFML view (FIXME)
+ * 2. Conversion of TSC font size name to SFML font size value
+ * 3. Conversion of TSC color object to SFML color object
+ *
+ * FIXME: Convert from TSC camera coordinates to SFML window coordintes
+ * (we do not use SFML views yet).
+ */
+void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string&, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */)
+{
 
-    cText_Request* p_req = new cText_Request();
-    p_req->mp_text = p_text;
-    p_req->m_pos.x = x;
-    p_req->m_pos.y = y;
+    text.setFont(m_font_normal);
+    text.setColor(color.Get_SFML_Color());
+    text.setCharacterSize(fontsize);
+    text.setString(text);
 
-    pRenderer->Add(p_req); // manages p_text
+    // See FIXME in method docs
+    text.setPos(x, y);
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

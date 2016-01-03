@@ -39,7 +39,11 @@ namespace TSC {
 
         /// Queues text for rendering in the render queue. Use this
         /// to get your text onto the screen.
-        void Queue_Text(const std::string& text, float x, float y, int fontsize = FONTSIZE_NORMAL, const Color color = static_cast<uint8_t>(0));
+        void Queue_Text(const sf::Text& text);
+
+        /// Update an sf::Text instance with its parameters so it
+        /// is suitable for Queue_Text().
+        void Prepare_SFML_Text(sf::Text& text, const std::string&, float x, float y, int fontsize = FONTSIZE_NORMAL , const Color color = static_cast<uint8_t>(0));
 
         // Renders the given text into a new surface
         //cGL_Surface* Render_Text(TTF_Font* font, const std::string& text, const Color color = static_cast<Uint8>(0));
