@@ -19,6 +19,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/global_basic.hpp"
+#include "renderer.hpp"
 
 using namespace std;
 using namespace TSC;
@@ -97,20 +98,20 @@ void cFont_Manager::Queue_Text(const sf::Text& text)
  * FIXME: Convert from TSC camera coordinates to SFML window coordintes
  * (we do not use SFML views yet).
  */
-void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string&, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */)
+void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */)
 {
 
     text.setFont(m_font_normal);
     text.setColor(color.Get_SFML_Color());
     text.setCharacterSize(fontsize);
-    text.setString(text);
+    text.setString(str);
 
     // See FIXME in method docs
-    text.setPos(x, y);
+    text.setPosition(x, y);
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cFont_Manager* pFont = NULL;
+cFont_Manager* TSC::pFont = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
