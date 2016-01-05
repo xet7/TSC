@@ -209,9 +209,9 @@ namespace TSC {
         bool m_next_level;
 
         // HUD world name
-        cHudSprite* m_hud_world_name;
+        sf::Text m_hud_world_name;
         // HUD current level name
-        cHudSprite* m_hud_level_name;
+        sf::Text m_hud_level_name;
 
     private:
         // Common stuff for constructors
