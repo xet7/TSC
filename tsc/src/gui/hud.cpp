@@ -389,7 +389,7 @@ cStatusText::~cStatusText(void)
  */
 void cStatusText::Prepare_Text_For_SFML(const std::string& text, int fontsize, Color color)
 {
-    pFont->Prepare_SFML_Text(m_text, text, m_x, m_y, fontsize, color);
+    pFont->Prepare_SFML_Text(m_text, text, m_x, m_y, fontsize, color, true);
 }
 
 void cStatusText::Update()

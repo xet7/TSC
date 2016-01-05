@@ -19,6 +19,7 @@
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/global_basic.hpp"
+#include "../core/game_core.hpp"
 #include "renderer.hpp"
 
 using namespace std;
@@ -91,14 +92,11 @@ void cFont_Manager::Queue_Text(const sf::Text& text)
  * instead of modifying the sf::Text instance directly; it
  * converts TSC specifics to SFML's understanding:
  *
- * 1. Conversion of TSC camera to SFML view (FIXME)
+ * 1. Conversion of TSC camera to SFML view (unless `ignore_camera` is given)
  * 2. Conversion of TSC font size name to SFML font size value
  * 3. Conversion of TSC color object to SFML color object
- *
- * FIXME: Convert from TSC camera coordinates to SFML window coordintes
- * (we do not use SFML views yet).
  */
-void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */)
+void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */, bool ignore_camera /* = false */)
 {
 
     text.setFont(m_font_normal);
@@ -106,8 +104,16 @@ void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string& str, fl
     text.setCharacterSize(fontsize);
     text.setString(str);
 
-    // See FIXME in method docs
-    text.setPosition(x, y);
+    if (ignore_camera) {
+        // SFML thinks 0|0 is left top of the window
+        // (we do not use SFML views yet).
+        text.setPosition(x, y);
+    }
+    else {
+        // Translate level coordinate to window coordinate.
+        // TODO: Abolish our camera system and use SFML views instead.
+        text.setPosition(x - pActive_Camera->m_x, y - pActive_Camera->m_y);
+    }
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
