@@ -216,43 +216,6 @@ void cOverworld_Player::Draw_Debug_Text(void)
     if (!pOverworld_Manager->m_debug_mode) {
         return;
     }
-
-    // Update Lines Texts
-    if (static_cast<int>(m_overworld->m_layer->size()) != m_debug_lines_last) {
-        m_debug_lines->Set_Image(pFont->Render_Text(pFont->m_font_small, "Lines : " + int_to_string(m_overworld->m_layer->size()), blue), 1, 1);
-    }
-    // Update Current Line Texts
-    if (m_current_line != m_debug_current_line_last) {
-        m_debug_current_line->Set_Image(pFont->Render_Text(pFont->m_font_small, "Curr Line : " + int_to_string(m_current_line), green), 1, 1);
-    }
-    // Update Current Waypoint Texts
-    if (m_current_waypoint != m_debug_current_waypoint_last) {
-        m_debug_current_waypoint->Set_Image(pFont->Render_Text(pFont->m_font_small, "Curr Waypoint : " + int_to_string(m_current_waypoint), green), 1, 1);
-    }
-
-    // Draw Line count
-    cSurface_Request* request = new cSurface_Request();
-    m_debug_lines->Draw(request);
-    request->m_shadow_pos = 1.0f;
-    request->m_shadow_color = black;
-    // add request
-    pRenderer->Add(request);
-
-    // Draw Current Line
-    request = new cSurface_Request();
-    m_debug_current_line->Draw(request);
-    request->m_shadow_pos = 1.0f;
-    request->m_shadow_color = black;
-    // add request
-    pRenderer->Add(request);
-
-    // Draw Current Waypoint
-    request = new cSurface_Request();
-    m_debug_current_waypoint->Draw(request);
-    request->m_shadow_pos = 1.0f;
-    request->m_shadow_color = black;
-    // add request
-    pRenderer->Add(request);
 }
 
 void cOverworld_Player::Reset(void)
