@@ -263,6 +263,7 @@ namespace TSC {
 
         // render data array
         RenderList m_render_data;
+        std::vector<cText_Request*> m_text_render_data;
 
         // Z position sort
         struct zpos_sort {
