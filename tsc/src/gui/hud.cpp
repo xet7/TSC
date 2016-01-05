@@ -697,7 +697,7 @@ void cFpsDisplay::Draw()
         return;
     }
 
-    cFpsDisplay::Draw();
+    cStatusText::Draw();
 }
 
 /* *** *** *** *** *** cInfoMessage *** *** *** *** *** *** *** *** *** *** *** */
