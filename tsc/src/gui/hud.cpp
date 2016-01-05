@@ -259,7 +259,7 @@ void cHud_Manager::Update_Text(void)
     }
 
     if (pHud_Fps) {
-        pHud_Fps->Set_Pos(game_res_w * 0.01f, 18.0f);
+        pHud_Fps->Set_Pos(game_res_w * 0.01f, 10.0f);
         pHud_Fps->Update();
     }
 
