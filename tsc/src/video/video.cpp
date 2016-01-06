@@ -269,7 +269,6 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_p
 
         // save textures
         pImage_Manager->Grab_Textures(reload_textures_from_file, cegui_initialized);
-        pFont->Grab_Textures();
         pGuiRenderer->grabTextures();
         pImage_Manager->Delete_Hardware_Textures();
 
@@ -305,7 +304,6 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_p
          * must be the first CEGUI call after the grabTextures function
         */
         pGuiRenderer->restoreTextures();
-        pFont->Restore_Textures();
 
         // send new size to CEGUI
         pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(videomode.width), static_cast<float>(videomode.height)));

@@ -19,164 +19,105 @@
 #include "../core/property_helper.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/global_basic.hpp"
+#include "../core/game_core.hpp"
+#include "renderer.hpp"
 
 using namespace std;
-
-namespace TSC {
-
-/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-void Font_Delete_Ref(cGL_Surface* surface)
-{
-    pFont->Delete_Ref(surface);
-}
+using namespace TSC;
 
 /* *** *** *** *** *** *** *** Font Manager class *** *** *** *** *** *** *** *** *** *** */
 
 cFont_Manager::cFont_Manager(void)
 {
-    m_font_normal = NULL;
-    m_font_small = NULL;
-    m_font_very_small = NULL;
+    //
 }
 
 cFont_Manager::~cFont_Manager(void)
 {
-    // if not initialized
-    if (!TTF_WasInit()) {
-        return;
-    }
-
-    if (m_font_normal) {
-        TTF_CloseFont(m_font_normal);
-        m_font_normal = NULL;
-    }
-
-    if (m_font_small) {
-        TTF_CloseFont(m_font_small);
-        m_font_small = NULL;
-    }
-
-    if (m_font_very_small) {
-        TTF_CloseFont(m_font_very_small);
-        m_font_very_small = NULL;
-    }
-
-    TTF_Quit();
+    //
 }
 
 void cFont_Manager::Init(void)
 {
-    // if already initialised
-    if (TTF_WasInit()) {
-        return;
-    }
-
-    // init ttf
-    if (TTF_Init() == -1) {
-        cerr << "Error : SDL_TTF initialization failed" << endl;
-        cerr << "Reason : " << SDL_GetError() << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // open fonts
-    m_font_normal           = TTF_OpenFont(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")).c_str(), 18);
-    m_font_small            = TTF_OpenFont(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")).c_str(), 11);
-    m_font_very_small = TTF_OpenFont(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")).c_str(), 9);
-
-    // if loading failed
-    if (!m_font_normal || !m_font_small || !m_font_very_small) {
+    if (!m_font_normal.loadFromFile(path_to_utf8(pResource_Manager->Get_Gui_Font_Directory() / utf8_to_path("default_bold.ttf")))) {
         // FIXME: Throw a proper exception
         throw "Font loading failed";
     }
 }
 
-void cFont_Manager::Add_Ref(cGL_Surface* surface)
-{
-    if (!surface) {
-        return;
-    }
+// OLD cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
+// OLD {
+// OLD     std::cerr << "WARNING: cFont_Manager::Render_Text() not yet ported to SFML." << std::endl;
+// OLD 
+// OLD     // HACK to satisfy return value
+// OLD     return pVideo->Load_GL_Surface("game/arrow/small/blue/right.png");
+// OLD 
+// OLD     // OLD // get SDL Color
+// OLD     // OLD SDL_Color sdlcolor = color.Get_SDL_Color();
+// OLD     // OLD // create text surface
+// OLD     // OLD cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
+// OLD     // OLD 
+// OLD     // OLD if (!surface) {
+// OLD     // OLD     return NULL;
+// OLD     // OLD }
+// OLD     // OLD 
+// OLD     // OLD surface->m_path = utf8_to_path(text);
+// OLD     // OLD 
+// OLD     // OLD // set function if font gets deleted
+// OLD     // OLD surface->Set_Destruction_Function(&Font_Delete_Ref);
+// OLD     // OLD // add font to active fonts
+// OLD     // OLD Add_Ref(surface);
+// OLD     // OLD 
+// OLD     // OLD return surface;
+// OLD }
 
-    m_active_fonts.push_back(surface);
+/**
+ * This function wraps the given SFML text in a render request and
+ * submits that request to the render queue. If in doubt, use the
+ * other overload instead that constructs the sf::Text instance
+ * automatically for you.
+ *
+ * The `text` parameter must be prepared with Prepare_SFML_Text()
+ * before passing it to this function.
+ */
+void cFont_Manager::Queue_Text(const sf::Text& text)
+{
+    cText_Request* p_req = new cText_Request(text);
+    pRenderer->Add(p_req);
 }
 
-void cFont_Manager::Delete_Ref(cGL_Surface* surface)
+/**
+ * From the given parameters, update an sf::Text instance
+ * so that it can be passed to Queue_Text(). Use this function
+ * instead of modifying the sf::Text instance directly; it
+ * converts TSC specifics to SFML's understanding:
+ *
+ * 1. Conversion of TSC camera to SFML view (unless `ignore_camera` is given)
+ * 2. Conversion of TSC font size name to SFML font size value
+ * 3. Conversion of TSC color object to SFML color object
+ */
+void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */, bool ignore_camera /* = false */)
 {
-    for (ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr) {
-        cGL_Surface* obj = (*itr);
 
-        // delete reference if found
-        if (obj == surface) {
-            m_active_fonts.erase(itr);
-            return;
-        }
+    text.setFont(m_font_normal);
+    text.setColor(color.Get_SFML_Color());
+    text.setCharacterSize(fontsize);
+    text.setString(str);
+
+    if (ignore_camera) {
+        // SFML thinks 0|0 is left top of the window
+        // (we do not use SFML views yet).
+        text.setPosition(x, y);
     }
-}
-
-cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
-{
-    std::cerr << "WARNING: cFont_Manager::Render_Text() not yet ported to SFML." << std::endl;
-
-    // HACK to satisfy return value
-    return pVideo->Load_GL_Surface("game/arrow/small/blue/right.png");
-
-    // OLD // get SDL Color
-    // OLD SDL_Color sdlcolor = color.Get_SDL_Color();
-    // OLD // create text surface
-    // OLD cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
-    // OLD 
-    // OLD if (!surface) {
-    // OLD     return NULL;
-    // OLD }
-    // OLD 
-    // OLD surface->m_path = utf8_to_path(text);
-    // OLD 
-    // OLD // set function if font gets deleted
-    // OLD surface->Set_Destruction_Function(&Font_Delete_Ref);
-    // OLD // add font to active fonts
-    // OLD Add_Ref(surface);
-    // OLD 
-    // OLD return surface;
-}
-
-void cFont_Manager::Grab_Textures(void)
-{
-    // save to software memory
-    for (ActiveFontList::iterator itr = m_active_fonts.begin(); itr != m_active_fonts.end(); ++itr) {
-        cGL_Surface* obj = (*itr);
-
-        // get software texture and save it
-        m_software_textures.push_back(obj->Get_Software_Texture());
-        // delete hardware texture
-        if (glIsTexture(obj->m_image)) {
-            glDeleteTextures(1, &obj->m_image);
-        }
-        obj->m_image = 0;
+    else {
+        // Translate level coordinate to window coordinate.
+        // TODO: Abolish our camera system and use SFML views instead.
+        text.setPosition(x - pActive_Camera->m_x, y - pActive_Camera->m_y);
     }
-}
-
-void cFont_Manager::Restore_Textures(void)
-{
-    // load back into hardware textures
-    for (Saved_Texture_List::iterator itr = m_software_textures.begin(); itr != m_software_textures.end(); ++itr) {
-        // get saved texture
-        cSaved_Texture* soft_tex = (*itr);
-        // load it
-        soft_tex->m_base->Load_Software_Texture(soft_tex);
-    }
-
-    // delete software textures
-    for (Saved_Texture_List::iterator itr = m_software_textures.begin(); itr != m_software_textures.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_software_textures.clear();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cFont_Manager* pFont = NULL;
+cFont_Manager* TSC::pFont = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
-
-} // namespace TSC

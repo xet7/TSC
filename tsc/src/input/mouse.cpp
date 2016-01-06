@@ -1549,25 +1549,8 @@ void cMouseCursor::Editor_Update(void)
             info.insert(0, "Start ");
         }
 
-        // create text surface
-        cGL_Surface* position_info = pFont->Render_Text(pFont->m_font_small, info, white);
-
-
-        // create request
-        cSurface_Request* request = new cSurface_Request();
-        position_info->Blit(static_cast<float>(m_x + 20), static_cast<float>(m_y + 35), 0.52f, request);
-        request->m_delete_texture = 1;
-
-        // shadow
-        request->m_shadow_pos = 1.0f;
-        request->m_shadow_color = black;
-
-        // add request
-        pRenderer->Add(request);
-
-        // cSurface_Request deletes it
-        position_info->m_auto_del_img = 0;
-        delete position_info;
+        pFont->Prepare_SFML_Text(m_coords_text, info, m_x + 20, m_y + 35, cFont_Manager::FONTSIZE_SMALL, white);
+        pFont->Queue_Text(m_coords_text);
 
         // if in debug mode draw current position X, Y, Z and if available editor Z
         if (game_debug) {
@@ -1578,24 +1561,8 @@ void cMouseCursor::Editor_Update(void)
                 info.insert(info.length(), _("  Editor Z : ") + float_to_string(m_hovering_object->m_obj->m_editor_pos_z, 6));
             }
 
-            // create text surface
-            position_info = pFont->Render_Text(pFont->m_font_small, info, white);
-
-            // create request
-            request = new cSurface_Request();
-            position_info->Blit(static_cast<float>(m_x + 20), static_cast<float>(m_y + 55), 0.52f, request);
-            request->m_delete_texture = 1;
-
-            // shadow
-            request->m_shadow_pos = 1.0f;
-            request->m_shadow_color = black;
-
-            // add request
-            pRenderer->Add(request);
-
-            // cSurface_Request deletes it
-            position_info->m_auto_del_img = 0;
-            delete position_info;
+            pFont->Prepare_SFML_Text(m_extended_coords_text, info, m_x + 20, m_y + 55, cFont_Manager::FONTSIZE_SMALL, white);
+            pFont->Queue_Text(m_extended_coords_text);
         }
     }
 

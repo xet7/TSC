@@ -140,7 +140,7 @@ cOverworld* cOverworld::Load_From_Directory(fs::path directory, int user_dir /* 
     p_overworld->m_layer = layerloader.Get_Layer();
 
     // Set the text that is displayed at the top when this world is shown
-    p_overworld->m_hud_world_name->Set_Image(pFont->Render_Text(pFont->m_font_normal, p_overworld->m_description->m_name, yellow), true, true);
+    pFont->Prepare_SFML_Text(p_overworld->m_hud_world_name, p_overworld->m_description->m_name, 10, static_cast<float>(game_res_h) - 30, cFont_Manager::FONTSIZE_NORMAL, yellow);
 
     return p_overworld;
 }
@@ -153,8 +153,6 @@ cOverworld::~cOverworld(void)
     delete m_animation_manager;
     delete m_description;
     delete m_layer;
-    delete m_hud_level_name;
-    delete m_hud_world_name;
 }
 
 void cOverworld::Init()
@@ -168,13 +166,6 @@ void cOverworld::Init()
     m_last_saved = 0;
     m_background_color = Color();
     m_musicfile = "overworld/land_1.ogg";
-    m_hud_world_name = new cHudSprite(m_sprite_manager);
-    m_hud_world_name->Set_Pos(10, static_cast<float>(game_res_h) - 30);
-    m_hud_world_name->Set_Shadow(black, 1.5f);
-    m_hud_level_name = new cHudSprite(m_sprite_manager);
-    m_hud_level_name->Set_Pos(350, 2);
-    m_hud_level_name->Set_Shadow(black, 1.5f);
-
     m_next_level = 0;
 
     m_player_start_waypoint = 0;
@@ -462,8 +453,8 @@ void cOverworld::Draw_HUD(void)
         pVideo->Draw_Rect(0, 30, static_cast<float>(game_res_w), 5, 0.121f, &color);
 
         // Overworld name and level
-        m_hud_world_name->Draw();
-        m_hud_level_name->Draw();
+        pFont->Queue_Text(m_hud_world_name);
+        pFont->Queue_Text(m_hud_level_name);
     }
 
     // hud
@@ -806,7 +797,7 @@ void cOverworld::Update_Waypoint_text(void)
         color = green;
     }
 
-    m_hud_level_name->Set_Image(pFont->Render_Text(pFont->m_font_normal, waypoint->Get_Destination(), color), 1, 1);
+    pFont->Prepare_SFML_Text(m_hud_level_name, waypoint->Get_Destination(), 250, 2, cFont_Manager::FONTSIZE_NORMAL, color);
 }
 
 bool cOverworld::Goto_Next_Level(void)

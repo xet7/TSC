@@ -93,8 +93,8 @@ namespace TSC {
 
         // editor type color
         Color m_editor_color;
-        // editor entry name text
-        cGL_Surface* m_editor_entry_name;
+
+        sf::Text m_level_entry_text;
 
         // Save to node
         virtual xmlpp::Element* Save_To_XML_Node(xmlpp::Element* p_element);

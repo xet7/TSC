@@ -268,6 +268,9 @@ namespace TSC {
         cSprite* m_last_clicked_object;
         // counter for catching double-clicks
         float m_click_counter;
+
+        sf::Text m_coords_text;
+        sf::Text m_extended_coords_text;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

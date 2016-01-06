@@ -63,14 +63,10 @@ namespace TSC {
             alpha = 255;
         }
 
-        // Returns it as SDL_Color
-        inline SDL_Color Get_SDL_Color(void) const
+        // Returns it as SFML color.
+        inline sf::Color Get_SFML_Color(void) const
         {
-            SDL_Color color;
-            color.r = red;
-            color.g = green;
-            color.b = blue;
-            return color;
+            return sf::Color(red, green, blue);
         }
 
         inline CEGUI::colour Get_cegui_Color(void) const
