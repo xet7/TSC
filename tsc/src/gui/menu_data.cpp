@@ -210,18 +210,18 @@ void cMenu_Main::Init(void)
 
     if (m_exit_to_gamemode == MODE_NOTHING) {
         // Credits
-        cGL_Surface* credits = pFont->Render_Text(pFont->m_font_normal, _("Credits"), yellow);
-        temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-        temp_item->m_image_default->Set_Image(credits);
-        temp_item->Set_Pos(static_cast<float>(game_res_w) * 0.45f, static_cast<float>(game_res_h) - 30.0f);
-        pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
+        // OLD cGL_Surface* credits = pFont->Render_Text(pFont->m_font_normal, _("Credits"), yellow);
+        // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
+        // OLD temp_item->m_image_default->Set_Image(credits);
+        // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) * 0.45f, static_cast<float>(game_res_h) - 30.0f);
+        // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
 
-        cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-        hud_sprite->Set_Image(credits, 0, 1);
-        hud_sprite->Set_Pos(-200, 0);
-        m_draw_list.push_back(hud_sprite);
+        // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+        // OLD hud_sprite->Set_Image(credits, 0, 1);
+        // OLD hud_sprite->Set_Pos(-200, 0);
+        // OLD m_draw_list.push_back(hud_sprite);
         // SFML logo
-        hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+        cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
         hud_sprite->Set_Image(pVideo->Get_Package_Surface("menu/logo_sfml.png"));
         hud_sprite->Set_Pos(static_cast<float>(game_res_w) * 0.04f, static_cast<float>(game_res_h) * 0.935f);
         m_draw_list.push_back(hud_sprite);
@@ -2931,12 +2931,12 @@ void cMenu_Savegames::Init(void)
     }
 
     // back
-    cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
-    temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-    temp_item->m_image_default->Set_Image(back1);
-    temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 450);
-    temp_item->m_is_quit = 1;
-    pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
+    // OLD cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
+    // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
+    // OLD temp_item->m_image_default->Set_Image(back1);
+    // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 450);
+    // OLD temp_item->m_is_quit = 1;
+    // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
 
     if (m_type_save) {
         cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
@@ -2959,10 +2959,10 @@ void cMenu_Savegames::Init(void)
         m_draw_list.push_back(hud_sprite);
     }
 
-    cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    hud_sprite->Set_Image(back1, 0, 1);
-    hud_sprite->Set_Pos(-200, 0);
-    m_draw_list.push_back(hud_sprite);
+    // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    // OLD hud_sprite->Set_Image(back1, 0, 1);
+    // OLD hud_sprite->Set_Pos(-200, 0);
+    // OLD m_draw_list.push_back(hud_sprite);
 
     Init_GUI();
 }
@@ -3167,21 +3167,21 @@ void cMenu_Savegames::Update_Saved_Games_Text(void)
         }
         catch(xmlpp::parse_error& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (parsing error). xmlpp parsing exception: " << err.what() << std::endl;
-            (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
+            // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
             continue;
         }
         catch(InvalidSavegameError& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid savegame). TSC exception: " << err.what() << std::endl;
-            (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
+            // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
             continue;
         }
         catch(InvalidLevelError& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid level error). TSC exception: " << err.what() << std::endl;
-            (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
+            // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
             continue;
         }
 
-        (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, m_text_color_value), true, true);
+        // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, m_text_color_value), true, true);
     }
 }
 
@@ -3263,17 +3263,17 @@ void cMenu_Credits::Init(void)
     cMenu_Item* temp_item = NULL;
 
     // back
-    cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
-    temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-    temp_item->m_image_default->Set_Image(back1);
-    temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 250);
-    temp_item->m_is_quit = 1;
-    pMenuCore->m_handler->Add_Menu_Item(temp_item, 2, grey);
+    // OLD cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
+    // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
+    // OLD temp_item->m_image_default->Set_Image(back1);
+    // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 250);
+    // OLD temp_item->m_is_quit = 1;
+    // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 2, grey);
 
-    cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    hud_sprite->Set_Image(back1, 0, 1);
-    hud_sprite->Set_Pos(-200, 0);
-    m_draw_list.push_back(hud_sprite);
+    // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    // OLD hud_sprite->Set_Image(back1, 0, 1);
+    // OLD hud_sprite->Set_Pos(-200, 0);
+    // OLD m_draw_list.push_back(hud_sprite);
 
     Init_GUI();
 }
@@ -3450,13 +3450,13 @@ void cMenu_Credits::Draw(void)
 
 void cMenu_Credits::Add_Credits_Line(const std::string& text, float posx, float posy, const Color& color /* = black */, float shadow_pos /* = 0.0f */, const Color& shadow_color /* = black */)
 {
-    cHudSprite* temp = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    temp->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, color), 1, 1);
-    temp->Set_Pos(posx, posy);
-    if (!Is_Float_Equal(shadow_pos, 0.0f)) {
-        temp->Set_Shadow(shadow_color, shadow_pos);
-    }
-    m_draw_list.push_back(temp);
+    // OLD cHudSprite* temp = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    // OLD temp->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, color), 1, 1);
+    // OLD temp->Set_Pos(posx, posy);
+    // OLD if (!Is_Float_Equal(shadow_pos, 0.0f)) {
+    // OLD     temp->Set_Shadow(shadow_color, shadow_pos);
+    // OLD }
+    // OLD m_draw_list.push_back(temp);
 }
 
 void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
