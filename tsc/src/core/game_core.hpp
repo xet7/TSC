@@ -43,8 +43,8 @@ namespace TSC {
     extern void* Game_Action_ptr;
 
 // internal game resolution and is used for global scaling
-    extern int game_res_w;
-    extern int game_res_h;
+    extern const int game_res_w;
+    extern const int game_res_h;
 
 // global debugging
     extern bool game_debug;

@@ -53,8 +53,8 @@ CEGUI::XMLAttributes Game_Action_Data_Middle;
 CEGUI::XMLAttributes Game_Action_Data_End;
 void* Game_Action_ptr = NULL;
 
-int game_res_w = 800;
-int game_res_h = 600;
+const int game_res_w = 800;
+const int game_res_h = 600;
 
 bool game_debug = 0;
 bool game_debug_performance = 0;
