@@ -29,6 +29,9 @@
 #include "../scripting/events/gold_100_event.hpp"
 #include "../core/global_basic.hpp"
 
+#define HUD_LEVEL_Y 24.0f
+#define HUD_WORLD_Y 4.0f
+
 using namespace std;
 
 namespace TSC {
@@ -217,10 +220,10 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Lives) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Lives->Set_Pos(game_res_w - game_res_w * 0.1f, 18.0f);
+            pHud_Lives->Set_Pos(game_res_w - game_res_w * 0.1f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Lives->Set_Pos(game_res_w - game_res_w / 7.5f, 4.0f);
+            pHud_Lives->Set_Pos(game_res_w - game_res_w / 7.5f, HUD_WORLD_Y);
         }
 
         pHud_Lives->Add_Lives(0);
@@ -228,10 +231,10 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Goldpieces) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Goldpieces->Set_Pos(280.0f, 18.0f);
+            pHud_Goldpieces->Set_Pos(280.0f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Goldpieces->Set_Pos(280.0f, 4.0f);
+            pHud_Goldpieces->Set_Pos(280.0f, HUD_WORLD_Y);
         }
 
         pHud_Goldpieces->Add_Gold(0);
@@ -239,17 +242,17 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Points) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Points->Set_Pos(50.0f, 18.0f);
+            pHud_Points->Set_Pos(50.0f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Points->Set_Pos(50.0f, 4.0f);
+            pHud_Points->Set_Pos(50.0f, HUD_WORLD_Y);
         }
 
         pHud_Points->Add_Points(0);
     }
 
     if (pHud_Time) {
-        pHud_Time->Set_Pos(game_res_w * 0.70f, 18.0f);
+        pHud_Time->Set_Pos(game_res_w * 0.70f, HUD_LEVEL_Y);
         pHud_Time->Update();
     }
 
