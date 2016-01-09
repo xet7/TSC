@@ -30,7 +30,7 @@ namespace TSC {
         ~cFont_Manager(void);
 
         // Default font sizes
-        static const int FONTSIZE_NORMAL = 18;
+        static const int FONTSIZE_NORMAL = 20;
         static const int FONTSIZE_SMALL = 11;
         static const int FONTSIZE_VERYSMALL = 9;
 
