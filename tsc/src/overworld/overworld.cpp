@@ -797,7 +797,7 @@ void cOverworld::Update_Waypoint_text(void)
         color = green;
     }
 
-    pFont->Prepare_SFML_Text(m_hud_level_name, waypoint->Get_Destination(), 250, 2, cFont_Manager::FONTSIZE_NORMAL, color);
+    pFont->Prepare_SFML_Text(m_hud_level_name, waypoint->Get_Destination(), 480, 2, cFont_Manager::FONTSIZE_NORMAL, color, true);
 }
 
 bool cOverworld::Goto_Next_Level(void)

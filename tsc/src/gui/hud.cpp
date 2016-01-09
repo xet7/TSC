@@ -235,7 +235,7 @@ void cHud_Manager::Update_Text(void)
             pHud_Goldpieces->Set_Pos(360.0f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Goldpieces->Set_Pos(280.0f, HUD_WORLD_Y);
+            pHud_Goldpieces->Set_Pos(360.0f, HUD_WORLD_Y);
         }
 
         pHud_Goldpieces->Add_Gold(0);
