@@ -206,6 +206,7 @@ void cHud_Manager::Unload(void)
 void cHud_Manager::Update_Text(void)
 {
     // note : update the life display before updating the time display
+    unsigned int window_width = pVideo->mp_window->getSize().x;
 
     if (mp_menu_background) {
         if (Game_Mode != MODE_OVERWORLD) {
@@ -220,10 +221,10 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Lives) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Lives->Set_Pos(game_res_w - game_res_w * 0.1f, HUD_LEVEL_Y);
+            pHud_Lives->Set_Pos(window_width - window_width * 0.1f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Lives->Set_Pos(game_res_w - game_res_w / 7.5f, HUD_WORLD_Y);
+            pHud_Lives->Set_Pos(window_width - window_width / 7.5f, HUD_WORLD_Y);
         }
 
         pHud_Lives->Add_Lives(0);
@@ -231,7 +232,7 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Goldpieces) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Goldpieces->Set_Pos(280.0f, HUD_LEVEL_Y);
+            pHud_Goldpieces->Set_Pos(360.0f, HUD_LEVEL_Y);
         }
         else {
             pHud_Goldpieces->Set_Pos(280.0f, HUD_WORLD_Y);
@@ -252,7 +253,7 @@ void cHud_Manager::Update_Text(void)
     }
 
     if (pHud_Time) {
-        pHud_Time->Set_Pos(game_res_w * 0.70f, HUD_LEVEL_Y);
+        pHud_Time->Set_Pos(window_width * 0.70f, HUD_LEVEL_Y);
         pHud_Time->Update();
     }
 
@@ -262,12 +263,12 @@ void cHud_Manager::Update_Text(void)
     }
 
     if (pHud_Fps) {
-        pHud_Fps->Set_Pos(game_res_w * 0.01f, 10.0f);
+        pHud_Fps->Set_Pos(window_width * 0.1f, 10.0f);
         pHud_Fps->Update();
     }
 
     if (pHud_Debug) {
-        pHud_Debug->Set_Pos(game_res_w * 0.45f, 80.0f);
+        pHud_Debug->Set_Pos(window_width * 0.45f, 80.0f);
         pHud_Debug->Update();
     }
 
