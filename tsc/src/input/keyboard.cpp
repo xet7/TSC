@@ -86,18 +86,6 @@ bool cKeyboard::CEGUI_Handle_Key_Down(sf::Keyboard::Key key) const
         return 1;
     }
 
-    // TODO: The following should rather be replaced with the sf::TextEntered
-    // event. However, I’m not sure if typing on the keyboard generates both
-    // sf::KeyPressed/sf::Keyreleased and sf::TextEntered events...
-
-    // OLD // use for translated unicode value
-    // OLD if (input_event.key.keysym.unicode != 0) {
-    // OLD     if (pGuiSystem->injectChar(input_event.key.keysym.unicode)) {
-    // OLD         // input got processed by the gui system
-    // OLD         return 1;
-    // OLD     }
-    // OLD }
-
     return 0;
 }
 
@@ -250,6 +238,22 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     }
 
     return 0;
+}
+
+bool cKeyboard::CEGUI_Handle_Text_Entered(Uint32 character)
+{
+    if (pGuiSystem->injectChar(character)) {
+        // input got processed by the gui system
+        return 1;
+    }
+}
+
+bool cKeyboard::Text_Entered(const sf::Event& evt)
+{
+    if (CEGUI_Handle_Text_Entered(evt.text.unicode)) {
+        // input got processed by the gui system
+        return 1;
+    }
 }
 
 unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const sf::Keyboard::Key key) const

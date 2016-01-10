@@ -503,6 +503,12 @@ bool Handle_Input_Global(const sf::Event& ev)
         pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev.size.width), static_cast<float>(ev.size.height)));
         break;
     }
+    case sf::Event::TextEntered: {
+        if (pKeyboard->Text_Entered(ev)) {
+            return 1;
+        }
+        break;
+    }
     case sf::Event::KeyPressed: {
         if (pKeyboard->Key_Down(ev)) {
             return 1;
