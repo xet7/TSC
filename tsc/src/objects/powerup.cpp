@@ -225,7 +225,7 @@ void cMushroom::Set_Type(SpriteType new_type)
     }
     else if (new_type == TYPE_MUSHROOM_LIVE_1) {
         Add_Image_Set("main", "game/items/berry_life.imgset");
-        m_name = _("1-UP berry");
+        m_name = _("Life berry");
     }
     else if (new_type == TYPE_MUSHROOM_POISON) {
         Add_Image_Set("main", "game/items/berry_poison.imgset");
