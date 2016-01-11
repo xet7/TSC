@@ -63,6 +63,16 @@ namespace TSC {
         */
         bool Key_Down(const sf::Event& evt);
 
+        /* CEGUI Text Entry handler
+         * returns true if CEGUI processed the given text entry event
+        */
+        bool CEGUI_Handle_Text_Entered(Uint32 character);
+
+        /* Text Entry handler
+         * returns true if the event was processed
+        */
+        bool Text_Entered(const sf::Event& evt);
+
         // Translate a SFMLKey to the proper CEGUI::Key
         unsigned int SFMLKey_to_CEGUIKey(const sf::Keyboard::Key key) const;
     };
