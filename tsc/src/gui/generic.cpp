@@ -120,7 +120,10 @@ std::string cDialogBox_Text::Enter(std::string default_text, std::string title_t
 
     while (!finished) {
         while (pVideo->mp_window->pollEvent(input_event)) {
-            if (input_event.type == sf::Event::KeyPressed) {
+            if (input_event.type == sf::Event::TextEntered) {
+                pKeyboard->Text_Entered(input_event);
+            }
+            else if (input_event.type == sf::Event::KeyPressed) {
                 if (auto_no_text && default_text.compare(box_editbox->getText().c_str()) == 0) {
                     box_editbox->setText("");
                     // only the first time
@@ -237,7 +240,10 @@ int cDialogBox_Question::Enter(std::string text, bool with_cancel /* = 0 */)
         Draw();
 
         while (pVideo->mp_window->pollEvent(input_event)) {
-            if (input_event.type == sf::Event::KeyPressed) {
+            if (input_event.type == sf::Event::TextEntered) {
+                pKeyboard->Text_Entered(input_event);
+            }
+            else if (input_event.type == sf::Event::KeyPressed) {
                 if (input_event.key.code == sf::Keyboard::Escape) {
                     if (with_cancel) {
                         return_value = -1;
