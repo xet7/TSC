@@ -331,7 +331,7 @@ void cRokko::Draw(cSurface_Request* request /* = NULL */)
         final_distance.m_x -= pActive_Camera->m_x;
         final_distance.m_y -= pActive_Camera->m_y;
 
-        pVideo->Draw_Rect(&final_distance, m_pos_z - 0.00001f, &whitealpha128);
+        pVideo->Draw_Rect(&final_distance, m_pos_z - 10 * m_pos_z_delta, &whitealpha128);
     }
 
     bool create_request = 0;
@@ -463,7 +463,7 @@ void cRokko::Generate_Sparks(unsigned int amount /* = 5 */) const
     // animation
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
     anim->Set_Emitter_Rect(m_pos_x + m_col_rect.m_w * 0.2f, m_pos_y + m_rect.m_h * 0.2f, m_col_rect.m_w * 0.6f, m_rect.m_h * 0.6f);
-    anim->Set_Pos_Z(m_pos_z + 0.00001f);
+    anim->Set_Pos_Z(m_pos_z + 10 * m_pos_z_delta);
     anim->Set_Quota(amount);
     anim->Set_Time_to_Live(0.2f, 0.1f);
     anim->Set_Speed(1.2f, 1.1f);
