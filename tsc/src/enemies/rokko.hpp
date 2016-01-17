@@ -133,6 +133,10 @@ namespace TSC {
 
         // image indexes
         int m_break_end;
+
+        // m_pos_z_delta caused a weird graphical z pos bug with an ATI card.
+        // This variable corrects for that.
+        static const float m_corrected_pos_z_delta;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
