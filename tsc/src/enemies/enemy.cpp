@@ -205,7 +205,7 @@ void cEnemy::Generate_Hit_Animation(cParticle_Emitter* anim /* = NULL */) const
     anim->Set_Emitter_Rect(m_col_rect.m_x, m_pos_y + (m_col_rect.m_h / 3), m_col_rect.m_w);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
     anim->Set_Quota(4);
-    anim->Set_Pos_Z(m_pos_z - 0.000001f);
+    anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
     anim->Set_Time_to_Live(0.3f);
     Color col_rand = Color(static_cast<Uint8>(rand() % 5), rand() % 5, rand() % 100, 0);
     // not bright enough

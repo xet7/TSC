@@ -422,16 +422,16 @@ void cFlyon::Draw(cSurface_Request* request /* = NULL */)
     // draw distance rect
     if (editor_level_enabled) {
         if (m_start_direction == DIR_RIGHT) {
-            pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x, m_start_pos_y + (m_rect.m_h * 0.5f) - 5.0f - pActive_Camera->m_y, m_max_distance + m_rect.m_w, 10.0f, m_editor_pos_z - 0.000001f, &whitealpha128);
+            pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x, m_start_pos_y + (m_rect.m_h * 0.5f) - 5.0f - pActive_Camera->m_y, m_max_distance + m_rect.m_w, 10.0f, m_editor_pos_z - m_pos_z_delta, &whitealpha128);
         }
         else if (m_start_direction == DIR_LEFT) {
-            pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x + m_rect.m_w, m_start_pos_y + (m_rect.m_h * 0.5f) - 5.0f - pActive_Camera->m_y, -(m_rect.m_w + m_max_distance), 10.0f, m_editor_pos_z - 0.000001f, &whitealpha128);
+            pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x + m_rect.m_w, m_start_pos_y + (m_rect.m_h * 0.5f) - 5.0f - pActive_Camera->m_y, -(m_rect.m_w + m_max_distance), 10.0f, m_editor_pos_z - m_pos_z_delta, &whitealpha128);
         }
         else if (m_start_direction == DIR_DOWN) {
-            pVideo->Draw_Rect(m_start_pos_x + (m_rect.m_w * 0.5f) - 5.0f - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y, 10.0f, m_max_distance + m_rect.m_h, m_editor_pos_z - 0.000001f, &whitealpha128);
+            pVideo->Draw_Rect(m_start_pos_x + (m_rect.m_w * 0.5f) - 5.0f - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y, 10.0f, m_max_distance + m_rect.m_h, m_editor_pos_z - m_pos_z_delta, &whitealpha128);
         }
         else if (m_start_direction == DIR_UP) {
-            pVideo->Draw_Rect(m_start_pos_x + (m_rect.m_w * 0.5f) - 5.0f - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y + m_rect.m_h, 10.0f, -(m_rect.m_h + m_max_distance), m_editor_pos_z - 0.000001f, &whitealpha128);
+            pVideo->Draw_Rect(m_start_pos_x + (m_rect.m_w * 0.5f) - 5.0f - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y + m_rect.m_h, 10.0f, -(m_rect.m_h + m_max_distance), m_editor_pos_z - m_pos_z_delta, &whitealpha128);
         }
     }
 

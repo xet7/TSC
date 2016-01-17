@@ -444,8 +444,8 @@ void cRokko::Generate_Smoke(unsigned int amount /* = 10 */) const
         anim->Set_Scale(0.3f, 0.6f);
     }
 
-    // - 0.000001f caused a weird graphical z pos bug with an ATI card
-    anim->Set_Pos_Z(m_pos_z - 0.00001f);
+    // - m_pos_z_delta caused a weird graphical z pos bug with an ATI card
+    anim->Set_Pos_Z(m_pos_z - 10*m_pos_z_delta);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_grey_big.png"));
     anim->Set_Quota(amount);
     anim->Set_Time_to_Live(0.8f, 0.8f);

@@ -610,7 +610,7 @@ void cTurtleBoss::Throw_Fireballs(unsigned int amount /* = 6 */)
 
     cAnimation_Fireball* anim = new cAnimation_Fireball(m_sprite_manager, m_pos_x + (m_col_rect.m_w / 2), m_pos_y + (m_col_rect.m_h / 3), 10);
     anim->Set_Fading_Speed(0.15f);
-    anim->Set_Pos_Z(m_pos_z + 0.000001f);
+    anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
     pActive_Animation_Manager->Add(anim);
 }
 
@@ -621,7 +621,7 @@ void cTurtleBoss::Generate_Stars(unsigned int amount /* = 1 */, float particle_s
     anim->Set_Pos(m_pos_x + (m_col_rect.m_w * 0.5f), m_pos_y + (m_col_rect.m_h * 0.5f));
     anim->Set_Image(pVideo->Get_Surface("animation/particles/star.png"));
     anim->Set_Quota(amount);
-    anim->Set_Pos_Z(m_pos_z + 0.000001f);
+    anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
     anim->Set_Const_Rotation_Z(-6.0f, 12.0f);
     anim->Set_Time_to_Live(1.0f);
     anim->Set_Speed(1.0f, 4.0f);
