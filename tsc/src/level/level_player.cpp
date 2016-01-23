@@ -529,7 +529,7 @@ void cLevel_Player::Generate_Feet_Clouds(cParticle_Emitter* anim /* = NULL */)
     }
 
     anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + m_col_rect.m_h - 2.0f, m_col_rect.m_w);
-    anim->Set_Pos_Z(m_pos_z - 0.000001f);
+    anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
 
     float vel;
 
@@ -682,7 +682,7 @@ void cLevel_Player::Update_Running(void)
             cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
             anim->Set_Emitter_Rect(m_col_rect.m_x + m_col_rect.m_w * 0.25f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.5f, m_col_rect.m_h * 0.8f);
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-            anim->Set_Pos_Z(m_pos_z + 0.000001f);
+            anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
             anim->Set_Time_to_Live(0.1f + vel * 0.03f);
             anim->Set_Fading_Alpha(1);
             anim->Set_Fading_Size(1);
@@ -1013,7 +1013,7 @@ void cLevel_Player::Update_Ducking(void)
             anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + (m_col_rect.m_h * 0.8f), m_col_rect.m_w * 0.9f, m_col_rect.m_h * 0.1f);
             anim->Set_Quota(static_cast<int>(m_ducked_animation_counter));
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/star_2.png"));
-            anim->Set_Pos_Z(m_pos_z - 0.000001f, 0.000002f);
+            anim->Set_Pos_Z(m_pos_z - m_pos_z_delta, 0.000002f);
             anim->Set_Time_to_Live(0.3f);
             anim->Set_Fading_Alpha(1);
             anim->Set_Fading_Size(1);
@@ -1996,7 +1996,7 @@ void cLevel_Player::Update(void)
                 anim->Set_Emitter_Rect(m_col_rect.m_x + m_col_rect.m_w * 0.1f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.8f, m_col_rect.m_h * 0.8f);
                 anim->Set_Quota(static_cast<int>(m_invincible_star_counter));
                 anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-                anim->Set_Pos_Z(m_pos_z - 0.000001f);
+                anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
                 anim->Set_Time_to_Live(0.3f);
                 anim->Set_Fading_Alpha(1);
                 anim->Set_Fading_Size(1);
@@ -2211,7 +2211,7 @@ void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
             m_color.alpha -= 5;
             m_pos_x -= m_velx * 0.2f + Get_Random_Float(0, 1);
             m_pos_y -= m_vely * 0.2f + Get_Random_Float(0, 1);
-            m_pos_z -= 0.000001f;
+            m_pos_z -= m_pos_z_delta;
 
             cMovingSprite::Draw(request);
         }
@@ -3791,7 +3791,7 @@ void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
                     anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + 6, m_col_rect.m_w);
                     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
                     anim->Set_Quota(4);
-                    anim->Set_Pos_Z(m_pos_z - 0.000001f);
+                    anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
                     anim->Set_Time_to_Live(0.3f);
                     anim->Set_Color(Color(static_cast<Uint8>(150), 150, 150, 200), Color(static_cast<Uint8>(rand() % 55), rand() % 55, rand() % 55, 0));
                     anim->Set_Speed(2, 0.6f);

@@ -771,7 +771,7 @@ void cArmy::Handle_Collision_Enemy(cObjectCollision* collision)
             anim->Set_Emitter_Rect(m_col_rect.m_x + (m_col_rect.m_w * 0.2f), m_col_rect.m_y + (m_col_rect.m_h * 0.2f), m_col_rect.m_w * 0.6f, m_col_rect.m_h * 0.8f);
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
             anim->Set_Quota(5);
-            anim->Set_Pos_Z(m_pos_z + 0.000001f);
+            anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
             anim->Set_Time_to_Live(0.3f);
             anim->Set_Speed(1.2f, 0.8f);
             anim->Set_Scale(0.7f);

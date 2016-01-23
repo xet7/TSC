@@ -478,7 +478,7 @@ void cBaseBox::Generate_Activation_Particles(void)
             anim->Set_Emitter_Time_to_Live(0.5f);
             anim->Set_Scale(0.3f, 0.1f);
         }
-        anim->Set_Pos_Z(m_pos_z - 0.000001f);
+        anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
         anim->Set_Direction_Range(260, 20);
 
         Color color;
