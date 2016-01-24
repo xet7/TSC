@@ -407,149 +407,6 @@ int Box_Question(const std::string& text, bool with_cancel /* = 0 */)
     return return_value;
 }
 
-std::string Get_Clipboard_Content(void)
-{
-    std::string content;
-#ifdef _WIN32
-    if (OpenClipboard(NULL)) {
-        bool ucs2 = 0;
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            ucs2 = 1;
-        }
-
-        HANDLE h;
-
-        // Both have line ends as CR-LF and a null character at the end of the data.
-        if (ucs2) {
-            // CF_UNICODETEXT is UCS-2
-            h = GetClipboardData(CF_UNICODETEXT);
-        }
-        else {
-            // CF_TEXT is Windows-1252
-            h = GetClipboardData(CF_TEXT);
-        }
-
-        // no handle
-        if (!h) {
-            cerr << "Could not get clipboard data" << endl;
-            CloseClipboard();
-            return content;
-        }
-
-        // get content
-        if (ucs2) {
-            content = ucs2_to_utf8(static_cast<wchar_t*>(GlobalLock(h)));
-        }
-        else {
-            content = static_cast<char*>(GlobalLock(h));
-        }
-
-        // clean up
-        GlobalUnlock(h);
-        CloseClipboard();
-    }
-#elif __APPLE__
-    // not tested
-    ScrapRef scrap;
-    if (::GetCurrentScrap(&scrap) != noErr) {
-        return false;
-    }
-
-    Size bytecount = 0;
-    OSStatus status = ::GetScrapFlavorSize(scrap, kScrapFlavorTypeText, &bytecount);
-    if (status != noErr) {
-        return false;
-    }
-
-    char* buffer = new char[bytecount];
-    if (::GetScrapFlavorData(scrap, kScrapFlavorTypeText, &bytecount, buffer) == noErr) {
-        content = static_cast<char*>(buffer);
-    }
-
-    delete[] buffer;
-#elif __unix__
-    // only works with the cut-buffer method (xterm) and not with the more recent selections method
-    SDL_SysWMinfo sdlinfo;
-    SDL_VERSION(&sdlinfo.version);
-    if (SDL_GetWMInfo(&sdlinfo)) {
-        sdlinfo.info.x11.lock_func();
-        Display* display = sdlinfo.info.x11.display;
-        int count = 0;
-        char* msg = XFetchBytes(display, &count);
-        if (msg) {
-            if (count > 0) {
-                content.append(msg, count);
-            }
-
-            XFree(msg);
-        }
-
-        sdlinfo.info.x11.unlock_func();
-    }
-#endif
-    return content;
-}
-
-void Set_Clipboard_Content(std::string str)
-{
-#ifdef _WIN32
-    if (OpenClipboard(NULL)) {
-        if (!EmptyClipboard()) {
-            cerr << "Failed to empty clipboard" << endl;
-            return;
-        }
-
-        unsigned int length = (str.length() + 1) * sizeof(std::string::allocator_type);
-        HANDLE h = GlobalAlloc((GMEM_MOVEABLE|GMEM_DDESHARE|GMEM_ZEROINIT), length);
-
-        if (!h) {
-            cerr << "Could not allocate clipboard memory" << endl;
-            return;
-        }
-
-        void* data = GlobalLock(h);
-
-        if (!data) {
-            GlobalFree(h);
-            CloseClipboard();
-            cerr << "Could not lock clipboard memory" << endl;
-            return;
-        }
-
-        memcpy(data, str.c_str(), length);
-        GlobalUnlock(h);
-
-        HANDLE data_result = SetClipboardData(CF_TEXT, h);
-
-        if (!data_result) {
-            GlobalFree(h);
-            CloseClipboard();
-            cerr << "Could not set clipboard data" << endl;
-        }
-
-        CloseClipboard();
-    }
-#elif __APPLE__
-    // not implemented
-#elif __unix__
-    SDL_SysWMinfo sdlinfo;
-    SDL_VERSION(&sdlinfo.version);
-    if (SDL_GetWMInfo(&sdlinfo)) {
-        sdlinfo.info.x11.lock_func();
-        Display* display = sdlinfo.info.x11.display;
-        Window window = sdlinfo.info.x11.window;
-
-        XChangeProperty(display, DefaultRootWindow(display), XA_CUT_BUFFER0, XA_STRING, 8, PropModeReplace, static_cast<const unsigned char*>(static_cast<const void*>(str.c_str())), str.length());
-
-        if (XGetSelectionOwner(display, XA_PRIMARY) != window) {
-            XSetSelectionOwner(display, XA_PRIMARY, window, CurrentTime);
-        }
-
-        sdlinfo.info.x11.unlock_func();
-    }
-#endif
-}
-
 bool GUI_Copy_To_Clipboard(bool cut)
 {
     CEGUI::Window* sheet = CEGUI::System::getSingleton().getGUISheet();
@@ -607,8 +464,13 @@ bool GUI_Copy_To_Clipboard(bool cut)
         return 0;
     }
 
-    Set_Clipboard_Content(sel_text.c_str());
-    return 1;
+    if (tiny_clipwrite(sel_text.c_str()) < 0) {
+        perror("Failed to write to clipboard");
+        return 0;
+    }
+    else {
+        return 1;
+    }
 }
 
 bool GUI_Paste_From_Clipboard(void)
@@ -645,7 +507,15 @@ bool GUI_Paste_From_Clipboard(void)
         new_text.erase(beg, len);
 
         // get clipboard text
-        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(Get_Clipboard_Content().c_str());
+        char* cliptext = tiny_clipread(NULL);
+        if (!cliptext) {
+            perror("Failed to read from clipboard");
+            return 0;
+        }
+
+        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(cliptext);
+        free(cliptext);
+
         // set new text
         editbox->setText(new_text.insert(beg, clipboard_text));
         // set new carat index
@@ -667,7 +537,15 @@ bool GUI_Paste_From_Clipboard(void)
         new_text.erase(beg, len);
 
         // get clipboard text
-        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(Get_Clipboard_Content().c_str());
+        char* cliptext = tiny_clipread(NULL);
+        if (!cliptext) {
+            perror("Failed to read from clipboard");
+            return 0;
+        }
+
+        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(cliptext);
+        free(cliptext);
+
         // set new text
         editbox->setText(new_text.insert(beg, clipboard_text));
         // set new carat index
