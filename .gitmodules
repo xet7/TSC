@@ -13,3 +13,6 @@
 [submodule "mruby/mgems/mruby-json"]
 	path = mruby/mgems/mruby-json
 	url = https://github.com/mattn/mruby-json.git
+[submodule "tinyclipboard"]
+	path = tinyclipboard
+	url = git://git.guelkerdev.de/tinyclipboard.git

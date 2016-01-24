@@ -38,6 +38,7 @@ set(TSC_VERSION_POSTFIX "dev")
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
 option(ENABLE_NLS "Enable translations and localisations" ON)
+option(USE_SYSTEM_TINYCLIPBOARD "Use the system's tinyclipboard library" OFF)
 set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having TSC determine it dynamically.")
 set(BINARY_DIR "" CACHE FILEPATH "Enforce a path to install the binary to. If you use this, you MUST also set FIXED_DATA_DIR.")
 
@@ -100,6 +101,7 @@ if (ENABLE_MRUBY)
   set(MRUBY_ROOT_DIR ${MRUBY_TOPDIR}/mruby)
   set(MRUBY_MGEMS_DIR ${MRUBY_TOPDIR}/mgems)
 
+  message("-- Building mruby statically")
   ExternalProject_Add(
     mruby
     PREFIX "${TSC_BINARY_DIR}/mruby"
@@ -120,6 +122,25 @@ if (ENABLE_MRUBY)
   endif()
 else() # Disable it
   set(MRuby_LIBRARIES "")
+endif()
+
+###############################################
+# tinyclipboard
+
+if (USE_SYSTEM_TINYCLIPBOARD)
+  find_library(Tinyclipboard_LIBRARIES tinyclipboard)
+  find_file(Tinyclipboard_INCLUDE_DIRS tinyclipboard.h)
+else()
+  message("-- Building tinyclipboard statically")
+  ExternalProject_Add(tinyclipboard
+    PREFIX "${TSC_BINARY_DIR}/tinyclipboard"
+    SOURCE_DIR "${TSC_SOURCE_DIR}/../tinyclipboard"
+    BUILD_IN_SOURCE 1
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} CC=${CMAKE_C_COMPILER} AR=${CMAKE_AR}
+    INSTALL_COMMAND "")
+  set(Tinyclipboard_LIBRARIES "${TSC_SOURCE_DIR}/../tinyclipboard/libtinyclipboard.a")
+  set(Tinyclipboard_INCLUDE_DIRS "${TSC_SOURCE_DIR}/../tinyclipboard/include")
 endif()
 
 ########################################
@@ -227,6 +248,7 @@ add_definitions(
 # Add all our libraries to our -I-nclude path
 include_directories(
   ${MRuby_INCLUDE_DIR}
+  ${Tinyclipboard_INCLUDE_DIRS}
   ${SFML_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
   ${GLEW_INCLUDE_DIRS}
@@ -316,6 +338,10 @@ if (ENABLE_MRUBY)
   add_dependencies(tsc mruby)
 endif()
 
+if (NOT(USE_SYSTEM_TINYCLIPBOARD))
+  add_dependencies(tsc tinyclipboard)
+endif()
+
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
 if (WIN32)
   target_link_libraries(tsc
@@ -330,6 +356,7 @@ if (WIN32)
     ${SDL_TTF_STATIC_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
+    ${Tinyclipboard_LIBRARIES}
     ${PCRE_STATIC_LIBRARIES}
     ${LibXmlPP_STATIC_LIBRARIES}
     ${PNG_STATIC_LIBRARIES}
@@ -356,6 +383,7 @@ else()
     ${SDL_TTF_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
+    ${Tinyclipboard_LIBRARIES}
     ${PCRE_LIBRARIES}
     ${LibXmlPP_LIBRARIES}
     ${PNG_LIBRARIES}
