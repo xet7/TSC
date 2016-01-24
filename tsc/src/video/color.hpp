@@ -55,14 +55,6 @@ namespace TSC {
             alpha = 255;
         }
 
-        Color(const SDL_Color& color)
-        {
-            red = color.r;
-            green = color.g;
-            blue = color.b;
-            alpha = 255;
-        }
-
         // Returns it as SFML color.
         inline sf::Color Get_SFML_Color(void) const
         {
@@ -121,9 +113,9 @@ namespace TSC {
             return red == c.red && green == c.green && blue == c.blue && alpha == c.alpha;
         }
 
-        inline bool operator == (const SDL_Color& c) const
+        inline bool operator == (const sf::Color& c) const
         {
-            return red == c.r && green == c.g && blue == c.b;
+            return red == c.r && green == c.g && blue == c.b && alpha == c.a;
         }
 
         inline bool operator != (const Color& c) const
@@ -131,7 +123,7 @@ namespace TSC {
             return !(operator == (c));
         }
 
-        inline bool operator != (const SDL_Color& c) const
+        inline bool operator != (const sf::Color& c) const
         {
             return !(operator == (c));
         }
