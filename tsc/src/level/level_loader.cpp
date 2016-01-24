@@ -466,6 +466,16 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
     if (engine_version < 46) {
         attributes.relocate_image("game/items/star.png", "game/items/lemon_1.png");
     }
+    // V2.1.0-dev (commit af6a5af5fa0e539c766f8c4565a1d60d80a70976) and lower:
+    // Pow button was replaced with proper switch
+    if (engine_version < 47) {
+        attributes.relocate_image("ground/underground/pow/blue.png", "ground/underground/switch/blue.png");
+        attributes.relocate_image("ground/underground/pow/green.png", "ground/underground/switch/green.png");
+        attributes.relocate_image("ground/underground/pow/red.png", "ground/underground/switch/red.png");
+        attributes.relocate_image("ground/underground/pow/blue_active.png", "ground/underground/switch/blue_active.png");
+        attributes.relocate_image("ground/underground/pow/green_active.png", "ground/underground/switch/green_active.png");
+        attributes.relocate_image("ground/underground/pow/red_active.png", "ground/underground/switch/red_active.png");
+    }
 
     // always: fix sprite with undefined massive-type
     if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
