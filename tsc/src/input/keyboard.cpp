@@ -246,6 +246,8 @@ bool cKeyboard::CEGUI_Handle_Text_Entered(Uint32 character)
         // input got processed by the gui system
         return 1;
     }
+
+    return 0;
 }
 
 bool cKeyboard::Text_Entered(const sf::Event& evt)
@@ -254,6 +256,8 @@ bool cKeyboard::Text_Entered(const sf::Event& evt)
         // input got processed by the gui system
         return 1;
     }
+
+    return 0;
 }
 
 unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const sf::Keyboard::Key key) const
