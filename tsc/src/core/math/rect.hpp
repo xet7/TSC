@@ -42,8 +42,8 @@ namespace TSC {
             sf::IntRect rect;
             rect.left   = static_cast<int16_t>(m_x);
             rect.top    = static_cast<int16_t>(m_y);
-            rect.width  = static_cast<int16_t>(m_w);
-            rect.height = static_cast<int16_t>(m_h);
+            rect.width  = static_cast<uint16_t>(m_w);
+            rect.height = static_cast<uint16_t>(m_h);
 
             return rect;
         }
@@ -54,8 +54,8 @@ namespace TSC {
             sf::IntRect rect;
             rect.left   = static_cast<int16_t>(m_x + posx);
             rect.top    = static_cast<int16_t>(m_y + posy);
-            rect.width  = static_cast<int16_t>(m_w);
-            rect.height = static_cast<int16_t>(m_h);
+            rect.width  = static_cast<uint16_t>(m_w);
+            rect.height = static_cast<uint16_t>(m_h);
 
             return rect;
         }
