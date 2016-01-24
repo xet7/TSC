@@ -2184,8 +2184,6 @@ cVideo* pVideo = NULL;
 CEGUI::OpenGLRenderer* pGuiRenderer = NULL;
 CEGUI::System* pGuiSystem = NULL;
 
-SDL_Surface* screen = NULL;
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 } // namespace TSC
