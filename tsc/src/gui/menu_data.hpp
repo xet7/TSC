@@ -365,6 +365,7 @@ namespace TSC {
         virtual void Init(void);
         virtual void Init_GUI(void);
         virtual void Exit(void);
+        virtual void Selected_Item_Changed(int new_active_item);
         virtual void Update(void);
         virtual void Draw(void);
 
@@ -381,7 +382,9 @@ namespace TSC {
     private:
         sf::Text m_slot_texts[NUM_SAVEGAME_SLOTS];
         sf::Text m_back_text;
+        sf::Text* mp_current_item;
         int m_back_item_index; //< Index of the back menu entry in the menu handler
+        bool m_scaling_up;
     };
 
     /* *** *** *** *** *** *** *** cMenu_Credits *** *** *** *** *** *** *** *** *** *** */

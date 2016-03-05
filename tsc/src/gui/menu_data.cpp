@@ -3084,6 +3084,8 @@ cMenu_Savegames::cMenu_Savegames(bool type)
     m_type_save = type;
     m_menu_pos_y = 200.0f;
     m_back_item_index = -1;
+    m_scaling_up = true;
+    mp_current_item = NULL;
 }
 
 cMenu_Savegames::~cMenu_Savegames(void)
@@ -3100,7 +3102,13 @@ void cMenu_Savegames::Init(void)
 
     // back
     pFont->Prepare_SFML_Text(m_back_text, _("Back"), static_cast<float>(game_res_w) / 18, 400, cFont_Manager::FONTSIZE_NORMAL, m_text_color, true);
-    m_back_item_index = pMenuCore->m_handler->Add_Menu_Item(m_back_text.getGlobalBounds(), NULL);
+    m_back_item_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(m_back_text.getPosition().x * global_downscalex,
+                                      m_back_text.getPosition().y * global_downscaley,
+                                      m_back_text.getGlobalBounds().width * global_downscalex,
+                                      m_back_text.getGlobalBounds().height * global_downscaley),
+                        NULL);
 
     if (m_type_save) {
         cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
@@ -3140,9 +3148,38 @@ void cMenu_Savegames::Exit(void)
     }
 }
 
+void cMenu_Savegames::Selected_Item_Changed(int new_active_item)
+{
+    cMenu_Base::Selected_Item_Changed(new_active_item);
+
+    // Reset the previous current item to its original state
+    if (mp_current_item)
+        mp_current_item->setScale(1.0f, 1.0f);
+
+    mp_current_item = NULL;
+
+    if (new_active_item < 0)
+        return;
+
+    if (static_cast<unsigned int>(new_active_item) < NUM_SAVEGAME_SLOTS)
+        mp_current_item = &m_slot_texts[new_active_item];
+    else if (new_active_item == m_back_item_index)
+        mp_current_item = &m_back_text;
+}
+
 void cMenu_Savegames::Update(void)
 {
     cMenu_Base::Update();
+
+    if (mp_current_item) {
+        float scale = mp_current_item->getScale().x + ((m_scaling_up ? 0.02f : -0.02f) * pFramerate->m_speed_factor);
+        mp_current_item->setScale(scale, scale);
+
+        if (scale >= 1.1f)
+            m_scaling_up = false;
+        else if (scale <= 1.0f)
+            m_scaling_up = true;
+    }
 
     if (!m_action) {
         return;
@@ -3347,7 +3384,10 @@ void cMenu_Savegames::Update_Saved_Games_Text(void)
         }
 
         pFont->Prepare_SFML_Text(m_slot_texts[i], text, static_cast<float>(game_res_w) / 2.5, m_menu_pos_y, cFont_Manager::FONTSIZE_NORMAL, color, true);
-        sf::FloatRect rect = m_slot_texts[i].getGlobalBounds();
+        sf::FloatRect rect(m_slot_texts[i].getPosition().x * global_downscalex,
+                           m_slot_texts[i].getPosition().y * global_downscaley,
+                           m_slot_texts[i].getGlobalBounds().width * global_downscalex,
+                           m_slot_texts[i].getGlobalBounds().height * global_downscaley);
 
         pMenuCore->m_handler->Add_Menu_Item(rect, NULL);
         m_menu_pos_y += rect.height + 16.0f;
