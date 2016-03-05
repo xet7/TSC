@@ -188,11 +188,17 @@ cMenu_Main::cMenu_Main(void)
     mp_quit_active      = NULL;
     mp_quit_inactive    = NULL;
 
+    mp_current_inactive_item = NULL;
+    mp_current_active_item   = NULL;
+
     m_start_index   = -1;
     m_options_index = -1;
     m_load_index    = -1;
     m_save_index    = -1;
     m_quit_index    = -1;
+
+    m_active_item = 0;
+    m_scaling_up = true;
 }
 
 cMenu_Main::~cMenu_Main(void)
@@ -363,6 +369,52 @@ void cMenu_Main::Exit(void)
     }
 }
 
+void cMenu_Main::Selected_Item_Changed(int new_active_item)
+{
+    if (mp_current_inactive_item)
+        mp_current_inactive_item->Set_Scale(1);
+
+    mp_current_active_item   = NULL;
+    mp_current_inactive_item = NULL;
+
+    if (new_active_item < 0)
+        return;
+
+    switch(new_active_item) {
+    case 0:
+        mp_current_active_item   = mp_start_active;
+        mp_current_inactive_item = mp_start_inactive;
+        break;
+    case 1:
+        mp_current_active_item   = mp_options_active;
+        mp_current_inactive_item = mp_options_inactive;
+        break;
+    case 2:
+        mp_current_active_item   = mp_load_active;
+        mp_current_inactive_item = mp_load_inactive;
+        break;
+    case 3:
+        mp_current_active_item   = mp_save_active;
+        mp_current_inactive_item = mp_save_inactive;
+        break;
+    case 4:
+        // TODO: No quit active icon yet
+        mp_current_active_item   = NULL; //mp_quit_active;
+        mp_current_inactive_item = mp_quit_inactive;
+        break;
+    case 5:
+        // credits item has no icon
+        mp_current_active_item   = NULL;
+        mp_current_inactive_item = NULL;
+        break;
+    default:
+        // ignore
+        mp_current_active_item   = NULL;
+        mp_current_inactive_item = NULL;
+        break;
+    }
+}
+
 void cMenu_Main::Update(void)
 {
     cMenu_Base::Update();
@@ -413,35 +465,26 @@ void cMenu_Main::Draw(void)
 {
     cMenu_Base::Draw();
 
+    if (mp_current_inactive_item) {
+        if (m_scaling_up)
+            mp_current_inactive_item->Add_Scale(1.2f / mp_current_inactive_item->m_col_rect.m_w * pFramerate->m_speed_factor);
+        else
+            mp_current_inactive_item->Add_Scale(-(1.2f / mp_current_inactive_item->m_col_rect.m_w) * pFramerate->m_speed_factor);
+
+        if (mp_current_inactive_item->m_scale_x > 1.1f)
+            m_scaling_up = false;
+        else if (mp_current_inactive_item->m_scale_x < 1.0f)
+            m_scaling_up = true;
+    }
+
     mp_start_inactive->Draw();
     mp_options_inactive->Draw();
     mp_load_inactive->Draw();
     mp_save_inactive->Draw();
     mp_quit_inactive->Draw();
 
-    switch(pMenuCore->m_handler->m_active) {
-    case 0:
-        mp_start_active->Draw();
-        break;
-    case 1:
-        mp_options_active->Draw();
-        break;
-    case 2:
-        mp_load_active->Draw();
-        break;
-    case 3:
-        mp_save_active->Draw();
-        break;
-    case 4:
-        // TODO: No quit active icon yet
-        //mp_quit_active->Draw();
-        break;
-    case 5:
-        // credits item has no icon
-        break;
-    default:
-        // ignore
-        break;
+    if (mp_current_active_item) {
+        mp_current_active_item->Draw();
     }
 
     Draw_End();

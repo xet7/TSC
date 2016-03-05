@@ -88,6 +88,7 @@ namespace TSC {
         virtual void Init(void);
         virtual void Init_GUI(void);
         virtual void Exit(void);
+        virtual void Selected_Item_Changed(int new_active_item);
         virtual void Update(void);
         virtual void Draw(void);
     private:
@@ -102,12 +103,16 @@ namespace TSC {
         cHudSprite* mp_quit_active;
         cHudSprite* mp_quit_inactive;
 
+        cHudSprite* mp_current_inactive_item;
+        cHudSprite* mp_current_active_item;
+
         int m_start_index;
         int m_options_index;
         int m_load_index;
         int m_save_index;
         int m_quit_index;
         int m_active_item;
+        bool m_scaling_up;
     };
 
     /* *** *** *** *** *** *** *** cMenu_Start *** *** *** *** *** *** *** *** *** *** */
