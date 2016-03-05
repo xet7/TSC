@@ -58,6 +58,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <chrono>
 #include <time.h>
 #include <math.h>
 #include <functional>
@@ -84,22 +85,19 @@
 #include <libxml++/libxml++.h>
 
 // CEGUI
-// Must be included before SDL/X11, which have #defines such as
+// Must be included before X11, which have #defines such as
 // None, True, and False that screw CEGUI declarations.
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLTexture.h>
 
-// SDL
-#ifdef __unix__
-#define NO_SDL_GLEXT
-#endif
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
-#include <SDL_syswm.h>
+// SFML
+// Must also be included before X11, which has a #define Status int that messes
+// with SFML's Status enum.
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+#include <SFML/Audio.hpp>
 
 // Other libs
 #include <png.h>
@@ -131,6 +129,11 @@
 #include <mruby/variable.h>
 #include <mruby/proc.h>
 #include <mruby/range.h>
+
+// tinyclipboard
+extern "C" {
+#include <tinyclipboard.h>
+}
 
 #ifndef PNG_COLOR_TYPE_RGBA
 #define PNG_COLOR_TYPE_RGBA PNG_COLOR_TYPE_RGB_ALPHA

@@ -42,7 +42,7 @@ namespace TSC {
         /* handle key down event
          * returns true if the key was processed
         */
-        bool Key_Down(SDLKey key);
+        bool Key_Down(const sf::Event& evt);
 
         // Set the parent level
         void Set_Level(cLevel* level);

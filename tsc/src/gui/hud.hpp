@@ -24,6 +24,7 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** cHudSprite *** *** *** *** *** *** *** *** *** *** */
 
+    /// Base class for image-showing HUD elements.
     class cHudSprite : public cSprite {
     public:
         cHudSprite(cSprite_Manager* sprite_manager);
@@ -33,9 +34,25 @@ namespace TSC {
         virtual cHudSprite* Copy(void) const;
     };
 
+    /* *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** *** */
+
+    class cMenuBackground : public cHudSprite {
+    public:
+        cMenuBackground(cSprite_Manager* sprite_manager);
+        virtual ~cMenuBackground(void);
+
+        virtual void Draw(cSurface_Request* request = NULL);
+
+        cGL_Surface* m_alex_head;
+        cGL_Surface* m_goldpiece;
+
+        GL_point m_rect_alex_head;
+        GL_point m_rect_goldpiece;
+    };
+
     /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
 
-    class cHud_Manager : public cObject_Manager<cHudSprite> {
+    class cHud_Manager {
     public:
         cHud_Manager(cSprite_Manager* sprite_manager);
         virtual ~cHud_Manager(void);
@@ -62,6 +79,8 @@ namespace TSC {
 
         // true if loaded
         bool m_loaded;
+    private:
+        cMenuBackground* mp_menu_background;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -69,129 +88,148 @@ namespace TSC {
 // The HUD Manager
     extern cHud_Manager* pHud_Manager;
 
-    /* *** *** *** *** *** *** *** *** PointsText *** *** *** *** *** *** *** *** *** */
-
-    struct PointsText : public cHudSprite {
-    public:
-        PointsText(cSprite_Manager* sprite_manager);
-        virtual ~PointsText(void);
-
-        float m_vely;
-        unsigned int m_points;
-    };
-
-    /* *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** *** */
-
-    class cMenuBackground : public cHudSprite {
-    public:
-        cMenuBackground(cSprite_Manager* sprite_manager);
-        virtual ~cMenuBackground(void);
-
-        virtual void Draw(cSurface_Request* request = NULL);
-
-        cGL_Surface* m_alex_head;
-        cGL_Surface* m_goldpiece;
-
-        GL_point m_rect_alex_head;
-        GL_point m_rect_goldpiece;
-    };
-
     /* *** *** *** *** *** cStatusText *** *** *** *** *** *** *** *** *** *** *** *** */
 
-    class cStatusText : public cHudSprite {
+    /// Base class for text-showing HUD elements.
+    class cStatusText {
     public:
-        cStatusText(cSprite_Manager* sprite_manager);
+        cStatusText();
         virtual ~cStatusText(void);
 
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
+        virtual void Update();
+        inline void Set_Pos(float x, float y) { m_x = x; m_y = y; }
+
+    protected:
+        void Prepare_Text_For_SFML(const std::string&, int fontsize, Color color);
+
+        sf::Text m_text;
+        float m_x;
+        float m_y;
+    };
+
+    /* *** *** *** *** *** cMiniPointsText *** *** *** *** *** *** *** *** *** *** *** *** */
+
+    class cMiniPointsText {
+    public:
+        cMiniPointsText();
+        virtual ~cMiniPointsText();
+
+        virtual void Draw();
+
+        inline void Set_Vel_Y(float vely) { m_vely = vely; }
+        inline void Enable() { m_disabled = false; }
+        inline void Disable() { m_disabled = true; }
+        inline bool Is_Disabled(){ return m_disabled; }
+
+        inline sf::Text& Get_Text(){ return m_text; }
+        inline float Get_Vel_Y(){ return m_vely; }
+
+    private:
+        float m_vely;
+        sf::Text m_text;
+        bool m_disabled;
     };
 
     /* *** *** *** *** *** cPlayerPoints *** *** *** *** *** *** *** *** *** *** *** *** */
 
     class cPlayerPoints : public cStatusText {
     public:
-        cPlayerPoints(cSprite_Manager* sprite_manager);
+        cPlayerPoints();
         virtual ~cPlayerPoints(void);
 
         void Set_Points(long points);
-        void Add_Points(unsigned int points, float x = 0.0f, float y = 0.0f, std::string strtext = "", const Color& color = static_cast<Uint8>(255), bool allow_multiplier = 0);
+        void Add_Points(unsigned int points, float x = 0.0f, float y = 0.0f, std::string strtext = "", const Color& color = static_cast<uint8_t>(255), bool allow_multiplier = 0);
 
         // removes all point texts
         void Clear(void);
 
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
 
-        typedef vector<PointsText*> PointsTextList;
-        PointsTextList m_points_objects;
+        std::vector<cMiniPointsText*> m_points_objects;
     };
 
     /* *** *** *** *** *** cGoldDisplay *** *** *** *** *** *** *** *** *** *** *** *** */
 
     class cGoldDisplay : public cStatusText {
     public:
-        cGoldDisplay(cSprite_Manager* sprite_manager);
+        cGoldDisplay();
         virtual ~cGoldDisplay(void);
 
         void Set_Gold(int gold);
         void Add_Gold(int gold);
 
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
     };
 
     /* *** *** *** *** *** cLiveDisplay *** *** *** *** *** *** *** *** *** *** *** *** */
 
     class cLiveDisplay : public cStatusText {
     public:
-        cLiveDisplay(cSprite_Manager* sprite_manager);
+        cLiveDisplay();
         virtual ~cLiveDisplay(void);
 
         void Set_Lives(int lives);
         void Add_Lives(int lives);
 
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
     };
 
     /* *** *** *** *** *** cTimeDisplay *** *** *** *** *** *** *** *** *** *** *** *** */
 
     class cTimeDisplay : public cStatusText {
     public:
-        cTimeDisplay(cSprite_Manager* sprite_manager);
+        cTimeDisplay();
         virtual ~cTimeDisplay(void);
 
         // update
         virtual void Update(void);
         // draw
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
 
         // Set time
-        void Set_Time(Uint32 milliseconds);
+        void Set_Time(uint32_t milliseconds);
 
         // reset
         void Reset(void);
 
-        char m_text[50];
-        Uint32 m_last_update_seconds;
-        Uint32 m_milliseconds;
+        char m_clocktext[50];
+        uint32_t m_last_update_seconds;
+        uint32_t m_milliseconds;
+    };
+
+    /* *** *** *** *** *** cFpsDisplay *** *** *** *** *** *** *** *** *** *** *** */
+
+    class cFpsDisplay: public cStatusText {
+    public:
+        cFpsDisplay();
+        virtual ~cFpsDisplay();
+
+        virtual void Update(void);
+        virtual void Draw(void);
+
+    private:
+        char m_fps_text[5000];
     };
 
     /* *** *** *** *** *** cInfoMessage *** *** *** *** *** *** *** *** *** *** *** */
 
     class cInfoMessage : public cStatusText {
     public:
-        cInfoMessage(cSprite_Manager* sprite_manager);
+        cInfoMessage();
         virtual ~cInfoMessage(void);
 
         // Update
         virtual void Update(void);
         // draw
-        virtual void Draw(cSurface_Request* request = NULL);
+        virtual void Draw();
 
         // Set text and display it fading out slowly.
         void Set_Text(const std::string& text);
         std::string Get_Text();
 
     private:
-        std::string m_text;
+        std::string m_infotext;
         float m_alpha;
         float m_display_time;
         cMovingSprite* m_background;
@@ -199,7 +237,7 @@ namespace TSC {
 
     /* *** *** *** *** *** cItemBox *** *** *** *** *** *** *** *** *** *** *** *** */
 
-    class cItemBox : public cStatusText {
+    class cItemBox : public cHudSprite {
     public:
         cItemBox(cSprite_Manager* sprite_manager);
         virtual ~cItemBox(void);
@@ -240,44 +278,25 @@ namespace TSC {
         cMovingSprite* m_item;
     };
 
-    /* *** *** *** *** *** cDebugDisplay *** *** *** *** *** *** *** *** *** *** *** *** */
-
-    class cDebugDisplay : public cStatusText {
+    class cDebugDisplay: public cHudSprite {
     public:
         cDebugDisplay(cSprite_Manager* sprite_manager);
         virtual ~cDebugDisplay(void);
 
-        // update
         virtual void Update(void);
-        // draw
         virtual void Draw(cSurface_Request* request = NULL);
-        // draw the frames per second info
-        void Draw_fps(void);
-        // draw the debug mode info
-        void Draw_Debug_Mode(void);
-        // draw the performance debug mode info
-        void Draw_Performance_Debug_Mode(void);
 
-        // set the debug text to display
         void Set_Text(const std::string& ntext, float display_time = speedfactor_fps * 2.0f);
 
-        // display text
-        std::string m_text, m_text_old;
-        // text counter
-        float m_counter;
+        std::string m_text;
+        std::string m_text_old;
 
         // CEGUI debug text
-        CEGUI::Window* m_window_debug_text, *m_text_debug_text;
+        CEGUI::Window* m_window_debug_text;
+        CEGUI::Window* m_text_debug_text;
 
-        // last game mode
-        GameMode m_game_mode_last;
-        // last level filename
-        boost::filesystem::path m_level_old;
-        // last object counters
-        int m_obj_counter, m_pass_counter, m_mass_counter, m_enemy_counter, m_active_counter;
-        // sprites
-        typedef vector<cHudSprite*> HudSpriteList;
-        HudSpriteList m_sprites;
+        // text counter
+        float m_counter;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -290,6 +309,7 @@ namespace TSC {
     extern cTimeDisplay* pHud_Time;
     extern cInfoMessage* pHud_Infomessage;
     extern cItemBox* pHud_Itembox;
+    extern cFpsDisplay* pHud_Fps;
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

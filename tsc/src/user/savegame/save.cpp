@@ -118,7 +118,7 @@ void cSave::Write_To_File(fs::path filepath)
     p_node = p_root->add_child("information");
     Add_Property(p_node, "version", m_version);
     Add_Property(p_node, "level_engine_version", m_level_engine_version);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(m_save_time));
+    Add_Property(p_node, "save_time", static_cast<uint64_t>(m_save_time));
     Add_Property(p_node, "description", m_description);
     // </information>
 

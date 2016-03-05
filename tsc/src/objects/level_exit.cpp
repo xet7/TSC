@@ -91,10 +91,6 @@ cLevel_Exit::cLevel_Exit(XmlAttributes& attributes, cSprite_Manager* sprite_mana
 
 cLevel_Exit::~cLevel_Exit(void)
 {
-    if (m_editor_entry_name) {
-        delete m_editor_entry_name;
-        m_editor_entry_name = NULL;
-    }
 }
 
 void cLevel_Exit::Init(void)
@@ -121,8 +117,6 @@ void cLevel_Exit::Init(void)
 
     m_editor_color = red;
     m_editor_color.alpha = 128;
-
-    m_editor_entry_name = NULL;
 }
 
 cLevel_Exit* cLevel_Exit::Copy(void) const
@@ -228,15 +222,14 @@ void cLevel_Exit::Draw(cSurface_Request* request /* = NULL */)
     pVideo->Draw_Rect(m_col_rect.m_x - pActive_Camera->m_x, m_col_rect.m_y - pActive_Camera->m_y, m_col_rect.m_w, m_col_rect.m_h, m_editor_pos_z, &m_editor_color);
 
     // draw destination entry name
-    if (m_editor_entry_name) {
-        // create request
-        cSurface_Request* surface_request = new cSurface_Request();
-        // blit
-        m_editor_entry_name->Blit(m_col_rect.m_x + m_col_rect.m_w + 5 - pActive_Camera->m_x, m_col_rect.m_y - pActive_Camera->m_y, m_editor_pos_z, surface_request);
-        surface_request->m_shadow_pos = 2;
-        surface_request->m_shadow_color = lightgreyalpha64;
-        // add request
-        pRenderer->Add(surface_request);
+    if (!m_dest_entry.empty()) {
+        pFont->Prepare_SFML_Text(m_dest_entry_text,
+                                 m_dest_entry,
+                                 m_col_rect.m_x + m_col_rect.m_w + 5 - pActive_Camera->m_x,
+                                 m_col_rect.m_y - pActive_Camera->m_y,
+                                 cFont_Manager::FONTSIZE_SMALL,
+                                 white);
+        pFont->Queue_Text(m_dest_entry_text);
     }
 }
 
@@ -410,11 +403,6 @@ fs::path cLevel_Exit::Get_Level_Path()
 
 void cLevel_Exit::Set_Entry(const std::string& entry_name)
 {
-    if (m_editor_entry_name) {
-        delete m_editor_entry_name;
-        m_editor_entry_name = NULL;
-    }
-
     // Set new name
     m_dest_entry = entry_name;
 
@@ -422,8 +410,6 @@ void cLevel_Exit::Set_Entry(const std::string& entry_name)
     if (m_dest_entry.empty()) {
         return;
     }
-
-    m_editor_entry_name = pFont->Render_Text(pFont->m_font_small, m_dest_entry, white);
 }
 
 void cLevel_Exit::Set_Return_Level(const std::string& level)

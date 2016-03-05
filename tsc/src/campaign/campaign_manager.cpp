@@ -53,7 +53,7 @@ void cCampaign::Save_To_File(const fs::path& filename)
     p_node = p_root->add_child("information");
     Add_Property(p_node, "name", m_name);
     Add_Property(p_node, "description", m_description);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
+    Add_Property(p_node, "save_time", static_cast<uint64_t>(time(NULL)));
     // </information>
 
     // <target>

@@ -29,6 +29,9 @@
 #include "../scripting/events/gold_100_event.hpp"
 #include "../core/global_basic.hpp"
 
+#define HUD_LEVEL_Y 24.0f
+#define HUD_WORLD_Y 4.0f
+
 using namespace std;
 
 namespace TSC {
@@ -63,13 +66,76 @@ cHudSprite* cHudSprite::Copy(void) const
     return hud_sprite;
 }
 
+/* *** *** *** *** *** *** *** cMiniPointsText *** *** *** *** *** *** *** *** *** *** */
+
+cMiniPointsText::cMiniPointsText()
+{
+    m_vely = 0;
+    m_disabled = false;
+}
+
+cMiniPointsText::~cMiniPointsText()
+{
+}
+
+void cMiniPointsText::Draw()
+{
+    m_vely -= m_vely *  0.01f * pFramerate->m_speed_factor;
+    m_text.move(0, m_vely * pFramerate->m_speed_factor);
+
+    // disable
+    if (m_vely > -1.0f) {
+        Disable();
+        return;
+    }
+    // fade out
+    else if (m_vely > -1.2f) {
+        sf::Color col = m_text.getColor();
+        col.a = static_cast<uint8_t>(255 * -(m_vely + 1.0f) * 5);
+        m_text.setColor(col);
+    }
+
+    // Convert level coordinate to window coordinate
+    float x = m_text.getPosition().x - pActive_Camera->m_x;
+    float y = m_text.getPosition().y - pActive_Camera->m_y;
+
+    // out in left
+    if (x < 0.0f) {
+        x = 3.0f;
+    }
+    // out in right
+    else if (x > game_res_w) {
+        x = game_res_w - m_text.getGlobalBounds().width - 3.0f;
+    }
+
+    // out on top
+    if (y < 0.0f) {
+        y = 3.0f;
+    }
+    // out on bottom
+    else if (y > game_res_h) {
+        y = game_res_h - m_text.getGlobalBounds().height - 3.0f;
+    }
+
+    // create request
+    pFont->Queue_Text(m_text);
+
+    // OLD // shadow
+    // OLD request->m_shadow_color = black;
+    // OLD request->m_shadow_color.alpha = obj->m_color.alpha;
+    // OLD request->m_shadow_pos = 1;
+
+    // OLD // color
+    // OLD request->m_color = Color(static_cast<uint8_t>(255 - (obj->m_points / 150)), static_cast<uint8_t>(255 - (obj->m_points / 150)), static_cast<uint8_t>(255 - (obj->m_points / 30)), obj->m_color.alpha);
+}
+
 /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
 
 cHud_Manager::cHud_Manager(cSprite_Manager* sprite_manager)
-    : cObject_Manager<cHudSprite>()
 {
     m_sprite_manager = sprite_manager;
     m_loaded = 0;
+    mp_menu_background = NULL;
 }
 
 cHud_Manager::~cHud_Manager(void)
@@ -79,7 +145,7 @@ cHud_Manager::~cHud_Manager(void)
 
 void cHud_Manager::Load(void)
 {
-    if (!m_loaded && !objects.empty()) {
+    if (!m_loaded) {
         Unload();
     }
     else if (m_loaded) {
@@ -88,75 +154,77 @@ void cHud_Manager::Load(void)
     }
 
     // Menu Background ( Alex head and the Goldpiece image )
-    cMenuBackground* menu_background = new cMenuBackground(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(menu_background));
+    mp_menu_background = new cMenuBackground(m_sprite_manager);
     // Point Display
-    pHud_Points = new cPlayerPoints(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Points));
+    pHud_Points = new cPlayerPoints();
     // Time Display
-    pHud_Time = new cTimeDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Time));
+    pHud_Time = new cTimeDisplay();
     // Live Display
-    pHud_Lives = new cLiveDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Lives));
+    pHud_Lives = new cLiveDisplay();
     // Gold Display
-    pHud_Goldpieces = new cGoldDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Goldpieces));
+    pHud_Goldpieces = new cGoldDisplay();
     // Info Message Display
-    pHud_Infomessage = new cInfoMessage(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Infomessage));
+    pHud_Infomessage = new cInfoMessage();
     // Itembox
     pHud_Itembox = new cItemBox(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Itembox));
+    // FPS Display
+    pHud_Fps = new cFpsDisplay();
     // Debug Display
     pHud_Debug = new cDebugDisplay(m_sprite_manager);
-    Add(static_cast<cHudSprite*>(pHud_Debug));
 
     m_loaded = 1;
 }
 
 void cHud_Manager::Unload(void)
 {
-    if (objects.empty()) {
-        return;
-    }
-
-    Delete_All();
+    delete pHud_Lives;
+    delete pHud_Goldpieces;
+    delete pHud_Points;
+    delete pHud_Time;
+    delete pHud_Infomessage;
+    delete pHud_Fps;
+    delete pHud_Debug;
+    delete pHud_Itembox;
 
     pHud_Lives = NULL;
     pHud_Goldpieces = NULL;
     pHud_Points = NULL;
     pHud_Time = NULL;
     pHud_Infomessage = NULL;
+    pHud_Fps = NULL;
     pHud_Debug = NULL;
     pHud_Itembox = NULL;
 
     m_loaded = 0;
 }
 
+/**
+ * This function positions the different elements of the HUD on
+ * the screen. It is (contrary to what the name suggests) *not*
+ * called once a frame.
+ */
 void cHud_Manager::Update_Text(void)
 {
     // note : update the life display before updating the time display
+    unsigned int window_width = pVideo->mp_window->getSize().x;
 
-    if (!objects.empty()) {
-        cMenuBackground* item = static_cast<cMenuBackground*>(objects[0]);
-
+    if (mp_menu_background) {
         if (Game_Mode != MODE_OVERWORLD) {
             // goldpiece
-            item->m_rect_goldpiece.m_y = item->m_rect_alex_head.m_y + 6.0f;
+            mp_menu_background->m_rect_goldpiece.m_y = mp_menu_background->m_rect_alex_head.m_y + 6.0f;
         }
         else {
             // goldpiece
-            item->m_rect_goldpiece.m_y = 7.0f;
+            mp_menu_background->m_rect_goldpiece.m_y = 7.0f;
         }
     }
 
     if (pHud_Lives) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Lives->Set_Pos(game_res_w - game_res_w * 0.1f, 18.0f);
+            pHud_Lives->Set_Pos(window_width - window_width * 0.1f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Lives->Set_Pos(game_res_w - game_res_w / 7.5f, 4.0f);
+            pHud_Lives->Set_Pos(window_width - window_width / 7.5f, HUD_WORLD_Y);
         }
 
         pHud_Lives->Add_Lives(0);
@@ -164,10 +232,10 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Goldpieces) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Goldpieces->Set_Pos(280.0f, 18.0f);
+            pHud_Goldpieces->Set_Pos(360.0f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Goldpieces->Set_Pos(280.0f, 4.0f);
+            pHud_Goldpieces->Set_Pos(360.0f, HUD_WORLD_Y);
         }
 
         pHud_Goldpieces->Add_Gold(0);
@@ -175,17 +243,17 @@ void cHud_Manager::Update_Text(void)
 
     if (pHud_Points) {
         if (Game_Mode != MODE_OVERWORLD) {
-            pHud_Points->Set_Pos(50.0f, 18.0f);
+            pHud_Points->Set_Pos(50.0f, HUD_LEVEL_Y);
         }
         else {
-            pHud_Points->Set_Pos(50.0f, 4.0f);
+            pHud_Points->Set_Pos(50.0f, HUD_WORLD_Y);
         }
 
         pHud_Points->Add_Points(0);
     }
 
     if (pHud_Time) {
-        pHud_Time->Set_Pos(game_res_w * 0.70f, 18.0f);
+        pHud_Time->Set_Pos(window_width * 0.70f, HUD_LEVEL_Y);
         pHud_Time->Update();
     }
 
@@ -194,8 +262,13 @@ void cHud_Manager::Update_Text(void)
         pHud_Infomessage->Update();
     }
 
+    if (pHud_Fps) {
+        pHud_Fps->Set_Pos(window_width * 0.1f, 10.0f);
+        pHud_Fps->Update();
+    }
+
     if (pHud_Debug) {
-        pHud_Debug->Set_Pos(game_res_w * 0.45f, 80.0f);
+        pHud_Debug->Set_Pos(window_width * 0.45f, 80.0f);
         pHud_Debug->Update();
     }
 
@@ -208,17 +281,31 @@ void cHud_Manager::Update_Text(void)
 void cHud_Manager::Update(void)
 {
     // update HUD objects
-    for (HudSpriteList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
-        (*itr)->Update();
-    }
+
+    mp_menu_background->Update();
+    pHud_Points->Update();
+    pHud_Time->Update();
+    pHud_Lives->Update();
+    pHud_Goldpieces->Update();
+    pHud_Infomessage->Update();
+    pHud_Itembox->Update();
+    pHud_Fps->Update();
+    pHud_Debug->Update();
 }
 
 void cHud_Manager::Draw(void)
 {
     // draw HUD objects
-    for (HudSpriteList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
-        (*itr)->Draw();
-    }
+
+    mp_menu_background->Draw();
+    pHud_Points->Draw();
+    pHud_Time->Draw();
+    pHud_Lives->Draw();
+    pHud_Goldpieces->Draw();
+    pHud_Infomessage->Draw();
+    pHud_Itembox->Draw();
+    pHud_Fps->Draw();
+    pHud_Debug->Draw();
 }
 
 void cHud_Manager::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
@@ -226,28 +313,12 @@ void cHud_Manager::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
     m_sprite_manager = sprite_manager;
 
     // update HUD objects
-    for (HudSpriteList::iterator itr = objects.begin(); itr != objects.end(); ++itr) {
-        (*itr)->Set_Sprite_Manager(m_sprite_manager);
-    }
+    Update();
 }
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cHud_Manager* pHud_Manager = NULL;
-
-/* *** *** *** *** *** *** PointsText *** *** *** *** *** *** *** *** *** *** *** */
-
-PointsText::PointsText(cSprite_Manager* sprite_manager)
-    : cHudSprite(sprite_manager)
-{
-    m_points = 0;
-    m_vely = 0.0f;
-}
-
-PointsText::~PointsText(void)
-{
-    //
-}
 
 /* *** *** *** *** *** *** cMenuBackground *** *** *** *** *** *** *** *** *** *** *** */
 
@@ -296,11 +367,11 @@ void cMenuBackground::Draw(cSurface_Request* request /* = NULL */)
 
 /* *** *** *** *** *** *** cStatusText *** *** *** *** *** *** *** *** *** *** *** */
 
-cStatusText::cStatusText(cSprite_Manager* sprite_manager)
-    : cHudSprite(sprite_manager)
+cStatusText::cStatusText()
 {
-    m_sprite_array = ARRAY_HUD;
-    Set_Shadow(black, 1.5f);
+    m_x = 0;
+    m_y = 0;
+    // OLD Set_Shadow(black, 1.5f);
 }
 
 cStatusText::~cStatusText(void)
@@ -308,23 +379,44 @@ cStatusText::~cStatusText(void)
     //
 }
 
-void cStatusText::Draw(cSurface_Request* request /* = NULL */)
+/**
+ * Prepares the wrapped sf::Text instance (`m_text` member) so that it is suitable
+ * for drawing by SFML. Use this method instead of adjusting the sf::Text instance
+ * directly where possible, because it does some conversions.
+ *
+ * This method is a convenience wrapper around cFont_Manager::Prepare_SFML_Text()
+ * with the things we know to always be the same in all subclasses set automatically.
+ *
+ * When you subclass cStatusText(), you must call this method each time you want
+ * to change the text or its attributes. Do not call it every frame, that is
+ * unnecessary.
+ */
+void cStatusText::Prepare_Text_For_SFML(const std::string& text, int fontsize, Color color)
+{
+    pFont->Prepare_SFML_Text(m_text, text, m_x, m_y, fontsize, color, true);
+}
+
+void cStatusText::Update()
+{
+    // Nothing by default
+}
+
+void cStatusText::Draw()
 {
     if (Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw();
+    // Subclasses are supposed to call Prepare_Text_For_SFML()
+    // before Draw() gets called.
+    pFont->Queue_Text(m_text);
 }
 
 /* *** *** *** *** *** *** cPlayerPoints *** *** *** *** *** *** *** *** *** *** *** */
 
-cPlayerPoints::cPlayerPoints(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+cPlayerPoints::cPlayerPoints()
+    : cStatusText()
 {
-    m_type = TYPE_HUD_POINTS;
-    m_name = "HUD Player points";
-
     Set_Points(pLevel_Player->m_points);
 
     m_points_objects.reserve(50);
@@ -335,75 +427,27 @@ cPlayerPoints::~cPlayerPoints(void)
     Clear();
 }
 
-void cPlayerPoints::Draw(cSurface_Request* request /* = NULL */)
+void cPlayerPoints::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw(request);
+    cStatusText::Draw();
 
-    // draw small points
-    for (PointsTextList::iterator itr = m_points_objects.begin(); itr != m_points_objects.end();) {
+    // draw small points (those next to enemies)
+    for (std::vector<cMiniPointsText*>::iterator itr = m_points_objects.begin(); itr != m_points_objects.end();) {
         // get object pointer
-        PointsText* obj = (*itr);
+        cMiniPointsText* obj = (*itr);
 
         // if finished
-        if (!obj->m_image) {
+        if (obj->Is_Disabled()) {
             itr = m_points_objects.erase(itr);
             delete obj;
         }
         // active
         else {
-            obj->m_vely -= obj->m_vely * 0.01f * pFramerate->m_speed_factor;
-            obj->m_pos_y += obj->m_vely * pFramerate->m_speed_factor;
-
-            // disable
-            if (obj->m_vely > -1.0f) {
-                obj->Set_Image(NULL);
-                continue;
-            }
-            // fade out
-            else if (obj->m_vely > -1.2f) {
-                obj->m_color.alpha = static_cast<Uint8>(255 * -(obj->m_vely + 1.0f) * 5);
-            }
-
-            float x = obj->m_pos_x - pActive_Camera->m_x;
-            float y = obj->m_pos_y - pActive_Camera->m_y;
-
-            // out in left
-            if (x < 0.0f) {
-                x = 3.0f;
-            }
-            // out in right
-            else if (x > game_res_w) {
-                x = game_res_w - obj->m_col_rect.m_w - 3.0f;
-            }
-
-            // out on top
-            if (y < 0.0f) {
-                y = 3.0f;
-            }
-            // out on bottom
-            else if (y > game_res_h) {
-                y = game_res_h - obj->m_col_rect.m_h - 3.0f;
-            }
-
-            // create request
-            cSurface_Request* request = new cSurface_Request();
-            obj->m_image->Blit(x, y, m_pos_z, request);
-
-            // shadow
-            request->m_shadow_color = black;
-            request->m_shadow_color.alpha = obj->m_color.alpha;
-            request->m_shadow_pos = 1;
-
-            // color
-            request->m_color = Color(static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 30)), obj->m_color.alpha);
-
-            // add request
-            pRenderer->Add(request);
-
+            obj->Draw();
             ++itr;
         }
     }
@@ -415,10 +459,11 @@ void cPlayerPoints::Set_Points(long points)
 
     char text[70];
     sprintf(text, _("Points %08d"), static_cast<int>(pLevel_Player->m_points));
-    Set_Image(pFont->Render_Text(pFont->m_font_normal, text, white), 0, 1);
+
+    Prepare_Text_For_SFML(text, cFont_Manager::FONTSIZE_NORMAL, white);
 }
 
-void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color& color /* = static_cast<Uint8>(255) */, bool allow_multiplier /* = 0 */)
+void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color& color /* = static_cast<uint8_t>(255) */, bool allow_multiplier /* = 0 */)
 {
     if (allow_multiplier) {
         points = static_cast<unsigned int>(pLevel_Player->m_kill_multiplier * static_cast<float>(points));
@@ -435,21 +480,19 @@ void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float 
         strtext = int_to_string(points);
     }
 
-    PointsText* new_obj = new PointsText(m_sprite_manager);
-    new_obj->Set_Image(pFont->Render_Text(pFont->m_font_small, strtext, color), 1, 1);
-
-    new_obj->Set_Pos(x, y);
-    new_obj->m_vely = -1.4f;
-    new_obj->m_points = points;
+    cMiniPointsText* new_obj = new cMiniPointsText();
+    pFont->Prepare_SFML_Text(new_obj->Get_Text(), strtext, x, y, cFont_Manager::FONTSIZE_SMALL, color);
+    new_obj->Set_Vel_Y(-1.4f);
 
     // check if it collides with an already active points text
-    for (PointsTextList::iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
-        // get object pointer
-        PointsText* obj = (*itr);
+    for (std::vector<cMiniPointsText*>::const_iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
+        cMiniPointsText* obj = (*itr);
 
-        if (new_obj->m_rect.Intersects(obj->m_col_rect)) {
-            new_obj->Move(obj->m_col_rect.m_w + 5, 0, 1);
+        // If they collide, move our text to the right to ensure readability.
+        if (new_obj->Get_Text().getGlobalBounds().intersects(obj->Get_Text().getGlobalBounds())) {
+            new_obj->Get_Text().move(obj->Get_Text().getGlobalBounds().width + 5, 0);
         }
+
     }
 
     m_points_objects.push_back(new_obj);
@@ -457,7 +500,7 @@ void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float 
 
 void cPlayerPoints::Clear(void)
 {
-    for (PointsTextList::iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
+    for (std::vector<cMiniPointsText*>::iterator itr = m_points_objects.begin(); itr != m_points_objects.end(); ++itr) {
         delete *itr;
     }
 
@@ -466,12 +509,9 @@ void cPlayerPoints::Clear(void)
 
 /* *** *** *** *** *** cGoldDisplay *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cGoldDisplay::cGoldDisplay(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+cGoldDisplay::cGoldDisplay()
+    : cStatusText()
 {
-    m_type = TYPE_HUD_GOLD;
-    m_name = "HUD Goldpieces";
-
     Set_Gold(pLevel_Player->m_goldpieces);
 }
 
@@ -480,13 +520,13 @@ cGoldDisplay::~cGoldDisplay(void)
     //
 }
 
-void cGoldDisplay::Draw(cSurface_Request* request /* = NULL */)
+void cGoldDisplay::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw();
+    cStatusText::Draw();
 }
 
 void cGoldDisplay::Set_Gold(int gold)
@@ -506,9 +546,9 @@ void cGoldDisplay::Set_Gold(int gold)
     pLevel_Player->m_goldpieces = gold;
     std::string text = int_to_string(pLevel_Player->m_goldpieces);
 
-    Color color = Color(static_cast<Uint8>(255), 255, 255 - (gold * 2));
+    Color color = Color(static_cast<uint8_t>(255), 255, 255 - (gold * 2));
 
-    Set_Image(pFont->Render_Text(pFont->m_font_normal, text, color), 0, 1);
+    Prepare_Text_For_SFML(text, cFont_Manager::FONTSIZE_NORMAL, color);
 }
 
 void cGoldDisplay::Add_Gold(int gold)
@@ -518,15 +558,10 @@ void cGoldDisplay::Add_Gold(int gold)
 
 /* *** *** *** *** *** cLiveDisplay *** *** *** *** *** *** *** *** *** *** *** *** */
 
-cLiveDisplay::cLiveDisplay(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+cLiveDisplay::cLiveDisplay()
+    : cStatusText()
 {
-    m_type = TYPE_HUD_LIFE;
-    m_name = "HUD Lives";
-
     Set_Lives(pLevel_Player->m_lives);
-
-    Set_Image(NULL);
 }
 
 cLiveDisplay::~cLiveDisplay(void)
@@ -534,13 +569,13 @@ cLiveDisplay::~cLiveDisplay(void)
     //
 }
 
-void cLiveDisplay::Draw(cSurface_Request* request /* = NULL */)
+void cLiveDisplay::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw();
+    cStatusText::Draw();
 }
 
 void cLiveDisplay::Set_Lives(int lives)
@@ -561,14 +596,7 @@ void cLiveDisplay::Set_Lives(int lives)
         text = _("Lives : ") + int_to_string(pLevel_Player->m_lives);
     }
 
-    Set_Image(pFont->Render_Text(pFont->m_font_normal, text, green), 0, 1);
-
-    // set position
-    int w, h;
-
-    if (TTF_SizeText(pFont->m_font_normal, text.c_str(), &w, &h) == 0) {
-        Set_Pos_X((game_res_w * 0.94f) - w);
-    }
+    Prepare_Text_For_SFML(text, cFont_Manager::FONTSIZE_NORMAL, green);
 }
 
 void cLiveDisplay::Add_Lives(int lives)
@@ -578,12 +606,9 @@ void cLiveDisplay::Add_Lives(int lives)
 
 /* *** *** *** *** *** *** *** cTimeDisplay *** *** *** *** *** *** *** *** *** *** */
 
-cTimeDisplay::cTimeDisplay(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+cTimeDisplay::cTimeDisplay()
+    : cStatusText()
 {
-    m_type = TYPE_HUD_TIME;
-    m_name = "HUD Time";
-
     Reset();
 }
 
@@ -605,7 +630,7 @@ void cTimeDisplay::Update(void)
         return;
     }
 
-    const Uint32 seconds = m_milliseconds / 1000;
+    const uint32_t seconds = m_milliseconds / 1000;
 
     // update is not needed
     if (seconds == m_last_update_seconds) {
@@ -614,48 +639,82 @@ void cTimeDisplay::Update(void)
 
     m_last_update_seconds = seconds;
 
-    const Uint32 minutes = seconds / 60;
+    const uint32_t minutes = seconds / 60;
 
     // Set new time
-    sprintf(m_text, _("Time %02d:%02d"), minutes, seconds - (minutes * 60));
-    Set_Image(pFont->Render_Text(pFont->m_font_normal, m_text, white), 0, 1);
+    sprintf(m_clocktext, _("Time %02d:%02d"), minutes, seconds - (minutes * 60));
+    Prepare_Text_For_SFML(m_clocktext, cFont_Manager::FONTSIZE_NORMAL, white);
 }
 
-void cTimeDisplay::Draw(cSurface_Request* request /* = NULL */)
+void cTimeDisplay::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_OVERWORLD || Game_Mode == MODE_MENU) {
         return;
     }
 
-    cHudSprite::Draw();
+    cStatusText::Draw();
 }
 
 void cTimeDisplay::Reset(void)
 {
-    sprintf(m_text, "Time");
+    // TRANS: HUD Clock is reset to 00:00, the digits are shown a second later for 00:01.
+    sprintf(m_clocktext, _("Time"));
     m_last_update_seconds = 1000;
     m_milliseconds = 0;
 }
 
-void cTimeDisplay::Set_Time(Uint32 milliseconds)
+void cTimeDisplay::Set_Time(uint32_t milliseconds)
 {
     m_milliseconds = milliseconds;
     Update();
 }
 
+/* *** *** *** *** *** *** cFpsDisplay *** *** *** *** *** *** *** *** *** *** *** */
+
+cFpsDisplay::cFpsDisplay()
+    : cStatusText()
+{
+    sprintf(m_fps_text, "Initialising...");
+}
+
+cFpsDisplay::~cFpsDisplay()
+{
+}
+
+void cFpsDisplay::Update(void)
+{
+    cStatusText::Update();
+
+    sprintf(m_fps_text, "FPS: best %d worst %d current %d average %u speedfactor %.4f",
+            static_cast<int>(pFramerate->m_fps_best),
+            static_cast<int>(pFramerate->m_fps_worst),
+            static_cast<int>(pFramerate->m_fps),
+            pFramerate->m_fps_average,
+            pFramerate->m_speed_factor);
+
+    Prepare_Text_For_SFML(m_fps_text, cFont_Manager::FONTSIZE_VERYSMALL, white);
+}
+
+void cFpsDisplay::Draw()
+{
+    if (!game_debug || (Game_Mode == MODE_LEVEL && pLevel_Player->m_alex_type == ALEX_DEAD)) {
+        return;
+    }
+
+    cStatusText::Draw();
+}
+
 /* *** *** *** *** *** cInfoMessage *** *** *** *** *** *** *** *** *** *** *** */
 
-cInfoMessage::cInfoMessage(cSprite_Manager* p_sprite_manager)
-    : cStatusText(p_sprite_manager)
+cInfoMessage::cInfoMessage()
+    : cStatusText()
 {
-    m_type = TYPE_HUD_INFOMESSAGE;
-    m_name = "HUD Infomessage";
 
-    m_text = "Test";
+    m_infotext = "Test";
     m_alpha = -1;
     m_display_time = 0.0f;
 
-    m_background = new cMovingSprite(p_sprite_manager);
+    m_background = new cMovingSprite(pActive_Level->m_sprite_manager); // TODO: Lifetime difference? Info message in overworlds?
     m_background->Set_Ignore_Camera(true);
     m_background->m_camera_range = 0;
     m_background->Set_Massive_Type(MASS_MASSIVE);
@@ -670,25 +729,27 @@ cInfoMessage::~cInfoMessage()
 
 void cInfoMessage::Set_Text(const std::string& text)
 {
-    m_text = text;
+    m_infotext = text;
     m_display_time = 100.0f;
     m_alpha = 255.0f;
 
-    Set_Image(pFont->Render_Text(pFont->m_font_normal, m_text, yellow), 0, 1);
+    Prepare_Text_For_SFML(m_infotext, cFont_Manager::FONTSIZE_NORMAL, yellow);
 }
 
 std::string cInfoMessage::Get_Text()
 {
-    return m_text;
+    return m_infotext;
 }
 
 void cInfoMessage::Update()
 {
+    cStatusText::Update();
+
     // Display the message a few seconds without fading out,
     // then start to fade it out. If m_alpha is <= 0, it
     // has been fade out completed.
     if (m_alpha > 0) {
-        m_background->Set_Pos(0.0f, m_pos_y - 20.0f);
+        m_background->Set_Pos(0.0f, m_y - 20.0f);
 
         if (m_display_time > 0)
             m_display_time -= pFramerate->m_speed_factor;
@@ -697,25 +758,23 @@ void cInfoMessage::Update()
     }
 }
 
-void cInfoMessage::Draw(cSurface_Request* p_request /* = NULL */)
+void cInfoMessage::Draw()
 {
     if (editor_enabled || Game_Mode == MODE_OVERWORLD || Game_Mode == MODE_MENU) {
         return;
     }
 
     if (m_alpha > 0) {
-        m_background->Set_Color(255,255,255, static_cast<Uint8>(m_alpha));
-        Set_Color(255, 255, 255, static_cast<Uint8>(m_alpha));
-
+        m_background->Set_Color(255,255,255, static_cast<uint8_t>(m_alpha));
         m_background->Draw();
-        cHudSprite::Draw();
+        cStatusText::Draw();
     }
 }
 
 /* *** *** *** *** *** *** *** cItemBox *** *** *** *** *** *** *** *** *** *** */
 
 cItemBox::cItemBox(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+    : cHudSprite(sprite_manager)
 {
     m_type = TYPE_HUD_ITEMBOX;
     m_name = "HUD Itembox";
@@ -744,7 +803,7 @@ cItemBox::~cItemBox(void)
 
 void cItemBox::Set_Sprite_Manager(cSprite_Manager* sprite_manager)
 {
-    cStatusText::Set_Sprite_Manager(sprite_manager);
+    cHudSprite::Set_Sprite_Manager(sprite_manager);
     m_item->Set_Sprite_Manager(sprite_manager);
 }
 
@@ -799,7 +858,7 @@ void cItemBox::Draw(cSurface_Request* request /* = NULL */)
     if (m_item_id && m_item->m_image) {
         // with alpha
         if (m_item_counter) {
-            m_item->Set_Color(255, 255, 255, 100 + static_cast<Uint8>(m_item_counter));
+            m_item->Set_Color(255, 255, 255, 100 + static_cast<uint8_t>(m_item_counter));
         }
 
         m_item->Draw();
@@ -824,15 +883,15 @@ void cItemBox::Set_Item(SpriteType item_type, bool sound /* = 1 */)
     m_item->Set_Color(white);
 
     if (item_type == TYPE_MUSHROOM_DEFAULT) {
-        m_box_color = Color(static_cast<Uint8>(250), 50, 50);
+        m_box_color = Color(static_cast<uint8_t>(250), 50, 50);
         m_item->Set_Image(pVideo->Get_Package_Surface("game/items/mushroom_red.png"));
     }
     else if (item_type == TYPE_FIREPLANT) {
-        m_box_color = Color(static_cast<Uint8>(250), 200, 150);
+        m_box_color = Color(static_cast<uint8_t>(250), 200, 150);
         m_item->Set_Image(pVideo->Get_Package_Surface("game/items/fireberry_1.png"));
     }
     else if (item_type == TYPE_MUSHROOM_BLUE) {
-        m_box_color = Color(static_cast<Uint8>(100), 100, 250);
+        m_box_color = Color(static_cast<uint8_t>(100), 100, 250);
         m_item->Set_Image(pVideo->Get_Package_Surface("game/items/mushroom_blue.png"));
     }
 
@@ -881,22 +940,10 @@ void cItemBox::Reset(void)
 /* *** *** *** *** *** *** cDebugDisplay *** *** *** *** *** *** *** *** *** *** *** */
 
 cDebugDisplay::cDebugDisplay(cSprite_Manager* sprite_manager)
-    : cStatusText(sprite_manager)
+    : cHudSprite(sprite_manager)
 {
     m_type = TYPE_HUD_DEBUG;
     m_name = "HUD Debug";
-
-    m_text.clear();
-    m_text_old.clear();
-
-    // debug box text data
-    m_game_mode_last = MODE_NOTHING;
-    m_level_old = ".";
-    m_obj_counter = -1;
-    m_pass_counter = -1;
-    m_mass_counter = -1;
-    m_enemy_counter = -1;
-    m_active_counter = -1;
 
     // debug text window
     m_window_debug_text = CEGUI::WindowManager::getSingleton().loadWindowLayout("debugtext.layout");
@@ -906,39 +953,6 @@ cDebugDisplay::cDebugDisplay(cSprite_Manager* sprite_manager)
     // hide
     m_text_debug_text->setVisible(0);
 
-    // debug box positions
-    float tempx = static_cast<float>(game_res_w) - 200.0f;
-    float tempy = (static_cast<float>(game_res_h) / 2) - 250.0f;
-
-    for (unsigned int i = 0; i < 23; i++) {
-        cHudSprite* hud_sprite = new cHudSprite(m_sprite_manager);
-        hud_sprite->Set_Pos(tempx, tempy);
-        m_sprites.push_back(hud_sprite);
-        m_sprites[i]->Set_Shadow(black, 1);
-        m_sprites[i]->m_pos_z = m_pos_z;
-
-        // not the framerate text
-        if (i > 2) {
-            tempy += 19.0f;
-        }
-
-        // active box
-        if (i > 10 && i < 16) {
-            m_sprites[i]->Set_Pos_X(m_sprites[i]->m_start_pos_x + 5.0f, 1);
-        }
-    }
-
-    // fps display position
-    m_sprites[0]->Set_Pos(15.0f, 5.0f, 1);
-    // average
-    m_sprites[1]->Set_Pos(290.0f, 5.0f, 1);
-    // speed factor
-    m_sprites[2]->Set_Pos(480.0f, 5.0f, 1);
-
-    // Debug type text
-    m_sprites[4]->Set_Image(pFont->Render_Text(pFont->m_font_small, _("Level"), lightblue), 0, 1);
-    m_sprites[16]->Set_Image(pFont->Render_Text(pFont->m_font_small, _("Player"), lightblue), 0, 1);
-
     m_counter = 0.0f;
 }
 
@@ -946,12 +960,6 @@ cDebugDisplay::~cDebugDisplay(void)
 {
     pGuiSystem->getGUISheet()->removeChildWindow(m_window_debug_text);
     CEGUI::WindowManager::getSingleton().destroyWindow(m_window_debug_text);
-
-    for (HudSpriteList::iterator itr = m_sprites.begin(); itr != m_sprites.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_sprites.clear();
 }
 
 void cDebugDisplay::Update(void)
@@ -1004,9 +1012,8 @@ void cDebugDisplay::Update(void)
 
 void cDebugDisplay::Draw(cSurface_Request* request /* = NULL */)
 {
-    // debug mod info
-    Draw_Debug_Mode();
-    Draw_Performance_Debug_Mode();
+    // Override cHudSprite::Draw() to do nothing.
+    // CEGUI renders elsewhere in the main loop.
 }
 
 void cDebugDisplay::Set_Text(const std::string& ntext, float display_time /* = speedfactor_fps * 2.0f */)
@@ -1024,348 +1031,6 @@ void cDebugDisplay::Set_Text(const std::string& ntext, float display_time /* = s
     m_counter = display_time;
 }
 
-void cDebugDisplay::Draw_fps(void)
-{
-    // ### Frames per Second
-    m_sprites[0]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, _("FPS : best ") + int_to_string(static_cast<int>(pFramerate->m_fps_best)) + _(", worst ") + int_to_string(static_cast<int>(pFramerate->m_fps_worst)) + _(", current ") + int_to_string(static_cast<int>(pFramerate->m_fps)), white), 0, 1);
-    // average
-    m_sprites[1]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, _("average ") + int_to_string(static_cast<int>(pFramerate->m_fps_average)), white), 0, 1);
-    // speed factor
-    m_sprites[2]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, _("Speed factor ") + float_to_string(pFramerate->m_speed_factor, 4), white), 0, 1);
-}
-
-void cDebugDisplay::Draw_Debug_Mode(void)
-{
-    if (!game_debug || (Game_Mode == MODE_LEVEL && pLevel_Player->m_alex_type == ALEX_DEAD)) {
-        return;
-    }
-
-    /* ### Extend
-    - Ground Object name, position and velocity
-    */
-
-    // black background
-    Color color = blackalpha128;
-    pVideo->Draw_Rect(static_cast<float>(game_res_w) - 205, static_cast<float>(game_res_h) * 0.08f, 190, 390, m_pos_z - 0.00001f, &color);
-
-    // Active objects rect
-    cRect_Request* request = new cRect_Request();
-    pVideo->Draw_Rect(m_sprites[11]->m_pos_x - 4, m_sprites[11]->m_pos_y - 4, 135, 95, m_pos_z, &white, request);
-    request->m_filled = 0;
-    pRenderer->Add(request);
-
-    // fps
-    Draw_fps();
-
-    std::string temp_text;
-
-    // Camera position
-    temp_text = _("Camera : X ") + int_to_string(static_cast<int>(pActive_Camera->m_x)) + ", Y " + int_to_string(static_cast<int>(pActive_Camera->m_y));
-    m_sprites[3]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-
-    // Level information
-    if (pActive_Level->m_level_filename.compare(m_level_old) != 0) {
-        std::string lvl_text = _("Name : ") + pActive_Level->Get_Level_Name();
-        m_level_old = pActive_Level->m_level_filename;
-
-        m_sprites[5]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, lvl_text, white), 0, 1);
-    }
-
-    // Level objects
-    if (m_obj_counter != static_cast<int>(m_sprite_manager->size())) {
-        m_obj_counter = m_sprite_manager->size();
-
-        temp_text = _("Objects : ") + int_to_string(m_obj_counter);
-        m_sprites[6]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    }
-    // Passive
-    if (m_pass_counter != static_cast<int>(m_sprite_manager->Get_Size_Array(ARRAY_PASSIVE))) {
-        m_pass_counter = m_sprite_manager->Get_Size_Array(ARRAY_PASSIVE);
-
-        temp_text = _("Passive : ") + int_to_string(m_pass_counter);
-        m_sprites[7]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    }
-    // Massive
-    if (m_mass_counter != static_cast<int>(m_sprite_manager->Get_Size_Array(ARRAY_MASSIVE))) {
-        m_mass_counter = m_sprite_manager->Get_Size_Array(ARRAY_MASSIVE);
-
-        temp_text = _("Massive : ") + int_to_string(m_mass_counter);
-        m_sprites[8]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    }
-    // Enemy
-    if (m_enemy_counter != static_cast<int>(m_sprite_manager->Get_Size_Array(ARRAY_ENEMY))) {
-        m_enemy_counter = m_sprite_manager->Get_Size_Array(ARRAY_ENEMY);
-
-        temp_text = _("Enemy : ") + int_to_string(m_enemy_counter);
-        m_sprites[9]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    }
-    // Active
-    if (m_active_counter != static_cast<int>(m_sprite_manager->Get_Size_Array(ARRAY_ACTIVE))) {
-        m_active_counter = m_sprite_manager->Get_Size_Array(ARRAY_ACTIVE);
-
-        temp_text = _("Active : ") + int_to_string(m_active_counter);
-        m_sprites[10]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-
-        // Halfmassive
-        unsigned int halfmassive = 0;
-
-        for (cSprite_List::const_iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr) {
-            // get object pointer
-            const cSprite* obj = (*itr);
-
-            if (obj->m_massive_type == MASS_HALFMASSIVE) {
-                halfmassive++;
-            }
-        }
-
-        temp_text = _("Halfmassive : ") + int_to_string(halfmassive);
-        m_sprites[11]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-
-        // Moving Platform
-        unsigned int moving_platform = 0;
-
-        for (cSprite_List::const_iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr) {
-            // get object pointer
-            const cSprite* obj = (*itr);
-
-            if (obj->m_type == TYPE_MOVING_PLATFORM) {
-                moving_platform++;
-            }
-        }
-
-        temp_text = _("Moving Platform : ") + int_to_string(moving_platform);
-        m_sprites[12]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-
-        // Goldbox
-        unsigned int goldbox = 0;
-
-        for (cSprite_List::const_iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr) {
-            // get object pointer
-            const cSprite* obj = (*itr);
-
-            if (obj->m_type == TYPE_BONUS_BOX) {
-                const cBonusBox* bonusbox = static_cast<const cBonusBox*>(obj);
-
-                if (bonusbox->box_type == TYPE_GOLDPIECE) {
-                    goldbox++;
-                }
-            }
-        }
-
-        temp_text = _("Goldbox : ") + int_to_string(goldbox);
-        m_sprites[13]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-
-        // Bonusbox
-        unsigned int bonusbox_count = 0;
-
-        for (cSprite_List::const_iterator itr = m_sprite_manager->objects.begin(); itr != m_sprite_manager->objects.end(); ++itr) {
-            // get object pointer
-            const cSprite* obj = (*itr);
-
-            if (obj->m_type == TYPE_BONUS_BOX) {
-                const cBonusBox* bonusbox = static_cast<const cBonusBox*>(obj);
-
-                if (bonusbox->box_type != TYPE_GOLDPIECE) {
-                    bonusbox_count++;
-                }
-            }
-        }
-
-        temp_text = _("Bonusbox : ") + int_to_string(bonusbox_count);
-        m_sprites[14]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-
-        // Other
-        unsigned int active_other = m_active_counter - halfmassive - moving_platform - goldbox - bonusbox_count;
-
-        temp_text = _("Other : ") + int_to_string(active_other);
-        m_sprites[15]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    }
-
-    // Player information
-    // position x
-    temp_text = "X1 " + float_to_string(pActive_Player->m_pos_x, 4) + "  X2 " + float_to_string(pLevel_Player->m_col_rect.m_x + pLevel_Player->m_col_rect.m_w, 4);
-    m_sprites[17]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    // position y
-    temp_text = "Y1 " + float_to_string(pActive_Player->m_pos_y, 4) + "  Y2 " + float_to_string(pLevel_Player->m_col_rect.m_y + pLevel_Player->m_col_rect.m_h, 4);
-    m_sprites[18]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    // velocity
-    temp_text = _("Velocity X ") + float_to_string(pLevel_Player->m_velx, 2) + " ,Y " + float_to_string(pLevel_Player->m_vely, 2);
-    m_sprites[19]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    // moving state
-    temp_text = _("Moving State ") + int_to_string(static_cast<int>(pLevel_Player->m_state));
-    m_sprites[20]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    // ground type
-    std::string ground_type;
-    if (pLevel_Player->m_ground_object) {
-        ground_type = int_to_string(pLevel_Player->m_ground_object->m_massive_type) + " (" + Get_Massive_Type_Name(pLevel_Player->m_ground_object->m_massive_type) + ")";
-    }
-    temp_text = _("Ground ") + ground_type;
-    m_sprites[21]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, temp_text, white), 0, 1);
-    // game mode
-    if (Game_Mode != m_game_mode_last) {
-        m_sprites[22]->Set_Image(pFont->Render_Text(pFont->m_font_very_small, _("Game Mode : ") + int_to_string(Game_Mode), white), 0, 1);
-    }
-
-    // draw text
-    for (HudSpriteList::iterator itr = m_sprites.begin(); itr != m_sprites.end(); ++itr) {
-        (*itr)->Draw();
-    }
-}
-
-void cDebugDisplay::Draw_Performance_Debug_Mode(void)
-{
-    if (!game_debug_performance) {
-        return;
-    }
-
-    std::string temp_text;
-    float ypos = game_res_h * 0.08f;
-
-    // black background
-    Color color = blackalpha128;
-    pVideo->Draw_Rect(15, ypos, 190, 390, m_pos_z - 0.00001f, &color);
-
-    // don't draw it twice
-    if (!game_debug) {
-        // fps
-        Draw_fps();
-        m_sprites[0]->Draw();
-        m_sprites[1]->Draw();
-        m_sprites[2]->Draw();
-    }
-
-    vector<std::string> text_strings;
-    // draw
-    text_strings.push_back(_("Draw"));
-    // overworld
-    if (Game_Mode == MODE_OVERWORLD) {
-        text_strings.push_back(_("World : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_OVERWORLD]->ms));
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-    }
-    // menu
-    else if (Game_Mode == MODE_MENU) {
-        text_strings.push_back(_("Menu : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_MENU]->ms));
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-    }
-    // level settings
-    else if (Game_Mode == MODE_LEVEL_SETTINGS) {
-        text_strings.push_back(_("Level Settings : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_LEVEL_SETTINGS]->ms));
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-    }
-    // level (default)
-    else {
-        text_strings.push_back(_("Level Layer 1 : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_LEVEL_LAYER1]->ms));
-        text_strings.push_back(_("Level Player : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_LEVEL_PLAYER]->ms));
-        text_strings.push_back(_("Level Layer 2 : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_LEVEL_LAYER2]->ms));
-        text_strings.push_back(_("Level Hud : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_LEVEL_HUD]->ms));
-        text_strings.push_back(_("Level Editor : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_LEVEL_EDITOR]->ms));
-    }
-    text_strings.push_back(_("Mouse : ") + int_to_string(pFramerate->m_perf_timer[PERF_DRAW_MOUSE]->ms));
-    // update
-    text_strings.push_back(_("Update"));
-    // overworld
-    if (Game_Mode == MODE_OVERWORLD) {
-        text_strings.push_back(_("World : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_OVERWORLD]->ms));
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-    }
-    // menu
-    else if (Game_Mode == MODE_MENU) {
-        text_strings.push_back(_("Menu : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_MENU]->ms));
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-    }
-    // level settings
-    else if (Game_Mode == MODE_LEVEL_SETTINGS) {
-        text_strings.push_back(_("Level Settings : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_LEVEL_SETTINGS]->ms));
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-        text_strings.push_back("- ");
-    }
-    // level (default)
-    else {
-        text_strings.push_back(_("process input : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_PROCESS_INPUT]->ms));
-        text_strings.push_back(_("level : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_LEVEL]->ms));
-        text_strings.push_back(_("level editor : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_LEVEL_EDITOR]->ms));
-        text_strings.push_back(_("hud : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_HUD]->ms));
-        text_strings.push_back(_("player : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_PLAYER]->ms));
-        text_strings.push_back(_("player collisions : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_PLAYER_COLLISIONS]->ms));
-        text_strings.push_back(_("level late : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_LATE_LEVEL]->ms));
-        text_strings.push_back(_("level collisions : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_LEVEL_COLLISIONS]->ms));
-        text_strings.push_back(_("camera : ") + int_to_string(pFramerate->m_perf_timer[PERF_UPDATE_CAMERA]->ms));
-    }
-
-    // render
-    text_strings.push_back(_("Render"));
-    text_strings.push_back(_("Game : ") + int_to_string(pFramerate->m_perf_timer[PERF_RENDER_GAME]->ms));
-    text_strings.push_back(_("Gui : ") + int_to_string(pFramerate->m_perf_timer[PERF_RENDER_GUI]->ms));
-    text_strings.push_back(_("Buffer : ") + int_to_string(pFramerate->m_perf_timer[PERF_RENDER_BUFFER]->ms));
-
-    unsigned int pos = 0;
-
-    for (vector<std::string>::const_iterator itr = text_strings.begin(); itr != text_strings.end(); ++itr) {
-        // sections
-        float xpos = 20;
-        ypos += 12;
-
-        // move non header a bit to the right right
-        if (pos != 0 && pos != 7 && pos != 17) {
-            xpos += 10;
-        }
-        // if new group starts move a bit more down
-        if (pos == 7 || pos == 17) {
-            ypos += 10;
-        }
-
-        const std::string current_text = (*itr);
-
-        cGL_Surface* surface_temp = pFont->Render_Text(pFont->m_font_small, current_text, white);
-
-        // create request
-        cSurface_Request* request = new cSurface_Request();
-        surface_temp->Blit(xpos, ypos, m_pos_z, request);
-        request->m_delete_texture = 1;
-
-        // shadow
-        request->m_shadow_pos = 1;
-        request->m_shadow_color = black;
-
-        // add request
-        pRenderer->Add(request);
-
-        surface_temp->m_auto_del_img = 0;
-        delete surface_temp;
-
-        pos++;
-    }
-}
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 cPlayerPoints* pHud_Points = NULL;
@@ -1375,6 +1040,7 @@ cLiveDisplay* pHud_Lives = NULL;
 cTimeDisplay* pHud_Time = NULL;
 cInfoMessage* pHud_Infomessage = NULL;
 cItemBox* pHud_Itembox = NULL;
+cFpsDisplay* pHud_Fps = NULL;
 
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

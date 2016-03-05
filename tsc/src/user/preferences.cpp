@@ -49,14 +49,14 @@ const bool cPreferences::m_video_fullscreen_default = 0;
 #else
 const bool cPreferences::m_video_fullscreen_default = 1;
 #endif
-const Uint16 cPreferences::m_video_screen_w_default = 1024;
-const Uint16 cPreferences::m_video_screen_h_default = 768;
-const Uint8 cPreferences::m_video_screen_bpp_default = 32;
+const uint16_t cPreferences::m_video_screen_w_default = 1024;
+const uint16_t cPreferences::m_video_screen_h_default = 768;
+const uint8_t cPreferences::m_video_screen_bpp_default = 32;
 /* disable by default because of possible bad drivers
  * which can't handle visual sync
 */
 const bool cPreferences::m_video_vsync_default = 0;
-const Uint16 cPreferences::m_video_fps_limit_default = 240;
+const uint16_t cPreferences::m_video_fps_limit_default = 240;
 // default geometry detail is medium
 const float cPreferences::m_geometry_quality_default = 0.5f;
 // default texture detail is high
@@ -65,38 +65,38 @@ const float cPreferences::m_texture_quality_default = 0.75f;
 const bool cPreferences::m_audio_music_default = 1;
 const bool cPreferences::m_audio_sound_default = 1;
 const unsigned int cPreferences::m_audio_hz_default = 44100;
-const Uint8 cPreferences::m_sound_volume_default = 100;
-const Uint8 cPreferences::m_music_volume_default = 80;
+const uint8_t cPreferences::m_sound_volume_default = 100;
+const uint8_t cPreferences::m_music_volume_default = 80;
 // Keyboard
-const SDLKey cPreferences::m_key_up_default = SDLK_UP;
-const SDLKey cPreferences::m_key_down_default = SDLK_DOWN;
-const SDLKey cPreferences::m_key_left_default = SDLK_LEFT;
-const SDLKey cPreferences::m_key_right_default = SDLK_RIGHT;
-const SDLKey cPreferences::m_key_jump_default = SDLK_s;
-const SDLKey cPreferences::m_key_shoot_default = SDLK_SPACE;
-const SDLKey cPreferences::m_key_item_default = SDLK_RETURN;
-const SDLKey cPreferences::m_key_action_default = SDLK_a;
-const SDLKey cPreferences::m_key_screenshot_default = SDLK_PRINT;
-const SDLKey cPreferences::m_key_editor_fast_copy_up_default = SDLK_KP8;
-const SDLKey cPreferences::m_key_editor_fast_copy_down_default = SDLK_KP2;
-const SDLKey cPreferences::m_key_editor_fast_copy_left_default = SDLK_KP4;
-const SDLKey cPreferences::m_key_editor_fast_copy_right_default = SDLK_KP6;
-const SDLKey cPreferences::m_key_editor_pixel_move_up_default = SDLK_KP8;
-const SDLKey cPreferences::m_key_editor_pixel_move_down_default = SDLK_KP2;
-const SDLKey cPreferences::m_key_editor_pixel_move_left_default = SDLK_KP4;
-const SDLKey cPreferences::m_key_editor_pixel_move_right_default = SDLK_KP6;
+const sf::Keyboard::Key cPreferences::m_key_up_default = sf::Keyboard::Up;
+const sf::Keyboard::Key cPreferences::m_key_down_default = sf::Keyboard::Down;
+const sf::Keyboard::Key cPreferences::m_key_left_default = sf::Keyboard::Left;
+const sf::Keyboard::Key cPreferences::m_key_right_default = sf::Keyboard::Right;
+const sf::Keyboard::Key cPreferences::m_key_jump_default = sf::Keyboard::S;
+const sf::Keyboard::Key cPreferences::m_key_shoot_default = sf::Keyboard::Space;
+const sf::Keyboard::Key cPreferences::m_key_item_default = sf::Keyboard::Return;
+const sf::Keyboard::Key cPreferences::m_key_action_default = sf::Keyboard::A;
+const sf::Keyboard::Key cPreferences::m_key_screenshot_default = sf::Keyboard::P;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_up_default = sf::Keyboard::Numpad8;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_down_default = sf::Keyboard::Numpad2;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_left_default = sf::Keyboard::Numpad4;
+const sf::Keyboard::Key cPreferences::m_key_editor_fast_copy_right_default = sf::Keyboard::Numpad6;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_up_default = sf::Keyboard::Numpad8;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_down_default = sf::Keyboard::Numpad2;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_left_default = sf::Keyboard::Numpad4;
+const sf::Keyboard::Key cPreferences::m_key_editor_pixel_move_right_default = sf::Keyboard::Numpad6;
 const float cPreferences::m_scroll_speed_default = 1.0f;
 // Joystick
 const bool cPreferences::m_joy_enabled_default = 1;
 const bool cPreferences::m_joy_analog_jump_default = 0;
-const int cPreferences::m_joy_axis_hor_default = 0;
-const int cPreferences::m_joy_axis_ver_default = 1;
-const Sint16 cPreferences::m_joy_axis_threshold_default = 10000;
-const Uint8 cPreferences::m_joy_button_jump_default = 0;
-const Uint8 cPreferences::m_joy_button_shoot_default = 1;
-const Uint8 cPreferences::m_joy_button_item_default = 3;
-const Uint8 cPreferences::m_joy_button_action_default = 2;
-const Uint8 cPreferences::m_joy_button_exit_default = 4;
+const sf::Joystick::Axis cPreferences::m_joy_axis_hor_default = sf::Joystick::Axis::X;
+const sf::Joystick::Axis cPreferences::m_joy_axis_ver_default = sf::Joystick::Axis::Y;
+const int16_t cPreferences::m_joy_axis_threshold_default = 10000;
+const uint8_t cPreferences::m_joy_button_jump_default = 0;
+const uint8_t cPreferences::m_joy_button_shoot_default = 1;
+const uint8_t cPreferences::m_joy_button_item_default = 3;
+const uint8_t cPreferences::m_joy_button_action_default = 2;
+const uint8_t cPreferences::m_joy_button_exit_default = 4;
 // Editor
 const bool cPreferences::m_editor_mouse_auto_hide_default = 0;
 const bool cPreferences::m_editor_show_item_images_default = 1;
@@ -319,7 +319,7 @@ void cPreferences::Update(void)
     m_audio_sound = pAudio->m_sound_enabled;
 
     // if not default joy used
-    if (pJoystick->m_current_joystick > 0) {
+    if (pJoystick->m_current_joystick != 999) {
         m_joy_name = pJoystick->Get_Name();
     }
     // using default joy
@@ -339,7 +339,7 @@ void cPreferences::Apply(void)
     }
 }
 
-void cPreferences::Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail)
+void cPreferences::Apply_Video(uint16_t screen_w, uint16_t screen_h, uint8_t screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail)
 {
     /* if resolution, bpp, vsync or texture detail changed
      * a texture reload is necessary

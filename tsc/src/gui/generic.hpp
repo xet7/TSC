@@ -124,10 +124,6 @@ namespace TSC {
     */
     int Box_Question(const std::string& text, bool with_cancel = 0);
 
-// Return the clipboard content
-    std::string Get_Clipboard_Content(void);
-// Set the clipboard content
-    void Set_Clipboard_Content(std::string str);
     /* Copy selected GUI text to the Clipboard
      * cut: if set cut the text
     */

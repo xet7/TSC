@@ -60,7 +60,7 @@ namespace TSC {
 
 // Return the number as a string
     std::string int_to_string(const int number);
-    std::string int64_to_string(const Uint64 number);
+    std::string int64_to_string(const uint64_t number);
     std::string long_to_string(const long number);
     std::string bool_to_string(const bool val);
     std::string uint_to_string(const unsigned int number);
@@ -71,7 +71,7 @@ namespace TSC {
     std::string float_to_string(double value, int prec = 6, bool keep_zeros = 1);
 // Return the string as a number
     int string_to_int(const std::string& str);
-    Uint64 string_to_int64(const std::string& str);
+    uint64_t string_to_int64(const std::string& str);
     long string_to_long(const std::string& str);
     unsigned int string_to_uint(const std::string& str);
 // Return the string as a float
@@ -195,7 +195,10 @@ namespace TSC {
     DefaultColor Get_Color_Id(const std::string& str_color);
 
 // Return the Difficulty name
-    std::string Get_Difficulty_Name(Uint8 difficulty);
+    std::string Get_Difficulty_Name(uint8_t difficulty);
+
+// Return the name of a keyboard key
+    std::string Get_SFML_Key_Name(sf::Keyboard::Key key);
 
 // Returns the entire content of the nonbinary file `file'.
 // This function does not call close() on `file'.

@@ -35,7 +35,7 @@ namespace TSC {
 
 cKeyboard::cKeyboard(void)
 {
-    Reset_Keys();
+
 }
 
 cKeyboard::~cKeyboard(void)
@@ -43,16 +43,10 @@ cKeyboard::~cKeyboard(void)
 
 }
 
-void cKeyboard::Reset_Keys(void)
-{
-    // set all keys to 0
-    memset(m_keys, 0, sizeof(m_keys));
-}
-
-bool cKeyboard::CEGUI_Handle_Key_Up(SDLKey key) const
+bool cKeyboard::CEGUI_Handle_Key_Up(sf::Keyboard::Key key) const
 {
     // inject the scancode directly
-    if (pGuiSystem->injectKeyUp(SDLKey_to_CEGUIKey(key))) {
+    if (pGuiSystem->injectKeyUp(SFMLKey_to_CEGUIKey(key))) {
         // input was processed by the gui system
         return 1;
     }
@@ -60,26 +54,23 @@ bool cKeyboard::CEGUI_Handle_Key_Up(SDLKey key) const
     return 0;
 }
 
-bool cKeyboard::Key_Up(SDLKey key)
+bool cKeyboard::Key_Up(const sf::Event& evt)
 {
-    // set key to 0
-    m_keys[key] = 0;
-
     // input was processed by the gui system
-    if (CEGUI_Handle_Key_Up(key)) {
+    if (CEGUI_Handle_Key_Up(evt.key.code)) {
         return 1;
     }
 
     // handle key in the current mode
     if (Game_Mode == MODE_LEVEL) {
         // got processed
-        if (pActive_Level->Key_Up(key)) {
+        if (pActive_Level->Key_Up(evt)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_MENU) {
         // got processed
-        if (pMenuCore->Key_Up(key)) {
+        if (pMenuCore->Key_Up(evt)) {
             return 1;
         }
     }
@@ -87,61 +78,50 @@ bool cKeyboard::Key_Up(SDLKey key)
     return 0;
 }
 
-bool cKeyboard::CEGUI_Handle_Key_Down(SDLKey key) const
+bool cKeyboard::CEGUI_Handle_Key_Down(sf::Keyboard::Key key) const
 {
     // inject the scancode
-    if (pGuiSystem->injectKeyDown(SDLKey_to_CEGUIKey(key)) == 1) {
+    if (pGuiSystem->injectKeyDown(SFMLKey_to_CEGUIKey(key)) == 1) {
         // input got processed by the gui system
         return 1;
     }
 
-    // use for translated unicode value
-    if (input_event.key.keysym.unicode != 0) {
-        if (pGuiSystem->injectChar(input_event.key.keysym.unicode)) {
-            // input got processed by the gui system
-            return 1;
-        }
-    }
-
     return 0;
 }
 
-bool cKeyboard::Key_Down(SDLKey key)
+bool cKeyboard::Key_Down(const sf::Event& evt)
 {
     // input was processed by the gui system
-    if (CEGUI_Handle_Key_Down(key)) {
+    if (CEGUI_Handle_Key_Down(evt.key.code)) {
         return 1;
     }
-
-    // set key to 1
-    m_keys[key] = 1;
 
     // ## first the internal keys
 
     // game exit
-    if (key == SDLK_F4 && pKeyboard->Is_Alt_Down()) {
+    if (evt.key.code == sf::Keyboard::F4 && evt.key.alt) {
         game_exit = 1;
         return 1;
     }
     // fullscreen toggle
-    else if (key == SDLK_RETURN && pKeyboard->Is_Alt_Down()) {
+    else if (evt.key.code == sf::Keyboard::Return && evt.key.alt) {
         pVideo->Toggle_Fullscreen();
         return 1;
     }
     // GUI copy
-    else if (key == SDLK_c && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::C && evt.key.control) {
         if (GUI_Copy_To_Clipboard()) {
             return 1;
         }
     }
     // GUI cut
-    else if (key == SDLK_x && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::X && evt.key.control) {
         if (GUI_Copy_To_Clipboard(1)) {
             return 1;
         }
     }
     // GUI paste
-    else if (key == SDLK_v && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::V && evt.key.control) {
         if (GUI_Paste_From_Clipboard()) {
             return 1;
         }
@@ -150,31 +130,31 @@ bool cKeyboard::Key_Down(SDLKey key)
     // handle key in the current mode
     if (Game_Mode == MODE_LEVEL) {
         // processed by the level
-        if (pActive_Level->Key_Down(key)) {
+        if (pActive_Level->Key_Down(evt)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_OVERWORLD) {
         // processed by the overworld
-        if (pActive_Overworld->Key_Down(key)) {
+        if (pActive_Overworld->Key_Down(evt)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_MENU) {
         // processed by the menu
-        if (pMenuCore->Key_Down(key)) {
+        if (pMenuCore->Key_Down(evt)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_LEVEL_SETTINGS) {
         // processed by the level settings
-        if (pLevel_Editor->m_settings_screen->Key_Down(key)) {
+        if (pLevel_Editor->m_settings_screen->Key_Down(evt)) {
             return 1;
         }
     }
 
     // set fixed speed factor mode
-    if (key == SDLK_F6) {
+    if (evt.key.code == sf::Keyboard::F6) {
         float fixed_speedfactor = string_to_float(Box_Text_Input(float_to_string(pFramerate->m_force_speed_factor, 2), "Set Fixed Speedfactor", 1));
 
         // disable
@@ -193,23 +173,23 @@ bool cKeyboard::Key_Down(SDLKey key)
         }
     }
     // take a screenshot
-    else if (key == pPreferences->m_key_screenshot) {
+    else if (evt.key.code == pPreferences->m_key_screenshot) {
         pVideo->Save_Screenshot();
     }
     // pause the game
-    else if (key == SDLK_PAUSE) {
+    else if (evt.key.code == sf::Keyboard::Pause) {
         Draw_Static_Text("Pause", &yellow, &lightgreyalpha64);
     }
     // load a level
-    else if (key == SDLK_l && pKeyboard->Is_Ctrl_Down() && !(Game_Mode == MODE_OVERWORLD && pOverworld_Manager->m_debug_mode) && Game_Mode != MODE_LEVEL_SETTINGS) {
+    else if (evt.key.code == sf::Keyboard::L && evt.key.control && !(Game_Mode == MODE_OVERWORLD && pOverworld_Manager->m_debug_mode) && Game_Mode != MODE_LEVEL_SETTINGS) {
         pLevel_Editor->Function_Load();
     }
     // load an overworld
-    else if (key == SDLK_w && pKeyboard->Is_Ctrl_Down() && !(Game_Mode == MODE_OVERWORLD && pOverworld_Manager->m_debug_mode) && Game_Mode != MODE_LEVEL_SETTINGS) {
+    else if (evt.key.code == sf::Keyboard::W && evt.key.control && !(Game_Mode == MODE_OVERWORLD && pOverworld_Manager->m_debug_mode) && Game_Mode != MODE_LEVEL_SETTINGS) {
         pWorld_Editor->Function_Load();
     }
     // sound toggle
-    else if (key == SDLK_F10) {
+    else if (evt.key.code == sf::Keyboard::F10) {
         pAudio->Toggle_Sounds();
 
         if (!pAudio->m_sound_enabled) {
@@ -220,7 +200,7 @@ bool cKeyboard::Key_Down(SDLKey key)
         }
     }
     // music toggle
-    else if (key == SDLK_F11) {
+    else if (evt.key.code == sf::Keyboard::F11) {
         pAudio->Toggle_Music();
 
         if (!pAudio->m_music_enabled) {
@@ -231,7 +211,7 @@ bool cKeyboard::Key_Down(SDLKey key)
         }
     }
     // debug mode
-    else if (key == SDLK_d && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::D && evt.key.control) {
         if (game_debug) {
             pHud_Debug->Set_Text("Debug mode disabled");
         }
@@ -244,7 +224,7 @@ bool cKeyboard::Key_Down(SDLKey key)
         game_debug = !game_debug;
     }
     // performance mode
-    else if (key == SDLK_p && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::P && evt.key.control) {
         if (game_debug_performance) {
             pHud_Debug->Set_Text("Performance debug mode disabled");
         }
@@ -260,223 +240,205 @@ bool cKeyboard::Key_Down(SDLKey key)
     return 0;
 }
 
-unsigned int cKeyboard::SDLKey_to_CEGUIKey(const SDLKey key) const
+bool cKeyboard::CEGUI_Handle_Text_Entered(uint32_t character)
+{
+    if (pGuiSystem->injectChar(character)) {
+        // input got processed by the gui system
+        return 1;
+    }
+
+    return 0;
+}
+
+bool cKeyboard::Text_Entered(const sf::Event& evt)
+{
+    if (CEGUI_Handle_Text_Entered(evt.text.unicode)) {
+        // input got processed by the gui system
+        return 1;
+    }
+
+    return 0;
+}
+
+unsigned int cKeyboard::SFMLKey_to_CEGUIKey(const sf::Keyboard::Key key) const
 {
     switch (key) {
-    case SDLK_BACKSPACE:
+    case sf::Keyboard::BackSpace:
         return CEGUI::Key::Backspace;
-    case SDLK_TAB:
+    case sf::Keyboard::Tab:
         return CEGUI::Key::Tab;
-    case SDLK_RETURN:
+    case sf::Keyboard::Return:
         return CEGUI::Key::Return;
-    case SDLK_PAUSE:
+    case sf::Keyboard::Pause:
         return CEGUI::Key::Pause;
-    case SDLK_ESCAPE:
+    case sf::Keyboard::Escape:
         return CEGUI::Key::Escape;
-    case SDLK_SPACE:
+    case sf::Keyboard::Space:
         return CEGUI::Key::Space;
-    case SDLK_COMMA:
+    case sf::Keyboard::Comma:
         return CEGUI::Key::Comma;
-    case SDLK_MINUS:
-        return CEGUI::Key::Minus;
-    case SDLK_PERIOD:
+    case sf::Keyboard::Period:
         return CEGUI::Key::Period;
-    case SDLK_SLASH:
+    case sf::Keyboard::Slash:
         return CEGUI::Key::Slash;
-    case SDLK_0:
+    case sf::Keyboard::Num0:
         return CEGUI::Key::Zero;
-    case SDLK_1:
+    case sf::Keyboard::Num1:
         return CEGUI::Key::One;
-    case SDLK_2:
+    case sf::Keyboard::Num2:
         return CEGUI::Key::Two;
-    case SDLK_3:
+    case sf::Keyboard::Num3:
         return CEGUI::Key::Three;
-    case SDLK_4:
+    case sf::Keyboard::Num4:
         return CEGUI::Key::Four;
-    case SDLK_5:
+    case sf::Keyboard::Num5:
         return CEGUI::Key::Five;
-    case SDLK_6:
+    case sf::Keyboard::Num6:
         return CEGUI::Key::Six;
-    case SDLK_7:
+    case sf::Keyboard::Num7:
         return CEGUI::Key::Seven;
-    case SDLK_8:
+    case sf::Keyboard::Num8:
         return CEGUI::Key::Eight;
-    case SDLK_9:
+    case sf::Keyboard::Num9:
         return CEGUI::Key::Nine;
-    case SDLK_COLON:
-        return CEGUI::Key::Colon;
-    case SDLK_SEMICOLON:
+        //case sf::Keyboard::Colon: // no Colon in SFML?
+        //return CEGUI::Key::Colon;
+    case sf::Keyboard::SemiColon:
         return CEGUI::Key::Semicolon;
-    case SDLK_EQUALS:
-        return CEGUI::Key::Equals;
-    case SDLK_LEFTBRACKET:
+    case sf::Keyboard::LBracket:
         return CEGUI::Key::LeftBracket;
-    case SDLK_BACKSLASH:
-        return CEGUI::Key::Backslash;
-    case SDLK_RIGHTBRACKET:
+    case sf::Keyboard::RBracket:
         return CEGUI::Key::RightBracket;
-    case SDLK_a:
+    case sf::Keyboard::A:
         return CEGUI::Key::A;
-    case SDLK_b:
+    case sf::Keyboard::B:
         return CEGUI::Key::B;
-    case SDLK_c:
+    case sf::Keyboard::C:
         return CEGUI::Key::C;
-    case SDLK_d:
+    case sf::Keyboard::D:
         return CEGUI::Key::D;
-    case SDLK_e:
+    case sf::Keyboard::E:
         return CEGUI::Key::E;
-    case SDLK_f:
+    case sf::Keyboard::F:
         return CEGUI::Key::F;
-    case SDLK_g:
+    case sf::Keyboard::G:
         return CEGUI::Key::G;
-    case SDLK_h:
+    case sf::Keyboard::H:
         return CEGUI::Key::H;
-    case SDLK_i:
+    case sf::Keyboard::I:
         return CEGUI::Key::I;
-    case SDLK_j:
+    case sf::Keyboard::J:
         return CEGUI::Key::J;
-    case SDLK_k:
+    case sf::Keyboard::K:
         return CEGUI::Key::K;
-    case SDLK_l:
+    case sf::Keyboard::L:
         return CEGUI::Key::L;
-    case SDLK_m:
+    case sf::Keyboard::M:
         return CEGUI::Key::M;
-    case SDLK_n:
+    case sf::Keyboard::N:
         return CEGUI::Key::N;
-    case SDLK_o:
+    case sf::Keyboard::O:
         return CEGUI::Key::O;
-    case SDLK_p:
+    case sf::Keyboard::P:
         return CEGUI::Key::P;
-    case SDLK_q:
+    case sf::Keyboard::Q:
         return CEGUI::Key::Q;
-    case SDLK_r:
+    case sf::Keyboard::R:
         return CEGUI::Key::R;
-    case SDLK_s:
+    case sf::Keyboard::S:
         return CEGUI::Key::S;
-    case SDLK_t:
+    case sf::Keyboard::T:
         return CEGUI::Key::T;
-    case SDLK_u:
+    case sf::Keyboard::U:
         return CEGUI::Key::U;
-    case SDLK_v:
+    case sf::Keyboard::V:
         return CEGUI::Key::V;
-    case SDLK_w:
+    case sf::Keyboard::W:
         return CEGUI::Key::W;
-    case SDLK_x:
+    case sf::Keyboard::X:
         return CEGUI::Key::X;
-    case SDLK_y:
+    case sf::Keyboard::Y:
         return CEGUI::Key::Y;
-    case SDLK_z:
+    case sf::Keyboard::Z:
         return CEGUI::Key::Z;
-    case SDLK_DELETE:
+    case sf::Keyboard::Delete:
         return CEGUI::Key::Delete;
-    case SDLK_KP0:
+    case sf::Keyboard::Numpad0:
         return CEGUI::Key::Numpad0;
-    case SDLK_KP1:
+    case sf::Keyboard::Numpad1:
         return CEGUI::Key::Numpad1;
-    case SDLK_KP2:
+    case sf::Keyboard::Numpad2:
         return CEGUI::Key::Numpad2;
-    case SDLK_KP3:
+    case sf::Keyboard::Numpad3:
         return CEGUI::Key::Numpad3;
-    case SDLK_KP4:
+    case sf::Keyboard::Numpad4:
         return CEGUI::Key::Numpad4;
-    case SDLK_KP5:
+    case sf::Keyboard::Numpad5:
         return CEGUI::Key::Numpad5;
-    case SDLK_KP6:
+    case sf::Keyboard::Numpad6:
         return CEGUI::Key::Numpad6;
-    case SDLK_KP7:
+    case sf::Keyboard::Numpad7:
         return CEGUI::Key::Numpad7;
-    case SDLK_KP8:
+    case sf::Keyboard::Numpad8:
         return CEGUI::Key::Numpad8;
-    case SDLK_KP9:
+    case sf::Keyboard::Numpad9:
         return CEGUI::Key::Numpad9;
-    case SDLK_KP_PERIOD:
-        return CEGUI::Key::Decimal;
-    case SDLK_KP_DIVIDE:
+    case sf::Keyboard::Divide:
         return CEGUI::Key::Divide;
-    case SDLK_KP_MULTIPLY:
+    case sf::Keyboard::Multiply:
         return CEGUI::Key::Multiply;
-    case SDLK_KP_MINUS:
+    case sf::Keyboard::Subtract:
         return CEGUI::Key::Subtract;
-    case SDLK_KP_PLUS:
+    case sf::Keyboard::Add:
         return CEGUI::Key::Add;
-    case SDLK_KP_ENTER:
-        return CEGUI::Key::NumpadEnter;
-    case SDLK_KP_EQUALS:
-        return CEGUI::Key::NumpadEquals;
-    case SDLK_UP:
+    case sf::Keyboard::Up:
         return CEGUI::Key::ArrowUp;
-    case SDLK_DOWN:
-        return CEGUI::Key::ArrowDown;
-    case SDLK_RIGHT:
+    case sf::Keyboard::Right:
         return CEGUI::Key::ArrowRight;
-    case SDLK_LEFT:
+    case sf::Keyboard::Left:
         return CEGUI::Key::ArrowLeft;
-    case SDLK_INSERT:
+    case sf::Keyboard::Down:
+        return CEGUI::Key::ArrowDown;
+    case sf::Keyboard::Insert:
         return CEGUI::Key::Insert;
-    case SDLK_HOME:
+    case sf::Keyboard::Home:
         return CEGUI::Key::Home;
-    case SDLK_END:
+    case sf::Keyboard::End:
         return CEGUI::Key::End;
-    case SDLK_PAGEUP:
+    case sf::Keyboard::PageUp:
         return CEGUI::Key::PageUp;
-    case SDLK_PAGEDOWN:
+    case sf::Keyboard::PageDown:
         return CEGUI::Key::PageDown;
-    case SDLK_F1:
+    case sf::Keyboard::F1:
         return CEGUI::Key::F1;
-    case SDLK_F2:
+    case sf::Keyboard::F2:
         return CEGUI::Key::F2;
-    case SDLK_F3:
+    case sf::Keyboard::F3:
         return CEGUI::Key::F3;
-    case SDLK_F4:
+    case sf::Keyboard::F4:
         return CEGUI::Key::F4;
-    case SDLK_F5:
+    case sf::Keyboard::F5:
         return CEGUI::Key::F5;
-    case SDLK_F6:
+    case sf::Keyboard::F6:
         return CEGUI::Key::F6;
-    case SDLK_F7:
+    case sf::Keyboard::F7:
         return CEGUI::Key::F7;
-    case SDLK_F8:
+    case sf::Keyboard::F8:
         return CEGUI::Key::F8;
-    case SDLK_F9:
+    case sf::Keyboard::F9:
         return CEGUI::Key::F9;
-    case SDLK_F10:
+    case sf::Keyboard::F10:
         return CEGUI::Key::F10;
-    case SDLK_F11:
+    case sf::Keyboard::F11:
         return CEGUI::Key::F11;
-    case SDLK_F12:
+    case sf::Keyboard::F12:
         return CEGUI::Key::F12;
-    case SDLK_F13:
+    case sf::Keyboard::F13:
         return CEGUI::Key::F13;
-    case SDLK_F14:
+    case sf::Keyboard::F14:
         return CEGUI::Key::F14;
-    case SDLK_F15:
+    case sf::Keyboard::F15:
         return CEGUI::Key::F15;
-    case SDLK_NUMLOCK:
-        return CEGUI::Key::NumLock;
-    case SDLK_SCROLLOCK:
-        return CEGUI::Key::ScrollLock;
-    case SDLK_RSHIFT:
-        return CEGUI::Key::RightShift;
-    case SDLK_LSHIFT:
-        return CEGUI::Key::LeftShift;
-    case SDLK_RCTRL:
-        return CEGUI::Key::RightControl;
-    case SDLK_LCTRL:
-        return CEGUI::Key::LeftControl;
-    case SDLK_RALT:
-        return CEGUI::Key::RightAlt;
-    case SDLK_LALT:
-        return CEGUI::Key::LeftAlt;
-    case SDLK_LSUPER:
-        return CEGUI::Key::LeftWindows;
-    case SDLK_RSUPER:
-        return CEGUI::Key::RightWindows;
-    case SDLK_SYSREQ:
-        return CEGUI::Key::SysRq;
-    case SDLK_MENU:
-        return CEGUI::Key::AppMenu;
-    case SDLK_POWER:
-        return CEGUI::Key::Power;
     default:
         return 0;
     }

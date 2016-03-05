@@ -117,27 +117,27 @@ namespace TSC {
         /* handle key down event
          * returns true if processed
         */
-        bool Key_Down(SDLKey key);
+        bool Key_Down(const sf::Event& evt);
         /* handle key up event
          * returns true if processed
         */
-        bool Key_Up(SDLKey key);
+        bool Key_Up(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */
-        bool Mouse_Down(Uint8 button);
+        bool Mouse_Down(sf::Mouse::Button button);
         /* handle mouse button up event
          * returns true if processed
         */
-        bool Mouse_Up(Uint8 button);
+        bool Mouse_Up(sf::Mouse::Button button);
         /* handle joystick button down event
          * returns true if processed
         */
-        bool Joy_Button_Down(Uint8 button);
+        bool Joy_Button_Down(unsigned int button);
         /* handle joystick button up event
          * returns true if processed
         */
-        bool Joy_Button_Up(Uint8 button);
+        bool Joy_Button_Up(unsigned int button);
 
         /* Sets the current Waypoint progress
          * if force is set already accessible waypoints will be unset
@@ -209,9 +209,9 @@ namespace TSC {
         bool m_next_level;
 
         // HUD world name
-        cHudSprite* m_hud_world_name;
+        sf::Text m_hud_world_name;
         // HUD current level name
-        cHudSprite* m_hud_level_name;
+        sf::Text m_hud_level_name;
 
     private:
         // Common stuff for constructors

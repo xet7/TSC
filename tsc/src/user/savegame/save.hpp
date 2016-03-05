@@ -87,7 +87,7 @@ namespace TSC {
         // level data
         Save_LevelList m_levels;
         // level time
-        Uint32 m_level_time;
+        uint32_t m_level_time;
         // level engine version
         int m_level_engine_version;
 

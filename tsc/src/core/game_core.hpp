@@ -43,15 +43,15 @@ namespace TSC {
     extern void* Game_Action_ptr;
 
 // internal game resolution and is used for global scaling
-    extern int game_res_w;
-    extern int game_res_h;
+    extern const int game_res_w;
+    extern const int game_res_h;
 
 // global debugging
     extern bool game_debug;
     extern bool game_debug_performance;
 
 // Game Input event
-    extern SDL_Event input_event;
+    extern sf::Event input_event;
 
 // global up scale ( f.e. default image scale )
     extern float global_upscalex;
@@ -75,6 +75,9 @@ namespace TSC {
 
 
     /* *** *** *** *** *** *** *** Functions *** *** *** *** *** *** *** *** *** *** */
+
+    /// Return the number of milliseconds since the start of TSC.
+    uint32_t TSC_GetTicks();
 
 // Handle game events
     void Handle_Game_Events(void);
@@ -109,7 +112,7 @@ namespace TSC {
     {
         Add_Property(p_element, name, int_to_string(value));
     }
-    inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, Uint64 value)
+    inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, uint64_t value)
     {
         Add_Property(p_element, name, int64_to_string(value));
     }
@@ -137,7 +140,7 @@ namespace TSC {
     {
         Replace_Property(p_element, name, int_to_string(value));
     }
-    inline void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, Uint64 value)
+    inline void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, uint64_t value)
     {
         Replace_Property(p_element, name, int64_to_string(value));
     }

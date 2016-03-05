@@ -137,29 +137,36 @@ void cMouseCursor::Reset(bool clear_copy_buffer /* = 1 */)
     }
 }
 
-bool cMouseCursor::Handle_Event(SDL_Event* ev)
+bool cMouseCursor::Handle_Event(const sf::Event& ev)
 {
-    switch (ev->type) {
-    case SDL_MOUSEMOTION: {
-        pGuiSystem->injectMousePosition(static_cast<float>(ev->motion.x), static_cast<float>(ev->motion.y));
+    switch (ev.type) {
+    case sf::Event::MouseMoved: {
+        pGuiSystem->injectMousePosition(static_cast<float>(ev.mouseMove.x), static_cast<float>(ev.mouseMove.y));
         Update_Position();
         break;
     }
-    case SDL_MOUSEBUTTONUP: {
-        if (Handle_Mouse_Up(ev->button.button)) {
+    case sf::Event::MouseButtonReleased: {
+        if (Handle_Mouse_Up(ev.mouseButton.button)) {
             // processed
             return 1;
         }
 
         break;
     }
-    case SDL_MOUSEBUTTONDOWN: {
-        if (Handle_Mouse_Down(ev->button.button)) {
+    case sf::Event::MouseButtonPressed: {
+        if (Handle_Mouse_Down(ev.mouseButton.button)) {
             // processed
             return 1;
         }
 
         break;
+    }
+    case sf::Event::MouseWheelScrolled: {
+        if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel &&
+            Handle_Mouse_Wheel(ev.mouseWheelScroll.delta)) {
+            // processed
+            return 1;
+        }
     }
     default: {
         break;
@@ -169,42 +176,29 @@ bool cMouseCursor::Handle_Event(SDL_Event* ev)
     return 0;
 }
 
-bool cMouseCursor::Handle_Mouse_Down(Uint8 button)
+bool cMouseCursor::Handle_Mouse_Down(sf::Mouse::Button button)
 {
     switch (button) {
     // mouse buttons
-    case SDL_BUTTON_LEFT: {
+    case sf::Mouse::Left: {
         if (CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton)) {
             return 1;
         }
         m_left = 1;
         break;
     }
-    case SDL_BUTTON_MIDDLE: {
+    case sf::Mouse::Middle: {
         if (CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton)) {
             return 1;
         }
         m_middle = 1;
         break;
     }
-    case SDL_BUTTON_RIGHT: {
+    case sf::Mouse::Right: {
         if (CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton)) {
             return 1;
         }
         m_right = 1;
-        break;
-    }
-    // mouse wheel
-    case SDL_BUTTON_WHEELDOWN: {
-        if (CEGUI::System::getSingleton().injectMouseWheelChange(-1)) {
-            return 1;
-        }
-        break;
-    }
-    case SDL_BUTTON_WHEELUP: {
-        if (CEGUI::System::getSingleton().injectMouseWheelChange(+1)) {
-            return 1;
-        }
         break;
     }
     default: {
@@ -235,24 +229,33 @@ bool cMouseCursor::Handle_Mouse_Down(Uint8 button)
     return 0;
 }
 
-bool cMouseCursor::Handle_Mouse_Up(Uint8 button)
+bool cMouseCursor::Handle_Mouse_Wheel(float delta)
+{
+    // mouse wheel
+    if (CEGUI::System::getSingleton().injectMouseWheelChange(delta))
+        return true;
+    else
+        return false;
+}
+
+bool cMouseCursor::Handle_Mouse_Up(sf::Mouse::Button button)
 {
     switch (button) {
-    case SDL_BUTTON_LEFT: {
+    case sf::Mouse::Left: {
         m_left = 0;
         if (CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton)) {
             return 1;
         }
     }
     break;
-    case SDL_BUTTON_MIDDLE: {
+    case sf::Mouse::Middle: {
         m_middle = 0;
         if (CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton)) {
             return 1;
         }
     }
     break;
-    case SDL_BUTTON_RIGHT: {
+    case sf::Mouse::Right: {
         m_right = 0;
         if (CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton)) {
             return 1;
@@ -380,10 +383,10 @@ void cMouseCursor::Draw(void)
 void cMouseCursor::Update_Position(void)
 {
     if (!m_mover_mode) {
-        SDL_GetMouseState(&m_x, &m_y);
+        sf::Vector2i curpos = sf::Mouse::getPosition(*pVideo->mp_window);
         // scale to the virtual game size
-        m_x = static_cast<int>(static_cast<float>(m_x) * global_downscalex);
-        m_y = static_cast<int>(static_cast<float>(m_y) * global_downscaley);
+        m_x = static_cast<int>(static_cast<float>(curpos.x) * global_downscalex);
+        m_y = static_cast<int>(static_cast<float>(curpos.y) * global_downscaley);
     }
 
     if (editor_enabled) {
@@ -1411,6 +1414,9 @@ void cMouseCursor::Toggle_Mover_Mode(void)
 {
     m_mover_mode = !m_mover_mode;
 
+    m_mover_center_x = m_x * global_upscalex;
+    m_mover_center_y = m_y * global_upscaley;
+
     if (m_mover_mode) {
         CEGUI::MouseCursor::getSingleton().setImage("TaharezLook", "MouseMoveCursor");
     }
@@ -1419,35 +1425,40 @@ void cMouseCursor::Toggle_Mover_Mode(void)
     }
 }
 
-void cMouseCursor::Mover_Update(Sint16 move_x, Sint16 move_y)
+void cMouseCursor::Mover_Update(int move_x, int move_y)
 {
     if (!m_mover_mode) {
         return;
     }
 
     // mouse moves the camera
-    pActive_Camera->Move(move_x, move_y);
+    pActive_Camera->Move(move_x - m_mover_center_x, move_y - m_mover_center_y);
+
     // keep mouse at it's position
-    SDL_WarpMouse(static_cast<Uint16>(m_x * global_upscalex), static_cast<Uint16>(m_y * global_upscaley));
+    sf::Vector2i center(m_mover_center_x, m_mover_center_y);
+    sf::Mouse::setPosition(center, *pVideo->mp_window);
 
-    SDL_Event inEvent;
-    SDL_PeepEvents(&inEvent, 1, SDL_GETEVENT, SDL_MOUSEMOTIONMASK);
+    sf::Event inEvent;
 
-    while (SDL_PollEvent(&inEvent)) {
+    while (pVideo->mp_window->pollEvent(inEvent)) {
         switch (inEvent.type) {
-        case SDL_MOUSEBUTTONDOWN: {
-            if (inEvent.button.button == 2) {
+        case sf::Event::MouseButtonPressed: {
+            if (inEvent.mouseButton.button == sf::Mouse::Middle) {
                 m_mover_mode = 0;
             }
             break;
         }
-        case SDL_KEYDOWN: {
+        case sf::Event::KeyPressed: {
             m_mover_mode = 0;
-            pKeyboard->Key_Down(inEvent.key.keysym.sym);
+            pKeyboard->Key_Down(inEvent);
             break;
         }
-        case SDL_QUIT: {
+        case sf::Event::Closed: {
             game_exit = 1;
+            break;
+        }
+        default: {
+            // ignore
             break;
         }
         }
@@ -1538,25 +1549,8 @@ void cMouseCursor::Editor_Update(void)
             info.insert(0, "Start ");
         }
 
-        // create text surface
-        cGL_Surface* position_info = pFont->Render_Text(pFont->m_font_small, info, white);
-
-
-        // create request
-        cSurface_Request* request = new cSurface_Request();
-        position_info->Blit(static_cast<float>(m_x + 20), static_cast<float>(m_y + 35), 0.52f, request);
-        request->m_delete_texture = 1;
-
-        // shadow
-        request->m_shadow_pos = 1.0f;
-        request->m_shadow_color = black;
-
-        // add request
-        pRenderer->Add(request);
-
-        // cSurface_Request deletes it
-        position_info->m_auto_del_img = 0;
-        delete position_info;
+        pFont->Prepare_SFML_Text(m_coords_text, info, m_x + 20, m_y + 35, cFont_Manager::FONTSIZE_SMALL, white);
+        pFont->Queue_Text(m_coords_text);
 
         // if in debug mode draw current position X, Y, Z and if available editor Z
         if (game_debug) {
@@ -1567,24 +1561,8 @@ void cMouseCursor::Editor_Update(void)
                 info.insert(info.length(), _("  Editor Z : ") + float_to_string(m_hovering_object->m_obj->m_editor_pos_z, 6));
             }
 
-            // create text surface
-            position_info = pFont->Render_Text(pFont->m_font_small, info, white);
-
-            // create request
-            request = new cSurface_Request();
-            position_info->Blit(static_cast<float>(m_x + 20), static_cast<float>(m_y + 55), 0.52f, request);
-            request->m_delete_texture = 1;
-
-            // shadow
-            request->m_shadow_pos = 1.0f;
-            request->m_shadow_color = black;
-
-            // add request
-            pRenderer->Add(request);
-
-            // cSurface_Request deletes it
-            position_info->m_auto_del_img = 0;
-            delete position_info;
+            pFont->Prepare_SFML_Text(m_extended_coords_text, info, m_x + 20, m_y + 55, cFont_Manager::FONTSIZE_SMALL, white);
+            pFont->Queue_Text(m_extended_coords_text);
         }
     }
 

@@ -322,7 +322,7 @@ namespace TSC {
         // throw animation counter
         float m_throwing_counter;
         // if alex is ducked
-        Uint32 m_ducked_counter;
+        uint32_t m_ducked_counter;
         // ducked animation counter
         float m_ducked_animation_counter;
         // if parachute falling

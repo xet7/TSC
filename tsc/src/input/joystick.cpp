@@ -33,14 +33,9 @@ namespace TSC {
 
 cJoystick::cJoystick(void)
 {
-    m_joystick = NULL;
-
-    m_joystick_open = 0;
-
-    m_current_joystick = 0;
+    m_current_joystick = 999; // SFML only supports 8, so this is guaranteed to be invalid input to SFML
+    m_num_joysticks = 0;
     m_num_buttons = 0;
-    m_num_axes = 0;
-    m_num_balls = 0;
 
     m_debug = 0;
 
@@ -61,17 +56,24 @@ int cJoystick::Init(void)
         return 0;
     }
 
-    int joy_count = SDL_NumJoysticks();
+    // Ensure all joysticks are found now
+    sf::Joystick::update();
+
+    for(int i=0; i < sf::Joystick::Count; i++) {
+        if (sf::Joystick::isConnected(i)) {
+            m_num_joysticks++;
+        }
+    }
 
     // no joystick available
-    if (joy_count <= 0) {
+    if (m_num_joysticks == 0) {
         cout << "No joysticks available" << endl;
         pPreferences->m_joy_enabled = 0;
         return 0;
     }
 
     if (m_debug) {
-        cout << "Joysticks found : " << joy_count << endl << endl;
+        cout << "Joysticks found : " << m_num_joysticks << endl << endl;
     }
 
     unsigned int default_joy = 0;
@@ -89,8 +91,10 @@ int cJoystick::Init(void)
         }
     }
 
+    // Apply preferences threshold
+    pVideo->mp_window->setJoystickThreshold(pPreferences->m_joy_axis_threshold);
+
     // setup
-    SDL_JoystickEventState(SDL_ENABLE);
     Stick_Open(default_joy);
 
     if (m_debug) {
@@ -107,367 +111,299 @@ void cJoystick::Close(void)
 
 bool cJoystick::Stick_Open(unsigned int index)
 {
-    // if a joystick is already opened close it first
-    if (m_joystick_open) {
-        Stick_Close();
-    }
+    m_num_buttons = sf::Joystick::getButtonCount(index);
 
-    m_joystick = SDL_JoystickOpen(index);
-
-    if (!m_joystick) {
-        cerr << "Couldn't open joystick " << index << endl;
-        m_joystick_open = 0;
-        return 0;
+    if (m_num_buttons == 0) {
+        cout << "Failed to retrieve button count from joystick " << index << ". Disconnected?" << endl;
+        return false;
     }
 
     m_current_joystick = index;
-
-    m_num_buttons = SDL_JoystickNumButtons(m_joystick);
-    m_num_axes = SDL_JoystickNumAxes(m_joystick);
-    m_num_balls = SDL_JoystickNumBalls(m_joystick);
-
-    // setup available buttons
-    m_buttons.assign(m_num_buttons, 0);
-
     if (m_debug) {
-        cout << "Opened Joystick " << m_current_joystick << endl;
+        cout << "Switched to Joystick " << m_current_joystick << endl;
         cout << "Name: " << Get_Name() << endl;
         cout << "Number of Buttons: " << m_num_buttons << endl;
-        cout << "Number of Axes: " << m_num_axes << endl;
-        cout << "Number of Balls: " << m_num_balls << endl << endl;
     }
 
-    m_joystick_open = 1;
-    return 1;
+    return true;
 }
 
 void cJoystick::Stick_Close(void)
 {
-    // not available
-    if (!m_joystick) {
-        return;
-    }
-
-    SDL_JoystickClose(m_joystick);
-    m_joystick = NULL;
-
     Reset_keys();
 
     m_num_buttons = 0;
-    m_num_axes = 0;
-    m_num_balls = 0;
-
-    m_buttons.clear();
-    m_joystick_open = 0;
+    m_current_joystick = 999;
 
     if (m_debug) {
-        cout << "Joystick " << m_current_joystick << " closed" << endl;
+        cout << "Joystick " << m_current_joystick << " disabled." << endl;
     }
-
-    m_current_joystick = 0;
 }
 
 void cJoystick::Reset_keys(void)
 {
-    // clear buttons
-    std::fill(m_buttons.begin(), m_buttons.end(), static_cast<bool>(0));
-
     m_left = 0;
     m_right = 0;
     m_up = 0;
     m_down = 0;
 }
 
-void cJoystick::Handle_Hat(SDL_Event* ev)
+void cJoystick::Handle_Motion(const sf::Event& evt)
 {
-    // up
-    if (ev->jhat.value == SDL_HAT_UP) {
-        if (!m_up) {
-            pKeyboard->Key_Down(pPreferences->m_key_up);
-            m_up = 1;
-        }
+    sf::Event newevt;
 
-        if (m_down) {
-            pKeyboard->Key_Up(pPreferences->m_key_down);
-            m_down = 0;
-        }
-    }
-    else {
-        if (m_up) {
-            pKeyboard->Key_Up(pPreferences->m_key_up);
-            m_up = 0;
-        }
-    }
+    if (evt.joystickMove.joystickId != m_current_joystick)
+        return;
 
-    // down
-    if (ev->jhat.value == SDL_HAT_DOWN) {
-        if (!m_down) {
-            pKeyboard->Key_Down(pPreferences->m_key_down);
-            m_down = 1;
-        }
-
-        if (m_up) {
-            pKeyboard->Key_Up(pPreferences->m_key_up);
-            m_up = 0;
-        }
-    }
-    else {
-        if (m_down) {
-            pKeyboard->Key_Up(pPreferences->m_key_down);
-            m_down = 0;
-        }
-    }
-
-    // left
-    if (ev->jhat.value == SDL_HAT_LEFT) {
-        if (!m_left) {
-            pKeyboard->Key_Down(pPreferences->m_key_left);
-            m_left = 1;
-        }
-
-        if (m_right) {
-            pKeyboard->Key_Up(pPreferences->m_key_right);
-            m_right = 0;
-        }
-    }
-    else {
-        if (m_left) {
-            pKeyboard->Key_Up(pPreferences->m_key_left);
-            m_left = 0;
-        }
-    }
-
-    // right
-    if (ev->jhat.value == SDL_HAT_RIGHT) {
-        if (!m_right) {
-            pKeyboard->Key_Down(pPreferences->m_key_right);
-            m_right = 1;
-        }
-
-        if (m_left) {
-            pKeyboard->Key_Up(pPreferences->m_key_left);
-            m_left = 0;
-        }
-    }
-    else {
-        if (m_right) {
-            pKeyboard->Key_Up(pPreferences->m_key_right);
-            m_right = 0;
-        }
-    }
-}
-
-void cJoystick::Handle_Motion(SDL_Event* ev)
-{
     // Vertical Axis
-    if (ev->jaxis.axis == pPreferences->m_joy_axis_ver) {
+    if (evt.joystickMove.axis == pPreferences->m_joy_axis_ver) {
         // Up
-        if (ev->jaxis.value < -pPreferences->m_joy_axis_threshold) {
+        if (evt.joystickMove.position < 0) {
             if (m_debug) {
                 cout << "Joystick " << m_current_joystick << " : Up Button pressed" << endl;
             }
 
             if (!m_up) {
-                pKeyboard->Key_Down(pPreferences->m_key_up);
+                newevt.type = sf::Event::KeyPressed;
+                newevt.key.code = pPreferences->m_key_up;
+                pKeyboard->Key_Down(newevt);
                 m_up = 1;
             }
 
             if (m_down) {
-                pKeyboard->Key_Up(pPreferences->m_key_down);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_down;
+                pKeyboard->Key_Up(newevt);
                 m_down = 0;
             }
         }
         // Down
-        else if (ev->jaxis.value > pPreferences->m_joy_axis_threshold) {
+        else if (evt.joystickMove.position > 0) {
             if (m_debug) {
                 cout << "Joystick " << m_current_joystick << " : Down Button pressed" << endl;
             }
 
             if (!m_down) {
-                pKeyboard->Key_Down(pPreferences->m_key_down);
+                newevt.type = sf::Event::KeyPressed;
+                newevt.key.code = pPreferences->m_key_down;
+                pKeyboard->Key_Down(newevt);
                 m_down = 1;
             }
 
             if (m_up) {
-                pKeyboard->Key_Up(pPreferences->m_key_up);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_up;
+                pKeyboard->Key_Up(newevt);
                 m_up = 0;
             }
         }
         // No Down/Left
         else {
             if (m_down) {
-                pKeyboard->Key_Up(pPreferences->m_key_down);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_down;
+                pKeyboard->Key_Up(newevt);
                 m_down = 0;
             }
 
             if (m_up) {
-                pKeyboard->Key_Up(pPreferences->m_key_up);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_up;
+                pKeyboard->Key_Up(newevt);
                 m_up = 0;
             }
         }
     }
     // Horizontal Axis
-    else if (ev->jaxis.axis == pPreferences->m_joy_axis_hor) {
+    else if (evt.joystickMove.axis == pPreferences->m_joy_axis_hor) {
         // Left
-        if (ev->jaxis.value < -pPreferences->m_joy_axis_threshold) {
+        if (evt.joystickMove.position < 0) {
             if (m_debug) {
                 cout << "Joystick " << m_current_joystick << " : Left Button pressed" << endl;
             }
 
             if (!m_left) {
-                pKeyboard->Key_Down(pPreferences->m_key_left);
+                newevt.type = sf::Event::KeyPressed;
+                newevt.key.code = pPreferences->m_key_left;
+                pKeyboard->Key_Down(newevt);
                 m_left = 1;
             }
 
             if (m_right) {
-                pKeyboard->Key_Up(pPreferences->m_key_right);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_right;
+                pKeyboard->Key_Up(newevt);
                 m_right = 0;
             }
         }
         // Right
-        else if (ev->jaxis.value > pPreferences->m_joy_axis_threshold) {
+        else if (evt.joystickMove.position > 0) {
             if (m_debug) {
                 cout << "Joystick " << m_current_joystick << " : Right Button pressed" << endl;
             }
 
             if (!m_right) {
-                pKeyboard->Key_Down(pPreferences->m_key_right);
+                newevt.type = sf::Event::KeyPressed;
+                newevt.key.code = pPreferences->m_key_right;
+                pKeyboard->Key_Down(newevt);
                 m_right = 1;
             }
 
             if (m_left) {
-                pKeyboard->Key_Up(pPreferences->m_key_left);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_left;
+                pKeyboard->Key_Up(newevt);
                 m_left = 0;
             }
         }
         // No Left/Right
         else {
             if (m_left) {
-                pKeyboard->Key_Up(pPreferences->m_key_left);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_left;
+                pKeyboard->Key_Up(newevt);
                 m_left = 0;
             }
 
             if (m_right) {
-                pKeyboard->Key_Up(pPreferences->m_key_right);
+                newevt.type = sf::Event::KeyReleased;
+                newevt.key.code = pPreferences->m_key_right;
+                pKeyboard->Key_Up(newevt);
                 m_right = 0;
             }
         }
     }
 }
 
-bool cJoystick::Handle_Button_Down_Event(SDL_Event* ev)
+bool cJoystick::Handle_Button_Down_Event(const sf::Event& evt)
 {
     // not enabled or opened
-    if (!pPreferences->m_joy_enabled || !m_joystick_open) {
+    if (!pPreferences->m_joy_enabled || evt.joystickButton.joystickId != m_current_joystick) {
         return 0;
     }
-
-    Set_Button(ev->jbutton.button, 1);
 
     // handle button in the current mode
     if (Game_Mode == MODE_LEVEL) {
         // processed by the level
-        if (pActive_Level->Joy_Button_Down(ev->jbutton.button)) {
+        if (pActive_Level->Joy_Button_Down(evt.joystickButton.button)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_OVERWORLD) {
         // processed by the overworld
-        if (pActive_Overworld->Joy_Button_Down(ev->jbutton.button)) {
+        if (pActive_Overworld->Joy_Button_Down(evt.joystickButton.button)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_MENU) {
         // processed by the menu
-        if (pMenuCore->Joy_Button_Down(ev->jbutton.button)) {
+        if (pMenuCore->Joy_Button_Down(evt.joystickButton.button)) {
             return 1;
         }
     }
 
-    if (ev->jbutton.button < m_buttons.size()) {
-        // Jump
-        if (ev->jbutton.button == pPreferences->m_joy_button_jump) {
-            //
-        }
-        // Shoot
-        else if (ev->jbutton.button == pPreferences->m_joy_button_shoot) {
-            pKeyboard->Key_Down(pPreferences->m_key_shoot);
-            return 1;
-        }
-        // Request Itembox Item
-        else if (ev->jbutton.button == pPreferences->m_joy_button_item) {
-            // not handled
-            return 1;
-        }
-        // Interaction
-        else if (ev->jbutton.button == pPreferences->m_joy_button_action) {
-            pKeyboard->Key_Down(pPreferences->m_key_action);
-            return 1;
-        }
-        // Exit
-        else if (ev->jbutton.button == pPreferences->m_joy_button_exit) {
-            pKeyboard->Key_Down(SDLK_ESCAPE);
-            return 1;
-        }
-        // Pause
-        else if (ev->jbutton.button == 9) {
-            pKeyboard->Key_Down(SDLK_PAUSE);
-            return 1;
-        }
+    // Jump
+    if (evt.joystickButton.button == pPreferences->m_joy_button_jump) {
+        //
+    }
+    // Shoot
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_shoot) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyPressed;
+        newevt.key.code = pPreferences->m_key_shoot;
+        pKeyboard->Key_Down(newevt);
+        return 1;
+    }
+    // Request Itembox Item
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_item) {
+        // not handled
+        return 1;
+    }
+    // Interaction
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_action) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyPressed;
+        newevt.key.code = pPreferences->m_key_action;
+        pKeyboard->Key_Down(newevt);
+        return 1;
+    }
+    // Exit
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_exit) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyPressed;
+        newevt.key.code = sf::Keyboard::Escape;
+        pKeyboard->Key_Down(newevt);
+        return 1;
+    }
+    // Pause
+    else if (evt.joystickButton.button == 9) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyPressed;
+        newevt.key.code = sf::Keyboard::Pause;
+        pKeyboard->Key_Down(newevt);
+        return 1;
     }
 
     return 0;
 }
 
-bool cJoystick::Handle_Button_Up_Event(SDL_Event* ev)
+bool cJoystick::Handle_Button_Up_Event(const sf::Event& evt)
 {
     // not enabled or opened
-    if (!pPreferences->m_joy_enabled || !m_joystick_open) {
+    if (!pPreferences->m_joy_enabled || evt.joystickButton.joystickId != m_current_joystick) {
         return 0;
     }
-
-    Set_Button(ev->jbutton.button, 0);
 
     // handle button in the current mode
     if (Game_Mode == MODE_LEVEL) {
         // processed by the level
-        if (pActive_Level->Joy_Button_Up(ev->jbutton.button)) {
+        if (pActive_Level->Joy_Button_Up(evt.joystickButton.button)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_OVERWORLD) {
         // processed by the overworld
-        if (pActive_Overworld->Joy_Button_Up(ev->jbutton.button)) {
+        if (pActive_Overworld->Joy_Button_Up(evt.joystickButton.button)) {
             return 1;
         }
     }
     else if (Game_Mode == MODE_MENU) {
         // processed by the menu
-        if (pMenuCore->Joy_Button_Up(ev->jbutton.button)) {
+        if (pMenuCore->Joy_Button_Up(evt.joystickButton.button)) {
             return 1;
         }
     }
 
-    if (ev->jbutton.button < m_buttons.size()) {
-        if (ev->jbutton.button == pPreferences->m_joy_button_jump) {
-            pKeyboard->Key_Up(pPreferences->m_key_jump);
-            return 1;
-        }
-        else if (ev->jbutton.button == pPreferences->m_joy_button_shoot) {
-            pKeyboard->Key_Up(pPreferences->m_key_shoot);
-            return 1;
-        }
-        else if (ev->jbutton.button == pPreferences->m_joy_button_item) {
-            // not handled
-        }
-        else if (ev->jbutton.button == pPreferences->m_joy_button_action) {
-            pKeyboard->Key_Up(pPreferences->m_key_action);
-            return 1;
-        }
-        else if (ev->jbutton.button == pPreferences->m_joy_button_exit) {
-            pKeyboard->Key_Up(SDLK_ESCAPE);
-            return 1;
-        }
+    if (evt.joystickButton.button == pPreferences->m_joy_button_jump) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyReleased;
+        newevt.key.code = pPreferences->m_key_jump;
+        pKeyboard->Key_Up(newevt);
+        return 1;
+    }
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_shoot) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyReleased;
+        newevt.key.code = pPreferences->m_key_shoot;
+        pKeyboard->Key_Up(newevt);
+        return 1;
+    }
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_item) {
+        // not handled
+    }
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_action) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyReleased;
+        newevt.key.code = pPreferences->m_key_action;
+        pKeyboard->Key_Up(newevt);
+        return 1;
+    }
+    else if (evt.joystickButton.button == pPreferences->m_joy_button_exit) {
+        sf::Event newevt;
+        newevt.type = sf::Event::KeyReleased;
+        newevt.key.code = sf::Keyboard::Escape;
+        pKeyboard->Key_Up(newevt);
+        return 1;
     }
 
     return 0;
@@ -475,46 +411,24 @@ bool cJoystick::Handle_Button_Up_Event(SDL_Event* ev)
 
 std::string cJoystick::Get_Name(void) const
 {
-    return SDL_JoystickName(m_current_joystick);
+    return sf::Joystick::getIdentification(m_current_joystick).name;
 }
 
 vector<std::string> cJoystick::Get_Names(void) const
 {
     vector<std::string> names;
-    // get joy count
-    int joy_count = SDL_NumJoysticks();
 
     // joystick names
-    for (int i = 0; i < joy_count; i++) {
-        names.push_back(SDL_JoystickName(i));
+    for (unsigned int i = 0; i < m_num_joysticks; i++) {
+        names.push_back(sf::Joystick::getIdentification(i).name);
     }
 
     return names;
 }
 
-void cJoystick::Set_Button(Uint8 num, bool pressed)
-{
-    // not available
-    if (num >= m_buttons.size()) {
-        return;
-    }
-
-    if (m_debug) {
-        if (pressed) {
-            cout << "Joystick " << m_current_joystick << " : Joy Button " << num << " pressed" << endl;
-        }
-        else {
-            cout << "Joystick " << m_current_joystick << " : Joy Button " << num << " released" << endl;
-        }
-    }
-
-    m_buttons[num] = pressed;
-}
-
 bool cJoystick::Left(void) const
 {
-    if (pPreferences->m_joy_enabled && input_event.type == SDL_JOYAXISMOTION && input_event.jaxis.value < -pPreferences->m_joy_axis_threshold &&
-            input_event.jaxis.axis == pPreferences->m_joy_axis_hor) {
+    if (pPreferences->m_joy_enabled && sf::Joystick::getAxisPosition(m_current_joystick, pPreferences->m_joy_axis_hor) < 0) {
         return 1;
     }
 
@@ -523,8 +437,7 @@ bool cJoystick::Left(void) const
 
 bool cJoystick::Right(void) const
 {
-    if (pPreferences->m_joy_enabled && input_event.type == SDL_JOYAXISMOTION && input_event.jaxis.value > pPreferences->m_joy_axis_threshold &&
-            input_event.jaxis.axis == pPreferences->m_joy_axis_hor) {
+    if (pPreferences->m_joy_enabled && sf::Joystick::getAxisPosition(m_current_joystick, pPreferences->m_joy_axis_hor) > 0) {
         return 1;
     }
 
@@ -533,8 +446,7 @@ bool cJoystick::Right(void) const
 
 bool cJoystick::Up(void) const
 {
-    if (pPreferences->m_joy_enabled && input_event.type == SDL_JOYAXISMOTION && input_event.jaxis.value < -pPreferences->m_joy_axis_threshold &&
-            input_event.jaxis.axis == pPreferences->m_joy_axis_ver) {
+    if (pPreferences->m_joy_enabled && sf::Joystick::getAxisPosition(m_current_joystick, pPreferences->m_joy_axis_ver) < 0) {
         return 1;
     }
 
@@ -543,18 +455,16 @@ bool cJoystick::Up(void) const
 
 bool cJoystick::Down(void) const
 {
-    if (pPreferences->m_joy_enabled && input_event.type == SDL_JOYAXISMOTION && input_event.jaxis.value > pPreferences->m_joy_axis_threshold &&
-            input_event.jaxis.axis == pPreferences->m_joy_axis_ver) {
+    if (pPreferences->m_joy_enabled && sf::Joystick::getAxisPosition(m_current_joystick, pPreferences->m_joy_axis_ver) > 0) {
         return 1;
     }
 
     return 0;
 }
 
-bool cJoystick::Button(Uint8 num)
+bool cJoystick::Button(unsigned int num)
 {
-    // if available and pressed
-    if (num < m_buttons.size() && m_buttons[num]) {
+    if (pPreferences->m_joy_enabled && sf::Joystick::isButtonPressed(m_current_joystick, num)) {
         return 1;
     }
 

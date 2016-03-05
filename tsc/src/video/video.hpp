@@ -59,8 +59,6 @@ namespace TSC {
         void Init_CEGUI(void) const;
         // Initialize the basic CEGUI data and configuration
         void Init_CEGUI_Data(void) const;
-        // Initialize all the SDL systems
-        void Init_SDL(void);
         /* Initialize the screen surface
          * reload_textures_from_file: if set reloads all textures from the original file
          * use_preferences: if set use user preferences settings
@@ -120,16 +118,16 @@ namespace TSC {
         public:
             cSoftware_Image(void)
             {
-                m_sdl_surface = NULL;
+                m_sf_image = NULL;
                 m_settings = NULL;
             };
 
-            SDL_Surface* m_sdl_surface;
+            sf::Image* m_sf_image;
             cImage_Settings_Data* m_settings;
         };
 
         /* Load and return the software image with the settings data
-         * The returned sdl image should be deleted if not used anymore but not the settings data which is managed
+         * The returned image should be deleted if not used anymore but not the settings data which is managed
          * load_settings : enable file settings if set to 1
          * print_errors : print errors if image couldn't be created or loaded
         */
@@ -149,16 +147,18 @@ namespace TSC {
         /* Convert to a scaled software image with a power of 2 size and 32 bits per pixel.
          * Conversion only happens if needed.
          * surface : the source image which gets converted if needed
-         * only use the returned image after this conversion
+         * Do not use p_sf_image after calling this function anymore,
+         * use the returned new image instead. p_sf_image is freed by
+         * this function automatically.
         */
-        SDL_Surface* Convert_To_Final_Software_Image(SDL_Surface* surface) const;
+        sf::Image* Convert_To_Final_Software_Image(sf::Image* p_sf_image) const;
 
-        /* Convert a SDL_Surface to a GL image
-         * surface : the source SDL_surface which will be auto-deleted.
+        /* Convert an SFML image to a GL image
+         * surface : the source SFML image which will be auto-deleted.
          * mipmap : create texture mipmaps
          * force_width/height : force the given width and height
         */
-        cGL_Surface* Create_Texture(SDL_Surface* surface, bool mipmap = 0, unsigned int force_width = 0, unsigned int force_height = 0) const;
+        cGL_Surface* Create_Texture(sf::Image* p_sf_image, bool mipmap = 0, unsigned int force_width = 0, unsigned int force_height = 0) const;
 
         /* Copy pixels to the bound GL texture
          * mipmap : create texture mipmaps
@@ -232,8 +232,8 @@ namespace TSC {
         // texture quality level 0.0 - 1.0
         float m_texture_quality;
 
-        // window manager information
-        SDL_SysWMinfo wm_info;
+        sf::RenderWindow* mp_window;
+
 #ifdef __unix__
         // current opengl context
         GLXContext glx_context;
@@ -273,9 +273,6 @@ namespace TSC {
 // GUI System
     extern CEGUI::OpenGLRenderer* pGuiRenderer;
     extern CEGUI::System* pGuiSystem;
-
-// Screen
-    extern SDL_Surface* screen;
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 

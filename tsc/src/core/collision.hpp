@@ -137,20 +137,20 @@ namespace TSC {
      * Bounding box collision test
      * Checks if the first rect intersects with the second
     */
-    inline bool Col_Box(const SDL_Rect& a, const GL_rect& b)
+    inline bool Col_Box(const sf::IntRect& a, const GL_rect& b)
     {
         // check if their bounding boxes touch
-        if (b.m_x + b.m_w < a.x) {
+        if (b.m_x + b.m_w < a.left) {
             return 0;
         }
-        if (b.m_x > a.x + a.w) {
+        if (b.m_x > a.left + a.width) {
             return 0;
         }
 
-        if (b.m_y + b.m_h < a.y) {
+        if (b.m_y + b.m_h < a.top) {
             return 0;
         }
-        if (b.m_y > a.y + a.h) {
+        if (b.m_y > a.top + a.height) {
             return 0;
         }
 
@@ -159,21 +159,21 @@ namespace TSC {
     };
 
     /*
-     * Bounding box collision test (SDL_Rect)
+     * Bounding box collision test (sf::IntRect)
      * Checks if the first rect intersects completely with the second
     */
-    inline bool Col_Box_full(const SDL_Rect& a, const SDL_Rect& b)
+    inline bool Col_Box_full(const sf::IntRect& a, const sf::IntRect& b)
     {
-        if (a.x <= b.x) {
+        if (a.left <= b.left) {
             return 0;
         }
-        if (a.x + a.w >= b.x + b.w) {
+        if (a.left + a.width >= b.left + b.width) {
             return 0;
         }
-        if (a.y <= b.y) {
+        if (a.top <= b.top) {
             return 0;
         }
-        if (a.y + a.h >= b.y + b.h) {
+        if (a.top + a.height >= b.top + b.height) {
             return 0;
         }
 

@@ -39,50 +39,42 @@ namespace TSC {
             return mrb_obj_value(Data_Wrap_Struct(p_state, mrb_class_get(p_state, "InputClass"), &Scripting::rtTSC_Scriptable, this));
         }
 
-        // Reset all keys
-        void Reset_Keys(void);
+        // Check the state of the Shift and Ctrl keys.
+        inline bool Is_Shift_Down(){ return sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift); }
+        inline bool Is_Ctrl_Down(){ return sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl); }
 
         /* CEGUI Key Up handler
          * returns true if CEGUI processed the given key up event
         */
-        bool CEGUI_Handle_Key_Up(SDLKey key) const;
+        bool CEGUI_Handle_Key_Up(sf::Keyboard::Key key) const;
 
         /* Key Up Handler
          * returns true if the event was processed
         */
-        bool Key_Up(SDLKey key);
+        bool Key_Up(const sf::Event& evt);
 
         /* CEGUI Key Down handler
          * returns true if CEGUI processed the given key down event
         */
-        bool CEGUI_Handle_Key_Down(SDLKey key) const;
+        bool CEGUI_Handle_Key_Down(sf::Keyboard::Key key) const;
 
         /* Key Down handler
          * returns true if the event was processed
         */
-        bool Key_Down(SDLKey key);
+        bool Key_Down(const sf::Event& evt);
 
-        // Is the CTRL key pressed
-        inline bool Is_Ctrl_Down(void) const
-        {
-            return m_keys[SDLK_RCTRL] || m_keys[SDLK_LCTRL];
-        };
-        // Is the SHIFT key pressed
-        inline bool Is_Shift_Down(void) const
-        {
-            return m_keys[SDLK_RSHIFT] || m_keys[SDLK_LSHIFT];
-        };
-        // Is the ALT key pressed
-        inline bool Is_Alt_Down(void) const
-        {
-            return m_keys[SDLK_RALT] || m_keys[SDLK_LALT];
-        };
+        /* CEGUI Text Entry handler
+         * returns true if CEGUI processed the given text entry event
+        */
+        bool CEGUI_Handle_Text_Entered(uint32_t character);
 
-        // Translate a SDLKey to the proper CEGUI::Key
-        unsigned int SDLKey_to_CEGUIKey(const SDLKey key) const;
+        /* Text Entry handler
+         * returns true if the event was processed
+        */
+        bool Text_Entered(const sf::Event& evt);
 
-        // Pressed keys
-        Uint8 m_keys[SDLK_LAST];
+        // Translate a SFMLKey to the proper CEGUI::Key
+        unsigned int SFMLKey_to_CEGUIKey(const sf::Keyboard::Key key) const;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -385,7 +385,7 @@ void cSprite::Init(void)
     m_shadow_color = black;
     m_no_camera = 0;
 
-    m_color = static_cast<Uint8>(255);
+    m_color = static_cast<uint8_t>(255);
 
     m_combine_type = 0;
     m_combine_color[0] = 0.0f;

@@ -41,22 +41,17 @@ namespace TSC {
         // Resets all Buttons and modifiers
         void Reset_keys(void);
 
-        // Handle the Hat
-        void Handle_Hat(SDL_Event* ev);
         // Handles the Joystick motion
-        void Handle_Motion(SDL_Event* ev);
+        void Handle_Motion(const sf::Event& evt);
         // Handle Joystick Button down event
-        bool Handle_Button_Down_Event(SDL_Event* ev);
+        bool Handle_Button_Down_Event(const sf::Event& evt);
         // Handle Joystick Button up event
-        bool Handle_Button_Up_Event(SDL_Event* ev);
+        bool Handle_Button_Up_Event(const sf::Event& evt);
 
         // Returns the current Joystick name
         std::string Get_Name(void) const;
         // Returns all available Joystick names
         vector<std::string> Get_Names(void) const;
-
-        // Sets the given button state
-        void Set_Button(Uint8 button, bool pressed);
 
         // check if the analog direction is pressed
         bool Left(void) const;
@@ -64,14 +59,7 @@ namespace TSC {
         bool Up(void) const;
         bool Down(void) const;
         // check if the given button is pushed
-        bool Button(Uint8 button);
-
-        // current joystick pointer
-        SDL_Joystick* m_joystick;
-
-        // button state array
-        typedef vector<bool> ButtonList;
-        ButtonList m_buttons;
+        bool Button(unsigned int button);
 
         // analog directions
         bool m_left;
@@ -79,17 +67,13 @@ namespace TSC {
         bool m_up;
         bool m_down;
 
-        // current opened joystick
-        int m_current_joystick;
-        // if true the current joystick is available/loaded
-        bool m_joystick_open;
+        // SFML current opened joystick
+        unsigned int m_current_joystick;
 
+        // available joysticks
+        unsigned int m_num_joysticks;
         // available buttons
         unsigned int m_num_buttons;
-        // available axes
-        unsigned int m_num_axes;
-        // available balls
-        unsigned int m_num_balls;
 
         // if true print debug output
         bool m_debug;

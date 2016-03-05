@@ -45,12 +45,6 @@ using namespace std;
 // TSC namespace is set later to exclude main() from it
 using namespace TSC;
 
-// SDLmain defines this for Win32 applications but under debug we use the console
-#if defined( __WIN32__ ) && defined( _DEBUG )
-#undef main
-#endif
-
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 static std::string g_cmdline_package;
@@ -269,12 +263,11 @@ void Init_Game(void)
     else
         pPackage_Manager->Set_Current_Package(pPreferences->m_package);
     // video init
-    pVideo->Init_SDL();
     pVideo->Init_Video();
     pVideo->Init_CEGUI();
     pVideo->Init_CEGUI_Data();
     pFont->Init();
-    // framerate init ( must be after SDL init because of SDL_GetTicks() )
+    // framerate init
     pFramerate->Init();
     // audio init
     pAudio->Init();
@@ -477,83 +470,81 @@ void Exit_Game(void)
         delete pResource_Manager;
         pResource_Manager = NULL;
     }
-
-    char* last_sdl_error = SDL_GetError();
-    if (strlen(last_sdl_error) > 0) {
-        cerr << "Last known SDL Error : " << last_sdl_error << endl;
-    }
-
-    // unload the sdl_image preloaded libraries
-    IMG_Quit();
-
-    SDL_Quit();
 }
 
-bool Handle_Input_Global(SDL_Event* ev)
+bool Handle_Input_Global(const sf::Event& ev)
 {
-    switch (ev->type) {
-    case SDL_QUIT: {
+    switch (ev.type) {
+    case sf::Event::Closed: {
         game_exit = 1;
         Clear_Input_Events();
 
         // handle on all handlers ?
         return 0;
     }
-    case SDL_VIDEORESIZE: {
-        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev->resize.w), static_cast<float>(ev->resize.h)));
+    case sf::Event::Resized: {
+        pGuiSystem->notifyDisplaySizeChanged(CEGUI::Size(static_cast<float>(ev.size.width), static_cast<float>(ev.size.height)));
         break;
     }
-    case SDL_KEYDOWN: {
-        if (pKeyboard->Key_Down(ev->key.keysym.sym)) {
+    case sf::Event::TextEntered: {
+        if (pKeyboard->Text_Entered(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_KEYUP: {
-        if (pKeyboard->Key_Up(ev->key.keysym.sym)) {
+    case sf::Event::KeyPressed: {
+        if (pKeyboard->Key_Down(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_JOYBUTTONDOWN: {
+    case sf::Event::KeyReleased: {
+        if (pKeyboard->Key_Up(ev)) {
+            return 1;
+        }
+        break;
+    }
+    case sf::Event::JoystickButtonPressed: {
         if (pJoystick->Handle_Button_Down_Event(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_JOYBUTTONUP: {
+    case sf::Event::JoystickButtonReleased: {
         if (pJoystick->Handle_Button_Up_Event(ev)) {
             return 1;
         }
         break;
     }
-    case SDL_JOYHATMOTION: {
-        pJoystick->Handle_Hat(ev);
-        break;
-    }
-    case SDL_JOYAXISMOTION: {
+    case sf::Event::JoystickMoved: {
         pJoystick->Handle_Motion(ev);
         break;
     }
-    case SDL_ACTIVEEVENT: {
+    case sf::Event::LostFocus: {
         // lost visibility
-        if (ev->active.gain == 0) {
-            bool music_paused = 0;
-            // pause music
-            if (pAudio->Is_Music_Playing()) {
-                pAudio->Pause_Music();
-                music_paused = 1;
-            }
-            SDL_WaitEvent(NULL);
-            // resume if music got paused
-            if (music_paused) {
-                pAudio->Resume_Music();
-            }
-            return 1;
+        bool music_paused = false;
+        // pause music
+        if (pAudio->Is_Music_Playing()) {
+            pAudio->Pause_Music();
+            music_paused = true;
         }
-        break;
+        // Wait until we get focus again. This “freezes” the
+        // game instead of updating it further.
+        sf::Event focusin_event;
+        while (true) {
+            pVideo->mp_window->waitEvent(focusin_event);
+            if (focusin_event.type == sf::Event::GainedFocus) {
+                break;
+            }
+        }
+        // resume if music got paused
+        if (music_paused) {
+            pAudio->Resume_Music();
+        }
+        return 1;
+
     }
-    default: { // other events
+    default: { // other events (event type filters in the respective subhandlers)
         // mouse
         if (pMouseCursor->Handle_Event(ev)) {
             return 1;
@@ -612,9 +603,11 @@ void Update_Game(void)
     Handle_Game_Events();
 
     // ## input
-    while (SDL_PollEvent(&input_event)) {
+    // Actually `input_event' is a global variable that is also queried elsewhere
+    // in the code (uaaah, poor design).
+    while (pVideo->mp_window->pollEvent(input_event)) {
         // handle
-        Handle_Input_Global(&input_event);
+        Handle_Input_Global(input_event);
     }
 
     pMouseCursor->Update();
@@ -624,7 +617,7 @@ void Update_Game(void)
     pAudio->Update();
 
     // performance measuring
-    pFramerate->m_perf_last_ticks = SDL_GetTicks();
+    pFramerate->m_perf_last_ticks = TSC_GetTicks();
 
     // ## update
     if (Game_Mode == MODE_LEVEL) {
@@ -652,7 +645,7 @@ void Draw_Game(void)
     }
 
     // performance measuring
-    pFramerate->m_perf_last_ticks = SDL_GetTicks();
+    pFramerate->m_perf_last_ticks = TSC_GetTicks();
 
     if (Game_Mode == MODE_LEVEL) {
         pLevel_Manager->Draw();

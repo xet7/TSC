@@ -15,6 +15,7 @@
 */
 
 #include "../core/global_basic.hpp"
+#include "game_core.hpp"
 #include "../core/framerate.hpp"
 #include "../core/math/utilities.hpp"
 
@@ -45,7 +46,7 @@ void cPerformance_Timer::Update(void)
     frame_counter++;
 
     // add milliseconds
-    Uint32 new_ticks = SDL_GetTicks();
+    uint32_t new_ticks = TSC_GetTicks();
     ms_counter += new_ticks - pFramerate->m_perf_last_ticks;
     pFramerate->m_perf_last_ticks = new_ticks;
 
@@ -103,12 +104,12 @@ void cFramerate::Init(const float target_fps /* = speedfactor_fps */)
 
 void cFramerate::Update(void)
 {
-    const Uint32 current_ticks = SDL_GetTicks();
+    const uint32_t current_ticks = TSC_GetTicks();
 
     // if speed factor is forced
     if (!Is_Float_Equal(m_force_speed_factor, 0.0f)) {
         m_speed_factor = m_force_speed_factor;
-        m_elapsed_ticks = static_cast<Uint32>((m_force_speed_factor * 1000) / m_fps_target);
+        m_elapsed_ticks = static_cast<uint32_t>((m_force_speed_factor * 1000) / m_fps_target);
 
         // change to minimum
         if (m_elapsed_ticks == 0) {
@@ -162,7 +163,7 @@ void cFramerate::Update(void)
 
 void cFramerate::Reset(void)
 {
-    m_last_ticks = SDL_GetTicks();
+    m_last_ticks = TSC_GetTicks();
     m_elapsed_ticks = 1;
     m_speed_factor = 0.001f;
     m_fps_best = 0;
@@ -177,7 +178,7 @@ void cFramerate::Reset(void)
     }
 }
 
-void cFramerate::Set_Max_Elapsed_Ticks(const Uint32 ticks)
+void cFramerate::Set_Max_Elapsed_Ticks(const uint32_t ticks)
 {
     m_max_elapsed_ticks = ticks;
 }
@@ -192,19 +193,19 @@ void cFramerate::Set_Fixed_Speedfacor(const float val)
 void Correct_Frame_Time(const unsigned int fps)
 {
     while (!Is_Frame_Time(fps)) {
-        SDL_Delay(1);
+        sf::sleep(sf::milliseconds(1));
     }
 }
 
 bool Is_Frame_Time(const unsigned int fps)
 {
-    static Uint32 static_time = 0;
+    static uint32_t static_time = 0;
 
-    if (SDL_GetTicks() - static_time < 1000 / fps) {
+    if (TSC_GetTicks() - static_time < 1000 / fps) {
         return 0;
     }
 
-    static_time = SDL_GetTicks();
+    static_time = TSC_GetTicks();
     return 1;
 }
 

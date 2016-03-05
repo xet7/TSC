@@ -24,44 +24,32 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** Font Manager class *** *** *** *** *** *** *** *** *** *** */
 
-// Deletes an active Font Surface
-    void Font_Delete_Ref(cGL_Surface* surface);
-
     class cFont_Manager {
     public:
         cFont_Manager(void);
         ~cFont_Manager(void);
 
+        // Default font sizes
+        static const int FONTSIZE_NORMAL = 20;
+        static const int FONTSIZE_SMALL = 11;
+        static const int FONTSIZE_VERYSMALL = 9;
+
         // initialization
         void Init(void);
 
-        // Adds an allocated Font surface
-        void Add_Ref(cGL_Surface* surface);
-        // Deletes an active Font Surface
-        void Delete_Ref(cGL_Surface* surface);
+        /// Queues text for rendering in the render queue. Use this
+        /// to get your text onto the screen.
+        void Queue_Text(const sf::Text& text);
+
+        /// Update an sf::Text instance with its parameters so it
+        /// is suitable for Queue_Text().
+        void Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize = FONTSIZE_NORMAL, const Color color = static_cast<uint8_t>(0), bool ignore_camera = false);
 
         // Renders the given text into a new surface
-        cGL_Surface* Render_Text(TTF_Font* font, const std::string& text, const Color color = static_cast<Uint8>(0));
-
-        /* Saves hardware textures in software memory
-        */
-        void Grab_Textures(void);
-
-        /* Loads the saved software textures back into hardware textures
-        */
-        void Restore_Textures(void);
+        //cGL_Surface* Render_Text(TTF_Font* font, const std::string& text, const Color color = static_cast<uint8_t>(0));
 
         // TTF loaded fonts
-        TTF_Font* m_font_normal;
-        TTF_Font* m_font_small;
-        TTF_Font* m_font_very_small;
-
-        // current active loaded font list
-        typedef vector<cGL_Surface*> ActiveFontList;
-        ActiveFontList m_active_fonts;
-
-        // saved software textures only used for reloading
-        Saved_Texture_List m_software_textures;
+        sf::Font m_font_normal;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
