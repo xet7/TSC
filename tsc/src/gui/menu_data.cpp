@@ -371,8 +371,12 @@ void cMenu_Main::Exit(void)
 
 void cMenu_Main::Selected_Item_Changed(int new_active_item)
 {
-    if (mp_current_inactive_item)
+    cMenu_Base::Selected_Item_Changed(new_active_item);
+
+    if (mp_current_inactive_item) {
         mp_current_inactive_item->Set_Scale(1);
+        mp_current_inactive_item->Set_Color_Combine(0, 0, 0, 0);
+    }
 
     mp_current_active_item   = NULL;
     mp_current_inactive_item = NULL;
@@ -465,16 +469,23 @@ void cMenu_Main::Draw(void)
 {
     cMenu_Base::Draw();
 
+    // Make the current item's text scale up and down and colour it
+    // depending on its scale so it is recognised by the user.
     if (mp_current_inactive_item) {
         if (m_scaling_up)
             mp_current_inactive_item->Add_Scale(1.2f / mp_current_inactive_item->m_col_rect.m_w * pFramerate->m_speed_factor);
         else
             mp_current_inactive_item->Add_Scale(-(1.2f / mp_current_inactive_item->m_col_rect.m_w) * pFramerate->m_speed_factor);
 
+        // Scale limits
         if (mp_current_inactive_item->m_scale_x > 1.1f)
             m_scaling_up = false;
         else if (mp_current_inactive_item->m_scale_x < 1.0f)
             m_scaling_up = true;
+
+        // Colourisation
+        float strength = mp_current_inactive_item->m_col_rect.m_w * (mp_current_inactive_item->m_scale_x - 1);
+        mp_current_inactive_item->Set_Color_Combine(strength / 40, strength / 40, 0, GL_ADD);
     }
 
     mp_start_inactive->Draw();
