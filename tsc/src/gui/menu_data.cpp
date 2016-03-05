@@ -196,6 +196,7 @@ cMenu_Main::cMenu_Main(void)
     m_load_index    = -1;
     m_save_index    = -1;
     m_quit_index    = -1;
+    m_credits_index = -1;
 
     m_active_item = 0;
     m_scaling_up = true;
@@ -315,18 +316,18 @@ void cMenu_Main::Init(void)
                                       mp_quit_inactive->m_col_rect.m_w,
                                       mp_quit_inactive->m_col_rect.m_h), NULL);
 
+    // Only show the credit menu entry and the SFML logo on the title
+    // screen, not in the in-game menu.
     if (m_exit_to_gamemode == MODE_NOTHING) {
         // Credits
-        // OLD cGL_Surface* credits = pFont->Render_Text(pFont->m_font_normal, _("Credits"), yellow);
-        // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-        // OLD temp_item->m_image_default->Set_Image(credits);
-        // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) * 0.45f, static_cast<float>(game_res_h) - 30.0f);
-        // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
+        pFont->Prepare_SFML_Text(m_credits_item, _("Credits"), 0.56 * game_res_w, game_res_h * 1.2, cFont_Manager::FONTSIZE_NORMAL, yellow, true);
+        m_credits_index = pMenuCore
+            ->m_handler
+            ->Add_Menu_Item(sf::FloatRect(m_credits_item.getPosition().x * global_downscalex,         // SFML does not know about TSC's global_scale{x,y},
+                                          m_credits_item.getPosition().y * global_downscaley,         // so we need to manually include this when drawing
+                                          m_credits_item.getGlobalBounds().width * global_downscalex, // with SFML.
+                                          m_credits_item.getGlobalBounds().height * global_downscaley), NULL);
 
-        // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-        // OLD hud_sprite->Set_Image(credits, 0, 1);
-        // OLD hud_sprite->Set_Pos(-200, 0);
-        // OLD m_draw_list.push_back(hud_sprite);
         // SFML logo
         cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
         hud_sprite->Set_Image(pVideo->Get_Package_Surface("menu/logo_sfml.png"));
@@ -372,6 +373,7 @@ void cMenu_Main::Exit(void)
 void cMenu_Main::Selected_Item_Changed(int new_active_item)
 {
     cMenu_Base::Selected_Item_Changed(new_active_item);
+    m_credits_item.setColor(yellow.Get_SFML_Color());
 
     if (mp_current_inactive_item) {
         mp_current_inactive_item->Set_Scale(1);
@@ -488,6 +490,9 @@ void cMenu_Main::Draw(void)
         mp_current_inactive_item->Set_Color_Combine(strength / 40, strength / 40, 0, GL_ADD);
     }
 
+    if (pMenuCore->m_handler->m_active == m_credits_index)
+        m_credits_item.setColor(red.Get_SFML_Color());
+
     mp_start_inactive->Draw();
     mp_options_inactive->Draw();
     mp_load_inactive->Draw();
@@ -497,6 +502,8 @@ void cMenu_Main::Draw(void)
     if (mp_current_active_item) {
         mp_current_active_item->Draw();
     }
+
+    pFont->Queue_Text(m_credits_item);
 
     Draw_End();
 }

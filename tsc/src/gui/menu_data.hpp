@@ -106,11 +106,14 @@ namespace TSC {
         cHudSprite* mp_current_inactive_item;
         cHudSprite* mp_current_active_item;
 
+        sf::Text m_credits_item;
+
         int m_start_index;
         int m_options_index;
         int m_load_index;
         int m_save_index;
         int m_quit_index;
+        int m_credits_index;
         int m_active_item;
         bool m_scaling_up;
     };
