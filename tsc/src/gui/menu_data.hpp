@@ -417,6 +417,9 @@ namespace TSC {
         void Menu_Fade(bool fade_in = 1);
     private:
         cHudSprite* mp_tsc_logo;
+        std::vector<sf::Text> m_credit_lines;
+        sf::Text m_back_text;
+        int m_back_index;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

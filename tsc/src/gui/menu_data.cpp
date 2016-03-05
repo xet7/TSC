@@ -3407,6 +3407,7 @@ cMenu_Credits::cMenu_Credits(cHudSprite* p_tsc_logo)
     : cMenu_Base()
 {
     mp_tsc_logo = p_tsc_logo;
+    m_back_index = -1;
 }
 
 cMenu_Credits::~cMenu_Credits(void)
@@ -3452,45 +3453,31 @@ void cMenu_Credits::Init(void)
         last_position = position;
     }
 
-    m_menu_pos_y = game_res_h * 1.1f;
+    m_menu_pos_y = game_res_h * 1.4f;
 
     // set credits position
-    for (HudSpriteList::iterator itr = m_draw_list.begin(); itr != m_draw_list.end(); ++itr) {
+    std::vector<sf::Text>::iterator iter;
+    for(iter=m_credit_lines.begin(); iter != m_credit_lines.end(); iter++) {
         // get object
-        cHudSprite* obj = (*itr);
+        sf::Text& text = *iter;
 
         // set shadow if not set
-        if (obj->m_shadow_pos == 0) {
-            obj->Set_Shadow(grey, 1);
-        }
+        // OLD if (obj->m_shadow_pos == 0) {
+        // OLD     obj->Set_Shadow(grey, 1);
+        // OLD }
         // set position
-        obj->m_pos_x += static_cast<float>(game_res_w) / 5;
-        obj->m_pos_y += m_menu_pos_y;
-        // set posz behind front passive
-        obj->m_pos_z = 0.096f;
-        // set color combine
-        obj->Set_Color_Combine(0, 0, 0, GL_MODULATE);
-        obj->m_color.alpha = 0;
-        obj->m_shadow_color.alpha = 0;
+        text.setPosition(static_cast<float>(game_res_w) / 3, m_menu_pos_y);
 
-        m_menu_pos_y = obj->m_pos_y + obj->m_col_rect.m_h;
+        m_menu_pos_y = text.getPosition().y + text.getGlobalBounds().height + 10;
     }
 
-    // OLD cMenu_Item* temp_item = NULL;
-
-    // back
-    // OLD cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
-    // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD temp_item->m_image_default->Set_Image(back1);
-    // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 250);
-    // OLD temp_item->m_is_quit = 1;
-    // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 2, grey);
-
-    // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD hud_sprite->Set_Image(back1, 0, 1);
-    // OLD hud_sprite->Set_Pos(-200, 0);
-    // OLD m_draw_list.push_back(hud_sprite);
-
+    pFont->Prepare_SFML_Text(m_back_text, _("Back"), static_cast<float>(game_res_w) / 18, 400, cFont_Manager::FONTSIZE_NORMAL, m_text_color, true);
+    m_back_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(m_back_text.getPosition().x * global_downscalex,
+                                      m_back_text.getPosition().y * global_downscaley,
+                                      m_back_text.getGlobalBounds().width * global_downscalex,
+                                      m_back_text.getGlobalBounds().height * global_downscaley), NULL);
     Init_GUI();
 }
 
@@ -3537,99 +3524,103 @@ void cMenu_Credits::Exit(void)
 
 void cMenu_Credits::Update(void)
 {
-    static int s_credits_done = 0;
     cMenu_Base::Update();
 
-    for (HudSpriteList::iterator itr = m_draw_list.begin(); itr != m_draw_list.end(); ++itr) {
-        cHudSprite* obj = (*itr);
+    std::vector<sf::Text>::iterator iter;
+    for(iter=m_credit_lines.begin(); iter != m_credit_lines.end(); iter++) {
+        sf::Text& text = *iter;
 
         // When the respective line is long out of sight, remove it from the
         // list of lines to draw.
-        if (obj->m_pos_y < -300) {
-            if (obj->m_active) {
-                obj->Set_Active(false); // FIXME: Does nothing it appears?
-                s_credits_done++;
-            }
-            // FIXME: Lines just scroll into negative infinity? Overflow
-            // shouldn’t happen, though, as the credits are automatically
-            // ended anyway.
+        if (text.getPosition().y < -300) {
+            iter = m_credit_lines.erase(iter);
+
+            // Exit loop if this was the last item (so we don't accidentally
+            // do a loop with the second-past-the-end item).
+            if (iter == m_credit_lines.end())
+                break;
         }
         // fading out
-        else if (obj->m_pos_y < game_res_h * 0.3f) {
-            float new_value = obj->m_combine_color[0] - (pFramerate->m_speed_factor * 0.01f);
+        else if (text.getPosition().y < game_res_h * 0.3f) {
+            sf::Color color = text.getColor();
+            unsigned int new_value = color.a - 1;
 
             if (new_value < 0) {
                 new_value = 0;
             }
 
-            obj->Set_Color_Combine(new_value, new_value, new_value, GL_MODULATE);
-            obj->m_color.alpha = static_cast<Uint8>(new_value * 255);
-            obj->m_shadow_color.alpha = obj->m_color.alpha;
+            color.a = new_value;
+            text.setColor(color);
         }
         // fading in
-        else if (obj->m_pos_y < game_res_h * 0.9f) {
-            float new_value = obj->m_combine_color[0] + (pFramerate->m_speed_factor * 0.01f);
+        else if (text.getPosition().y < game_res_h * 0.9f) {
+            sf::Color color = text.getColor();
+            unsigned int new_value = color.a + 2;
 
-            if (new_value > 1.0f) {
-                new_value = 1.0f;
-
-                // add particles
-                if (obj->m_combine_color[0] < 1.0f) {
-                    cParticle_Emitter* anim = new cParticle_Emitter(pMenuCore->m_handler->m_level->m_sprite_manager);
-                    anim->Set_Emitter_Rect(Get_Random_Float(game_res_w * 0.1f, game_res_w * 0.8f), -Get_Random_Float(game_res_h * 0.8f, game_res_h * 0.9f), Get_Random_Float(0.0f, 5.0f), Get_Random_Float(0.0f, 5.0f));
-                    unsigned int quota = 4;
-
-                    // multi-explosion
-                    if (rand() % 2) {
-                        anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_2.png"));
-                        anim->Set_Emitter_Time_to_Live(0.4f);
-                        anim->Set_Emitter_Iteration_Interval(0.05f);
-                        anim->Set_Direction_Range(0, 360);
-                        anim->Set_Scale(0.3f, 0.2f);
-                        anim->Set_Blending(BLEND_ADD);
-                        anim->Set_Time_to_Live(1.8f, 1.2f);
-                        anim->Set_Speed(2.1f, 0.5f);
-                    }
-                    // star explosion
-                    else {
-                        quota += rand() % 25;
-                        anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_3.png"));
-                        anim->Set_Direction_Range(0, 360);
-                        anim->Set_Scale(0.2f, 0.1f);
-
-                        if (quota < 10) {
-                            anim->Set_Time_to_Live(2.8f, 0.5f);
-                            anim->Set_Speed(0.8f, 0.3f);
-                        }
-                        else {
-                            anim->Set_Time_to_Live(1.4f, 0.5f);
-                            anim->Set_Fading_Size(1);
-                            anim->Set_Speed(1.6f, 0.5f);
-                        }
-                    }
-
-                    anim->Set_Quota(quota);
-                    anim->Set_Color(Color(static_cast<Uint8>(100 + (rand() % 155)), 100 + (rand() % 155), 100 + (rand() % 155)));
-                    anim->Set_Const_Rotation_Z(-5, 10);
-                    anim->Set_Vertical_Gravity(0.02f);
-                    anim->Set_Pos_Z(0.16f);
-                    anim->Emit();
-                    pMenuCore->m_animation_manager->Add(anim);
-                }
+            if (new_value > 255) {
+                new_value = 255;
             }
 
-            obj->Set_Color_Combine(new_value, new_value, new_value, GL_MODULATE);
-            obj->m_color.alpha = static_cast<Uint8>(new_value * 255);
-            obj->m_shadow_color.alpha = obj->m_color.alpha;
+            color.a = new_value;
+            text.setColor(color);
         }
 
         // default upwards scroll
-        obj->Move(0, -1.1f);
+        text.move(0, -1.0f);
     }
 
-    if (s_credits_done >= m_draw_list.size()) {
+    if (rand() % 100 > 95) {
+        // add particles
+        cParticle_Emitter* anim = new cParticle_Emitter(pMenuCore->m_handler->m_level->m_sprite_manager);
+        anim->Set_Emitter_Rect(Get_Random_Float(game_res_w * 0.1f, game_res_w * 0.8f), -Get_Random_Float(game_res_h * 0.8f, game_res_h * 0.9f), Get_Random_Float(0.0f, 5.0f), Get_Random_Float(0.0f, 5.0f));
+        unsigned int quota = 4;
+
+        // multi-explosion
+        if (rand() % 2) {
+            anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_2.png"));
+            anim->Set_Emitter_Time_to_Live(0.4f);
+            anim->Set_Emitter_Iteration_Interval(0.05f);
+            anim->Set_Direction_Range(0, 360);
+            anim->Set_Scale(0.3f, 0.2f);
+            anim->Set_Blending(BLEND_ADD);
+            anim->Set_Time_to_Live(1.8f, 1.2f);
+            anim->Set_Speed(2.1f, 0.5f);
+        }
+        // star explosion
+        else {
+            quota += rand() % 25;
+            anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_3.png"));
+            anim->Set_Direction_Range(0, 360);
+            anim->Set_Scale(0.2f, 0.1f);
+
+            if (quota < 10) {
+                anim->Set_Time_to_Live(2.8f, 0.5f);
+                anim->Set_Speed(0.8f, 0.3f);
+            }
+            else {
+                anim->Set_Time_to_Live(1.4f, 0.5f);
+                anim->Set_Fading_Size(1);
+                anim->Set_Speed(1.6f, 0.5f);
+            }
+        }
+
+        anim->Set_Quota(quota);
+        anim->Set_Color(Color(static_cast<Uint8>(100 + (rand() % 155)), 100 + (rand() % 155), 100 + (rand() % 155)));
+        anim->Set_Const_Rotation_Z(-5, 10);
+        anim->Set_Vertical_Gravity(0.02f);
+        anim->Set_Pos_Z(0.16f);
+        anim->Emit();
+        pMenuCore->m_animation_manager->Add(anim);
+    }
+
+    if (m_credit_lines.empty()) {
         Exit();
     }
+
+    if (pMenuCore->m_handler->m_active == m_back_index)
+        m_back_text.setColor(red.Get_SFML_Color());
+    else
+        m_back_text.setColor(m_text_color.Get_SFML_Color());
 
     if (!m_action) {
         return;
@@ -3661,18 +3652,20 @@ void cMenu_Credits::Draw(void)
     request->m_color.alpha = 195;
     pRenderer->Add(request);
 
+    std::vector<sf::Text>::iterator iter;
+    for(iter=m_credit_lines.begin(); iter != m_credit_lines.end(); iter++) {
+        pFont->Queue_Text(*iter);
+    }
+
+    pFont->Queue_Text(m_back_text);
+
     Draw_End();
 }
 
 void cMenu_Credits::Add_Credits_Line(const std::string& text, float posx, float posy, const Color& color /* = black */, float shadow_pos /* = 0.0f */, const Color& shadow_color /* = black */)
 {
-    // OLD cHudSprite* temp = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD temp->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, color), 1, 1);
-    // OLD temp->Set_Pos(posx, posy);
-    // OLD if (!Is_Float_Equal(shadow_pos, 0.0f)) {
-    // OLD     temp->Set_Shadow(shadow_color, shadow_pos);
-    // OLD }
-    // OLD m_draw_list.push_back(temp);
+    m_credit_lines.resize(m_credit_lines.size() + 1);
+    pFont->Prepare_SFML_Text(m_credit_lines.back(), text, posx, posy, cFont_Manager::FONTSIZE_NORMAL, color, true);
 }
 
 void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
