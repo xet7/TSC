@@ -59,6 +59,8 @@ namespace TSC {
 
         // Returns the currently active Menu Item
         void* Get_Active_Item(void);
+        // Returns the rect of the currently active menu item
+        sf::FloatRect Get_Active_Item_Rect(void);
         // Returns the number of loaded Menus
         unsigned int Get_Size(void) const;
 
@@ -119,11 +121,6 @@ namespace TSC {
         */
         bool Joy_Button_Up(unsigned int button);
 
-
-        // Returns a Menu with the common image filenames
-        // imagename: Name of the active (on hover) image
-        // imagename_menu: Name of the inactive image
-        cMenu_Item* Auto_Menu(std::string imagename, std::string imagename_menu, float ypos = 0, bool is_quit = 0);
 
         /* Load the given Menu
          * exit_gamemode : return to this game mode on exit

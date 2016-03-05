@@ -84,18 +84,14 @@ cMenuHandler::~cMenuHandler(void)
  *
  * \param[in] p_item
  * Object to associate with this menu item. This is what is returned
- * by Get_Active_Item() if the item is active.
+ * by Get_Active_Item() if the item is active. Set to NULL if you
+ * don't need this.
  *
  * \returns
  * The 0-based index number of this menu item in the menu.
  */
 int cMenuHandler::Add_Menu_Item(sf::FloatRect rect, void* p_item)
 {
-    if (!item) {
-        cerr << "Menu item is NULL ( current Menu size : " << Get_Size() << ")" << endl;
-        return;
-    }
-
     m_items.resize(m_items.size() + 1);
     m_items.back().m_rect = rect;
     m_items.back().mp_item = p_item;
@@ -112,14 +108,16 @@ void cMenuHandler::Reset(void)
     m_items.clear();
 
    // nothing is active
-    pMenuCore->m_menu_data->Selected_Item_Changed(m_active);
     m_active = -1;
+    if (pMenuCore) // is NULL if called from pMenuCore's constructor
+        if (pMenuCore->m_menu_data) // NULL before first set
+            pMenuCore->m_menu_data->Selected_Item_Changed(m_active);
 }
 
 void cMenuHandler::Set_Active(int num)
 {
     // if not already active and exists
-    if (num == m_active || num >= m_items.size() || num < 0) {
+    if (num == m_active || num < 0 || static_cast<unsigned int>(num) >= m_items.size() ) {
         return;
     }
 
@@ -133,7 +131,7 @@ void cMenuHandler::Update_Mouse(void)
 
     // check
     for (unsigned int i = 0; i < m_items.size(); i++) {
-        if (m_items[i]->m_col_rect.Intersects(static_cast<float>(pMouseCursor->m_x), static_cast<float>(pMouseCursor->m_y))) {
+        if (m_items[i].m_rect.contains(static_cast<float>(pMouseCursor->m_x), static_cast<float>(pMouseCursor->m_y))) {
             found = i;
             break;
         }
@@ -169,11 +167,23 @@ void cMenuHandler::Draw(bool with_background /* = 1 */)
  */
 void* cMenuHandler::Get_Active_Item(void)
 {
-    if (m_active < 0 || m_active >= m_items.size()) {
+    if (m_active < 0 || static_cast<unsigned int>(m_active) >= m_items.size()) {
         return NULL;
     }
 
     return m_items[m_active].mp_item;
+}
+
+/**
+ * Returns the rectangle of the active item.
+ */
+sf::FloatRect cMenuHandler::Get_Active_Item_Rect(void)
+{
+    if (m_active < 0 || static_cast<unsigned int>(m_active) >= m_items.size()) {
+        return sf::FloatRect();
+    }
+
+    return m_items[m_active].m_rect;
 }
 
 unsigned int cMenuHandler::Get_Size(void) const
@@ -273,7 +283,7 @@ bool cMenuCore::Key_Down(const sf::Event& evt)
     // Activate Button
     else if (evt.key.code == sf::Keyboard::Return) {
         if (m_menu_data) {
-            m_menu_data->m_action = 1;
+            m_menu_data->Item_Activated(m_handler->m_active);
         }
     }
     // Fast Debug Level entering
@@ -339,7 +349,7 @@ bool cMenuCore::Joy_Button_Down(unsigned int button)
     // Activate button
     if (button == pPreferences->m_joy_button_action) {
         if (m_menu_data) {
-            m_menu_data->m_action = 1;
+            m_menu_data->Item_Activated(m_handler->m_active);
         }
     }
     // exit
@@ -374,10 +384,10 @@ bool cMenuCore::Mouse_Down(sf::Mouse::Button button)
 {
     // nothing yet
     if (button == sf::Mouse::Left) {
-        cMenu_Item* item = m_handler->Get_Active_Item();
+        sf::FloatRect itemrect = m_handler->Get_Active_Item_Rect();
 
-        if (item && item->m_col_rect.Intersects(static_cast<float>(pMouseCursor->m_x), static_cast<float>(pMouseCursor->m_y))) {
-            m_menu_data->m_action = 1;
+        if (itemrect.contains(static_cast<float>(pMouseCursor->m_x), static_cast<float>(pMouseCursor->m_y))) {
+            m_menu_data->Item_Activated(m_handler->m_active);
             return 1;
         }
     }
@@ -394,27 +404,6 @@ bool cMenuCore::Mouse_Up(sf::Mouse::Button button)
 {
     // not processed
     return 0;
-}
-
-cMenu_Item* cMenuCore::Auto_Menu(std::string imagename, std::string imagefilename_menu, float ypos /* = 0 */, bool is_quit /* = 0 */)
-{
-    cMenu_Item* temp_item = new cMenu_Item(m_handler->m_level->m_sprite_manager);
-
-    // the menu image
-    if (imagefilename_menu.length() > 0) {
-        temp_item->m_image_menu->Set_Image(pVideo->Get_Package_Surface("menu/items/" + imagefilename_menu), 1);
-    }
-
-    // the active image
-    if (imagename.length() > 0) {
-        temp_item->m_image_default->Set_Image(pVideo->Get_Package_Surface("menu/" + imagename), 1);
-    }
-
-    // position and initialization
-    temp_item->Set_Pos((game_res_w * 0.5f) - (temp_item->m_image_default->m_col_rect.m_w * 0.5f), ypos);
-    temp_item->m_is_quit = is_quit;
-
-    return temp_item;
 }
 
 void cMenuCore::Load(const MenuID menu /* = MENU_MAIN */, const GameMode exit_gamemode /* = MODE_NOTHING */)
