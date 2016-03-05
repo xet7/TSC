@@ -85,7 +85,7 @@
 #include <libxml++/libxml++.h>
 
 // CEGUI
-// Must be included before SDL/X11, which have #defines such as
+// Must be included before X11, which have #defines such as
 // None, True, and False that screw CEGUI declarations.
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
@@ -98,16 +98,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Audio.hpp>
-
-// SDL
-#ifdef __unix__
-#define NO_SDL_GLEXT
-#endif
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_syswm.h>
 
 // Other libs
 #include <png.h>

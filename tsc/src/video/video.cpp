@@ -61,7 +61,6 @@ cVideo::cVideo(void)
     m_geometry_quality = cPreferences::m_geometry_quality_default;
     m_texture_quality = cPreferences::m_texture_quality_default;
 
-    //SDL_VERSION(&wm_info.version);
 #ifdef __unix__
     glx_context = NULL;
 #endif
@@ -169,41 +168,6 @@ void cVideo::Init_CEGUI_Data(void) const
     CEGUI::Window* window_root = CEGUI::WindowManager::getSingleton().loadWindowLayout("default.layout");
     pGuiSystem->setGUISheet(window_root);
     window_root->activate();
-}
-
-void cVideo::Init_SDL(void)
-{
-    /*
-    if (SDL_Init(SDL_INIT_VIDEO) == -1) {
-        cerr << "Error : SDL initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
-        exit(EXIT_FAILURE);
-        } */
-
-    atexit(SDL_Quit);
-
-    /*
-    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) == -1) {
-        cerr << "Warning : SDL Joystick initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
-        m_joy_init_failed = 1;
-    }
-    else {
-        m_joy_init_failed = 0;
-        }*/
-
-    if (SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) {
-        cerr << "Warning : SDL Audio initialization failed" << endl << "Reason : " << SDL_GetError() << endl;
-        m_audio_init_failed = 1;
-    }
-    else {
-        m_audio_init_failed = 0;
-    }
-
-    // preload the sdl_image png library
-    //IMG_Init(IMG_INIT_PNG);
-
-    //SDL_EnableUNICODE(1);
-    // hide by default
-    //SDL_ShowCursor(SDL_DISABLE);
 }
 
 void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_preferences /* = true */)
@@ -685,30 +649,12 @@ void cVideo::Init_Image_Cache(bool recreate /* = 0 */, bool draw_gui /* = 0 */)
 
 int cVideo::Test_Video(int width, int height, int bpp, int flags /* = 0 */) const
 {
-    // flags are not supported by SFML
-    // OLD // auto set the video flags
-    // OLD if (!flags) {
-    // OLD     flags = SDL_OPENGL | SDL_SWSURFACE;
-    // OLD 
-    // OLD     // if fullscreen is set
-    // OLD     if (pPreferences->m_video_fullscreen) {
-    // OLD         flags |= SDL_FULLSCREEN;
-    // OLD     }
-    // OLD }
-
     return sf::VideoMode(width, height, bpp).isValid();
 }
 
 vector<cSize_Int> cVideo::Get_Supported_Resolutions(int flags /* = 0 */) const
 {
     vector<cSize_Int> valid_resolutions;
-
-    // flags are not supported by SFML
-    // OLD // auto set the video flags
-    // OLD if (!flags) {
-    // OLD     // always set fullscreen
-    // OLD     flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
-    // OLD }
 
     const std::vector<sf::VideoMode>& valid_modes = sf::VideoMode::getFullscreenModes();
 
@@ -744,9 +690,6 @@ void cVideo::Make_GL_Context_Current(void)
 #elif __APPLE__
     // party time
 #endif
-
-    // update info (needed?)
-    //SDL_GetWMInfo(&wm_info);
 }
 
 void cVideo::Make_GL_Context_Inactive(void)
@@ -758,9 +701,6 @@ void cVideo::Make_GL_Context_Inactive(void)
 #elif __APPLE__
     // party time
 #endif
-
-    // update info (needed?)
-    //SDL_GetWMInfo(&wm_info);
 }
 
 void cVideo::Render_From_Thread(void)
@@ -1162,10 +1102,6 @@ cGL_Surface* cVideo::Create_Texture(sf::Image* p_sf_image, bool mipmap /* = 0 */
         p_sf_image = p_new_image;
 
         free(new_pixels);
-    }
-    // set SDL_image pixel store mode
-    else {
-        // OLD: pitch is not supported by SFML // glPixelStorei(GL_UNPACK_ROW_LENGTH, surface->pitch / surface->format->BytesPerPixel);
     }
 
     // use the generated texture

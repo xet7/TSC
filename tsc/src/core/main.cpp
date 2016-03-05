@@ -45,12 +45,6 @@ using namespace std;
 // TSC namespace is set later to exclude main() from it
 using namespace TSC;
 
-// SDLmain defines this for Win32 applications but under debug we use the console
-#if defined( __WIN32__ ) && defined( _DEBUG )
-#undef main
-#endif
-
-
 /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 static std::string g_cmdline_package;
@@ -269,12 +263,11 @@ void Init_Game(void)
     else
         pPackage_Manager->Set_Current_Package(pPreferences->m_package);
     // video init
-    pVideo->Init_SDL();
     pVideo->Init_Video();
     pVideo->Init_CEGUI();
     pVideo->Init_CEGUI_Data();
     pFont->Init();
-    // framerate init ( must be after SDL init because of SDL_GetTicks() )
+    // framerate init
     pFramerate->Init();
     // audio init
     pAudio->Init();
@@ -477,16 +470,6 @@ void Exit_Game(void)
         delete pResource_Manager;
         pResource_Manager = NULL;
     }
-
-    char* last_sdl_error = SDL_GetError();
-    if (strlen(last_sdl_error) > 0) {
-        cerr << "Last known SDL Error : " << last_sdl_error << endl;
-    }
-
-    // unload the sdl_image preloaded libraries
-    //IMG_Quit();
-
-    SDL_Quit();
 }
 
 bool Handle_Input_Global(const sf::Event& ev)
@@ -533,11 +516,6 @@ bool Handle_Input_Global(const sf::Event& ev)
         }
         break;
     }
-    // Hat move not supported by SFML; SFML treats this as an axis move.
-    // OLD case SDL_JOYHATMOTION: {
-    // OLD     pJoystick->Handle_Hat(ev);
-    // OLD     break;
-    // OLD }
     case sf::Event::JoystickMoved: {
         pJoystick->Handle_Motion(ev);
         break;

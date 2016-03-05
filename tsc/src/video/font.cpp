@@ -45,32 +45,6 @@ void cFont_Manager::Init(void)
     }
 }
 
-// OLD cGL_Surface* cFont_Manager::Render_Text(TTF_Font* font, const std::string& text, const Color color)
-// OLD {
-// OLD     std::cerr << "WARNING: cFont_Manager::Render_Text() not yet ported to SFML." << std::endl;
-// OLD 
-// OLD     // HACK to satisfy return value
-// OLD     return pVideo->Load_GL_Surface("game/arrow/small/blue/right.png");
-// OLD 
-// OLD     // OLD // get SDL Color
-// OLD     // OLD SDL_Color sdlcolor = color.Get_SDL_Color();
-// OLD     // OLD // create text surface
-// OLD     // OLD cGL_Surface* surface = pVideo->Create_Texture(TTF_RenderUTF8_Blended(font, text.c_str(), sdlcolor));
-// OLD     // OLD 
-// OLD     // OLD if (!surface) {
-// OLD     // OLD     return NULL;
-// OLD     // OLD }
-// OLD     // OLD 
-// OLD     // OLD surface->m_path = utf8_to_path(text);
-// OLD     // OLD 
-// OLD     // OLD // set function if font gets deleted
-// OLD     // OLD surface->Set_Destruction_Function(&Font_Delete_Ref);
-// OLD     // OLD // add font to active fonts
-// OLD     // OLD Add_Ref(surface);
-// OLD     // OLD 
-// OLD     // OLD return surface;
-// OLD }
-
 /**
  * This function wraps the given SFML text in a render request and
  * submits that request to the render queue.

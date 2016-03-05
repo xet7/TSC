@@ -59,8 +59,6 @@ namespace TSC {
         void Init_CEGUI(void) const;
         // Initialize the basic CEGUI data and configuration
         void Init_CEGUI_Data(void) const;
-        // Initialize all the SDL systems
-        void Init_SDL(void);
         /* Initialize the screen surface
          * reload_textures_from_file: if set reloads all textures from the original file
          * use_preferences: if set use user preferences settings
@@ -129,7 +127,7 @@ namespace TSC {
         };
 
         /* Load and return the software image with the settings data
-         * The returned sdl image should be deleted if not used anymore but not the settings data which is managed
+         * The returned image should be deleted if not used anymore but not the settings data which is managed
          * load_settings : enable file settings if set to 1
          * print_errors : print errors if image couldn't be created or loaded
         */
@@ -155,8 +153,8 @@ namespace TSC {
         */
         sf::Image* Convert_To_Final_Software_Image(sf::Image* p_sf_image) const;
 
-        /* Convert a SDL_Surface to a GL image
-         * surface : the source SDL_surface which will be auto-deleted.
+        /* Convert an SFML image to a GL image
+         * surface : the source SFML image which will be auto-deleted.
          * mipmap : create texture mipmaps
          * force_width/height : force the given width and height
         */

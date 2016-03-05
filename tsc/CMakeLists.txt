@@ -229,10 +229,6 @@ else()
 endif()
 
 pkg_check_modules(PNG REQUIRED libpng)
-pkg_check_modules(SDL REQUIRED sdl)
-pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
-pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
-pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
 pkg_check_modules(PCRE REQUIRED libpcre)
 pkg_check_modules(LibXmlPP REQUIRED libxml++-2.6)
 
@@ -255,10 +251,6 @@ include_directories(
   ${CEGUI_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${PNG_INCLUDE_DIRS}
-  ${SDL_INCLUDE_DIRS}
-  ${SDL_IMAGE_INCLUDE_DIRS}
-  ${SDL_MIXER_INCLUDE_DIRS}
-  ${SDL_TTF_INCLUDE_DIRS}
 #  ${IL_INCLUDE_DIR}
   ${PCRE_INCLUDE_DIRS}
   ${LibXmlPP_INCLUDE_DIRS}
@@ -350,10 +342,6 @@ if (WIN32)
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${FreeImage_LIBRARIES}
-    ${SDL_STATIC_LIBRARIES}
-    ${SDL_IMAGE_STATIC_LIBRARIES}
-    ${SDL_MIXER_STATIC_LIBRARIES}
-    ${SDL_TTF_STATIC_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
     ${Tinyclipboard_LIBRARIES}
@@ -377,10 +365,6 @@ else()
     ${GLEW_LIBRARIES}
     ${IL_LIBRARIES}
     ${ILU_LIBRARIES}
-    ${SDL_LIBRARIES}
-    ${SDL_IMAGE_LIBRARIES}
-    ${SDL_MIXER_LIBRARIES}
-    ${SDL_TTF_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
     ${Tinyclipboard_LIBRARIES}

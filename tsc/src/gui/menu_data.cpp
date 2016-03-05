@@ -2459,8 +2459,7 @@ void cMenu_Options::Set_Shortcut(std::string name, void* data, bool joystick /* 
 void cMenu_Options::Joy_Default(unsigned int index)
 {
     pPreferences->m_joy_enabled = 1;
-    pPreferences->m_joy_name = SDL_JoystickName(index);
-
+    pPreferences->m_joy_name = pJoystick->Get_Names()[index];
     // initialize and if no joystick available disable
     pJoystick->Init();
 }
@@ -2907,7 +2906,7 @@ bool cMenu_Options::Joystick_Name_Click(const CEGUI::EventArgs& event)
     }
 
     // select first
-    if (selected_item >= SDL_NumJoysticks()) {
+    if (selected_item >= pJoystick->m_num_joysticks) {
         selected_item = 0;
     }
     // select next item
