@@ -362,7 +362,7 @@ animation_end:
         anim->Set_Fading_Alpha(1);
         anim->Set_Speed(2.0f, 0.5f);
         anim->Set_Scale(0.9f);
-        anim->Set_Color(Color(static_cast<Uint8>(250), 140, 90), Color(static_cast<Uint8>(5), 100, 0, 0));
+        anim->Set_Color(Color(static_cast<uint8_t>(250), 140, 90), Color(static_cast<uint8_t>(5), 100, 0, 0));
         anim->Set_Const_Rotation_Z(-2.0f, 4.0f);
 
         for (i = 10.0f; i > 0.0f; i -= 0.011f * pFramerate->m_speed_factor) {
@@ -1989,8 +1989,8 @@ void cLevel_Player::Update(void)
             if (m_invincible_star_counter > 1.0f) {
                 // set particle color
                 Color particle_color = green;
-                particle_color.green += static_cast<Uint8>(m_invincible_mod / 5.0f);
-                particle_color.blue += static_cast<Uint8>(m_invincible_mod / 1.5f);
+                particle_color.green += static_cast<uint8_t>(m_invincible_mod / 5.0f);
+                particle_color.blue += static_cast<uint8_t>(m_invincible_mod / 1.5f);
 
                 // create particle
                 cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
@@ -2197,7 +2197,7 @@ void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
         }
         // default invincible
         else {
-            Set_Color(255, 255, 255, 255 - static_cast<Uint8>(m_invincible_mod));
+            Set_Color(255, 255, 255, 255 - static_cast<uint8_t>(m_invincible_mod));
         }
     }
     // ghost
@@ -3320,7 +3320,7 @@ bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, f
             anim->Set_Quota(10);
             anim->Set_Time_to_Live(1.5f);
             anim->Set_Pos_Z(m_pos_z + 0.0001f);
-            anim->Set_Color(Color(static_cast<Uint8>(50), 50, 250));
+            anim->Set_Color(Color(static_cast<uint8_t>(50), 50, 250));
             anim->Set_Blending(BLEND_ADD);
             anim->Set_Speed(0.8f, 0.7f);
             anim->Set_Scale(0.4f, 0.2f);
@@ -3670,7 +3670,7 @@ void cLevel_Player::Handle_Collision_Enemy(cObjectCollision* collision)
         cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
         anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
         anim->Set_Time_to_Live(0.6f, 0.4f);
-        anim->Set_Color(Color(static_cast<Uint8>(160), 160, 240), Color(static_cast<Uint8>(rand() % 80), rand() % 80, rand() % 10, 0));
+        anim->Set_Color(Color(static_cast<uint8_t>(160), 160, 240), Color(static_cast<uint8_t>(rand() % 80), rand() % 80, rand() % 10, 0));
         anim->Set_Fading_Alpha(1);
         anim->Set_Fading_Size(1);
         anim->Set_Speed(0.5f, 0.2f);
@@ -3690,7 +3690,7 @@ void cLevel_Player::Handle_Collision_Enemy(cObjectCollision* collision)
         pAudio->Play_Sound("item/ice_kill.wav");
 
         // get points
-        pHud_Points->Add_Points(enemy->m_kill_points, enemy->m_pos_x, enemy->m_pos_y - 10.0f, "", static_cast<Uint8>(255), 1);
+        pHud_Points->Add_Points(enemy->m_kill_points, enemy->m_pos_x, enemy->m_pos_y - 10.0f, "", static_cast<uint8_t>(255), 1);
 
         // kill enemy
         enemy->DownGrade(1);
@@ -3794,7 +3794,7 @@ void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
                     anim->Set_Quota(4);
                     anim->Set_Pos_Z(m_pos_z - 0.000001f);
                     anim->Set_Time_to_Live(0.3f);
-                    anim->Set_Color(Color(static_cast<Uint8>(150), 150, 150, 200), Color(static_cast<Uint8>(rand() % 55), rand() % 55, rand() % 55, 0));
+                    anim->Set_Color(Color(static_cast<uint8_t>(150), 150, 150, 200), Color(static_cast<uint8_t>(rand() % 55), rand() % 55, rand() % 55, 0));
                     anim->Set_Speed(2, 0.6f);
                     anim->Set_Scale(0.6f);
                     anim->Set_Direction_Range(0, 180);

@@ -434,7 +434,7 @@ void cEditor::Draw(void)
             start_x = -pActive_Camera->m_x;
         }
 
-        color = Color(static_cast<Uint8>(0), 0, 100, 192);
+        color = Color(static_cast<uint8_t>(0), 0, 100, 192);
         pVideo->Draw_Line(start_x, -pActive_Camera->m_y, static_cast<float>(game_res_w), -pActive_Camera->m_y, 0.124f, &color);
     }
     // Camera limit top line
@@ -445,7 +445,7 @@ void cEditor::Draw(void)
             start_x = -pActive_Camera->m_x;
         }
 
-        color = Color(static_cast<Uint8>(20), 20, 150, 192);
+        color = Color(static_cast<uint8_t>(20), 20, 150, 192);
         pVideo->Draw_Line(start_x, pActive_Camera->m_limit_rect.m_y + pActive_Camera->m_limit_rect.m_h - pActive_Camera->m_y, static_cast<float>(game_res_w), pActive_Camera->m_limit_rect.m_y + pActive_Camera->m_limit_rect.m_h - pActive_Camera->m_y, 0.124f, &color);
     }
 
@@ -457,7 +457,7 @@ void cEditor::Draw(void)
             start_y = game_res_h - pActive_Camera->m_y;
         }
 
-        color = Color(static_cast<Uint8>(0), 100, 0, 192);
+        color = Color(static_cast<uint8_t>(0), 100, 0, 192);
         pVideo->Draw_Line(pActive_Camera->m_limit_rect.m_x - pActive_Camera->m_x, start_y, -pActive_Camera->m_x, 0, 0.124f, &color);
     }
     // Camera limit right line
@@ -468,7 +468,7 @@ void cEditor::Draw(void)
             start_y = game_res_h - pActive_Camera->m_y;
         }
 
-        color = Color(static_cast<Uint8>(20), 150, 20, 192);
+        color = Color(static_cast<uint8_t>(20), 150, 20, 192);
         pVideo->Draw_Line(pActive_Camera->m_limit_rect.m_x + pActive_Camera->m_limit_rect.m_w - pActive_Camera->m_x, start_y, pActive_Camera->m_limit_rect.m_x + pActive_Camera->m_limit_rect.m_w - pActive_Camera->m_x, 0, 0.124f, &color);
     }
 }

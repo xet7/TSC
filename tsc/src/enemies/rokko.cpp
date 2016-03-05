@@ -451,7 +451,7 @@ void cRokko::Generate_Smoke(unsigned int amount /* = 10 */) const
     anim->Set_Time_to_Live(0.8f, 0.8f);
     anim->Set_Speed(1.0f, 0.2f);
     anim->Set_Const_Rotation_Z(-1, 2);
-    anim->Set_Color(Color(static_cast<Uint8>(155), 150, 130));
+    anim->Set_Color(Color(static_cast<uint8_t>(155), 150, 130));
     anim->Set_Fading_Alpha(1);
 
     anim->Emit();
@@ -468,7 +468,7 @@ void cRokko::Generate_Sparks(unsigned int amount /* = 5 */) const
     anim->Set_Time_to_Live(0.2f, 0.1f);
     anim->Set_Speed(1.2f, 1.1f);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-    anim->Set_Color(Color(static_cast<Uint8>(250), 250, 200), Color(static_cast<Uint8>(5), 5, 0, 0));
+    anim->Set_Color(Color(static_cast<uint8_t>(250), 250, 200), Color(static_cast<uint8_t>(5), 5, 0, 0));
     anim->Set_Scale(0.3f, 0.3f);
     anim->Set_Fading_Size(1);
     anim->Set_Fading_Alpha(0);
@@ -526,7 +526,7 @@ void cRokko::Handle_Collision_Player(cObjectCollision* collision)
         }
 
         if (collision->m_direction == DIR_TOP && pLevel_Player->m_state != STA_FLY) {
-            pHud_Points->Add_Points(m_kill_points, m_pos_x + m_rect.m_w / 3, m_pos_y - 10.0f, "", static_cast<Uint8>(255), 1);
+            pHud_Points->Add_Points(m_kill_points, m_pos_x + m_rect.m_w / 3, m_pos_y - 10.0f, "", static_cast<uint8_t>(255), 1);
             pAudio->Play_Sound(m_kill_sound);
             pLevel_Player->Action_Jump(1);
 
@@ -539,7 +539,7 @@ void cRokko::Handle_Collision_Player(cObjectCollision* collision)
     }
     else if (m_direction == DIR_UP || m_direction == DIR_DOWN) {
         if ((collision->m_direction == DIR_LEFT || collision->m_direction == DIR_LEFT) && pLevel_Player->m_state == STA_FLY) {
-            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
             pAudio->Play_Sound(m_kill_sound);
 
             pLevel_Player->Add_Kill_Multiplier();

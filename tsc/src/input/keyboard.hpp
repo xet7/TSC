@@ -66,7 +66,7 @@ namespace TSC {
         /* CEGUI Text Entry handler
          * returns true if CEGUI processed the given text entry event
         */
-        bool CEGUI_Handle_Text_Entered(Uint32 character);
+        bool CEGUI_Handle_Text_Entered(uint32_t character);
 
         /* Text Entry handler
          * returns true if the event was processed

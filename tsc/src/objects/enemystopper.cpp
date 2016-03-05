@@ -66,7 +66,7 @@ void cEnemyStopper::Init(void)
     m_start_rect.m_w = m_rect.m_w;
     m_start_rect.m_h = m_rect.m_h;
 
-    m_editor_color = Color(static_cast<Uint8>(0), 0, 255, 128);
+    m_editor_color = Color(static_cast<uint8_t>(0), 0, 255, 128);
 }
 
 void cEnemyStopper::Draw(cSurface_Request* request /* = NULL */)

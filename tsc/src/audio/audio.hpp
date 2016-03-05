@@ -164,9 +164,9 @@ namespace TSC {
         void Stop_Sounds(void) const;
 
         // Set the Sound Volume
-        void Set_Sound_Volume(Uint8 volume);
+        void Set_Sound_Volume(uint8_t volume);
         // Set the Music Volume
-        void Set_Music_Volume(Uint8 volume);
+        void Set_Music_Volume(uint8_t volume);
 
         // Update
         void Update(void);
@@ -181,7 +181,7 @@ namespace TSC {
         bool m_debug;
 
         // current music and sound volume
-        Uint8 m_sound_volume, m_music_volume;
+        uint8_t m_sound_volume, m_music_volume;
 
         // current playing music filename
         boost::filesystem::path m_music_filename;

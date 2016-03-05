@@ -36,11 +36,11 @@ namespace TSC {
         void Update(void);
 
         // current frame counter
-        Uint32 frame_counter;
+        uint32_t frame_counter;
         // current milliseconds per frames counted
-        Uint32 ms_counter;
+        uint32_t ms_counter;
         // milliseconds per 100 frames
-        Uint32 ms;
+        uint32_t ms;
     };
 
     /* *** *** *** *** *** *** *** cFramerate *** *** *** *** *** *** *** *** *** *** */
@@ -62,7 +62,7 @@ namespace TSC {
         void Reset(void);
 
         // set maximum allowed elapsed ticks
-        void Set_Max_Elapsed_Ticks(const Uint32 ticks);
+        void Set_Max_Elapsed_Ticks(const uint32_t ticks);
 
         /* Set the given fixed speed factor
          * if value is 0 no fixed speed factor will be used
@@ -80,18 +80,18 @@ namespace TSC {
         // average fps in the last second
         unsigned int m_fps_average;
         // delay since last average fps calculation
-        Uint32 m_fps_average_framedelay;
+        uint32_t m_fps_average_framedelay;
         // amount of frames counted
         unsigned int m_frames_counted;
 
         /* last update ticks
          * used for speed factor calculation
          */
-        Uint32 m_last_ticks;
+        uint32_t m_last_ticks;
         // elapsed ticks since last frame
-        Uint32 m_elapsed_ticks;
+        uint32_t m_elapsed_ticks;
         // maximum elapsed ticks
-        Uint32 m_max_elapsed_ticks;
+        uint32_t m_max_elapsed_ticks;
 
         /* current factor
          * based on target fps
@@ -102,7 +102,7 @@ namespace TSC {
 
         // ## performance values ##
         // ticks since last section
-        Uint32 m_perf_last_ticks;
+        uint32_t m_perf_last_ticks;
 
         typedef vector<cPerformance_Timer*> Performance_Timer_List;
         Performance_Timer_List m_perf_timer;

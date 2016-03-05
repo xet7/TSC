@@ -51,7 +51,7 @@ namespace TSC {
         // Set settings to current game settings
         void Apply(void);
         // Set new video settings
-        void Apply_Video(Uint16 screen_w, Uint16 screen_h, Uint8 screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail);
+        void Apply_Video(uint16_t screen_w, uint16_t screen_h, uint8_t screen_bpp, bool fullscreen, bool vsync, float geometry_detail, float texture_detail);
         // Set new audio settings
         void Apply_Audio(bool sound, bool music);
 
@@ -80,11 +80,11 @@ namespace TSC {
 
         // Video
         bool m_video_fullscreen;
-        Uint16 m_video_screen_w;
-        Uint16 m_video_screen_h;
-        Uint8 m_video_screen_bpp;
+        uint16_t m_video_screen_w;
+        uint16_t m_video_screen_h;
+        uint8_t m_video_screen_bpp;
         bool m_video_vsync;
-        Uint16 m_video_fps_limit;
+        uint16_t m_video_fps_limit;
 
         // Keyboard
         // key definitions
@@ -117,13 +117,13 @@ namespace TSC {
         sf::Joystick::Axis m_joy_axis_hor;
         sf::Joystick::Axis m_joy_axis_ver;
         // axis threshold
-        Sint16 m_joy_axis_threshold;
+        int16_t m_joy_axis_threshold;
         // button definitions
-        Uint8 m_joy_button_jump;
-        Uint8 m_joy_button_shoot;
-        Uint8 m_joy_button_item;
-        Uint8 m_joy_button_action;
-        Uint8 m_joy_button_exit;
+        uint8_t m_joy_button_jump;
+        uint8_t m_joy_button_shoot;
+        uint8_t m_joy_button_item;
+        uint8_t m_joy_button_action;
+        uint8_t m_joy_button_exit;
 
         // Editor
         // hide mouse if clicked on an object
@@ -162,15 +162,15 @@ namespace TSC {
         static const bool m_audio_music_default;
         static const bool m_audio_sound_default;
         static const unsigned int m_audio_hz_default;
-        static const Uint8 m_sound_volume_default;
-        static const Uint8 m_music_volume_default;
+        static const uint8_t m_sound_volume_default;
+        static const uint8_t m_music_volume_default;
         // Video
         static const bool m_video_fullscreen_default;
-        static const Uint16 m_video_screen_w_default;
-        static const Uint16 m_video_screen_h_default;
-        static const Uint8 m_video_screen_bpp_default;
+        static const uint16_t m_video_screen_w_default;
+        static const uint16_t m_video_screen_h_default;
+        static const uint8_t m_video_screen_bpp_default;
         static const bool m_video_vsync_default;
-        static const Uint16 m_video_fps_limit_default;
+        static const uint16_t m_video_fps_limit_default;
         static const float m_geometry_quality_default;
         static const float m_texture_quality_default;
         // Keyboard
@@ -197,12 +197,12 @@ namespace TSC {
         static const bool m_joy_analog_jump_default;
         static const sf::Joystick::Axis m_joy_axis_hor_default;
         static const sf::Joystick::Axis m_joy_axis_ver_default;
-        static const Sint16 m_joy_axis_threshold_default;
-        static const Uint8 m_joy_button_jump_default;
-        static const Uint8 m_joy_button_shoot_default;
-        static const Uint8 m_joy_button_item_default;
-        static const Uint8 m_joy_button_action_default;
-        static const Uint8 m_joy_button_exit_default;
+        static const int16_t m_joy_axis_threshold_default;
+        static const uint8_t m_joy_button_jump_default;
+        static const uint8_t m_joy_button_shoot_default;
+        static const uint8_t m_joy_button_item_default;
+        static const uint8_t m_joy_button_action_default;
+        static const uint8_t m_joy_button_exit_default;
         // Editor
         static const bool m_editor_mouse_auto_hide_default;
         static const bool m_editor_show_item_images_default;

@@ -37,7 +37,7 @@ namespace TSC {
 
         // Adds a Menu item to the menu
         int Add_Menu_Item(sf::FloatRect p_rect, void* p_item);
-        //void Add_Menu_Item(cMenu_Item* item, float shadow_pos = 0, Color shadow_color = static_cast<Uint8>(0));
+        //void Add_Menu_Item(cMenu_Item* item, float shadow_pos = 0, Color shadow_color = static_cast<uint8_t>(0));
 
         // Unloads all items
         void Reset(void);

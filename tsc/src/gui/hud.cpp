@@ -126,7 +126,7 @@ void cMiniPointsText::Draw()
     // OLD request->m_shadow_pos = 1;
 
     // OLD // color
-    // OLD request->m_color = Color(static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 150)), static_cast<Uint8>(255 - (obj->m_points / 30)), obj->m_color.alpha);
+    // OLD request->m_color = Color(static_cast<uint8_t>(255 - (obj->m_points / 150)), static_cast<uint8_t>(255 - (obj->m_points / 150)), static_cast<uint8_t>(255 - (obj->m_points / 30)), obj->m_color.alpha);
 }
 
 /* *** *** *** *** *** *** *** cHud_Manager *** *** *** *** *** *** *** *** *** *** */
@@ -463,7 +463,7 @@ void cPlayerPoints::Set_Points(long points)
     Prepare_Text_For_SFML(text, cFont_Manager::FONTSIZE_NORMAL, white);
 }
 
-void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color& color /* = static_cast<Uint8>(255) */, bool allow_multiplier /* = 0 */)
+void cPlayerPoints::Add_Points(unsigned int points, float x /* = 0.0f */, float y /* = 0.0f */, std::string strtext /* = "" */, const Color& color /* = static_cast<uint8_t>(255) */, bool allow_multiplier /* = 0 */)
 {
     if (allow_multiplier) {
         points = static_cast<unsigned int>(pLevel_Player->m_kill_multiplier * static_cast<float>(points));
@@ -546,7 +546,7 @@ void cGoldDisplay::Set_Gold(int gold)
     pLevel_Player->m_goldpieces = gold;
     std::string text = int_to_string(pLevel_Player->m_goldpieces);
 
-    Color color = Color(static_cast<Uint8>(255), 255, 255 - (gold * 2));
+    Color color = Color(static_cast<uint8_t>(255), 255, 255 - (gold * 2));
 
     Prepare_Text_For_SFML(text, cFont_Manager::FONTSIZE_NORMAL, color);
 }
@@ -630,7 +630,7 @@ void cTimeDisplay::Update(void)
         return;
     }
 
-    const Uint32 seconds = m_milliseconds / 1000;
+    const uint32_t seconds = m_milliseconds / 1000;
 
     // update is not needed
     if (seconds == m_last_update_seconds) {
@@ -663,7 +663,7 @@ void cTimeDisplay::Reset(void)
     m_milliseconds = 0;
 }
 
-void cTimeDisplay::Set_Time(Uint32 milliseconds)
+void cTimeDisplay::Set_Time(uint32_t milliseconds)
 {
     m_milliseconds = milliseconds;
     Update();
@@ -765,7 +765,7 @@ void cInfoMessage::Draw()
     }
 
     if (m_alpha > 0) {
-        m_background->Set_Color(255,255,255, static_cast<Uint8>(m_alpha));
+        m_background->Set_Color(255,255,255, static_cast<uint8_t>(m_alpha));
         m_background->Draw();
         cStatusText::Draw();
     }
@@ -858,7 +858,7 @@ void cItemBox::Draw(cSurface_Request* request /* = NULL */)
     if (m_item_id && m_item->m_image) {
         // with alpha
         if (m_item_counter) {
-            m_item->Set_Color(255, 255, 255, 100 + static_cast<Uint8>(m_item_counter));
+            m_item->Set_Color(255, 255, 255, 100 + static_cast<uint8_t>(m_item_counter));
         }
 
         m_item->Draw();
@@ -883,15 +883,15 @@ void cItemBox::Set_Item(SpriteType item_type, bool sound /* = 1 */)
     m_item->Set_Color(white);
 
     if (item_type == TYPE_MUSHROOM_DEFAULT) {
-        m_box_color = Color(static_cast<Uint8>(250), 50, 50);
+        m_box_color = Color(static_cast<uint8_t>(250), 50, 50);
         m_item->Set_Image(pVideo->Get_Package_Surface("game/items/mushroom_red.png"));
     }
     else if (item_type == TYPE_FIREPLANT) {
-        m_box_color = Color(static_cast<Uint8>(250), 200, 150);
+        m_box_color = Color(static_cast<uint8_t>(250), 200, 150);
         m_item->Set_Image(pVideo->Get_Package_Surface("game/items/fireberry_1.png"));
     }
     else if (item_type == TYPE_MUSHROOM_BLUE) {
-        m_box_color = Color(static_cast<Uint8>(100), 100, 250);
+        m_box_color = Color(static_cast<uint8_t>(100), 100, 250);
         m_item->Set_Image(pVideo->Get_Package_Surface("game/items/mushroom_blue.png"));
     }
 

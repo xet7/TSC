@@ -160,7 +160,7 @@ void cOverworldLoader::Parse_Tag_Player()
 
 void cOverworldLoader::Parse_Tag_Background()
 {
-    mp_overworld->m_background_color = Color(static_cast<Uint8>(m_current_properties.retrieve<int>("color_red")),
+    mp_overworld->m_background_color = Color(static_cast<uint8_t>(m_current_properties.retrieve<int>("color_red")),
                                        m_current_properties.retrieve<int>("color_green"),
                                        m_current_properties.retrieve<int>("color_blue"));
 }

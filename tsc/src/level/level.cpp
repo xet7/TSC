@@ -291,7 +291,7 @@ fs::path cLevel::Save_To_File(fs::path filename /* = fs::path() */)
     p_node = p_root->add_child("information");
     Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", level_engine_version);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
+    Add_Property(p_node, "save_time", static_cast<uint64_t>(time(NULL)));
     // </information>
 
     // <settings>
@@ -665,11 +665,11 @@ void cLevel::Draw_Layer_2(LevelDrawType type /* = LVL_DRAW */)
 
         // fade alpha in
         if (pLevel_Player->m_ghost_time > 220) {
-            color.alpha = static_cast<Uint8>(color.alpha * ((-pLevel_Player->m_ghost_time + 320) * 0.01f));
+            color.alpha = static_cast<uint8_t>(color.alpha * ((-pLevel_Player->m_ghost_time + 320) * 0.01f));
         }
         // fade alpha out
         else if (pLevel_Player->m_ghost_time < 100) {
-            color.alpha = static_cast<Uint8>(color.alpha * (pLevel_Player->m_ghost_time * 0.01f));
+            color.alpha = static_cast<uint8_t>(color.alpha * (pLevel_Player->m_ghost_time * 0.01f));
         }
 
         pVideo->Draw_Rect(0, 0, static_cast<float>(game_res_w), static_cast<float>(game_res_h), 0.12f, &color, request);
@@ -993,7 +993,7 @@ void cLevel::Set_Description(const std::string& level_description)
     m_description = level_description;
 }
 
-void cLevel::Set_Difficulty(const Uint8 level_difficulty)
+void cLevel::Set_Difficulty(const uint8_t level_difficulty)
 {
     m_difficulty = level_difficulty;
 

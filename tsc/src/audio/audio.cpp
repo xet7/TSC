@@ -131,7 +131,7 @@ bool cAudio::Init(void)
 {
     // Get current device parameters
     int dev_frequency = 0;
-    Uint16 dev_format = 0;
+    uint16_t dev_format = 0;
     int dev_channels = 0;
     /* int numtimesopened = Mix_QuerySpec(&dev_frequency, &dev_format, &dev_channels); XXX: SFML doesn't seem to have the ability to set audio frequencies... */
     int numtimesopened = 0;
@@ -630,7 +630,7 @@ void cAudio::Stop_Sounds(void) const
     }
 }
 
-void cAudio::Set_Sound_Volume(Uint8 volume)
+void cAudio::Set_Sound_Volume(uint8_t volume)
 {
     // not active
     if (!m_initialised) {
@@ -651,7 +651,7 @@ void cAudio::Set_Sound_Volume(Uint8 volume)
     }
 }
 
-void cAudio::Set_Music_Volume(Uint8 volume)
+void cAudio::Set_Music_Volume(uint8_t volume)
 {
     // not active
     if (!m_initialised) {

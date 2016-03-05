@@ -263,15 +263,15 @@ void cWaypoint::Draw(cSurface_Request* request /* = NULL  */)
 
         // default color
         if (!pOverworld_Manager->m_debug_mode) {
-            request->m_color = Color(static_cast<Uint8>(255), 100 + static_cast<Uint8>(m_glim_color), 10);
+            request->m_color = Color(static_cast<uint8_t>(255), 100 + static_cast<uint8_t>(m_glim_color), 10);
         }
         // change to debug color
         else {
             if (m_access) {
-                request->m_color = Color(static_cast<Uint8>(255), 100 + static_cast<Uint8>(m_glim_color), 200);
+                request->m_color = Color(static_cast<uint8_t>(255), 100 + static_cast<uint8_t>(m_glim_color), 200);
             }
             else {
-                request->m_color =  Color(static_cast<Uint8>(20), 100 + static_cast<Uint8>(m_glim_color), 10);
+                request->m_color =  Color(static_cast<uint8_t>(20), 100 + static_cast<uint8_t>(m_glim_color), 10);
             }
         }
 

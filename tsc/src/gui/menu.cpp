@@ -213,7 +213,7 @@ cMenuCore::cMenuCore(void)
     anim->Set_Time_to_Live(800);
     anim->Set_Fading_Alpha(0);
     anim->Set_Scale(0.2f, 0.2f);
-    anim->Set_Color(Color(static_cast<Uint8>(255), 255, 255, 200), Color(static_cast<Uint8>(0), 0, 0, 55));
+    anim->Set_Color(Color(static_cast<uint8_t>(255), 255, 255, 200), Color(static_cast<uint8_t>(0), 0, 0, 55));
     anim->Set_Speed(0.05f, 0.005f);
     anim->Set_Pos_Z(0.0015f, 0.0004f);
 
@@ -229,7 +229,7 @@ cMenuCore::cMenuCore(void)
     anim->Set_Time_to_Live(800);
     anim->Set_Fading_Alpha(0);
     anim->Set_Scale(0.2f, 0.2f);
-    anim->Set_Color(Color(static_cast<Uint8>(255), 255, 255, 200), Color(static_cast<Uint8>(0), 0, 0, 55));
+    anim->Set_Color(Color(static_cast<uint8_t>(255), 255, 255, 200), Color(static_cast<uint8_t>(0), 0, 0, 55));
     anim->Set_Speed(0.05f, 0.005f);
     anim->Set_Pos_Z(0.0015f, 0.0004f);
 

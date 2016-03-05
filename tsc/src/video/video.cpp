@@ -205,7 +205,7 @@ void cVideo::Init_Video(bool reload_textures_from_file /* = false */, bool use_p
         }
     }
 
-    Uint32 style;
+    uint32_t style;
 
     if (pPreferences->m_video_fullscreen)
         style = sf::Style::Fullscreen;
@@ -1587,10 +1587,10 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
 
     switch (effect) {
     case EFFECT_OUT_BLACK: {
-        Color color = static_cast<Uint8>(0);
+        Color color = static_cast<uint8_t>(0);
 
         for (float i = 1; i > 0; i -= (speed / 30) * pFramerate->m_speed_factor) {
-            color.alpha = static_cast<Uint8>(45 - (45 * i));
+            color.alpha = static_cast<uint8_t>(45 - (45 * i));
 
             // create request
             cRect_Request* request = new cRect_Request();
@@ -1624,7 +1624,7 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
             pos = static_cast<float>(game_res_h);
         }
 
-        Color color = Color(static_cast<Uint8>(0), 0, 0, 0);
+        Color color = Color(static_cast<uint8_t>(0), 0, 0, 0);
         float alpha = 10.0f;
 
         while (pos > pos_end * 0.5f) {
@@ -1636,7 +1636,7 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
                     alpha = 255.0f;
                 }
 
-                color.alpha = static_cast<Uint8>(alpha);
+                color.alpha = static_cast<uint8_t>(alpha);
             }
 
             // draw gradient
@@ -1717,7 +1717,7 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
 
             f += 0.9f * pFramerate->m_speed_factor * speed * (f / 7);
 
-            color = Color(static_cast<Uint8>(255 - (f * 4)), 255 - static_cast<Uint8>(f * 4), 255 - static_cast<Uint8>(f * 4), 200 - static_cast<Uint8>(f * 4));
+            color = Color(static_cast<uint8_t>(255 - (f * 4)), 255 - static_cast<uint8_t>(f * 4), 255 - static_cast<uint8_t>(f * 4), 200 - static_cast<uint8_t>(f * 4));
 
             // ## item
             // create request
@@ -1738,7 +1738,7 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
 
 
             // ## additional black fadeout
-            color = Color(0, 0, 0, static_cast<Uint8>(50 + (f * 4)));
+            color = Color(0, 0, 0, static_cast<uint8_t>(50 + (f * 4)));
 
             // create request
             cRect_Request* rect_request = new cRect_Request();
@@ -1760,19 +1760,19 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
 
         // red
         if (rand_color_num == 0) {
-            rand_color = Color(static_cast<Uint8>(1), 20, 20, 4);
+            rand_color = Color(static_cast<uint8_t>(1), 20, 20, 4);
         }
         // green
         else if (rand_color_num == 1) {
-            rand_color = Color(static_cast<Uint8>(20), 1, 20, 4);
+            rand_color = Color(static_cast<uint8_t>(20), 1, 20, 4);
         }
         // blue
         else if (rand_color_num == 2) {
-            rand_color = Color(static_cast<Uint8>(20), 20, 1, 4);
+            rand_color = Color(static_cast<uint8_t>(20), 20, 1, 4);
         }
         // yellow
         else {
-            rand_color = Color(static_cast<Uint8>(1), 1, 40, 4);
+            rand_color = Color(static_cast<uint8_t>(1), 1, 40, 4);
         }
 
         // rect size
@@ -1862,7 +1862,7 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
                     dest.m_x = x * dest.m_w;
                     dest.m_y = y * dest.m_h;
                     // set alpha
-                    color.alpha = static_cast<Uint8>(grid[y][x] * 0.4f);
+                    color.alpha = static_cast<uint8_t>(grid[y][x] * 0.4f);
 
                     // create request
                     cRect_Request* request = new cRect_Request();
@@ -1898,11 +1898,11 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
 
         // green
         if (rand_color == 0) {
-            start_color = Color(static_cast<Uint8>(10), 55, 10, 250);
+            start_color = Color(static_cast<uint8_t>(10), 55, 10, 250);
         }
         // blue
         else {
-            start_color = Color(static_cast<Uint8>(10), 10, 55, 250);
+            start_color = Color(static_cast<uint8_t>(10), 10, 55, 250);
         }
 
         Color color = start_color;
@@ -1930,10 +1930,10 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
                 }
 
                 // darken color
-                color.red = static_cast<Uint8>(start_color.red * color_mod);
-                color.green = static_cast<Uint8>(start_color.green * color_mod);
-                color.blue = static_cast<Uint8>(start_color.blue * color_mod);
-                color.alpha = static_cast<Uint8>(rect_size * 0.3f);
+                color.red = static_cast<uint8_t>(start_color.red * color_mod);
+                color.green = static_cast<uint8_t>(start_color.green * color_mod);
+                color.blue = static_cast<uint8_t>(start_color.blue * color_mod);
+                color.alpha = static_cast<uint8_t>(rect_size * 0.3f);
             }
 
             // continuous random position advance
@@ -1961,10 +1961,10 @@ void Draw_Effect_Out(Effect_Fadeout effect /* = EFFECT_OUT_RANDOM */, float spee
             }
 
             Color rect_color;
-            rect_color.red = static_cast<Uint8>(start_color.red * 0.1f * color_mod);
-            rect_color.green = static_cast<Uint8>(start_color.green * 0.1f * color_mod);
-            rect_color.blue = static_cast<Uint8>(start_color.blue * 0.1f * color_mod);
-            rect_color.alpha = static_cast<Uint8>(rect_size * 3);
+            rect_color.red = static_cast<uint8_t>(start_color.red * 0.1f * color_mod);
+            rect_color.green = static_cast<uint8_t>(start_color.green * 0.1f * color_mod);
+            rect_color.blue = static_cast<uint8_t>(start_color.blue * 0.1f * color_mod);
+            rect_color.alpha = static_cast<uint8_t>(rect_size * 3);
             // create request
             cRect_Request* request = new cRect_Request();
             pVideo->Draw_Rect(NULL, 0.9f, &rect_color, request);
@@ -2002,10 +2002,10 @@ void Draw_Effect_In(Effect_Fadein effect /* = EFFECT_IN_RANDOM */, float speed /
 
     switch (effect) {
     case EFFECT_IN_BLACK: {
-        Color color = static_cast<Uint8>(0);
+        Color color = static_cast<uint8_t>(0);
 
         for (float i = 1; i > 0; i -= (speed / 30) * pFramerate->m_speed_factor) {
-            color.alpha = static_cast<Uint8>(255 * i);
+            color.alpha = static_cast<uint8_t>(255 * i);
 
             // create request
             cRect_Request* request = new cRect_Request();

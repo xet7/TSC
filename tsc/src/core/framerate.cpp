@@ -46,7 +46,7 @@ void cPerformance_Timer::Update(void)
     frame_counter++;
 
     // add milliseconds
-    Uint32 new_ticks = TSC_GetTicks();
+    uint32_t new_ticks = TSC_GetTicks();
     ms_counter += new_ticks - pFramerate->m_perf_last_ticks;
     pFramerate->m_perf_last_ticks = new_ticks;
 
@@ -104,12 +104,12 @@ void cFramerate::Init(const float target_fps /* = speedfactor_fps */)
 
 void cFramerate::Update(void)
 {
-    const Uint32 current_ticks = TSC_GetTicks();
+    const uint32_t current_ticks = TSC_GetTicks();
 
     // if speed factor is forced
     if (!Is_Float_Equal(m_force_speed_factor, 0.0f)) {
         m_speed_factor = m_force_speed_factor;
-        m_elapsed_ticks = static_cast<Uint32>((m_force_speed_factor * 1000) / m_fps_target);
+        m_elapsed_ticks = static_cast<uint32_t>((m_force_speed_factor * 1000) / m_fps_target);
 
         // change to minimum
         if (m_elapsed_ticks == 0) {
@@ -178,7 +178,7 @@ void cFramerate::Reset(void)
     }
 }
 
-void cFramerate::Set_Max_Elapsed_Ticks(const Uint32 ticks)
+void cFramerate::Set_Max_Elapsed_Ticks(const uint32_t ticks)
 {
     m_max_elapsed_ticks = ticks;
 }
@@ -199,7 +199,7 @@ void Correct_Frame_Time(const unsigned int fps)
 
 bool Is_Frame_Time(const unsigned int fps)
 {
-    static Uint32 static_time = 0;
+    static uint32_t static_time = 0;
 
     if (TSC_GetTicks() - static_time < 1000 / fps) {
         return 0;

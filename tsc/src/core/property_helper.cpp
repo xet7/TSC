@@ -69,7 +69,7 @@ std::string uint_to_string(const unsigned int number)
     return os.str();
 }
 
-std::string int64_to_string(const Uint64 number)
+std::string int64_to_string(const uint64_t number)
 {
     std::ostringstream os;
     os << number;
@@ -261,11 +261,11 @@ unsigned int string_to_uint(const std::string& str)
     return num;
 }
 
-Uint64 string_to_int64(const std::string& str)
+uint64_t string_to_int64(const std::string& str)
 {
-    Uint64 num = 0;
+    uint64_t num = 0;
     // use helper
-    from_string<Uint64>(num, str, std::dec);
+    from_string<uint64_t>(num, str, std::dec);
     return num;
 }
 
@@ -894,7 +894,7 @@ DefaultColor Get_Color_Id(const std::string& str_color)
     return COL_DEFAULT;
 }
 
-std::string Get_Difficulty_Name(Uint8 difficulty)
+std::string Get_Difficulty_Name(uint8_t difficulty)
 {
     if (difficulty == 0) {
         return "Undefined";

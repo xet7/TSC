@@ -46,7 +46,7 @@ namespace TSC {
         void Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize = FONTSIZE_NORMAL, const Color color = static_cast<uint8_t>(0), bool ignore_camera = false);
 
         // Renders the given text into a new surface
-        //cGL_Surface* Render_Text(TTF_Font* font, const std::string& text, const Color color = static_cast<Uint8>(0));
+        //cGL_Surface* Render_Text(TTF_Font* font, const std::string& text, const Color color = static_cast<uint8_t>(0));
 
         // TTF loaded fonts
         sf::Font m_font_normal;

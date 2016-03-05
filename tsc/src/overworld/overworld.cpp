@@ -266,7 +266,7 @@ void cOverworld::Save_To_File(fs::path path)
     p_node = p_root->add_child("information");
     Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", world_engine_version);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL))); // seconds since 1970
+    Add_Property(p_node, "save_time", static_cast<uint64_t>(time(NULL))); // seconds since 1970
 
     // Settings (currently only music)
     p_node = p_root->add_child("settings");
@@ -446,10 +446,10 @@ void cOverworld::Draw_HUD(void)
     // if not editor mode
     if (!editor_world_enabled) {
         // Background
-        Color color = Color(static_cast<Uint8>(230), 170, 0, 128);
+        Color color = Color(static_cast<uint8_t>(230), 170, 0, 128);
         pVideo->Draw_Rect(0, 0, static_cast<float>(game_res_w), 30, 0.12f, &color);
         // Line
-        color = Color(static_cast<Uint8>(200), 150, 0, 128);
+        color = Color(static_cast<uint8_t>(200), 150, 0, 128);
         pVideo->Draw_Rect(0, 30, static_cast<float>(game_res_w), 5, 0.121f, &color);
 
         // Overworld name and level
@@ -788,7 +788,7 @@ void cOverworld::Update_Waypoint_text(void)
     cWaypoint* waypoint = m_waypoints[pOverworld_Player->m_current_waypoint];
 
     // set color
-    Color color = static_cast<Uint8>(0);
+    Color color = static_cast<uint8_t>(0);
 
     if (waypoint->m_waypoint_type == WAYPOINT_NORMAL) {
         color = lightblue;
@@ -856,10 +856,10 @@ bool cOverworld::Goto_Next_Level(void)
 
         // World Waypoint
         if (next_waypoint->m_waypoint_type == WAYPOINT_WORLD_LINK) {
-            anim->Set_Color(whitealpha128, Color(static_cast<Uint8>(0), 0, 0, 128));
+            anim->Set_Color(whitealpha128, Color(static_cast<uint8_t>(0), 0, 0, 128));
         }
         else {
-            anim->Set_Color(orange, Color(static_cast<Uint8>(6), 60, 20, 0));
+            anim->Set_Color(orange, Color(static_cast<uint8_t>(6), 60, 20, 0));
         }
 
         // add animation

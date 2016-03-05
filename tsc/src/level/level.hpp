@@ -133,7 +133,7 @@ namespace TSC {
         // Set the level description
         void Set_Description(const std::string& level_description);
         // Set the level difficulty ( 0 = undefined, 1 = dead easy and 100 = ultimate challenge )
-        void Set_Difficulty(const Uint8 level_difficulty);
+        void Set_Difficulty(const uint8_t level_difficulty);
         // Set the level land type
         void Set_Land_Type(const LevelLandType level_land_type);
 
@@ -199,7 +199,7 @@ namespace TSC {
         // description
         std::string m_description;
         // difficulty ( 0 = undefined, 1 = dead easy and 100 = ultimate challenge )
-        Uint8 m_difficulty;
+        uint8_t m_difficulty;
         // land type
         LevelLandType m_land_type;
 

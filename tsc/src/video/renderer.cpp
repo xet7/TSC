@@ -119,7 +119,7 @@ cRender_Request_Advanced::cRender_Request_Advanced(void)
     m_blend_dfactor = GL_ONE_MINUS_SRC_ALPHA;
 
     m_shadow_pos = 0.0f;
-    m_shadow_color = static_cast<Uint8>(0);
+    m_shadow_color = static_cast<uint8_t>(0);
 
     m_combine_type = 0;
     m_combine_color[0] = 0.0f;
@@ -207,7 +207,7 @@ cLine_Request::cLine_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_LINE;
-    m_color = static_cast<Uint8>(0);
+    m_color = static_cast<uint8_t>(0);
     m_line = GL_line(0.0f, 0.0f, 0.0f, 0.0f);
     m_line_width = 1.0f;
     m_stipple_pattern = 0;
@@ -281,7 +281,7 @@ cRect_Request::cRect_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_RECT;
-    m_color = static_cast<Uint8>(0);
+    m_color = static_cast<uint8_t>(0);
 
     m_rect = GL_rect(0.0f, 0.0f, 0.0f, 0.0f);
     m_filled = 1;
@@ -385,8 +385,8 @@ cGradient_Request::cGradient_Request(void)
     m_type = REND_GRADIENT;
     m_rect = GL_rect(0.0f, 0.0f, 0.0f, 0.0f);
     m_dir = DIR_UNDEFINED;
-    m_color_1 = static_cast<Uint8>(0);
-    m_color_2 = static_cast<Uint8>(0);
+    m_color_1 = static_cast<uint8_t>(0);
+    m_color_2 = static_cast<uint8_t>(0);
 }
 
 cGradient_Request::~cGradient_Request(void)
@@ -448,7 +448,7 @@ cCircle_Request::cCircle_Request(void)
     : cRender_Request_Advanced()
 {
     m_type = REND_CIRCLE;
-    m_color = static_cast<Uint8>(0);
+    m_color = static_cast<uint8_t>(0);
     m_pos = GL_point(0.0f, 0.0f);
     m_radius = 0.1f;
     // default is filled
@@ -552,7 +552,7 @@ cSurface_Request::cSurface_Request(void)
     m_scale_y = 1.0f;
     m_scale_z = 1.0f;
 
-    m_color = static_cast<Uint8>(255);
+    m_color = static_cast<uint8_t>(255);
 
     m_delete_texture = 0;
 }

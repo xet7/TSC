@@ -255,7 +255,7 @@ namespace TSC {
         // Set vertical gravity
         void Set_Vertical_Gravity(float start, float random = 0.0f);
         // Set the Color
-        virtual void Set_Color(const Color& col, const Color& col_rand = Color(static_cast<Uint8>(0), 0, 0, 0));
+        virtual void Set_Color(const Color& col, const Color& col_rand = Color(static_cast<uint8_t>(0), 0, 0, 0));
         // Set fading type
         void Set_Fading_Size(bool enable);
         void Set_Fading_Alpha(bool enable);

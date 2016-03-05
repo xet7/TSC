@@ -139,7 +139,7 @@ namespace TSC {
         virtual ~cPlayerPoints(void);
 
         void Set_Points(long points);
-        void Add_Points(unsigned int points, float x = 0.0f, float y = 0.0f, std::string strtext = "", const Color& color = static_cast<Uint8>(255), bool allow_multiplier = 0);
+        void Add_Points(unsigned int points, float x = 0.0f, float y = 0.0f, std::string strtext = "", const Color& color = static_cast<uint8_t>(255), bool allow_multiplier = 0);
 
         // removes all point texts
         void Clear(void);
@@ -188,7 +188,7 @@ namespace TSC {
         virtual void Draw();
 
         // Set time
-        void Set_Time(Uint32 milliseconds);
+        void Set_Time(uint32_t milliseconds);
 
         // reset
         void Reset(void);

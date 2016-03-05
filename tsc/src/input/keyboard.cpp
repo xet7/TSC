@@ -240,7 +240,7 @@ bool cKeyboard::Key_Down(const sf::Event& evt)
     return 0;
 }
 
-bool cKeyboard::CEGUI_Handle_Text_Entered(Uint32 character)
+bool cKeyboard::CEGUI_Handle_Text_Entered(uint32_t character)
 {
     if (pGuiSystem->injectChar(character)) {
         // input got processed by the gui system

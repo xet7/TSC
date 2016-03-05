@@ -485,7 +485,7 @@ void cPath::Init(void)
     m_start_rect.m_h = m_rect.m_h;
 
     m_rewind = 0;
-    m_editor_color = Color(static_cast<Uint8>(100), 150, 200, 128);
+    m_editor_color = Color(static_cast<uint8_t>(100), 150, 200, 128);
     m_editor_selected_segment = 0;
 }
 

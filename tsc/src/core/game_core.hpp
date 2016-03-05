@@ -112,7 +112,7 @@ namespace TSC {
     {
         Add_Property(p_element, name, int_to_string(value));
     }
-    inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, Uint64 value)
+    inline void Add_Property(xmlpp::Element* p_element, const Glib::ustring& name, uint64_t value)
     {
         Add_Property(p_element, name, int64_to_string(value));
     }
@@ -140,7 +140,7 @@ namespace TSC {
     {
         Replace_Property(p_element, name, int_to_string(value));
     }
-    inline void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, Uint64 value)
+    inline void Replace_Property(xmlpp::Element* p_element, const Glib::ustring& name, uint64_t value)
     {
         Replace_Property(p_element, name, int64_to_string(value));
     }

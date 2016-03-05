@@ -286,13 +286,13 @@ void cBall::Generate_Particles(cParticle_Emitter* anim /* = NULL */) const
         }
 
         anim->Set_Time_to_Live(0.2f);
-        anim->Set_Color(Color(static_cast<Uint8>(150 + (m_glim_counter * 100)), 50, 50), Color(static_cast<Uint8>(0), 200, 200, 0));
+        anim->Set_Color(Color(static_cast<uint8_t>(150 + (m_glim_counter * 100)), 50, 50), Color(static_cast<uint8_t>(0), 200, 200, 0));
     }
     // ice
     else {
         anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
         anim->Set_Time_to_Live(0.5f);
-        anim->Set_Color(Color(static_cast<Uint8>(90), 90, 255));
+        anim->Set_Color(Color(static_cast<uint8_t>(90), 90, 255));
     }
 
     anim->Set_Blending(BLEND_ADD);
@@ -430,7 +430,7 @@ void cBall::Handle_Collision_Massive(cObjectCollision* collision)
             anim->Set_Quota(3);
             anim->Set_Time_to_Live(0.8f);
             anim->Set_Pos_Z(m_pos_z + 0.0001f);
-            anim->Set_Color(Color(static_cast<Uint8>(50), 50, 250));
+            anim->Set_Color(Color(static_cast<uint8_t>(50), 50, 250));
             anim->Set_Blending(BLEND_ADD);
             anim->Set_Speed(0.5f, 0.4f);
             anim->Set_Scale(0.3f, 0.4f);

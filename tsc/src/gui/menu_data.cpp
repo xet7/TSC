@@ -53,8 +53,8 @@ cMenu_Base::cMenu_Base(void)
     m_gui_window = NULL;
     m_action = 0;
     m_menu_pos_y = 140.0f;
-    m_text_color = Color(static_cast<Uint8>(255), 251, 98);
-    m_text_color_value = Color(static_cast<Uint8>(255), 190, 30);
+    m_text_color = Color(static_cast<uint8_t>(255), 251, 98);
+    m_text_color_value = Color(static_cast<uint8_t>(255), 190, 30);
 
     m_exit_to_gamemode = MODE_NOTHING;
 }
@@ -2386,8 +2386,8 @@ void cMenu_Options::Build_Shortcut_List(bool joystick /* = 0 */)
         }
         // Joystick
         else {
-            Uint8* button = static_cast<Uint8*>(shortcut_item.m_key);
-            const Uint8* button_default = static_cast<const Uint8*>(shortcut_item.m_key_default);
+            uint8_t* button = static_cast<uint8_t*>(shortcut_item.m_key);
+            const uint8_t* button_default = static_cast<const uint8_t*>(shortcut_item.m_key_default);
             shortcut_key = int_to_string(*button);
 
             if (*button != *button_default) {
@@ -2801,7 +2801,7 @@ bool cMenu_Options::Audio_Music_Select(const CEGUI::EventArgs& event)
 bool cMenu_Options::Audio_Music_Volume_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
-    Uint8 val = static_cast<Uint8>(static_cast<CEGUI::Slider*>(windowEventArgs.window)->getCurrentValue());
+    uint8_t val = static_cast<uint8_t>(static_cast<CEGUI::Slider*>(windowEventArgs.window)->getCurrentValue());
 
     pAudio->Set_Music_Volume(val);
     // save volume
@@ -2831,7 +2831,7 @@ bool cMenu_Options::Audio_Sound_Select(const CEGUI::EventArgs& event)
 bool cMenu_Options::Audio_Sound_Volume_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
-    Uint8 val = static_cast<Uint8>(static_cast<CEGUI::Slider*>(windowEventArgs.window)->getCurrentValue());
+    uint8_t val = static_cast<uint8_t>(static_cast<CEGUI::Slider*>(windowEventArgs.window)->getCurrentValue());
 
     pAudio->Set_Sound_Volume(val);
     // save volume
@@ -2960,7 +2960,7 @@ bool cMenu_Options::Joystick_Sensitivity_Changed(const CEGUI::EventArgs& event)
 {
     const CEGUI::WindowEventArgs& windowEventArgs = static_cast<const CEGUI::WindowEventArgs&>(event);
     // set new value
-    pPreferences->m_joy_axis_threshold = static_cast<Sint16>(static_cast<CEGUI::Slider*>(windowEventArgs.window)->getCurrentValue());
+    pPreferences->m_joy_axis_threshold = static_cast<int16_t>(static_cast<CEGUI::Slider*>(windowEventArgs.window)->getCurrentValue());
 
     return 1;
 }
@@ -3604,7 +3604,7 @@ void cMenu_Credits::Update(void)
         }
 
         anim->Set_Quota(quota);
-        anim->Set_Color(Color(static_cast<Uint8>(100 + (rand() % 155)), 100 + (rand() % 155), 100 + (rand() % 155)));
+        anim->Set_Color(Color(static_cast<uint8_t>(100 + (rand() % 155)), 100 + (rand() % 155), 100 + (rand() % 155)));
         anim->Set_Const_Rotation_Z(-5, 10);
         anim->Set_Vertical_Gravity(0.02f);
         anim->Set_Pos_Z(0.16f);
@@ -3645,9 +3645,9 @@ void cMenu_Credits::Draw(void)
     // darken background
     cRect_Request* request = new cRect_Request();
     pVideo->Draw_Rect(NULL, 0.095f, &pMenuCore->m_handler->m_level->m_background_manager->Get_Pointer(0)->m_color_2, request);
-    request->m_color.red = static_cast<Uint8>(request->m_color.red * 0.1f);
-    request->m_color.green = static_cast<Uint8>(request->m_color.green * 0.1f);
-    request->m_color.blue = static_cast<Uint8>(request->m_color.blue * 0.1f);
+    request->m_color.red = static_cast<uint8_t>(request->m_color.red * 0.1f);
+    request->m_color.green = static_cast<uint8_t>(request->m_color.green * 0.1f);
+    request->m_color.blue = static_cast<uint8_t>(request->m_color.blue * 0.1f);
     request->m_color.alpha = 195;
     pRenderer->Add(request);
 
@@ -3727,8 +3727,8 @@ void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
         }
 
         // set menu gradient colors
-        pMenuCore->m_handler->m_level->m_background_manager->Get_Pointer(0)->m_color_1.alpha = static_cast<Uint8>(counter);
-        pMenuCore->m_handler->m_level->m_background_manager->Get_Pointer(0)->m_color_2.alpha = static_cast<Uint8>(counter);
+        pMenuCore->m_handler->m_level->m_background_manager->Get_Pointer(0)->m_color_1.alpha = static_cast<uint8_t>(counter);
+        pMenuCore->m_handler->m_level->m_background_manager->Get_Pointer(0)->m_color_2.alpha = static_cast<uint8_t>(counter);
 
         // # Draw
 
@@ -3742,10 +3742,10 @@ void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)
         // create request
         cRect_Request* request = new cRect_Request();
         pVideo->Draw_Rect(NULL, 0.095f, &pMenuCore->m_handler->m_level->m_background_manager->Get_Pointer(0)->m_color_2, request);
-        request->m_color.red = static_cast<Uint8>(request->m_color.red * 0.1f);
-        request->m_color.green = static_cast<Uint8>(request->m_color.green * 0.1f);
-        request->m_color.blue = static_cast<Uint8>(request->m_color.blue * 0.1f);
-        request->m_color.alpha = 255 - static_cast<Uint8>(counter);
+        request->m_color.red = static_cast<uint8_t>(request->m_color.red * 0.1f);
+        request->m_color.green = static_cast<uint8_t>(request->m_color.green * 0.1f);
+        request->m_color.blue = static_cast<uint8_t>(request->m_color.blue * 0.1f);
+        request->m_color.alpha = 255 - static_cast<uint8_t>(counter);
         // add request
         pRenderer->Add(request);
 
