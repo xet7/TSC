@@ -98,6 +98,16 @@ void cMenu_Base::Leave(const GameMode next_mode /* = MODE_NOTHING */)
     // virtual
 }
 
+void cMenu_Base::Selected_Item_Changed(int new_active_item)
+{
+    // virtual
+}
+
+void cMenu_Base::Item_Activated(int activated_item)
+{
+    m_action = 1;
+}
+
 void cMenu_Base::Exit(void)
 {
     // virtual
@@ -167,59 +177,157 @@ void cMenu_Base::Set_Exit_To_Game_Mode(GameMode gamemode)
 cMenu_Main::cMenu_Main(void)
     : cMenu_Base()
 {
+    mp_start_active     = NULL;
+    mp_start_inactive   = NULL;
+    mp_options_active   = NULL;
+    mp_options_inactive = NULL;
+    mp_load_active      = NULL;
+    mp_load_inactive    = NULL;
+    mp_save_active      = NULL;
+    mp_save_inactive    = NULL;
+    mp_quit_active      = NULL;
+    mp_quit_inactive    = NULL;
 
+    mp_current_inactive_item = NULL;
+    mp_current_active_item   = NULL;
+
+    m_start_index   = -1;
+    m_options_index = -1;
+    m_load_index    = -1;
+    m_save_index    = -1;
+    m_quit_index    = -1;
+    m_credits_index = -1;
+
+    m_active_item = 0;
+    m_scaling_up = true;
 }
 
 cMenu_Main::~cMenu_Main(void)
 {
-
+    delete mp_start_active;
+    delete mp_start_inactive;
+    delete mp_options_active;
+    delete mp_options_inactive;
+    delete mp_load_active;
+    delete mp_load_inactive;
+    delete mp_save_active;
+    delete mp_save_inactive;
+    delete mp_quit_active;
+    delete mp_quit_inactive;
 }
 
 void cMenu_Main::Init(void)
 {
     cMenu_Base::Init();
 
-    cMenu_Item* temp_item = NULL;
-
     m_layout_file = "menu/main.layout";
 
     // Start
-    temp_item = pMenuCore->Auto_Menu("start.png", "start.png", m_menu_pos_y);
-    temp_item->m_image_menu->Set_Pos(temp_item->m_pos_x + (temp_item->m_image_default->m_col_rect.m_w + 16), temp_item->m_pos_y);
-    pMenuCore->m_handler->Add_Menu_Item(temp_item);
+    mp_start_active   = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_start_inactive = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_start_active   ->Set_Image(pVideo->Get_Package_Surface("menu/items/start.png"), 1);
+    mp_start_inactive ->Set_Image(pVideo->Get_Package_Surface("menu/start.png"), 1);
+
+    mp_start_inactive->Set_Pos(game_res_w * 0.5f - (mp_start_inactive->m_col_rect.m_w * 0.5f),
+                               m_menu_pos_y);
+    mp_start_active->Set_Pos(mp_start_inactive->m_pos_x - mp_start_active->m_col_rect.m_w - 16,
+                             mp_start_inactive->m_pos_y);
+
+    m_start_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(mp_start_inactive->m_pos_x,
+                                      mp_start_inactive->m_pos_y,
+                                      mp_start_inactive->m_col_rect.m_w,
+                                      mp_start_inactive->m_col_rect.m_h), NULL);
+
     // Options
     m_menu_pos_y += 60;
-    temp_item = pMenuCore->Auto_Menu("options.png", "options.png", m_menu_pos_y);
-    temp_item->m_image_menu->Set_Pos(temp_item->m_pos_x - temp_item->m_image_menu->m_col_rect.m_w - 16, temp_item->m_pos_y);
-    pMenuCore->m_handler->Add_Menu_Item(temp_item);
+    mp_options_active   = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_options_inactive = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_options_active   ->Set_Image(pVideo->Get_Package_Surface("menu/items/options.png"), 1);
+    mp_options_inactive ->Set_Image(pVideo->Get_Package_Surface("menu/options.png"), 1);
+
+    mp_options_inactive->Set_Pos(game_res_w * 0.5f - (mp_options_inactive->m_col_rect.m_w * 0.5f),
+                                 m_menu_pos_y);
+    mp_options_active->Set_Pos(mp_options_inactive->m_pos_x + mp_options_inactive->m_col_rect.m_w + 16,
+                               m_menu_pos_y);
+
+    m_options_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(mp_options_inactive->m_pos_x,
+                                      mp_options_inactive->m_pos_y,
+                                      mp_options_inactive->m_col_rect.m_w,
+                                      mp_options_inactive->m_col_rect.m_h), NULL);
+
     // Load
     m_menu_pos_y += 60;
-    temp_item = pMenuCore->Auto_Menu("load.png", "load.png", m_menu_pos_y);
-    temp_item->m_image_menu->Set_Pos(temp_item->m_pos_x + (temp_item->m_image_default->m_col_rect.m_w + 16), temp_item->m_pos_y);
-    pMenuCore->m_handler->Add_Menu_Item(temp_item);
+    mp_load_active   = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_load_inactive = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_load_active   ->Set_Image(pVideo->Get_Package_Surface("menu/items/load.png"), 1);
+    mp_load_inactive ->Set_Image(pVideo->Get_Package_Surface("menu/load.png"), 1);
+
+    mp_load_inactive->Set_Pos(game_res_w * 0.5f - (mp_load_inactive->m_col_rect.m_w * 0.5f),
+                              m_menu_pos_y);
+    mp_load_active->Set_Pos(mp_load_inactive->m_pos_x - mp_load_active->m_col_rect.m_w - 16,
+                            m_menu_pos_y);
+
+    m_load_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(mp_load_inactive->m_pos_x,
+                                      mp_load_inactive->m_pos_y,
+                                      mp_load_inactive->m_col_rect.m_w,
+                                      mp_load_inactive->m_col_rect.m_h), NULL);
+
     // Save
     m_menu_pos_y += 60;
-    temp_item = pMenuCore->Auto_Menu("save.png", "save.png", m_menu_pos_y);
-    temp_item->m_image_menu->Set_Pos(temp_item->m_pos_x - temp_item->m_image_menu->m_col_rect.m_w - 16, temp_item->m_pos_y);
-    pMenuCore->m_handler->Add_Menu_Item(temp_item);
+    mp_save_active   = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_save_inactive = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_save_active   ->Set_Image(pVideo->Get_Package_Surface("menu/items/save.png"), 1);
+    mp_save_inactive ->Set_Image(pVideo->Get_Package_Surface("menu/save.png"), 1);
+
+    mp_save_inactive->Set_Pos(game_res_w * 0.5f - (mp_save_inactive->m_col_rect.m_w * 0.5f),
+                              m_menu_pos_y);
+    mp_save_active->Set_Pos(mp_save_inactive->m_pos_x + mp_save_inactive->m_col_rect.m_w + 16,
+                            m_menu_pos_y);
+
+    m_save_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(mp_save_inactive->m_pos_x,
+                                      mp_save_inactive->m_pos_y,
+                                      mp_save_inactive->m_col_rect.m_w,
+                                      mp_save_inactive->m_col_rect.m_h), NULL);
+
     // Quit
     m_menu_pos_y += 60;
-    temp_item = pMenuCore->Auto_Menu("quit.png", "", m_menu_pos_y, 1);
-    temp_item->m_image_menu->Set_Pos(temp_item->m_pos_x + temp_item->m_col_rect.m_w + 16, temp_item->m_pos_y);
-    pMenuCore->m_handler->Add_Menu_Item(temp_item);
+    mp_quit_active   = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_quit_inactive = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
+    mp_quit_active   ->Set_Image(pVideo->Get_Package_Surface("menu/items/quit.png"), 1);
+    mp_quit_inactive ->Set_Image(pVideo->Get_Package_Surface("menu/quit.png"), 1);
 
+    mp_quit_inactive->Set_Pos(game_res_w * 0.5f - (mp_quit_inactive->m_col_rect.m_w * 0.5f),
+                              m_menu_pos_y);
+    mp_quit_active->Set_Pos(mp_quit_inactive->m_pos_x - mp_quit_active->m_col_rect.m_w - 16,
+                            m_menu_pos_y);
+
+    m_quit_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(mp_quit_inactive->m_pos_x,
+                                      mp_quit_inactive->m_pos_y,
+                                      mp_quit_inactive->m_col_rect.m_w,
+                                      mp_quit_inactive->m_col_rect.m_h), NULL);
+
+    // Only show the credit menu entry and the SFML logo on the title
+    // screen, not in the in-game menu.
     if (m_exit_to_gamemode == MODE_NOTHING) {
         // Credits
-        // OLD cGL_Surface* credits = pFont->Render_Text(pFont->m_font_normal, _("Credits"), yellow);
-        // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-        // OLD temp_item->m_image_default->Set_Image(credits);
-        // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) * 0.45f, static_cast<float>(game_res_h) - 30.0f);
-        // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
+        pFont->Prepare_SFML_Text(m_credits_item, _("Credits"), 0.56 * game_res_w, game_res_h * 1.2, cFont_Manager::FONTSIZE_NORMAL, yellow, true);
+        m_credits_index = pMenuCore
+            ->m_handler
+            ->Add_Menu_Item(sf::FloatRect(m_credits_item.getPosition().x * global_downscalex,         // SFML does not know about TSC's global_scale{x,y},
+                                          m_credits_item.getPosition().y * global_downscaley,         // so we need to manually include this when drawing
+                                          m_credits_item.getGlobalBounds().width * global_downscalex, // with SFML.
+                                          m_credits_item.getGlobalBounds().height * global_downscaley), NULL);
 
-        // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-        // OLD hud_sprite->Set_Image(credits, 0, 1);
-        // OLD hud_sprite->Set_Pos(-200, 0);
-        // OLD m_draw_list.push_back(hud_sprite);
         // SFML logo
         cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
         hud_sprite->Set_Image(pVideo->Get_Package_Surface("menu/logo_sfml.png"));
@@ -259,6 +367,57 @@ void cMenu_Main::Exit(void)
     else if (m_exit_to_gamemode == MODE_OVERWORLD) {
         Game_Action = GA_ENTER_WORLD;
         Game_Action_Data_Middle.add("unload_menu", "1");
+    }
+}
+
+void cMenu_Main::Selected_Item_Changed(int new_active_item)
+{
+    cMenu_Base::Selected_Item_Changed(new_active_item);
+    m_credits_item.setColor(yellow.Get_SFML_Color());
+
+    if (mp_current_inactive_item) {
+        mp_current_inactive_item->Set_Scale(1);
+        mp_current_inactive_item->Set_Color_Combine(0, 0, 0, 0);
+    }
+
+    mp_current_active_item   = NULL;
+    mp_current_inactive_item = NULL;
+
+    if (new_active_item < 0)
+        return;
+
+    switch(new_active_item) {
+    case 0:
+        mp_current_active_item   = mp_start_active;
+        mp_current_inactive_item = mp_start_inactive;
+        break;
+    case 1:
+        mp_current_active_item   = mp_options_active;
+        mp_current_inactive_item = mp_options_inactive;
+        break;
+    case 2:
+        mp_current_active_item   = mp_load_active;
+        mp_current_inactive_item = mp_load_inactive;
+        break;
+    case 3:
+        mp_current_active_item   = mp_save_active;
+        mp_current_inactive_item = mp_save_inactive;
+        break;
+    case 4:
+        // TODO: No quit active icon yet
+        mp_current_active_item   = NULL; //mp_quit_active;
+        mp_current_inactive_item = mp_quit_inactive;
+        break;
+    case 5:
+        // credits item has no icon
+        mp_current_active_item   = NULL;
+        mp_current_inactive_item = NULL;
+        break;
+    default:
+        // ignore
+        mp_current_active_item   = NULL;
+        mp_current_inactive_item = NULL;
+        break;
     }
 }
 
@@ -311,6 +470,41 @@ void cMenu_Main::Update(void)
 void cMenu_Main::Draw(void)
 {
     cMenu_Base::Draw();
+
+    // Make the current item's text scale up and down and colour it
+    // depending on its scale so it is recognised by the user.
+    if (mp_current_inactive_item) {
+        if (m_scaling_up)
+            mp_current_inactive_item->Add_Scale(1.2f / mp_current_inactive_item->m_col_rect.m_w * pFramerate->m_speed_factor);
+        else
+            mp_current_inactive_item->Add_Scale(-(1.2f / mp_current_inactive_item->m_col_rect.m_w) * pFramerate->m_speed_factor);
+
+        // Scale limits
+        if (mp_current_inactive_item->m_scale_x > 1.1f)
+            m_scaling_up = false;
+        else if (mp_current_inactive_item->m_scale_x < 1.0f)
+            m_scaling_up = true;
+
+        // Colourisation
+        float strength = mp_current_inactive_item->m_col_rect.m_w * (mp_current_inactive_item->m_scale_x - 1);
+        mp_current_inactive_item->Set_Color_Combine(strength / 40, strength / 40, 0, GL_ADD);
+    }
+
+    if (pMenuCore->m_handler->m_active == m_credits_index)
+        m_credits_item.setColor(red.Get_SFML_Color());
+
+    mp_start_inactive->Draw();
+    mp_options_inactive->Draw();
+    mp_load_inactive->Draw();
+    mp_save_inactive->Draw();
+    mp_quit_inactive->Draw();
+
+    if (mp_current_active_item) {
+        mp_current_active_item->Draw();
+    }
+
+    pFont->Queue_Text(m_credits_item);
+
     Draw_End();
 }
 
@@ -2895,45 +3089,33 @@ cMenu_Savegames::cMenu_Savegames(bool type)
     : cMenu_Base()
 {
     m_type_save = type;
-
-    for (unsigned int i = 0; i < 9; i++) {
-        m_savegame_temp.push_back(new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager));
-    }
+    m_menu_pos_y = 200.0f;
+    m_back_item_index = -1;
+    m_scaling_up = true;
+    mp_current_item = NULL;
 }
 
 cMenu_Savegames::~cMenu_Savegames(void)
 {
-    for (HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr) {
-        delete *itr;
-    }
-
-    m_savegame_temp.clear();
+    //
 }
 
 void cMenu_Savegames::Init(void)
 {
     cMenu_Base::Init();
-    Update_Saved_Games_Text();
-
-    cMenu_Item* temp_item = NULL;
 
     // savegame descriptions
-    for (HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr) {
-        temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-        temp_item->m_image_default->Set_Image((*itr)->m_image);
-        temp_item->Set_Pos(static_cast<float>(game_res_w) / 5, m_menu_pos_y);
-        pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
-
-        m_menu_pos_y += temp_item->m_image_default->m_col_rect.m_h;
-    }
+    Update_Saved_Games_Text();
 
     // back
-    // OLD cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
-    // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD temp_item->m_image_default->Set_Image(back1);
-    // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 450);
-    // OLD temp_item->m_is_quit = 1;
-    // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 1.5f, grey);
+    pFont->Prepare_SFML_Text(m_back_text, _("Back"), static_cast<float>(game_res_w) / 18, 400, cFont_Manager::FONTSIZE_NORMAL, m_text_color, true);
+    m_back_item_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(m_back_text.getPosition().x * global_downscalex,
+                                      m_back_text.getPosition().y * global_downscaley,
+                                      m_back_text.getGlobalBounds().width * global_downscalex,
+                                      m_back_text.getGlobalBounds().height * global_downscaley),
+                        NULL);
 
     if (m_type_save) {
         cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
@@ -2956,11 +3138,6 @@ void cMenu_Savegames::Init(void)
         m_draw_list.push_back(hud_sprite);
     }
 
-    // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD hud_sprite->Set_Image(back1, 0, 1);
-    // OLD hud_sprite->Set_Pos(-200, 0);
-    // OLD m_draw_list.push_back(hud_sprite);
-
     Init_GUI();
 }
 
@@ -2978,9 +3155,38 @@ void cMenu_Savegames::Exit(void)
     }
 }
 
+void cMenu_Savegames::Selected_Item_Changed(int new_active_item)
+{
+    cMenu_Base::Selected_Item_Changed(new_active_item);
+
+    // Reset the previous current item to its original state
+    if (mp_current_item)
+        mp_current_item->setScale(1.0f, 1.0f);
+
+    mp_current_item = NULL;
+
+    if (new_active_item < 0)
+        return;
+
+    if (static_cast<unsigned int>(new_active_item) < NUM_SAVEGAME_SLOTS)
+        mp_current_item = &m_slot_texts[new_active_item];
+    else if (new_active_item == m_back_item_index)
+        mp_current_item = &m_back_text;
+}
+
 void cMenu_Savegames::Update(void)
 {
     cMenu_Base::Update();
+
+    if (mp_current_item) {
+        float scale = mp_current_item->getScale().x + ((m_scaling_up ? 0.02f : -0.02f) * pFramerate->m_speed_factor);
+        mp_current_item->setScale(scale, scale);
+
+        if (scale >= 1.1f)
+            m_scaling_up = false;
+        else if (scale <= 1.0f)
+            m_scaling_up = true;
+    }
 
     if (!m_action) {
         return;
@@ -3005,6 +3211,13 @@ void cMenu_Savegames::Update(void)
 void cMenu_Savegames::Draw(void)
 {
     cMenu_Base::Draw();
+
+    for(unsigned int i=0; i < NUM_SAVEGAME_SLOTS; i++) {
+        pFont->Queue_Text(m_slot_texts[i]);
+    }
+
+    pFont->Queue_Text(m_back_text);
+
     Draw_End();
 }
 
@@ -3153,32 +3366,38 @@ std::string cMenu_Savegames::Set_Save_Description(unsigned int save_slot)
 
 void cMenu_Savegames::Update_Saved_Games_Text(void)
 {
-    unsigned int save_slot = 0;
-
-    for (HudSpriteList::iterator itr = m_savegame_temp.begin(); itr != m_savegame_temp.end(); ++itr) {
-        save_slot++;
-
+    for(unsigned int i=0; i < NUM_SAVEGAME_SLOTS; i++) {
         std::string text;
+        Color color = m_text_color_value;
+        int save_slot = i+1; // Slot numbers start at 1
+
         try {
             text = pSavegame->Get_Description(save_slot);
         }
         catch(xmlpp::parse_error& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (parsing error). xmlpp parsing exception: " << err.what() << std::endl;
-            // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
-            continue;
+            color = red;
+            text = _("Savegame loading failed");
         }
         catch(InvalidSavegameError& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid savegame). TSC exception: " << err.what() << std::endl;
-            // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
-            continue;
+            color = red;
+            text = _("Savegame loading failed");
         }
         catch(InvalidLevelError& err) {
             std::cerr << "Error: Failed to load savegame '" << save_slot << "' (invalid level error). TSC exception: " << err.what() << std::endl;
-            // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal,  _("Savegame loading failed"), red), true, true);
-            continue;
+            color = red;
+            text = _("Savegame loading failed");
         }
 
-        // OLD (*itr)->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, m_text_color_value), true, true);
+        pFont->Prepare_SFML_Text(m_slot_texts[i], text, static_cast<float>(game_res_w) / 2.5, m_menu_pos_y, cFont_Manager::FONTSIZE_NORMAL, color, true);
+        sf::FloatRect rect(m_slot_texts[i].getPosition().x * global_downscalex,
+                           m_slot_texts[i].getPosition().y * global_downscaley,
+                           m_slot_texts[i].getGlobalBounds().width * global_downscalex,
+                           m_slot_texts[i].getGlobalBounds().height * global_downscaley);
+
+        pMenuCore->m_handler->Add_Menu_Item(rect, NULL);
+        m_menu_pos_y += rect.height + 16.0f;
     }
 }
 
@@ -3188,6 +3407,7 @@ cMenu_Credits::cMenu_Credits(cHudSprite* p_tsc_logo)
     : cMenu_Base()
 {
     mp_tsc_logo = p_tsc_logo;
+    m_back_index = -1;
 }
 
 cMenu_Credits::~cMenu_Credits(void)
@@ -3233,45 +3453,31 @@ void cMenu_Credits::Init(void)
         last_position = position;
     }
 
-    m_menu_pos_y = game_res_h * 1.1f;
+    m_menu_pos_y = game_res_h * 1.4f;
 
     // set credits position
-    for (HudSpriteList::iterator itr = m_draw_list.begin(); itr != m_draw_list.end(); ++itr) {
+    std::vector<sf::Text>::iterator iter;
+    for(iter=m_credit_lines.begin(); iter != m_credit_lines.end(); iter++) {
         // get object
-        cHudSprite* obj = (*itr);
+        sf::Text& text = *iter;
 
         // set shadow if not set
-        if (obj->m_shadow_pos == 0) {
-            obj->Set_Shadow(grey, 1);
-        }
+        // OLD if (obj->m_shadow_pos == 0) {
+        // OLD     obj->Set_Shadow(grey, 1);
+        // OLD }
         // set position
-        obj->m_pos_x += static_cast<float>(game_res_w) / 5;
-        obj->m_pos_y += m_menu_pos_y;
-        // set posz behind front passive
-        obj->m_pos_z = 0.096f;
-        // set color combine
-        obj->Set_Color_Combine(0, 0, 0, GL_MODULATE);
-        obj->m_color.alpha = 0;
-        obj->m_shadow_color.alpha = 0;
+        text.setPosition(static_cast<float>(game_res_w) / 3, m_menu_pos_y);
 
-        m_menu_pos_y = obj->m_pos_y + obj->m_col_rect.m_h;
+        m_menu_pos_y = text.getPosition().y + text.getGlobalBounds().height + 10;
     }
 
-    cMenu_Item* temp_item = NULL;
-
-    // back
-    // OLD cGL_Surface* back1 = pFont->Render_Text(pFont->m_font_normal, _("Back"), m_text_color);
-    // OLD temp_item = new cMenu_Item(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD temp_item->m_image_default->Set_Image(back1);
-    // OLD temp_item->Set_Pos(static_cast<float>(game_res_w) / 18, 250);
-    // OLD temp_item->m_is_quit = 1;
-    // OLD pMenuCore->m_handler->Add_Menu_Item(temp_item, 2, grey);
-
-    // OLD cHudSprite* hud_sprite = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD hud_sprite->Set_Image(back1, 0, 1);
-    // OLD hud_sprite->Set_Pos(-200, 0);
-    // OLD m_draw_list.push_back(hud_sprite);
-
+    pFont->Prepare_SFML_Text(m_back_text, _("Back"), static_cast<float>(game_res_w) / 18, 400, cFont_Manager::FONTSIZE_NORMAL, m_text_color, true);
+    m_back_index = pMenuCore
+        ->m_handler
+        ->Add_Menu_Item(sf::FloatRect(m_back_text.getPosition().x * global_downscalex,
+                                      m_back_text.getPosition().y * global_downscaley,
+                                      m_back_text.getGlobalBounds().width * global_downscalex,
+                                      m_back_text.getGlobalBounds().height * global_downscaley), NULL);
     Init_GUI();
 }
 
@@ -3318,99 +3524,103 @@ void cMenu_Credits::Exit(void)
 
 void cMenu_Credits::Update(void)
 {
-    static int s_credits_done = 0;
     cMenu_Base::Update();
 
-    for (HudSpriteList::iterator itr = m_draw_list.begin(); itr != m_draw_list.end(); ++itr) {
-        cHudSprite* obj = (*itr);
+    std::vector<sf::Text>::iterator iter;
+    for(iter=m_credit_lines.begin(); iter != m_credit_lines.end(); iter++) {
+        sf::Text& text = *iter;
 
         // When the respective line is long out of sight, remove it from the
         // list of lines to draw.
-        if (obj->m_pos_y < -300) {
-            if (obj->m_active) {
-                obj->Set_Active(false); // FIXME: Does nothing it appears?
-                s_credits_done++;
-            }
-            // FIXME: Lines just scroll into negative infinity? Overflow
-            // shouldn’t happen, though, as the credits are automatically
-            // ended anyway.
+        if (text.getPosition().y < -300) {
+            iter = m_credit_lines.erase(iter);
+
+            // Exit loop if this was the last item (so we don't accidentally
+            // do a loop with the second-past-the-end item).
+            if (iter == m_credit_lines.end())
+                break;
         }
         // fading out
-        else if (obj->m_pos_y < game_res_h * 0.3f) {
-            float new_value = obj->m_combine_color[0] - (pFramerate->m_speed_factor * 0.01f);
+        else if (text.getPosition().y < game_res_h * 0.3f) {
+            sf::Color color = text.getColor();
+            unsigned int new_value = color.a - 1;
 
             if (new_value < 0) {
                 new_value = 0;
             }
 
-            obj->Set_Color_Combine(new_value, new_value, new_value, GL_MODULATE);
-            obj->m_color.alpha = static_cast<Uint8>(new_value * 255);
-            obj->m_shadow_color.alpha = obj->m_color.alpha;
+            color.a = new_value;
+            text.setColor(color);
         }
         // fading in
-        else if (obj->m_pos_y < game_res_h * 0.9f) {
-            float new_value = obj->m_combine_color[0] + (pFramerate->m_speed_factor * 0.01f);
+        else if (text.getPosition().y < game_res_h * 0.9f) {
+            sf::Color color = text.getColor();
+            unsigned int new_value = color.a + 2;
 
-            if (new_value > 1.0f) {
-                new_value = 1.0f;
-
-                // add particles
-                if (obj->m_combine_color[0] < 1.0f) {
-                    cParticle_Emitter* anim = new cParticle_Emitter(pMenuCore->m_handler->m_level->m_sprite_manager);
-                    anim->Set_Emitter_Rect(Get_Random_Float(game_res_w * 0.1f, game_res_w * 0.8f), -Get_Random_Float(game_res_h * 0.8f, game_res_h * 0.9f), Get_Random_Float(0.0f, 5.0f), Get_Random_Float(0.0f, 5.0f));
-                    unsigned int quota = 4;
-
-                    // multi-explosion
-                    if (rand() % 2) {
-                        anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_2.png"));
-                        anim->Set_Emitter_Time_to_Live(0.4f);
-                        anim->Set_Emitter_Iteration_Interval(0.05f);
-                        anim->Set_Direction_Range(0, 360);
-                        anim->Set_Scale(0.3f, 0.2f);
-                        anim->Set_Blending(BLEND_ADD);
-                        anim->Set_Time_to_Live(1.8f, 1.2f);
-                        anim->Set_Speed(2.1f, 0.5f);
-                    }
-                    // star explosion
-                    else {
-                        quota += rand() % 25;
-                        anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_3.png"));
-                        anim->Set_Direction_Range(0, 360);
-                        anim->Set_Scale(0.2f, 0.1f);
-
-                        if (quota < 10) {
-                            anim->Set_Time_to_Live(2.8f, 0.5f);
-                            anim->Set_Speed(0.8f, 0.3f);
-                        }
-                        else {
-                            anim->Set_Time_to_Live(1.4f, 0.5f);
-                            anim->Set_Fading_Size(1);
-                            anim->Set_Speed(1.6f, 0.5f);
-                        }
-                    }
-
-                    anim->Set_Quota(quota);
-                    anim->Set_Color(Color(static_cast<Uint8>(100 + (rand() % 155)), 100 + (rand() % 155), 100 + (rand() % 155)));
-                    anim->Set_Const_Rotation_Z(-5, 10);
-                    anim->Set_Vertical_Gravity(0.02f);
-                    anim->Set_Pos_Z(0.16f);
-                    anim->Emit();
-                    pMenuCore->m_animation_manager->Add(anim);
-                }
+            if (new_value > 255) {
+                new_value = 255;
             }
 
-            obj->Set_Color_Combine(new_value, new_value, new_value, GL_MODULATE);
-            obj->m_color.alpha = static_cast<Uint8>(new_value * 255);
-            obj->m_shadow_color.alpha = obj->m_color.alpha;
+            color.a = new_value;
+            text.setColor(color);
         }
 
         // default upwards scroll
-        obj->Move(0, -1.1f);
+        text.move(0, -1.0f);
     }
 
-    if (s_credits_done >= m_draw_list.size()) {
+    if (rand() % 100 > 95) {
+        // add particles
+        cParticle_Emitter* anim = new cParticle_Emitter(pMenuCore->m_handler->m_level->m_sprite_manager);
+        anim->Set_Emitter_Rect(Get_Random_Float(game_res_w * 0.1f, game_res_w * 0.8f), -Get_Random_Float(game_res_h * 0.8f, game_res_h * 0.9f), Get_Random_Float(0.0f, 5.0f), Get_Random_Float(0.0f, 5.0f));
+        unsigned int quota = 4;
+
+        // multi-explosion
+        if (rand() % 2) {
+            anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_2.png"));
+            anim->Set_Emitter_Time_to_Live(0.4f);
+            anim->Set_Emitter_Iteration_Interval(0.05f);
+            anim->Set_Direction_Range(0, 360);
+            anim->Set_Scale(0.3f, 0.2f);
+            anim->Set_Blending(BLEND_ADD);
+            anim->Set_Time_to_Live(1.8f, 1.2f);
+            anim->Set_Speed(2.1f, 0.5f);
+        }
+        // star explosion
+        else {
+            quota += rand() % 25;
+            anim->Set_Image_Filename(utf8_to_path("animation/particles/fire_3.png"));
+            anim->Set_Direction_Range(0, 360);
+            anim->Set_Scale(0.2f, 0.1f);
+
+            if (quota < 10) {
+                anim->Set_Time_to_Live(2.8f, 0.5f);
+                anim->Set_Speed(0.8f, 0.3f);
+            }
+            else {
+                anim->Set_Time_to_Live(1.4f, 0.5f);
+                anim->Set_Fading_Size(1);
+                anim->Set_Speed(1.6f, 0.5f);
+            }
+        }
+
+        anim->Set_Quota(quota);
+        anim->Set_Color(Color(static_cast<Uint8>(100 + (rand() % 155)), 100 + (rand() % 155), 100 + (rand() % 155)));
+        anim->Set_Const_Rotation_Z(-5, 10);
+        anim->Set_Vertical_Gravity(0.02f);
+        anim->Set_Pos_Z(0.16f);
+        anim->Emit();
+        pMenuCore->m_animation_manager->Add(anim);
+    }
+
+    if (m_credit_lines.empty()) {
         Exit();
     }
+
+    if (pMenuCore->m_handler->m_active == m_back_index)
+        m_back_text.setColor(red.Get_SFML_Color());
+    else
+        m_back_text.setColor(m_text_color.Get_SFML_Color());
 
     if (!m_action) {
         return;
@@ -3442,18 +3652,20 @@ void cMenu_Credits::Draw(void)
     request->m_color.alpha = 195;
     pRenderer->Add(request);
 
+    std::vector<sf::Text>::iterator iter;
+    for(iter=m_credit_lines.begin(); iter != m_credit_lines.end(); iter++) {
+        pFont->Queue_Text(*iter);
+    }
+
+    pFont->Queue_Text(m_back_text);
+
     Draw_End();
 }
 
 void cMenu_Credits::Add_Credits_Line(const std::string& text, float posx, float posy, const Color& color /* = black */, float shadow_pos /* = 0.0f */, const Color& shadow_color /* = black */)
 {
-    // OLD cHudSprite* temp = new cHudSprite(pMenuCore->m_handler->m_level->m_sprite_manager);
-    // OLD temp->Set_Image(pFont->Render_Text(pFont->m_font_normal, text, color), 1, 1);
-    // OLD temp->Set_Pos(posx, posy);
-    // OLD if (!Is_Float_Equal(shadow_pos, 0.0f)) {
-    // OLD     temp->Set_Shadow(shadow_color, shadow_pos);
-    // OLD }
-    // OLD m_draw_list.push_back(temp);
+    m_credit_lines.resize(m_credit_lines.size() + 1);
+    pFont->Prepare_SFML_Text(m_credit_lines.back(), text, posx, posy, cFont_Manager::FONTSIZE_NORMAL, color, true);
 }
 
 void cMenu_Credits::Menu_Fade(bool fade_in /* = 1 */)

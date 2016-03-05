@@ -73,9 +73,7 @@ void cFont_Manager::Init(void)
 
 /**
  * This function wraps the given SFML text in a render request and
- * submits that request to the render queue. If in doubt, use the
- * other overload instead that constructs the sf::Text instance
- * automatically for you.
+ * submits that request to the render queue.
  *
  * The `text` parameter must be prepared with Prepare_SFML_Text()
  * before passing it to this function.
@@ -95,6 +93,9 @@ void cFont_Manager::Queue_Text(const sf::Text& text)
  * 1. Conversion of TSC camera to SFML view (unless `ignore_camera` is given)
  * 2. Conversion of TSC font size name to SFML font size value
  * 3. Conversion of TSC color object to SFML color object
+ *
+ * It is not necessary to call this function every frame if you
+ * don’t move the text around.
  */
 void cFont_Manager::Prepare_SFML_Text(sf::Text& text, const std::string& str, float x, float y, int fontsize /* = FONTSIZE_NORMAL */, const Color color /* = black */, bool ignore_camera /* = false */)
 {
