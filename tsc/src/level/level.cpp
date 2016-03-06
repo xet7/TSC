@@ -57,7 +57,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../overworld/world_editor.hpp"
 #include "../scripting/events/key_down_event.hpp"
 #include "../core/global_basic.hpp"
@@ -291,7 +291,7 @@ fs::path cLevel::Save_To_File(fs::path filename /* = fs::path() */)
     p_node = p_root->add_child("information");
     Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", level_engine_version);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL)));
+    Add_Property(p_node, "save_time", static_cast<uint64_t>(time(NULL)));
     // </information>
 
     // <settings>
@@ -524,7 +524,7 @@ void cLevel::Enter(const GameMode old_mode /* = MODE_NOTHING */)
     // play music
     if (m_valid_music) {
         if (pAudio->m_music_filename.compare(m_musicfile) != 0) {
-            pAudio->Play_Music(m_musicfile, -1, 0, 1000);
+            pAudio->Play_Music(m_musicfile, true, 0, 1000);
         }
     }
     else if (pAudio->m_music_enabled) {
@@ -665,11 +665,11 @@ void cLevel::Draw_Layer_2(LevelDrawType type /* = LVL_DRAW */)
 
         // fade alpha in
         if (pLevel_Player->m_ghost_time > 220) {
-            color.alpha = static_cast<Uint8>(color.alpha * ((-pLevel_Player->m_ghost_time + 320) * 0.01f));
+            color.alpha = static_cast<uint8_t>(color.alpha * ((-pLevel_Player->m_ghost_time + 320) * 0.01f));
         }
         // fade alpha out
         else if (pLevel_Player->m_ghost_time < 100) {
-            color.alpha = static_cast<Uint8>(color.alpha * (pLevel_Player->m_ghost_time * 0.01f));
+            color.alpha = static_cast<uint8_t>(color.alpha * (pLevel_Player->m_ghost_time * 0.01f));
         }
 
         pVideo->Draw_Rect(0, 0, static_cast<float>(game_res_w), static_cast<float>(game_res_h), 0.12f, &color, request);
@@ -693,14 +693,14 @@ void cLevel::Process_Input(void)
     }
 }
 
-bool cLevel::Key_Down(const SDLKey key)
+bool cLevel::Key_Down(const sf::Event& evt)
 {
     // debug key F2
-    if (key == SDLK_F2 && game_debug && !editor_level_enabled) {
+    if (evt.key.code == sf::Keyboard::F2 && game_debug && !editor_level_enabled) {
         pLevel_Player->Set_Type(ALEX_CAPE, 0);
     }
     // special key F3
-    else if (key == SDLK_F3 && !editor_level_enabled) {
+    else if (evt.key.code == sf::Keyboard::F3 && !editor_level_enabled) {
         //pLevel_Player->GotoNextLevel();
         //DrawEffect( HORIZONTAL_VERTICAL_FADE );
         //pLevel_Player->Draw_Animation( ALEX_FIRE );
@@ -719,84 +719,84 @@ bool cLevel::Key_Down(const SDLKey key)
         m_animation_manager->Add(anim);
     }
     // special key F4
-    else if (key == SDLK_F4) {
+    else if (evt.key.code == sf::Keyboard::F4) {
         Draw_Effect_Out(EFFECT_OUT_FIXED_COLORBOX);
         Draw_Effect_In();
     }
     // Toggle leveleditor
-    else if (key == SDLK_F8) {
+    else if (evt.key.code == sf::Keyboard::F8) {
         pLevel_Editor->Toggle();
     }
     // ## Game
     // Shoot
-    else if (key == pPreferences->m_key_shoot && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_shoot && !editor_enabled) {
         Scripting::cKeyDown_Event evt("shoot");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Shoot();
     }
     // Jump
-    else if (key == pPreferences->m_key_jump && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_jump && !editor_enabled) {
         Scripting::cKeyDown_Event evt("jump");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Jump();
     }
     // Action
-    else if (key == pPreferences->m_key_action && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_action && !editor_enabled) {
         Scripting::cKeyDown_Event evt("action");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Interact(INP_ACTION);
     }
     // Up
-    else if (key == pPreferences->m_key_up && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_up && !editor_enabled) {
         Scripting::cKeyDown_Event evt("up");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Interact(INP_UP);
     }
     // Down
-    else if (key == pPreferences->m_key_down && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_down && !editor_enabled) {
         Scripting::cKeyDown_Event evt("down");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Interact(INP_DOWN);
     }
     // Left
-    else if (key == pPreferences->m_key_left && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_left && !editor_enabled) {
         Scripting::cKeyDown_Event evt("left");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Interact(INP_LEFT);
     }
     // Right
-    else if (key == pPreferences->m_key_right && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_right && !editor_enabled) {
         Scripting::cKeyDown_Event evt("right");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Interact(INP_RIGHT);
     }
     // Request Item
-    else if (key == pPreferences->m_key_item && !editor_enabled) {
+    else if (evt.key.code == pPreferences->m_key_item && !editor_enabled) {
         Scripting::cKeyDown_Event evt("item");
         evt.Fire(m_mruby, pKeyboard);
         pLevel_Player->Action_Interact(INP_ITEM);
     }
     // God Mode
-    else if (pKeyboard->m_keys[SDLK_g] && pKeyboard->m_keys[SDLK_o] && pKeyboard->m_keys[SDLK_d] && !editor_enabled) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && sf::Keyboard::isKeyPressed(sf::Keyboard::O) && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !editor_enabled) {
         if (pLevel_Player->m_god_mode) {
-            pHud_Debug->Set_Text("Funky God Mode disabled");
+            pHud_Debug->Set_Text(_("Omega Mode disabled"));
         }
         else {
-            pHud_Debug->Set_Text("Funky God Mode enabled");
+            pHud_Debug->Set_Text(_("Omega Mode enabled"));
         }
 
         pLevel_Player->m_god_mode = !pLevel_Player->m_god_mode;
     }
     // Set Small state
-    else if (pKeyboard->m_keys[SDLK_k] && pKeyboard->m_keys[SDLK_i] && pKeyboard->m_keys[SDLK_d] && !editor_enabled) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K) && sf::Keyboard::isKeyPressed(sf::Keyboard::I) && sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !editor_enabled) {
         pLevel_Player->Set_Type(ALEX_SMALL, 0);
     }
     // Exit
-    else if (key == SDLK_ESCAPE) {
+    else if (evt.key.code == sf::Keyboard::Escape) {
         pLevel_Player->Action_Interact(INP_EXIT);
     }
     // ## editor
-    else if (pLevel_Editor->Key_Down(key)) {
+    else if (pLevel_Editor->Key_Down(evt)) {
         // processed by the editor
         return 1;
     }
@@ -809,7 +809,7 @@ bool cLevel::Key_Down(const SDLKey key)
     return 1;
 }
 
-bool cLevel::Key_Up(const SDLKey key)
+bool cLevel::Key_Up(const sf::Event& evt)
 {
     // only if not in Editor
     if (editor_level_enabled) {
@@ -817,22 +817,22 @@ bool cLevel::Key_Up(const SDLKey key)
     }
 
     // Interaction keys
-    if (key == pPreferences->m_key_right) {
+    if (evt.key.code == pPreferences->m_key_right) {
         pLevel_Player->Action_Stop_Interact(INP_RIGHT);
     }
-    else if (key == pPreferences->m_key_left) {
+    else if (evt.key.code == pPreferences->m_key_left) {
         pLevel_Player->Action_Stop_Interact(INP_LEFT);
     }
-    else if (key == pPreferences->m_key_down) {
+    else if (evt.key.code == pPreferences->m_key_down) {
         pLevel_Player->Action_Stop_Interact(INP_DOWN);
     }
-    else if (key == pPreferences->m_key_jump) {
+    else if (evt.key.code == pPreferences->m_key_jump) {
         pLevel_Player->Action_Stop_Interact(INP_JUMP);
     }
-    else if (key == pPreferences->m_key_shoot) {
+    else if (evt.key.code == pPreferences->m_key_shoot) {
         pLevel_Player->Action_Stop_Interact(INP_SHOOT);
     }
-    else if (key == pPreferences->m_key_action) {
+    else if (evt.key.code == pPreferences->m_key_action) {
         pLevel_Player->Action_Stop_Interact(INP_ACTION);
     }
     else {
@@ -844,7 +844,7 @@ bool cLevel::Key_Up(const SDLKey key)
     return 1;
 }
 
-bool cLevel::Mouse_Down(Uint8 button)
+bool cLevel::Mouse_Down(sf::Mouse::Button button)
 {
     // ## editor
     if (pLevel_Editor->Mouse_Down(button)) {
@@ -860,7 +860,7 @@ bool cLevel::Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cLevel::Mouse_Up(Uint8 button)
+bool cLevel::Mouse_Up(sf::Mouse::Button button)
 {
     // ## editor
     if (pLevel_Editor->Mouse_Up(button)) {
@@ -876,7 +876,7 @@ bool cLevel::Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cLevel::Joy_Button_Down(Uint8 button)
+bool cLevel::Joy_Button_Down(unsigned int button)
 {
     // Shoot
     if (button == pPreferences->m_joy_button_shoot && !editor_enabled) {
@@ -907,7 +907,7 @@ bool cLevel::Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cLevel::Joy_Button_Up(Uint8 button)
+bool cLevel::Joy_Button_Up(unsigned int button)
 {
     // only if not in Editor
     if (editor_level_enabled) {
@@ -993,7 +993,7 @@ void cLevel::Set_Description(const std::string& level_description)
     m_description = level_description;
 }
 
-void cLevel::Set_Difficulty(const Uint8 level_difficulty)
+void cLevel::Set_Difficulty(const uint8_t level_difficulty)
 {
     m_difficulty = level_difficulty;
 

@@ -53,13 +53,13 @@ CEGUI::XMLAttributes Game_Action_Data_Middle;
 CEGUI::XMLAttributes Game_Action_Data_End;
 void* Game_Action_ptr = NULL;
 
-int game_res_w = 800;
-int game_res_h = 600;
+const int game_res_w = 800;
+const int game_res_h = 600;
 
 bool game_debug = 0;
 bool game_debug_performance = 0;
 
-SDL_Event input_event;
+sf::Event input_event;
 
 float global_upscalex = 1.0f;
 float global_upscaley = 1.0f;
@@ -74,8 +74,23 @@ bool editor_world_enabled = 0;
 cCamera* pActive_Camera = NULL;
 cSprite* pActive_Player = NULL;
 
+// Exact point in time when we started this program (used in TSC_GetTicks()).
+static const std::chrono::steady_clock::time_point s_initial_time = std::chrono::steady_clock::now();
 
 /* *** *** *** *** *** *** *** Functions *** *** *** *** *** *** *** *** *** *** */
+
+/**
+ * Returns the number of milliseconds that have passed since TSC
+ * was started.
+ * This emulates the behaviour of SDL_GetTicks() for legacy code
+ * reasons; see SDL_GetTicks documentation at https://wiki.libsdl.org/SDL_GetTicks.
+ */
+uint32_t TSC_GetTicks()
+{
+    std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
+    std::chrono::milliseconds result = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - s_initial_time);
+    return static_cast<uint32_t>(result.count()); // heaven knows what type duration::count() actually returns... Let’s hope this works.
+}
 
 void Handle_Game_Events(void)
 {
@@ -230,7 +245,7 @@ void Handle_Generic_Game_Events(const CEGUI::XMLAttributes& action_data)
         pSavegame->Load_Game(action_data.getValueAsInteger("load_savegame"));
     }
     if (action_data.exists("play_music")) {
-        pAudio->Play_Music(action_data.getValueAsString("play_music").c_str(), action_data.getValueAsInteger("music_loops"), action_data.getValueAsBool("music_force", 1), action_data.getValueAsInteger("music_fadein"));
+        pAudio->Play_Music(action_data.getValueAsString("play_music").c_str(), action_data.getValueAsBool("music_loops"), action_data.getValueAsBool("music_force", 1), action_data.getValueAsInteger("music_fadein"));
     }
     if (action_data.exists("screen_fadeout")) {
         Draw_Effect_Out(static_cast<Effect_Fadeout>(action_data.getValueAsInteger("screen_fadeout")), action_data.getValueAsFloat("screen_fadeout_speed", 1));
@@ -299,13 +314,12 @@ void Enter_Game_Mode(const GameMode new_mode)
 
 void Clear_Input_Events(void)
 {
-    while (SDL_PollEvent(&input_event)) {
+    while (pVideo->mp_window->pollEvent(input_event)) {
         // todo : keep Windowmanager quit events ?
         // ignore all events
     }
 
     // Reset keys
-    pKeyboard->Reset_Keys();
     pMouseCursor->Reset_Keys();
     pJoystick->Reset_keys();
 }

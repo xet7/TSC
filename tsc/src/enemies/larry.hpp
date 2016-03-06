@@ -52,13 +52,7 @@ namespace TSC {
 
     protected:
         virtual std::string Get_XML_Type_Name();
-
-    private:
-        void Init();
-        void Kill_Objects_in_Explosion_Range();
-        void Explosion_Animation();
-
-        bool On_Editor_Direction_Select(const CEGUI::EventArgs& event);
+        virtual void Kill_Objects_in_Explosion_Range();
 
         float m_explosion_counter;
 
@@ -69,6 +63,12 @@ namespace TSC {
         int m_run_turn_end;
         int m_action_start;
         int m_action_end;
+
+    private:
+        void Init();
+        void Explosion_Animation();
+
+        bool On_Editor_Direction_Select(const CEGUI::EventArgs& event);
     };
 
 }

@@ -197,7 +197,7 @@ namespace TSC {
             m_shadow_color = shadow;
         };
         // Set image color
-        inline void Set_Color(const Uint8 red, const Uint8 green, const Uint8 blue, const Uint8 alpha = 255)
+        inline void Set_Color(const uint8_t red, const uint8_t green, const uint8_t blue, const uint8_t alpha = 255)
         {
             m_color.red = red;
             m_color.green = green;

@@ -38,6 +38,7 @@ set(TSC_VERSION_POSTFIX "dev")
 
 option(ENABLE_MRUBY "Enable the MRuby scripting engine" ON)
 option(ENABLE_NLS "Enable translations and localisations" ON)
+option(USE_SYSTEM_TINYCLIPBOARD "Use the system's tinyclipboard library" OFF)
 set(FIXED_DATA_DIR "" CACHE FILEPATH "Enforce a static directory to look up graphics, music, etc. under rather than having TSC determine it dynamically.")
 set(BINARY_DIR "" CACHE FILEPATH "Enforce a path to install the binary to. If you use this, you MUST also set FIXED_DATA_DIR.")
 
@@ -47,6 +48,14 @@ set(BINARY_DIR "" CACHE FILEPATH "Enforce a path to install the binary to. If yo
 if(CMAKE_COMPILER_IS_GNUCC)
   add_definitions("-Wall")
 endif()
+
+# On current Linux distros dependencies start to use C++11 features,
+# so we need to compile with C++11 standard also (because otherwise
+# the compilation fails due to the dependencies wanting C++11,
+# although TSC itself currently doesn’t need it). However, we do not
+# want to see warnings from other not yet C++-11 dependencies using
+# deprecated declarations (glibmm!). Thus those warnings are disabled.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated-declarations")
 
 # Extra flags for debugging TSC, additional to those
 # already added by CMake itself when doing a debug
@@ -92,6 +101,7 @@ if (ENABLE_MRUBY)
   set(MRUBY_ROOT_DIR ${MRUBY_TOPDIR}/mruby)
   set(MRUBY_MGEMS_DIR ${MRUBY_TOPDIR}/mgems)
 
+  message("-- Building mruby statically")
   ExternalProject_Add(
     mruby
     PREFIX "${TSC_BINARY_DIR}/mruby"
@@ -112,6 +122,25 @@ if (ENABLE_MRUBY)
   endif()
 else() # Disable it
   set(MRuby_LIBRARIES "")
+endif()
+
+###############################################
+# tinyclipboard
+
+if (USE_SYSTEM_TINYCLIPBOARD)
+  find_library(Tinyclipboard_LIBRARIES tinyclipboard)
+  find_file(Tinyclipboard_INCLUDE_DIRS tinyclipboard.h)
+else()
+  message("-- Building tinyclipboard statically")
+  ExternalProject_Add(tinyclipboard
+    PREFIX "${TSC_BINARY_DIR}/tinyclipboard"
+    SOURCE_DIR "${TSC_SOURCE_DIR}/../tinyclipboard"
+    BUILD_IN_SOURCE 1
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} CC=${CMAKE_C_COMPILER} AR=${CMAKE_AR}
+    INSTALL_COMMAND "")
+  set(Tinyclipboard_LIBRARIES "${TSC_SOURCE_DIR}/../tinyclipboard/libtinyclipboard.a")
+  set(Tinyclipboard_INCLUDE_DIRS "${TSC_SOURCE_DIR}/../tinyclipboard/include")
 endif()
 
 ########################################
@@ -164,6 +193,7 @@ endif()
 
 # Several libraries we depend on
 find_package(PkgConfig REQUIRED)
+find_package(SFML COMPONENTS audio graphics window system REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Gettext)
@@ -199,10 +229,6 @@ else()
 endif()
 
 pkg_check_modules(PNG REQUIRED libpng)
-pkg_check_modules(SDL REQUIRED sdl)
-pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
-pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
-pkg_check_modules(SDL_TTF REQUIRED SDL_ttf)
 pkg_check_modules(PCRE REQUIRED libpcre)
 pkg_check_modules(LibXmlPP REQUIRED libxml++-2.6)
 
@@ -218,15 +244,13 @@ add_definitions(
 # Add all our libraries to our -I-nclude path
 include_directories(
   ${MRuby_INCLUDE_DIR}
+  ${Tinyclipboard_INCLUDE_DIRS}
+  ${SFML_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
   ${GLEW_INCLUDE_DIRS}
   ${CEGUI_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
   ${PNG_INCLUDE_DIRS}
-  ${SDL_INCLUDE_DIRS}
-  ${SDL_IMAGE_INCLUDE_DIRS}
-  ${SDL_MIXER_INCLUDE_DIRS}
-  ${SDL_TTF_INCLUDE_DIRS}
 #  ${IL_INCLUDE_DIR}
   ${PCRE_INCLUDE_DIRS}
   ${LibXmlPP_INCLUDE_DIRS}
@@ -306,19 +330,21 @@ if (ENABLE_MRUBY)
   add_dependencies(tsc mruby)
 endif()
 
+if (NOT(USE_SYSTEM_TINYCLIPBOARD))
+  add_dependencies(tsc tinyclipboard)
+endif()
+
 # TODO: Make the mruby config automatically include the correct path to the PCRE library
 if (WIN32)
   target_link_libraries(tsc
     ${CEGUI_LIBRARY}
+    ${SFML_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${FreeImage_LIBRARIES}
-    ${SDL_STATIC_LIBRARIES}
-    ${SDL_IMAGE_STATIC_LIBRARIES}
-    ${SDL_MIXER_STATIC_LIBRARIES}
-    ${SDL_TTF_STATIC_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
+    ${Tinyclipboard_LIBRARIES}
     ${PCRE_STATIC_LIBRARIES}
     ${LibXmlPP_STATIC_LIBRARIES}
     ${PNG_STATIC_LIBRARIES}
@@ -334,16 +360,14 @@ else()
   add_dependencies(tsc cegui07)
   target_link_libraries(tsc
     ${CEGUI_LIBRARY}
+    ${SFML_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${IL_LIBRARIES}
     ${ILU_LIBRARIES}
-    ${SDL_LIBRARIES}
-    ${SDL_IMAGE_LIBRARIES}
-    ${SDL_MIXER_LIBRARIES}
-    ${SDL_TTF_LIBRARIES}
     ${Boost_LIBRARIES}
     ${MRuby_LIBRARIES}
+    ${Tinyclipboard_LIBRARIES}
     ${PCRE_LIBRARIES}
     ${LibXmlPP_LIBRARIES}
     ${PNG_LIBRARIES}

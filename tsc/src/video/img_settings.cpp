@@ -53,15 +53,15 @@ cImage_Settings_Data::~cImage_Settings_Data(void)
 
 }
 
-cSize_Int cImage_Settings_Data::Get_Surface_Size(const SDL_Surface* sdl_surface) const
+cSize_Int cImage_Settings_Data::Get_Surface_Size(const sf::Image* p_sf_image) const
 {
-    if (!sdl_surface) {
+    if (!p_sf_image) {
         return cSize_Int();
     }
 
     // check if texture needs to get downscaled
-    float new_w = static_cast<float>(Get_Power_of_2(sdl_surface->w));
-    float new_h = static_cast<float>(Get_Power_of_2(sdl_surface->h));
+    float new_w = static_cast<float>(Get_Power_of_2(p_sf_image->getSize().x));
+    float new_h = static_cast<float>(Get_Power_of_2(p_sf_image->getSize().y));
 
     // if image settings dimension
     if (m_width > 0 && m_height > 0) {

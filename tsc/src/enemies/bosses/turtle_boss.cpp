@@ -97,10 +97,10 @@ void cTurtleBoss::Init(void)
 
     m_color_type = COL_DEFAULT;
     Set_Color(COL_RED); // Load images before calling set moving state
-    
+
     m_turtle_state = TURTLEBOSS_DEAD;
     Set_Turtle_Moving_State(TURTLEBOSS_WALK);
-    
+
     Set_Direction(DIR_RIGHT, 1);
 }
 
@@ -270,7 +270,7 @@ void cTurtleBoss::DownGrade(bool force /* = 0 */)
             // fade out music
             pAudio->Fadeout_Music(500);
             // play finish music
-            pAudio->Play_Music("game/courseclear_A.ogg", 0, 0);
+            pAudio->Play_Music("game/courseclear_A.ogg", false, 0);
         }
 
         // set shell image
@@ -485,7 +485,7 @@ void cTurtleBoss::Update(void)
         // angry
         if (static_cast<int>(m_counter) % 2 == 1) {
             // slowly fade to the color
-            cMovingSprite::Set_Color(Color(static_cast<Uint8>(255), 250 - static_cast<Uint8>(m_counter * 1.5f), 250 - static_cast<Uint8>(m_counter * 4)));
+            cMovingSprite::Set_Color(Color(static_cast<uint8_t>(255), 250 - static_cast<uint8_t>(m_counter * 1.5f), 250 - static_cast<uint8_t>(m_counter * 4)));
         }
         // default
         else {
@@ -574,7 +574,7 @@ bool cTurtleBoss::Hit_Enemy(cEnemy* enemy) const
 
     // hit enemy
     pAudio->Play_Sound(enemy->m_kill_sound);
-    pHud_Points->Add_Points(enemy->m_kill_points, m_pos_x + m_image->m_w / 3, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+    pHud_Points->Add_Points(enemy->m_kill_points, m_pos_x + m_image->m_w / 3, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
     enemy->DownGrade(1);
     pLevel_Player->Add_Kill_Multiplier();
 
@@ -610,7 +610,7 @@ void cTurtleBoss::Throw_Fireballs(unsigned int amount /* = 6 */)
 
     cAnimation_Fireball* anim = new cAnimation_Fireball(m_sprite_manager, m_pos_x + (m_col_rect.m_w / 2), m_pos_y + (m_col_rect.m_h / 3), 10);
     anim->Set_Fading_Speed(0.15f);
-    anim->Set_Pos_Z(m_pos_z + 0.000001f);
+    anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
     pActive_Animation_Manager->Add(anim);
 }
 
@@ -621,12 +621,12 @@ void cTurtleBoss::Generate_Stars(unsigned int amount /* = 1 */, float particle_s
     anim->Set_Pos(m_pos_x + (m_col_rect.m_w * 0.5f), m_pos_y + (m_col_rect.m_h * 0.5f));
     anim->Set_Image(pVideo->Get_Surface("animation/particles/star.png"));
     anim->Set_Quota(amount);
-    anim->Set_Pos_Z(m_pos_z + 0.000001f);
+    anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
     anim->Set_Const_Rotation_Z(-6.0f, 12.0f);
     anim->Set_Time_to_Live(1.0f);
     anim->Set_Speed(1.0f, 4.0f);
     anim->Set_Scale(particle_scale, 0.3f);
-    anim->Set_Color(orange, Color(static_cast<Uint8>(6), 60, 20, 0));
+    anim->Set_Color(orange, Color(static_cast<uint8_t>(6), 60, 20, 0));
     anim->Set_Blending(BLEND_ADD);
     anim->Emit();
     pActive_Animation_Manager->Add(anim);
@@ -823,7 +823,7 @@ void cTurtleBoss::Handle_Collision_Player(cObjectCollision* collision)
             anim->Set_Speed(4, 0.5f);
             anim->Set_Scale(0.8f);
             anim->Set_Fading_Size(1);
-            anim->Set_Color(Color(static_cast<Uint8>(254), 200, 100));
+            anim->Set_Color(Color(static_cast<uint8_t>(254), 200, 100));
 
             if (collision->m_direction == DIR_RIGHT) {
                 anim->Set_Pos(m_pos_x + m_col_pos.m_x + m_col_rect.m_w, m_pos_y + (m_col_rect.m_h / 2));

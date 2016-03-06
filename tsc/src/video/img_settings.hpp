@@ -32,7 +32,7 @@ namespace TSC {
         ~cImage_Settings_Data(void);
 
         // returns the best surface size for the current resolution
-        cSize_Int Get_Surface_Size(const SDL_Surface* sdl_surface) const;
+        cSize_Int Get_Surface_Size(const sf::Image* p_sf_image) const;
         // Apply settings to an image
         void Apply(cGL_Surface* image) const;
         // Apply base settings

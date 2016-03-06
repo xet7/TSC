@@ -369,7 +369,7 @@ void cThromp::Draw(cSurface_Request* request /* = NULL */)
         final_distance.m_x -= pActive_Camera->m_x;
         final_distance.m_y -= pActive_Camera->m_y;
 
-        pVideo->Draw_Rect(&final_distance, m_pos_z - 0.000001f, &whitealpha128);
+        pVideo->Draw_Rect(&final_distance, m_pos_z - m_pos_z_delta, &whitealpha128);
     }
 
     cEnemy::Draw(request);
@@ -518,7 +518,7 @@ void cThromp::Generate_Smoke(unsigned int amount /* = 20 */) const
     anim->Set_Emitter_Rect(smoke_x, smoke_y, smoke_width, smoke_height);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke.png"));
     anim->Set_Quota(amount);
-    anim->Set_Pos_Z(m_pos_z + 0.000001f);
+    anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
     anim->Set_Time_to_Live(1, 1);
     anim->Set_Direction_Range(180, 180);
     anim->Set_Speed(0.05f, 0.4f);
@@ -614,7 +614,7 @@ void cThromp::Handle_Collision_Enemy(cObjectCollision* collision)
             // kill enemy
             else {
                 pAudio->Play_Sound(enemy->m_kill_sound);
-                pHud_Points->Add_Points(enemy->m_kill_points, m_pos_x + m_image->m_w / 3, m_pos_y - 5, "", static_cast<Uint8>(255), 1);
+                pHud_Points->Add_Points(enemy->m_kill_points, m_pos_x + m_image->m_w / 3, m_pos_y - 5, "", static_cast<uint8_t>(255), 1);
                 enemy->DownGrade(1);
 
                 if (!m_move_back) {

@@ -76,15 +76,19 @@ namespace TSC {
         }
 
         // Handles the Mouse events
-        bool Handle_Event(SDL_Event* ev);
+        bool Handle_Event(const sf::Event& ev);
         /* GUI handle mouse down function
          * Returns true if GUI handled the event
         */
-        bool Handle_Mouse_Down(Uint8 button);
+        bool Handle_Mouse_Down(sf::Mouse::Button button);
         /* GUI handle mouse up function
          * Returns true if GUI handled the event
         */
-        bool Handle_Mouse_Up(Uint8 button);
+        bool Handle_Mouse_Up(sf::Mouse::Button button);
+        /* GUI handle mouse wheel function
+         * Returns true if GUI handled the event
+         */
+        bool Handle_Mouse_Wheel(float delta);
 
         /* Get the first object colliding with the mouse which is valid for the editor
          * returns the collision if an object was found else NULL
@@ -216,7 +220,7 @@ namespace TSC {
         // Toggle Mover mode
         void Toggle_Mover_Mode(void);
         // Updates the Mover Mode
-        void Mover_Update(Sint16 move_x, Sint16 move_y);
+        void Mover_Update(int move_x, int move_y);
         // Updates the editor Mouse
         void Editor_Update(void);
 
@@ -231,6 +235,9 @@ namespace TSC {
 
         // if activated the mouse cursor movement moves the screen
         bool m_mover_mode;
+        // The position of the cursor when it entered mover mode
+        int m_mover_center_x;
+        int m_mover_center_y;
         // fast copy mode
         bool m_fastcopy_mode;
 
@@ -261,6 +268,9 @@ namespace TSC {
         cSprite* m_last_clicked_object;
         // counter for catching double-clicks
         float m_click_counter;
+
+        sf::Text m_coords_text;
+        sf::Text m_extended_coords_text;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

@@ -21,7 +21,7 @@
 #include "../core/framerate.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../core/xml_attributes.hpp"
 
 #include "../core/global_basic.hpp"
@@ -63,8 +63,8 @@ void cBackground::Init(void)
     m_start_pos_y = 0.0f;
     m_pos_z = 0.00011f;
 
-    m_color_1 = static_cast<Uint8>(0);
-    m_color_2 = static_cast<Uint8>(0);
+    m_color_1 = static_cast<uint8_t>(0);
+    m_color_2 = static_cast<uint8_t>(0);
 
     m_image_1 = NULL;
 
@@ -84,12 +84,12 @@ void cBackground::Load_From_Attributes(XmlAttributes& attributes)
         r = string_to_int(attributes["bg_color_1_red"]);
         g = string_to_int(attributes["bg_color_1_green"]);
         b = string_to_int(attributes["bg_color_1_blue"]);
-        Set_Color_1(Color(static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b)));
+        Set_Color_1(Color(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b)));
 
         r = string_to_int(attributes["bg_color_2_red"]);
         g = string_to_int(attributes["bg_color_2_green"]);
         b = string_to_int(attributes["bg_color_2_blue"]);
-        Set_Color_2(Color(static_cast<Uint8>(r), static_cast<Uint8>(g), static_cast<Uint8>(b)));
+        Set_Color_2(Color(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b)));
     }
     else if (m_type == BG_IMG_BOTTOM || m_type == BG_IMG_TOP || m_type == BG_IMG_ALL) {
         Set_Start_Pos(string_to_float(attributes["posx"]), string_to_float(attributes["posy"]));
@@ -339,9 +339,9 @@ void cBackground::Draw_Gradient(void)
                 power = 1.0f;
             }
 
-            color_start.red += static_cast<Uint8>(static_cast<float>(m_color_2.red - m_color_1.red) * power);
-            color_start.green += static_cast<Uint8>(static_cast<float>(m_color_2.green - m_color_1.green) * power);
-            color_start.blue += static_cast<Uint8>(static_cast<float>(m_color_2.blue - m_color_1.blue) * power);
+            color_start.red += static_cast<uint8_t>(static_cast<float>(m_color_2.red - m_color_1.red) * power);
+            color_start.green += static_cast<uint8_t>(static_cast<float>(m_color_2.green - m_color_1.green) * power);
+            color_start.blue += static_cast<uint8_t>(static_cast<float>(m_color_2.blue - m_color_1.blue) * power);
         }
 
         if (m_type == BG_GR_VER) {

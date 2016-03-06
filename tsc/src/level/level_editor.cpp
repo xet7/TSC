@@ -120,7 +120,7 @@ void cEditor_Level::Disable(bool native_mode /* = 0 */)
     cEditor::Disable(native_mode);
 }
 
-bool cEditor_Level::Key_Down(SDLKey key)
+bool cEditor_Level::Key_Down(const sf::Event& evt)
 {
     if (!m_enabled) {
         return 0;
@@ -128,11 +128,11 @@ bool cEditor_Level::Key_Down(SDLKey key)
 
 
     // check basic editor events
-    if (cEditor::Key_Down(key)) {
+    if (cEditor::Key_Down(evt)) {
         return 1;
     }
     // focus last levelexit
-    else if (key == SDLK_END) {
+    else if (evt.key.code == sf::Keyboard::End) {
         float new_camera_posx = 0.0f;
         float new_camera_posy = 0.0f;
 
@@ -154,7 +154,7 @@ bool cEditor_Level::Key_Down(SDLKey key)
         }
     }
     // modify selected objects state
-    else if (key == SDLK_m) {
+    else if (evt.key.code == sf::Keyboard::M) {
         if (!pMouseCursor->m_selected_objects.empty()) {
             cSprite* mouse_obj = pMouseCursor->m_selected_objects[0]->m_obj;
 
@@ -176,7 +176,7 @@ bool cEditor_Level::Key_Down(SDLKey key)
         }
     }
     // modify mouse object state
-    else if (key == SDLK_m && pMouseCursor->m_hovering_object->m_obj) {
+    else if (evt.key.code == sf::Keyboard::M && pMouseCursor->m_hovering_object->m_obj) {
         Switch_Object_State(pMouseCursor->m_hovering_object->m_obj);
         pMouseCursor->Clear_Hovered_Object();
     }

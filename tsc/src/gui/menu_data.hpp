@@ -25,6 +25,9 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** cMenu_Base *** *** *** *** *** *** *** *** *** *** */
 
+    /**
+     * This is the base class for all menus.
+     */
     class cMenu_Base {
     public:
         cMenu_Base(void);
@@ -38,6 +41,10 @@ namespace TSC {
         virtual void Leave(const GameMode next_mode = MODE_NOTHING);
         // Exit menu
         virtual void Exit(void);
+        // Callback called by the menu handler when another item is selected
+        virtual void Selected_Item_Changed(int new_active_item);
+        // Callback called by pMenuCore when an item is clicked
+        virtual void Item_Activated(int activated_item);
         virtual void Update(void);
         virtual void Draw(void);
         void Draw_End(void);
@@ -49,9 +56,6 @@ namespace TSC {
         std::string m_layout_file;
         // CEGUI window
         CEGUI::Window* m_gui_window;
-
-        // if button/key action
-        bool m_action;
 
         // menu position
         float m_menu_pos_y;
@@ -65,10 +69,17 @@ namespace TSC {
         // current menu sprites
         typedef vector<cHudSprite*> HudSpriteList;
         HudSpriteList m_draw_list;
+
+    protected:
+        // if button/key action
+        bool m_action;
     };
 
     /* *** *** *** *** *** *** *** cMenu_Main *** *** *** *** *** *** *** *** *** *** */
 
+    /**
+     * This is the title screen menu.
+     */
     class cMenu_Main : public cMenu_Base {
     public:
         cMenu_Main(void);
@@ -77,12 +88,41 @@ namespace TSC {
         virtual void Init(void);
         virtual void Init_GUI(void);
         virtual void Exit(void);
+        virtual void Selected_Item_Changed(int new_active_item);
         virtual void Update(void);
         virtual void Draw(void);
+    private:
+        cHudSprite* mp_start_active;
+        cHudSprite* mp_start_inactive;
+        cHudSprite* mp_options_active;
+        cHudSprite* mp_options_inactive;
+        cHudSprite* mp_load_active;
+        cHudSprite* mp_load_inactive;
+        cHudSprite* mp_save_active;
+        cHudSprite* mp_save_inactive;
+        cHudSprite* mp_quit_active;
+        cHudSprite* mp_quit_inactive;
+
+        cHudSprite* mp_current_inactive_item;
+        cHudSprite* mp_current_active_item;
+
+        sf::Text m_credits_item;
+
+        int m_start_index;
+        int m_options_index;
+        int m_load_index;
+        int m_save_index;
+        int m_quit_index;
+        int m_credits_index;
+        int m_active_item;
+        bool m_scaling_up;
     };
 
     /* *** *** *** *** *** *** *** cMenu_Start *** *** *** *** *** *** *** *** *** *** */
 
+    /**
+     * This is the level/campaign/world load menu.
+     */
     class cMenu_Start : public cMenu_Base {
     public:
         cMenu_Start(void);
@@ -174,6 +214,9 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** cMenu_Options *** *** *** *** *** *** *** *** *** *** */
 
+    /**
+     * This is the options screen.
+     */
     class cMenu_Options : public cMenu_Base {
     public:
         cMenu_Options(void);
@@ -310,7 +353,14 @@ namespace TSC {
 
     /* *** *** *** *** *** *** *** cMenu_Savegames *** *** *** *** *** *** *** *** *** *** */
 
+    /**
+     * This is the class for both the load and save menus.
+     * Which of the two ones it is depends on the `type`
+     * argument passed to the contructor.
+     */
     class cMenu_Savegames : public cMenu_Base {
+    private:
+        static const unsigned int NUM_SAVEGAME_SLOTS = 9;
     public:
         cMenu_Savegames(bool type);
         virtual ~cMenu_Savegames(void);
@@ -318,6 +368,7 @@ namespace TSC {
         virtual void Init(void);
         virtual void Init_GUI(void);
         virtual void Exit(void);
+        virtual void Selected_Item_Changed(int new_active_item);
         virtual void Update(void);
         virtual void Draw(void);
 
@@ -329,15 +380,21 @@ namespace TSC {
         // Update Savegame Descriptions
         void Update_Saved_Games_Text(void);
 
-        // Savegame images
-        HudSpriteList m_savegame_temp;
-
         // if save menu
         bool m_type_save;
+    private:
+        sf::Text m_slot_texts[NUM_SAVEGAME_SLOTS];
+        sf::Text m_back_text;
+        sf::Text* mp_current_item;
+        int m_back_item_index; //< Index of the back menu entry in the menu handler
+        bool m_scaling_up;
     };
 
     /* *** *** *** *** *** *** *** cMenu_Credits *** *** *** *** *** *** *** *** *** *** */
 
+    /**
+     * This is the credits screen.
+     */
     class cMenu_Credits : public cMenu_Base {
     public:
         cMenu_Credits(cHudSprite* p_tsc_logo);
@@ -360,6 +417,9 @@ namespace TSC {
         void Menu_Fade(bool fade_in = 1);
     private:
         cHudSprite* mp_tsc_logo;
+        std::vector<sf::Text> m_credit_lines;
+        sf::Text m_back_text;
+        int m_back_index;
     };
 
     /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */

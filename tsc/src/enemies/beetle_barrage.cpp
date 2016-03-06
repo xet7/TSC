@@ -166,7 +166,7 @@ void cBeetleBarrage::Draw(cSurface_Request* p_request /* = NULL */)
         pVideo->Draw_Circle(m_active_area.Get_X() - pActive_Camera->m_x,
                             m_active_area.Get_Y() - pActive_Camera->m_y,
                             m_active_area.Get_Radius(),
-                            m_editor_pos_z - 0.000001f,
+                            m_editor_pos_z - m_pos_z_delta,
                             &whitealpha128);
 
 

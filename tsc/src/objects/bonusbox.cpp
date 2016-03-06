@@ -337,7 +337,7 @@ void cBonusBox::Activate(void)
 
     if (box_item) {
         // set posz behind box
-        box_item->m_pos_z = m_pos_z - 0.000001f;
+        box_item->m_pos_z = m_pos_z - m_pos_z_delta;
         // set spawned
         box_item->Set_Spawned(1);
 

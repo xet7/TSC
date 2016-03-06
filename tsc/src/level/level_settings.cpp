@@ -337,13 +337,13 @@ void cLevel_Settings::Draw(void)
     pFramerate->m_perf_timer[PERF_DRAW_LEVEL_SETTINGS]->Update();
 }
 
-bool cLevel_Settings::Key_Down(SDLKey key)
+bool cLevel_Settings::Key_Down(const sf::Event& evt)
 {
     if (!m_active) {
         return 0;
     }
 
-    if (key == SDLK_ESCAPE) {
+    if (evt.key.code == sf::Keyboard::Escape) {
         Exit();
     }
     else {

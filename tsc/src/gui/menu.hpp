@@ -25,33 +25,6 @@
 
 namespace TSC {
 
-    /* *** *** *** *** *** *** cMenu_Item *** *** *** *** *** *** *** *** *** *** *** */
-
-    class cMenu_Item : public cHudSprite {
-    public:
-        cMenu_Item(cSprite_Manager* sprite_manager);
-        virtual ~cMenu_Item(void);
-
-        // Sets the Active Modifier
-        void Set_Active(bool active = 0);
-        // Draws the Menu Item
-        virtual void Draw(cSurface_Request* request = NULL);
-
-        // The menu images
-        cHudSprite* m_image_default;
-        // The additional Menu Graphic
-        cHudSprite* m_image_menu;
-
-        // if this item quits the menu
-        bool m_is_quit;
-
-    private:
-        // Is this Item active
-        bool m_active;
-    };
-
-    typedef vector<cMenu_Item*> MenuList;
-
     /* *** *** *** *** *** *** cMenuHandler *** *** *** *** *** *** *** *** *** *** *** */
 
     /*
@@ -62,8 +35,9 @@ namespace TSC {
         cMenuHandler(void);
         ~cMenuHandler(void);
 
-        // Adds a Menu
-        void Add_Menu_Item(cMenu_Item* item, float shadow_pos = 0, Color shadow_color = static_cast<Uint8>(0));
+        // Adds a Menu item to the menu
+        int Add_Menu_Item(sf::FloatRect p_rect, void* p_item);
+        //void Add_Menu_Item(cMenu_Item* item, float shadow_pos = 0, Color shadow_color = static_cast<uint8_t>(0));
 
         // Unloads all items
         void Reset(void);
@@ -84,7 +58,9 @@ namespace TSC {
         inline cHudSprite* Get_TSC_Logo(){ return mp_tsc_logo; }
 
         // Returns the currently active Menu Item
-        cMenu_Item* Get_Active_Item(void);
+        void* Get_Active_Item(void);
+        // Returns the rect of the currently active menu item
+        sf::FloatRect Get_Active_Item_Rect(void);
         // Returns the number of loaded Menus
         unsigned int Get_Size(void) const;
 
@@ -101,6 +77,12 @@ namespace TSC {
         int m_active;
 
     private:
+        struct MenuItem {
+            sf::FloatRect m_rect;
+            void* mp_item;
+        };
+        typedef vector<struct MenuItem> MenuList;
+
         MenuList m_items;
         cHudSprite* mp_tsc_logo;
     };
@@ -113,37 +95,32 @@ namespace TSC {
         ~cMenuCore(void);
 
         // Handle Input event
-        bool Handle_Event(SDL_Event* ev);
+        bool Handle_Event(const sf::Event& ev);
         /* handle key down event
          * returns true if processed
         */
-        bool Key_Down(SDLKey key);
+        bool Key_Down(const sf::Event& evt);
         /* handle key up event
          * returns true if processed
         */
-        bool Key_Up(SDLKey key);
+        bool Key_Up(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */
-        bool Mouse_Down(Uint8 button);
+        bool Mouse_Down(sf::Mouse::Button button);
         /* handle mouse button up event
          * returns true if processed
         */
-        bool Mouse_Up(Uint8 button);
+        bool Mouse_Up(sf::Mouse::Button button);
         /* handle joystick button down event
          * returns true if processed
         */
-        bool Joy_Button_Down(Uint8 button);
+        bool Joy_Button_Down(unsigned int button);
         /* handle joystick button up event
          * returns true if processed
         */
-        bool Joy_Button_Up(Uint8 button);
+        bool Joy_Button_Up(unsigned int button);
 
-
-        // Returns a Menu with the common image filenames
-        // imagename: Name of the active (on hover) image
-        // imagename_menu: Name of the inactive image
-        cMenu_Item* Auto_Menu(std::string imagename, std::string imagename_menu, float ypos = 0, bool is_quit = 0);
 
         /* Load the given Menu
          * exit_gamemode : return to this game mode on exit

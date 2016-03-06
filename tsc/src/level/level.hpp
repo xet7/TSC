@@ -93,27 +93,27 @@ namespace TSC {
         /* handle key down event
          * returns true processed
         */
-        bool Key_Down(const SDLKey key);
+        bool Key_Down(const sf::Event& evt);
         /* handle key up event
          * returns true if processed
         */
-        bool Key_Up(const SDLKey key);
+        bool Key_Up(const sf::Event& evt);
         /* handle mouse button down event
          * returns true if processed
         */
-        bool Mouse_Down(Uint8 button);
+        bool Mouse_Down(sf::Mouse::Button button);
         /* handle mouse button up event
          * returns true if processed
         */
-        bool Mouse_Up(Uint8 button);
+        bool Mouse_Up(sf::Mouse::Button button);
         /* handle joystick button down event
          * returns true if processed
         */
-        bool Joy_Button_Down(Uint8 button);
+        bool Joy_Button_Down(unsigned int button);
         /* handle joystick button up event
          * returns true if processed
         */
-        bool Joy_Button_Up(Uint8 button);
+        bool Joy_Button_Up(unsigned int button);
 
         /* Return the current Music filename relative to the music/
          * directory.
@@ -133,7 +133,7 @@ namespace TSC {
         // Set the level description
         void Set_Description(const std::string& level_description);
         // Set the level difficulty ( 0 = undefined, 1 = dead easy and 100 = ultimate challenge )
-        void Set_Difficulty(const Uint8 level_difficulty);
+        void Set_Difficulty(const uint8_t level_difficulty);
         // Set the level land type
         void Set_Land_Type(const LevelLandType level_land_type);
 
@@ -199,7 +199,7 @@ namespace TSC {
         // description
         std::string m_description;
         // difficulty ( 0 = undefined, 1 = dead easy and 100 = ultimate challenge )
-        Uint8 m_difficulty;
+        uint8_t m_difficulty;
         // land type
         LevelLandType m_land_type;
 

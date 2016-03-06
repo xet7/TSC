@@ -36,26 +36,26 @@ namespace TSC {
         GL_rect(float x, float y, float w, float h)
             : m_x(x), m_y(y), m_w(w), m_h(h) {}
 
-        // returns a SDL_Rect
-        inline SDL_Rect Get_Rect(void) const
+        // returns an sf::Rect
+        inline sf::IntRect Get_Rect(void) const
         {
-            SDL_Rect rect;
-            rect.x = static_cast<Sint16>(m_x);
-            rect.y = static_cast<Sint16>(m_y);
-            rect.w = static_cast<Uint16>(m_w);
-            rect.h = static_cast<Uint16>(m_h);
+            sf::IntRect rect;
+            rect.left   = static_cast<int16_t>(m_x);
+            rect.top    = static_cast<int16_t>(m_y);
+            rect.width  = static_cast<uint16_t>(m_w);
+            rect.height = static_cast<uint16_t>(m_h);
 
             return rect;
         }
 
-        // returns this as SDL_Rect
-        SDL_Rect Get_Rect_pos(float posx, float posy) const
+        // returns this as sf::IntRect
+        sf::IntRect Get_Rect_pos(float posx, float posy) const
         {
-            SDL_Rect rect;
-            rect.x = static_cast<Sint16>(m_x + posx);
-            rect.y = static_cast<Sint16>(m_y + posy);
-            rect.w = static_cast<Uint16>(m_w);
-            rect.h = static_cast<Uint16>(m_h);
+            sf::IntRect rect;
+            rect.left   = static_cast<int16_t>(m_x + posx);
+            rect.top    = static_cast<int16_t>(m_y + posy);
+            rect.width  = static_cast<uint16_t>(m_w);
+            rect.height = static_cast<uint16_t>(m_h);
 
             return rect;
         }

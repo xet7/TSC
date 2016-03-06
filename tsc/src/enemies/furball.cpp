@@ -284,7 +284,7 @@ void cFurball::DownGrade(bool force /* = 0 */)
                     // fade out music
                     pAudio->Fadeout_Music(500);
                     // play finish music
-                    pAudio->Play_Music("game/courseclear_A.ogg", 0, 0);
+                    pAudio->Play_Music("game/courseclear_A.ogg", false, 0);
                 }
             }
         }
@@ -399,7 +399,7 @@ void cFurball::Update(void)
         // angry
         if (static_cast<int>(m_counter_hit) % 2 == 1) {
             // slowly fade to the color
-            cMovingSprite::Set_Color(Color(static_cast<Uint8>(255), 250 - static_cast<Uint8>(m_counter_hit * 1.5f), 250 - static_cast<Uint8>(m_counter_hit * 4)));
+            cMovingSprite::Set_Color(Color(static_cast<uint8_t>(255), 250 - static_cast<uint8_t>(m_counter_hit * 1.5f), 250 - static_cast<uint8_t>(m_counter_hit * 4)));
         }
         // default
         else {
@@ -451,7 +451,7 @@ void cFurball::Update(void)
             cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
             anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + m_col_rect.m_h - 2.0f, m_col_rect.m_w);
             anim->Set_Quota(static_cast<int>(m_running_particle_counter));
-            anim->Set_Pos_Z(m_pos_z - 0.000001f);
+            anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_black.png"));
             anim->Set_Time_to_Live(0.6f);
             anim->Set_Scale(0.2f);
@@ -509,12 +509,12 @@ void cFurball::Generate_Smoke(unsigned int amount /* = 1 */, float particle_scal
     anim->Set_Pos(m_pos_x + (m_col_rect.m_w * 0.5f), m_pos_y + (m_col_rect.m_h * 0.5f), 1);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_grey_big.png"));
     anim->Set_Quota(amount);
-    anim->Set_Pos_Z(m_pos_z + 0.000001f);
+    anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
     anim->Set_Const_Rotation_Z(-6.0f, 12.0f);
     anim->Set_Time_to_Live(1.5f);
     anim->Set_Speed(0.4f, 0.9f);
     anim->Set_Scale(particle_scale, 0.2f);
-    anim->Set_Color(black, Color(static_cast<Uint8>(87), 60, 40, 0));
+    anim->Set_Color(black, Color(static_cast<uint8_t>(87), 60, 40, 0));
     anim->Emit();
     pActive_Animation_Manager->Add(anim);
 }
@@ -661,7 +661,7 @@ void cFurball::Handle_Collision_Player(cObjectCollision* collision)
         pLevel_Player->Action_Jump(1);
 
         if (m_dead) {
-            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
             pLevel_Player->Add_Kill_Multiplier();
         }
     }
@@ -716,7 +716,7 @@ void cFurball::Handle_Collision_Massive(cObjectCollision* collision)
 void cFurball::Handle_Collision_Box(ObjectDirection cdirection, GL_rect* r2)
 {
     pAudio->Play_Sound(m_kill_sound);
-    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1 );
+    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1 );
     pLevel_Player->Add_Kill_Multiplier();
     DownGrade(true);
 }

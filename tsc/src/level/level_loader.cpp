@@ -45,6 +45,7 @@
 #include "../enemies/beetle_barrage.hpp"
 #include "../enemies/beetle.hpp"
 #include "../enemies/larry.hpp"
+#include "../enemies/doom_larry.hpp"
 #include "../audio/random_sound.hpp"
 #include "../video/animation.hpp"
 #include "../core/game_core.hpp"
@@ -465,6 +466,16 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
     if (engine_version < 46) {
         attributes.relocate_image("game/items/star.png", "game/items/lemon_1.png");
     }
+    // V2.1.0-dev (commit af6a5af5fa0e539c766f8c4565a1d60d80a70976) and lower:
+    // Pow button was replaced with proper switch
+    if (engine_version < 47) {
+        attributes.relocate_image("ground/underground/pow/blue.png", "ground/underground/switch/blue.png");
+        attributes.relocate_image("ground/underground/pow/green.png", "ground/underground/switch/green.png");
+        attributes.relocate_image("ground/underground/pow/red.png", "ground/underground/switch/red.png");
+        attributes.relocate_image("ground/underground/pow/blue_active.png", "ground/underground/switch/blue_active.png");
+        attributes.relocate_image("ground/underground/pow/green_active.png", "ground/underground/switch/green_active.png");
+        attributes.relocate_image("ground/underground/pow/red_active.png", "ground/underground/switch/red_active.png");
+    }
 
     // always: fix sprite with undefined massive-type
     if (attributes.count("type") > 0 && attributes["type"] == "undefined") {
@@ -474,17 +485,11 @@ std::vector<cSprite*> cLevelLoader::Create_Sprites_From_XML_Tag(const std::strin
 
     cSprite* p_sprite = new cSprite(attributes, p_sprite_manager);
 
-    // If image not available display its filename
+    // If image not available display placeholder
     if (!p_sprite->m_start_image) {
-        std::string text = attributes["image"];
-        if (text.empty())
-            text = "Invalid image here";
-
-        cGL_Surface* p_text_image = pFont->Render_Text(pFont->m_font_small, text);
-        p_text_image->m_path = utf8_to_path(text);
-        p_sprite->Set_Image(p_text_image, true, true);
-        p_sprite->Set_Massive_Type(MASS_PASSIVE); // It shouldn't hinder gameplay
-        p_sprite->Set_Active(false); // Only display it in the editor
+        p_sprite->Set_Image(pVideo->Get_Package_Surface(utf8_to_path("game/image_not_found.png")), true, true);
+        p_sprite->Set_Massive_Type(MASS_PASSIVE); // It sholdn't hinder gameplay
+        p_sprite->Set_Active(false); // only display it in the editor
     }
 
     // needs image
@@ -897,6 +902,8 @@ std::vector<cSprite*> cLevelLoader::Create_Enemies_From_XML_Tag(const std::strin
         result.push_back(new cBeetle(attributes, p_sprite_manager));
     else if (type == "larry")
         result.push_back(new cLarry(attributes, p_sprite_manager));
+    else if (type == "doom_larry")
+        result.push_back(new cDoomLarry(attributes, p_sprite_manager));
     else // type == "X"
         cerr << "Warning: Unknown level enemy type: " << type << endl;
 

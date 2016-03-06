@@ -225,7 +225,7 @@ void cMushroom::Set_Type(SpriteType new_type)
     }
     else if (new_type == TYPE_MUSHROOM_LIVE_1) {
         Add_Image_Set("main", "game/items/berry_life.imgset");
-        m_name = _("1-UP berry");
+        m_name = _("Life berry");
     }
     else if (new_type == TYPE_MUSHROOM_POISON) {
         Add_Image_Set("main", "game/items/berry_poison.imgset");
@@ -309,20 +309,20 @@ void cMushroom::Update(void)
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
             anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y, m_col_rect.m_w, m_col_rect.m_h);
             anim->Set_Quota(static_cast<int>(m_counter));
-            anim->Set_Pos_Z(m_pos_z - 0.000001f);
+            anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
             anim->Set_Direction_Range(180, 180);
             anim->Set_Scale(0.4f, 0.1f);
             // 1-UP
             if (m_type ==  TYPE_MUSHROOM_LIVE_1) {
                 anim->Set_Time_to_Live(0.4f);
-                anim->Set_Color(Color(static_cast<Uint8>(0), 100, 0), Color(static_cast<Uint8>(30), 150, 30, 0));
+                anim->Set_Color(Color(static_cast<uint8_t>(0), 100, 0), Color(static_cast<uint8_t>(30), 150, 30, 0));
                 anim->Set_Speed(0.5f, 0.5f);
                 anim->Set_Blending(BLEND_ADD);
             }
             // Ice
             else if (m_type == TYPE_MUSHROOM_BLUE) {
                 anim->Set_Time_to_Live(0.6f);
-                anim->Set_Color(Color(static_cast<Uint8>(180), 180, 255, 128), Color(static_cast<Uint8>(50), 50, 0, 0));
+                anim->Set_Color(Color(static_cast<uint8_t>(180), 180, 255, 128), Color(static_cast<uint8_t>(50), 50, 0, 0));
                 anim->Set_Speed(0.2f, 0.1f);
             }
 
@@ -367,10 +367,10 @@ void cMushroom::Update(void)
                 cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
                 anim->Set_Emitter_Rect(m_col_rect.m_x + (m_col_rect.m_w * 0.3f), m_col_rect.m_y + (m_col_rect.m_h * 0.91f), m_col_rect.m_w * 0.4f, 0);
                 anim->Set_Quota(static_cast<int>(m_counter));
-                anim->Set_Pos_Z(m_pos_z - 0.000001f);
+                anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
                 anim->Set_Time_to_Live(1.4f, 0.4f);
                 anim->Set_Scale(0.7f, 0.2f);
-                anim->Set_Color(Color(static_cast<Uint8>(120), 190, 0), Color(static_cast<Uint8>(40), 60, 10, 0));
+                anim->Set_Color(Color(static_cast<uint8_t>(120), 190, 0), Color(static_cast<uint8_t>(40), 60, 10, 0));
                 anim->Set_Blending(BLEND_ADD);
                 anim->Set_Speed(0.0f, 0.0f);
                 anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/slime_1.png"));
@@ -504,11 +504,11 @@ void cFirePlant::Update(void)
         anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
         anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + 10, m_col_rect.m_w, m_col_rect.m_h * 0.5f);
         anim->Set_Quota(static_cast<int>(m_particle_counter));
-        anim->Set_Pos_Z(m_pos_z + 0.000001f);
+        anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
         anim->Set_Direction_Range(180.0f, 180.0f);
         anim->Set_Scale(0.4f, 0.1f);
         anim->Set_Time_to_Live(0.4f);
-        anim->Set_Color(Color(static_cast<Uint8>(255), 50, 0), Color(static_cast<Uint8>(0), 50, 0, 0));
+        anim->Set_Color(Color(static_cast<uint8_t>(255), 50, 0), Color(static_cast<uint8_t>(0), 50, 0, 0));
         anim->Set_Speed(0.2f, 0.1f);
         anim->Set_Blending(BLEND_ADD);
         anim->Emit();

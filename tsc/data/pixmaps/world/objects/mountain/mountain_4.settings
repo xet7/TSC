@@ -1,0 +1,8 @@
+base mountain_2.png 0
+width 128
+height 64
+editor_tags world;mountain
+name Mountain_2_big
+type passive
+author skarfester
+license CC-BY_4.0

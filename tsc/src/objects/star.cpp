@@ -174,8 +174,8 @@ void cjStar::Generate_Particles(float x /* = 0.0f */, float y /* = 0.0f */, bool
 
     // set particle color
     Color particle_color = green;
-    particle_color.green += static_cast<Uint8>(m_glim_counter / 5);
-    particle_color.blue += static_cast<Uint8>(m_glim_counter / 1.5f);
+    particle_color.green += static_cast<uint8_t>(m_glim_counter / 5);
+    particle_color.blue += static_cast<uint8_t>(m_glim_counter / 1.5f);
 
     // create emitter
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);

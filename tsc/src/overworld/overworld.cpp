@@ -140,7 +140,7 @@ cOverworld* cOverworld::Load_From_Directory(fs::path directory, int user_dir /* 
     p_overworld->m_layer = layerloader.Get_Layer();
 
     // Set the text that is displayed at the top when this world is shown
-    p_overworld->m_hud_world_name->Set_Image(pFont->Render_Text(pFont->m_font_normal, p_overworld->m_description->m_name, yellow), true, true);
+    pFont->Prepare_SFML_Text(p_overworld->m_hud_world_name, p_overworld->m_description->m_name, 10, static_cast<float>(game_res_h) - 30, cFont_Manager::FONTSIZE_NORMAL, yellow);
 
     return p_overworld;
 }
@@ -153,8 +153,6 @@ cOverworld::~cOverworld(void)
     delete m_animation_manager;
     delete m_description;
     delete m_layer;
-    delete m_hud_level_name;
-    delete m_hud_world_name;
 }
 
 void cOverworld::Init()
@@ -168,13 +166,6 @@ void cOverworld::Init()
     m_last_saved = 0;
     m_background_color = Color();
     m_musicfile = "overworld/land_1.ogg";
-    m_hud_world_name = new cHudSprite(m_sprite_manager);
-    m_hud_world_name->Set_Pos(10, static_cast<float>(game_res_h) - 30);
-    m_hud_world_name->Set_Shadow(black, 1.5f);
-    m_hud_level_name = new cHudSprite(m_sprite_manager);
-    m_hud_level_name->Set_Pos(350, 2);
-    m_hud_level_name->Set_Shadow(black, 1.5f);
-
     m_next_level = 0;
 
     m_player_start_waypoint = 0;
@@ -275,7 +266,7 @@ void cOverworld::Save_To_File(fs::path path)
     p_node = p_root->add_child("information");
     Add_Property(p_node, "game_version", int_to_string(TSC_VERSION_MAJOR) + "." + int_to_string(TSC_VERSION_MINOR) + "." + int_to_string(TSC_VERSION_PATCH));
     Add_Property(p_node, "engine_version", world_engine_version);
-    Add_Property(p_node, "save_time", static_cast<Uint64>(time(NULL))); // seconds since 1970
+    Add_Property(p_node, "save_time", static_cast<uint64_t>(time(NULL))); // seconds since 1970
 
     // Settings (currently only music)
     p_node = p_root->add_child("settings");
@@ -357,7 +348,7 @@ void cOverworld::Enter(const GameMode old_mode /* = MODE_NOTHING */)
     Update_Camera();
 
     // play music
-    pAudio->Play_Music(m_musicfile, -1, 0, 3000);
+    pAudio->Play_Music(m_musicfile, true, 0, 3000);
 
     // reset custom level mode type
     if (Game_Mode_Type == MODE_TYPE_LEVEL_CUSTOM) {
@@ -455,15 +446,15 @@ void cOverworld::Draw_HUD(void)
     // if not editor mode
     if (!editor_world_enabled) {
         // Background
-        Color color = Color(static_cast<Uint8>(230), 170, 0, 128);
+        Color color = Color(static_cast<uint8_t>(230), 170, 0, 128);
         pVideo->Draw_Rect(0, 0, static_cast<float>(game_res_w), 30, 0.12f, &color);
         // Line
-        color = Color(static_cast<Uint8>(200), 150, 0, 128);
+        color = Color(static_cast<uint8_t>(200), 150, 0, 128);
         pVideo->Draw_Rect(0, 30, static_cast<float>(game_res_w), 5, 0.121f, &color);
 
         // Overworld name and level
-        m_hud_world_name->Draw();
-        m_hud_level_name->Draw();
+        pFont->Queue_Text(m_hud_world_name);
+        pFont->Queue_Text(m_hud_level_name);
     }
 
     // hud
@@ -514,16 +505,16 @@ void cOverworld::Update_Camera(void)
 
     // todo : move to a Process_Input function
     if (pOverworld_Manager->m_camera_mode) {
-        if (pKeyboard->m_keys[pPreferences->m_key_right] || (pJoystick->m_right && pPreferences->m_joy_enabled)) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || (pJoystick->m_right && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(pFramerate->m_speed_factor * 15, 0);
         }
-        else if (pKeyboard->m_keys[pPreferences->m_key_left] || (pJoystick->m_left && pPreferences->m_joy_enabled)) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || (pJoystick->m_left && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(pFramerate->m_speed_factor * -15, 0);
         }
-        if (pKeyboard->m_keys[pPreferences->m_key_up] || (pJoystick->m_up && pPreferences->m_joy_enabled)) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up) || (pJoystick->m_up && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(0, pFramerate->m_speed_factor * -15);
         }
-        else if (pKeyboard->m_keys[pPreferences->m_key_down] || (pJoystick->m_down && pPreferences->m_joy_enabled)) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down) || (pJoystick->m_down && pPreferences->m_joy_enabled)) {
             pOverworld_Manager->m_camera->Move(0, pFramerate->m_speed_factor * 15);
         }
     }
@@ -533,63 +524,63 @@ void cOverworld::Update_Camera(void)
     }
 }
 
-bool cOverworld::Key_Down(SDLKey key)
+bool cOverworld::Key_Down(const sf::Event& evt)
 {
-    if (key == SDLK_LEFT) {
+    if (evt.key.code == sf::Keyboard::Left) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_LEFT);
         }
         return 0;
     }
-    else if (key == SDLK_RIGHT) {
+    else if (evt.key.code == sf::Keyboard::Right) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_RIGHT);
         }
         return 0;
     }
-    else if (key == SDLK_UP) {
+    else if (evt.key.code == sf::Keyboard::Up) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_UP);
         }
         return 0;
     }
-    else if (key == SDLK_DOWN) {
+    else if (evt.key.code == sf::Keyboard::Down) {
         if (!pOverworld_Manager->m_camera_mode && !editor_world_enabled) {
             pOverworld_Player->Action_Interact(INP_DOWN);
         }
         return 0;
     }
-    else if (key == SDLK_c && !editor_world_enabled) {
+    else if (evt.key.code == sf::Keyboard::C && !editor_world_enabled) {
         pOverworld_Manager->m_camera_mode = !pOverworld_Manager->m_camera_mode;
     }
-    else if (key == SDLK_F8) {
+    else if (evt.key.code == sf::Keyboard::F8) {
         pWorld_Editor->Toggle();
     }
-    else if (key == SDLK_d && pKeyboard->Is_Ctrl_Down()) {
+    else if (evt.key.code == sf::Keyboard::D && evt.key.control) {
         pOverworld_Manager->m_debug_mode = !pOverworld_Manager->m_debug_mode;
         game_debug = pOverworld_Manager->m_debug_mode;
     }
-    else if (key == SDLK_l && pOverworld_Manager->m_debug_mode) {
+    else if (evt.key.code == sf::Keyboard::L && pOverworld_Manager->m_debug_mode) {
         // toggle layer drawing
         pOverworld_Manager->m_draw_layer = !pOverworld_Manager->m_draw_layer;
     }
-    else if (pKeyboard->m_keys[SDLK_g] && pKeyboard->m_keys[SDLK_o] && pKeyboard->m_keys[SDLK_d]) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && sf::Keyboard::isKeyPressed(sf::Keyboard::O) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         // all waypoint access
         Set_Progress(m_waypoints.size(), 1);
     }
-    else if (key == SDLK_F3 && pOverworld_Manager->m_debug_mode) {
+    else if (evt.key.code == sf::Keyboard::F3 && pOverworld_Manager->m_debug_mode) {
         Goto_Next_Level();
     }
     // Exit
-    else if (key == SDLK_ESCAPE || key == SDLK_BACKSPACE) {
+    else if (evt.key.code == sf::Keyboard::Escape || evt.key.code == sf::Keyboard::BackSpace) {
         pOverworld_Player->Action_Interact(INP_EXIT);
     }
     // Action
-    else if (key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+    else if (evt.key.code == sf::Keyboard::Return || evt.key.code == sf::Keyboard::Space) {
         pOverworld_Player->Action_Interact(INP_ACTION);
     }
     // ## editor
-    else if (pWorld_Editor->Key_Down(key)) {
+    else if (pWorld_Editor->Key_Down(evt)) {
         // processed by the editor
         return 1;
     }
@@ -602,7 +593,7 @@ bool cOverworld::Key_Down(SDLKey key)
     return 1;
 }
 
-bool cOverworld::Key_Up(SDLKey key)
+bool cOverworld::Key_Up(const sf::Event& evt)
 {
     // nothing yet
     if (0) {
@@ -617,7 +608,7 @@ bool cOverworld::Key_Up(SDLKey key)
     return 1;
 }
 
-bool cOverworld::Mouse_Down(Uint8 button)
+bool cOverworld::Mouse_Down(sf::Mouse::Button button)
 {
     // ## editor
     if (pWorld_Editor->Mouse_Down(button)) {
@@ -633,7 +624,7 @@ bool cOverworld::Mouse_Down(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Mouse_Up(Uint8 button)
+bool cOverworld::Mouse_Up(sf::Mouse::Button button)
 {
     // ## editor
     if (pWorld_Editor->Mouse_Up(button)) {
@@ -649,7 +640,7 @@ bool cOverworld::Mouse_Up(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Joy_Button_Down(Uint8 button)
+bool cOverworld::Joy_Button_Down(unsigned int button)
 {
     // Exit
     if (button == pPreferences->m_joy_button_exit) {
@@ -668,7 +659,7 @@ bool cOverworld::Joy_Button_Down(Uint8 button)
     return 1;
 }
 
-bool cOverworld::Joy_Button_Up(Uint8 button)
+bool cOverworld::Joy_Button_Up(unsigned int button)
 {
     // nothing yet
     if (0) {
@@ -797,7 +788,7 @@ void cOverworld::Update_Waypoint_text(void)
     cWaypoint* waypoint = m_waypoints[pOverworld_Player->m_current_waypoint];
 
     // set color
-    Color color = static_cast<Uint8>(0);
+    Color color = static_cast<uint8_t>(0);
 
     if (waypoint->m_waypoint_type == WAYPOINT_NORMAL) {
         color = lightblue;
@@ -806,7 +797,7 @@ void cOverworld::Update_Waypoint_text(void)
         color = green;
     }
 
-    m_hud_level_name->Set_Image(pFont->Render_Text(pFont->m_font_normal, waypoint->Get_Destination(), color), 1, 1);
+    pFont->Prepare_SFML_Text(m_hud_level_name, waypoint->Get_Destination(), 480, 2, cFont_Manager::FONTSIZE_NORMAL, color, true);
 }
 
 bool cOverworld::Goto_Next_Level(void)
@@ -865,10 +856,10 @@ bool cOverworld::Goto_Next_Level(void)
 
         // World Waypoint
         if (next_waypoint->m_waypoint_type == WAYPOINT_WORLD_LINK) {
-            anim->Set_Color(whitealpha128, Color(static_cast<Uint8>(0), 0, 0, 128));
+            anim->Set_Color(whitealpha128, Color(static_cast<uint8_t>(0), 0, 0, 128));
         }
         else {
-            anim->Set_Color(orange, Color(static_cast<Uint8>(6), 60, 20, 0));
+            anim->Set_Color(orange, Color(static_cast<uint8_t>(6), 60, 20, 0));
         }
 
         // add animation

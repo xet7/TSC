@@ -1,5 +1,7 @@
 width 64
 height 64
 editor_tags world;way
-name Yellow_Cross
-author Manuel_Föllmi
+name Cross
+type passive
+author skarfester
+license CC-BY_4.0

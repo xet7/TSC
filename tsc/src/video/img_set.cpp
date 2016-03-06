@@ -38,7 +38,7 @@ cImageSet::FrameInfo::FrameInfo()
 }
 
 /* *** *** *** *** *** *** *** cImageSet::Parser *** *** *** *** *** *** *** *** *** *** */
-cImageSet::Parser::Parser(Uint32 time)
+cImageSet::Parser::Parser(uint32_t time)
     : m_time_min(time), m_time_max(time)
 {
 }
@@ -185,7 +185,7 @@ cImageSet::~cImageSet()
 {
 }
 
-void cImageSet::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
+void cImageSet::Add_Image(cGL_Surface* image, uint32_t time /* = 0 */)
 {
     // set to default time
     if (time == 0) {
@@ -203,7 +203,7 @@ void cImageSet::Add_Image(cGL_Surface* image, Uint32 time /* = 0 */)
     m_images.push_back(obj);
 }
 
-bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path path, Uint32 time /* = 0 */, int* start_num /* = NULL */, int* end_num /* = NULL */)
+bool cImageSet::Add_Image_Set(const std::string& name, boost::filesystem::path path, uint32_t time /* = 0 */, int* start_num /* = NULL */, int* end_num /* = NULL */)
 {
     int start, end;
     boost::filesystem::path filename;
@@ -369,7 +369,7 @@ void cImageSet::Update_Animation(void)
 
     Surface& image = m_images[m_curr_img];
 
-    if (static_cast<Uint32>(m_anim_counter * m_anim_mod) >= image.m_time) {
+    if (static_cast<uint32_t>(m_anim_counter * m_anim_mod) >= image.m_time) {
         // leave old image
         int branch_target = image.Leave();
         if (branch_target >= 0) {
@@ -389,14 +389,14 @@ void cImageSet::Update_Animation(void)
         }
 
         // enter new image after updating animation counter
-        m_anim_counter = static_cast<Uint32>(m_anim_counter * m_anim_mod) - image.m_time;
+        m_anim_counter = static_cast<uint32_t>(m_anim_counter * m_anim_mod) - image.m_time;
         m_images[m_curr_img].Enter();
     }
 
     return;
 }
 
-void cImageSet::Set_Time_All(const Uint32 time, const bool default_time /* = 0 */)
+void cImageSet::Set_Time_All(const uint32_t time, const bool default_time /* = 0 */)
 {
     for (Surface_List::iterator itr = m_images.begin(); itr != m_images.end(); ++itr) {
         Surface& obj = (*itr);

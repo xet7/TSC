@@ -15,6 +15,7 @@
 
 #include "preferences_loader.hpp"
 #include "../core/global_basic.hpp"
+#include "../audio/audio.hpp"
 
 namespace fs = boost::filesystem;
 using namespace TSC;
@@ -175,12 +176,12 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
         mp_preferences->m_audio_sound = string_to_bool(value);
     else if (name == "audio_music_volume") {
         val = string_to_int(value);
-        if (val >= 0 && val <= MIX_MAX_VOLUME)
+        if (val >= 0 && val <= MAX_VOLUME)
             m_audio_music_volume = val;
     }
     else if (name == "audio_sound_volume") {
         val = string_to_int(value);
-        if (val >= 0 && val <= MIX_MAX_VOLUME)
+        if (val >= 0 && val <= MAX_VOLUME)
             m_audio_sound_volume = val;
     }
     else if (name == "audio_hz") {
@@ -191,90 +192,90 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
     //////////////////// Keyboard ////////////////////
     else if (name == "keyboard_key_up") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_up = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_up = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_down") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_down = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_down = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_left") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_left = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_left = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_right") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_right = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_right = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_jump") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_jump = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_jump = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_shoot") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_shoot = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_shoot = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_item") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_item = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_item = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_action") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_action = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_action = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_scroll_speed")
         mp_preferences->m_scroll_speed = string_to_float(value);
     else if (name == "keyboard_key_screenshot") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_screenshot = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_screenshot = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_fast_copy_up") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_fast_copy_up = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_fast_copy_up = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_fast_copy_down") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_fast_copy_down = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_fast_copy_down = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_fast_copy_left") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_fast_copy_left = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_fast_copy_left = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_fast_copy_right") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_fast_copy_right = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_fast_copy_right = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_pixel_move_up") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_pixel_move_up = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_pixel_move_up = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_pixel_move_down") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_pixel_move_down = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_pixel_move_down = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_pixel_move_left") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_pixel_move_left = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_pixel_move_left = static_cast<sf::Keyboard::Key>(val);
     }
     else if (name == "keyboard_key_editor_pixel_move_right") {
         val = string_to_int(value);
-        if (val >= 0 && val <= SDLK_LAST)
-            mp_preferences->m_key_editor_pixel_move_right = static_cast<SDLKey>(val);
+        if (val >= 0 && val < sf::Keyboard::KeyCount)
+            mp_preferences->m_key_editor_pixel_move_right = static_cast<sf::Keyboard::Key>(val);
     }
     //////////////////// Joypad ////////////////////
     else if (name == "joy_enabled")
@@ -286,12 +287,12 @@ void cPreferencesLoader::handle_property(const std::string& name, const std::str
     else if (name == "joy_axis_hor") {
         val = string_to_int(value);
         if (val >= 0 && val <= 256)
-            mp_preferences->m_joy_axis_hor = val;
+            mp_preferences->m_joy_axis_hor = static_cast<sf::Joystick::Axis>(val);
     }
     else if (name == "joy_axis_ver") {
         val = string_to_int(value);
         if (val >= 0 && val <= 256)
-            mp_preferences->m_joy_axis_ver = val;
+            mp_preferences->m_joy_axis_ver = static_cast<sf::Joystick::Axis>(val);
     }
     else if (name == "joy_axis_threshold") {
         val = string_to_int(value);

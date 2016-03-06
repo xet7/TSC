@@ -119,30 +119,33 @@ std::string cDialogBox_Text::Enter(std::string default_text, std::string title_t
     finished = 0;
 
     while (!finished) {
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::TextEntered) {
+                pKeyboard->Text_Entered(input_event);
+            }
+            else if (input_event.type == sf::Event::KeyPressed) {
                 if (auto_no_text && default_text.compare(box_editbox->getText().c_str()) == 0) {
                     box_editbox->setText("");
                     // only the first time
                     auto_no_text = 0;
                 }
 
-                if (input_event.key.keysym.sym == SDLK_ESCAPE) {
+                if (input_event.key.code == sf::Keyboard::Escape) {
                     box_editbox->setText("");
                     finished = 1;
                 }
-                else if (input_event.key.keysym.sym == SDLK_RETURN || input_event.key.keysym.sym == SDLK_KP_ENTER) {
+                else if (input_event.key.code == sf::Keyboard::Return) {
                     finished = 1;
                 }
                 else {
-                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.keysym.sym);
+                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.code);
                 }
             }
-            else if (input_event.type == SDL_KEYUP) {
-                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.keysym.sym);
+            else if (input_event.type == sf::Event::KeyReleased) {
+                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.code);
             }
             else {
-                pMouseCursor->Handle_Event(&input_event);
+                pMouseCursor->Handle_Event(input_event);
             }
         }
 
@@ -236,9 +239,12 @@ int cDialogBox_Question::Enter(std::string text, bool with_cancel /* = 0 */)
     while (!finished) {
         Draw();
 
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
-                if (input_event.key.keysym.sym == SDLK_ESCAPE) {
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::TextEntered) {
+                pKeyboard->Text_Entered(input_event);
+            }
+            else if (input_event.type == sf::Event::KeyPressed) {
+                if (input_event.key.code == sf::Keyboard::Escape) {
                     if (with_cancel) {
                         return_value = -1;
                     }
@@ -248,19 +254,19 @@ int cDialogBox_Question::Enter(std::string text, bool with_cancel /* = 0 */)
 
                     finished = 1;
                 }
-                else if (input_event.key.keysym.sym == SDLK_RETURN || input_event.key.keysym.sym == SDLK_KP_ENTER) {
+                else if (input_event.key.code == sf::Keyboard::Return) {
                     return_value = 1;
                     finished = 1;
                 }
                 else {
-                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.keysym.sym);
+                    pKeyboard->CEGUI_Handle_Key_Down(input_event.key.code);
                 }
             }
-            else if (input_event.type == SDL_KEYUP) {
-                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.keysym.sym);
+            else if (input_event.type == sf::Event::KeyReleased) {
+                pKeyboard->CEGUI_Handle_Key_Up(input_event.key.code);
             }
             else {
-                pMouseCursor->Handle_Event(&input_event);
+                pMouseCursor->Handle_Event(input_event);
             }
         }
 
@@ -300,7 +306,7 @@ void Gui_Handle_Time(void)
     static float last_time_pulse = 0;
 
     // get current "run-time" in seconds
-    float t = 0.001f * SDL_GetTicks();
+    float t = 0.001f * TSC_GetTicks();
 
     // inject the time that passed since the last call
     CEGUI::System::getSingleton().injectTimePulse(t - last_time_pulse);
@@ -356,8 +362,8 @@ void Draw_Static_Text(const std::string& text, const Color* color_text /* = &whi
         pVideo->Render();
 
         if (wait_for_input) {
-            while (SDL_PollEvent(&input_event)) {
-                if (input_event.type == SDL_KEYDOWN || input_event.type == SDL_JOYBUTTONDOWN || input_event.type == SDL_MOUSEBUTTONDOWN) {
+            while (pVideo->mp_window->pollEvent(input_event)) {
+                if (input_event.type == sf::Event::KeyPressed || input_event.type == sf::Event::JoystickButtonPressed || input_event.type == sf::Event::MouseButtonPressed) {
                     draw = 0;
                 }
             }
@@ -399,149 +405,6 @@ int Box_Question(const std::string& text, bool with_cancel /* = 0 */)
     delete box;
 
     return return_value;
-}
-
-std::string Get_Clipboard_Content(void)
-{
-    std::string content;
-#ifdef _WIN32
-    if (OpenClipboard(NULL)) {
-        bool ucs2 = 0;
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            ucs2 = 1;
-        }
-
-        HANDLE h;
-
-        // Both have line ends as CR-LF and a null character at the end of the data.
-        if (ucs2) {
-            // CF_UNICODETEXT is UCS-2
-            h = GetClipboardData(CF_UNICODETEXT);
-        }
-        else {
-            // CF_TEXT is Windows-1252
-            h = GetClipboardData(CF_TEXT);
-        }
-
-        // no handle
-        if (!h) {
-            cerr << "Could not get clipboard data" << endl;
-            CloseClipboard();
-            return content;
-        }
-
-        // get content
-        if (ucs2) {
-            content = ucs2_to_utf8(static_cast<wchar_t*>(GlobalLock(h)));
-        }
-        else {
-            content = static_cast<char*>(GlobalLock(h));
-        }
-
-        // clean up
-        GlobalUnlock(h);
-        CloseClipboard();
-    }
-#elif __APPLE__
-    // not tested
-    ScrapRef scrap;
-    if (::GetCurrentScrap(&scrap) != noErr) {
-        return false;
-    }
-
-    Size bytecount = 0;
-    OSStatus status = ::GetScrapFlavorSize(scrap, kScrapFlavorTypeText, &bytecount);
-    if (status != noErr) {
-        return false;
-    }
-
-    char* buffer = new char[bytecount];
-    if (::GetScrapFlavorData(scrap, kScrapFlavorTypeText, &bytecount, buffer) == noErr) {
-        content = static_cast<char*>(buffer);
-    }
-
-    delete[] buffer;
-#elif __unix__
-    // only works with the cut-buffer method (xterm) and not with the more recent selections method
-    SDL_SysWMinfo sdlinfo;
-    SDL_VERSION(&sdlinfo.version);
-    if (SDL_GetWMInfo(&sdlinfo)) {
-        sdlinfo.info.x11.lock_func();
-        Display* display = sdlinfo.info.x11.display;
-        int count = 0;
-        char* msg = XFetchBytes(display, &count);
-        if (msg) {
-            if (count > 0) {
-                content.append(msg, count);
-            }
-
-            XFree(msg);
-        }
-
-        sdlinfo.info.x11.unlock_func();
-    }
-#endif
-    return content;
-}
-
-void Set_Clipboard_Content(std::string str)
-{
-#ifdef _WIN32
-    if (OpenClipboard(NULL)) {
-        if (!EmptyClipboard()) {
-            cerr << "Failed to empty clipboard" << endl;
-            return;
-        }
-
-        unsigned int length = (str.length() + 1) * sizeof(std::string::allocator_type);
-        HANDLE h = GlobalAlloc((GMEM_MOVEABLE|GMEM_DDESHARE|GMEM_ZEROINIT), length);
-
-        if (!h) {
-            cerr << "Could not allocate clipboard memory" << endl;
-            return;
-        }
-
-        void* data = GlobalLock(h);
-
-        if (!data) {
-            GlobalFree(h);
-            CloseClipboard();
-            cerr << "Could not lock clipboard memory" << endl;
-            return;
-        }
-
-        memcpy(data, str.c_str(), length);
-        GlobalUnlock(h);
-
-        HANDLE data_result = SetClipboardData(CF_TEXT, h);
-
-        if (!data_result) {
-            GlobalFree(h);
-            CloseClipboard();
-            cerr << "Could not set clipboard data" << endl;
-        }
-
-        CloseClipboard();
-    }
-#elif __APPLE__
-    // not implemented
-#elif __unix__
-    SDL_SysWMinfo sdlinfo;
-    SDL_VERSION(&sdlinfo.version);
-    if (SDL_GetWMInfo(&sdlinfo)) {
-        sdlinfo.info.x11.lock_func();
-        Display* display = sdlinfo.info.x11.display;
-        Window window = sdlinfo.info.x11.window;
-
-        XChangeProperty(display, DefaultRootWindow(display), XA_CUT_BUFFER0, XA_STRING, 8, PropModeReplace, static_cast<const unsigned char*>(static_cast<const void*>(str.c_str())), str.length());
-
-        if (XGetSelectionOwner(display, XA_PRIMARY) != window) {
-            XSetSelectionOwner(display, XA_PRIMARY, window, CurrentTime);
-        }
-
-        sdlinfo.info.x11.unlock_func();
-    }
-#endif
 }
 
 bool GUI_Copy_To_Clipboard(bool cut)
@@ -601,8 +464,13 @@ bool GUI_Copy_To_Clipboard(bool cut)
         return 0;
     }
 
-    Set_Clipboard_Content(sel_text.c_str());
-    return 1;
+    if (tiny_clipwrite(sel_text.c_str()) < 0) {
+        perror("Failed to write to clipboard");
+        return 0;
+    }
+    else {
+        return 1;
+    }
 }
 
 bool GUI_Paste_From_Clipboard(void)
@@ -639,7 +507,15 @@ bool GUI_Paste_From_Clipboard(void)
         new_text.erase(beg, len);
 
         // get clipboard text
-        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(Get_Clipboard_Content().c_str());
+        char* cliptext = tiny_clipread(NULL);
+        if (!cliptext) {
+            perror("Failed to read from clipboard");
+            return 0;
+        }
+
+        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(cliptext);
+        free(cliptext);
+
         // set new text
         editbox->setText(new_text.insert(beg, clipboard_text));
         // set new carat index
@@ -661,7 +537,15 @@ bool GUI_Paste_From_Clipboard(void)
         new_text.erase(beg, len);
 
         // get clipboard text
-        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(Get_Clipboard_Content().c_str());
+        char* cliptext = tiny_clipread(NULL);
+        if (!cliptext) {
+            perror("Failed to read from clipboard");
+            return 0;
+        }
+
+        CEGUI::String clipboard_text = reinterpret_cast<const CEGUI::utf8*>(cliptext);
+        free(cliptext);
+
         // set new text
         editbox->setText(new_text.insert(beg, clipboard_text));
         // set new carat index

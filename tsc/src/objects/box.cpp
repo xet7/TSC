@@ -421,15 +421,15 @@ void cBaseBox::Draw(cSurface_Request* request /* = NULL */)
 
             // default invisible
             if (m_box_invisible == BOX_INVISIBLE_MASSIVE) {
-                color = Color(static_cast<Uint8>(240), 0, 30, 128);
+                color = Color(static_cast<uint8_t>(240), 0, 30, 128);
             }
             // ghost
             else if (m_box_invisible == BOX_GHOST) {
-                color = Color(static_cast<Uint8>(20), 20, 150, 128);
+                color = Color(static_cast<uint8_t>(20), 20, 150, 128);
             }
             // invisible semi massive
             else if (m_box_invisible == BOX_INVISIBLE_SEMI_MASSIVE) {
-                color = Color(static_cast<Uint8>(180), 0, 10, 128);
+                color = Color(static_cast<uint8_t>(180), 0, 10, 128);
             }
 
             pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y, m_rect.m_w, m_rect.m_h, m_pos_z, &color);
@@ -478,47 +478,47 @@ void cBaseBox::Generate_Activation_Particles(void)
             anim->Set_Emitter_Time_to_Live(0.5f);
             anim->Set_Scale(0.3f, 0.1f);
         }
-        anim->Set_Pos_Z(m_pos_z - 0.000001f);
+        anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
         anim->Set_Direction_Range(260, 20);
 
         Color color;
         Color color_rand;
 
         if (box_type == TYPE_UNDEFINED) {
-            color = Color(static_cast<Uint8>(128), 128, 128, 128);
-            color_rand = Color(static_cast<Uint8>(0), 0, 0, 128);
+            color = Color(static_cast<uint8_t>(128), 128, 128, 128);
+            color_rand = Color(static_cast<uint8_t>(0), 0, 0, 128);
         }
         else if (box_type == TYPE_MUSHROOM_DEFAULT) {
-            color = Color(static_cast<Uint8>(180), 140, 120);
-            color_rand = Color(static_cast<Uint8>(70), 30, 30, 0);
+            color = Color(static_cast<uint8_t>(180), 140, 120);
+            color_rand = Color(static_cast<uint8_t>(70), 30, 30, 0);
         }
         else if (box_type == TYPE_FIREPLANT) {
-            color = Color(static_cast<Uint8>(220), 150, 70);
-            color_rand = Color(static_cast<Uint8>(30), 10, 10, 0);
+            color = Color(static_cast<uint8_t>(220), 150, 70);
+            color_rand = Color(static_cast<uint8_t>(30), 10, 10, 0);
         }
         else if (box_type == TYPE_MUSHROOM_BLUE) {
-            color = Color(static_cast<Uint8>(180), 180, 240);
-            color_rand = Color(static_cast<Uint8>(40), 40, 10, 0);
+            color = Color(static_cast<uint8_t>(180), 180, 240);
+            color_rand = Color(static_cast<uint8_t>(40), 40, 10, 0);
         }
         else if (box_type == TYPE_MUSHROOM_GHOST) {
-            color = Color(static_cast<Uint8>(100), 100, 100);
-            color_rand = Color(static_cast<Uint8>(10), 10, 10, 0);
+            color = Color(static_cast<uint8_t>(100), 100, 100);
+            color_rand = Color(static_cast<uint8_t>(10), 10, 10, 0);
         }
         else if (box_type == TYPE_MUSHROOM_LIVE_1) {
-            color = Color(static_cast<Uint8>(120), 200, 120);
-            color_rand = Color(static_cast<Uint8>(20), 50, 20, 0);
+            color = Color(static_cast<uint8_t>(120), 200, 120);
+            color_rand = Color(static_cast<uint8_t>(20), 50, 20, 0);
         }
         else if (box_type == TYPE_STAR) {
-            color = Color(static_cast<Uint8>(180), 150, 100);
-            color_rand = Color(static_cast<Uint8>(70), 70, 0, 0);
+            color = Color(static_cast<uint8_t>(180), 150, 100);
+            color_rand = Color(static_cast<uint8_t>(70), 70, 0, 0);
         }
         else if (box_type == TYPE_MUSHROOM_POISON) {
-            color = Color(static_cast<Uint8>(80), 100, 10);
-            color_rand = Color(static_cast<Uint8>(20), 90, 20, 0);
+            color = Color(static_cast<uint8_t>(80), 100, 10);
+            color_rand = Color(static_cast<uint8_t>(20), 90, 20, 0);
         }
         else {
             color = white;
-            color_rand = Color(static_cast<Uint8>(0), 0, 0, 0);
+            color_rand = Color(static_cast<uint8_t>(0), 0, 0, 0);
         }
         anim->Set_Color(color, color_rand);
 

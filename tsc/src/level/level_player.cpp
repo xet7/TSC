@@ -178,7 +178,7 @@ bool cLevel_Player::Set_On_Ground(cSprite* obj, bool set_on_top /* = 1 */)
         }
 
         // if massive ground and ducking key is pressed
-        if (m_ground_object->m_massive_type == MASS_MASSIVE && pKeyboard->m_keys[pPreferences->m_key_down]) {
+        if (m_ground_object->m_massive_type == MASS_MASSIVE && sf::Keyboard::isKeyPressed(pPreferences->m_key_down)) {
             Start_Ducking();
         }
     }
@@ -259,7 +259,7 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
     pVideo->Render();
 
     // wait
-    SDL_Delay(500);
+    sf::sleep(sf::milliseconds(500));
     pFramerate->Reset();
 
     Set_Image_Num(ALEX_IMG_DEAD);
@@ -267,17 +267,17 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
     float i;
 
     for (i = 0.0f; i < 7.0f; i += pFramerate->m_speed_factor) {
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
-                if (input_event.key.keysym.sym == SDLK_ESCAPE) {
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::KeyPressed) {
+                if (input_event.key.code == sf::Keyboard::Escape) {
                     goto animation_end;
                 }
-                else if (input_event.key.keysym.sym == pPreferences->m_key_screenshot) {
+                else if (input_event.key.code == pPreferences->m_key_screenshot) {
                     pVideo->Save_Screenshot();
                 }
             }
-            else if (input_event.type == SDL_JOYBUTTONDOWN) {
-                if (input_event.jbutton.button == pPreferences->m_joy_button_exit) {
+            else if (input_event.type == sf::Event::JoystickButtonPressed) {
+                if (input_event.joystickButton.button == pPreferences->m_joy_button_exit) {
                     goto animation_end;
                 }
             }
@@ -293,23 +293,23 @@ void cLevel_Player::DownGrade_Player(bool delayed /* = true */, bool force /* = 
     }
 
     // very small delay until falling animation
-    SDL_Delay(300);
+    sf::sleep(sf::milliseconds(300));
 
     pFramerate->Reset();
     m_walk_count = 0.0f;
 
     for (i = 0.0f; m_col_rect.m_y < pActive_Camera->m_y + game_res_h; i++) {
-        while (SDL_PollEvent(&input_event)) {
-            if (input_event.type == SDL_KEYDOWN) {
-                if (input_event.key.keysym.sym == SDLK_ESCAPE) {
+        while (pVideo->mp_window->pollEvent(input_event)) {
+            if (input_event.type == sf::Event::KeyPressed) {
+                if (input_event.key.code == sf::Keyboard::Escape) {
                     goto animation_end;
                 }
-                else if (input_event.key.keysym.sym == pPreferences->m_key_screenshot) {
+                else if (input_event.key.code == pPreferences->m_key_screenshot) {
                     pVideo->Save_Screenshot();
                 }
             }
-            else if (input_event.type == SDL_JOYBUTTONDOWN) {
-                if (input_event.jbutton.button == pPreferences->m_joy_button_exit) {
+            else if (input_event.type == sf::Event::JoystickButtonPressed) {
+                if (input_event.joystickButton.button == pPreferences->m_joy_button_exit) {
                     goto animation_end;
                 }
             }
@@ -362,26 +362,27 @@ animation_end:
         anim->Set_Fading_Alpha(1);
         anim->Set_Speed(2.0f, 0.5f);
         anim->Set_Scale(0.9f);
-        anim->Set_Color(Color(static_cast<Uint8>(250), 140, 90), Color(static_cast<Uint8>(5), 100, 0, 0));
+        anim->Set_Color(Color(static_cast<uint8_t>(250), 140, 90), Color(static_cast<uint8_t>(5), 100, 0, 0));
         anim->Set_Const_Rotation_Z(-2.0f, 4.0f);
 
         for (i = 10.0f; i > 0.0f; i -= 0.011f * pFramerate->m_speed_factor) {
-            while (SDL_PollEvent(&input_event)) {
-                if (input_event.type == SDL_KEYDOWN) {
-                    if (input_event.key.keysym.sym == pPreferences->m_key_screenshot) {
+            while (pVideo->mp_window->pollEvent(input_event)) {
+                if (input_event.type == sf::Event::KeyPressed) {
+                    if (input_event.key.code == pPreferences->m_key_screenshot) {
                         pVideo->Save_Screenshot();
                     }
                 }
             }
 
-            Uint8* keys = SDL_GetKeyState(NULL);
+            // TODO: Why is the below not simply handled as events in the above event loop?
+
             // Escape stops
-            if (keys[SDLK_ESCAPE] || keys[SDLK_RETURN] || keys[SDLK_SPACE] || keys[pPreferences->m_key_action]) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(pPreferences->m_key_action)) {
                 break;
             }
 
             // if joystick enabled and exit pressed
-            if (pPreferences->m_joy_enabled && SDL_JoystickGetButton(pJoystick->m_joystick, pPreferences->m_joy_button_exit)) {
+            if (pPreferences->m_joy_enabled && sf::Joystick::isButtonPressed(pJoystick->m_current_joystick, pPreferences->m_joy_button_exit)) {
                 break;
             }
 
@@ -529,7 +530,7 @@ void cLevel_Player::Generate_Feet_Clouds(cParticle_Emitter* anim /* = NULL */)
     }
 
     anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + m_col_rect.m_h - 2.0f, m_col_rect.m_w);
-    anim->Set_Pos_Z(m_pos_z - 0.000001f);
+    anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
 
     float vel;
 
@@ -613,7 +614,7 @@ void cLevel_Player::Update_Walking(void)
     }
 
     // only if left or right is pressed
-    if (pKeyboard->m_keys[pPreferences->m_key_left] || pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_left || pJoystick->m_right) {
+    if (sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || pJoystick->m_left || pJoystick->m_right) {
         float ground_mod = 1.0f;
 
         if (m_ground_object && m_ground_object->m_image) {
@@ -682,7 +683,7 @@ void cLevel_Player::Update_Running(void)
             cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
             anim->Set_Emitter_Rect(m_col_rect.m_x + m_col_rect.m_w * 0.25f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.5f, m_col_rect.m_h * 0.8f);
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-            anim->Set_Pos_Z(m_pos_z + 0.000001f);
+            anim->Set_Pos_Z(m_pos_z + m_pos_z_delta);
             anim->Set_Time_to_Live(0.1f + vel * 0.03f);
             anim->Set_Fading_Alpha(1);
             anim->Set_Fading_Size(1);
@@ -717,7 +718,7 @@ void cLevel_Player::Update_Staying(void)
     }
 
     // if left and right is not pressed
-    if (!pKeyboard->m_keys[pPreferences->m_key_left] && !pKeyboard->m_keys[pPreferences->m_key_right] && !pJoystick->m_left && !pJoystick->m_right) {
+    if (!sf::Keyboard::isKeyPressed(pPreferences->m_key_left) && !sf::Keyboard::isKeyPressed(pPreferences->m_key_right) && !pJoystick->m_left && !pJoystick->m_right) {
         // walking
         if (m_velx) {
             if (m_ground_object->m_image && m_ground_object->m_image->m_ground_type == GROUND_ICE) {
@@ -783,7 +784,7 @@ void cLevel_Player::Update_Flying(void)
         }
 
         // move down
-        if (pKeyboard->m_keys[pPreferences->m_key_down] || pJoystick->m_down) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down) || pJoystick->m_down) {
             const float max_vel = 5.0f * Get_Vel_Modifier();
 
             if (m_vely < max_vel) {
@@ -791,7 +792,7 @@ void cLevel_Player::Update_Flying(void)
             }
         }
         // move up
-        else if (pKeyboard->m_keys[pPreferences->m_key_up] || pJoystick->m_up) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up) || pJoystick->m_up) {
             const float max_vel = -5.0f * Get_Vel_Modifier();
 
             if (m_vely > max_vel) {
@@ -810,7 +811,7 @@ void cLevel_Player::Update_Flying(void)
     // falling
     else {
         // move left
-        if ((pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left) && !m_ducked_counter) {
+        if ((sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || pJoystick->m_left) && !m_ducked_counter) {
             if (!m_parachute) {
                 const float max_vel = -10.0f * Get_Vel_Modifier();
 
@@ -828,7 +829,7 @@ void cLevel_Player::Update_Flying(void)
             }
         }
         // move right
-        else if ((pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right) && !m_ducked_counter) {
+        else if ((sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || pJoystick->m_right) && !m_ducked_counter) {
             if (!m_parachute) {
                 const float max_vel = 10.0f * Get_Vel_Modifier();
 
@@ -1013,7 +1014,7 @@ void cLevel_Player::Update_Ducking(void)
             anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + (m_col_rect.m_h * 0.8f), m_col_rect.m_w * 0.9f, m_col_rect.m_h * 0.1f);
             anim->Set_Quota(static_cast<int>(m_ducked_animation_counter));
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/star_2.png"));
-            anim->Set_Pos_Z(m_pos_z - 0.000001f, 0.000002f);
+            anim->Set_Pos_Z(m_pos_z - m_pos_z_delta, 0.000002f);
             anim->Set_Time_to_Live(0.3f);
             anim->Set_Fading_Alpha(1);
             anim->Set_Fading_Size(1);
@@ -1068,17 +1069,17 @@ void cLevel_Player::Update_Climbing(void)
 
     if (Is_On_Climbable()) {
         // set velocity
-        if (pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || pJoystick->m_left) {
             m_velx = -2.0f * Get_Vel_Modifier();
         }
-        else if (pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || pJoystick->m_right) {
             m_velx = 2.0f * Get_Vel_Modifier();
         }
 
-        if (pKeyboard->m_keys[pPreferences->m_key_up] || pJoystick->m_up) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up) || pJoystick->m_up) {
             m_vely = -4.0f * Get_Vel_Modifier();
         }
-        else if (pKeyboard->m_keys[pPreferences->m_key_down] || pJoystick->m_down) {
+        else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down) || pJoystick->m_down) {
             m_vely = 4.0f * Get_Vel_Modifier();
         }
 
@@ -1126,7 +1127,7 @@ bool cLevel_Player::Is_On_Climbable(float move_y /* = 0.0f */)
 
 void cLevel_Player::Start_Jump_Keytime(void)
 {
-    if (m_god_mode || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_FALL || m_state == STA_FLY || m_state == STA_JUMP || (m_state == STA_CLIMB && !pKeyboard->m_keys[pPreferences->m_key_up])) {
+    if (m_god_mode || m_state == STA_STAY || m_state == STA_WALK || m_state == STA_RUN || m_state == STA_FALL || m_state == STA_FLY || m_state == STA_JUMP || (m_state == STA_CLIMB && !sf::Keyboard::isKeyPressed(pPreferences->m_key_up))) {
         m_up_key_time = speedfactor_fps / 4;
     }
 }
@@ -1170,7 +1171,7 @@ void cLevel_Player::Start_Jump(float deaccel /* = 0.08f */)
     bool jump_key = 0;
 
     // if jump key pressed
-    if (pKeyboard->m_keys[pPreferences->m_key_jump] || (pPreferences->m_joy_analog_jump && pJoystick->m_up) || pJoystick->Button(pPreferences->m_joy_button_jump)) {
+    if (sf::Keyboard::isKeyPressed(pPreferences->m_key_jump) || (pPreferences->m_joy_analog_jump && pJoystick->m_up) || pJoystick->Button(pPreferences->m_joy_button_jump)) {
         jump_key = 1;
     }
 
@@ -1253,7 +1254,7 @@ void cLevel_Player::Update_Jump(void)
     }
 
     // jumping physics
-    if (pKeyboard->m_keys[pPreferences->m_key_jump] || (pPreferences->m_joy_analog_jump && pJoystick->m_up) || pJoystick->Button(pPreferences->m_joy_button_jump)) {
+    if (sf::Keyboard::isKeyPressed(pPreferences->m_key_jump) || (pPreferences->m_joy_analog_jump && pJoystick->m_up) || pJoystick->Button(pPreferences->m_joy_button_jump)) {
         Add_Velocity_Y(-(m_jump_accel_up + (m_vely * m_jump_vel_deaccel) / Get_Vel_Modifier()));
         m_jump_power -= pFramerate->m_speed_factor;
     }
@@ -1263,7 +1264,7 @@ void cLevel_Player::Update_Jump(void)
     }
 
     // left right physics
-    if ((pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left) && !m_ducked_counter) {
+    if ((sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || pJoystick->m_left) && !m_ducked_counter) {
         const float max_vel = -10.0f * Get_Vel_Modifier();
 
         if (m_velx > max_vel) {
@@ -1271,7 +1272,7 @@ void cLevel_Player::Update_Jump(void)
         }
 
     }
-    else if ((pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right) && !m_ducked_counter) {
+    else if ((sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || pJoystick->m_right) && !m_ducked_counter) {
         const float max_vel = 10.0f * Get_Vel_Modifier();
 
         if (m_velx < max_vel) {
@@ -1336,7 +1337,7 @@ void cLevel_Player::Update_Item(void)
     }
 
     // if control is pressed search for items in front of the player
-    if (pKeyboard->m_keys[pPreferences->m_key_action] || pJoystick->Button(pPreferences->m_joy_button_action)) {
+    if (sf::Keyboard::isKeyPressed(pPreferences->m_key_action) || pJoystick->Button(pPreferences->m_joy_button_action)) {
         // next position velocity with extra size
         float check_x = (m_velx > 0.0f) ? (m_velx + 5.0f) : (m_velx - 5.0f);
 
@@ -1988,15 +1989,15 @@ void cLevel_Player::Update(void)
             if (m_invincible_star_counter > 1.0f) {
                 // set particle color
                 Color particle_color = green;
-                particle_color.green += static_cast<Uint8>(m_invincible_mod / 5.0f);
-                particle_color.blue += static_cast<Uint8>(m_invincible_mod / 1.5f);
+                particle_color.green += static_cast<uint8_t>(m_invincible_mod / 5.0f);
+                particle_color.blue += static_cast<uint8_t>(m_invincible_mod / 1.5f);
 
                 // create particle
                 cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
                 anim->Set_Emitter_Rect(m_col_rect.m_x + m_col_rect.m_w * 0.1f, m_col_rect.m_y + m_col_rect.m_h * 0.1f, m_col_rect.m_w * 0.8f, m_col_rect.m_h * 0.8f);
                 anim->Set_Quota(static_cast<int>(m_invincible_star_counter));
                 anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-                anim->Set_Pos_Z(m_pos_z - 0.000001f);
+                anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
                 anim->Set_Time_to_Live(0.3f);
                 anim->Set_Fading_Alpha(1);
                 anim->Set_Fading_Size(1);
@@ -2196,7 +2197,7 @@ void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
         }
         // default invincible
         else {
-            Set_Color(255, 255, 255, 255 - static_cast<Uint8>(m_invincible_mod));
+            Set_Color(255, 255, 255, 255 - static_cast<uint8_t>(m_invincible_mod));
         }
     }
     // ghost
@@ -2211,7 +2212,7 @@ void cLevel_Player::Draw(cSurface_Request* request /* = NULL */)
             m_color.alpha -= 5;
             m_pos_x -= m_velx * 0.2f + Get_Random_Float(0, 1);
             m_pos_y -= m_vely * 0.2f + Get_Random_Float(0, 1);
-            m_pos_z -= 0.000001f;
+            m_pos_z -= m_pos_z_delta;
 
             cMovingSprite::Draw(request);
         }
@@ -2311,7 +2312,7 @@ void cLevel_Player::Draw_Animation(Alex_type new_mtype)
         pVideo->Render();
 
         // frame delay
-        SDL_Delay(120);
+        sf::sleep(sf::milliseconds(120));
     }
 
     pFramerate->Reset();
@@ -2822,8 +2823,8 @@ void cLevel_Player::Get_Item(SpriteType item_type, bool force /* = 0 */, cMoving
     // Star
     else if (item_type == TYPE_STAR) {
         // todo : check if music is already playing
-        pAudio->Play_Music("game/star.ogg", 0, 1, 500);
-        pAudio->Play_Music(pActive_Level->m_musicfile, -1, 0);
+        pAudio->Play_Music("game/star.ogg", false, 1, 500);
+        pAudio->Play_Music(pActive_Level->m_musicfile, true, 0);
         pHud_Points->Add_Points(1000, m_pos_x + (m_col_rect.m_w / 2), m_pos_y + 2);
         m_invincible = speedfactor_fps * 16.0f;
         m_invincible_star = speedfactor_fps * 15.0f;
@@ -2858,7 +2859,7 @@ float cLevel_Player::Get_Vel_Modifier(void) const
     float vel_mod = 1.0f;
 
     // if running key is pressed or always run
-    if (pPreferences->m_always_run || pKeyboard->m_keys[pPreferences->m_key_action] || pJoystick->Button(pPreferences->m_joy_button_action)) {
+    if (pPreferences->m_always_run || sf::Keyboard::isKeyPressed(pPreferences->m_key_action) || pJoystick->Button(pPreferences->m_joy_button_action)) {
         vel_mod = 1.5f;
     }
 
@@ -3172,7 +3173,7 @@ void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
     // Left
     else if (key_type == INP_LEFT) {
         // if key in opposite direction is still pressed only change direction
-        if (pKeyboard->m_keys[pPreferences->m_key_right] || pJoystick->m_right) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_right) || pJoystick->m_right) {
             m_direction = DIR_RIGHT;
         }
         else {
@@ -3182,7 +3183,7 @@ void cLevel_Player::Action_Stop_Interact(input_identifier key_type)
     // Right
     else if (key_type == INP_RIGHT) {
         // if key in opposite direction is still pressed only change direction
-        if (pKeyboard->m_keys[pPreferences->m_key_left] || pJoystick->m_left) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_left) || pJoystick->m_left) {
             m_direction = DIR_LEFT;
         }
         else {
@@ -3319,7 +3320,7 @@ bool cLevel_Player::Ball_Add(ball_effect effect_type /* = FIREBALL_DEFAULT */, f
             anim->Set_Quota(10);
             anim->Set_Time_to_Live(1.5f);
             anim->Set_Pos_Z(m_pos_z + 0.0001f);
-            anim->Set_Color(Color(static_cast<Uint8>(50), 50, 250));
+            anim->Set_Color(Color(static_cast<uint8_t>(50), 50, 250));
             anim->Set_Blending(BLEND_ADD);
             anim->Set_Speed(0.8f, 0.7f);
             anim->Set_Scale(0.4f, 0.2f);
@@ -3510,7 +3511,7 @@ Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
     }
     else if (obj->m_massive_type == MASS_HALFMASSIVE) {
         // fall through
-        if (pKeyboard->m_keys[pPreferences->m_key_down]) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down)) {
             return COL_VTYPE_NOT_VALID;
         }
 
@@ -3558,22 +3559,22 @@ Col_Valid_Type cLevel_Player::Validate_Collision(cSprite* obj)
             // warp levelexit key check
             if (levelexit->m_exit_type == LEVEL_EXIT_WARP) {
                 // joystick events are sent as keyboard keys
-                if (pKeyboard->m_keys[pPreferences->m_key_up]) {
+                if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up)) {
                     if (levelexit->m_start_direction == DIR_UP) {
                         Action_Interact(INP_UP);
                     }
                 }
-                else if (pKeyboard->m_keys[pPreferences->m_key_down]) {
+                else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_down)) {
                     if (levelexit->m_start_direction == DIR_DOWN) {
                         Action_Interact(INP_DOWN);
                     }
                 }
-                else if (pKeyboard->m_keys[pPreferences->m_key_right]) {
+                else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_right)) {
                     if (levelexit->m_start_direction == DIR_RIGHT) {
                         Action_Interact(INP_RIGHT);
                     }
                 }
-                else if (pKeyboard->m_keys[pPreferences->m_key_left]) {
+                else if (sf::Keyboard::isKeyPressed(pPreferences->m_key_left)) {
                     if (levelexit->m_start_direction == DIR_LEFT) {
                         Action_Interact(INP_LEFT);
                     }
@@ -3669,7 +3670,7 @@ void cLevel_Player::Handle_Collision_Enemy(cObjectCollision* collision)
         cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
         anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
         anim->Set_Time_to_Live(0.6f, 0.4f);
-        anim->Set_Color(Color(static_cast<Uint8>(160), 160, 240), Color(static_cast<Uint8>(rand() % 80), rand() % 80, rand() % 10, 0));
+        anim->Set_Color(Color(static_cast<uint8_t>(160), 160, 240), Color(static_cast<uint8_t>(rand() % 80), rand() % 80, rand() % 10, 0));
         anim->Set_Fading_Alpha(1);
         anim->Set_Fading_Size(1);
         anim->Set_Speed(0.5f, 0.2f);
@@ -3689,7 +3690,7 @@ void cLevel_Player::Handle_Collision_Enemy(cObjectCollision* collision)
         pAudio->Play_Sound("item/ice_kill.wav");
 
         // get points
-        pHud_Points->Add_Points(enemy->m_kill_points, enemy->m_pos_x, enemy->m_pos_y - 10.0f, "", static_cast<Uint8>(255), 1);
+        pHud_Points->Add_Points(enemy->m_kill_points, enemy->m_pos_x, enemy->m_pos_y - 10.0f, "", static_cast<uint8_t>(255), 1);
 
         // kill enemy
         enemy->DownGrade(1);
@@ -3741,7 +3742,7 @@ void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
     // climbable
     if (col_obj->m_massive_type == MASS_CLIMBABLE && m_state != STA_CLIMB && m_state != STA_FLY) {
         // if not climbing and player wants to climb
-        if (pKeyboard->m_keys[pPreferences->m_key_up] || pJoystick->m_up || ((pKeyboard->m_keys[pPreferences->m_key_down] || pJoystick->m_down) && !m_ground_object)) {
+        if (sf::Keyboard::isKeyPressed(pPreferences->m_key_up) || pJoystick->m_up || ((sf::Keyboard::isKeyPressed(pPreferences->m_key_down) || pJoystick->m_down) && !m_ground_object)) {
             // start climbing
             Start_Climbing();
         }
@@ -3791,9 +3792,9 @@ void cLevel_Player::Handle_Collision_Massive(cObjectCollision* collision)
                     anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + 6, m_col_rect.m_w);
                     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
                     anim->Set_Quota(4);
-                    anim->Set_Pos_Z(m_pos_z - 0.000001f);
+                    anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
                     anim->Set_Time_to_Live(0.3f);
-                    anim->Set_Color(Color(static_cast<Uint8>(150), 150, 150, 200), Color(static_cast<Uint8>(rand() % 55), rand() % 55, rand() % 55, 0));
+                    anim->Set_Color(Color(static_cast<uint8_t>(150), 150, 150, 200), Color(static_cast<uint8_t>(rand() % 55), rand() % 55, rand() % 55, 0));
                     anim->Set_Speed(2, 0.6f);
                     anim->Set_Scale(0.6f);
                     anim->Set_Direction_Range(0, 180);

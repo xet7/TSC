@@ -187,7 +187,7 @@ namespace TSC {
     static const int speedfactor_fps = 32;
 
     /* *** level engine version *** */
-    static const int level_engine_version = 46;
+    static const int level_engine_version = 47;
     /* *** world engine version *** */
     static const int world_engine_version = 5;
 
@@ -234,6 +234,7 @@ namespace TSC {
         TYPE_BEETLE = 69,
         TYPE_SHELL = 70,
         TYPE_LARRY = 72,
+        TYPE_DOOM_LARRY = 73,
         // items
         TYPE_POWERUP = 23,
         TYPE_MUSHROOM_DEFAULT = 25,

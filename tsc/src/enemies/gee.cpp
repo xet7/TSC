@@ -362,10 +362,10 @@ void cGee::Draw(cSurface_Request* request /* = NULL */)
     // draw distance rect
     if (editor_level_enabled) {
         if (m_start_direction == DIR_HORIZONTAL) {
-            pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x - m_max_distance, m_start_pos_y + (m_rect.m_h * 0.5f) - 5.0f - pActive_Camera->m_y, m_col_rect.m_w + (m_max_distance * 2.0f), 10.0f, m_pos_z - 0.000001f, &whitealpha128);
+            pVideo->Draw_Rect(m_start_pos_x - pActive_Camera->m_x - m_max_distance, m_start_pos_y + (m_rect.m_h * 0.5f) - 5.0f - pActive_Camera->m_y, m_col_rect.m_w + (m_max_distance * 2.0f), 10.0f, m_pos_z - m_pos_z_delta, &whitealpha128);
         }
         else if (m_start_direction == DIR_VERTICAL) {
-            pVideo->Draw_Rect(m_start_pos_x + (m_rect.m_w * 0.5f) - 5.0f - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y - m_max_distance, 10.0f, m_col_rect.m_h + (m_max_distance * 2.0f), m_pos_z - 0.000001f, &whitealpha128);
+            pVideo->Draw_Rect(m_start_pos_x + (m_rect.m_w * 0.5f) - 5.0f - pActive_Camera->m_x, m_start_pos_y - pActive_Camera->m_y - m_max_distance, 10.0f, m_col_rect.m_h + (m_max_distance * 2.0f), m_pos_z - m_pos_z_delta, &whitealpha128);
         }
     }
 
@@ -510,7 +510,7 @@ void cGee::Handle_Collision_Player(cObjectCollision* collision)
         DownGrade();
         pLevel_Player->Action_Jump(1);
 
-        pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+        pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
         pLevel_Player->Add_Kill_Multiplier();
     }
     else if (!pLevel_Player->m_invincible) {

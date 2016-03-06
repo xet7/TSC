@@ -32,6 +32,8 @@ namespace TSC {
 
 /* *** *** *** *** *** *** cRokko *** *** *** *** *** *** *** *** *** *** *** */
 
+const float cRokko::m_corrected_pos_z_delta = 10 * cSprite::m_pos_z_delta;
+
 cRokko::cRokko(cSprite_Manager* sprite_manager)
     : cEnemy(sprite_manager)
 {
@@ -331,7 +333,7 @@ void cRokko::Draw(cSurface_Request* request /* = NULL */)
         final_distance.m_x -= pActive_Camera->m_x;
         final_distance.m_y -= pActive_Camera->m_y;
 
-        pVideo->Draw_Rect(&final_distance, m_pos_z - 0.00001f, &whitealpha128);
+        pVideo->Draw_Rect(&final_distance, m_pos_z - m_corrected_pos_z_delta, &whitealpha128);
     }
 
     bool create_request = 0;
@@ -444,14 +446,14 @@ void cRokko::Generate_Smoke(unsigned int amount /* = 10 */) const
         anim->Set_Scale(0.3f, 0.6f);
     }
 
-    // - 0.000001f caused a weird graphical z pos bug with an ATI card
-    anim->Set_Pos_Z(m_pos_z - 0.00001f);
+    // - m_pos_z_delta caused a weird graphical z pos bug with an ATI card
+    anim->Set_Pos_Z(m_pos_z - m_corrected_pos_z_delta);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_grey_big.png"));
     anim->Set_Quota(amount);
     anim->Set_Time_to_Live(0.8f, 0.8f);
     anim->Set_Speed(1.0f, 0.2f);
     anim->Set_Const_Rotation_Z(-1, 2);
-    anim->Set_Color(Color(static_cast<Uint8>(155), 150, 130));
+    anim->Set_Color(Color(static_cast<uint8_t>(155), 150, 130));
     anim->Set_Fading_Alpha(1);
 
     anim->Emit();
@@ -463,12 +465,12 @@ void cRokko::Generate_Sparks(unsigned int amount /* = 5 */) const
     // animation
     cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
     anim->Set_Emitter_Rect(m_pos_x + m_col_rect.m_w * 0.2f, m_pos_y + m_rect.m_h * 0.2f, m_col_rect.m_w * 0.6f, m_rect.m_h * 0.6f);
-    anim->Set_Pos_Z(m_pos_z + 0.00001f);
+    anim->Set_Pos_Z(m_pos_z + m_corrected_pos_z_delta);
     anim->Set_Quota(amount);
     anim->Set_Time_to_Live(0.2f, 0.1f);
     anim->Set_Speed(1.2f, 1.1f);
     anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/light.png"));
-    anim->Set_Color(Color(static_cast<Uint8>(250), 250, 200), Color(static_cast<Uint8>(5), 5, 0, 0));
+    anim->Set_Color(Color(static_cast<uint8_t>(250), 250, 200), Color(static_cast<uint8_t>(5), 5, 0, 0));
     anim->Set_Scale(0.3f, 0.3f);
     anim->Set_Fading_Size(1);
     anim->Set_Fading_Alpha(0);
@@ -526,7 +528,7 @@ void cRokko::Handle_Collision_Player(cObjectCollision* collision)
         }
 
         if (collision->m_direction == DIR_TOP && pLevel_Player->m_state != STA_FLY) {
-            pHud_Points->Add_Points(m_kill_points, m_pos_x + m_rect.m_w / 3, m_pos_y - 10.0f, "", static_cast<Uint8>(255), 1);
+            pHud_Points->Add_Points(m_kill_points, m_pos_x + m_rect.m_w / 3, m_pos_y - 10.0f, "", static_cast<uint8_t>(255), 1);
             pAudio->Play_Sound(m_kill_sound);
             pLevel_Player->Action_Jump(1);
 
@@ -539,7 +541,7 @@ void cRokko::Handle_Collision_Player(cObjectCollision* collision)
     }
     else if (m_direction == DIR_UP || m_direction == DIR_DOWN) {
         if ((collision->m_direction == DIR_LEFT || collision->m_direction == DIR_LEFT) && pLevel_Player->m_state == STA_FLY) {
-            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<Uint8>(255), 1);
+            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
             pAudio->Play_Sound(m_kill_sound);
 
             pLevel_Player->Add_Kill_Multiplier();

@@ -1,5 +1,5 @@
 /***************************************************************************
- * larry.cpp - Run or die.
+ * larry.cpp - Run or pay the price.
  *
  * Copyright © 2014 The TSC Contributors
  ***************************************************************************/
@@ -16,6 +16,7 @@
 #include "larry.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../core/game_core.hpp"
+#include "../gui/hud.hpp"
 #include "../core/sprite_manager.hpp"
 #include "../core/i18n.hpp"
 #include "../level/level_player.hpp"
@@ -52,7 +53,7 @@ void cLarry::Init()
     m_pos_z = 0.09f;
     m_gravity_max = 29.0f;
 
-    m_kill_points = 300;
+    m_kill_points = 250;
     m_fire_resistant = false;
     m_ice_resistance = 1.0f;
     m_can_be_hit_from_shell = true;
@@ -238,6 +239,10 @@ void cLarry::Handle_Collision_Player(cObjectCollision* p_collision)
         return;
 
     if (p_collision->m_direction == DIR_TOP) {
+        if (m_state == STA_WALK) { //Only add points for the first jump that lights the fuse
+            pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
+            pLevel_Player->Add_Kill_Multiplier();
+        }
         DownGrade();
         pLevel_Player->Action_Jump(true);
     }
@@ -263,6 +268,7 @@ void cLarry::Handle_Ball_Hit(const cBall& ball, const cObjectCollision* p_collis
     // in order to ensure he disappears in the smoke of the explosion and not beforehand.
     Ball_Destroy_Animation(ball);
     DownGrade(true);
+    pHud_Points->Add_Points(m_kill_points, m_pos_x, m_pos_y - 5.0f, "", static_cast<uint8_t>(255), 1);
     pLevel_Player->Add_Kill_Multiplier();
 }
 
@@ -325,7 +331,8 @@ void cLarry::Kill_Objects_in_Explosion_Range()
     cSprite_List objects;
     pActive_Level->m_sprite_manager->Get_Colliding_Objects(objects, explosion_radius, true, this);
 
-    // DESTROY ’EM ALL. No normal downgrades, only forced ones.
+    // DESTROY ’EM ALL.
+    // Alex will be downgraded if hit and not killed instantly.
     cSprite_List::iterator iter;
     for (iter=objects.begin(); iter != objects.end(); iter++) {
         cSprite* p_obj = *iter;
@@ -333,7 +340,7 @@ void cLarry::Kill_Objects_in_Explosion_Range()
         cBaseBox* p_box = NULL;
 
         if (p_obj->m_type == TYPE_PLAYER) // This means p_obj == pLevel_Player
-            pLevel_Player->DownGrade_Player(true, true);
+            pLevel_Player->DownGrade_Player(true, false);
         else if ((p_enemy = dynamic_cast<cEnemy*>(p_obj)))
             p_enemy->DownGrade(true);
         else if ((p_box = dynamic_cast<cBaseBox*>(p_obj)))

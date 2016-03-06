@@ -30,7 +30,7 @@
 #include "../input/mouse.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../core/xml_attributes.hpp"
 
 namespace fs = boost::filesystem;
@@ -124,7 +124,7 @@ void cMoving_Platform::Init(void)
 
     m_max_distance_slow_down_pos = 0.0f;
     m_lowest_speed = 0.0f;
-    m_editor_color = Color(static_cast<Uint8>(100), 150, 200, 128);
+    m_editor_color = Color(static_cast<uint8_t>(100), 150, 200, 128);
 
     Set_Massive_Type(MASS_HALFMASSIVE);
     Set_Max_Distance(150);

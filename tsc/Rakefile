@@ -110,17 +110,8 @@ rule %r{.po$} => "data/translations/Secretchronicles.pot" do |t|
   sh "msgmerge -U #{Rake.original_dir}/#{t.name} '#{t.source}'"
 end
 
-desc "Generate the documentation."
-task :docs do
-  puts "Generating main API documentation"
-  sh "doxygen"
-  puts "Generating scripting API documentation"
-  cd "docs/scripting" do
-    sh "ruby gen_docs.rb"
-  end
-  puts "Generating SSL documentation"
-  sh "rdoc -o docs/ssl -m docs/scripting/ssl.rdoc -t 'TSC Standard Scripting Library' data/scripting docs/scripting/ssl.rdoc"
-end
+desc "Generate the documentation in the directory htmldocs/."
+task :docs => ["docs:doxygen", "docs:scripting_core_docs", "docs:scripting_ssl_docs"]
 
 desc "Create source tarball."
 task :tarball => :clobber do

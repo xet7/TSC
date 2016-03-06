@@ -40,6 +40,11 @@
 		<property name="color" value="FFA8C9F4" />
 	</item>
 	<item>
+		<property name="name" value="Mountains" />
+		<property name="tags" value="mountain" />
+		<property name="color" value="FFA16000" />
+	</item>
+	<item>
 		<property name="name" value="Pipes" />
 		<property name="tags" value="pipe" />
 		<property name="color" value="FF58D692" />

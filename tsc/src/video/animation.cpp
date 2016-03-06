@@ -24,7 +24,7 @@
 #include "../core/filesystem/filesystem.hpp"
 #include "../core/filesystem/resource_manager.hpp"
 #include "../core/filesystem/package_manager.hpp"
-#include "../core/filesystem/boost_relative.hpp"
+#include "../core/filesystem/relative.hpp"
 #include "../core/xml_attributes.hpp"
 #include "../input/mouse.hpp"
 #include "../core/global_basic.hpp"
@@ -438,14 +438,14 @@ void cParticle::Draw(cSurface_Request* request /* = NULL */)
 
     // color fading
     if (m_parent->m_fade_color) {
-        request->m_color.red = static_cast<Uint8>(m_color.red * m_fade_pos);
-        request->m_color.green = static_cast<Uint8>(m_color.green * m_fade_pos);
-        request->m_color.blue = static_cast<Uint8>(m_color.blue * m_fade_pos);
+        request->m_color.red = static_cast<uint8_t>(m_color.red * m_fade_pos);
+        request->m_color.green = static_cast<uint8_t>(m_color.green * m_fade_pos);
+        request->m_color.blue = static_cast<uint8_t>(m_color.blue * m_fade_pos);
     }
 
     // alpha fading
     if (m_parent->m_fade_alpha) {
-        request->m_color.alpha = static_cast<Uint8>(request->m_color.alpha * m_fade_pos);
+        request->m_color.alpha = static_cast<uint8_t>(request->m_color.alpha * m_fade_pos);
     }
 
     if (create_request) {
@@ -606,7 +606,7 @@ void cParticle_Emitter::Init(void)
     m_gravity_y_rand = 0.0f;
 
     // color
-    m_color_rand = Color(static_cast<Uint8>(0), 0, 0, 0);
+    m_color_rand = Color(static_cast<uint8_t>(0), 0, 0, 0);
     // default 1 second
     m_time_to_live = 1.0f;
     // default fading is alpha
@@ -1297,7 +1297,7 @@ void cParticle_Emitter::Set_Vertical_Gravity(float start, float random /* = 0 */
     m_gravity_y_rand = random;
 }
 
-void cParticle_Emitter::Set_Color(const Color& col, const Color& col_rand /* = Color( static_cast<Uint8>(0) ) */)
+void cParticle_Emitter::Set_Color(const Color& col, const Color& col_rand /* = Color( static_cast<uint8_t>(0) ) */)
 {
     m_color = col;
     m_color_rand = col_rand;

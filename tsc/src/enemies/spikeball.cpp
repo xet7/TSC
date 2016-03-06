@@ -291,7 +291,7 @@ void cSpikeball::Update(void)
             cParticle_Emitter* anim = new cParticle_Emitter(m_sprite_manager);
             anim->Set_Emitter_Rect(m_col_rect.m_x, m_col_rect.m_y + m_col_rect.m_h - 2.0f, m_col_rect.m_w);
             anim->Set_Quota(static_cast<int>(m_running_particle_counter));
-            anim->Set_Pos_Z(m_pos_z - 0.000001f);
+            anim->Set_Pos_Z(m_pos_z - m_pos_z_delta);
             anim->Set_Image(pVideo->Get_Package_Surface("animation/particles/smoke_black.png"));
             anim->Set_Time_to_Live(0.6f);
             anim->Set_Scale(0.2f);
